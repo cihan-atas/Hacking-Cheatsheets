@@ -221,8 +221,8 @@
 | **Metasploit Framework** | Dünyanın en popüler sızma testi çerçevesi | [📄 Görüntüle](./Metasploit/translations/README.tr.md) |
 | **Meterpreter** | Gelişmiş istismar sonrası (post-exploitation) yükü | [📄 Görüntüle](./Metasploit/translations/Meterpreter.tr.md) |
 | **Mimikatz** | Windows parola ve bilet çıkarma aracı | [📄 Görüntüle](./Mimikatz/translations/README.tr.md) |
-| **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/README.md) |
-| **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/README.md) |
+| **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/translations/README.tr.md) |
+| **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/translations/README.tr.md) |
 
 ### 🔍 Keşif & Tarama (Reconnaissance & Scanning)
 
@@ -366,8 +366,8 @@
 
 | Kaynak | Açıklama | Kılavuz |
 |--------|----------|---------|
-| **Wordlists** | Kapsamlı kelime listesi rehberi | [📄 Görüntüle](./Wordlists/README.md) |
-| **Kali Linux Araçları** | Kategorilerine göre 600+ Kali aracı | [📄 Görüntüle](./Kali-Linux-Tools/README.md) |
+| **Wordlists** | Kapsamlı kelime listesi rehberi | [📄 Görüntüle](./Wordlists/translations/README.tr.md) |
+| **Kali Linux Araçları** | Kategorilerine göre 600+ Kali aracı | [📄 Görüntüle](./Kali-Linux-Tools/translations/README.tr.md) |
 
 ---
 
