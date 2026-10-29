@@ -220,7 +220,7 @@
 |------|----------|---------|
 | **Metasploit Framework** | Dünyanın en popüler sızma testi çerçevesi | [📄 Görüntüle](./Metasploit/translations/README.tr.md) |
 | **Meterpreter** | Gelişmiş istismar sonrası (post-exploitation) yükü | [📄 Görüntüle](./Metasploit/translations/Meterpreter.tr.md) |
-| **Mimikatz** | Windows parola ve bilet çıkarma aracı | [📄 Görüntüle](./Mimikatz/README.md) |
+| **Mimikatz** | Windows parola ve bilet çıkarma aracı | [📄 Görüntüle](./Mimikatz/translations/README.tr.md) |
 | **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/README.md) |
 | **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/README.md) |
 
@@ -238,7 +238,7 @@
 |------|----------|---------|
 | **SQLMap** | Otomatik SQL enjeksiyonu ve veritabanı ele geçirme | [📄 Görüntüle](./SQLMap/translations/README.tr.md) |
 | **Burp Suite** | Web uygulaması güvenlik testi platformu | [📄 Görüntüle](./Burp-Suite/translations/README.tr.md) |
-| **OWASP ZAP** | Açık kaynaklı web güvenlik tarayıcısı | [📄 Görüntüle](./OWASP-ZAP/README.md) |
+| **OWASP ZAP** | Açık kaynaklı web güvenlik tarayıcısı | [📄 Görüntüle](./OWASP-ZAP/translations/README.tr.md) |
 
 ### 🔓 Parola Kırma (Password Cracking)
 
@@ -261,7 +261,7 @@
 |------|----------|---------|
 | **⭐ BB Metodolojisi** | Eksiksiz bug bounty avcılık metodolojisi | [📄 Görüntüle](./Bug-Bounty-Methodology/translations/README.tr.md) |
 | **Nuclei** | Şablon (template) tabanlı hızlı zafiyet tarayıcı | [📄 Görüntüle](./Nuclei/README.md) |
-| **ffuf** | Yüksek performanslı web fuzzing aracı | [📄 Görüntüle](./ffuf/README.md) |
+| **ffuf** | Yüksek performanslı web fuzzing aracı | [📄 Görüntüle](./ffuf/translations/README.tr.md) |
 | **Subfinder** | Pasif alt alan adı (subdomain) keşfi | [📄 Görüntüle](./Subfinder/README.md) |
 | **httpx** | Çok amaçlı hızlı HTTP araştırma ve durum aracı | [📄 Görüntüle](./httpx/README.md) |
 | **Amass** | Derinlemesine saldırı yüzeyi haritalama | [📄 Görüntüle](./Amass/README.md) |
