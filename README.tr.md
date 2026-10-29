@@ -31,6 +31,7 @@
 <p align="center">
   <a href="#-kılavuzlar-cheatsheets">Kılavuzlar</a> •
   <a href="#-hızlı-başlangıç">Hızlı Başlangıç</a> •
+  <a href="android/">Android Uygulaması</a> •
   <a href="#-katkıda-bulunma">Katkıda Bulunma</a> •
   <a href="#-lisans">Lisans</a>
 </p>
@@ -406,13 +407,15 @@ cat Metasploit/README.md
 code Metasploit/
 ```
 
-### Çevrimdışı (Offline) Erişim
+### Çevrimdışı Erişim ve Mobil Uygulama
 
-Tüm kılavuzlar saf Markdown formatındadır, bu da onları:
-- 📱 **Mobil uyumlu** hale getirir (her cihazda rahat okunur)
-- 🔌 **Çevrimdışı erişilebilir** kılar (internet gerekmez)
-- 🖨️ **Yazdırılabilir** yapar (fiziksel çıktı alabilirsiniz)
-- 🔍 **Aranabilir** yapar (`grep`, `fzf` veya editör aramasını kullanabilirsiniz)
+Tüm kılavuzlar Markdown formatındadır ve ayrıca bu depoda doğrudan yer alan **yerel Android uygulaması** ([`android/`](android/)) bulunmaktadır:
+
+- 📱 **Yerel Android Uygulaması:** Jetpack Compose ve koyu tema ile ultra hızlı ve akıcı mobil deneyim.
+- ⚡ **Anında Arama:** 138 rehberin tamamında (TR ve EN) anlık arama desteği.
+- 📋 **Tek Dokunuşla Kopyalama:** Komut sözdizimlerini doğrudan panoya kopyalama.
+- 🛠️ **Entegre Pentest Yardımcıları:** Reverse Shell oluşturucu, kodlayıcı/çözücü (Base64/URL), hash türü tespit aracı.
+- 📦 **APK Derleme:** `cd android && ./gradlew assembleDebug` (Çıktı: `android/app/build/outputs/apk/debug/app-debug.apk`)
 
 ---
 

@@ -1,0 +1,17 @@
+*.iml
+.gradle
+.idea/
+.DS_Store
+build/
+**/build/
+captures/
+.externalNativeBuild
+.cxx
+local.properties
+/local.properties
+*.apk
+*.aab
+
+# Un-ignore Android app assets, manifests, resources, and data packages
+!app/src/
+!app/src/**

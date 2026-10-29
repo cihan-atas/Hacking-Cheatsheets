@@ -31,6 +31,7 @@
 <p align="center">
   <a href="#-cheatsheets">Cheatsheets</a> •
   <a href="#-quick-start">Quick Start</a> •
+  <a href="android/">Android App</a> •
   <a href="#-contributing">Contributing</a> •
   <a href="#-license">License</a>
 </p>
@@ -404,13 +405,15 @@ cat Metasploit/README.md
 code Metasploit/
 ```
 
-### Offline Access
+### Offline Access & Mobile App
 
-All cheatsheets are in Markdown format, making them:
-- 📱 **Mobile-friendly** - Read on any device
-- 🔌 **Offline accessible** - No internet required
-- 🖨️ **Printable** - Create physical copies
-- 🔍 **Searchable** - Use grep or your editor's search
+All cheatsheets are in Markdown format, and a native **Android application** is included directly in this repository ([`android/`](android/)):
+
+- 📱 **Native Android App:** Fast, offline, dark-themed UI built with Jetpack Compose.
+- ⚡ **Instant Search:** Full-text search across all 138 guides (EN & TR).
+- 📋 **1-Tap Copy:** Copy any command syntax instantly to clipboard.
+- 🛠️ **Penetration Testing Utilities:** Reverse shell generator, encoders/decoders, hash identifier.
+- 📦 **Build APK:** `cd android && ./gradlew assembleDebug` (Output: `android/app/build/outputs/apk/debug/app-debug.apk`)
 
 ---
 
