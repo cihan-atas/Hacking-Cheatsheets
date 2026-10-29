@@ -267,8 +267,8 @@
 | **Amass** | Derinlemesine saldırı yüzeyi haritalama | [📄 Görüntüle](./Amass/translations/README.tr.md) |
 | **GAU** | Web arşivlerinden URL toplama (Get All URLs) | [📄 Görüntüle](./GAU/translations/README.tr.md) |
 | **Katana** | Yeni nesil web tarama (crawler) aracı | [📄 Görüntüle](./Katana/translations/README.tr.md) |
-| **Arjun** | Gizli HTTP parametre keşif aracı | [📄 Görüntüle](./Arjun/README.md) |
-| **Dalfox** | Güçlü XSS tarayıcısı ve parametre analizcisi | [📄 Görüntüle](./Dalfox/README.md) |
+| **Arjun** | Gizli HTTP parametre keşif aracı | [📄 Görüntüle](./Arjun/translations/README.tr.md) |
+| **Dalfox** | Güçlü XSS tarayıcısı ve parametre analizcisi | [📄 Görüntüle](./Dalfox/translations/README.tr.md) |
 
 ### 💉 Payload (Saldırı Yükü) Koleksiyonu
 
