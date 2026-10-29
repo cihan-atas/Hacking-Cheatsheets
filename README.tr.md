@@ -93,11 +93,11 @@
 
 | Sağlayıcı | Açıklama | Kılavuz |
 |-----------|----------|---------|
-| **AWS** | S3, IAM, Lambda, EC2, IMDSv1/v2 | [📄 Görüntüle](./Cloud-Security/AWS-Pentesting.md) |
-| **Azure** | Azure AD, Blob Storage, Sanal Makineler, Key Vault | [📄 Görüntüle](./Cloud-Security/Azure-Pentesting.md) |
-| **GCP** | GCS, IAM, Compute Engine, Cloud Functions | [📄 Görüntüle](./Cloud-Security/GCP-Pentesting.md) |
+| **AWS** | S3, IAM, Lambda, EC2, IMDSv1/v2 | [📄 Görüntüle](./Cloud-Security/translations/AWS-Pentesting.tr.md) |
+| **Azure** | Azure AD, Blob Storage, Sanal Makineler, Key Vault | [📄 Görüntüle](./Cloud-Security/translations/Azure-Pentesting.tr.md) |
+| **GCP** | GCS, IAM, Compute Engine, Cloud Functions | [📄 Görüntüle](./Cloud-Security/translations/GCP-Pentesting.tr.md) |
 
-👉 **[Tüm Bulut Güvenliği Özeti](./Cloud-Security/README.md)**
+👉 **[Tüm Bulut Güvenliği Özeti](./Cloud-Security/translations/README.tr.md)**
 
 ---
 
@@ -120,10 +120,10 @@
 
 | Platform | Açıklama | Kılavuz |
 |----------|----------|---------|
-| **Docker** | Konteynerden kaçış (escape), imaj analizi, daemon istismarı | [📄 Görüntüle](./Container-Security/Docker-Pentesting.md) |
-| **Kubernetes** | RBAC atlatma, pod'dan kaçış, gizli veri (secrets) çıkarma | [📄 Görüntüle](./Container-Security/Kubernetes-Pentesting.md) |
+| **Docker** | Konteynerden kaçış (escape), imaj analizi, daemon istismarı | [📄 Görüntüle](./Container-Security/translations/Docker-Pentesting.tr.md) |
+| **Kubernetes** | RBAC atlatma, pod'dan kaçış, gizli veri (secrets) çıkarma | [📄 Görüntüle](./Container-Security/translations/Kubernetes-Pentesting.tr.md) |
 
-👉 **[Tüm Konteyner Güvenliği Özeti](./Container-Security/README.md)**
+👉 **[Tüm Konteyner Güvenliği Özeti](./Container-Security/translations/README.tr.md)**
 
 ---
 
