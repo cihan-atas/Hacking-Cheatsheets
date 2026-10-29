@@ -353,14 +353,14 @@
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
 | **⭐ AD Metodolojisi** | Adım adım etki alanı ele geçirme kılavuzu | [📄 Görüntüle](./AD-Attack-Methodology/translations/README.tr.md) |
-| **BloodHound** | AD saldırı yolu görselleştirme | [📄 Görüntüle](./BloodHound/README.md) |
-| **Impacket** | Python tabanlı AD saldırı araç takımı | [📄 Görüntüle](./Impacket/README.md) |
-| **CrackMapExec** | AD ağlarının İsviçre çakısı | [📄 Görüntüle](./CrackMapExec/README.md) |
-| **Rubeus** | Kerberos istismar araç seti | [📄 Görüntüle](./Rubeus/README.md) |
-| **PowerView** | PowerShell ile AD keşfi | [📄 Görüntüle](./PowerView/README.md) |
-| **Responder** | LLMNR / NBT-NS zehirleme | [📄 Görüntüle](./Responder/README.md) |
-| **Evil-WinRM** | Sızma testleri için WinRM kabuğu | [📄 Görüntüle](./Evil-WinRM/README.md) |
-| **Kerbrute** | Kerberos kullanıcı doğrulama ve püskürtme | [📄 Görüntüle](./Kerbrute/README.md) |
+| **BloodHound** | AD saldırı yolu görselleştirme | [📄 Görüntüle](./BloodHound/translations/README.tr.md) |
+| **Impacket** | Python tabanlı AD saldırı araç takımı | [📄 Görüntüle](./Impacket/translations/README.tr.md) |
+| **CrackMapExec** | AD ağlarının İsviçre çakısı | [📄 Görüntüle](./CrackMapExec/translations/README.tr.md) |
+| **Rubeus** | Kerberos istismar araç seti | [📄 Görüntüle](./Rubeus/translations/README.tr.md) |
+| **PowerView** | PowerShell ile AD keşfi | [📄 Görüntüle](./PowerView/translations/README.tr.md) |
+| **Responder** | LLMNR / NBT-NS zehirleme | [📄 Görüntüle](./Responder/translations/README.tr.md) |
+| **Evil-WinRM** | Sızma testleri için WinRM kabuğu | [📄 Görüntüle](./Evil-WinRM/translations/README.tr.md) |
+| **Kerbrute** | Kerberos kullanıcı doğrulama ve püskürtme | [📄 Görüntüle](./Kerbrute/translations/README.tr.md) |
 
 ### 📚 Ek Kaynaklar
 
