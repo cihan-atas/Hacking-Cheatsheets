@@ -158,13 +158,13 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Kişi Arama** | İnternette hedef kişi analizi, telefon/adres araştırması | [📄 Görüntüle](./OSINT/People-Search.md) |
-| **E-posta OSINT** | E-posta keşfi, veri sızıntısı (breach) kontrolü, doğrulama | [📄 Görüntüle](./OSINT/Email-OSINT.md) |
-| **Sosyal Medya** | Kullanıcı adı tarama, platform spesifik OSINT | [📄 Görüntüle](./OSINT/Social-Media-OSINT.md) |
-| **Domain & IP** | WHOIS, DNS, alt alan adı, IP istihbaratı | [📄 Görüntüle](./OSINT/Domain-IP-OSINT.md) |
-| **Görsel OSINT** | Tersine görsel arama, EXIF metaveri analizi | [📄 Görüntüle](./OSINT/Image-OSINT.md) |
+| **Kişi Arama** | İnternette hedef kişi analizi, telefon/adres araştırması | [📄 Görüntüle](./OSINT/translations/People-Search.tr.md) |
+| **E-posta OSINT** | E-posta keşfi, veri sızıntısı (breach) kontrolü, doğrulama | [📄 Görüntüle](./OSINT/translations/Email-OSINT.tr.md) |
+| **Sosyal Medya** | Kullanıcı adı tarama, platform spesifik OSINT | [📄 Görüntüle](./OSINT/translations/Social-Media-OSINT.tr.md) |
+| **Domain & IP** | WHOIS, DNS, alt alan adı, IP istihbaratı | [📄 Görüntüle](./OSINT/translations/Domain-IP-OSINT.tr.md) |
+| **Görsel OSINT** | Tersine görsel arama, EXIF metaveri analizi | [📄 Görüntüle](./OSINT/translations/Image-OSINT.tr.md) |
 
-👉 **[Tüm OSINT Özeti](./OSINT/README.md)**
+👉 **[Tüm OSINT Özeti](./OSINT/translations/README.tr.md)**
 
 ---
 
@@ -312,9 +312,9 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Google Dorking** | İleri düzey Google arama operatörleri | [📄 Görüntüle](./Google-Dorking/README.md) |
-| **Shodan** | İnternete bağlı cihaz arama motoru | [📄 Görüntüle](./Shodan/README.md) |
-| **GitHub Dorking** | Depolarda gizli anahtar ve parola avı | [📄 Görüntüle](./GitHub-Dorking/README.md) |
+| **Google Dorking** | İleri düzey Google arama operatörleri | [📄 Görüntüle](./Google-Dorking/translations/README.tr.md) |
+| **Shodan** | İnternete bağlı cihaz arama motoru | [📄 Görüntüle](./Shodan/translations/README.tr.md) |
+| **GitHub Dorking** | Depolarda gizli anahtar ve parola avı | [📄 Görüntüle](./GitHub-Dorking/translations/README.tr.md) |
 
 ### 🔝 Yetki Yükseltme (Privilege Escalation)
 
