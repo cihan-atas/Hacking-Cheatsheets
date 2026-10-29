@@ -336,9 +336,9 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Ghidra** | NSA tarafından geliştirilen tersine mühendislik paketi | [📄 Görüntüle](./Ghidra/README.md) |
-| **GDB** | GNU Hata Ayıklayıcı (Linux Debugging) | [📄 Görüntüle](./GDB/README.md) |
-| **x64dbg** | Windows x64/x32 hata ayıklayıcısı | [📄 Görüntüle](./x64dbg/README.md) |
+| **Ghidra** | NSA tarafından geliştirilen tersine mühendislik paketi | [📄 Görüntüle](./Ghidra/translations/README.tr.md) |
+| **GDB** | GNU Hata Ayıklayıcı (Linux Debugging) | [📄 Görüntüle](./GDB/translations/README.tr.md) |
+| **x64dbg** | Windows x64/x32 hata ayıklayıcısı | [📄 Görüntüle](./x64dbg/translations/README.tr.md) |
 
 ### 📶 WiFi Güvenliği
 
