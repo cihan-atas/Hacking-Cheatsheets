@@ -57,15 +57,15 @@
 
 | Aşama | Açıklama | Kılavuz |
 |-------|----------|---------|
-| **1. İlk Erişim (Initial Access)** | Exploitler, oltalama (phishing), kimlik bilgileri | [📄 Görüntüle](./Attack-Methodology/01-Initial-Access.md) |
-| **2. Keşif (Enumeration)** | Sistem ve ağ keşfi | [📄 Görüntüle](./Attack-Methodology/02-Enumeration.md) |
-| **3. Yetki Yükseltme (PrivEsc)** | root / SYSTEM yetkisi elde etme | [📄 Görüntüle](./Attack-Methodology/03-Privilege-Escalation.md) |
-| **4. Yatay İlerleme (Lateral Movement)** | Ağ içerisinde yayılma | [📄 Görüntüle](./Attack-Methodology/04-Lateral-Movement.md) |
-| **5. Kalıcılık (Persistence)** | Erişimi kalıcı hale getirme | [📄 Görüntüle](./Attack-Methodology/05-Persistence.md) |
-| **6. Savunma Atlatma (Defense Evasion)** | AV / EDR / AMSI atlatma | [📄 Görüntüle](./Attack-Methodology/06-Defense-Evasion.md) |
-| **7. Hedef Eylemler (Actions on Objectives)** | Veri sızdırma ve hedef etki | [📄 Görüntüle](./Attack-Methodology/07-Actions-Objectives.md) |
+| **1. İlk Erişim (Initial Access)** | Exploitler, oltalama (phishing), kimlik bilgileri | [📄 Görüntüle](./Attack-Methodology/translations/01-Initial-Access.tr.md) |
+| **2. Keşif (Enumeration)** | Sistem ve ağ keşfi | [📄 Görüntüle](./Attack-Methodology/translations/02-Enumeration.tr.md) |
+| **3. Yetki Yükseltme (PrivEsc)** | root / SYSTEM yetkisi elde etme | [📄 Görüntüle](./Attack-Methodology/translations/03-Privilege-Escalation.tr.md) |
+| **4. Yatay İlerleme (Lateral Movement)** | Ağ içerisinde yayılma | [📄 Görüntüle](./Attack-Methodology/translations/04-Lateral-Movement.tr.md) |
+| **5. Kalıcılık (Persistence)** | Erişimi kalıcı hale getirme | [📄 Görüntüle](./Attack-Methodology/translations/05-Persistence.tr.md) |
+| **6. Savunma Atlatma (Defense Evasion)** | AV / EDR / AMSI atlatma | [📄 Görüntüle](./Attack-Methodology/translations/06-Defense-Evasion.tr.md) |
+| **7. Hedef Eylemler (Actions on Objectives)** | Veri sızdırma ve hedef etki | [📄 Görüntüle](./Attack-Methodology/translations/07-Actions-Objectives.tr.md) |
 
-👉 **[Tüm Kill Chain Özeti](./Attack-Methodology/README.md)**
+👉 **[Tüm Kill Chain Özeti](./Attack-Methodology/translations/README.tr.md)**
 
 ---
 
@@ -352,7 +352,7 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **⭐ AD Metodolojisi** | Adım adım etki alanı ele geçirme kılavuzu | [📄 Görüntüle](./AD-Attack-Methodology/README.md) |
+| **⭐ AD Metodolojisi** | Adım adım etki alanı ele geçirme kılavuzu | [📄 Görüntüle](./AD-Attack-Methodology/translations/README.tr.md) |
 | **BloodHound** | AD saldırı yolu görselleştirme | [📄 Görüntüle](./BloodHound/README.md) |
 | **Impacket** | Python tabanlı AD saldırı araç takımı | [📄 Görüntüle](./Impacket/README.md) |
 | **CrackMapExec** | AD ağlarının İsviçre çakısı | [📄 Görüntüle](./CrackMapExec/README.md) |
