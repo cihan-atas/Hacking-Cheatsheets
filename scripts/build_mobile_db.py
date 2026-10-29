@@ -154,10 +154,10 @@ def build_database(repo_root, output_db_path):
     conn = sqlite3.connect(output_db_path)
     cur = conn.cursor()
 
-    # Create tables
+    # Create tables exactly matching Room schema
     cur.execute("""
-    CREATE TABLE cheatsheets (
-        id TEXT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS cheatsheets (
+        id TEXT NOT NULL PRIMARY KEY,
         category TEXT NOT NULL,
         title TEXT NOT NULL,
         title_tr TEXT NOT NULL,
@@ -172,26 +172,19 @@ def build_database(repo_root, output_db_path):
     );
     """)
 
-    cur.execute("""
-    CREATE VIRTUAL TABLE cheatsheets_fts USING fts5(
-        id,
-        category,
-        title,
-        title_tr,
-        content_en,
-        content_tr,
-        tags,
-        content='cheatsheets',
-        content_rowid='rowid'
-    );
-    """)
+    cur.execute("CREATE INDEX IF NOT EXISTS index_cheatsheets_category ON cheatsheets (category);")
+    cur.execute("CREATE INDEX IF NOT EXISTS index_cheatsheets_title ON cheatsheets (title);")
+    cur.execute("CREATE INDEX IF NOT EXISTS index_cheatsheets_title_tr ON cheatsheets (title_tr);")
 
     cur.execute("""
-    CREATE TABLE favorites (
-        cheatsheet_id TEXT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS favorites (
+        cheatsheet_id TEXT NOT NULL PRIMARY KEY,
         bookmarked_at INTEGER NOT NULL
     );
     """)
+
+    cur.execute("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY, identity_hash TEXT);")
+    cur.execute("INSERT OR REPLACE INTO room_master_table (id, identity_hash) VALUES(42, '70698166ea2cb273e0787e8f276526c1');")
 
     # Find and process all cheatsheets
     count = 0
@@ -279,14 +272,6 @@ def build_database(repo_root, output_db_path):
                 """, (
                     slug, category, title_en, title_tr, desc_en, desc_tr,
                     icon, content_en, content_tr, content_it, quick_cmds_json, tags
-                ))
-
-                # Insert into FTS5
-                cur.execute("""
-                INSERT INTO cheatsheets_fts (rowid, id, category, title, title_tr, content_en, content_tr, tags)
-                VALUES (last_insert_rowid(), ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    slug, category, title_en, title_tr, content_en, content_tr, tags
                 ))
 
                 count += 1
