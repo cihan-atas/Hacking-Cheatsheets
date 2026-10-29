@@ -122,27 +122,84 @@ def extract_description(content):
         return match2.group(1).strip()[:200]
     return "Complete penetration testing cheatsheet and command reference."
 
-def extract_quick_commands(content):
-    commands = []
-    # Find all code blocks
-    code_blocks = re.findall(r"```(?:bash|sh|cmd|powershell)?\s*\n(.*?)\n```", content, re.DOTALL)
-    for block in code_blocks:
+def clean_command(line):
+    line = line.strip()
+    if not line: return None
+    # Strip leading shell prompt $ or #
+    if line.startswith("$ ") or line.startswith("# "):
+        line = line[2:].strip()
+    # Strip trailing comments e.g. "nmap -h  # Help"
+    line = re.sub(r"\s+#\s+.*$", "", line).strip()
+    return line
+
+def is_valid_quick_command(cmd):
+    if not cmd or len(cmd) < 3 or len(cmd) > 200:
+        return False
+    # No ascii art or box diagrams
+    if any(c in "█═╔╗║╚╝▀▄▌▐░▒▓│┌┐└┘┼" for c in cmd):
+        return False
+    if re.search(r"[/\\_]{4,}", cmd):
+        return False
+    if cmd.startswith("+--") or "+---+" in cmd:
+        return False
+    # No emojis
+    if re.search(r"[\U00010000-\U0010ffff\u2600-\u26ff\u2700-\u27bf]", cmd):
+        return False
+    # No comment lines or markdown syntax
+    if cmd.startswith(("#", "//", "::", "rem", "/*", "*", "<!--", "<", ">", "|", "[", "{", "}", "(", ")")):
+        return False
+    # No numbered list descriptions (e.g. "1. From attacker...")
+    if re.match(r"^\d+[\.\)]\s+", cmd):
+        return False
+    # No pure URLs
+    if cmd.startswith("http://") or cmd.startswith("https://"):
+        return False
+    # Check first word
+    words = cmd.split()
+    first_word = words[0]
+    if first_word[0].isupper():
+        known_uppers = ("Get-", "Invoke-", "New-", "Set-", "Select-", "Start-", "Stop-", "Test-", "BloodHound", "Certipy", "Chisel", "Mimikatz", "Rubeus", "PowerView", "Net", "Cmd")
+        if not any(first_word.startswith(k) for k in known_uppers):
+            return False
+    # Exclude slogans/sentences: must have command flags (- or -- or /) or file extensions or pipes/operators
+    if not re.search(r"(\s-[a-zA-Z]|\s--[a-zA-Z]|\s/|/bin/|/etc/|/usr/|\||&&|;|\.py|\.sh|\.exe|\.txt|\.raw)", cmd):
+        if cmd.lower() not in ("whoami", "id", "hostname", "pwd", "ifconfig", "ip a", "route -n", "arp -a", "netstat -ano"):
+            return False
+    return True
+
+def extract_quick_commands(content, tool_name=""):
+    blocks = re.findall(r"```(?:bash|sh|cmd|powershell)?\s*\n(.*?)\n```", content, re.DOTALL)
+    tool_tokens = [tool_name.lower().replace("-", ""), tool_name.lower()]
+    t_lower = tool_name.lower()
+    if "netexec" in t_lower: tool_tokens.extend(["nxc"])
+    elif "ligolo" in t_lower: tool_tokens.extend(["proxy", "agent", "./proxy", "./agent"])
+    elif "peass" in t_lower: tool_tokens.extend(["linpeas", "winpeas"])
+    elif "john" in t_lower: tool_tokens.extend(["john", "./john"])
+    elif "hashcat" in t_lower: tool_tokens.extend(["hashcat", "./hashcat", "hashcat.exe"])
+    elif "crackmap" in t_lower: tool_tokens.extend(["crackmapexec", "cme"])
+
+    primary = []
+    secondary = []
+    pkg_prefixes = ("sudo apt", "apt install", "brew install", "choco install", "yum install", "pip install", "pipx install", "cargo install", "go install", "tar ", "gzip ", "unzip ", "git clone", "cd ")
+
+    for block in blocks:
+        # Skip ascii art / diagram blocks
+        if any(c in "█═╔╗║╚╝▀▄▌▐░▒▓" for c in block) or re.search(r"[/\\_]{5,}", block) or "+---+" in block:
+            continue
         for line in block.splitlines():
-            line = line.strip()
-            # Exclude comments, prompts, empty lines, and long scripts
-            if not line or line.startswith("#") or line.startswith("::") or line.startswith("//"):
+            cmd = clean_command(line)
+            if not cmd or not is_valid_quick_command(cmd):
                 continue
-            if line.startswith("$ ") or line.startswith("# "):
-                line = line[2:].strip()
-            # Check length and reasonable command appearance
-            if 4 <= len(line) <= 180 and not line.startswith("import ") and not line.startswith("<?"):
-                if line not in commands:
-                    commands.append(line)
-            if len(commands) >= 30:
-                break
-        if len(commands) >= 30:
-            break
-    return commands
+            is_install = any(cmd.startswith(p) for p in pkg_prefixes)
+            first_w = cmd.split()[0].lower()
+            if any(t in first_w for t in tool_tokens):
+                if cmd not in primary:
+                    primary.append(cmd)
+            elif not is_install:
+                if cmd not in secondary:
+                    secondary.append(cmd)
+
+    return (primary + secondary)[:25]
 
 def build_database(repo_root, output_db_path):
     print(f"[*] Starting Hacking-Cheatsheets database compilation...")
@@ -241,7 +298,7 @@ def build_database(repo_root, output_db_path):
                 title_tr = extract_title(content_tr, title_en)
                 desc_en = extract_description(content_en)
                 desc_tr = extract_description(content_tr)
-                quick_cmds = extract_quick_commands(content_en)
+                quick_cmds = extract_quick_commands(content_en, tool_name=folder)
                 quick_cmds_json = json.dumps(quick_cmds)
 
                 # Auto-generate search tags
