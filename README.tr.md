@@ -189,13 +189,13 @@
 
 | Kategori | Açıklama | Kılavuz |
 |----------|----------|---------|
-| **Web** | SQLi, XSS, SSTI, LFI, Kimlik doğrulama atlatma | [📄 Görüntüle](./CTF/Web-CTF.md) |
-| **Kriptografi** | RSA, AES, hash türleri, kodlama, XOR | [📄 Görüntüle](./CTF/Crypto-CTF.md) |
-| **Tersine Mühendislik** | Ghidra, IDA Pro, GDB, ikili dosya yamalama | [📄 Görüntüle](./CTF/Reverse-Engineering-CTF.md) |
-| **Adli Bilişim (Forensics)** | Steganografi, bellek (memory), disk, PCAP analizi | [📄 Görüntüle](./CTF/Forensics-CTF.md) |
-| **Pwn / İkili İstismar** | Yığın taşması (Buffer Overflow), ROP, kabuk kodu (shellcode) | [📄 Görüntüle](./CTF/Pwn-CTF.md) |
+| **Web** | SQLi, XSS, SSTI, LFI, Kimlik doğrulama atlatma | [📄 Görüntüle](./CTF/translations/Web-CTF.tr.md) |
+| **Kriptografi** | RSA, AES, hash türleri, kodlama, XOR | [📄 Görüntüle](./CTF/translations/Crypto-CTF.tr.md) |
+| **Tersine Mühendislik** | Ghidra, IDA Pro, GDB, ikili dosya yamalama | [📄 Görüntüle](./CTF/translations/Reverse-Engineering-CTF.tr.md) |
+| **Adli Bilişim (Forensics)** | Steganografi, bellek (memory), disk, PCAP analizi | [📄 Görüntüle](./CTF/translations/Forensics-CTF.tr.md) |
+| **Pwn / İkili İstismar** | Yığın taşması (Buffer Overflow), ROP, kabuk kodu (shellcode) | [📄 Görüntüle](./CTF/translations/Pwn-CTF.tr.md) |
 
-👉 **[Tüm CTF Özeti](./CTF/README.md)**
+👉 **[Tüm CTF Özeti](./CTF/translations/README.tr.md)**
 
 ---
 
