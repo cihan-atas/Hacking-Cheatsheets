@@ -297,6 +297,7 @@
 | **Yarış Durumları (Race Conditions)** | Zamanlama ve eşzamanlılık açıkları | [📄 Görüntüle](./Race-Conditions/translations/README.tr.md) |
 | **Kimlik Doğrulama Atlatma** | Auth Bypass teknikleri ve oturum yönetimi | [📄 Görüntüle](./Auth-Bypass/translations/README.tr.md) |
 | **CORS** | Çapraz Kaynak Paylaşımı yapılandırma hataları | [📄 Görüntüle](./CORS/translations/README.tr.md) |
+| **JWT Saldırıları** | Token manipülasyonu ve anahtar karmaşası açıkları | [📄 Görüntüle](./JWT-Attacks/translations/README.tr.md) |
 | **Açık Yönlendirme (Open Redirect)** | Güvensiz URL yönlendirme zaafları | [📄 Görüntüle](./Open-Redirect/translations/README.tr.md) |
 
 ### 🛡️ İleri Düzey Saldırı Teknikleri
@@ -322,6 +323,8 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
+| **PEASS-ng** | LinPEAS & WinPEAS otomatik yetki yükseltme analizi | [📄 Görüntüle](./PEASS-ng/translations/README.tr.md) |
+| **LOLBAS & GTFOBins** | İşletim sistemi dahili ikilileriyle yetki yükseltme | [📄 Görüntüle](./LOLBAS-GTFOBins/translations/README.tr.md) |
 | **Linux PrivEsc** | Linux yetki yükseltme teknikleri | [📄 Görüntüle](./Linux-PrivEsc/translations/README.tr.md) |
 | **Windows PrivEsc** | Windows yetki yükseltme teknikleri | [📄 Görüntüle](./Windows-PrivEsc/translations/README.tr.md) |
 
@@ -350,11 +353,20 @@
 | **Wifite** | Otomatik kablosuz ağ denetim aracı | [📄 Görüntüle](./Wifite/translations/README.tr.md) |
 | **Bettercap** | Ağ saldırı çerçevesi (MITM / WiFi) | [📄 Görüntüle](./Bettercap/translations/README.tr.md) |
 
+### 🔄 Pivoting & Tünelleme
+
+| Araç | Açıklama | Kılavuz |
+|------|----------|---------|
+| **Ligolo-ng** | TUN arayüzü tabanlı gelişmiş ağ geçişi ve iç yönlendirme | [📄 Görüntüle](./Ligolo-ng/translations/README.tr.md) |
+| **Chisel** | SSH tabanlı HTTP/WebSocket üzerinden hızlı TCP/UDP tünelleme | [📄 Görüntüle](./Chisel/translations/README.tr.md) |
+
 ### 🏢 Active Directory Pentesting
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
 | **⭐ AD Metodolojisi** | Adım adım etki alanı ele geçirme kılavuzu | [📄 Görüntüle](./AD-Attack-Methodology/translations/README.tr.md) |
+| **NetExec (nxc)** | Ağ ve Active Directory denetimlerinin modern İsviçre çakısı | [📄 Görüntüle](./NetExec/translations/README.tr.md) |
+| **Certipy** | Active Directory Sertifika Hizmetleri (AD CS) istismarı | [📄 Görüntüle](./Certipy/translations/README.tr.md) |
 | **BloodHound** | AD saldırı yolu görselleştirme | [📄 Görüntüle](./BloodHound/translations/README.tr.md) |
 | **Impacket** | Python tabanlı AD saldırı araç takımı | [📄 Görüntüle](./Impacket/translations/README.tr.md) |
 | **CrackMapExec** | AD ağlarının İsviçre çakısı | [📄 Görüntüle](./CrackMapExec/translations/README.tr.md) |

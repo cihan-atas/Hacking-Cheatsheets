@@ -295,6 +295,7 @@
 | **Race Conditions** | Timing & concurrency attacks | [📄 View](./Race-Conditions/README.md) |
 | **Auth Bypass** | Authentication bypass techniques | [📄 View](./Auth-Bypass/README.md) |
 | **CORS** | Cross-Origin misconfigurations | [📄 View](./CORS/README.md) |
+| **JWT Attacks** | Token manipulation & key attacks | [📄 View](./JWT-Attacks/README.md) |
 | **Open Redirect** | URL redirect vulnerabilities | [📄 View](./Open-Redirect/README.md) |
 
 ### 🛡️ Advanced Attack Techniques
@@ -320,6 +321,8 @@
 
 | Topic | Description | Cheatsheet |
 |-------|-------------|------------|
+| **PEASS-ng** | LinPEAS & WinPEAS automated privilege auditing | [📄 View](./PEASS-ng/README.md) |
+| **LOLBAS & GTFOBins** | Living off the land binaries & scripts | [📄 View](./LOLBAS-GTFOBins/README.md) |
 | **Linux PrivEsc** | Linux privilege escalation techniques | [📄 View](./Linux-PrivEsc/README.md) |
 | **Windows PrivEsc** | Windows privilege escalation techniques | [📄 View](./Windows-PrivEsc/README.md) |
 
@@ -348,11 +351,20 @@
 | **Wifite** | Automated WiFi auditor | [📄 View](./Wifite/README.md) |
 | **Bettercap** | Network attack framework (MITM/WiFi) | [📄 View](./Bettercap/README.md) |
 
+### 🔄 Pivoting & Tunneling
+
+| Tool | Description | Cheatsheet |
+|------|-------------|------------|
+| **Ligolo-ng** | Advanced TUN-based pivoting & internal routing | [📄 View](./Ligolo-ng/README.md) |
+| **Chisel** | Fast TCP/UDP tunnel over HTTP via SSH | [📄 View](./Chisel/README.md) |
+
 ### 🏢 Active Directory
 
 | Tool | Description | Cheatsheet |
 |------|-------------|------------|
 | **⭐ AD Methodology** | Step-by-step attack guide | [📄 View](./AD-Attack-Methodology/README.md) |
+| **NetExec (nxc)** | Modern network & Active Directory swiss army knife | [📄 View](./NetExec/README.md) |
+| **Certipy** | Active Directory Certificate Services (AD CS) abuse | [📄 View](./Certipy/README.md) |
 | **BloodHound** | AD attack path visualization | [📄 View](./BloodHound/README.md) |
 | **Impacket** | Python AD attack toolkit | [📄 View](./Impacket/README.md) |
 | **CrackMapExec** | AD Swiss Army knife | [📄 View](./CrackMapExec/README.md) |
