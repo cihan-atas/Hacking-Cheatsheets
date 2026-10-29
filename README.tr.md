@@ -289,19 +289,19 @@
 | Zafiyet | Açıklama | Kılavuz |
 |---------|----------|---------|
 | **API Güvenliği** | REST / GraphQL / JWT test kılavuzu | [📄 Görüntüle](./API-Security/translations/README.tr.md) |
-| **IDOR** | Güvensiz Doğrudan Nesne Başvurusu | [📄 Görüntüle](./IDOR/README.md) |
-| **SSRF** | Sunucu Taraflı İstek Sahteciliği | [📄 Görüntüle](./SSRF/README.md) |
-| **XXE** | XML Dış Varlık (External Entity) Enjeksiyonu | [📄 Görüntüle](./XXE/README.md) |
+| **IDOR** | Güvensiz Doğrudan Nesne Başvurusu | [📄 Görüntüle](./IDOR/translations/README.tr.md) |
+| **SSRF** | Sunucu Taraflı İstek Sahteciliği | [📄 Görüntüle](./SSRF/translations/README.tr.md) |
+| **XXE** | XML Dış Varlık (External Entity) Enjeksiyonu | [📄 Görüntüle](./XXE/translations/README.tr.md) |
 | **Yarış Durumları (Race Conditions)** | Zamanlama ve eşzamanlılık açıkları | [📄 Görüntüle](./Race-Conditions/README.md) |
 | **Kimlik Doğrulama Atlatma** | Auth Bypass teknikleri ve oturum yönetimi | [📄 Görüntüle](./Auth-Bypass/translations/README.tr.md) |
-| **CORS** | Çapraz Kaynak Paylaşımı yapılandırma hataları | [📄 Görüntüle](./CORS/README.md) |
+| **CORS** | Çapraz Kaynak Paylaşımı yapılandırma hataları | [📄 Görüntüle](./CORS/translations/README.tr.md) |
 | **Açık Yönlendirme (Open Redirect)** | Güvensiz URL yönlendirme zaafları | [📄 Görüntüle](./Open-Redirect/README.md) |
 
 ### 🛡️ İleri Düzey Saldırı Teknikleri
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **WAF Bypass** | Gerçek kaynak IP tespiti ve WAF filtrelerini aşma | [📄 Görüntüle](./WAF-Bypass/README.md) |
+| **WAF Bypass** | Gerçek kaynak IP tespiti ve WAF filtrelerini aşma | [📄 Görüntüle](./WAF-Bypass/translations/README.tr.md) |
 | **Cloudflare Bypass** | Cloudflare arkasındaki gerçek sunucuyu bulma | [📄 Görüntüle](./Cloudflare-Bypass/README.md) |
 | **Subdomain Takeover** | Sahipsiz CNAME kayıtlarını ele geçirme | [📄 Görüntüle](./Subdomain-Takeover/README.md) |
 | **Web Önbellek Zehirleme** | Cache Poisoning ve Cache Deception | [📄 Görüntüle](./Cache-Poisoning/README.md) |
