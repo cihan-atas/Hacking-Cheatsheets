@@ -327,10 +327,10 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Volatility** | Bellek (RAM) analizi çerçevesi | [📄 Görüntüle](./Volatility/README.md) |
-| **Autopsy** | Grafik arayüzlü dijital adli tıp platformu | [📄 Görüntüle](./Autopsy/README.md) |
-| **ExifTool** | Dosya üstveri (metadata) okuma ve düzenleme | [📄 Görüntüle](./ExifTool/README.md) |
-| **Binwalk** | Bellenim ve dosya gömme analizi | [📄 Görüntüle](./Binwalk/README.md) |
+| **Volatility** | Bellek (RAM) analizi çerçevesi | [📄 Görüntüle](./Volatility/translations/README.tr.md) |
+| **Autopsy** | Grafik arayüzlü dijital adli tıp platformu | [📄 Görüntüle](./Autopsy/translations/README.tr.md) |
+| **ExifTool** | Dosya üstveri (metadata) okuma ve düzenleme | [📄 Görüntüle](./ExifTool/translations/README.tr.md) |
+| **Binwalk** | Bellenim ve dosya gömme analizi | [📄 Görüntüle](./Binwalk/translations/README.tr.md) |
 
 ### 🔄 Tersine Mühendislik (Reverse Engineering)
 
