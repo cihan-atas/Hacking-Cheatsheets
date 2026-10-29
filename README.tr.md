@@ -320,8 +320,8 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Linux PrivEsc** | Linux yetki yükseltme teknikleri | [📄 Görüntüle](./Linux-PrivEsc/README.md) |
-| **Windows PrivEsc** | Windows yetki yükseltme teknikleri | [📄 Görüntüle](./Windows-PrivEsc/README.md) |
+| **Linux PrivEsc** | Linux yetki yükseltme teknikleri | [📄 Görüntüle](./Linux-PrivEsc/translations/README.tr.md) |
+| **Windows PrivEsc** | Windows yetki yükseltme teknikleri | [📄 Görüntüle](./Windows-PrivEsc/translations/README.tr.md) |
 
 ### 🔬 Dijital Adli Bilişim (Digital Forensics)
 
