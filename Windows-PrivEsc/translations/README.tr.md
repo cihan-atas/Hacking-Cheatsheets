@@ -459,7 +459,8 @@ wmic service get name,pathname | findstr /i /v "c:\windows"
 
 ## 📚 Kaynaklar
 
-- [LOLBAS (Living Off The Land Binaries and Scripts)](https://lolbas-project.github.io/)
+- [PEASS-ng (WinPEAS)](../../PEASS-ng/translations/README.tr.md)
+- [LOLBAS (Living Off The Land)](../../LOLBAS-GTFOBins/translations/README.tr.md)
 - [HackTricks Windows PrivEsc](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation)
 - [PayloadsAllTheThings Windows PrivEsc](https://github.com/swisskyrepo/PayloadsAllTheThings)
 

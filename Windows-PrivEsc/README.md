@@ -616,7 +616,7 @@ schtasks /query /fo LIST /v | findstr /i "taskname\|run"
 - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
 
 ### Related Cheatsheets
-- [WinPEAS](../WinPEAS/README.md)
+- [PEASS-ng (WinPEAS)](../PEASS-ng/README.md)
 - [Linux PrivEsc](../Linux-PrivEsc/README.md)
 
 ---

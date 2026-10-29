@@ -778,7 +778,8 @@ grep -r "password" /home/ 2>/dev/null
 - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation.md)
 
 ### Related Cheatsheets
-- [LinPEAS](../LinPEAS/README.md)
+- [PEASS-ng (LinPEAS)](../PEASS-ng/README.md)
+- [GTFOBins & LOLBAS](../LOLBAS-GTFOBins/README.md)
 - [Windows PrivEsc](../Windows-PrivEsc/README.md)
 
 ---

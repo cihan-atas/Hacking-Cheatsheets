@@ -604,6 +604,9 @@ getcap -r / 2>/dev/null
 ## 📚 Kaynaklar
 
 - [GTFOBins İkili Dosya Kılavuzu](https://gtfobins.github.io/)
+- [PEASS-ng (LinPEAS)](../../PEASS-ng/translations/README.tr.md)
+- [GTFOBins & LOLBAS](../../LOLBAS-GTFOBins/translations/README.tr.md)
+- [Windows PrivEsc](../../Windows-PrivEsc/translations/README.tr.md)
 - [HackTricks Linux PrivEsc](https://book.hacktricks.xyz/linux-hardening/privilege-escalation)
 - [PayloadsAllTheThings Linux PrivEsc](https://github.com/swisskyrepo/PayloadsAllTheThings)
 
