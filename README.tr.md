@@ -75,15 +75,15 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Olay Müdahalesi (Incident Response)** | IR yaşam döngüsü, izolasyon, prosedürler | [📄 Görüntüle](./Blue-Team/Incident-Response.md) |
-| **Log Analizi** | Windows/Linux günlük analizi ve Kritik Event ID'ler | [📄 Görüntüle](./Blue-Team/Log-Analysis.md) |
-| **SIEM Tespiti** | Splunk / ELK sorguları ve gösterge panelleri | [📄 Görüntüle](./Blue-Team/SIEM-Detection.md) |
-| **Tehdit Avcılığı (Threat Hunting)** | Proaktif tehdit avlama teknikleri | [📄 Görüntüle](./Blue-Team/Threat-Hunting.md) |
-| **Sıkılaştırma (Hardening)** | Windows ve Linux sistem sıkılaştırma kontrol listeleri | [📄 Görüntüle](./Blue-Team/Hardening.md) |
-| **Sigma Kuralları** | Platform bağımsız tespit kuralları | [📄 Görüntüle](./Blue-Team/Sigma-Rules.md) |
-| **YARA Kuralları** | Zararlı yazılım ve IOC tespit kalıpları | [📄 Görüntüle](./Blue-Team/YARA-Rules.md) |
+| **Olay Müdahalesi (Incident Response)** | IR yaşam döngüsü, izolasyon, prosedürler | [📄 Görüntüle](./Blue-Team/translations/Incident-Response.tr.md) |
+| **Log Analizi** | Windows/Linux günlük analizi ve Kritik Event ID'ler | [📄 Görüntüle](./Blue-Team/translations/Log-Analysis.tr.md) |
+| **SIEM Tespiti** | Splunk / ELK sorguları ve gösterge panelleri | [📄 Görüntüle](./Blue-Team/translations/SIEM-Detection.tr.md) |
+| **Tehdit Avcılığı (Threat Hunting)** | Proaktif tehdit avlama teknikleri | [📄 Görüntüle](./Blue-Team/translations/Threat-Hunting.tr.md) |
+| **Sıkılaştırma (Hardening)** | Windows ve Linux sistem sıkılaştırma kontrol listeleri | [📄 Görüntüle](./Blue-Team/translations/Hardening.tr.md) |
+| **Sigma Kuralları** | Platform bağımsız tespit kuralları | [📄 Görüntüle](./Blue-Team/translations/Sigma-Rules.tr.md) |
+| **YARA Kuralları** | Zararlı yazılım ve IOC tespit kalıpları | [📄 Görüntüle](./Blue-Team/translations/YARA-Rules.tr.md) |
 
-👉 **[Tüm Mavi Takım Özeti](./Blue-Team/README.md)**
+👉 **[Tüm Mavi Takım Özeti](./Blue-Team/translations/README.tr.md)**
 
 ---
 
@@ -146,9 +146,9 @@
 
 | Şablon | Açıklama | Kılavuz |
 |--------|----------|---------|
-| **Pentest Raporu** | Eksiksiz sızma testi teknik rapor yapısı | [📄 Görüntüle](./Reporting/Pentest-Report-Template.md) |
-| **Bug Bounty Raporu** | HackerOne / Bugcrowd bulgu bildirim şablonu | [📄 Görüntüle](./Reporting/Bug-Bounty-Report-Template.md) |
-| **Yönetici Özeti (Executive Summary)** | C-Level / üst yönetim için teknik olmayan özet | [📄 Görüntüle](./Reporting/Executive-Summary-Template.md) |
+| **Pentest Raporu** | Eksiksiz sızma testi teknik rapor yapısı | [📄 Görüntüle](./Reporting/translations/Pentest-Report-Template.tr.md) |
+| **Bug Bounty Raporu** | HackerOne / Bugcrowd bulgu bildirim şablonu | [📄 Görüntüle](./Reporting/translations/Bug-Bounty-Report-Template.tr.md) |
+| **Yönetici Özeti (Executive Summary)** | C-Level / üst yönetim için teknik olmayan özet | [📄 Görüntüle](./Reporting/translations/Executive-Summary-Template.tr.md) |
 
 ---
 
