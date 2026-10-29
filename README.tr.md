@@ -244,9 +244,9 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Hydra** | Hızlı ağ servisi parola deneme aracı | [📄 Görüntüle](./Hydra/README.md) |
-| **John the Ripper** | Efsanevi çevrimdışı parola kırıcı | [📄 Görüntüle](./John-The-Ripper/README.md) |
-| **Hashcat** | Dünyanın en hızlı GPU destekli parola kırıcısı | [📄 Görüntüle](./Hashcat/README.md) |
+| **Hydra** | Hızlı ağ servisi parola deneme aracı | [📄 Görüntüle](./Hydra/translations/README.tr.md) |
+| **John the Ripper** | Efsanevi çevrimdışı parola kırıcı | [📄 Görüntüle](./John-The-Ripper/translations/README.tr.md) |
+| **Hashcat** | Dünyanın en hızlı GPU destekli parola kırıcısı | [📄 Görüntüle](./Hashcat/translations/README.tr.md) |
 
 ### 📡 Ağ Analizi (Network Analysis)
 
