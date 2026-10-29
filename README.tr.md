@@ -274,15 +274,15 @@
 
 | Zafiyet | Açıklama | Kılavuz |
 |---------|----------|---------|
-| **XSS** | Siteler Arası Betik Çalıştırma payload'ları | [📄 Görüntüle](./Payloads/XSS.md) |
-| **SQLi** | SQL Enjeksiyonu payload'ları | [📄 Görüntüle](./Payloads/SQLi.md) |
-| **LFI** | Yerel Dosya Dahil Etme (Local File Inclusion) | [📄 Görüntüle](./Payloads/LFI.md) |
-| **SSTI** | Sunucu Taraflı Şablon Enjeksiyonu | [📄 Görüntüle](./Payloads/SSTI.md) |
-| **Komut Enjeksiyonu** | İşletim sistemi komut enjeksiyonu | [📄 Görüntüle](./Payloads/Command-Injection.md) |
-| **NoSQL Enjeksiyonu** | MongoDB, CouchDB, Redis payload'ları | [📄 Görüntüle](./Payloads/NoSQL-Injection.md) |
-| **Deserialization** | Java, PHP, Python, .NET serileştirme zafiyetleri | [📄 Görüntüle](./Payloads/Deserialization.md) |
-| **WebSocket Saldırıları** | CSWSH, soket enjeksiyonu, oturum çalma | [📄 Görüntüle](./Payloads/WebSocket-Attacks.md) |
-| **GraphQL Enjeksiyonu** | Introspection, IDOR, sorgu manipülasyonu | [📄 Görüntüle](./Payloads/GraphQL-Injection.md) |
+| **XSS** | Siteler Arası Betik Çalıştırma payload'ları | [📄 Görüntüle](./Payloads/translations/XSS.tr.md) |
+| **SQLi** | SQL Enjeksiyonu payload'ları | [📄 Görüntüle](./Payloads/translations/SQLi.tr.md) |
+| **LFI** | Yerel Dosya Dahil Etme (Local File Inclusion) | [📄 Görüntüle](./Payloads/translations/LFI.tr.md) |
+| **SSTI** | Sunucu Taraflı Şablon Enjeksiyonu | [📄 Görüntüle](./Payloads/translations/SSTI.tr.md) |
+| **Komut Enjeksiyonu** | İşletim sistemi komut enjeksiyonu | [📄 Görüntüle](./Payloads/translations/Command-Injection.tr.md) |
+| **NoSQL Enjeksiyonu** | MongoDB, CouchDB, Redis payload'ları | [📄 Görüntüle](./Payloads/translations/NoSQL-Injection.tr.md) |
+| **Deserialization** | Java, PHP, Python, .NET serileştirme zafiyetleri | [📄 Görüntüle](./Payloads/translations/Deserialization.tr.md) |
+| **WebSocket Saldırıları** | CSWSH, soket enjeksiyonu, oturum çalma | [📄 Görüntüle](./Payloads/translations/WebSocket-Attacks.tr.md) |
+| **GraphQL Enjeksiyonu** | Introspection, IDOR, sorgu manipülasyonu | [📄 Görüntüle](./Payloads/translations/GraphQL-Injection.tr.md) |
 
 ### 🔴 Web Zafiyetleri
 
