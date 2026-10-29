@@ -218,8 +218,8 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Metasploit Framework** | Dünyanın en popüler sızma testi çerçevesi | [📄 Görüntüle](./Metasploit/README.md) |
-| **Meterpreter** | Gelişmiş istismar sonrası (post-exploitation) yükü | [📄 Görüntüle](./Metasploit/Meterpreter.md) |
+| **Metasploit Framework** | Dünyanın en popüler sızma testi çerçevesi | [📄 Görüntüle](./Metasploit/translations/README.tr.md) |
+| **Meterpreter** | Gelişmiş istismar sonrası (post-exploitation) yükü | [📄 Görüntüle](./Metasploit/translations/Meterpreter.tr.md) |
 | **Mimikatz** | Windows parola ve bilet çıkarma aracı | [📄 Görüntüle](./Mimikatz/README.md) |
 | **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/README.md) |
 | **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/README.md) |
@@ -228,7 +228,7 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/README.md) |
+| **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/translations/README.tr.md) |
 | **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/README.md) |
 | **Nikto** | Web sunucusu güvenlik tarayıcısı | [📄 Görüntüle](./Nikto/README.md) |
 
@@ -236,8 +236,8 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **SQLMap** | Otomatik SQL enjeksiyonu ve veritabanı ele geçirme | [📄 Görüntüle](./SQLMap/README.md) |
-| **Burp Suite** | Web uygulaması güvenlik testi platformu | [📄 Görüntüle](./Burp-Suite/README.md) |
+| **SQLMap** | Otomatik SQL enjeksiyonu ve veritabanı ele geçirme | [📄 Görüntüle](./SQLMap/translations/README.tr.md) |
+| **Burp Suite** | Web uygulaması güvenlik testi platformu | [📄 Görüntüle](./Burp-Suite/translations/README.tr.md) |
 | **OWASP ZAP** | Açık kaynaklı web güvenlik tarayıcısı | [📄 Görüntüle](./OWASP-ZAP/README.md) |
 
 ### 🔓 Parola Kırma (Password Cracking)
