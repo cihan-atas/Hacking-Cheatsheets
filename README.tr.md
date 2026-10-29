@@ -230,6 +230,8 @@
 |------|----------|---------|
 | **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/translations/README.tr.md) |
 | **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/translations/README.tr.md) |
+| **Feroxbuster** | Hızlı, basit ve özyinelemeli (recursive) web içerik keşif aracı | [📄 Görüntüle](./Feroxbuster/translations/README.tr.md) |
+| **Dirb** | Web sunucusu sözlük tabanlı içerik tarayıcısı | [📄 Görüntüle](./Dirb/translations/README.tr.md) |
 | **Nikto** | Web sunucusu güvenlik tarayıcısı | [📄 Görüntüle](./Nikto/translations/README.tr.md) |
 
 ### 🌐 Web Uygulama Güvenlik Testi
@@ -425,6 +427,12 @@ Hacking-Cheatsheets/
 │
 ├── Gobuster/                # Dizin / DNS Numaralandırma
 │   └── README.md            # Kapsamlı Gobuster kılavuzu
+│
+├── Feroxbuster/             # Özyinelemeli Web İçerik Keşfi
+│   └── README.md            # Kapsamlı Feroxbuster kılavuzu
+│
+├── Dirb/                    # Sözlük Tabanlı İçerik Tarayıcısı
+│   └── README.md            # Kapsamlı Dirb kılavuzu
 │
 ├── Nikto/                   # Web Sunucu Tarayıcısı
 │   └── README.md            # Kapsamlı Nikto kılavuzu

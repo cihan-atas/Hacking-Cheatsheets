@@ -228,6 +228,8 @@
 |------|-------------|------------|
 | **Nmap** | Network discovery and security auditing | [📄 View](./Nmap/README.md) |
 | **Gobuster** | Directory/DNS/VHost brute-forcing | [📄 View](./Gobuster/README.md) |
+| **Feroxbuster** | Fast, recursive web content discovery | [📄 View](./Feroxbuster/README.md) |
+| **Dirb** | Web content scanner & dictionary crawler | [📄 View](./Dirb/README.md) |
 | **Nikto** | Web server scanner | [📄 View](./Nikto/README.md) |
 
 ### 🌐 Web Application Testing
@@ -421,6 +423,12 @@ Hacking-Cheatsheets/
 │
 ├── Gobuster/                # Directory/DNS Enumeration
 │   └── README.md            # Complete Gobuster guide
+│
+├── Feroxbuster/             # Recursive Content Discovery
+│   └── README.md            # Complete Feroxbuster guide
+│
+├── Dirb/                    # Web Content Scanner
+│   └── README.md            # Complete Dirb guide
 │
 ├── Nikto/                   # Web Server Scanner
 │   └── README.md            # Complete Nikto guide
