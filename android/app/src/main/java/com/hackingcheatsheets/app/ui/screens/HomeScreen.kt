@@ -70,9 +70,9 @@ fun HomeScreen(
     val categories by viewModel.categories.collectAsState()
 
     val featuredIds = listOf(
-        "ligolo-ng", "nmap", "certipy", "netexec",
+        "ffuf", "ligolo-ng", "nmap", "certipy", "netexec",
         "peass-ng", "chisel", "metasploit", "sqlmap",
-        "jwt-attacks", "feroxbuster"
+        "burp-suite", "feroxbuster", "jwt-attacks", "hydra"
     )
     val featuredTools = allCheatsheets.filter { it.id in featuredIds }
 

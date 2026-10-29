@@ -26,13 +26,23 @@ interface CheatsheetDao {
 
     @Query("""
         SELECT * FROM cheatsheets 
-        WHERE title LIKE '%' || :query || '%' 
+        WHERE id LIKE '%' || :query || '%'
+           OR title LIKE '%' || :query || '%' 
            OR title_tr LIKE '%' || :query || '%' 
            OR tags LIKE '%' || :query || '%'
            OR category LIKE '%' || :query || '%'
            OR content_en LIKE '%' || :query || '%'
            OR content_tr LIKE '%' || :query || '%'
-        ORDER BY category ASC, title ASC
+        ORDER BY 
+          CASE 
+            WHEN LOWER(id) = LOWER(:query) THEN 1
+            WHEN LOWER(title) LIKE LOWER(:query) || '%' OR LOWER(title_tr) LIKE LOWER(:query) || '%' THEN 2
+            WHEN LOWER(id) LIKE LOWER(:query) || '%' THEN 3
+            WHEN LOWER(title) LIKE '%' || LOWER(:query) || '%' OR LOWER(title_tr) LIKE '%' || LOWER(:query) || '%' THEN 4
+            WHEN LOWER(tags) LIKE '%' || LOWER(:query) || '%' THEN 5
+            WHEN LOWER(category) LIKE '%' || LOWER(:query) || '%' THEN 6
+            ELSE 7
+          END ASC, title ASC
         LIMIT 60
     """)
     fun searchCheatsheets(query: String): Flow<List<Cheatsheet>>
