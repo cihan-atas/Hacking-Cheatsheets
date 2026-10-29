@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,14 +23,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -39,6 +41,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,33 +52,42 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
-import com.hackingcheatsheets.app.ui.components.MarkdownView
+import com.hackingcheatsheets.app.ui.components.MarkdownBlock
+import com.hackingcheatsheets.app.ui.components.MarkdownBlockView
+import com.hackingcheatsheets.app.ui.components.normalizeAnchor
+import com.hackingcheatsheets.app.ui.components.parseMarkdown
 import com.hackingcheatsheets.app.ui.theme.BackgroundDark
 import com.hackingcheatsheets.app.ui.theme.BorderDark
 import com.hackingcheatsheets.app.ui.theme.CyberGreen
 import com.hackingcheatsheets.app.ui.theme.SurfaceDark
 import com.hackingcheatsheets.app.ui.theme.SurfaceVariantDark
-import com.hackingcheatsheets.app.ui.theme.TerminalCyan
 import com.hackingcheatsheets.app.ui.theme.TextMuted
 import com.hackingcheatsheets.app.ui.theme.TextPrimary
 import com.hackingcheatsheets.app.ui.theme.WarningOrange
 import com.hackingcheatsheets.app.viewmodel.CheatsheetViewModel
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 @Composable
 fun DetailScreen(
     id: String,
     viewModel: CheatsheetViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToDetail: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val listState = rememberLazyListState()
+
     val language by viewModel.currentLanguage.collectAsState()
     val cheatsheet by viewModel.getCheatsheetFlow(id).collectAsState(initial = null)
     val isFav by viewModel.isFavorite(id).collectAsState(initial = false)
 
     if (cheatsheet == null) {
         Box(
-            modifier = Modifier.fillMaxSize().background(BackgroundDark),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BackgroundDark),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(color = CyberGreen)
@@ -84,6 +97,50 @@ fun DetailScreen(
 
     val tool = cheatsheet!!
     val content = if (language == AppLanguage.TR) tool.contentTr else tool.contentEn
+    val blocks = remember(content) { parseMarkdown(content) }
+    val hasQuickCommands = !tool.quickCommandsJson.isNullOrBlank()
+
+    val onLinkClick: (String) -> Unit = { target ->
+        when {
+            target.startsWith("#") -> {
+                val norm = normalizeAnchor(target)
+                val blockIndex = blocks.indexOfFirst { block ->
+                    if (block is MarkdownBlock.Header) {
+                        val hNorm = normalizeAnchor(block.text)
+                        hNorm == norm || hNorm.contains(norm) || norm.contains(hNorm)
+                    } else false
+                }
+                if (blockIndex != -1) {
+                    val scrollIndex = if (hasQuickCommands) blockIndex + 1 else blockIndex
+                    coroutineScope.launch {
+                        listState.animateScrollToItem(scrollIndex)
+                    }
+                }
+            }
+            target.endsWith(".tr.md") -> {
+                viewModel.setLanguage(AppLanguage.TR)
+            }
+            target.endsWith("README.md") && !target.contains("/") -> {
+                viewModel.setLanguage(AppLanguage.EN)
+            }
+            target.startsWith("http://") || target.startsWith("https://") -> {
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(target))
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Cannot open: $target", Toast.LENGTH_SHORT).show()
+                }
+            }
+            else -> {
+                val slug = target.split("/")
+                    .filter { it.isNotBlank() && it != ".." && it != "." && !it.endsWith(".md") }
+                    .lastOrNull()?.lowercase()
+                if (!slug.isNullOrBlank()) {
+                    onNavigateToDetail(slug)
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -102,7 +159,7 @@ fun DetailScreen(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = { onNavigateBack() }) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = TextPrimary
                     )
@@ -161,21 +218,22 @@ fun DetailScreen(
             }
         }
 
-        // Cheatsheet Body
+        // Cheatsheet Body with Anchor Scrolling
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             contentPadding = PaddingValues(top = 12.dp, bottom = 40.dp)
         ) {
             // Quick Commands horizontal list if available
-            if (!tool.quickCommandsJson.isNullOrBlank()) {
+            if (hasQuickCommands) {
                 item {
                     val commands = try {
                         val arr = JSONArray(tool.quickCommandsJson)
                         val list = mutableListOf<String>()
-                        for (i in 0 until arr.length()) {
-                            list.add(arr.getString(i))
+                        for (idx in 0 until arr.length()) {
+                            list.add(arr.getString(idx))
                         }
                         list
                     } catch (e: Exception) {
@@ -207,7 +265,7 @@ fun DetailScreen(
                                             Toast.makeText(context, "Command copied!", Toast.LENGTH_SHORT).show()
                                         }
                                         .padding(horizontal = 10.dp, vertical = 6.dp)
-                                ) {
+                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
                                             text = cmd.take(35) + if (cmd.length > 35) "..." else "",
@@ -231,9 +289,9 @@ fun DetailScreen(
                 }
             }
 
-            // Main Markdown Content
-            item {
-                MarkdownView(markdown = content)
+            // Render Markdown Blocks
+            itemsIndexed(blocks) { _, block ->
+                MarkdownBlockView(block = block, onLinkClick = onLinkClick)
             }
         }
     }

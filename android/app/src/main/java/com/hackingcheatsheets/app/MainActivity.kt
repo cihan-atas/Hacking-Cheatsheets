@@ -165,7 +165,8 @@ fun MainAppScaffold(viewModel: CheatsheetViewModel) {
                     DetailScreen(
                         id = id,
                         viewModel = viewModel,
-                        onNavigateBack = { navController.popBackStack() }
+                        onNavigateBack = { navController.popBackStack() },
+                        onNavigateToDetail = { newId -> navController.navigate(Screen.Detail.createRoute(newId)) }
                     )
                 }
             }
