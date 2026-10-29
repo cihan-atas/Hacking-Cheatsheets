@@ -107,10 +107,10 @@
 
 | Platform | Açıklama | Kılavuz |
 |----------|----------|---------|
-| **Android** | APK analizi, Frida, root tespiti atlatma | [📄 Görüntüle](./Mobile-Security/Android-Pentesting.md) |
-| **iOS** | IPA analizi, jailbreak, Objection, Keychain analizi | [📄 Görüntüle](./Mobile-Security/iOS-Pentesting.md) |
+| **Android** | APK analizi, Frida, root tespiti atlatma | [📄 Görüntüle](./Mobile-Security/translations/Android-Pentesting.tr.md) |
+| **iOS** | IPA analizi, jailbreak, Objection, Keychain analizi | [📄 Görüntüle](./Mobile-Security/translations/iOS-Pentesting.tr.md) |
 
-👉 **[Tüm Mobil Güvenlik Özeti](./Mobile-Security/README.md)**
+👉 **[Tüm Mobil Güvenlik Özeti](./Mobile-Security/translations/README.tr.md)**
 
 ---
 
@@ -133,10 +133,10 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Oltalama (Phishing)** | E-posta oltalaması, GoPhish, Evilginx2, vishing, smishing | [📄 Görüntüle](./Social-Engineering/Phishing.md) |
-| **Pretexting** | Karakterler, senaryolar, psikolojik manipülasyon | [📄 Görüntüle](./Social-Engineering/Pretexting.md) |
+| **Oltalama (Phishing)** | E-posta oltalaması, GoPhish, Evilginx2, vishing, smishing | [📄 Görüntüle](./Social-Engineering/translations/Phishing.tr.md) |
+| **Pretexting** | Karakterler, senaryolar, psikolojik manipülasyon | [📄 Görüntüle](./Social-Engineering/translations/Pretexting.tr.md) |
 
-👉 **[Tüm Sosyal Mühendislik Özeti](./Social-Engineering/README.md)**
+👉 **[Tüm Sosyal Mühendislik Özeti](./Social-Engineering/translations/README.tr.md)**
 
 ---
 
@@ -205,10 +205,10 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Firmware Analizi** | Binwalk, bellenim çıkarma, tersine mühendislik, gizli veri avı | [📄 Görüntüle](./IoT-Hacking/Firmware-Analysis.md) |
-| **Donanım Hacking** | UART, JTAG, SPI, I2C, hata ayıklama portları | [📄 Görüntüle](./IoT-Hacking/Hardware-Hacking.md) |
+| **Firmware Analizi** | Binwalk, bellenim çıkarma, tersine mühendislik, gizli veri avı | [📄 Görüntüle](./IoT-Hacking/translations/Firmware-Analysis.tr.md) |
+| **Donanım Hacking** | UART, JTAG, SPI, I2C, hata ayıklama portları | [📄 Görüntüle](./IoT-Hacking/translations/Hardware-Hacking.tr.md) |
 
-👉 **[Tüm IoT Hacking Özeti](./IoT-Hacking/README.md)**
+👉 **[Tüm IoT Hacking Özeti](./IoT-Hacking/translations/README.tr.md)**
 
 ---
 
