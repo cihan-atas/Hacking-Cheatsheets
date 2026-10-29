@@ -11,6 +11,8 @@ local.properties
 /local.properties
 *.apk
 *.aab
+*.jks
+*.keystore
 
 # Un-ignore Android app assets, manifests, resources, and data packages
 !app/src/

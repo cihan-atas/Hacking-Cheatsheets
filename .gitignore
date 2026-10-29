@@ -167,6 +167,8 @@ output/
 
 *.apk
 *.aab
+*.jks
+*.keystore
 *.zip
 *.tar
 *.tar.gz
