@@ -174,12 +174,12 @@
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Port Tarama** | Nmap, Masscan, RustScan | [📄 Görüntüle](./Network-Pentesting/Port-Scanning.md) |
-| **Ağ Keşfi (Enumeration)** | SMB, SNMP, NFS, LDAP, DNS analizi | [📄 Görüntüle](./Network-Pentesting/Network-Enumeration.md) |
-| **Ortadaki Adam (MITM)** | ARP spoofing, DNS spoofing, SSL strip | [📄 Görüntüle](./Network-Pentesting/MITM-Attacks.md) |
-| **Servis İstismarı** | FTP, SSH, SMB, RDP, veritabanları | [📄 Görüntüle](./Network-Pentesting/Service-Exploitation.md) |
+| **Port Tarama** | Nmap, Masscan, RustScan | [📄 Görüntüle](./Network-Pentesting/translations/Port-Scanning.tr.md) |
+| **Ağ Keşfi (Enumeration)** | SMB, SNMP, NFS, LDAP, DNS analizi | [📄 Görüntüle](./Network-Pentesting/translations/Network-Enumeration.tr.md) |
+| **Ortadaki Adam (MITM)** | ARP spoofing, DNS spoofing, SSL strip | [📄 Görüntüle](./Network-Pentesting/translations/MITM-Attacks.tr.md) |
+| **Servis İstismarı** | FTP, SSH, SMB, RDP, veritabanları | [📄 Görüntüle](./Network-Pentesting/translations/Service-Exploitation.tr.md) |
 
-👉 **[Tüm Ağ Sızma Testi Özeti](./Network-Pentesting/README.md)**
+👉 **[Tüm Ağ Sızma Testi Özeti](./Network-Pentesting/translations/README.tr.md)**
 
 ---
 
@@ -344,9 +344,9 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Aircrack-ng** | Kablosuz ağ güvenlik paketi (WPA/WPA2) | [📄 Görüntüle](./Aircrack-ng/README.md) |
-| **Wifite** | Otomatik kablosuz ağ denetim aracı | [📄 Görüntüle](./Wifite/README.md) |
-| **Bettercap** | Ağ saldırı çerçevesi (MITM / WiFi) | [📄 Görüntüle](./Bettercap/README.md) |
+| **Aircrack-ng** | Kablosuz ağ güvenlik paketi (WPA/WPA2) | [📄 Görüntüle](./Aircrack-ng/translations/README.tr.md) |
+| **Wifite** | Otomatik kablosuz ağ denetim aracı | [📄 Görüntüle](./Wifite/translations/README.tr.md) |
+| **Bettercap** | Ağ saldırı çerçevesi (MITM / WiFi) | [📄 Görüntüle](./Bettercap/translations/README.tr.md) |
 
 ### 🏢 Active Directory Pentesting
 
