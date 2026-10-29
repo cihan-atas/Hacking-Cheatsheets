@@ -292,21 +292,21 @@
 | **IDOR** | Güvensiz Doğrudan Nesne Başvurusu | [📄 Görüntüle](./IDOR/translations/README.tr.md) |
 | **SSRF** | Sunucu Taraflı İstek Sahteciliği | [📄 Görüntüle](./SSRF/translations/README.tr.md) |
 | **XXE** | XML Dış Varlık (External Entity) Enjeksiyonu | [📄 Görüntüle](./XXE/translations/README.tr.md) |
-| **Yarış Durumları (Race Conditions)** | Zamanlama ve eşzamanlılık açıkları | [📄 Görüntüle](./Race-Conditions/README.md) |
+| **Yarış Durumları (Race Conditions)** | Zamanlama ve eşzamanlılık açıkları | [📄 Görüntüle](./Race-Conditions/translations/README.tr.md) |
 | **Kimlik Doğrulama Atlatma** | Auth Bypass teknikleri ve oturum yönetimi | [📄 Görüntüle](./Auth-Bypass/translations/README.tr.md) |
 | **CORS** | Çapraz Kaynak Paylaşımı yapılandırma hataları | [📄 Görüntüle](./CORS/translations/README.tr.md) |
-| **Açık Yönlendirme (Open Redirect)** | Güvensiz URL yönlendirme zaafları | [📄 Görüntüle](./Open-Redirect/README.md) |
+| **Açık Yönlendirme (Open Redirect)** | Güvensiz URL yönlendirme zaafları | [📄 Görüntüle](./Open-Redirect/translations/README.tr.md) |
 
 ### 🛡️ İleri Düzey Saldırı Teknikleri
 
 | Konu | Açıklama | Kılavuz |
 |------|----------|---------|
 | **WAF Bypass** | Gerçek kaynak IP tespiti ve WAF filtrelerini aşma | [📄 Görüntüle](./WAF-Bypass/translations/README.tr.md) |
-| **Cloudflare Bypass** | Cloudflare arkasındaki gerçek sunucuyu bulma | [📄 Görüntüle](./Cloudflare-Bypass/README.md) |
-| **Subdomain Takeover** | Sahipsiz CNAME kayıtlarını ele geçirme | [📄 Görüntüle](./Subdomain-Takeover/README.md) |
-| **Web Önbellek Zehirleme** | Cache Poisoning ve Cache Deception | [📄 Görüntüle](./Cache-Poisoning/README.md) |
-| **HTTP İstek Kaçakçılığı** | HTTP Request Smuggling (CL.TE / TE.CL) | [📄 Görüntüle](./HTTP-Request-Smuggling/README.md) |
-| **Prototype Pollution** | JavaScript prototip manipülasyonu | [📄 Görüntüle](./Prototype-Pollution/README.md) |
+| **Cloudflare Bypass** | Cloudflare arkasındaki gerçek sunucuyu bulma | [📄 Görüntüle](./Cloudflare-Bypass/translations/README.tr.md) |
+| **Subdomain Takeover** | Sahipsiz CNAME kayıtlarını ele geçirme | [📄 Görüntüle](./Subdomain-Takeover/translations/README.tr.md) |
+| **Web Önbellek Zehirleme** | Cache Poisoning ve Cache Deception | [📄 Görüntüle](./Cache-Poisoning/translations/README.tr.md) |
+| **HTTP İstek Kaçakçılığı** | HTTP Request Smuggling (CL.TE / TE.CL) | [📄 Görüntüle](./HTTP-Request-Smuggling/translations/README.tr.md) |
+| **Prototype Pollution** | JavaScript prototip manipülasyonu | [📄 Görüntüle](./Prototype-Pollution/translations/README.tr.md) |
 
 ### 🔎 Dorking & İstihbarat
 
