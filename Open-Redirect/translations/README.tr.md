@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🔀 Açık Yönlendirme (Open Redirect) Başvuru Kılavuzu
 

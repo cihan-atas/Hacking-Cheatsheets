@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🎯 Alt Alan Adı Ele Geçirme (Subdomain Takeover) Başvuru Kılavuzu
 

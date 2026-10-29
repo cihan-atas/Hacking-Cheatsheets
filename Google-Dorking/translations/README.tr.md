@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🔍 Google Dorking - Kapsamlı Başvuru Kılavuzu
 

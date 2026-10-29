@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🔍 OSINT (Açık Kaynak İstihbaratı) Başvuru Kılavuzu
 

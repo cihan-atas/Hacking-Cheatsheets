@@ -1,6 +1,6 @@
 # ⚡ OWASP ZAP - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
    ____  _    _  ___   _____ _____    _____   ___  _____  
@@ -403,9 +403,9 @@ docker run -t ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py \
 - [ZAP API Dokümantasyonu](https://www.zaproxy.org/docs/api/)
 
 ### İlgili Kılavuzlar
-- [Burp Suite](../Burp-Suite/translations/README.tr.md)
-- [Nikto](../Nikto/translations/README.tr.md)
-- [SQLMap](../SQLMap/translations/README.tr.md)
+- [Burp Suite](../../Burp-Suite/translations/README.tr.md)
+- [Nikto](../../Nikto/translations/README.tr.md)
+- [SQLMap](../../SQLMap/translations/README.tr.md)
 
 ---
 

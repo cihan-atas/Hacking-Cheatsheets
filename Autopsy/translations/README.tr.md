@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🔍 Autopsy - Dijital Adli Bilişim Platformu Başvuru Kılavuzu
 

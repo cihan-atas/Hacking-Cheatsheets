@@ -1,6 +1,6 @@
 # 🪟 Windows Yetki Yükseltme (Privilege Escalation) - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██╗    ██╗██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗

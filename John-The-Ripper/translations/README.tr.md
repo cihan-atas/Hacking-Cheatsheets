@@ -1,6 +1,6 @@
 # 🔨 John the Ripper - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
        __      __         
@@ -747,9 +747,9 @@ john --incremental=LowerNum --min-length=6 --max-length=8 hashes.txt
 - [CrackStation Sözlüğü](https://crackstation.net/crackstation-wordlist-password-cracking-dictionary.htm)
 
 ### İlgili Kılavuzlar
-- [Hydra](../Hydra/translations/README.tr.md)
-- [Metasploit](../Metasploit/translations/README.tr.md)
-- [Nmap](../Nmap/translations/README.tr.md)
+- [Hydra](../../Hydra/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
 
 ---
 

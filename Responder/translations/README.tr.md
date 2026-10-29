@@ -1,6 +1,6 @@
 # 🎣 Responder - LLMNR/NBT-NS Zehirleme Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██████╗ ███████╗███████╗██████╗  ██████╗ ███╗   ██╗██████╗ ███████╗██████╗ 
@@ -413,9 +413,9 @@ impacket-ntlmrelayx -tf relay.txt -smb2support
 - [ntlmrelayx](https://github.com/fortra/impacket)
 
 ### İlgili Kılavuzlar
-- [Impacket](../Impacket/README.md)
-- [CrackMapExec](../CrackMapExec/README.md)
-- [Hashcat](../Hashcat/README.md)
+- [Impacket](../../Impacket/translations/README.tr.md)
+- [CrackMapExec](../../CrackMapExec/translations/README.tr.md)
+- [Hashcat](../../Hashcat/translations/README.tr.md)
 
 ---
 

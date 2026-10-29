@@ -1,6 +1,6 @@
 # 😈 Evil-WinRM - Windows Uzak Kabuk Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ███████╗██╗   ██╗██╗██╗      ██╗    ██╗██╗███╗   ██╗██████╗ ███╗   ███╗
@@ -316,9 +316,9 @@ evil-winrm -i 10.10.10.10 -u admin -p 'P@ssw0rd'
 - [WinRM Dokümantasyonu](https://docs.microsoft.com/en-us/windows/win32/winrm/portal)
 
 ### İlgili Kılavuzlar
-- [CrackMapExec](../CrackMapExec/README.md)
-- [Impacket](../Impacket/README.md)
-- [Mimikatz](../Mimikatz/README.md)
+- [CrackMapExec](../../CrackMapExec/translations/README.tr.md)
+- [Impacket](../../Impacket/translations/README.tr.md)
+- [Mimikatz](../../Mimikatz/translations/README.tr.md)
 
 ---
 

@@ -1,6 +1,6 @@
 # ⚡ Hashcat - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   _   _           _                _   
@@ -660,9 +660,9 @@ hashcat -d 1,2 ...
 - [CrackStation](https://crackstation.net/crackstation-wordlist-password-cracking-dictionary.htm)
 
 ### İlgili Kılavuzlar
-- [John the Ripper](../John-The-Ripper/translations/README.tr.md)
-- [Hydra](../Hydra/translations/README.tr.md)
-- [Nmap](../Nmap/translations/README.tr.md)
+- [John the Ripper](../../John-The-Ripper/translations/README.tr.md)
+- [Hydra](../../Hydra/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
 
 ---
 

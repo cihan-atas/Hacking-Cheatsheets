@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🐛 GDB - GNU Hata Ayıklayıcı Başvuru Kılavuzu
 

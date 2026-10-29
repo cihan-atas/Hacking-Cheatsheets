@@ -1,6 +1,6 @@
 # 🎫 Rubeus - Kerberos İstismar Araç Seti Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██████╗ ██╗   ██╗██████╗ ███████╗██╗   ██╗███████╗
@@ -370,9 +370,9 @@ dir \\server\share
 - [SpecterOps](https://specterops.io/)
 
 ### İlgili Kılavuzlar
-- [BloodHound](../BloodHound/README.md)
-- [Impacket](../Impacket/README.md)
-- [Mimikatz](../Mimikatz/README.md)
+- [BloodHound](../../BloodHound/translations/README.tr.md)
+- [Impacket](../../Impacket/translations/README.tr.md)
+- [Mimikatz](../../Mimikatz/translations/README.tr.md)
 
 ---
 

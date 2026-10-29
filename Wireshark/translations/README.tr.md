@@ -1,6 +1,6 @@
 # 🦈 Wireshark - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
  __        ___           ____  _                _    
@@ -552,9 +552,9 @@ Listeden istenen dosya seçilip diske kaydedilir
 - [Örnek Paket Yakalamaları (Sample Captures)](https://wiki.wireshark.org/SampleCaptures)
 
 ### İlgili Kılavuzlar
-- [Nmap](../Nmap/translations/README.tr.md)
-- [Metasploit](../Metasploit/translations/README.tr.md)
-- [Hydra](../Hydra/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
+- [Hydra](../../Hydra/translations/README.tr.md)
 
 ---
 

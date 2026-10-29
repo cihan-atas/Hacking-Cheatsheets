@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # ⚡ Yarış Durumları (Race Conditions) Başvuru Kılavuzu
 

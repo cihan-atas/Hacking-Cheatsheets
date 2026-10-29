@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🧠 Volatility - Bellek Adli Bilişimi Başvuru Kılavuzu
 

@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 📶 Wifite - Otomatik WiFi Güvenlik Denetim Aracı Başvuru Kılavuzu
 
@@ -668,9 +668,9 @@ gerçekleştirmek için AÇIK YAZILI İZİN ALDIĞINIZ ağlarda kullanın.
 - [Aircrack-ng Resmi Sitesi](https://www.aircrack-ng.org/)
 
 ### İlgili Başvuru Kılavuzları
-- [Aircrack-ng](../Aircrack-ng/README.md)
-- [Hashcat](../Hashcat/README.md)
-- [Linux Komutları](../Linux-Commands/README.md)
+- [Aircrack-ng](../../Aircrack-ng/translations/README.tr.md)
+- [Hashcat](../../Hashcat/translations/README.tr.md)
+- [Linux Komutları](../../Linux-Commands/translations/README.tr.md)
 
 ---
 

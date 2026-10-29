@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🐉 Kali Linux Araçları - Kapsamlı Referans (600+ Araç)
 

@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # ⚔️ Katana - Yeni Nesil Web Tarayıcısı (Web Crawler)
 

@@ -1,6 +1,6 @@
 # 💉 SQLMap - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
    _____ ____    __    __  __           

@@ -1,6 +1,6 @@
 # ⚡ PowerView - PowerShell ile AD Keşif Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██████╗  ██████╗ ██╗    ██╗███████╗██████╗ ██╗   ██╗██╗███████╗██╗    ██╗
@@ -500,9 +500,9 @@ Get-DomainObjectAcl -Identity admin -ResolveGUIDs
 - [PowerView Cheat Sheet](https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993)
 
 ### İlgili Kılavuzlar
-- [BloodHound](../BloodHound/README.md)
-- [PowerShell](../PowerShell/README.md)
-- [Mimikatz](../Mimikatz/README.md)
+- [BloodHound](../../BloodHound/translations/README.tr.md)
+- [PowerShell](../../PowerShell/translations/README.tr.md)
+- [Mimikatz](../../Mimikatz/translations/README.tr.md)
 
 ---
 

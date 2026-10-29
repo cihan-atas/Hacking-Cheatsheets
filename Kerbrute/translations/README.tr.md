@@ -1,6 +1,6 @@
 # 🔑 Kerbrute - Kerberos Kullanıcı Keşif Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██╗  ██╗███████╗██████╗ ██████╗ ██████╗ ██╗   ██╗████████╗███████╗
@@ -291,9 +291,9 @@ kerbrute passwordspray -d domain.local --dc 10.10.10.10 users.txt 'Summer2024!'
 - [ropnop Blog](https://blog.ropnop.com/)
 
 ### İlgili Kılavuzlar
-- [AD Saldırı Metodolojisi](../AD-Attack-Methodology/translations/README.tr.md)
-- [Rubeus](../Rubeus/translations/README.tr.md)
-- [CrackMapExec](../CrackMapExec/translations/README.tr.md)
+- [AD Saldırı Metodolojisi](../../AD-Attack-Methodology/translations/README.tr.md)
+- [Rubeus](../../Rubeus/translations/README.tr.md)
+- [CrackMapExec](../../CrackMapExec/translations/README.tr.md)
 
 ---
 

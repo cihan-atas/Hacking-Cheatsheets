@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🔧 x64dbg - Windows Hata Ayıklayıcı Başvuru Kılavuzu
 

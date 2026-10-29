@@ -334,7 +334,7 @@ curl -X POST http://target/login \
 ## 🔗 İlgili Kılavuzlar
 
 - [SQLi Payload'ları](./SQLi.tr.md)
-- [GraphQL Enjeksiyonu](./GraphQL-Injection.md)
+- [GraphQL Enjeksiyonu](./GraphQL-Injection.tr.md)
 
 ---
 

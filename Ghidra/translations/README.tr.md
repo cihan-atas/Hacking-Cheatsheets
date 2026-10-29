@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🔍 Ghidra - Tersine Mühendislik Başvuru Kılavuzu
 

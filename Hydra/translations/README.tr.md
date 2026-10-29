@@ -1,6 +1,6 @@
 # 🔓 Hydra - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   _   _           _           
@@ -681,9 +681,9 @@ export HYDRA_PROXY=socks5://127.0.0.1:9050
 - [Default Credentials](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 
 ### İlgili Kılavuzlar
-- [Nmap](../Nmap/translations/README.tr.md)
-- [Metasploit](../Metasploit/translations/README.tr.md)
-- [SQLMap](../SQLMap/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
+- [SQLMap](../../SQLMap/translations/README.tr.md)
 
 ---
 

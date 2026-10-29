@@ -1,6 +1,6 @@
 # 📡 tcpdump - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   _             _                       
@@ -509,9 +509,9 @@ alias tcpdump-dns='sudo tcpdump -nn port 53'
 - [BPF Filtre Sözdizimi](https://biot.com/capstats/bpf.html)
 
 ### İlgili Kılavuzlar
-- [Wireshark](../Wireshark/translations/README.tr.md)
-- [Nmap](../Nmap/translations/README.tr.md)
-- [Metasploit](../Metasploit/translations/README.tr.md)
+- [Wireshark](../../Wireshark/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
 
 ---
 

@@ -1,6 +1,6 @@
 # 🌐 SSRF - Sunucu Taraflı İstek Sahteciliği Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ███████╗███████╗██████╗ ███████╗

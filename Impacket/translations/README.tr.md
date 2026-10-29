@@ -1,6 +1,6 @@
 # 🐍 Impacket - Python Active Directory Saldırı Paketi Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██╗███╗   ███╗██████╗  █████╗  ██████╗██╗  ██╗███████╗████████╗

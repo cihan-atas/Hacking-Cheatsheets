@@ -1,6 +1,6 @@
 # 🕷️ Nikto - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
     _   _ _ _    _        
@@ -504,9 +504,9 @@ nikto -h 192.168.1.10 \
 - [CIRT.net](https://cirt.net/)
 
 ### İlgili Kılavuzlar
-- [Nmap](../Nmap/translations/README.tr.md)
-- [Gobuster](../Gobuster/translations/README.tr.md)
-- [Burp Suite](../Burp-Suite/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
+- [Gobuster](../../Gobuster/translations/README.tr.md)
+- [Burp Suite](../../Burp-Suite/translations/README.tr.md)
 
 ---
 

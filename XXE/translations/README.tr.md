@@ -1,6 +1,6 @@
 # 📄 XXE - XML Dış Varlık Enjeksiyonu Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██╗  ██╗██╗  ██╗███████╗

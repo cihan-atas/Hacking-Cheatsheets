@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # ☁️ Cloudflare Atlama (Cloudflare Bypass) Başvuru Kılavuzu
 

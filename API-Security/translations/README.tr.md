@@ -1,6 +1,6 @@
 # 🔌 API Güvenlik Testi Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md) • [🇮🇹 Versione Italiana](README.it.md)
+[🇬🇧 English](../../README.md) • [🇮🇹 Versione Italiana](README.it.md)
 
 ```
    █████╗ ██████╗ ██╗    ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗

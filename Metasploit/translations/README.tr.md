@@ -1,6 +1,6 @@
 # 🔴 Metasploit Framework - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
                                    ___          ____

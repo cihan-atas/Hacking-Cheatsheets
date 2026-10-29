@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 📚 Kelime Listeleri (Wordlists) - Kapsamlı Başvuru Kılavuzu
 

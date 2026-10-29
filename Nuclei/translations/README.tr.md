@@ -1,6 +1,6 @@
 # 🎯 Nuclei - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   _   _            _      _ 
@@ -450,9 +450,9 @@ subfinder -d target.com -silent | httpx -silent | nuclei -severity critical,high
 - [Nuclei Dokümantasyonu](https://docs.projectdiscovery.io/tools/nuclei/)
 
 ### İlgili Kılavuzlar
-- [Bug Bounty Metodolojisi](../Bug-Bounty-Methodology/translations/README.tr.md)
-- [Burp Suite](../Burp-Suite/translations/README.tr.md)
-- [Nmap](../Nmap/translations/README.tr.md)
+- [Bug Bounty Metodolojisi](../../Bug-Bounty-Methodology/translations/README.tr.md)
+- [Burp Suite](../../Burp-Suite/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
 
 ---
 

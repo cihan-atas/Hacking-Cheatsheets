@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 📷 ExifTool - Meta Veri (Metadata) Analiz Başvuru Kılavuzu
 

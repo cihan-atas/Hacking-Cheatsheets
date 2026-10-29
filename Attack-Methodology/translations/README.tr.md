@@ -1,6 +1,6 @@
 # 🎯 Saldırı Metodolojisi - Kill Chain
 
-[🇬🇧 English](../README.md) • [🇮🇹 Versione Italiana](README.it.md)
+[🇬🇧 English](../../README.md) • [🇮🇹 Versione Italiana](README.it.md)
 
 ```
    █████╗ ████████╗████████╗ █████╗  ██████╗██╗  ██╗    ██╗  ██╗██╗██╗     ██╗          ██████╗██╗  ██╗ █████╗ ██╗███╗   ██╗

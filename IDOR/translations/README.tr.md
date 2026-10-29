@@ -1,6 +1,6 @@
 # 🔓 IDOR - Güvensiz Doğrudan Nesne Başvurusu Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ██╗██████╗  ██████╗ ██████╗ 

@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 📶 Aircrack-ng - WiFi Güvenlik & Kırma Paketi Başvuru Kılavuzu
 
@@ -611,9 +611,9 @@ Asla kullanmayın:
 - [Hashcat WiFi Kılavuzu](https://hashcat.net/wiki/)
 
 ### İlgili Başvuru Kılavuzları
-- [Hashcat](../Hashcat/README.md)
-- [Wireshark](../Wireshark/README.md)
-- [Linux Komutları](../Linux-Commands/README.md)
+- [Hashcat](../../Hashcat/translations/README.tr.md)
+- [Wireshark](../../Wireshark/translations/README.tr.md)
+- [Linux Komutları](../../Linux-Commands/translations/README.tr.md)
 
 ---
 

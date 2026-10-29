@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🦈 Bettercap - Ağ Saldırı Çatısı Başvuru Kılavuzu
 
@@ -703,9 +703,9 @@ etmek için AÇIK YAZILI İZİN ALDIĞINIZ ağlarda ve sistemlerde kullanın.
 - [Bettercap Caplet Arşivi](https://github.com/bettercap/caplets)
 
 ### İlgili Başvuru Kılavuzları
-- [Aircrack-ng](../Aircrack-ng/README.md)
-- [Wifite](../Wifite/README.md)
-- [Wireshark](../Wireshark/README.md)
+- [Aircrack-ng](../../Aircrack-ng/translations/README.tr.md)
+- [Wifite](../../Wifite/translations/README.tr.md)
+- [Wireshark](../../Wireshark/translations/README.tr.md)
 
 ---
 

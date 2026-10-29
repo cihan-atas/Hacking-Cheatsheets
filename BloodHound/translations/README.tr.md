@@ -1,6 +1,6 @@
 # 🩸 BloodHound - Active Directory Saldırı Yolu Görselleştirme Kılavuzu
 
-[🇬🇧 English](../README.md) | [🇮🇹 Italiano](README.it.md)
+[🇬🇧 English](../../README.md) | [🇮🇹 Italiano](README.it.md)
 
 ```
   ██████╗ ██╗      ██████╗  ██████╗ ██████╗ ██╗  ██╗ ██████╗ ██╗   ██╗███╗   ██╗██████╗ 

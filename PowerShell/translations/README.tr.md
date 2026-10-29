@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 💻 PowerShell - Kapsamlı Sızma Testi Başvuru Kılavuzu
 
@@ -954,9 +954,9 @@ bitsadmin /transfer job /download /priority high http://url/file C:\file
 - [HackTricks PowerShell](https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters)
 
 ### İlgili Başvuru Kılavuzları
-- [Mimikatz](../Mimikatz/README.md)
-- [Windows PrivEsc (Yetki Yükseltme)](../Windows-PrivEsc/README.md)
-- [Metasploit](../Metasploit/README.md)
+- [Mimikatz](../../Mimikatz/translations/README.tr.md)
+- [Windows PrivEsc (Yetki Yükseltme)](../../Windows-PrivEsc/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
 
 ---
 

@@ -1,6 +1,6 @@
 # 🔐 Kimlik Doğrulama Atlatma (Auth Bypass) Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md) • [🇮🇹 Versione Italiana](README.it.md)
+[🇬🇧 English](../../README.md) • [🇮🇹 Versione Italiana](README.it.md)
 
 ```
    █████╗ ██╗   ██╗████████╗██╗  ██╗    ██████╗ ██╗   ██╗██████╗  █████╗ ███████╗███████╗

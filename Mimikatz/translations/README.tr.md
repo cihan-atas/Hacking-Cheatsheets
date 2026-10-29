@@ -1,6 +1,6 @@
 # 🔑 Mimikatz - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
   ███╗   ███╗██╗███╗   ███╗██╗██╗  ██╗ █████╗ ████████╗███████╗
@@ -462,9 +462,9 @@ mimikatz.exe "privilege::debug" "sekurlsa::pth /user:admin /domain:domain.local 
 - [HackTricks Mimikatz Dokümantasyonu](https://book.hacktricks.xyz/windows-hardening/stealing-credentials/credentials-mimikatz)
 
 ### İlgili Kılavuzlar
-- [Windows Yetki Yükseltme](../Windows-PrivEsc/translations/README.tr.md)
-- [Active Directory Metodolojisi](../AD-Attack-Methodology/translations/README.tr.md)
-- [Metasploit](../Metasploit/translations/README.tr.md)
+- [Windows Yetki Yükseltme](../../Windows-PrivEsc/translations/README.tr.md)
+- [Active Directory Metodolojisi](../../AD-Attack-Methodology/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
 
 ---
 

@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 📦 HTTP İstek Kaçakçılığı (HTTP Request Smuggling) Başvuru Kılavuzu
 

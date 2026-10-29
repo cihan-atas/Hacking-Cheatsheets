@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🐧 Linux Komutları & Bash - Kapsamlı Sızma Testi Başvuru Kılavuzu
 
@@ -1020,9 +1020,9 @@ echo "%73%74%72%69%6e%67" | xxd -r -p
 - [Reverse Shell Cheatsheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
 
 ### İlgili Başvuru Kılavuzları
-- [Linux PrivEsc (Yetki Yükseltme)](../Linux-PrivEsc/README.md)
-- [Nmap](../Nmap/README.md)
-- [Metasploit](../Metasploit/README.md)
+- [Linux PrivEsc (Yetki Yükseltme)](../../Linux-PrivEsc/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
+- [Metasploit](../../Metasploit/translations/README.tr.md)
 
 ---
 

@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🦊 Dalfox - XSS Tarama ve Analiz Çatısı
 

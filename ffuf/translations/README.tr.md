@@ -1,6 +1,6 @@
 # 🚀 ffuf - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
    __  __        __ 
@@ -481,9 +481,9 @@ ffuf -u https://target.com/FUZZ \
 - [Assetnote Wordlists](https://wordlists.assetnote.io/)
 
 ### İlgili Kılavuzlar
-- [Nuclei](../Nuclei/README.md)
-- [Gobuster](../Gobuster/translations/README.tr.md)
-- [Nmap](../Nmap/translations/README.tr.md)
+- [Nuclei](../../Nuclei/translations/README.tr.md)
+- [Gobuster](../../Gobuster/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
 
 ---
 

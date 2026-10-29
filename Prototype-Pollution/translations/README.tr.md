@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🧬 Prototip Kirlenmesi (Prototype Pollution) Başvuru Kılavuzu
 

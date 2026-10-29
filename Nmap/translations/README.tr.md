@@ -1,6 +1,6 @@
 # 🔍 Nmap - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
     _   __                      

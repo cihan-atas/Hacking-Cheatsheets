@@ -1,4 +1,4 @@
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 # 🐙 GitHub Dorking - Kapsamlı Başvuru Kılavuzu
 

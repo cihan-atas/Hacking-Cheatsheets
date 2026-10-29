@@ -1,6 +1,6 @@
 # 🚀 Gobuster - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md)
+[🇬🇧 English](../../README.md)
 
 ```
    ██████╗  ██████╗ ██████╗ ██╗   ██╗███████╗████████╗███████╗██████╗ 
@@ -601,9 +601,9 @@ gobuster dir -u http://target.com -w wordlist.txt -a "Mozilla/5.0..."
 - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
 
 ### İlgili Kılavuzlar
-- [Nmap](../Nmap/translations/README.tr.md)
-- [Burp Suite](../Burp-Suite/translations/README.tr.md)
-- [SQLMap](../SQLMap/translations/README.tr.md)
+- [Nmap](../../Nmap/translations/README.tr.md)
+- [Burp Suite](../../Burp-Suite/translations/README.tr.md)
+- [SQLMap](../../SQLMap/translations/README.tr.md)
 
 ---
 

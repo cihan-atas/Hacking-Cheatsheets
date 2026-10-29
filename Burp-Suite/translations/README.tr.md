@@ -1,6 +1,6 @@
 # 🔶 Burp Suite - Kapsamlı Başvuru Kılavuzu
 
-[🇬🇧 English](../README.md) | [🇮🇹 Italiano](README.it.md)
+[🇬🇧 English](../../README.md) | [🇮🇹 Italiano](README.it.md)
 
 ```
     ____                      _____       _ __     
