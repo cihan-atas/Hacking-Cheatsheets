@@ -229,8 +229,8 @@
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
 | **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/translations/README.tr.md) |
-| **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/README.md) |
-| **Nikto** | Web sunucusu güvenlik tarayıcısı | [📄 Görüntüle](./Nikto/README.md) |
+| **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/translations/README.tr.md) |
+| **Nikto** | Web sunucusu güvenlik tarayıcısı | [📄 Görüntüle](./Nikto/translations/README.tr.md) |
 
 ### 🌐 Web Uygulama Güvenlik Testi
 
@@ -252,8 +252,8 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
-| **Wireshark** | Ağ protokolü ve paket inceleme aracı | [📄 Görüntüle](./Wireshark/README.md) |
-| **tcpdump** | Komut satırı ağ paketi yakalama ve inceleme | [📄 Görüntüle](./tcpdump/README.md) |
+| **Wireshark** | Ağ protokolü ve paket inceleme aracı | [📄 Görüntüle](./Wireshark/translations/README.tr.md) |
+| **tcpdump** | Komut satırı ağ paketi yakalama ve inceleme | [📄 Görüntüle](./tcpdump/translations/README.tr.md) |
 
 ### 🐛 Bug Bounty & Varlık Keşfi
 
