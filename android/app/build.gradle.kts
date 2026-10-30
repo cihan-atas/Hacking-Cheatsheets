@@ -12,7 +12,7 @@ android {
         applicationId = "com.hackingcheatsheets.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
+        versionCode = 8
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -29,6 +29,8 @@ android {
                 storePassword = "hackingcheatsheets"
                 keyAlias = "hackingcheatsheets"
                 keyPassword = "hackingcheatsheets"
+                enableV1Signing = true
+                enableV2Signing = true
             } else {
                 initWith(getByName("debug"))
             }
