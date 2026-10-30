@@ -224,6 +224,7 @@
 | **Mimikatz** | Windows parola ve bilet çıkarma aracı | [📄 Görüntüle](./Mimikatz/translations/README.tr.md) |
 | **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/translations/README.tr.md) |
 | **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/translations/README.tr.md) |
+| **rlwrap** | Ters bağlantı kabukları için readline sarmalayıcısı | [📄 Görüntüle](./rlwrap/translations/README.tr.md) |
 
 ### 🔍 Keşif & Tarama (Reconnaissance & Scanning)
 
@@ -232,6 +233,7 @@
 | **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/translations/README.tr.md) |
 | **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/translations/README.tr.md) |
 | **Feroxbuster** | Hızlı, basit ve özyinelemeli (recursive) web içerik keşif aracı | [📄 Görüntüle](./Feroxbuster/translations/README.tr.md) |
+| **dirsearch** | Gelişmiş web dizin ve dosya kaba kuvvet (brute-force) aracı | [📄 Görüntüle](./dirsearch/translations/README.tr.md) |
 | **Dirb** | Web sunucusu sözlük tabanlı içerik tarayıcısı | [📄 Görüntüle](./Dirb/translations/README.tr.md) |
 | **Nikto** | Web sunucusu güvenlik tarayıcısı | [📄 Görüntüle](./Nikto/translations/README.tr.md) |
 
@@ -256,6 +258,7 @@
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
 | **Wireshark** | Ağ protokolü ve paket inceleme aracı | [📄 Görüntüle](./Wireshark/translations/README.tr.md) |
+| **tshark** | Komut satırı ağ paketi analizcisi ve protokol ayrıştırıcısı | [📄 Görüntüle](./tshark/translations/README.tr.md) |
 | **tcpdump** | Komut satırı ağ paketi yakalama ve inceleme | [📄 Görüntüle](./tcpdump/translations/README.tr.md) |
 
 ### 🐛 Bug Bounty & Varlık Keşfi
@@ -445,6 +448,9 @@ Hacking-Cheatsheets/
 │
 ├── Feroxbuster/             # Özyinelemeli Web İçerik Keşfi
 │   └── README.md            # Kapsamlı Feroxbuster kılavuzu
+│
+├── dirsearch/               # Gelişmiş Web Dizin ve Yol Tarayıcısı
+│   └── README.md            # Kapsamlı dirsearch kılavuzu
 │
 ├── Dirb/                    # Sözlük Tabanlı İçerik Tarayıcısı
 │   └── README.md            # Kapsamlı Dirb kılavuzu

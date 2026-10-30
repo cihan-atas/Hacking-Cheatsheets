@@ -70,15 +70,16 @@ It shines during penetration tests and bug bounty engagements where deep website
 
 ## ⚖️ Tool Comparison
 
-| Feature | Feroxbuster | ffuf | Gobuster | Dirb |
-|---------|-------------|------|----------|------|
-| **Language** | Rust | Go | Go | C |
-| **Speed** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
-| **Default Recursion** | ✅ Automatic | ❌ Manual flag | ❌ None | ✅ Automatic |
-| **Link Extraction** | ✅ Yes (`--extract-links`) | ❌ No | ❌ No | ❌ No |
-| **Auto Rate Tuning** | ✅ Yes (`--auto-tune`) | ❌ No | ❌ No | ❌ No |
-| **Multi-Target Stdin** | ✅ Native | ❌ Limited | ❌ No | ❌ No |
-| **Backup File Detection**| ✅ Native (`--collect-backups`)| ❌ No | ❌ No | ❌ No |
+| Feature | Feroxbuster | ffuf | dirsearch | Gobuster | Dirb |
+|---------|-------------|------|-----------|----------|------|
+| **Language** | Rust | Go | Python | Go | C |
+| **Speed** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| **Default Recursion** | ✅ Automatic | ❌ Manual flag | ✅ Automatic (`-r`) | ❌ None | ✅ Automatic |
+| **Link Extraction** | ✅ Yes (`--extract-links`) | ❌ No | ❌ No | ❌ No | ❌ No |
+| **Auto Rate Tuning** | ✅ Yes (`--auto-tune`) | ❌ No | ❌ No | ❌ No | ❌ No |
+| **POST Fuzzing** | ❌ No | ✅ Native | ✅ Native (`--data`) | ❌ No | ❌ No |
+| **Multi-Target Stdin** | ✅ Native | ❌ Limited | ✅ Yes (`-l`) | ❌ No | ❌ No |
+| **Backup File Detection**| ✅ Native (`--collect-backups`)| ❌ No | ✅ Native (`-e *`) | ❌ No | ❌ No |
 
 ---
 

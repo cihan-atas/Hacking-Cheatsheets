@@ -60,6 +60,19 @@
 | **Çoklu Platform** | Windows, Linux ve macOS |
 | **GUI & CLI** | Grafik arayüz (Wireshark) ve komut satırı aracı (tshark) |
 
+### Paket Analiz Araçları: Wireshark vs tshark vs tcpdump
+
+| Özellik | Wireshark | tshark | tcpdump |
+|---------|-----------|--------|---------|
+| **Arayüz** | GUI (Grafik) | CLI (Komut Satırı) | CLI (Komut Satırı) |
+| **Kaynak Tüketimi** | Daha Yüksek (RAM & CPU) | Düşük / Orta | Çok Düşük (Minimal) |
+| **Uzak / Sunucu (SSH)** | X11/VNC veya dosya aktarımı gerektirir | Doğrudan SSH / Başsız (Headless) | Doğrudan SSH ile anında |
+| **Ayrıştırma (Dissection)**| Wireshark motorunun tamamı | Wireshark motorunun tamamı | Temel başlıklar |
+| **Yakalama Filtresi** | Yalnızca BPF | Yalnızca BPF (`-f`) | Yalnızca BPF (`-i`) |
+| **Görüntüleme Filtresi** | ✅ Görsel filtre çubuğu | ✅ Tam Wireshark sözdizimi (`-Y`) | ❌ Yok |
+| **Çıktı Formatları** | PCAP, CSV, XML, JSON | PCAP, JSON, CSV, Elastic, XML | PCAP, ASCII, Hex |
+| **Betik / Otomasyon** | Karmaşık (Lua eklentileri) | Mükemmel (Shell, Python, jq) | Çok Kolay (Shell, awk) |
+
 ---
 
 ## 📥 Kurulum

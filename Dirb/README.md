@@ -60,15 +60,15 @@ DIRB works by generating HTTP requests for each word in a wordlist, analyzing th
 
 ## ⚖️ DIRB vs Modern Alternatives
 
-| Feature | DIRB | Gobuster | ffuf | Feroxbuster |
-|---------|------|----------|------|-------------|
-| **Language** | C | Go | Go | Rust |
-| **Speed** | ⭐⭐ (Single/Low thread) | ⭐⭐⭐⭐⭐ (High concurrency) | ⭐⭐⭐⭐⭐ (Extremely fast) | ⭐⭐⭐⭐⭐ (Async Rust) |
-| **Default Recursion** | ✅ Yes (Automatic) | ❌ No | ❌ No (Optional `-recursion`) | ✅ Yes (Automatic) |
-| **Custom Wordlists Included** | ✅ Yes (`/usr/share/dirb/`) | ❌ No | ❌ No | ❌ No |
-| **VHost Fuzzing** | ❌ No | ✅ Yes | ✅ Yes | ❌ No |
-| **POST / Data Fuzzing** | ❌ No | ❌ No | ✅ Yes | ❌ No |
-| **Memory / CPU Usage** | Very Low | Low | Low | Very Low |
+| Feature | DIRB | Gobuster | ffuf | Feroxbuster | dirsearch |
+|---------|------|----------|------|-------------|-----------|
+| **Language** | C | Go | Go | Rust | Python |
+| **Speed** | ⭐⭐ (Low thread) | ⭐⭐⭐⭐⭐ (Fast) | ⭐⭐⭐⭐⭐ (Extremely fast) | ⭐⭐⭐⭐⭐ (Async Rust) | ⭐⭐⭐⭐ (Fast) |
+| **Default Recursion** | ✅ Yes (Automatic) | ❌ No | ❌ No (Optional `-recursion`) | ✅ Yes (Automatic) | ✅ Yes (`-r`) |
+| **Custom Wordlists Included** | ✅ Yes (`/usr/share/dirb/`) | ❌ No | ❌ No | ❌ No | ✅ Yes (`db/dicc.txt`) |
+| **VHost Fuzzing** | ❌ No | ✅ Yes | ✅ Yes | ❌ No | ✅ Yes (`--subdirs`) |
+| **POST / Data Fuzzing** | ❌ No | ❌ No | ✅ Yes | ❌ No | ✅ Yes (`-d`) |
+| **Memory / CPU Usage** | Very Low | Low | Low | Very Low | Moderate |
 
 ---
 

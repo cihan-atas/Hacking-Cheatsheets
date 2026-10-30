@@ -66,11 +66,11 @@
 
 | Tool | Speed | Recursion | Language |
 |------|-------|-----------|----------|
-| **Gobuster** | ⭐⭐⭐⭐⭐ | No | Go |
-| Dirb | ⭐⭐ | Yes | C |
-| Dirbuster | ⭐⭐⭐ | Yes | Java |
-| Ffuf | ⭐⭐⭐⭐⭐ | No | Go |
-| Feroxbuster | ⭐⭐⭐⭐⭐ | Yes | Rust |
+| **Gobuster** | ⭐⭐⭐⭐⭐ | Optional (`-r`) | Go |
+| Dirb | ⭐⭐ | Yes (Auto) | C |
+| dirsearch | ⭐⭐⭐⭐ | Yes (`-r`) | Python |
+| ffuf | ⭐⭐⭐⭐⭐ | Optional (`-recursion`) | Go |
+| Feroxbuster | ⭐⭐⭐⭐⭐ | Yes (Auto) | Rust |
 
 ---
 

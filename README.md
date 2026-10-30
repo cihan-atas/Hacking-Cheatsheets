@@ -222,6 +222,7 @@
 | **Mimikatz** | Windows credential extraction tool | [📄 View](./Mimikatz/README.md) |
 | **PowerShell** | Windows scripting for pentesting | [📄 View](./PowerShell/README.md) |
 | **Linux Commands** | Linux & Bash for pentesting | [📄 View](./Linux-Commands/README.md) |
+| **rlwrap** | Readline wrapper for reverse shells & dumb terminals | [📄 View](./rlwrap/README.md) |
 
 ### 🔍 Reconnaissance & Scanning
 
@@ -230,6 +231,7 @@
 | **Nmap** | Network discovery and security auditing | [📄 View](./Nmap/README.md) |
 | **Gobuster** | Directory/DNS/VHost brute-forcing | [📄 View](./Gobuster/README.md) |
 | **Feroxbuster** | Fast, recursive web content discovery | [📄 View](./Feroxbuster/README.md) |
+| **dirsearch** | Advanced web path brute-forcer & crawler | [📄 View](./dirsearch/README.md) |
 | **Dirb** | Web content scanner & dictionary crawler | [📄 View](./Dirb/README.md) |
 | **Nikto** | Web server scanner | [📄 View](./Nikto/README.md) |
 
@@ -254,6 +256,7 @@
 | Tool | Description | Cheatsheet |
 |------|-------------|------------|
 | **Wireshark** | Network protocol analyzer | [📄 View](./Wireshark/README.md) |
+| **tshark** | Command-line network protocol analyzer & packet dissector | [📄 View](./tshark/README.md) |
 | **tcpdump** | Command-line packet analyzer | [📄 View](./tcpdump/README.md) |
 
 ### 🐛 Bug Bounty
@@ -442,6 +445,9 @@ Hacking-Cheatsheets/
 ├── Feroxbuster/             # Recursive Content Discovery
 │   └── README.md            # Complete Feroxbuster guide
 │
+├── dirsearch/               # Advanced Web Path Brute-Forcer
+│   └── README.md            # Complete dirsearch guide
+│
 ├── Dirb/                    # Web Content Scanner
 │   └── README.md            # Complete Dirb guide
 │
@@ -471,6 +477,12 @@ Hacking-Cheatsheets/
 │
 ├── tcpdump/                 # Command-Line Packet Analyzer
 │   └── README.md            # Complete tcpdump guide
+│
+├── tshark/                  # Terminal Packet Analyzer & Dissector
+│   └── README.md            # Complete tshark guide
+│
+├── rlwrap/                  # Readline Wrapper for Reverse Shells
+│   └── README.md            # Complete rlwrap guide
 │
 ├── Nuclei/                  # Bug Bounty Scanner
 │   └── README.md            # Complete Nuclei guide

@@ -57,15 +57,18 @@
 | **Özyineleme (Recursion)** | Keşfedilen dizinlerin içine otomatik olarak inebilme |
 | **Çoklu Çıktı Formatı** | JSON, CSV, HTML ve dosya desteği |
 
-### ffuf vs Diğer Araçlar Karşılaştırması
+### ffuf ve Web Dizin Keşif Araçları Karşılaştırması
 
-| Özellik | ffuf | Gobuster | dirb |
-|---------|------|----------|------|
-| **Hız** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
-| **Esneklik** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
-| **POST Fuzzing** | ✅ Evet | ❌ Hayır | ❌ Hayır |
-| **Özyineleme** | ✅ Evet | ✅ Evet | ✅ Evet |
-| **Filtre Seçenekleri** | Çok Zengin | Sınırlı | Sınırlı |
+| Özellik | ffuf | Feroxbuster | dirsearch | Gobuster | DIRB |
+|---------|------|-------------|-----------|----------|------|
+| **Yazıldığı Dil** | Go | Rust | Python | Go | C |
+| **Hız** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| **Esneklik** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| **Varsayılan Özyineleme**| İsteğe bağlı (`-recursion`) | ✅ Otomatik (`-d`) | ✅ Otomatik (`-r`) | İsteğe bağlı (`-r`) | ✅ Otomatik |
+| **POST / Veri Fuzzing** | ✅ Tam HTTP desteği | ❌ Sınırlı | ✅ Var (`-d`, `--data`) | ❌ Yok | ❌ Yok |
+| **Sanal Sunucu (VHost)** | ✅ Var (`Host: FUZZ`) | ❌ Yok | ✅ Var (`--subdirs`) | ✅ Var (`vhost`) | ❌ Yok |
+| **Bağlantı Ayıklama** | ❌ Yok | ✅ Var (`--extract-links`) | ❌ Yok | ❌ Yok | ❌ Yok |
+| **Gelişmiş Filtreleme** | Boyut, Kelime, Satır, Kod, Regex | Kod, Boyut, Regex, Kelime, Satır | Durum kodu, Boyut, Regex | Durum kodları | HTTP durum |
 
 ---
 

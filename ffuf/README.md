@@ -58,15 +58,18 @@
 | **Output** | Multiple output formats |
 | **Easy** | Simple and intuitive syntax |
 
-### ffuf vs Other Tools
+### ffuf vs Other Tools (Web Fuzzing & Discovery Comparison)
 
-| Feature | ffuf | Gobuster | dirb |
-|---------|------|----------|------|
-| **Speed** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
-| **Flexibility** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
-| **POST fuzzing** | ✅ Yes | ❌ No | ❌ No |
-| **Recursion** | ✅ Yes | ✅ Yes | ✅ Yes |
-| **Filters** | Many | Limited | Limited |
+| Feature | ffuf | Feroxbuster | dirsearch | Gobuster | DIRB |
+|---------|------|-------------|-----------|----------|------|
+| **Language** | Go | Rust | Python | Go | C |
+| **Speed** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| **Flexibility** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| **Default Recursion** | Optional (`-recursion`) | ✅ Auto (`-d`) | ✅ Auto (`-r`) | Optional (`-r`) | ✅ Auto |
+| **POST / Data Fuzzing** | ✅ Yes (`-d`) | ❌ Limited | ✅ Yes (`-d`, `--data`) | ❌ No | ❌ No |
+| **Virtual Host Fuzzing**| ✅ Yes (`Host: FUZZ`) | ❌ No | ✅ Yes (`--subdirs`) | ✅ Yes (`vhost`) | ❌ No |
+| **Link Extraction** | ❌ No | ✅ Yes (`--extract-links`) | ❌ No | ❌ No | ❌ No |
+| **Filters & Matchers** | Size, Words, Lines, Code, Regex | Code, Size, Regex, Words, Lines | Status, Size, Regex, Length | Status codes | HTTP status |
 
 ---
 

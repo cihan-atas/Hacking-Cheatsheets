@@ -60,15 +60,15 @@ DIRB, belirlenen kelime listesindeki her bir girdiyi hedef URL'ye ekleyerek HTTP
 
 ## ⚖️ DIRB ve Modern Alternatiflerin Karşılaştırması
 
-| Özellik | DIRB | Gobuster | ffuf | Feroxbuster |
-|---------|------|----------|------|-------------|
-| **Yazıldığı Dil** | C | Go | Go | Rust |
-| **Hız** | ⭐⭐ (Tek / Düşük iş parçacığı) | ⭐⭐⭐⭐⭐ (Yüksek eşzamanlılık) | ⭐⭐⭐⭐⭐ (Son derece hızlı) | ⭐⭐⭐⭐⭐ (Asenkron Rust) |
-| **Varsayılan Özyineleme (Recursion)** | ✅ Evet (Otomatik) | ❌ Hayır | ❌ Hayır (İsteğe bağlı `-recursion`) | ✅ Evet (Otomatik) |
-| **Dahili Kelime Listeleri** | ✅ Evet (`/usr/share/dirb/`) | ❌ Hayır | ❌ Hayır | ❌ Hayır |
-| **VHost Fuzzing** | ❌ Hayır | ✅ Evet | ✅ Evet | ❌ Hayır |
-| **POST / Gövde Verisi Fuzzing** | ❌ Hayır | ❌ Hayır | ✅ Evet | ❌ Hayır |
-| **Bellek / CPU Tüketimi** | Çok Düşük | Düşük | Düşük | Çok Düşük |
+| Özellik | DIRB | Gobuster | ffuf | Feroxbuster | dirsearch |
+|---------|------|----------|------|-------------|-----------|
+| **Yazıldığı Dil** | C | Go | Go | Rust | Python |
+| **Hız** | ⭐⭐ (Düşük thread) | ⭐⭐⭐⭐⭐ (Hızlı) | ⭐⭐⭐⭐⭐ (Son derece hızlı) | ⭐⭐⭐⭐⭐ (Asenkron Rust) | ⭐⭐⭐⭐ (Hızlı) |
+| **Varsayılan Özyineleme (Recursion)** | ✅ Evet (Otomatik) | ❌ Hayır | ❌ Hayır (İsteğe bağlı `-recursion`) | ✅ Evet (Otomatik) | ✅ Evet (`-r`) |
+| **Dahili Kelime Listeleri** | ✅ Evet (`/usr/share/dirb/`) | ❌ Hayır | ❌ Hayır | ❌ Hayır | ✅ Evet (`db/dicc.txt`) |
+| **VHost Fuzzing** | ❌ Hayır | ✅ Evet | ✅ Evet | ❌ Hayır | ✅ Evet (`--subdirs`) |
+| **POST / Gövde Verisi Fuzzing** | ❌ Hayır | ❌ Hayır | ✅ Evet | ❌ Hayır | ✅ Evet (`-d`) |
+| **Bellek / CPU Tüketimi** | Çok Düşük | Düşük | Düşük | Çok Düşük | Orta |
 
 ---
 

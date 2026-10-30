@@ -33,6 +33,7 @@ CATEGORY_MAPPING = {
     "Nmap": "Recon & Scanning",
     "Feroxbuster": "Recon & Scanning",
     "Dirb": "Recon & Scanning",
+    "dirsearch": "Recon & Scanning",
     "Gobuster": "Recon & Scanning",
     "Nikto": "Recon & Scanning",
     "ffuf": "Recon & Scanning",
@@ -66,11 +67,13 @@ CATEGORY_MAPPING = {
     "Metasploit": "Exploitation & Shells",
     "PowerShell": "Exploitation & Shells",
     "Linux-Commands": "Exploitation & Shells",
+    "rlwrap": "Exploitation & Shells",
     "Hydra": "Password Cracking",
     "John-The-Ripper": "Password Cracking",
     "Hashcat": "Password Cracking",
     "Wireshark": "Network Analysis",
     "tcpdump": "Network Analysis",
+    "tshark": "Network Analysis",
     "Aircrack-ng": "Wireless & Network",
     "Bettercap": "Wireless & Network",
     "Wifite": "Wireless & Network",
@@ -177,6 +180,9 @@ def extract_quick_commands(content, tool_name=""):
     elif "john" in t_lower: tool_tokens.extend(["john", "./john"])
     elif "hashcat" in t_lower: tool_tokens.extend(["hashcat", "./hashcat", "hashcat.exe"])
     elif "crackmap" in t_lower: tool_tokens.extend(["crackmapexec", "cme"])
+    elif "dirsearch" in t_lower: tool_tokens.extend(["dirsearch", "python3 dirsearch.py"])
+    elif "tshark" in t_lower: tool_tokens.extend(["tshark"])
+    elif "rlwrap" in t_lower: tool_tokens.extend(["rlwrap", "nc", "stty"])
 
     primary = []
     secondary = []
@@ -308,6 +314,9 @@ def build_database(repo_root, output_db_path):
                 if "active directory" in category.lower(): tags_list.extend(["kerberos", "domain", "dc", "ldap", "smb"])
                 if "privilege" in category.lower(): tags_list.extend(["root", "system", "privesc", "escalation"])
                 if "web" in category.lower() or "payload" in category.lower(): tags_list.extend(["owasp", "injection", "http", "api"])
+                if "tshark" in slug or "wireshark" in slug: tags_list.extend(["pcap", "packet", "sniff", "traffic", "network"])
+                if "dirsearch" in slug: tags_list.extend(["fuzz", "directory", "brute", "path", "web"])
+                if "rlwrap" in slug: tags_list.extend(["shell", "tty", "reverse", "readline", "netcat", "nc"])
                 tags = ",".join(set(tags_list))
 
                 icon = "security"

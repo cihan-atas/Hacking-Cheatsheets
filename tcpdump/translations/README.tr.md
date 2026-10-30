@@ -55,15 +55,18 @@
 | **Otomasyon ve Betikleme** | Bash betikleri ve CI/CD süreçleri için mükemmel entegrasyon |
 | **Evrensel Kullanılabilirlik** | Neredeyse tüm Unix/Linux sunucularda kuruludur |
 
-### tcpdump vs Wireshark Karşılaştırması
+### Paket Analiz Araçları: tcpdump vs tshark vs Wireshark
 
-| Özellik | tcpdump | Wireshark |
-|---------|---------|-----------|
-| **Arayüz** | CLI (Komut Satırı) | GUI (Grafiksel) |
-| **Kaynak Tüketimi** | Çok Düşük | Daha Yüksek |
-| **Uzak Sunucu Erişimi** | Doğal SSH ile anında | X11/VNC veya dosya aktarımı gerektirir |
-| **Betik Uyumluluğu** | Çok Kolay | Karmaşık |
-| **Derin Analiz** | Temel / Orta | İleri Düzey Görselleştirme |
+| Özellik | tcpdump | tshark | Wireshark |
+|---------|---------|--------|-----------|
+| **Arayüz** | CLI (Komut Satırı) | CLI (Komut Satırı) | GUI (Grafiksel) |
+| **Kaynak Tüketimi** | Çok Düşük | Düşük / Orta | Daha Yüksek (RAM & CPU) |
+| **Uzak Sunucu Erişimi** | Doğal SSH ile anında | Doğal SSH / Başsız (Headless) | X11/VNC veya dosya aktarımı gerektirir |
+| **Ayrıştırma (Dissection)**| Temel başlıklar | Wireshark motorunun tamamı | Wireshark motorunun tamamı |
+| **Yakalama Filtresi** | Yalnızca BPF | Yalnızca BPF (`-f`) | Yalnızca BPF |
+| **Görüntüleme Filtresi** | ❌ Yok | ✅ Tam Wireshark sözdizimi (`-Y`) | ✅ Görsel filtre çubuğu |
+| **Çıktı Formatları** | PCAP, ASCII, Hex | PCAP, JSON, CSV, Elastic, XML | PCAP, CSV, XML, JSON |
+| **Betik / Otomasyon** | Çok Kolay (Shell, awk) | Mükemmel (Shell, Python, jq) | Karmaşık (Lua eklentileri) |
 
 ---
 

@@ -70,15 +70,16 @@ Sızma testlerinde ve bug bounty çalışmalarında, derin web sitesi dizin ağa
 
 ## ⚖️ Araç Karşılaştırması
 
-| Özellik | Feroxbuster | ffuf | Gobuster | Dirb |
-|---------|-------------|------|----------|------|
-| **Yazıldığı Dil** | Rust | Go | Go | C |
-| **Hız** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
-| **Varsayılan Özyineleme** | ✅ Otomatik | ❌ Manuel bayrak | ❌ Yok | ✅ Otomatik |
-| **Sayfa İçi Link Çıkarma**| ✅ Var (`--extract-links`) | ❌ Yok | ❌ Yok | ❌ Yok |
-| **Otomatik Hız Ayarı** | ✅ Var (`--auto-tune`) | ❌ Yok | ❌ Yok | ❌ Yok |
-| **Çoklu Hedef (Stdin)** | ✅ Doğal Destek | ❌ Sınırlı | ❌ Yok | ❌ Yok |
-| **Yedek Dosyası Tespiti** | ✅ Var (`--collect-backups`)| ❌ Yok | ❌ Yok | ❌ Yok |
+| Özellik | Feroxbuster | ffuf | dirsearch | Gobuster | Dirb |
+|---------|-------------|------|-----------|----------|------|
+| **Yazıldığı Dil** | Rust | Go | Python | Go | C |
+| **Hız** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| **Varsayılan Özyineleme** | ✅ Otomatik | ❌ Manuel bayrak | ✅ Otomatik (`-r`) | ❌ Yok | ✅ Otomatik |
+| **Sayfa İçi Link Çıkarma**| ✅ Var (`--extract-links`) | ❌ Yok | ❌ Yok | ❌ Yok | ❌ Yok |
+| **Otomatik Hız Ayarı** | ✅ Var (`--auto-tune`) | ❌ Yok | ❌ Yok | ❌ Yok | ❌ Yok |
+| **POST Fuzzing** | ❌ Yok | ✅ Doğal Destek | ✅ Doğal Destek (`--data`) | ❌ Yok | ❌ Yok |
+| **Çoklu Hedef (Stdin/List)** | ✅ Doğal Destek | ❌ Sınırlı | ✅ Var (`-l`) | ❌ Yok | ❌ Yok |
+| **Yedek Dosyası Tespiti** | ✅ Var (`--collect-backups`)| ❌ Yok | ✅ Doğal Destek (`-e *`) | ❌ Yok | ❌ Yok |
 
 ---
 

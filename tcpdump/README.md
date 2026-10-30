@@ -55,15 +55,18 @@
 | **Scriptable** | Perfect for automation |
 | **Universal** | Available on all Unix systems |
 
-### tcpdump vs Wireshark
+### Packet Capture & Analysis Tools: tcpdump vs tshark vs Wireshark
 
-| Feature | tcpdump | Wireshark |
-|---------|---------|-----------|
-| **Interface** | CLI | GUI |
-| **Resources** | Minimal | Higher |
-| **Remote** | Native SSH | Requires setup |
-| **Scripting** | Easy | Complex |
-| **Analysis** | Basic | Advanced |
+| Feature | tcpdump | tshark | Wireshark |
+|---------|---------|--------|-----------|
+| **Interface** | CLI (Terminal) | CLI (Terminal) | GUI (Graphical) |
+| **Resource Usage** | Extremely Minimal | Low / Moderate | Higher (RAM & CPU) |
+| **Remote (SSH / Headless)** | Native SSH pipe | Native headless / CLI | Requires X11 / Remote agent |
+| **Dissecting Engine** | Basic headers | Full Wireshark dissectors | Full Wireshark dissectors |
+| **Capture Filters** | BPF only (`-i`) | BPF only (`-f`) | BPF only |
+| **Display Filters** | ❌ None | ✅ Full Wireshark syntax (`-Y`) | ✅ Full GUI filter bar |
+| **Export Formats** | PCAP, ASCII, Hex | PCAP, JSON, CSV, Elastic, XML | PCAP, CSV, XML, JSON |
+| **Scripting & Automation**| Shell / Awk / Sed | Shell, Python, jq | Lua plugins, GUI |
 
 ---
 

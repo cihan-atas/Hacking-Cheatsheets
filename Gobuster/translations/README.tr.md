@@ -66,11 +66,11 @@
 
 | Araç | Hız | Özyineleme (Recursion) | Dil |
 |------|-----|-------------------------|-----|
-| **Gobuster** | ⭐⭐⭐⭐⭐ | Hayır | Go |
-| Dirb | ⭐⭐ | Evet | C |
-| Dirbuster | ⭐⭐⭐ | Evet | Java |
-| Ffuf | ⭐⭐⭐⭐⭐ | Hayır | Go |
-| Feroxbuster | ⭐⭐⭐⭐⭐ | Evet | Rust |
+| **Gobuster** | ⭐⭐⭐⭐⭐ | İsteğe Bağlı (`-r`) | Go |
+| Dirb | ⭐⭐ | Evet (Otomatik) | C |
+| dirsearch | ⭐⭐⭐⭐ | Evet (`-r`) | Python |
+| ffuf | ⭐⭐⭐⭐⭐ | İsteğe Bağlı (`-recursion`) | Go |
+| Feroxbuster | ⭐⭐⭐⭐⭐ | Evet (Otomatik) | Rust |
 
 ---
 

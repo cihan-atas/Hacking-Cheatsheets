@@ -60,6 +60,19 @@
 | **Cross-Platform** | Windows, Linux, macOS |
 | **GUI & CLI** | Wireshark (GUI) and tshark (CLI) |
 
+### Packet Analysis Tools: Wireshark vs tshark vs tcpdump
+
+| Feature | Wireshark | tshark | tcpdump |
+|---------|-----------|--------|---------|
+| **Interface** | GUI (Graphical) | CLI (Terminal) | CLI (Terminal) |
+| **Resource Usage** | Higher (RAM & CPU) | Low / Moderate | Extremely Minimal |
+| **Remote (SSH / Headless)** | Requires X11 / Remote agent | Native headless / CLI | Native SSH pipe |
+| **Dissecting Engine** | Full Wireshark dissectors | Full Wireshark dissectors | Basic headers |
+| **Capture Filters** | BPF only | BPF only (`-f`) | BPF only (`-i`) |
+| **Display Filters** | ✅ Full GUI filter bar | ✅ Full Wireshark syntax (`-Y`) | ❌ None |
+| **Export Formats** | PCAP, CSV, XML, JSON | PCAP, JSON, CSV, Elastic, XML | PCAP, ASCII, Hex |
+| **Scripting & Automation**| Lua plugins, GUI | Shell, Python, jq | Shell / Awk / Sed |
+
 ### Use Cases
 
 | Use Case | Description |
