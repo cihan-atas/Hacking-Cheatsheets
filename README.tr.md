@@ -367,6 +367,11 @@
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
+| **Radare2 (r2)** | Güçlü UNIX tarzı komut satırı tersine mühendislik ve ikili analiz çatısı | [📄 Görüntüle](./Radare2/translations/README.tr.md) |
+| **pwndbg & GEF** | GDB için yeni nesil görsel context, heap ve exploit geliştirme eklentileri | [📄 Görüntüle](./pwndbg-GEF/translations/README.tr.md) |
+| **strace & ltrace** | Dinamik ikili analiz: sistem çağrıları ve kütüphane fonksiyonu izleyicileri | [📄 Görüntüle](./strace-ltrace/translations/README.tr.md) |
+| **Ropper** | İkili dosyalarda ROP/JOP parçacık bulucu ve zincir üretici (NX atlatma) | [📄 Görüntüle](./Ropper/translations/README.tr.md) |
+| **checksec & Binutils** | ELF güvenlik önlemleri denetimi (Canary, NX, PIE, RELRO) ve başlık analizi | [📄 Görüntüle](./checksec/translations/README.tr.md) |
 | **Ghidra** | NSA tarafından geliştirilen tersine mühendislik paketi | [📄 Görüntüle](./Ghidra/translations/README.tr.md) |
 | **GDB** | GNU Hata Ayıklayıcı (Linux Debugging) | [📄 Görüntüle](./GDB/translations/README.tr.md) |
 | **x64dbg** | Windows x64/x32 hata ayıklayıcısı | [📄 Görüntüle](./x64dbg/translations/README.tr.md) |

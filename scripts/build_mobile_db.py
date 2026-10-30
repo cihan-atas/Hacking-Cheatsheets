@@ -114,6 +114,11 @@ CATEGORY_MAPPING = {
     "GDB": "Reverse Engineering",
     "Ghidra": "Reverse Engineering",
     "x64dbg": "Reverse Engineering",
+    "Radare2": "Reverse Engineering",
+    "strace-ltrace": "Reverse Engineering",
+    "pwndbg-GEF": "Reverse Engineering",
+    "Ropper": "Reverse Engineering",
+    "checksec": "Reverse Engineering",
     "Autopsy": "Digital Forensics",
     "Binwalk": "Digital Forensics",
     "ExifTool": "Digital Forensics",
@@ -253,6 +258,11 @@ def extract_quick_commands(content, tool_name=""):
     elif "sliver" in t_lower: tool_tokens.extend(["sliver", "sliver-server", "sliver-client", "generate", "mtls", "https"])
     elif "pacu" in t_lower: tool_tokens.extend(["pacu", "python3 pacu.py", "run"])
     elif "prowler" in t_lower: tool_tokens.extend(["prowler"])
+    elif "radare2" in t_lower or t_lower == "r2": tool_tokens.extend(["r2", "radare2", "rabin2", "rasm2", "radiff2", "rafind2", "rax2"])
+    elif "strace" in t_lower or "ltrace" in t_lower: tool_tokens.extend(["strace", "ltrace"])
+    elif "pwndbg" in t_lower or "gef" in t_lower: tool_tokens.extend(["gdb", "pwndbg", "gef", "telescope", "vmmap", "checksec", "canary", "cyclic", "rop"])
+    elif "ropper" in t_lower or "ropgadget" in t_lower: tool_tokens.extend(["ropper", "ropgadget"])
+    elif "checksec" in t_lower or "binutils" in t_lower: tool_tokens.extend(["checksec", "readelf", "objdump", "nm", "strings"])
 
     primary = []
     secondary = []
@@ -416,6 +426,11 @@ def build_database(repo_root, output_db_path):
                 if "sliver" in slug: tags_list.extend(["c2", "command", "control", "implant", "beacon", "redteam", "post-exploit"])
                 if "pacu" in slug: tags_list.extend(["aws", "cloud", "privesc", "iam", "s3", "rhino", "exploit"])
                 if "prowler" in slug: tags_list.extend(["cloud", "aws", "azure", "gcp", "cis", "compliance", "audit"])
+                if "radare2" in slug or "r2" in slug: tags_list.extend(["reverse", "disassembly", "hex", "patch", "binary", "rabin2", "rasm2"])
+                if "strace" in slug or "ltrace" in slug: tags_list.extend(["syscall", "library", "dynamic", "trace", "process", "libc"])
+                if "pwndbg" in slug or "gef" in slug: tags_list.extend(["gdb", "pwn", "exploit", "heap", "stack", "context", "canary"])
+                if "ropper" in slug or "rop" in slug: tags_list.extend(["rop", "jop", "gadget", "chain", "nx", "dep", "bypass"])
+                if "checksec" in slug: tags_list.extend(["mitigation", "relro", "canary", "pie", "nx", "elf", "readelf", "objdump"])
                 tags = ",".join(set(tags_list))
 
                 icon = "security"

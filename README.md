@@ -365,6 +365,11 @@
 
 | Tool | Description | Cheatsheet |
 |------|-------------|------------|
+| **Radare2 (r2)** | Powerful UNIX-like CLI reverse engineering & binary analysis framework | [📄 View](./Radare2/README.md) |
+| **pwndbg & GEF** | Next-gen terminal GDB enhancements for reversing & binary exploitation | [📄 View](./pwndbg-GEF/README.md) |
+| **strace & ltrace** | Dynamic binary analysis: system call and library call tracing | [📄 View](./strace-ltrace/README.md) |
+| **Ropper** | Advanced ROP/JOP gadget finder and chain generator (NX bypass) | [📄 View](./Ropper/README.md) |
+| **checksec & Binutils** | ELF mitigation auditing (Canary, NX, PIE, RELRO) & header dissection | [📄 View](./checksec/README.md) |
 | **Ghidra** | NSA reverse engineering suite | [📄 View](./Ghidra/README.md) |
 | **GDB** | GNU Debugger (Linux debugging) | [📄 View](./GDB/README.md) |
 | **x64dbg** | Windows x64/x32 debugger | [📄 View](./x64dbg/README.md) |
@@ -599,6 +604,21 @@ Hacking-Cheatsheets/
 │
 ├── Prowler/                 # Multi-Cloud CIS Benchmark Auditor
 │   └── README.md            # Complete Prowler guide
+│
+├── Radare2/                 # UNIX-like CLI Reversing Framework
+│   └── README.md            # Complete Radare2 guide
+│
+├── strace-ltrace/           # Dynamic Syscall & Library Tracer
+│   └── README.md            # Complete strace & ltrace guide
+│
+├── pwndbg-GEF/              # GDB Binary Exploitation Enhancements
+│   └── README.md            # Complete pwndbg & GEF guide
+│
+├── Ropper/                  # ROP/JOP Gadget Finder & Chainer
+│   └── README.md            # Complete Ropper guide
+│
+├── checksec/                # Binary Mitigation & ELF Auditor
+│   └── README.md            # Complete checksec & binutils guide
 │
 ├── Nuclei/                  # Bug Bounty Scanner
 │   └── README.md            # Complete Nuclei guide
