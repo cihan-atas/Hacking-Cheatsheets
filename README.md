@@ -224,12 +224,15 @@
 | **Linux Commands** | Linux & Bash for pentesting | [📄 View](./Linux-Commands/README.md) |
 | **rlwrap** | Readline wrapper for reverse shells & dumb terminals | [📄 View](./rlwrap/README.md) |
 | **Netcat (nc)** | The TCP/IP Swiss Army Knife for raw network sockets & reverse shells | [📄 View](./Netcat/README.md) |
+| **Socat** | Bidirectional socket relay & fully interactive TTY shells | [📄 View](./Socat/README.md) |
 
 ### 🔍 Reconnaissance & Scanning
 
 | Tool | Description | Cheatsheet |
 |------|-------------|------------|
 | **Nmap** | Network discovery and security auditing | [📄 View](./Nmap/README.md) |
+| **RustScan** | Ultra-fast port scanner (65k ports in 3s) piped to Nmap | [📄 View](./RustScan/README.md) |
+| **Masscan** | Asynchronous Internet-scale TCP port scanner | [📄 View](./Masscan/README.md) |
 | **Gobuster** | Directory/DNS/VHost brute-forcing | [📄 View](./Gobuster/README.md) |
 | **Feroxbuster** | Fast, recursive web content discovery | [📄 View](./Feroxbuster/README.md) |
 | **dirsearch** | Advanced web path brute-forcer & crawler | [📄 View](./dirsearch/README.md) |
@@ -243,6 +246,9 @@
 | **SQLMap** | SQL injection automation tool | [📄 View](./SQLMap/README.md) |
 | **Burp Suite** | Web application security testing platform | [📄 View](./Burp-Suite/README.md) |
 | **OWASP ZAP** | Free web app security scanner | [📄 View](./OWASP-ZAP/README.md) |
+| **WPScan** | Black box WordPress security & vulnerability scanner | [📄 View](./WPScan/README.md) |
+| **Kiterunner** | Context-aware REST and GraphQL API endpoint discovery | [📄 View](./Kiterunner/README.md) |
+| **Wfuzz** | Flexible web fuzzer & parameter explorer | [📄 View](./Wfuzz/README.md) |
 
 ### 🔓 Password Cracking
 
@@ -251,6 +257,8 @@
 | **Hydra** | Fast network login cracker | [📄 View](./Hydra/README.md) |
 | **John the Ripper** | Legendary password cracker | [📄 View](./John-The-Ripper/README.md) |
 | **Hashcat** | World's fastest GPU password cracker | [📄 View](./Hashcat/README.md) |
+| **CeWL** | Custom wordlist generator & corporate website spider | [📄 View](./CeWL/README.md) |
+| **Crunch** | Pattern and charset based password wordlist generator | [📄 View](./Crunch/README.md) |
 
 ### 📡 Network Analysis
 
@@ -267,6 +275,7 @@
 | **⭐ BB Methodology** | Complete bug bounty hunting guide | [📄 View](./Bug-Bounty-Methodology/README.md) |
 | **Nuclei** | Template-based vulnerability scanner | [📄 View](./Nuclei/README.md) |
 | **ffuf** | Fast web fuzzer | [📄 View](./ffuf/README.md) |
+| **dnsx** | Fast & multipurpose DNS resolution and wildcard filter | [📄 View](./dnsx/README.md) |
 | **Subfinder** | Subdomain discovery | [📄 View](./Subfinder/README.md) |
 | **httpx** | HTTP probe & toolkit | [📄 View](./httpx/README.md) |
 | **Amass** | In-depth attack surface mapping | [📄 View](./Amass/README.md) |
@@ -321,6 +330,7 @@
 | **Google Dorking** | Advanced Google search techniques | [📄 View](./Google-Dorking/README.md) |
 | **Shodan** | IoT & device search engine | [📄 View](./Shodan/README.md) |
 | **GitHub Dorking** | Secret hunting in repositories | [📄 View](./GitHub-Dorking/README.md) |
+| **TruffleHog** | Find leaked credentials & API keys with live verification | [📄 View](./TruffleHog/README.md) |
 
 ### 🔝 Privilege Escalation
 
@@ -362,6 +372,8 @@
 |------|-------------|------------|
 | **Ligolo-ng** | Advanced TUN-based pivoting & internal routing | [📄 View](./Ligolo-ng/README.md) |
 | **Chisel** | Fast TCP/UDP tunnel over HTTP via SSH | [📄 View](./Chisel/README.md) |
+| **Proxychains** | Dynamic SOCKS/HTTP proxy chaining via LD_PRELOAD | [📄 View](./Proxychains/README.md) |
+| **sshuttle** | Transparent subnet VPN over standard unprivileged SSH | [📄 View](./sshuttle/README.md) |
 
 ### 🏢 Active Directory
 
@@ -370,6 +382,9 @@
 | **⭐ AD Methodology** | Step-by-step attack guide | [📄 View](./AD-Attack-Methodology/README.md) |
 | **NetExec (nxc)** | Modern network & Active Directory swiss army knife | [📄 View](./NetExec/README.md) |
 | **Certipy** | Active Directory Certificate Services (AD CS) abuse | [📄 View](./Certipy/README.md) |
+| **PKINITtools** | Kerberos PKINIT ticket requests & UnPAC-the-hash toolkit | [📄 View](./PKINITtools/README.md) |
+| **Coercer** | Multi-protocol Windows authentication coercion engine | [📄 View](./Coercer/README.md) |
+| **Snaffler** | SMB share crawler for KeePass, config files & cleartext creds | [📄 View](./Snaffler/README.md) |
 | **BloodHound** | AD attack path visualization | [📄 View](./BloodHound/README.md) |
 | **Impacket** | Python AD attack toolkit | [📄 View](./Impacket/README.md) |
 | **CrackMapExec** | AD Swiss Army knife | [📄 View](./CrackMapExec/README.md) |
@@ -487,6 +502,51 @@ Hacking-Cheatsheets/
 │
 ├── Netcat/                  # TCP/IP Swiss Army Knife & Raw Sockets
 │   └── README.md            # Complete Netcat guide
+│
+├── Socat/                   # Bidirectional Socket Relay & Full PTY Shells
+│   └── README.md            # Complete Socat guide
+│
+├── Proxychains/             # Dynamic SOCKS/HTTP Proxy Wrapper
+│   └── README.md            # Complete Proxychains guide
+│
+├── sshuttle/                # Transparent Subnet VPN over SSH
+│   └── README.md            # Complete sshuttle guide
+│
+├── RustScan/                # Ultra-Fast 3-Second Port Scanner
+│   └── README.md            # Complete RustScan guide
+│
+├── Masscan/                 # Asynchronous Internet-Scale Port Scanner
+│   └── README.md            # Complete Masscan guide
+│
+├── WPScan/                  # WordPress Security & Vulnerability Scanner
+│   └── README.md            # Complete WPScan guide
+│
+├── Kiterunner/              # Context-Aware API Route Discovery Engine
+│   └── README.md            # Complete Kiterunner guide
+│
+├── Wfuzz/                   # Web Application Fuzzer & Parameter Explorer
+│   └── README.md            # Complete Wfuzz guide
+│
+├── dnsx/                    # Fast DNS Toolkit & Wildcard Filter
+│   └── README.md            # Complete dnsx guide
+│
+├── Snaffler/                # SMB Share Secret & Credential Hunter
+│   └── README.md            # Complete Snaffler guide
+│
+├── Coercer/                 # Multi-Protocol Windows Coercion Engine
+│   └── README.md            # Complete Coercer guide
+│
+├── PKINITtools/             # Kerberos PKINIT & UnPAC-the-Hash Toolkit
+│   └── README.md            # Complete PKINITtools guide
+│
+├── CeWL/                    # Custom Wordlist Generator from Websites
+│   └── README.md            # Complete CeWL guide
+│
+├── Crunch/                  # Pattern-Based Wordlist Generator
+│   └── README.md            # Complete Crunch guide
+│
+├── TruffleHog/              # Live-Verified Leaked Secret Scanner
+│   └── README.md            # Complete TruffleHog guide
 │
 ├── Nuclei/                  # Bug Bounty Scanner
 │   └── README.md            # Complete Nuclei guide

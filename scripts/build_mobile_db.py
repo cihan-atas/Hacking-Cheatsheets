@@ -31,6 +31,9 @@ CATEGORY_MAPPING = {
     "LOLBAS-GTFOBins": "Privilege Escalation",
     "Mimikatz": "Privilege Escalation",
     "Nmap": "Recon & Scanning",
+    "RustScan": "Recon & Scanning",
+    "Masscan": "Recon & Scanning",
+    "dnsx": "Recon & Scanning",
     "Feroxbuster": "Recon & Scanning",
     "Dirb": "Recon & Scanning",
     "dirsearch": "Recon & Scanning",
@@ -48,6 +51,9 @@ CATEGORY_MAPPING = {
     "Burp-Suite": "Web Application Testing",
     "OWASP-ZAP": "Web Application Testing",
     "SQLMap": "Web Application Testing",
+    "WPScan": "Web Security & API",
+    "Kiterunner": "Web Security & API",
+    "Wfuzz": "Web Security & API",
     "API-Security": "Web Security & API",
     "Auth-Bypass": "Web Security & API",
     "Cache-Poisoning": "Web Security & API",
@@ -69,9 +75,12 @@ CATEGORY_MAPPING = {
     "Linux-Commands": "Exploitation & Shells",
     "rlwrap": "Exploitation & Shells",
     "Netcat": "Exploitation & Shells",
+    "Socat": "Exploitation & Shells",
     "Hydra": "Password Cracking",
     "John-The-Ripper": "Password Cracking",
     "Hashcat": "Password Cracking",
+    "CeWL": "Password Cracking",
+    "Crunch": "Password Cracking",
     "Wireshark": "Network Analysis",
     "tcpdump": "Network Analysis",
     "tshark": "Network Analysis",
@@ -83,7 +92,25 @@ CATEGORY_MAPPING = {
     "GitHub-Dorking": "OSINT & Dorking",
     "Shodan": "OSINT & Dorking",
     "OSINT": "OSINT & Dorking",
+    "TruffleHog": "OSINT & Dorking",
     "Social-Engineering": "Social Engineering",
+    "Ligolo-ng": "Pivoting & Tunneling",
+    "Chisel": "Pivoting & Tunneling",
+    "Proxychains": "Pivoting & Tunneling",
+    "sshuttle": "Pivoting & Tunneling",
+    "BloodHound": "Active Directory & Network",
+    "Certipy": "Active Directory & Network",
+    "CrackMapExec": "Active Directory & Network",
+    "Evil-WinRM": "Active Directory & Network",
+    "Impacket": "Active Directory & Network",
+    "Kerbrute": "Active Directory & Network",
+    "NetExec": "Active Directory & Network",
+    "PowerView": "Active Directory & Network",
+    "Responder": "Active Directory & Network",
+    "Rubeus": "Active Directory & Network",
+    "Snaffler": "Active Directory & Network",
+    "Coercer": "Active Directory & Network",
+    "PKINITtools": "Active Directory & Network",
     "GDB": "Reverse Engineering",
     "Ghidra": "Reverse Engineering",
     "x64dbg": "Reverse Engineering",
@@ -185,6 +212,21 @@ def extract_quick_commands(content, tool_name=""):
     elif "tshark" in t_lower: tool_tokens.extend(["tshark"])
     elif "rlwrap" in t_lower: tool_tokens.extend(["rlwrap", "nc", "stty"])
     elif "netcat" in t_lower or t_lower == "nc": tool_tokens.extend(["nc", "ncat", "netcat", "nc.openbsd", "nc.traditional"])
+    elif "socat" in t_lower: tool_tokens.extend(["socat"])
+    elif "proxychains" in t_lower: tool_tokens.extend(["proxychains", "proxychains4"])
+    elif "sshuttle" in t_lower: tool_tokens.extend(["sshuttle"])
+    elif "rustscan" in t_lower: tool_tokens.extend(["rustscan"])
+    elif "masscan" in t_lower: tool_tokens.extend(["masscan"])
+    elif "wpscan" in t_lower: tool_tokens.extend(["wpscan"])
+    elif "kiterunner" in t_lower: tool_tokens.extend(["kr", "kiterunner"])
+    elif "wfuzz" in t_lower: tool_tokens.extend(["wfuzz"])
+    elif "dnsx" in t_lower: tool_tokens.extend(["dnsx"])
+    elif "snaffler" in t_lower: tool_tokens.extend(["snaffler", "snaffler.exe"])
+    elif "coercer" in t_lower: tool_tokens.extend(["coercer", "python3 coercer.py"])
+    elif "pkinit" in t_lower: tool_tokens.extend(["gettgtpkinit.py", "getskeyhash.py", "gettgtpkinit", "getskeyhash"])
+    elif "cewl" in t_lower: tool_tokens.extend(["cewl"])
+    elif "crunch" in t_lower: tool_tokens.extend(["crunch"])
+    elif "trufflehog" in t_lower: tool_tokens.extend(["trufflehog"])
 
     primary = []
     secondary = []
@@ -320,6 +362,21 @@ def build_database(repo_root, output_db_path):
                 if "dirsearch" in slug: tags_list.extend(["fuzz", "directory", "brute", "path", "web"])
                 if "rlwrap" in slug: tags_list.extend(["shell", "tty", "reverse", "readline", "netcat", "nc"])
                 if "netcat" in slug or "nc" in slug: tags_list.extend(["nc", "ncat", "socket", "reverse", "shell", "listener", "port", "transfer", "openbsd", "traditional"])
+                if "socat" in slug: tags_list.extend(["socket", "pty", "ssl", "relay", "port", "forward"])
+                if "proxychains" in slug: tags_list.extend(["socks", "proxy", "pivot", "tunnel", "traffic", "preload"])
+                if "sshuttle" in slug: tags_list.extend(["vpn", "ssh", "transparent", "subnet", "pivot", "iptables"])
+                if "rustscan" in slug: tags_list.extend(["port", "scanner", "rust", "fast", "nmap"])
+                if "masscan" in slug: tags_list.extend(["port", "scanner", "syn", "asynchronous", "internet"])
+                if "wpscan" in slug: tags_list.extend(["wordpress", "plugin", "theme", "cms", "vuln"])
+                if "kiterunner" in slug: tags_list.extend(["api", "rest", "graphql", "swagger", "openapi", "route"])
+                if "wfuzz" in slug: tags_list.extend(["fuzz", "parameter", "web", "matrix", "hidden"])
+                if "dnsx" in slug: tags_list.extend(["dns", "resolve", "subdomain", "wildcard", "ptr"])
+                if "snaffler" in slug: tags_list.extend(["smb", "share", "keepass", "kdbx", "secret", "cred"])
+                if "coercer" in slug: tags_list.extend(["rpc", "coerce", "petitpotam", "printerbug", "relay", "ntlm"])
+                if "pkinit" in slug: tags_list.extend(["pkinit", "kerberos", "tgt", "unpac", "shadow", "adcs"])
+                if "cewl" in slug: tags_list.extend(["wordlist", "spider", "crawl", "password", "custom"])
+                if "crunch" in slug: tags_list.extend(["wordlist", "pattern", "mask", "pin", "generator"])
+                if "trufflehog" in slug: tags_list.extend(["secret", "git", "api", "key", "token", "credential", "verify"])
                 tags = ",".join(set(tags_list))
 
                 icon = "security"

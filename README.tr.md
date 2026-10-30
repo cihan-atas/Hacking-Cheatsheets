@@ -226,12 +226,15 @@
 | **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/translations/README.tr.md) |
 | **rlwrap** | Ters bağlantı kabukları için readline sarmalayıcısı | [📄 Görüntüle](./rlwrap/translations/README.tr.md) |
 | **Netcat (nc)** | Ham ağ soketleri, port dinleme ve ters kabuklar için TCP/IP İsviçre çakısı | [📄 Görüntüle](./Netcat/translations/README.tr.md) |
+| **Socat** | Çift yönlü soket rölesi ve tam etkileşimli PTY kabukları | [📄 Görüntüle](./Socat/translations/README.tr.md) |
 
 ### 🔍 Keşif & Tarama (Reconnaissance & Scanning)
 
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
 | **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/translations/README.tr.md) |
+| **RustScan** | 65.535 portu 3 saniyede tarayıp Nmap'e aktaran modern tarayıcı | [📄 Görüntüle](./RustScan/translations/README.tr.md) |
+| **Masscan** | Asenkron internet ölçeğinde ultra hızlı TCP port tarayıcısı | [📄 Görüntüle](./Masscan/translations/README.tr.md) |
 | **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/translations/README.tr.md) |
 | **Feroxbuster** | Hızlı, basit ve özyinelemeli (recursive) web içerik keşif aracı | [📄 Görüntüle](./Feroxbuster/translations/README.tr.md) |
 | **dirsearch** | Gelişmiş web dizin ve dosya kaba kuvvet (brute-force) aracı | [📄 Görüntüle](./dirsearch/translations/README.tr.md) |
@@ -245,6 +248,9 @@
 | **SQLMap** | Otomatik SQL enjeksiyonu ve veritabanı ele geçirme | [📄 Görüntüle](./SQLMap/translations/README.tr.md) |
 | **Burp Suite** | Web uygulaması güvenlik testi platformu | [📄 Görüntüle](./Burp-Suite/translations/README.tr.md) |
 | **OWASP ZAP** | Açık kaynaklı web güvenlik tarayıcısı | [📄 Görüntüle](./OWASP-ZAP/translations/README.tr.md) |
+| **WPScan** | WordPress çekirdek, eklenti, tema ve kullanıcı güvenlik tarayıcısı | [📄 Görüntüle](./WPScan/translations/README.tr.md) |
+| **Kiterunner** | Bağlam duyarlı REST ve GraphQL API rota keşif motoru | [📄 Görüntüle](./Kiterunner/translations/README.tr.md) |
+| **Wfuzz** | Esnek web uygulaması fuzzer'ı ve gizli parametre keşif aracı | [📄 Görüntüle](./Wfuzz/translations/README.tr.md) |
 
 ### 🔓 Parola Kırma (Password Cracking)
 
@@ -253,6 +259,8 @@
 | **Hydra** | Hızlı ağ servisi parola deneme aracı | [📄 Görüntüle](./Hydra/translations/README.tr.md) |
 | **John the Ripper** | Efsanevi çevrimdışı parola kırıcı | [📄 Görüntüle](./John-The-Ripper/translations/README.tr.md) |
 | **Hashcat** | Dünyanın en hızlı GPU destekli parola kırıcısı | [📄 Görüntüle](./Hashcat/translations/README.tr.md) |
+| **CeWL** | Web sitelerinden kuruma özel parola sözlüğü üreteci | [📄 Görüntüle](./CeWL/translations/README.tr.md) |
+| **Crunch** | Karakter seti ve şablon tabanlı parola sözlüğü üreteci | [📄 Görüntüle](./Crunch/translations/README.tr.md) |
 
 ### 📡 Ağ Analizi (Network Analysis)
 
@@ -269,6 +277,7 @@
 | **⭐ BB Metodolojisi** | Eksiksiz bug bounty avcılık metodolojisi | [📄 Görüntüle](./Bug-Bounty-Methodology/translations/README.tr.md) |
 | **Nuclei** | Şablon (template) tabanlı hızlı zafiyet tarayıcı | [📄 Görüntüle](./Nuclei/translations/README.tr.md) |
 | **ffuf** | Yüksek performanslı web fuzzing aracı | [📄 Görüntüle](./ffuf/translations/README.tr.md) |
+| **dnsx** | Hızlı DNS çözümleyici ve wildcard filtreleme aracı | [📄 Görüntüle](./dnsx/translations/README.tr.md) |
 | **Subfinder** | Pasif alt alan adı (subdomain) keşfi | [📄 Görüntüle](./Subfinder/translations/README.tr.md) |
 | **httpx** | Çok amaçlı hızlı HTTP araştırma ve durum aracı | [📄 Görüntüle](./httpx/translations/README.tr.md) |
 | **Amass** | Derinlemesine saldırı yüzeyi haritalama | [📄 Görüntüle](./Amass/translations/README.tr.md) |
@@ -323,6 +332,7 @@
 | **Google Dorking** | İleri düzey Google arama operatörleri | [📄 Görüntüle](./Google-Dorking/translations/README.tr.md) |
 | **Shodan** | İnternete bağlı cihaz arama motoru | [📄 Görüntüle](./Shodan/translations/README.tr.md) |
 | **GitHub Dorking** | Depolarda gizli anahtar ve parola avı | [📄 Görüntüle](./GitHub-Dorking/translations/README.tr.md) |
+| **TruffleHog** | Canlı doğrulama ile sızdırılmış API anahtarı ve secret avcısı | [📄 Görüntüle](./TruffleHog/translations/README.tr.md) |
 
 ### 🔝 Yetki Yükseltme (Privilege Escalation)
 
@@ -364,6 +374,8 @@
 |------|----------|---------|
 | **Ligolo-ng** | TUN arayüzü tabanlı gelişmiş ağ geçişi ve iç yönlendirme | [📄 Görüntüle](./Ligolo-ng/translations/README.tr.md) |
 | **Chisel** | SSH tabanlı HTTP/WebSocket üzerinden hızlı TCP/UDP tünelleme | [📄 Görüntüle](./Chisel/translations/README.tr.md) |
+| **Proxychains** | LD_PRELOAD ile dinamik SOCKS/HTTP vekil tünelleme | [📄 Görüntüle](./Proxychains/translations/README.tr.md) |
+| **sshuttle** | Standart SSH oturumu üzerinden şeffaf iç ağ VPN tüneli | [📄 Görüntüle](./sshuttle/translations/README.tr.md) |
 
 ### 🏢 Active Directory Pentesting
 
@@ -372,6 +384,9 @@
 | **⭐ AD Metodolojisi** | Adım adım etki alanı ele geçirme kılavuzu | [📄 Görüntüle](./AD-Attack-Methodology/translations/README.tr.md) |
 | **NetExec (nxc)** | Ağ ve Active Directory denetimlerinin modern İsviçre çakısı | [📄 Görüntüle](./NetExec/translations/README.tr.md) |
 | **Certipy** | Active Directory Sertifika Hizmetleri (AD CS) istismarı | [📄 Görüntüle](./Certipy/translations/README.tr.md) |
+| **PKINITtools** | Kerberos PKINIT bilet istekleri ve UnPAC-the-hash araç seti | [📄 Görüntüle](./PKINITtools/translations/README.tr.md) |
+| **Coercer** | Çoklu protokol Windows kimlik doğrulama zorlama motoru | [📄 Görüntüle](./Coercer/translations/README.tr.md) |
+| **Snaffler** | SMB paylaşımlarında KeePass, ayar dosyaları ve açık parola avcısı | [📄 Görüntüle](./Snaffler/translations/README.tr.md) |
 | **BloodHound** | AD saldırı yolu görselleştirme | [📄 Görüntüle](./BloodHound/translations/README.tr.md) |
 | **Impacket** | Python tabanlı AD saldırı araç takımı | [📄 Görüntüle](./Impacket/translations/README.tr.md) |
 | **CrackMapExec** | AD ağlarının İsviçre çakısı | [📄 Görüntüle](./CrackMapExec/translations/README.tr.md) |
