@@ -125,6 +125,8 @@
 |----------|-------------|-------|
 | **Docker** | Container escape, image analysis, daemon exploitation | [📄 View](./Container-Security/Docker-Pentesting.md) |
 | **Kubernetes** | RBAC bypass, pod escape, secrets extraction | [📄 View](./Container-Security/Kubernetes-Pentesting.md) |
+| **Trivy** | Comprehensive container, k8s, secret & SBOM scanner | [📄 View](./Trivy/README.md) |
+| **kube-bench** | CIS Kubernetes Benchmark compliance auditor | [📄 View](./kube-bench/README.md) |
 
 👉 **[Full Container Security Overview](./Container-Security/README.md)**
 
@@ -246,6 +248,7 @@
 | **dirsearch** | Advanced web path brute-forcer & crawler | [📄 View](./dirsearch/README.md) |
 | **Dirb** | Web content scanner & dictionary crawler | [📄 View](./Dirb/README.md) |
 | **Nikto** | Web server scanner | [📄 View](./Nikto/README.md) |
+| **dnsrecon** | Advanced DNS reconnaissance, zone transfer & SRV enum | [📄 View](./dnsrecon/README.md) |
 
 ### 🌐 Web Application Testing
 
@@ -259,6 +262,10 @@
 | **WPScan** | Black box WordPress security & vulnerability scanner | [📄 View](./WPScan/README.md) |
 | **Kiterunner** | Context-aware REST and GraphQL API endpoint discovery | [📄 View](./Kiterunner/README.md) |
 | **Wfuzz** | Flexible web fuzzer & parameter explorer | [📄 View](./Wfuzz/README.md) |
+| **jwt_tool** | Comprehensive JWT manipulation, crack & spoofing toolkit | [📄 View](./jwt_tool/README.md) |
+| **smuggler** | Fast HTTP request smuggling (CL.TE/TE.CL) scanner | [📄 View](./smuggler/README.md) |
+| **CORSy** | Cross-Origin Resource Sharing (CORS) misconfiguration scanner | [📄 View](./CORSy/README.md) |
+| **InQL** | Advanced GraphQL security scanner & introspection analyzer | [📄 View](./InQL/README.md) |
 
 ### 🔓 Password Cracking
 
@@ -269,6 +276,9 @@
 | **Hashcat** | World's fastest GPU password cracker | [📄 View](./Hashcat/README.md) |
 | **CeWL** | Custom wordlist generator & corporate website spider | [📄 View](./CeWL/README.md) |
 | **Crunch** | Pattern and charset based password wordlist generator | [📄 View](./Crunch/README.md) |
+| **name-that-hash** | Fast hash identifier with Hashcat & John format mapping | [📄 View](./name-that-hash/README.md) |
+| **CUPP** | Common User Passwords Profiler (custom targeted wordlists) | [📄 View](./CUPP/README.md) |
+| **fcrackzip** | Fast multi-threaded password cracker for ZIP archives | [📄 View](./fcrackzip/README.md) |
 
 ### 📡 Network Analysis
 
@@ -277,6 +287,10 @@
 | **Wireshark** | Network protocol analyzer | [📄 View](./Wireshark/README.md) |
 | **tshark** | Command-line network protocol analyzer & packet dissector | [📄 View](./tshark/README.md) |
 | **tcpdump** | Command-line packet analyzer | [📄 View](./tcpdump/README.md) |
+| **mitmproxy** | Interactive SSL/TLS-capable HTTP/HTTPS proxy & scriptable flow | [📄 View](./mitmproxy/README.md) |
+| **Scapy** | Interactive packet manipulation, crafting & dissection library | [📄 View](./Scapy/README.md) |
+| **Ettercap** | Comprehensive LAN MITM, ARP poisoning & packet filter suite | [📄 View](./Ettercap/README.md) |
+| **Yersinia** | Layer-2 protocol attack framework (STP, CDP, DTP, DHCP) | [📄 View](./Yersinia/README.md) |
 
 ### 🐛 Bug Bounty
 
@@ -342,6 +356,9 @@
 | **GitHub Dorking** | Secret hunting in repositories | [📄 View](./GitHub-Dorking/README.md) |
 | **TruffleHog** | Find leaked credentials & API keys with live verification | [📄 View](./TruffleHog/README.md) |
 | **Gitleaks** | Fast secret detection in git repos, commit histories & files | [📄 View](./Gitleaks/README.md) |
+| **theHarvester** | OSINT gathering for emails, subdomains, hosts & employee names | [📄 View](./theHarvester/README.md) |
+| **Sherlock** | Social media account hunter across 400+ platforms | [📄 View](./Sherlock/README.md) |
+| **GitTools** | Exploit publicly exposed .git repositories (dumper, extractor) | [📄 View](./GitTools/README.md) |
 
 ### 🔝 Privilege Escalation
 
@@ -351,6 +368,7 @@
 | **LOLBAS & GTFOBins** | Living off the land binaries & scripts | [📄 View](./LOLBAS-GTFOBins/README.md) |
 | **Linux PrivEsc** | Linux privilege escalation techniques | [📄 View](./Linux-PrivEsc/README.md) |
 | **Windows PrivEsc** | Windows privilege escalation techniques | [📄 View](./Windows-PrivEsc/README.md) |
+| **LaZagne** | Post-exploitation password recovery for browsers, Wi-Fi & sysadmin | [📄 View](./LaZagne/README.md) |
 
 ### 🔬 Digital Forensics
 
@@ -381,6 +399,8 @@
 | **Aircrack-ng** | WiFi hacking suite (WPA/WPA2) | [📄 View](./Aircrack-ng/README.md) |
 | **Wifite** | Automated WiFi auditor | [📄 View](./Wifite/README.md) |
 | **Bettercap** | Network attack framework (MITM/WiFi) | [📄 View](./Bettercap/README.md) |
+| **hcxdumptool** | Clientless PMKID Wi-Fi packet capture for Hashcat mode 22000 | [📄 View](./hcxdumptool/README.md) |
+| **Reaver** | WPS PIN brute-forcing & Pixie Dust attack suite | [📄 View](./Reaver/README.md) |
 
 ### 🔄 Pivoting & Tunneling
 
@@ -447,7 +467,7 @@ code Metasploit/
 All cheatsheets are in Markdown format, and a native **Android application** is included directly in this repository ([`android/`](android/)):
 
 - 📱 **Native Android App:** Fast, offline, dark-themed UI built with Jetpack Compose.
-- ⚡ **Instant Search:** Full-text search across all 138 guides (EN & TR).
+- ⚡ **Instant Search:** Full-text search across all 195 guides (EN & TR).
 - 📋 **1-Tap Copy:** Copy any command syntax instantly to clipboard.
 - 🛠️ **Penetration Testing Utilities:** Reverse shell generator, encoders/decoders, hash identifier.
 - 📦 **Build APK:** `cd android && ./gradlew assembleDebug` (Output: `android/app/build/outputs/apk/debug/app-debug.apk`)
@@ -640,6 +660,66 @@ Hacking-Cheatsheets/
 │
 ├── GitHub-Dorking/          # Secret Hunting
 │   └── README.md            # Complete GitHub Dorking guide
+│
+├── jwt_tool/                # JWT Manipulation & Cracking
+│   └── README.md            # Complete jwt_tool guide
+│
+├── GitTools/                # Exposed .git Directory Exploiter
+│   └── README.md            # Complete GitTools guide
+│
+├── smuggler/                # HTTP Request Smuggling Scanner
+│   └── README.md            # Complete smuggler guide
+│
+├── CORSy/                   # CORS Misconfiguration Scanner
+│   └── README.md            # Complete CORSy guide
+│
+├── InQL/                    # GraphQL Security & Introspection
+│   └── README.md            # Complete InQL guide
+│
+├── mitmproxy/               # Interactive SSL/TLS Interception Proxy
+│   └── README.md            # Complete mitmproxy guide
+│
+├── Scapy/                   # Interactive Packet Manipulation & Crafting
+│   └── README.md            # Complete Scapy guide
+│
+├── Ettercap/                # LAN MITM, ARP Poisoning & Sniffer
+│   └── README.md            # Complete Ettercap guide
+│
+├── Yersinia/                # Layer-2 Protocol Attack Framework
+│   └── README.md            # Complete Yersinia guide
+│
+├── name-that-hash/          # Hash Identification & Crack Mapping
+│   └── README.md            # Complete Name-That-Hash guide
+│
+├── LaZagne/                 # Multi-Platform Credential Harvester
+│   └── README.md            # Complete LaZagne guide
+│
+├── CUPP/                    # Common User Passwords Profiler
+│   └── README.md            # Complete CUPP guide
+│
+├── fcrackzip/               # Fast CLI ZIP Password Cracker
+│   └── README.md            # Complete fcrackzip guide
+│
+├── theHarvester/            # Public OSINT Reconnaissance Suite
+│   └── README.md            # Complete theHarvester guide
+│
+├── Sherlock/                # 400+ Social Media Handle Hunter
+│   └── README.md            # Complete Sherlock guide
+│
+├── dnsrecon/                # DNS Enumeration & Zone Transfers
+│   └── README.md            # Complete dnsrecon guide
+│
+├── hcxdumptool/             # Clientless PMKID Wi-Fi Capture
+│   └── README.md            # Complete hcxdumptool guide
+│
+├── Reaver/                  # WPS PIN & Pixie Dust Attack
+│   └── README.md            # Complete Reaver guide
+│
+├── Trivy/                   # Container, K8s & SBOM Scanner
+│   └── README.md            # Complete Trivy guide
+│
+├── kube-bench/              # CIS Kubernetes Benchmark Auditor
+│   └── README.md            # Complete kube-bench guide
 │
 └── ...
 ```

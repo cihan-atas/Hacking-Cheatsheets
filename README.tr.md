@@ -127,6 +127,8 @@
 |----------|----------|---------|
 | **Docker** | Konteynerden kaçış (escape), imaj analizi, daemon istismarı | [📄 Görüntüle](./Container-Security/translations/Docker-Pentesting.tr.md) |
 | **Kubernetes** | RBAC atlatma, pod'dan kaçış, gizli veri (secrets) çıkarma | [📄 Görüntüle](./Container-Security/translations/Kubernetes-Pentesting.tr.md) |
+| **Trivy** | Kapsamlı konteyner, K8s, açık anahtar ve SBOM güvenlik tarayıcısı | [📄 Görüntüle](./Trivy/translations/README.tr.md) |
+| **kube-bench** | CIS Kubernetes Benchmark standartlarına uygunluk denetçisi | [📄 Görüntüle](./kube-bench/translations/README.tr.md) |
 
 👉 **[Tüm Konteyner Güvenliği Özeti](./Container-Security/translations/README.tr.md)**
 
@@ -248,6 +250,7 @@
 | **dirsearch** | Gelişmiş web dizin ve dosya kaba kuvvet (brute-force) aracı | [📄 Görüntüle](./dirsearch/translations/README.tr.md) |
 | **Dirb** | Web sunucusu sözlük tabanlı içerik tarayıcısı | [📄 Görüntüle](./Dirb/translations/README.tr.md) |
 | **Nikto** | Web sunucusu güvenlik tarayıcısı | [📄 Görüntüle](./Nikto/translations/README.tr.md) |
+| **dnsrecon** | Gelişmiş DNS keşfi, bölge transferi (AXFR) ve SRV numaralandırma | [📄 Görüntüle](./dnsrecon/translations/README.tr.md) |
 
 ### 🌐 Web Uygulama Güvenlik Testi
 
@@ -261,6 +264,10 @@
 | **WPScan** | WordPress çekirdek, eklenti, tema ve kullanıcı güvenlik tarayıcısı | [📄 Görüntüle](./WPScan/translations/README.tr.md) |
 | **Kiterunner** | Bağlam duyarlı REST ve GraphQL API rota keşif motoru | [📄 Görüntüle](./Kiterunner/translations/README.tr.md) |
 | **Wfuzz** | Esnek web uygulaması fuzzer'ı ve gizli parametre keşif aracı | [📄 Görüntüle](./Wfuzz/translations/README.tr.md) |
+| **jwt_tool** | Kapsamlı JSON Web Token (JWT) manipülasyon ve kırma araç seti | [📄 Görüntüle](./jwt_tool/translations/README.tr.md) |
+| **smuggler** | Hızlı HTTP Request Smuggling (CL.TE/TE.CL) zafiyet tarayıcısı | [📄 Görüntüle](./smuggler/translations/README.tr.md) |
+| **CORSy** | Çapraz Kaynak Paylaşımı (CORS) yapılandırma hatası tarayıcısı | [📄 Görüntüle](./CORSy/translations/README.tr.md) |
+| **InQL** | Gelişmiş GraphQL güvenlik tarayıcısı ve şema analizcisi | [📄 Görüntüle](./InQL/translations/README.tr.md) |
 
 ### 🔓 Parola Kırma (Password Cracking)
 
@@ -271,6 +278,9 @@
 | **Hashcat** | Dünyanın en hızlı GPU destekli parola kırıcısı | [📄 Görüntüle](./Hashcat/translations/README.tr.md) |
 | **CeWL** | Web sitelerinden kuruma özel parola sözlüğü üreteci | [📄 Görüntüle](./CeWL/translations/README.tr.md) |
 | **Crunch** | Karakter seti ve şablon tabanlı parola sözlüğü üreteci | [📄 Görüntüle](./Crunch/translations/README.tr.md) |
+| **name-that-hash** | Hashcat ve John karşılıklarıyla modern hash tespit aracı | [📄 Görüntüle](./name-that-hash/translations/README.tr.md) |
+| **CUPP** | Hedefe yönelik insan profillemesiyle parola sözlüğü üreteci | [📄 Görüntüle](./CUPP/translations/README.tr.md) |
+| **fcrackzip** | Parola korumalı ZIP arşivleri için hızlı komut satırı kırıcısı | [📄 Görüntüle](./fcrackzip/translations/README.tr.md) |
 
 ### 📡 Ağ Analizi (Network Analysis)
 
@@ -279,6 +289,10 @@
 | **Wireshark** | Ağ protokolü ve paket inceleme aracı | [📄 Görüntüle](./Wireshark/translations/README.tr.md) |
 | **tshark** | Komut satırı ağ paketi analizcisi ve protokol ayrıştırıcısı | [📄 Görüntüle](./tshark/translations/README.tr.md) |
 | **tcpdump** | Komut satırı ağ paketi yakalama ve inceleme | [📄 Görüntüle](./tcpdump/translations/README.tr.md) |
+| **mitmproxy** | Etkileşimli SSL/TLS destekli HTTP proxy ve akış manipülatörü | [📄 Görüntüle](./mitmproxy/translations/README.tr.md) |
+| **Scapy** | Python tabanlı etkileşimli paket üretme, değiştirme ve dinleme | [📄 Görüntüle](./Scapy/translations/README.tr.md) |
+| **Ettercap** | Kapsamlı LAN MITM, ARP zehirleme ve paket filtreleme çatısı | [📄 Görüntüle](./Ettercap/translations/README.tr.md) |
+| **Yersinia** | Katman 2 ağ saldırı çerçevesi (STP, CDP, DTP, DHCP, HSRP) | [📄 Görüntüle](./Yersinia/translations/README.tr.md) |
 
 ### 🐛 Bug Bounty & Varlık Keşfi
 
@@ -344,6 +358,9 @@
 | **GitHub Dorking** | Depolarda gizli anahtar ve parola avı | [📄 Görüntüle](./GitHub-Dorking/translations/README.tr.md) |
 | **TruffleHog** | Canlı doğrulama ile sızdırılmış API anahtarı ve secret avcısı | [📄 Görüntüle](./TruffleHog/translations/README.tr.md) |
 | **Gitleaks** | Git depolarında parola, API token ve gizli bilgi avcısı | [📄 Görüntüle](./Gitleaks/translations/README.tr.md) |
+| **theHarvester** | E-posta, subdomain ve çalışan keşfi için kamuya açık OSINT aracı | [📄 Görüntüle](./theHarvester/translations/README.tr.md) |
+| **Sherlock** | 400'den fazla sosyal ağda kullanıcı adı avcısı | [📄 Görüntüle](./Sherlock/translations/README.tr.md) |
+| **GitTools** | İnternete açık `.git` depolarını sömürme (dumper, extractor, finder) | [📄 Görüntüle](./GitTools/translations/README.tr.md) |
 
 ### 🔝 Yetki Yükseltme (Privilege Escalation)
 
@@ -353,6 +370,7 @@
 | **LOLBAS & GTFOBins** | İşletim sistemi dahili ikilileriyle yetki yükseltme | [📄 Görüntüle](./LOLBAS-GTFOBins/translations/README.tr.md) |
 | **Linux PrivEsc** | Linux yetki yükseltme teknikleri | [📄 Görüntüle](./Linux-PrivEsc/translations/README.tr.md) |
 | **Windows PrivEsc** | Windows yetki yükseltme teknikleri | [📄 Görüntüle](./Windows-PrivEsc/translations/README.tr.md) |
+| **LaZagne** | Tarayıcılar, Wi-Fi ve sysadmin araçlarından yerel parola ayıklayıcı | [📄 Görüntüle](./LaZagne/translations/README.tr.md) |
 
 ### 🔬 Dijital Adli Bilişim (Digital Forensics)
 
@@ -383,6 +401,8 @@
 | **Aircrack-ng** | Kablosuz ağ güvenlik paketi (WPA/WPA2) | [📄 Görüntüle](./Aircrack-ng/translations/README.tr.md) |
 | **Wifite** | Otomatik kablosuz ağ denetim aracı | [📄 Görüntüle](./Wifite/translations/README.tr.md) |
 | **Bettercap** | Ağ saldırı çerçevesi (MITM / WiFi) | [📄 Görüntüle](./Bettercap/translations/README.tr.md) |
+| **hcxdumptool** | Hashcat modu 22000 için istemcisiz PMKID Wi-Fi paket yakalama | [📄 Görüntüle](./hcxdumptool/translations/README.tr.md) |
+| **Reaver** | WPS PIN kaba kuvvet ve Pixie Dust saldırı aracı | [📄 Görüntüle](./Reaver/translations/README.tr.md) |
 
 ### 🔄 Pivoting & Tünelleme
 
@@ -449,7 +469,7 @@ code Metasploit/
 Tüm kılavuzlar Markdown formatındadır ve ayrıca bu depoda doğrudan yer alan **yerel Android uygulaması** ([`android/`](android/)) bulunmaktadır:
 
 - 📱 **Yerel Android Uygulaması:** Jetpack Compose ve koyu tema ile ultra hızlı ve akıcı mobil deneyim.
-- ⚡ **Anında Arama:** 138 rehberin tamamında (TR ve EN) anlık arama desteği.
+- ⚡ **Anında Arama:** 195 rehberin tamamında (TR ve EN) anlık arama desteği.
 - 📋 **Tek Dokunuşla Kopyalama:** Komut sözdizimlerini doğrudan panoya kopyalama.
 - 🛠️ **Entegre Pentest Yardımcıları:** Reverse Shell oluşturucu, kodlayıcı/çözücü (Base64/URL), hash türü tespit aracı.
 - 📦 **APK Derleme:** `cd android && ./gradlew assembleDebug` (Çıktı: `android/app/build/outputs/apk/debug/app-debug.apk`)

@@ -146,6 +146,26 @@ CATEGORY_MAPPING = {
     "Bug-Bounty-Methodology": "Reporting & Methodologies",
     "Wordlists": "Reference Guides",
     "Kali-Linux-Tools": "Reference Guides",
+    "jwt_tool": "Web Security & API",
+    "GitTools": "OSINT & Dorking",
+    "smuggler": "Web Security & API",
+    "CORSy": "Web Security & API",
+    "InQL": "Web Security & API",
+    "mitmproxy": "Web Application Testing",
+    "Scapy": "Network Analysis",
+    "Ettercap": "Network Analysis",
+    "Yersinia": "Network Analysis",
+    "name-that-hash": "Password Cracking",
+    "LaZagne": "Privilege Escalation",
+    "CUPP": "Password Cracking",
+    "fcrackzip": "Password Cracking",
+    "theHarvester": "OSINT & Dorking",
+    "Sherlock": "OSINT & Dorking",
+    "dnsrecon": "Recon & Scanning",
+    "hcxdumptool": "Wireless & Network",
+    "Reaver": "Wireless & Network",
+    "Trivy": "Container Security",
+    "kube-bench": "Container Security",
 }
 
 def extract_title(content, fallback):
@@ -263,6 +283,26 @@ def extract_quick_commands(content, tool_name=""):
     elif "pwndbg" in t_lower or "gef" in t_lower: tool_tokens.extend(["gdb", "pwndbg", "gef", "telescope", "vmmap", "checksec", "canary", "cyclic", "rop"])
     elif "ropper" in t_lower or "ropgadget" in t_lower: tool_tokens.extend(["ropper", "ropgadget"])
     elif "checksec" in t_lower or "binutils" in t_lower: tool_tokens.extend(["checksec", "readelf", "objdump", "nm", "strings"])
+    elif "jwt_tool" in t_lower: tool_tokens.extend(["jwt_tool", "python3 jwt_tool.py", "python jwt_tool.py"])
+    elif "gittools" in t_lower: tool_tokens.extend(["extractor.sh", "dumper.sh", "finder.sh", "./extractor.sh", "./dumper.sh", "./finder.sh", "bash"])
+    elif "smuggler" in t_lower: tool_tokens.extend(["smuggler", "python3 smuggler.py", "python smuggler.py"])
+    elif "corsy" in t_lower: tool_tokens.extend(["corsy", "python3 corsy.py", "python corsy.py"])
+    elif "inql" in t_lower: tool_tokens.extend(["inql"])
+    elif "mitmproxy" in t_lower: tool_tokens.extend(["mitmproxy", "mitmdump", "mitmweb"])
+    elif "scapy" in t_lower: tool_tokens.extend(["scapy"])
+    elif "ettercap" in t_lower: tool_tokens.extend(["ettercap", "etterfilter", "etterlog"])
+    elif "yersinia" in t_lower: tool_tokens.extend(["yersinia"])
+    elif "name-that-hash" in t_lower or "nth" in t_lower: tool_tokens.extend(["nth", "name-that-hash"])
+    elif "lazagne" in t_lower: tool_tokens.extend(["lazagne", "lazagne.exe", "python3 lazagne.py", "lazagne.py"])
+    elif "cupp" in t_lower: tool_tokens.extend(["cupp", "cupp.py", "python3 cupp.py"])
+    elif "fcrackzip" in t_lower: tool_tokens.extend(["fcrackzip"])
+    elif "theharvester" in t_lower: tool_tokens.extend(["theharvester", "theHarvester"])
+    elif "sherlock" in t_lower: tool_tokens.extend(["sherlock"])
+    elif "dnsrecon" in t_lower: tool_tokens.extend(["dnsrecon"])
+    elif "hcxdumptool" in t_lower: tool_tokens.extend(["hcxdumptool", "hcxpcapngtool"])
+    elif "reaver" in t_lower: tool_tokens.extend(["reaver", "wash", "bully", "pixiewps"])
+    elif "trivy" in t_lower: tool_tokens.extend(["trivy"])
+    elif "kube-bench" in t_lower: tool_tokens.extend(["kube-bench"])
 
     primary = []
     secondary = []
@@ -431,6 +471,26 @@ def build_database(repo_root, output_db_path):
                 if "pwndbg" in slug or "gef" in slug: tags_list.extend(["gdb", "pwn", "exploit", "heap", "stack", "context", "canary"])
                 if "ropper" in slug or "rop" in slug: tags_list.extend(["rop", "jop", "gadget", "chain", "nx", "dep", "bypass"])
                 if "checksec" in slug: tags_list.extend(["mitigation", "relro", "canary", "pie", "nx", "elf", "readelf", "objdump"])
+                if "jwt_tool" in slug or "jwt" in slug: tags_list.extend(["jwt", "token", "jwks", "none", "alg", "crypto", "tamper"])
+                if "gittools" in slug: tags_list.extend(["git", "commit", "dumper", "extractor", "finder", "repo", "dotgit"])
+                if "smuggler" in slug: tags_list.extend(["smuggling", "cl.te", "te.cl", "te.te", "desync", "http", "request"])
+                if "corsy" in slug: tags_list.extend(["cors", "origin", "headers", "misconfiguration", "api", "wildcard"])
+                if "inql" in slug: tags_list.extend(["graphql", "introspection", "query", "mutation", "schema", "api"])
+                if "mitmproxy" in slug: tags_list.extend(["mitm", "proxy", "interception", "flow", "ssl", "dump", "web"])
+                if "scapy" in slug: tags_list.extend(["packet", "forge", "craft", "sniff", "layer", "python", "pcap"])
+                if "ettercap" in slug: tags_list.extend(["mitm", "arp", "dns", "filter", "poisoning", "sniff", "lan"])
+                if "yersinia" in slug: tags_list.extend(["layer2", "stp", "cdp", "dtp", "dhcp", "hsrp", "vlan", "switch"])
+                if "name-that-hash" in slug or "nth" in slug: tags_list.extend(["hash", "identify", "hashcat", "john", "algorithm", "nth"])
+                if "lazagne" in slug: tags_list.extend(["post-exploitation", "credentials", "password", "browser", "wifi", "dpapi"])
+                if "cupp" in slug: tags_list.extend(["wordlist", "profiler", "password", "dictionary", "osint", "social", "human"])
+                if "fcrackzip" in slug: tags_list.extend(["zip", "archive", "crack", "password", "pkzip", "bruteforce"])
+                if "theharvester" in slug: tags_list.extend(["osint", "recon", "subdomain", "email", "shodan", "whois", "intel"])
+                if "sherlock" in slug: tags_list.extend(["osint", "username", "social", "media", "handle", "recon", "account"])
+                if "dnsrecon" in slug: tags_list.extend(["dns", "axfr", "zone", "transfer", "ptr", "srv", "snoop", "enum"])
+                if "hcxdumptool" in slug: tags_list.extend(["wifi", "pmkid", "wpa2", "wpa3", "hashcat", "eapol", "clientless"])
+                if "reaver" in slug: tags_list.extend(["wifi", "wps", "pixiedust", "pin", "wpa2", "bully", "wash"])
+                if "trivy" in slug: tags_list.extend(["container", "docker", "k8s", "cve", "vuln", "secret", "sbom", "iac"])
+                if "kube-bench" in slug: tags_list.extend(["kubernetes", "k8s", "cis", "benchmark", "controlplane", "audit", "node"])
                 tags = ",".join(set(tags_list))
 
                 icon = "security"
