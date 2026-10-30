@@ -92,11 +92,13 @@
 
 > AWS, Azure ve GCP için bulut sızma testi kılavuzları.
 
-| Sağlayıcı | Açıklama | Kılavuz |
-|-----------|----------|---------|
+| Sağlayıcı / Araç | Açıklama | Kılavuz |
+|------------------|----------|---------|
 | **AWS** | S3, IAM, Lambda, EC2, IMDSv1/v2 | [📄 Görüntüle](./Cloud-Security/translations/AWS-Pentesting.tr.md) |
 | **Azure** | Azure AD, Blob Storage, Sanal Makineler, Key Vault | [📄 Görüntüle](./Cloud-Security/translations/Azure-Pentesting.tr.md) |
 | **GCP** | GCS, IAM, Compute Engine, Cloud Functions | [📄 Görüntüle](./Cloud-Security/translations/GCP-Pentesting.tr.md) |
+| **Pacu** | AWS sızma testi ve yetki yükseltme çerçevesi | [📄 Görüntüle](./Pacu/translations/README.tr.md) |
+| **Prowler** | Çoklu bulut CIS benchmark ve güvenlik duruşu denetçisi | [📄 Görüntüle](./Prowler/translations/README.tr.md) |
 
 👉 **[Tüm Bulut Güvenliği Özeti](./Cloud-Security/translations/README.tr.md)**
 
@@ -106,10 +108,12 @@
 
 > Android ve iOS için mobil uygulama sızma testi rehberleri.
 
-| Platform | Açıklama | Kılavuz |
-|----------|----------|---------|
+| Platform / Araç | Açıklama | Kılavuz |
+|-----------------|----------|---------|
 | **Android** | APK analizi, Frida, root tespiti atlatma | [📄 Görüntüle](./Mobile-Security/translations/Android-Pentesting.tr.md) |
 | **iOS** | IPA analizi, jailbreak, Objection, Keychain analizi | [📄 Görüntüle](./Mobile-Security/translations/iOS-Pentesting.tr.md) |
+| **Frida & Objection** | Dinamik ikili enstrümantasyon, fonksiyon kancalama ve SSL Pinning atlatma | [📄 Görüntüle](./Frida/translations/README.tr.md) |
+| **Jadx & Apktool** | APK tersine mühendislik, Smali yamalama ve yeniden paketleme | [📄 Görüntüle](./Jadx/translations/README.tr.md) |
 
 👉 **[Tüm Mobil Güvenlik Özeti](./Mobile-Security/translations/README.tr.md)**
 
@@ -221,6 +225,8 @@
 |------|----------|---------|
 | **Metasploit Framework** | Dünyanın en popüler sızma testi çerçevesi | [📄 Görüntüle](./Metasploit/translations/README.tr.md) |
 | **Meterpreter** | Gelişmiş istismar sonrası (post-exploitation) yükü | [📄 Görüntüle](./Metasploit/translations/Meterpreter.tr.md) |
+| **Msfvenom** | Bağımsız payload üretimi, kabuk kodları ve kodlayıcılar | [📄 Görüntüle](./Msfvenom/translations/README.tr.md) |
+| **Sliver C2** | Modern açık kaynaklı çapraz platform komuta kontrol (C2) çerçevesi | [📄 Görüntüle](./Sliver/translations/README.tr.md) |
 | **Mimikatz** | Windows parola ve bilet çıkarma aracı | [📄 Görüntüle](./Mimikatz/translations/README.tr.md) |
 | **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/translations/README.tr.md) |
 | **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/translations/README.tr.md) |
@@ -235,6 +241,8 @@
 | **Nmap** | Ağ keşfi, port tarama ve güvenlik denetimi | [📄 Görüntüle](./Nmap/translations/README.tr.md) |
 | **RustScan** | 65.535 portu 3 saniyede tarayıp Nmap'e aktaran modern tarayıcı | [📄 Görüntüle](./RustScan/translations/README.tr.md) |
 | **Masscan** | Asenkron internet ölçeğinde ultra hızlı TCP port tarayıcısı | [📄 Görüntüle](./Masscan/translations/README.tr.md) |
+| **Naabu** | Borulama (pipe) odaklı hızlı SYN/CONNECT port tarayıcısı | [📄 Görüntüle](./Naabu/translations/README.tr.md) |
+| **WhatWeb** | Yeni nesil web sunucusu ve teknoloji yığını parmak izi çıkarıcı | [📄 Görüntüle](./WhatWeb/translations/README.tr.md) |
 | **Gobuster** | Dizin, DNS ve sanal host (VHost) brute-force aracı | [📄 Görüntüle](./Gobuster/translations/README.tr.md) |
 | **Feroxbuster** | Hızlı, basit ve özyinelemeli (recursive) web içerik keşif aracı | [📄 Görüntüle](./Feroxbuster/translations/README.tr.md) |
 | **dirsearch** | Gelişmiş web dizin ve dosya kaba kuvvet (brute-force) aracı | [📄 Görüntüle](./dirsearch/translations/README.tr.md) |
@@ -246,6 +254,8 @@
 | Araç | Açıklama | Kılavuz |
 |------|----------|---------|
 | **SQLMap** | Otomatik SQL enjeksiyonu ve veritabanı ele geçirme | [📄 Görüntüle](./SQLMap/translations/README.tr.md) |
+| **Commix** | Otomatik işletim sistemi komut enjeksiyonu sömürü aracı | [📄 Görüntüle](./Commix/translations/README.tr.md) |
+| **Tplmap** | Otomatik sunucu taraflı şablon enjeksiyonu (SSTI) sömürücü | [📄 Görüntüle](./Tplmap/translations/README.tr.md) |
 | **Burp Suite** | Web uygulaması güvenlik testi platformu | [📄 Görüntüle](./Burp-Suite/translations/README.tr.md) |
 | **OWASP ZAP** | Açık kaynaklı web güvenlik tarayıcısı | [📄 Görüntüle](./OWASP-ZAP/translations/README.tr.md) |
 | **WPScan** | WordPress çekirdek, eklenti, tema ve kullanıcı güvenlik tarayıcısı | [📄 Görüntüle](./WPScan/translations/README.tr.md) |
@@ -333,6 +343,7 @@
 | **Shodan** | İnternete bağlı cihaz arama motoru | [📄 Görüntüle](./Shodan/translations/README.tr.md) |
 | **GitHub Dorking** | Depolarda gizli anahtar ve parola avı | [📄 Görüntüle](./GitHub-Dorking/translations/README.tr.md) |
 | **TruffleHog** | Canlı doğrulama ile sızdırılmış API anahtarı ve secret avcısı | [📄 Görüntüle](./TruffleHog/translations/README.tr.md) |
+| **Gitleaks** | Git depolarında parola, API token ve gizli bilgi avcısı | [📄 Görüntüle](./Gitleaks/translations/README.tr.md) |
 
 ### 🔝 Yetki Yükseltme (Privilege Escalation)
 
@@ -374,6 +385,7 @@
 |------|----------|---------|
 | **Ligolo-ng** | TUN arayüzü tabanlı gelişmiş ağ geçişi ve iç yönlendirme | [📄 Görüntüle](./Ligolo-ng/translations/README.tr.md) |
 | **Chisel** | SSH tabanlı HTTP/WebSocket üzerinden hızlı TCP/UDP tünelleme | [📄 Görüntüle](./Chisel/translations/README.tr.md) |
+| **SSH-Tunneling** | Yerel (-L), Uzak (-R), Dinamik SOCKS (-D) ve proxychains entegrasyonu | [📄 Görüntüle](./SSH-Tunneling/translations/README.tr.md) |
 | **Proxychains** | LD_PRELOAD ile dinamik SOCKS/HTTP vekil tünelleme | [📄 Görüntüle](./Proxychains/translations/README.tr.md) |
 | **sshuttle** | Standart SSH oturumu üzerinden şeffaf iç ağ VPN tüneli | [📄 Görüntüle](./sshuttle/translations/README.tr.md) |
 
@@ -383,6 +395,7 @@
 |------|----------|---------|
 | **⭐ AD Metodolojisi** | Adım adım etki alanı ele geçirme kılavuzu | [📄 Görüntüle](./AD-Attack-Methodology/translations/README.tr.md) |
 | **NetExec (nxc)** | Ağ ve Active Directory denetimlerinin modern İsviçre çakısı | [📄 Görüntüle](./NetExec/translations/README.tr.md) |
+| **adidnsdump** | AD Entegre DNS (ADIDNS) kayıtlarını LDAP üzerinden dökme | [📄 Görüntüle](./adidnsdump/translations/README.tr.md) |
 | **Certipy** | Active Directory Sertifika Hizmetleri (AD CS) istismarı | [📄 Görüntüle](./Certipy/translations/README.tr.md) |
 | **PKINITtools** | Kerberos PKINIT bilet istekleri ve UnPAC-the-hash araç seti | [📄 Görüntüle](./PKINITtools/translations/README.tr.md) |
 | **Coercer** | Çoklu protokol Windows kimlik doğrulama zorlama motoru | [📄 Görüntüle](./Coercer/translations/README.tr.md) |

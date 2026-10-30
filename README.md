@@ -90,11 +90,13 @@
 
 > **NEW!** Cloud pentesting guides for AWS, Azure, and GCP.
 
-| Provider | Description | Guide |
-|----------|-------------|-------|
+| Provider / Tool | Description | Guide |
+|-----------------|-------------|-------|
 | **AWS** | S3, IAM, Lambda, EC2, IMDS | [📄 View](./Cloud-Security/AWS-Pentesting.md) |
 | **Azure** | Azure AD, Blob Storage, VMs, Key Vault | [📄 View](./Cloud-Security/Azure-Pentesting.md) |
 | **GCP** | GCS, IAM, Compute, Cloud Functions | [📄 View](./Cloud-Security/GCP-Pentesting.md) |
+| **Pacu** | The AWS exploitation & privilege escalation framework | [📄 View](./Pacu/README.md) |
+| **Prowler** | Multi-cloud CIS benchmark & misconfiguration auditor | [📄 View](./Prowler/README.md) |
 
 👉 **[Full Cloud Security Overview](./Cloud-Security/README.md)**
 
@@ -104,10 +106,12 @@
 
 > **NEW!** Mobile app pentesting guides for Android and iOS.
 
-| Platform | Description | Guide |
-|----------|-------------|-------|
+| Platform / Tool | Description | Guide |
+|-----------------|-------------|-------|
 | **Android** | APK analysis, Frida, root detection bypass | [📄 View](./Mobile-Security/Android-Pentesting.md) |
 | **iOS** | IPA analysis, jailbreak, Objection, keychain | [📄 View](./Mobile-Security/iOS-Pentesting.md) |
+| **Frida & Objection** | Dynamic binary instrumentation & runtime method hooking | [📄 View](./Frida/README.md) |
+| **Jadx & Apktool** | APK decompilation, Smali patching & repackaging | [📄 View](./Jadx/README.md) |
 
 👉 **[Full Mobile Security Overview](./Mobile-Security/README.md)**
 
@@ -219,6 +223,8 @@
 |------|-------------|------------|
 | **Metasploit Framework** | The world's most used penetration testing framework | [📄 View](./Metasploit/README.md) |
 | **Meterpreter** | Advanced post-exploitation payload | [📄 View](./Metasploit/Meterpreter.md) |
+| **Msfvenom** | Standalone payload generator, bad chars & shellcode encoders | [📄 View](./Msfvenom/README.md) |
+| **Sliver C2** | Modern open-source cross-platform Command & Control framework | [📄 View](./Sliver/README.md) |
 | **Mimikatz** | Windows credential extraction tool | [📄 View](./Mimikatz/README.md) |
 | **PowerShell** | Windows scripting for pentesting | [📄 View](./PowerShell/README.md) |
 | **Linux Commands** | Linux & Bash for pentesting | [📄 View](./Linux-Commands/README.md) |
@@ -233,6 +239,8 @@
 | **Nmap** | Network discovery and security auditing | [📄 View](./Nmap/README.md) |
 | **RustScan** | Ultra-fast port scanner (65k ports in 3s) piped to Nmap | [📄 View](./RustScan/README.md) |
 | **Masscan** | Asynchronous Internet-scale TCP port scanner | [📄 View](./Masscan/README.md) |
+| **Naabu** | Fast SYN/CONNECT port scanner optimized for pipeline automation | [📄 View](./Naabu/README.md) |
+| **WhatWeb** | Next-generation web scanner & technology stack fingerprinter | [📄 View](./WhatWeb/README.md) |
 | **Gobuster** | Directory/DNS/VHost brute-forcing | [📄 View](./Gobuster/README.md) |
 | **Feroxbuster** | Fast, recursive web content discovery | [📄 View](./Feroxbuster/README.md) |
 | **dirsearch** | Advanced web path brute-forcer & crawler | [📄 View](./dirsearch/README.md) |
@@ -244,6 +252,8 @@
 | Tool | Description | Cheatsheet |
 |------|-------------|------------|
 | **SQLMap** | SQL injection automation tool | [📄 View](./SQLMap/README.md) |
+| **Commix** | Automated OS command injection exploitation engine | [📄 View](./Commix/README.md) |
+| **Tplmap** | Automated Server-Side Template Injection (SSTI) exploiter | [📄 View](./Tplmap/README.md) |
 | **Burp Suite** | Web application security testing platform | [📄 View](./Burp-Suite/README.md) |
 | **OWASP ZAP** | Free web app security scanner | [📄 View](./OWASP-ZAP/README.md) |
 | **WPScan** | Black box WordPress security & vulnerability scanner | [📄 View](./WPScan/README.md) |
@@ -331,6 +341,7 @@
 | **Shodan** | IoT & device search engine | [📄 View](./Shodan/README.md) |
 | **GitHub Dorking** | Secret hunting in repositories | [📄 View](./GitHub-Dorking/README.md) |
 | **TruffleHog** | Find leaked credentials & API keys with live verification | [📄 View](./TruffleHog/README.md) |
+| **Gitleaks** | Fast secret detection in git repos, commit histories & files | [📄 View](./Gitleaks/README.md) |
 
 ### 🔝 Privilege Escalation
 
@@ -372,6 +383,7 @@
 |------|-------------|------------|
 | **Ligolo-ng** | Advanced TUN-based pivoting & internal routing | [📄 View](./Ligolo-ng/README.md) |
 | **Chisel** | Fast TCP/UDP tunnel over HTTP via SSH | [📄 View](./Chisel/README.md) |
+| **SSH-Tunneling** | Local (-L), Remote (-R), Dynamic (-D) & proxychains-ng | [📄 View](./SSH-Tunneling/README.md) |
 | **Proxychains** | Dynamic SOCKS/HTTP proxy chaining via LD_PRELOAD | [📄 View](./Proxychains/README.md) |
 | **sshuttle** | Transparent subnet VPN over standard unprivileged SSH | [📄 View](./sshuttle/README.md) |
 
@@ -381,6 +393,7 @@
 |------|-------------|------------|
 | **⭐ AD Methodology** | Step-by-step attack guide | [📄 View](./AD-Attack-Methodology/README.md) |
 | **NetExec (nxc)** | Modern network & Active Directory swiss army knife | [📄 View](./NetExec/README.md) |
+| **adidnsdump** | Dump Active Directory Integrated DNS records over LDAP | [📄 View](./adidnsdump/README.md) |
 | **Certipy** | Active Directory Certificate Services (AD CS) abuse | [📄 View](./Certipy/README.md) |
 | **PKINITtools** | Kerberos PKINIT ticket requests & UnPAC-the-hash toolkit | [📄 View](./PKINITtools/README.md) |
 | **Coercer** | Multi-protocol Windows authentication coercion engine | [📄 View](./Coercer/README.md) |
@@ -547,6 +560,45 @@ Hacking-Cheatsheets/
 │
 ├── TruffleHog/              # Live-Verified Leaked Secret Scanner
 │   └── README.md            # Complete TruffleHog guide
+│
+├── Gitleaks/                # Git Secret & API Key Hunter
+│   └── README.md            # Complete Gitleaks guide
+│
+├── Commix/                  # OS Command Injection Exploiter
+│   └── README.md            # Complete Commix guide
+│
+├── Tplmap/                  # SSTI Exploitation Tool
+│   └── README.md            # Complete Tplmap guide
+│
+├── WhatWeb/                 # Web Technology Fingerprinter
+│   └── README.md            # Complete WhatWeb guide
+│
+├── Naabu/                   # Fast SYN/CONNECT Port Scanner
+│   └── README.md            # Complete Naabu guide
+│
+├── adidnsdump/              # Active Directory DNS Dump over LDAP
+│   └── README.md            # Complete adidnsdump guide
+│
+├── SSH-Tunneling/           # Port Forwarding & Proxychains
+│   └── README.md            # Complete SSH Tunneling guide
+│
+├── Frida/                   # Mobile Dynamic Instrumentation
+│   └── README.md            # Complete Frida & Objection guide
+│
+├── Jadx/                    # Android APK Decompilation & Smali
+│   └── README.md            # Complete Jadx & Apktool guide
+│
+├── Msfvenom/                # Metasploit Standalone Payloads
+│   └── README.md            # Complete Msfvenom guide
+│
+├── Sliver/                  # Bishop Fox C2 Framework
+│   └── README.md            # Complete Sliver C2 guide
+│
+├── Pacu/                    # AWS Exploitation Framework
+│   └── README.md            # Complete Pacu guide
+│
+├── Prowler/                 # Multi-Cloud CIS Benchmark Auditor
+│   └── README.md            # Complete Prowler guide
 │
 ├── Nuclei/                  # Bug Bounty Scanner
 │   └── README.md            # Complete Nuclei guide

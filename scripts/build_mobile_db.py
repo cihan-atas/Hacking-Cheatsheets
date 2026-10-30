@@ -119,9 +119,22 @@ CATEGORY_MAPPING = {
     "ExifTool": "Digital Forensics",
     "Volatility": "Digital Forensics",
     "Cloud-Security": "Cloud Security",
+    "Pacu": "Cloud Security",
+    "Prowler": "Cloud Security",
     "Container-Security": "Container Security",
     "IoT-Hacking": "IoT & Hardware",
     "Mobile-Security": "Mobile Security",
+    "Frida": "Mobile Security",
+    "Jadx": "Mobile Security",
+    "Commix": "Web Security & API",
+    "Tplmap": "Web Security & API",
+    "WhatWeb": "Recon & Scanning",
+    "Naabu": "Recon & Scanning",
+    "Gitleaks": "OSINT & Dorking",
+    "SSH-Tunneling": "Pivoting & Tunneling",
+    "adidnsdump": "Active Directory & Network",
+    "Msfvenom": "Exploitation & Shells",
+    "Sliver": "Exploitation & Shells",
     "Blue-Team": "Blue Team & Defense",
     "CTF": "CTF Cheatsheets",
     "Reporting": "Reporting & Methodologies",
@@ -227,6 +240,19 @@ def extract_quick_commands(content, tool_name=""):
     elif "cewl" in t_lower: tool_tokens.extend(["cewl"])
     elif "crunch" in t_lower: tool_tokens.extend(["crunch"])
     elif "trufflehog" in t_lower: tool_tokens.extend(["trufflehog"])
+    elif "commix" in t_lower: tool_tokens.extend(["commix", "python commix.py", "python3 commix.py"])
+    elif "tplmap" in t_lower: tool_tokens.extend(["tplmap", "python tplmap.py", "python3 tplmap.py"])
+    elif "whatweb" in t_lower: tool_tokens.extend(["whatweb"])
+    elif "adidnsdump" in t_lower: tool_tokens.extend(["adidnsdump"])
+    elif "naabu" in t_lower: tool_tokens.extend(["naabu"])
+    elif "gitleaks" in t_lower: tool_tokens.extend(["gitleaks"])
+    elif "tunneling" in t_lower or "ssh-tunneling" in t_lower: tool_tokens.extend(["ssh", "autossh", "proxychains4", "proxychains"])
+    elif "frida" in t_lower: tool_tokens.extend(["frida", "frida-ps", "frida-trace", "objection"])
+    elif "jadx" in t_lower: tool_tokens.extend(["jadx", "jadx-gui", "apktool", "apksigner", "zipalign"])
+    elif "msfvenom" in t_lower: tool_tokens.extend(["msfvenom", "msfconsole"])
+    elif "sliver" in t_lower: tool_tokens.extend(["sliver", "sliver-server", "sliver-client", "generate", "mtls", "https"])
+    elif "pacu" in t_lower: tool_tokens.extend(["pacu", "python3 pacu.py", "run"])
+    elif "prowler" in t_lower: tool_tokens.extend(["prowler"])
 
     primary = []
     secondary = []
@@ -377,6 +403,19 @@ def build_database(repo_root, output_db_path):
                 if "cewl" in slug: tags_list.extend(["wordlist", "spider", "crawl", "password", "custom"])
                 if "crunch" in slug: tags_list.extend(["wordlist", "pattern", "mask", "pin", "generator"])
                 if "trufflehog" in slug: tags_list.extend(["secret", "git", "api", "key", "token", "credential", "verify"])
+                if "commix" in slug: tags_list.extend(["command", "injection", "rce", "os", "exploit", "web"])
+                if "tplmap" in slug: tags_list.extend(["ssti", "template", "jinja2", "twig", "freemarker", "exploit"])
+                if "whatweb" in slug: tags_list.extend(["fingerprint", "cms", "technology", "recon", "server", "web"])
+                if "adidnsdump" in slug: tags_list.extend(["adidns", "dns", "ldap", "active directory", "zone", "recon"])
+                if "naabu" in slug: tags_list.extend(["port", "scanner", "syn", "fast", "projectdiscovery", "connect"])
+                if "gitleaks" in slug: tags_list.extend(["secret", "git", "api", "key", "token", "commit", "history"])
+                if "tunneling" in slug: tags_list.extend(["ssh", "tunnel", "pivot", "forward", "socks", "proxychains", "dynamic"])
+                if "frida" in slug: tags_list.extend(["mobile", "android", "ios", "hooking", "sslpinning", "objection", "root"])
+                if "jadx" in slug: tags_list.extend(["mobile", "android", "apk", "dex", "decompile", "apktool", "smali", "repackage"])
+                if "msfvenom" in slug: tags_list.extend(["payload", "metasploit", "shellcode", "reverse", "stageless", "staged", "encoder"])
+                if "sliver" in slug: tags_list.extend(["c2", "command", "control", "implant", "beacon", "redteam", "post-exploit"])
+                if "pacu" in slug: tags_list.extend(["aws", "cloud", "privesc", "iam", "s3", "rhino", "exploit"])
+                if "prowler" in slug: tags_list.extend(["cloud", "aws", "azure", "gcp", "cis", "compliance", "audit"])
                 tags = ",".join(set(tags_list))
 
                 icon = "security"
