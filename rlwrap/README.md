@@ -122,7 +122,7 @@ rlwrap [options] <command> [command-arguments]
 
 ## 🎣 Catching Reverse Shells (`rlwrap + nc`)
 
-The most common use case in offensive security is wrapping a Netcat listener:
+The most common use case in offensive security is wrapping a Netcat listener (see the [Netcat Cheatsheet](../Netcat/README.md) for full listener variants and flags):
 
 ```bash
 # Basic Netcat listener with arrow-key editing & history

@@ -223,6 +223,7 @@
 | **PowerShell** | Windows scripting for pentesting | [📄 View](./PowerShell/README.md) |
 | **Linux Commands** | Linux & Bash for pentesting | [📄 View](./Linux-Commands/README.md) |
 | **rlwrap** | Readline wrapper for reverse shells & dumb terminals | [📄 View](./rlwrap/README.md) |
+| **Netcat (nc)** | The TCP/IP Swiss Army Knife for raw network sockets & reverse shells | [📄 View](./Netcat/README.md) |
 
 ### 🔍 Reconnaissance & Scanning
 
@@ -483,6 +484,9 @@ Hacking-Cheatsheets/
 │
 ├── rlwrap/                  # Readline Wrapper for Reverse Shells
 │   └── README.md            # Complete rlwrap guide
+│
+├── Netcat/                  # TCP/IP Swiss Army Knife & Raw Sockets
+│   └── README.md            # Complete Netcat guide
 │
 ├── Nuclei/                  # Bug Bounty Scanner
 │   └── README.md            # Complete Nuclei guide

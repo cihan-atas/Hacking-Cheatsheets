@@ -68,6 +68,7 @@ CATEGORY_MAPPING = {
     "PowerShell": "Exploitation & Shells",
     "Linux-Commands": "Exploitation & Shells",
     "rlwrap": "Exploitation & Shells",
+    "Netcat": "Exploitation & Shells",
     "Hydra": "Password Cracking",
     "John-The-Ripper": "Password Cracking",
     "Hashcat": "Password Cracking",
@@ -149,7 +150,7 @@ def is_valid_quick_command(cmd):
     if re.search(r"[\U00010000-\U0010ffff\u2600-\u26ff\u2700-\u27bf]", cmd):
         return False
     # No comment lines or markdown syntax
-    if cmd.startswith(("#", "//", "::", "rem", "/*", "*", "<!--", "<", ">", "|", "[", "{", "}", "(", ")")):
+    if cmd.startswith(("#", "//", "::", "rem", "/*", "<!--", "<", ">", "|", "[", "{", "}", "(", ")", "- ", "* ", "+ ")):
         return False
     # No numbered list descriptions (e.g. "1. From attacker...")
     if re.match(r"^\d+[\.\)]\s+", cmd):
@@ -171,7 +172,7 @@ def is_valid_quick_command(cmd):
     return True
 
 def extract_quick_commands(content, tool_name=""):
-    blocks = re.findall(r"```(?:bash|sh|cmd|powershell)?\s*\n(.*?)\n```", content, re.DOTALL)
+    blocks = re.findall(r"^[ \t]*```[a-zA-Z0-9_-]*\s*\n(.*?)\n[ \t]*```", content, re.MULTILINE | re.DOTALL)
     tool_tokens = [tool_name.lower().replace("-", ""), tool_name.lower()]
     t_lower = tool_name.lower()
     if "netexec" in t_lower: tool_tokens.extend(["nxc"])
@@ -183,6 +184,7 @@ def extract_quick_commands(content, tool_name=""):
     elif "dirsearch" in t_lower: tool_tokens.extend(["dirsearch", "python3 dirsearch.py"])
     elif "tshark" in t_lower: tool_tokens.extend(["tshark"])
     elif "rlwrap" in t_lower: tool_tokens.extend(["rlwrap", "nc", "stty"])
+    elif "netcat" in t_lower or t_lower == "nc": tool_tokens.extend(["nc", "ncat", "netcat", "nc.openbsd", "nc.traditional"])
 
     primary = []
     secondary = []
@@ -317,6 +319,7 @@ def build_database(repo_root, output_db_path):
                 if "tshark" in slug or "wireshark" in slug: tags_list.extend(["pcap", "packet", "sniff", "traffic", "network"])
                 if "dirsearch" in slug: tags_list.extend(["fuzz", "directory", "brute", "path", "web"])
                 if "rlwrap" in slug: tags_list.extend(["shell", "tty", "reverse", "readline", "netcat", "nc"])
+                if "netcat" in slug or "nc" in slug: tags_list.extend(["nc", "ncat", "socket", "reverse", "shell", "listener", "port", "transfer", "openbsd", "traditional"])
                 tags = ",".join(set(tags_list))
 
                 icon = "security"

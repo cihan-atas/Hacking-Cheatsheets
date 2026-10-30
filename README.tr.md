@@ -225,6 +225,7 @@
 | **PowerShell** | Sızma testleri için PowerShell komutları | [📄 Görüntüle](./PowerShell/translations/README.tr.md) |
 | **Linux Komutları** | Sızma testleri için Linux & Bash kullanımı | [📄 Görüntüle](./Linux-Commands/translations/README.tr.md) |
 | **rlwrap** | Ters bağlantı kabukları için readline sarmalayıcısı | [📄 Görüntüle](./rlwrap/translations/README.tr.md) |
+| **Netcat (nc)** | Ham ağ soketleri, port dinleme ve ters kabuklar için TCP/IP İsviçre çakısı | [📄 Görüntüle](./Netcat/translations/README.tr.md) |
 
 ### 🔍 Keşif & Tarama (Reconnaissance & Scanning)
 

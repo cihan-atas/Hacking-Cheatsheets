@@ -122,7 +122,7 @@ rlwrap [parametreler] <komut> [komut-argümanları]
 
 ## 🎣 Reverse Shell Yakalama (`rlwrap + nc`)
 
-Siber güvenlik operasyonlarında en yaygın kullanım şekli Netcat dinleyicisini sarmalamaktır:
+Siber güvenlik operasyonlarında en yaygın kullanım şekli Netcat dinleyicisini sarmalamaktır (ayrıntılı dinleyici varyantları ve bayrakları için [Netcat Kılavuzuna](../../Netcat/translations/README.tr.md) bakabilirsiniz):
 
 ```bash
 # Yön tuşları ve geçmiş desteği olan temel dinleyici
