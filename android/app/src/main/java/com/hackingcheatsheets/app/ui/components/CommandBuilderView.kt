@@ -86,6 +86,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.data.Cheatsheet
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.AccentBlue
 import com.hackingcheatsheets.app.ui.theme.AccentEmerald
 import com.hackingcheatsheets.app.ui.theme.AccentIndigo
@@ -121,7 +122,152 @@ enum class BuilderCategory(val titleTr: String, val titleEn: String, val icon: I
     OSINT("Açık İstihbarat", "OSINT", Icons.Default.Visibility, AccentTeal),
     REVERSE("Tersine Mühendislik", "Reverse Eng", Icons.Default.BugReport, AccentPink),
     FORENSICS("Adli Bilişim", "Forensics", Icons.Default.Fingerprint, AccentRose),
-    EXPLOITATION("İstismar & Shell", "Exploitation", Icons.Default.Terminal, ExploitRed)
+    EXPLOITATION("İstismar & Shell", "Exploitation", Icons.Default.Terminal, ExploitRed);
+
+    fun getTitle(lang: AppLanguage): String = when (this) {
+        ALL -> when (lang) {
+            AppLanguage.TR -> "Tümü"
+            AppLanguage.DE -> "Alle"
+            AppLanguage.ES -> "Todos"
+            AppLanguage.FR -> "Tous"
+            AppLanguage.IT -> "Tutti"
+            AppLanguage.PT -> "Todos"
+            AppLanguage.RU -> "Все"
+            AppLanguage.ZH_CN -> "全部"
+            AppLanguage.AR -> "الكل"
+            AppLanguage.EL -> "Όλα"
+            AppLanguage.NB -> "Alle"
+            else -> "All"
+        }
+        RECON -> when (lang) {
+            AppLanguage.TR -> "Ağ & Tarama"
+            AppLanguage.DE -> "Netzwerk & Scan"
+            AppLanguage.ES -> "Red y Escaneo"
+            AppLanguage.FR -> "Réseau & Scan"
+            AppLanguage.IT -> "Rete & Scansione"
+            AppLanguage.PT -> "Rede e Scan"
+            AppLanguage.RU -> "Сеть и сканирование"
+            AppLanguage.ZH_CN -> "网络与扫描"
+            AppLanguage.AR -> "الشبكات والمسح"
+            AppLanguage.EL -> "Δίκτυο & Σάρωση"
+            AppLanguage.NB -> "Nettverk og skanning"
+            else -> "Network & Scan"
+        }
+        WEB -> when (lang) {
+            AppLanguage.TR -> "Web & Fuzzing"
+            AppLanguage.DE -> "Web & Fuzzing"
+            AppLanguage.ES -> "Web y Fuzzing"
+            AppLanguage.FR -> "Web & Fuzzing"
+            AppLanguage.IT -> "Web & Fuzzing"
+            AppLanguage.PT -> "Web e Fuzzing"
+            AppLanguage.RU -> "Веб и фаззинг"
+            AppLanguage.ZH_CN -> "Web 与模糊测试"
+            AppLanguage.AR -> "الويب والفحص"
+            AppLanguage.EL -> "Web & Fuzzing"
+            AppLanguage.NB -> "Web og fuzzing"
+            else -> "Web & Fuzzing"
+        }
+        AD -> "Active Directory"
+        PASSWORDS -> when (lang) {
+            AppLanguage.TR -> "Parola Kırma"
+            AppLanguage.DE -> "Passwort-Cracking"
+            AppLanguage.ES -> "Cracking de Contraseñas"
+            AppLanguage.FR -> "Cassage de Mots de Passe"
+            AppLanguage.IT -> "Cracking Password"
+            AppLanguage.PT -> "Quebra de Senhas"
+            AppLanguage.RU -> "Взлом паролей"
+            AppLanguage.ZH_CN -> "密码破解"
+            AppLanguage.AR -> "كسر كلمات المرور"
+            AppLanguage.EL -> "Σπάσιμο Κωδικών"
+            AppLanguage.NB -> "Passordknekking"
+            else -> "Password Cracking"
+        }
+        SNIFFING -> when (lang) {
+            AppLanguage.TR -> "Paket & Sniff"
+            AppLanguage.DE -> "Sniffing & Pcap"
+            AppLanguage.ES -> "Sniffing y Pcap"
+            AppLanguage.FR -> "Sniffing & Pcap"
+            AppLanguage.IT -> "Sniffing & Pcap"
+            AppLanguage.PT -> "Sniffing e Pcap"
+            AppLanguage.RU -> "Сниффинг и Pcap"
+            AppLanguage.ZH_CN -> "抓包与流量嗅探"
+            AppLanguage.AR -> "الاعتراض و Pcap"
+            AppLanguage.EL -> "Sniffing & Pcap"
+            AppLanguage.NB -> "Sniffing og pcap"
+            else -> "Sniffing & Pcap"
+        }
+        TUNNELING -> when (lang) {
+            AppLanguage.TR -> "Pivoting & Tünel"
+            AppLanguage.DE -> "Pivoting & Tunnel"
+            AppLanguage.ES -> "Pivoting y Túneles"
+            AppLanguage.FR -> "Pivoting & Tunnels"
+            AppLanguage.IT -> "Pivoting & Tunnel"
+            AppLanguage.PT -> "Pivoting e Túneis"
+            AppLanguage.RU -> "Пивотинг и туннели"
+            AppLanguage.ZH_CN -> "流量代理与穿透"
+            AppLanguage.AR -> "الأنفاق والتوجيه"
+            AppLanguage.EL -> "Pivoting & Tunnels"
+            AppLanguage.NB -> "Pivoting og tunneler"
+            else -> "Pivoting & Tunnel"
+        }
+        PRIVESC -> when (lang) {
+            AppLanguage.TR -> "Yetki Yükseltme"
+            AppLanguage.DE -> "Privilege Escalation"
+            AppLanguage.ES -> "Escalada de Privilegios"
+            AppLanguage.FR -> "Élévation de Privilèges"
+            AppLanguage.IT -> "Escalation dei Privilegi"
+            AppLanguage.PT -> "Escalação de Privilégios"
+            AppLanguage.RU -> "Повышение привилегий"
+            AppLanguage.ZH_CN -> "权限提升"
+            AppLanguage.AR -> "تصعيد الصلاحيات"
+            AppLanguage.EL -> "Κλιμάκωση Προνομίων"
+            AppLanguage.NB -> "Privilegieeskalering"
+            else -> "PrivEsc"
+        }
+        OSINT -> "OSINT"
+        REVERSE -> when (lang) {
+            AppLanguage.TR -> "Tersine Mühendislik"
+            AppLanguage.DE -> "Reverse Engineering"
+            AppLanguage.ES -> "Ingeniería Inversa"
+            AppLanguage.FR -> "Rétro-Ingénierie"
+            AppLanguage.IT -> "Ingegneria Inversa"
+            AppLanguage.PT -> "Engenharia Reversa"
+            AppLanguage.RU -> "Реверс-инжиниринг"
+            AppLanguage.ZH_CN -> "逆向工程"
+            AppLanguage.AR -> "الهندسة العكسية"
+            AppLanguage.EL -> "Αντίστροφη Μηχανική"
+            AppLanguage.NB -> "Omvendt utvikling"
+            else -> "Reverse Eng"
+        }
+        FORENSICS -> when (lang) {
+            AppLanguage.TR -> "Adli Bilişim"
+            AppLanguage.DE -> "Digitale Forensik"
+            AppLanguage.ES -> "Informática Forense"
+            AppLanguage.FR -> "Investigation Numérique"
+            AppLanguage.IT -> "Informatica Forense"
+            AppLanguage.PT -> "Computação Forense"
+            AppLanguage.RU -> "Цифровая криминалистика"
+            AppLanguage.ZH_CN -> "电子取证"
+            AppLanguage.AR -> "الأدلة الرقمية"
+            AppLanguage.EL -> "Ψηφιακή Εγκληματολογία"
+            AppLanguage.NB -> "Digital etterforskning"
+            else -> "Forensics"
+        }
+        EXPLOITATION -> when (lang) {
+            AppLanguage.TR -> "İstismar & Shell"
+            AppLanguage.DE -> "Exploitation & Shells"
+            AppLanguage.ES -> "Explotación y Shells"
+            AppLanguage.FR -> "Exploitation & Shells"
+            AppLanguage.IT -> "Exploitation & Shell"
+            AppLanguage.PT -> "Exploração e Shells"
+            AppLanguage.RU -> "Эксплуатация и шеллы"
+            AppLanguage.ZH_CN -> "漏洞利用与Shell"
+            AppLanguage.AR -> "الاستغلال والأصداف"
+            AppLanguage.EL -> "Εκμετάλλευση & Shells"
+            AppLanguage.NB -> "Utnyttelse og shells"
+            else -> "Exploitation"
+        }
+    }
 }
 
 // Set of cheatsheet IDs that are methodology, theoretical topics, checklists, templates or payloads (not CLI tools)
@@ -185,8 +331,17 @@ data class BuilderToolItem(
     val name: String,
     val category: BuilderCategory,
     val descriptionTr: String,
-    val descriptionEn: String
-)
+    val descriptionEn: String,
+    val cheatsheet: Cheatsheet? = null
+) {
+    fun getDescription(lang: AppLanguage): String {
+        cheatsheet?.getDescription(lang)?.let { if (it.isNotBlank()) return it }
+        return when (lang) {
+            AppLanguage.TR -> descriptionTr.ifBlank { descriptionEn }
+            else -> descriptionEn.ifBlank { descriptionTr }
+        }
+    }
+}
 
 val ALL_BUILDER_TOOLS = listOf(
     // 1. RECON & SCANNING
@@ -336,7 +491,11 @@ fun CommandBuilderView(
 
     // Merge ALL_BUILDER_TOOLS with actual CLI tools from allCheatsheets
     val availableTools = remember(allCheatsheets) {
-        val list = ALL_BUILDER_TOOLS.toMutableList()
+        val csMap = allCheatsheets.associateBy { it.id.lowercase().replace("_", "-").trim() }
+        val list = ALL_BUILDER_TOOLS.map { tool ->
+            val cs = csMap[tool.id.lowercase()] ?: allCheatsheets.firstOrNull { it.id.equals(tool.id, ignoreCase = true) }
+            tool.copy(cheatsheet = cs)
+        }.toMutableList()
         allCheatsheets.forEach { cs ->
             val slug = cs.id.lowercase().replace("_", "-").trim()
             if (isActualCliTool(cs.id, cs.category)) {
@@ -367,7 +526,8 @@ fun CommandBuilderView(
                             name = cleanTitle,
                             category = cat,
                             descriptionTr = descTr,
-                            descriptionEn = descEn
+                            descriptionEn = descEn,
+                            cheatsheet = cs
                         )
                     )
                 }
@@ -445,14 +605,14 @@ fun CommandBuilderView(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = (if (language == AppLanguage.TR) currentTool.category.titleTr else currentTool.category.titleEn).uppercase(),
+                                text = currentTool.category.getTitle(language).uppercase(),
                                 fontSize = 9.sp,
                                 fontFamily = FontFamily.Monospace,
                                 color = currentTool.category.color
                             )
                         }
                         Text(
-                            text = if (language == AppLanguage.TR) currentTool.descriptionTr else currentTool.descriptionEn,
+                            text = currentTool.getDescription(language),
                             style = MaterialTheme.typography.bodySmall,
                             color = TextSecondary,
                             maxLines = 1
@@ -469,7 +629,7 @@ fun CommandBuilderView(
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = if (language == AppLanguage.TR) "Araç Seç" else "Select Tool",
+                            text = AppI18n.selectTool(language),
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Bold,
@@ -519,7 +679,7 @@ fun CommandBuilderView(
                             decorationBox = { innerTextField ->
                                 if (searchQuery.isEmpty()) {
                                     Text(
-                                        text = if (language == AppLanguage.TR) "Araç ara (örn: masscan, nikto, wpscan, mimikatz)..." else "Search tools...",
+                                        text = AppI18n.searchToolsPlaceholder(language),
                                         color = TextMuted,
                                         fontSize = 12.sp
                                     )
@@ -563,7 +723,7 @@ fun CommandBuilderView(
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = if (language == AppLanguage.TR) cat.titleTr else cat.titleEn,
+                                    text = cat.getTitle(language),
                                     fontSize = 11.sp,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                     color = if (isSelected) cat.color else TextSecondary
@@ -576,7 +736,7 @@ fun CommandBuilderView(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = if (language == AppLanguage.TR) "MEVCUT ARAÇLAR (${filteredTools.size})" else "AVAILABLE TOOLS (${filteredTools.size})",
+                    text = AppI18n.availableToolsCount(language, filteredTools.size),
                     fontSize = 10.5.sp,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Bold,
@@ -640,7 +800,7 @@ fun CommandBuilderView(
                                             maxLines = 1
                                         )
                                         Text(
-                                            text = if (language == AppLanguage.TR) tool.descriptionTr else tool.descriptionEn,
+                                            text = tool.getDescription(language),
                                             fontSize = 9.5.sp,
                                             color = TextMuted,
                                             maxLines = 1
@@ -822,17 +982,14 @@ fun LegalDisclaimerBanner(language: AppLanguage) {
 
             Column {
                 Text(
-                    text = if (language == AppLanguage.TR) "YASAL UYARI / SORUMLULUK REDDİ" else "LEGAL DISCLAIMER / ETHICAL USE",
+                    text = AppI18n.legalDisclaimerHeader(language),
                     fontSize = 10.sp,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Bold,
                     color = WarningOrange
                 )
                 Text(
-                    text = if (language == AppLanguage.TR)
-                        "Bu araçlar ve komut oluşturucular yalnızca yetkili güvenlik testleri, araştırmaları ve eğitim amaçlıdır. İzinsiz taramalar yasalara aykırıdır."
-                    else
-                        "This tool suite is intended strictly for authorized security assessments, defensive audits, and education. Unauthorized use is prohibited.",
+                    text = AppI18n.legalDisclaimerText(language),
                     fontSize = 10.5.sp,
                     color = TextSecondary,
                     lineHeight = 14.sp
@@ -878,7 +1035,7 @@ fun GeneratedCommandCard(
                 Box(modifier = Modifier.size(9.dp).clip(CircleShape).background(Color(0xFF27C93F)))
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = if (language == AppLanguage.TR) "CANLI KOMUT" else "LIVE COMMAND",
+                    text = AppI18n.liveCommandHeader(language),
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Bold,
@@ -911,7 +1068,7 @@ fun GeneratedCommandCard(
                     onClick = {
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         clipboard.setPrimaryClip(ClipData.newPlainText("Command", command))
-                        Toast.makeText(context, if (language == AppLanguage.TR) "Komut kopyalandı!" else "Command copied!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, AppI18n.copied(language), Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier.size(26.dp)
                 ) {
@@ -1039,7 +1196,7 @@ fun UniversalToolBuilder(tool: Cheatsheet, language: AppLanguage) {
     Column {
         if (commands.isNotEmpty()) {
             Text(
-                text = if (language == AppLanguage.TR) "HAZIR KOMUT ŞABLONLARI (${commands.size} Adet)" else "COMMAND TEMPLATES (${commands.size})",
+                text = AppI18n.commandTemplatesHeader(language, commands.size),
                 style = MaterialTheme.typography.labelSmall,
                 color = TerminalCyan
             )

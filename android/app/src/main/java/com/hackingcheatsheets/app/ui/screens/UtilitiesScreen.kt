@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.ui.components.CodeBlockView
 import com.hackingcheatsheets.app.ui.components.CommandBuilderView
+import com.hackingcheatsheets.app.ui.components.tr
 import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.*
 import com.hackingcheatsheets.app.viewmodel.CheatsheetViewModel
@@ -227,7 +228,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
-                    text = if (language == AppLanguage.TR) "Portlar:" else "Ports:",
+                    text = tr("Portlar:", language),
                     color = TextMuted,
                     fontSize = 11.sp,
                     modifier = Modifier.padding(top = 4.dp, end = 2.dp)
@@ -255,7 +256,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
 
             // Platform Selector Tabs
             Text(
-                text = if (language == AppLanguage.TR) "HEDEF PLATFORM & TÜR" else "TARGET PLATFORM & TYPE",
+                text = tr("HEDEF PLATFORM & TÜR", language),
                 style = MaterialTheme.typography.labelMedium,
                 color = CyberGreen
             )
@@ -304,7 +305,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
             if (selectedPlatform != ShellPlatform.MSFVENOM) {
                 // Category Filter
                 Text(
-                    text = if (language == AppLanguage.TR) "KATEGORİ" else "CATEGORY",
+                    text = tr("KATEGORİ", language),
                     style = MaterialTheme.typography.labelSmall,
                     color = TextMuted
                 )
@@ -341,7 +342,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text(if (language == AppLanguage.TR) "Payload ara (örn: mkfifo, ruby, pty)..." else "Search payloads (e.g., mkfifo, ruby)...") },
+                    placeholder = { Text(tr("Payload ara (örn: mkfifo, ruby, pty)...", language)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = TextMuted) },
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
@@ -364,7 +365,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
 
                 // Payload Dropdown / Selector Button
                 Text(
-                    text = if (language == AppLanguage.TR) "SEÇİLİ PAYLOAD (${filteredPayloads.size} Bulundu)" else "SELECTED PAYLOAD (${filteredPayloads.size} Found)",
+                    text = tr("SEÇİLİ PAYLOAD (${filteredPayloads.size} Bulundu)", language),
                     style = MaterialTheme.typography.labelSmall,
                     color = TextMuted
                 )
@@ -445,7 +446,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                     // Shell Interpreter
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = if (language == AppLanguage.TR) "KABUK (SHELL)" else "SHELL",
+                            text = tr("KABUK (SHELL)", language),
                             style = MaterialTheme.typography.labelSmall,
                             color = TextMuted
                         )
@@ -485,7 +486,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                     // Encoding
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = if (language == AppLanguage.TR) "KODLAMA (ENCODING)" else "ENCODING",
+                            text = tr("KODLAMA (ENCODING)", language),
                             style = MaterialTheme.typography.labelSmall,
                             color = TextMuted
                         )
@@ -536,7 +537,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = if (language == AppLanguage.TR) "ÜRETİLEN PAYLOAD" else "GENERATED PAYLOAD",
+                        text = tr("ÜRETİLEN PAYLOAD", language),
                         style = MaterialTheme.typography.labelLarge,
                         color = CyberGreen
                     )
@@ -572,7 +573,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
 
                 // Listener Section
                 Text(
-                    text = if (language == AppLanguage.TR) "HAZIR DİNLEYİCİ (LISTENER)" else "READY LISTENER COMMAND",
+                    text = tr("HAZIR DİNLEYİCİ (LISTENER)", language),
                     style = MaterialTheme.typography.labelLarge,
                     color = TerminalCyan
                 )
@@ -613,7 +614,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
             } else {
                 // MSFVenom Mode
                 Text(
-                    text = if (language == AppLanguage.TR) "MSFVENOM HAZIR ŞABLONLARI" else "MSFVENOM PRESETS",
+                    text = tr("MSFVENOM HAZIR ŞABLONLARI", language),
                     style = MaterialTheme.typography.labelMedium,
                     color = CyberGreen
                 )
@@ -659,7 +660,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                 }
 
                 Text(
-                    text = if (language == AppLanguage.TR) "MSFVENOM KOMUTU" else "MSFVENOM GENERATION COMMAND",
+                    text = tr("MSFVENOM KOMUTU", language),
                     style = MaterialTheme.typography.labelLarge,
                     color = CyberGreen
                 )
@@ -669,7 +670,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = if (language == AppLanguage.TR) "METASPLOIT TEK SATIR DİNLEYİCİ" else "METASPLOIT ONE-LINER HANDLER",
+                    text = tr("METASPLOIT TEK SATIR DİNLEYİCİ", language),
                     style = MaterialTheme.typography.labelLarge,
                     color = TerminalCyan
                 )
@@ -747,19 +748,19 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
             when (toolMode) {
                 0, 1 -> { // BPF (tcpdump & tshark)
                     Text(
-                        text = if (language == AppLanguage.TR) "HAZIR BPF FİLTRE ŞABLONU" else "BPF FILTER PRESET",
+                        text = tr("HAZIR BPF FİLTRE ŞABLONU", language),
                         style = MaterialTheme.typography.labelMedium,
                         color = TerminalCyan
                     )
                     Spacer(modifier = Modifier.height(6.dp))
 
                     val presets = listOf(
-                        "syn_only" to (if (language == AppLanguage.TR) "SYN Taraması (Port Scan)" else "SYN Only (Port Scan)"),
-                        "http" to (if (language == AppLanguage.TR) "HTTP İstekleri (GET/POST)" else "HTTP Requests"),
-                        "dns" to (if (language == AppLanguage.TR) "DNS Sorguları (Port 53)" else "DNS Queries (Port 53)"),
-                        "icmp" to (if (language == AppLanguage.TR) "ICMP Ping (Echo Req/Rep)" else "ICMP Ping"),
-                        "arp" to (if (language == AppLanguage.TR) "ARP Trafiği" else "ARP Traffic"),
-                        "custom" to (if (language == AppLanguage.TR) "Özel Filtre" else "Custom Filter")
+                        "syn_only" to (tr("SYN Taraması (Port Scan)", language)),
+                        "http" to (tr("HTTP İstekleri (GET/POST)", language)),
+                        "dns" to (tr("DNS Sorguları (Port 53)", language)),
+                        "icmp" to (tr("ICMP Ping (Echo Req/Rep)", language)),
+                        "arp" to (tr("ARP Trafiği", language)),
+                        "custom" to (tr("Özel Filtre", language))
                     )
 
                     Row(
@@ -794,7 +795,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                         OutlinedTextField(
                             value = iface,
                             onValueChange = { iface = it },
-                            label = { Text(if (language == AppLanguage.TR) "Arayüz (-i)" else "Interface (-i)") },
+                            label = { Text(tr("Arayüz (-i)", language)) },
                             modifier = Modifier.weight(1f),
                             colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = CyberGreen, unfocusedBorderColor = BorderDark, focusedTextColor = TextPrimary, unfocusedTextColor = TextPrimary),
                             singleLine = true
@@ -802,7 +803,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                         OutlinedTextField(
                             value = customPort,
                             onValueChange = { customPort = it },
-                            label = { Text(if (language == AppLanguage.TR) "Port (opsiyonel)" else "Port (optional)") },
+                            label = { Text(tr("Port (opsiyonel)", language)) },
                             modifier = Modifier.weight(1f),
                             colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = CyberGreen, unfocusedBorderColor = BorderDark, focusedTextColor = TextPrimary, unfocusedTextColor = TextPrimary),
                             singleLine = true
@@ -814,7 +815,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                     OutlinedTextField(
                         value = customHost,
                         onValueChange = { customHost = it },
-                        label = { Text(if (language == AppLanguage.TR) "Hedef Host/IP veya Ağ (opsiyonel)" else "Target Host/IP or Network (optional)") },
+                        label = { Text(tr("Hedef Host/IP veya Ağ (opsiyonel)", language)) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = CyberGreen, unfocusedBorderColor = BorderDark, focusedTextColor = TextPrimary, unfocusedTextColor = TextPrimary),
                         singleLine = true
@@ -824,19 +825,19 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
 
                     // BPF toggles
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(if (language == AppLanguage.TR) "-nn (DNS ve Port İsimlerini Çözme)" else "-nn (Do not resolve hostnames/ports)", fontSize = 11.5.sp, color = TextPrimary)
+                        Text(tr("-nn (DNS ve Port İsimlerini Çözme)", language), fontSize = 11.5.sp, color = TextPrimary)
                         Switch(checked = noDns, onCheckedChange = { noDns = it }, colors = SwitchDefaults.colors(checkedThumbColor = BackgroundDark, checkedTrackColor = CyberGreen))
                     }
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(if (language == AppLanguage.TR) "-v (Ayrıntılı Paket Başlıkları)" else "-v (Verbose packet headers)", fontSize = 11.5.sp, color = TextPrimary)
+                        Text(tr("-v (Ayrıntılı Paket Başlıkları)", language), fontSize = 11.5.sp, color = TextPrimary)
                         Switch(checked = verbose, onCheckedChange = { verbose = it }, colors = SwitchDefaults.colors(checkedThumbColor = BackgroundDark, checkedTrackColor = CyberGreen))
                     }
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(if (language == AppLanguage.TR) "-X (Hex ve ASCII Paket Dökümü)" else "-X (Hex & ASCII packet dump)", fontSize = 11.5.sp, color = TextPrimary)
+                        Text(tr("-X (Hex ve ASCII Paket Dökümü)", language), fontSize = 11.5.sp, color = TextPrimary)
                         Switch(checked = hexDump, onCheckedChange = { hexDump = it }, colors = SwitchDefaults.colors(checkedThumbColor = BackgroundDark, checkedTrackColor = CyberGreen))
                     }
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(if (language == AppLanguage.TR) "-w $pcapFile (Trafiği Dosyaya Kaydet)" else "-w $pcapFile (Save traffic to file)", fontSize = 11.5.sp, color = TextPrimary)
+                        Text(tr("-w $pcapFile (Trafiği Dosyaya Kaydet)", language), fontSize = 11.5.sp, color = TextPrimary)
                         Switch(checked = savePcap, onCheckedChange = { savePcap = it }, colors = SwitchDefaults.colors(checkedThumbColor = BackgroundDark, checkedTrackColor = CyberGreen))
                     }
 
@@ -875,7 +876,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
 
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
-                        text = if (language == AppLanguage.TR) (if (toolMode == 0) "ÜRETİLEN TCPDUMP KOMUTU" else "ÜRETİLEN TSHARK KOMUTU") else (if (toolMode == 0) "GENERATED TCPDUMP COMMAND" else "GENERATED TSHARK COMMAND"),
+                        text = if (toolMode == 0) tr("ÜRETİLEN TCPDUMP KOMUTU", language) else tr("ÜRETİLEN TSHARK KOMUTU", language),
                         style = MaterialTheme.typography.labelLarge,
                         color = CyberGreen
                     )
@@ -884,7 +885,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                 }
                 2 -> { // iptables
                     Text(
-                        text = if (language == AppLanguage.TR) "EYLEM (ACTION)" else "ACTION",
+                        text = tr("EYLEM (ACTION)", language),
                         style = MaterialTheme.typography.labelMedium,
                         color = WarningOrange
                     )
@@ -937,11 +938,11 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
 
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(if (language == AppLanguage.TR) "Brute-force Sınırlandırma (Limit 3/min)" else "Rate Limit (3/min)", fontSize = 11.5.sp, color = TextPrimary)
+                        Text(tr("Brute-force Sınırlandırma (Limit 3/min)", language), fontSize = 11.5.sp, color = TextPrimary)
                         Switch(checked = iptRateLimit, onCheckedChange = { iptRateLimit = it }, colors = SwitchDefaults.colors(checkedThumbColor = BackgroundDark, checkedTrackColor = CyberGreen))
                     }
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(if (language == AppLanguage.TR) "Engellenen Paketleri Logla (-j LOG)" else "Log Dropped Packets", fontSize = 11.5.sp, color = TextPrimary)
+                        Text(tr("Engellenen Paketleri Logla (-j LOG)", language), fontSize = 11.5.sp, color = TextPrimary)
                         Switch(checked = iptLog, onCheckedChange = { iptLog = it }, colors = SwitchDefaults.colors(checkedThumbColor = BackgroundDark, checkedTrackColor = CyberGreen))
                     }
 
@@ -961,7 +962,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
 
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
-                        text = if (language == AppLanguage.TR) "ÜRETİLEN IPTABLES KURALI" else "GENERATED IPTABLES RULE",
+                        text = tr("ÜRETİLEN IPTABLES KURALI", language),
                         style = MaterialTheme.typography.labelLarge,
                         color = CyberGreen
                     )
@@ -970,7 +971,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                 }
                 3 -> { // UFW
                     Text(
-                        text = if (language == AppLanguage.TR) "EYLEM (ACTION)" else "ACTION",
+                        text = tr("EYLEM (ACTION)", language),
                         style = MaterialTheme.typography.labelMedium,
                         color = WarningOrange
                     )
@@ -995,7 +996,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                     OutlinedTextField(
                         value = ufwPort,
                         onValueChange = { ufwPort = it },
-                        label = { Text(if (language == AppLanguage.TR) "Port / Servis (örn: 22/tcp, 80,443/tcp, OpenSSH)" else "Port / Service (e.g. 22/tcp, 80,443/tcp, OpenSSH)") },
+                        label = { Text(tr("Port / Servis (örn: 22/tcp, 80,443/tcp, OpenSSH)", language)) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = CyberGreen, unfocusedBorderColor = BorderDark, focusedTextColor = TextPrimary, unfocusedTextColor = TextPrimary),
                         singleLine = true
@@ -1004,7 +1005,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
                     OutlinedTextField(
                         value = ufwSource,
                         onValueChange = { ufwSource = it },
-                        label = { Text(if (language == AppLanguage.TR) "Kaynak IP / Subnet (opsiyonel: 192.168.1.100)" else "Source IP / Subnet (optional: 192.168.1.100)") },
+                        label = { Text(tr("Kaynak IP / Subnet (opsiyonel: 192.168.1.100)", language)) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = CyberGreen, unfocusedBorderColor = BorderDark, focusedTextColor = TextPrimary, unfocusedTextColor = TextPrimary),
                         singleLine = true
@@ -1018,7 +1019,7 @@ fun NetworkFilterRuleTab(language: AppLanguage) {
 
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
-                        text = if (language == AppLanguage.TR) "ÜRETİLEN UFW KURALI" else "GENERATED UFW RULE",
+                        text = tr("ÜRETİLEN UFW KURALI", language),
                         style = MaterialTheme.typography.labelLarge,
                         color = CyberGreen
                     )
@@ -1044,7 +1045,7 @@ fun EncoderDecoderTab(language: AppLanguage) {
             OutlinedTextField(
                 value = input,
                 onValueChange = { input = it },
-                label = { Text(if (language == AppLanguage.TR) "Girdi Metni / Değer" else "Input Text / Value") },
+                label = { Text(tr("Girdi Metni / Değer", language)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = CyberGreen,
@@ -1057,7 +1058,7 @@ fun EncoderDecoderTab(language: AppLanguage) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = if (language == AppLanguage.TR) "DÖNÜŞTÜRÜCÜ AKSİYONLARI" else "TRANSFORMATION ACTIONS",
+                text = tr("DÖNÜŞTÜRÜCÜ AKSİYONLARI", language),
                 style = MaterialTheme.typography.labelSmall,
                 color = TerminalCyan
             )
@@ -1163,19 +1164,19 @@ fun EncoderDecoderTab(language: AppLanguage) {
                     output = if (converted.isNotEmpty()) {
                         converted.entries.joinToString("\n") { "${it.key}: ${it.value}" }
                     } else {
-                        if (language == AppLanguage.TR) "Geçerli bir IPv4 adresi girin (örn: 127.0.0.1 veya 192.168.1.1)" else "Enter a valid IPv4 address (e.g. 127.0.0.1 or 192.168.1.1)"
+                        tr("Geçerli bir IPv4 adresi girin (örn: 127.0.0.1 veya 192.168.1.1)", language)
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = SurfaceVariantDark),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (language == AppLanguage.TR) "IPv4 Dönüştür (Decimal, Hex, Octal, Binary)" else "Convert IPv4 (Decimal, Hex, Octal, Binary)", fontSize = 11.sp, color = CyberGreen)
+                Text(tr("IPv4 Dönüştür (Decimal, Hex, Octal, Binary)", language), fontSize = 11.sp, color = CyberGreen)
             }
 
             Spacer(modifier = Modifier.height(14.dp))
 
             Text(
-                text = if (language == AppLanguage.TR) "SONUÇ" else "OUTPUT",
+                text = tr("SONUÇ", language),
                 style = MaterialTheme.typography.labelLarge,
                 color = CyberGreen
             )
@@ -1209,7 +1210,7 @@ fun HashToolsTab(language: AppLanguage) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = if (language == AppLanguage.TR) "🔍 Hash Tanıma (Analiz)" else "🔍 Hash Identifier",
+                    text = tr("🔍 Hash Tanıma (Analiz)", language),
                     fontSize = 11.5.sp,
                     fontWeight = if (toolMode == 0) FontWeight.Bold else FontWeight.Medium,
                     color = if (toolMode == 0) CyberGreen else TextMuted
@@ -1226,7 +1227,7 @@ fun HashToolsTab(language: AppLanguage) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = if (language == AppLanguage.TR) "⚡ Hashleme (Üretici)" else "⚡ Hash Generator",
+                    text = tr("⚡ Hashleme (Üretici)", language),
                     fontSize = 11.5.sp,
                     fontWeight = if (toolMode == 1) FontWeight.Bold else FontWeight.Medium,
                     color = if (toolMode == 1) TerminalCyan else TextMuted
@@ -1263,7 +1264,7 @@ fun HashIdentifierView(language: AppLanguage) {
             OutlinedTextField(
                 value = hashInput,
                 onValueChange = { hashInput = it },
-                label = { Text(if (language == AppLanguage.TR) "Hash Değerini Yapıştırın" else "Paste Hash Here") },
+                label = { Text(tr("Hash Değerini Yapıştırın", language)) },
                 trailingIcon = {
                     if (hashInput.isNotEmpty()) {
                         IconButton(onClick = { hashInput = "" }) {
@@ -1309,7 +1310,7 @@ fun HashIdentifierView(language: AppLanguage) {
                         contentAlignment = Alignment.Center
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(if (language == AppLanguage.TR) "ENTROPİ" else "ENTROPY", fontSize = 9.sp, fontFamily = FontFamily.Monospace, color = TextMuted)
+                            Text(tr("ENTROPİ", language), fontSize = 9.sp, fontFamily = FontFamily.Monospace, color = TextMuted)
                             Text("$entropy bits/char", fontSize = 11.5.sp, fontWeight = FontWeight.Bold, color = CyberGreen)
                         }
                     }
@@ -1319,7 +1320,7 @@ fun HashIdentifierView(language: AppLanguage) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = if (language == AppLanguage.TR) "OLASI HASH TÜRLERİ & KIRMA BAYRAKLARI" else "POSSIBLE HASH TYPES & CRACKING FLAGS",
+                text = tr("OLASI HASH TÜRLERİ & KIRMA BAYRAKLARI", language),
                 style = MaterialTheme.typography.labelLarge,
                 color = CyberGreen
             )
@@ -1370,7 +1371,7 @@ fun HashIdentifierView(language: AppLanguage) {
                                     .clickable {
                                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                         clipboard.setPrimaryClip(ClipData.newPlainText("Crack Command", cand.crackCommand))
-                                        Toast.makeText(context, if (language == AppLanguage.TR) "Kırma komutu kopyalandı!" else "Cracking command copied!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, tr("Kırma komutu kopyalandı!", language), Toast.LENGTH_SHORT).show()
                                     }
                                     .padding(8.dp)
                             ) {
@@ -1437,8 +1438,8 @@ fun HashGeneratorView(language: AppLanguage) {
             OutlinedTextField(
                 value = inputText,
                 onValueChange = { inputText = it },
-                label = { Text(if (language == AppLanguage.TR) "Hashlenecek Düz Metin (Plaintext)" else "Plaintext to Hash") },
-                placeholder = { Text(if (language == AppLanguage.TR) "Örn: password123, admin, token..." else "e.g. password123, admin, token...") },
+                label = { Text(tr("Hashlenecek Düz Metin (Plaintext)", language)) },
+                placeholder = { Text(tr("Örn: password123, admin, token...", language)) },
                 trailingIcon = {
                     if (inputText.isNotEmpty()) {
                         IconButton(onClick = { inputText = "" }) {
@@ -1477,7 +1478,7 @@ fun HashGeneratorView(language: AppLanguage) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = if (language == AppLanguage.TR) "BÜYÜK HARF" else "UPPERCASE",
+                        text = tr("BÜYÜK HARF", language),
                         fontSize = 11.sp,
                         color = TextSecondary,
                         fontWeight = FontWeight.Medium
@@ -1498,7 +1499,7 @@ fun HashGeneratorView(language: AppLanguage) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = if (language == AppLanguage.TR) "Salt (Tuz)" else "Salt",
+                        text = tr("Salt (Tuz)", language),
                         fontSize = 11.sp,
                         color = TextSecondary,
                         fontWeight = FontWeight.Medium
@@ -1538,7 +1539,7 @@ fun HashGeneratorView(language: AppLanguage) {
                     OutlinedTextField(
                         value = saltText,
                         onValueChange = { saltText = it },
-                        label = { Text(if (language == AppLanguage.TR) "Salt Değeri" else "Salt Value") },
+                        label = { Text(tr("Salt Değeri", language)) },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -1592,7 +1593,7 @@ fun HashGeneratorView(language: AppLanguage) {
                 OutlinedTextField(
                     value = hmacKey,
                     onValueChange = { hmacKey = it },
-                    label = { Text(if (language == AppLanguage.TR) "HMAC Gizli Anahtarı (Secret Key)" else "HMAC Secret Key") },
+                    label = { Text(tr("HMAC Gizli Anahtarı (Secret Key)", language)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
@@ -1607,7 +1608,7 @@ fun HashGeneratorView(language: AppLanguage) {
             Spacer(modifier = Modifier.height(14.dp))
 
             Text(
-                text = if (language == AppLanguage.TR) "HESAPLANAN HASH ÇIKTILARI" else "CALCULATED HASH OUTPUTS",
+                text = tr("HESAPLANAN HASH ÇIKTILARI", language),
                 style = MaterialTheme.typography.labelLarge,
                 color = TerminalCyan
             )
@@ -1629,7 +1630,7 @@ fun HashGeneratorView(language: AppLanguage) {
                             clipboard.setPrimaryClip(ClipData.newPlainText(item.algorithm, item.hash))
                             Toast.makeText(
                                 context,
-                                if (language == AppLanguage.TR) "${item.algorithm} kopyalandı!" else "${item.algorithm} copied!",
+                                tr("${item.algorithm} kopyalandı!", language),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -1719,7 +1720,7 @@ fun generateAllHashes(
     language: AppLanguage = AppLanguage.TR
 ): List<GeneratedHashResult> {
     if (text.isEmpty()) {
-        val emptyHint = if (language == AppLanguage.TR) "(Metin bekleniyor...)" else "(Waiting for text...)"
+        val emptyHint = tr("(Metin bekleniyor...)", language)
         return listOf(
             GeneratedHashResult("MD5", "128-bit", CyberGreen, emptyHint),
             GeneratedHashResult("NTLM", "Windows SAM", WarningOrange, emptyHint),
@@ -1942,7 +1943,7 @@ fun stringToHex(s: String, spaceSeparated: Boolean): String {
 
 fun hexToString(hex: String, language: AppLanguage = AppLanguage.TR): String {
     val clean = hex.replace(" ", "").replace("0x", "").replace(":", "")
-    if (clean.length % 2 != 0) return if (language == AppLanguage.TR) "Geçersiz Hex (tek sayıda karakter)" else "Invalid Hex (odd character count)"
+    if (clean.length % 2 != 0) return tr("Geçersiz Hex (tek sayıda karakter)", language)
     return try {
         val bytes = ByteArray(clean.length / 2)
         for (i in bytes.indices) {
@@ -1950,7 +1951,7 @@ fun hexToString(hex: String, language: AppLanguage = AppLanguage.TR): String {
         }
         String(bytes, Charsets.UTF_8)
     } catch (e: Exception) {
-        if (language == AppLanguage.TR) "Geçersiz Hex baytları" else "Invalid Hex bytes"
+        tr("Geçersiz Hex baytları", language)
     }
 }
 
@@ -1978,12 +1979,11 @@ fun htmlEntityDecode(s: String): String {
 }
 
 fun identifyHashDetailed(hash: String, language: AppLanguage = AppLanguage.TR): List<HashCandidate> {
-    val isTr = language == AppLanguage.TR
     if (hash.isEmpty()) {
         return listOf(
             HashCandidate(
-                if (isTr) "Girdi bekleniyor..." else "Waiting for input...",
-                if (isTr) "Lütfen tanımlamak istediğiniz hash değerini yapıştırın." else "Please paste the hash you want to identify into the box above."
+                tr("Girdi bekleniyor...", language),
+                tr("Lütfen tanımlamak istediğiniz hash değerini yapıştırın.", language)
             )
         )
     }
@@ -1994,52 +1994,52 @@ fun identifyHashDetailed(hash: String, language: AppLanguage = AppLanguage.TR): 
     if (isHex) {
         when (len) {
             32 -> {
-                list.add(HashCandidate("MD5", if (isTr) "Eski ve yaygın 128-bit hash" else "Legacy and common 128-bit hash", "-m 0", "hashcat -m 0 hashes.txt /usr/share/wordlists/rockyou.txt"))
-                list.add(HashCandidate("NTLM", if (isTr) "Windows yerel parola hash formatı" else "Windows local password hash format", "-m 1000", "hashcat -m 1000 hashes.txt /usr/share/wordlists/rockyou.txt"))
-                list.add(HashCandidate("MD4", if (isTr) "Eski Windows & NTLM temeli" else "Legacy Windows & NTLM foundation", "-m 900", "hashcat -m 900 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("MD5", tr("Eski ve yaygın 128-bit hash", language), "-m 0", "hashcat -m 0 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("NTLM", tr("Windows yerel parola hash formatı", language), "-m 1000", "hashcat -m 1000 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("MD4", tr("Eski Windows & NTLM temeli", language), "-m 900", "hashcat -m 900 hashes.txt /usr/share/wordlists/rockyou.txt"))
             }
             40 -> {
-                list.add(HashCandidate("SHA-1", if (isTr) "160-bit kriptografik özet" else "160-bit cryptographic digest", "-m 100", "hashcat -m 100 hashes.txt /usr/share/wordlists/rockyou.txt"))
-                list.add(HashCandidate("MySQL 4.1/5+", if (isTr) "MySQL veritabanı parola hash'i" else "MySQL database password hash", "-m 300", "hashcat -m 300 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("SHA-1", tr("160-bit kriptografik özet", language), "-m 100", "hashcat -m 100 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("MySQL 4.1/5+", tr("MySQL veritabanı parola hash'i", language), "-m 300", "hashcat -m 300 hashes.txt /usr/share/wordlists/rockyou.txt"))
             }
             56 -> {
-                list.add(HashCandidate("SHA-224", if (isTr) "224-bit SHA-2 ailesi" else "224-bit SHA-2 family", "-m 1300", "hashcat -m 1300 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("SHA-224", tr("224-bit SHA-2 ailesi", language), "-m 1300", "hashcat -m 1300 hashes.txt /usr/share/wordlists/rockyou.txt"))
             }
             64 -> {
-                list.add(HashCandidate("SHA-256", if (isTr) "Modern standart 256-bit hash" else "Modern standard 256-bit hash", "-m 1400", "hashcat -m 1400 hashes.txt /usr/share/wordlists/rockyou.txt"))
-                list.add(HashCandidate("Keccak-256", if (isTr) "Ethereum / Web3 hash formatı" else "Ethereum / Web3 hash format", "-m 17700", "hashcat -m 17700 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("SHA-256", tr("Modern standart 256-bit hash", language), "-m 1400", "hashcat -m 1400 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("Keccak-256", tr("Ethereum / Web3 hash formatı", language), "-m 17700", "hashcat -m 17700 hashes.txt /usr/share/wordlists/rockyou.txt"))
             }
             96 -> {
-                list.add(HashCandidate("SHA-384", if (isTr) "384-bit SHA-2 ailesi" else "384-bit SHA-2 family", "-m 10800", "hashcat -m 10800 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("SHA-384", tr("384-bit SHA-2 ailesi", language), "-m 10800", "hashcat -m 10800 hashes.txt /usr/share/wordlists/rockyou.txt"))
             }
             128 -> {
-                list.add(HashCandidate("SHA-512", if (isTr) "512-bit güçlü kriptografik özet" else "512-bit strong cryptographic digest", "-m 1700", "hashcat -m 1700 hashes.txt /usr/share/wordlists/rockyou.txt"))
-                list.add(HashCandidate("Whirlpool", if (isTr) "512-bit blok şifre tabanlı hash" else "512-bit block cipher based hash", "-m 6100", "hashcat -m 6100 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("SHA-512", tr("512-bit güçlü kriptografik özet", language), "-m 1700", "hashcat -m 1700 hashes.txt /usr/share/wordlists/rockyou.txt"))
+                list.add(HashCandidate("Whirlpool", tr("512-bit blok şifre tabanlı hash", language), "-m 6100", "hashcat -m 6100 hashes.txt /usr/share/wordlists/rockyou.txt"))
             }
         }
     }
 
     if (hash.startsWith("$2a$") || hash.startsWith("$2b$") || hash.startsWith("$2y$")) {
-        list.add(HashCandidate("bcrypt", if (isTr) "Blowfish tabanlı yavaş hash algoritması" else "Blowfish-based slow password hashing algorithm", "-m 3200", "hashcat -m 3200 hashes.txt /usr/share/wordlists/rockyou.txt"))
+        list.add(HashCandidate("bcrypt", tr("Blowfish tabanlı yavaş hash algoritması", language), "-m 3200", "hashcat -m 3200 hashes.txt /usr/share/wordlists/rockyou.txt"))
     }
     if (hash.startsWith("$6$")) {
-        list.add(HashCandidate("SHA512-Crypt", if (isTr) "Linux /etc/shadow varsayılan parola formatı" else "Linux /etc/shadow default password hash", "-m 1800", "hashcat -m 1800 hashes.txt /usr/share/wordlists/rockyou.txt"))
+        list.add(HashCandidate("SHA512-Crypt", tr("Linux /etc/shadow varsayılan parola formatı", language), "-m 1800", "hashcat -m 1800 hashes.txt /usr/share/wordlists/rockyou.txt"))
     }
     if (hash.startsWith("$1$")) {
-        list.add(HashCandidate("MD5-Crypt", if (isTr) "Eski Linux /etc/shadow parola formatı" else "Legacy Linux /etc/shadow password format", "-m 500", "hashcat -m 500 hashes.txt /usr/share/wordlists/rockyou.txt"))
+        list.add(HashCandidate("MD5-Crypt", tr("Eski Linux /etc/shadow parola formatı", language), "-m 500", "hashcat -m 500 hashes.txt /usr/share/wordlists/rockyou.txt"))
     }
     if (hash.startsWith("\$krb5asrep\$")) {
-        list.add(HashCandidate("Kerberos 5 AS-REP", if (isTr) "AS-REP Roasting saldırı çıktısı" else "AS-REP Roasting attack hash output", "-m 18200", "hashcat -m 18200 hashes.txt /usr/share/wordlists/rockyou.txt"))
+        list.add(HashCandidate("Kerberos 5 AS-REP", tr("AS-REP Roasting saldırı çıktısı", language), "-m 18200", "hashcat -m 18200 hashes.txt /usr/share/wordlists/rockyou.txt"))
     }
     if (hash.startsWith("\$krb5tgs\$")) {
-        list.add(HashCandidate("Kerberos 5 TGS", if (isTr) "Kerberoasting SPN servis bileti hash'i" else "Kerberoasting SPN service ticket hash", "-m 13100", "hashcat -m 13100 hashes.txt /usr/share/wordlists/rockyou.txt"))
+        list.add(HashCandidate("Kerberos 5 TGS", tr("Kerberoasting SPN servis bileti hash'i", language), "-m 13100", "hashcat -m 13100 hashes.txt /usr/share/wordlists/rockyou.txt"))
     }
 
     if (list.isEmpty()) {
         list.add(
             HashCandidate(
-                if (isTr) "Bilinmeyen İmza" else "Unknown Signature",
-                if (isTr) "Uzunluk: $len karakter. Özel tuzlama (salt) veya tescilli algoritma olabilir." else "Length: $len characters. Could be salted or proprietary algorithm."
+                tr("Bilinmeyen İmza", language),
+                tr("Uzunluk: $len karakter. Özel tuzlama (salt) veya tescilli algoritma olabilir.", language)
             )
         )
     }

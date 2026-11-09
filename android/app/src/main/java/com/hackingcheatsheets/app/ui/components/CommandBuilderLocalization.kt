@@ -1,10 +1,46 @@
 package com.hackingcheatsheets.app.ui.components
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.hackingcheatsheets.app.data.AppLanguage
+import org.json.JSONObject
 
 val LocalAppLanguage = staticCompositionLocalOf { AppLanguage.TR }
+
+object CommandBuilderI18n {
+    @Volatile
+    private var translationsByLang: Map<String, Map<String, String>> = emptyMap()
+
+    fun init(context: Context) {
+        if (translationsByLang.isNotEmpty()) return
+        try {
+            val jsonStr = context.assets.open("builder_i18n.json").bufferedReader().use { it.readText() }
+            val root = JSONObject(jsonStr)
+            val map = HashMap<String, MutableMap<String, String>>()
+            val langKeys = root.keys()
+            while (langKeys.hasNext()) {
+                val langKey = langKeys.next()
+                val subObj = root.getJSONObject(langKey)
+                val subMap = HashMap<String, String>(subObj.length())
+                val it = subObj.keys()
+                while (it.hasNext()) {
+                    val k = it.next()
+                    subMap[k] = subObj.getString(k)
+                }
+                map[langKey] = subMap
+            }
+            translationsByLang = map
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun lookup(text: String, language: AppLanguage): String? {
+        val langKey = language.code
+        return translationsByLang[langKey]?.get(text)
+    }
+}
 
 @Composable
 fun tr(text: String): String {
@@ -14,6 +50,8 @@ fun tr(text: String): String {
 
 fun tr(text: String, language: AppLanguage): String {
     if (language == AppLanguage.TR) return text
+    val localized = CommandBuilderI18n.lookup(text, language)
+    if (!localized.isNullOrBlank()) return localized
     return BUILDER_TRANSLATIONS[text] ?: translateBuilderDynamic(text)
 }
 

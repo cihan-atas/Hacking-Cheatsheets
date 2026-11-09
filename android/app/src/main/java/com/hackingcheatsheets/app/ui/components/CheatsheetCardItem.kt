@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.data.Cheatsheet
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.BorderDark
 import com.hackingcheatsheets.app.ui.theme.CodeBlockBg
 import com.hackingcheatsheets.app.ui.theme.CyberGreen
@@ -121,7 +122,7 @@ fun CheatsheetCardItem(
                         )
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = (if (language == AppLanguage.TR) meta.titleTr else tool.category).uppercase(),
+                                text = meta.getTitle(language).uppercase(),
                                 fontSize = 10.sp,
                                 fontFamily = FontFamily.Monospace,
                                 fontWeight = FontWeight.SemiBold,
@@ -139,8 +140,8 @@ fun CheatsheetCardItem(
                 )
             }
 
-            val desc = if (language == AppLanguage.TR) tool.descriptionTr else tool.description
-            if (!desc.isNullOrBlank()) {
+            val desc = tool.getDescription(language)
+            if (desc.isNotBlank()) {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = desc,
@@ -162,7 +163,7 @@ fun CheatsheetCardItem(
                         .clickable {
                             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                             clipboard.setPrimaryClip(ClipData.newPlainText("Command", firstCmd))
-                            Toast.makeText(context, if (language == AppLanguage.TR) "Komut kopyalandı!" else "Command copied!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, AppI18n.copied(language), Toast.LENGTH_SHORT).show()
                         }
                         .padding(horizontal = 8.dp, vertical = 5.dp)
                 ) {

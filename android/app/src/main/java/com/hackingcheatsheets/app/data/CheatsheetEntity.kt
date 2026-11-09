@@ -69,6 +69,23 @@ data class Cheatsheet(
         }
         return if (!c.isNullOrBlank()) c else contentEn
     }
+
+    fun getDescription(lang: AppLanguage): String {
+        if (lang == AppLanguage.TR && !descriptionTr.isNullOrBlank()) return descriptionTr
+        if (lang == AppLanguage.EN && !description.isNullOrBlank()) return description
+        val content = getContent(lang)
+        val bqMatch = Regex(">\\s*\\*\\*?(.*?)\\*\\*?").find(content)
+        if (bqMatch != null) {
+            val d = bqMatch.groupValues[1].trim()
+            if (d.length > 10) return if (d.length > 180) d.take(180) + "..." else d
+        }
+        val bMatch = Regex("<b>(.*?)</b>").find(content)
+        if (bMatch != null) {
+            val d = bMatch.groupValues[1].trim()
+            if (d.length > 10) return if (d.length > 180) d.take(180) + "..." else d
+        }
+        return description ?: descriptionTr ?: "Security cheatsheet & command reference"
+    }
 }
 
 @Entity(tableName = "favorites")
@@ -95,7 +112,7 @@ enum class AppLanguage(val code: String, val title: String, val flag: String) {
     PT("pt", "Português", "🇵🇹"),
     RU("ru", "Русский", "🇷🇺"),
     ZH_CN("zh-CN", "简体中文", "🇨🇳"),
-    AR("ar", "العربية", "🌐"),
+    AR("ar", "العربية", "🇸🇦"),
     EL("el", "Ελληνικά", "🇬🇷"),
     NB("nb", "Norsk", "🇳🇴")
 }

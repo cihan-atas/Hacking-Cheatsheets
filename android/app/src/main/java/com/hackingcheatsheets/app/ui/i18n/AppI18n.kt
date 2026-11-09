@@ -378,4 +378,139 @@ object AppI18n {
         AppLanguage.NB -> listOf("Kommandobygger", "Nettverk & Filter", "Koder", "Hash-verktøy", "Reverse Shell")
         else -> listOf("Command Builder", "Network & Filter", "Encoder", "Hash Tools", "Reverse Shell")
     }
+
+    fun quickCommandsHeader(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "⚡ HIZLI KOMUT KOPYALAMA"
+        AppLanguage.DE -> "⚡ SCHNELLE BEFEHLE"
+        AppLanguage.ES -> "⚡ COMANDOS RÁPIDOS"
+        AppLanguage.FR -> "⚡ COMMANDES RAPIDES"
+        AppLanguage.IT -> "⚡ COMANDI RAPIDI"
+        AppLanguage.PT -> "⚡ COMANDOS RÁPIDOS"
+        AppLanguage.RU -> "⚡ БЫСТРЫЕ КОМАНДЫ"
+        AppLanguage.ZH_CN -> "⚡ 快捷常用命令"
+        AppLanguage.AR -> "⚡ أوامر سريعة"
+        AppLanguage.EL -> "⚡ ΓΡΗΓΟΡΕΣ ΕΝΤΟΛΕΣ"
+        AppLanguage.NB -> "⚡ HURTIGKOMMANDOER"
+        else -> "⚡ QUICK COMMANDS"
+    }
+
+    fun configureFlagsSubtitle(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "Parametreleri ayarla & canlı komut türet"
+        AppLanguage.DE -> "Flags anpassen & Live-Befehle generieren"
+        AppLanguage.ES -> "Ajustar parámetros y generar comandos en vivo"
+        AppLanguage.FR -> "Ajuster les options et générer des commandes en direct"
+        AppLanguage.IT -> "Configura i flag e genera comandi in tempo reale"
+        AppLanguage.PT -> "Ajustar parâmetros e gerar comandos ao vivo"
+        AppLanguage.RU -> "Настройка параметров и генерация команд на лету"
+        AppLanguage.ZH_CN -> "调整参数选项并实时生成命令行"
+        AppLanguage.AR -> "اضبط المعلمات وقم بتوليد الأوامر مباشرة"
+        AppLanguage.EL -> "Ρύθμιση παραμέτρων & άμεση δημιουργία εντολών"
+        AppLanguage.NB -> "Juster flagg og generer levende kommandoer"
+        else -> "Configure flags & generate live commands"
+    }
+
+    fun selectTool(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "Araç Seç"
+        AppLanguage.DE -> "Tool auswählen"
+        AppLanguage.ES -> "Seleccionar Herramienta"
+        AppLanguage.FR -> "Sélectionner un Outil"
+        AppLanguage.IT -> "Seleziona Strumento"
+        AppLanguage.PT -> "Selecionar Ferramenta"
+        AppLanguage.RU -> "Выбрать инструмент"
+        AppLanguage.ZH_CN -> "选择工具"
+        AppLanguage.AR -> "اختر الأداة"
+        AppLanguage.EL -> "Επιλογή Εργαλείου"
+        AppLanguage.NB -> "Velg verktøy"
+        else -> "Select Tool"
+    }
+
+    fun searchToolsPlaceholder(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "Araç ara (örn: masscan, nikto, wpscan, mimikatz)..."
+        AppLanguage.DE -> "Tools suchen (z.B. nmap, nikto, wpscan)..."
+        AppLanguage.ES -> "Buscar herramientas (ej. masscan, nikto)..."
+        AppLanguage.FR -> "Rechercher des outils (ex: nmap, nikto)..."
+        AppLanguage.IT -> "Cerca strumenti (es. masscan, nikto)..."
+        AppLanguage.PT -> "Pesquisar ferramentas (ex: masscan, nikto)..."
+        AppLanguage.RU -> "Поиск инструментов (напр. masscan, nikto)..."
+        AppLanguage.ZH_CN -> "搜索工具 (例如: masscan, nikto, wpscan)..."
+        AppLanguage.AR -> "ابحث عن أدوات (مثل: masscan, nikto)..."
+        AppLanguage.EL -> "Αναζήτηση εργαλείων (π.χ. masscan, nikto)..."
+        AppLanguage.NB -> "Søk etter verktøy (f.eks. masscan, nikto)..."
+        else -> "Search tools (e.g. masscan, nikto, wpscan)..."
+    }
+
+    fun availableToolsCount(lang: AppLanguage, count: Int): String = when (lang) {
+        AppLanguage.TR -> "MEVCUT ARAÇLAR ($count)"
+        AppLanguage.DE -> "VERFÜGBARE WERKZEUGE ($count)"
+        AppLanguage.ES -> "HERRAMIENTAS DISPONIBLES ($count)"
+        AppLanguage.FR -> "OUTILS DISPONIBLES ($count)"
+        AppLanguage.IT -> "STRUMENTI DISPONIBILI ($count)"
+        AppLanguage.PT -> "FERRAMENTAS DISPONÍVEIS ($count)"
+        AppLanguage.RU -> "ДОСТУПНЫЕ ИНСТРУМЕНТЫ ($count)"
+        AppLanguage.ZH_CN -> "可用安全工具 ($count)"
+        AppLanguage.AR -> "الأدوات المتاحة ($count)"
+        AppLanguage.EL -> "ΔΙΑΘΕΣΙΜΑ ΕΡΓΑΛΕΙΑ ($count)"
+        AppLanguage.NB -> "TILGJENGELIGE VERKTØY ($count)"
+        else -> "AVAILABLE TOOLS ($count)"
+    }
+
+    fun legalDisclaimerHeader(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "YASAL UYARI / SORUMLULUK REDDİ"
+        AppLanguage.DE -> "RECHTLICHER HINWEIS / HAFTUNGSAUSSCHLUSS"
+        AppLanguage.ES -> "AVISO LEGAL / DESCARGO DE RESPONSABILIDAD"
+        AppLanguage.FR -> "AVIS JURIDIQUE / CLAUSE DE NON-RESPONSABILITÉ"
+        AppLanguage.IT -> "DISCLAIMER LEGALE / USO ETICO"
+        AppLanguage.PT -> "AVISO LEGAL / ISENÇÃO DE RESPONSABILIDADE"
+        AppLanguage.RU -> "ЮРИДИЧЕСКОЕ ПРЕДУПРЕЖДЕНИЕ / ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ"
+        AppLanguage.ZH_CN -> "法律声明与免责条约"
+        AppLanguage.AR -> "إخلاء مسؤولية قانوني / الاستخدام الأخلاقي"
+        AppLanguage.EL -> "ΝΟΜΙΚΗ ΑΠΟΠΟΙΗΣΗ ΕΥΘΥΝΗΣ"
+        AppLanguage.NB -> "JURIDISK ANSVARSFRASKRIVELSE"
+        else -> "LEGAL DISCLAIMER / ETHICAL USE"
+    }
+
+    fun legalDisclaimerText(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "Bu araç yalnızca yasal izinli sızma testleri, güvenlik araştırmaları ve eğitim amaçlı tasarlanmıştır. Yetkisiz sistemlere karşı yapılan saldırılar kanunen suçtur. Tüm sorumluluk kullanıcıya aittir."
+        AppLanguage.DE -> "Dieses Tool dient ausschließlich autorisierten Penetrationstests, Sicherheitsforschungen und Bildungszwecken. Unbefugte Angriffe auf fremde Systeme sind gesetzlich strafbar."
+        AppLanguage.ES -> "Esta herramienta está diseñada únicamente para pruebas de penetración autorizadas, investigación de seguridad y fines educativos. Los ataques a sistemas no autorizados son ilegales."
+        AppLanguage.FR -> "Cet outil est conçu uniquement pour les tests d'intrusion autorisés, la recherche en sécurité et l'éducation. Les attaques contre des systèmes non autorisés sont illégales."
+        AppLanguage.IT -> "Questo strumento è progettato solo per test di penetrazione autorizzati, ricerca sulla sicurezza e scopi educativi. L'uso non autorizzato è punito dalla legge."
+        AppLanguage.PT -> "Esta ferramenta foi desenvolvida exclusivamente para testes de invasão autorizados, pesquisa de segurança e fins educacionais. O uso não autorizado é crime."
+        AppLanguage.RU -> "Этот инструмент предназначен исключительно для авторизованного тестирования на проникновение, исследований и обучения. Несанкционированные атаки преследуются по закону."
+        AppLanguage.ZH_CN -> "本工具仅供已获授权的渗透测试、安全攻防研究及安全教学使用。未经授权对任何系统进行攻击均属违法行为，一切法律责任由使用者自行承担。"
+        AppLanguage.AR -> "هذه الأداة مصممة فقط لاختبارات الاختراق المصرح بها والأبحاث الأمنية والتعليم. الاستخدام غير المصرح به ضد أي أنظمة يعد جريمة يعاقب عليها القانون."
+        AppLanguage.EL -> "Αυτό το εργαλείο έχει σχεδιαστεί αποκλειστικά για εξουσιοδοτημένες δοκιμές διείσδυσης, έρευνα ασφάλειας και εκπαίδευση. Η μη εξουσιοδοτημένη χρήση διώκεται ποινικά."
+        AppLanguage.NB -> "Dette verktøyet er kun ment for autoriserte penetrasjonstester, sikkerhetsforskning og opplæring. Uautoriserte angrep mot systemer er ulovlig."
+        else -> "This tool is intended strictly for authorized penetration testing, security research, and educational purposes. Unauthorized targeting of systems is illegal."
+    }
+
+    fun liveCommandHeader(lang: AppLanguage): String = when (lang) {
+        AppLanguage.TR -> "CANLI KOMUT"
+        AppLanguage.DE -> "LIVE-BEFEHL"
+        AppLanguage.ES -> "COMANDO EN VIVO"
+        AppLanguage.FR -> "COMMANDE EN DIRECT"
+        AppLanguage.IT -> "COMANDO IN TEMPO REALE"
+        AppLanguage.PT -> "COMANDO AO VIVO"
+        AppLanguage.RU -> "ЖИВАЯ КОМАНДА"
+        AppLanguage.ZH_CN -> "实时生成命令"
+        AppLanguage.AR -> "الأمر المباشر"
+        AppLanguage.EL -> "ΖΩΝΤΑΝΗ ΕΝΤΟΛΗ"
+        AppLanguage.NB -> "LEVENDE KOMMANDO"
+        else -> "LIVE COMMAND"
+    }
+
+    fun commandTemplatesHeader(lang: AppLanguage, count: Int): String = when (lang) {
+        AppLanguage.TR -> "HAZIR KOMUT ŞABLONLARI ($count Adet)"
+        AppLanguage.DE -> "BEFEHLSVORLAGEN ($count Vorlagen)"
+        AppLanguage.ES -> "PLANTILLAS DE COMANDOS ($count)"
+        AppLanguage.FR -> "MODÈLES DE COMMANDES ($count)"
+        AppLanguage.IT -> "MODELLI DI COMANDO ($count)"
+        AppLanguage.PT -> "MODELOS DE COMANDOS ($count)"
+        AppLanguage.RU -> "ШАБЛОНЫ КОМАНД ($count)"
+        AppLanguage.ZH_CN -> "精选命令模板 ($count 条)"
+        AppLanguage.AR -> "قوالب الأوامر الجاهزة ($count)"
+        AppLanguage.EL -> "ΠΡΟΤΥΠΑ ΕΝΤΟΛΩΝ ($count)"
+        AppLanguage.NB -> "KOMMANDOMALER ($count)"
+        else -> "COMMAND TEMPLATES ($count)"
+    }
 }

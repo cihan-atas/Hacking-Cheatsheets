@@ -37,6 +37,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.hackingcheatsheets.app.data.AppLanguage
+import com.hackingcheatsheets.app.ui.components.CommandBuilderI18n
 import com.hackingcheatsheets.app.ui.navigation.Screen
 import com.hackingcheatsheets.app.ui.screens.CategoryScreen
 import com.hackingcheatsheets.app.ui.screens.DetailScreen
@@ -59,6 +60,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        CommandBuilderI18n.init(applicationContext)
         setContent {
             HackingCheatsheetsTheme {
                 MainAppScaffold(viewModel = viewModel)

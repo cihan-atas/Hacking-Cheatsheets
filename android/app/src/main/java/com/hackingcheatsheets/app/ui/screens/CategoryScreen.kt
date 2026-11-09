@@ -157,9 +157,8 @@ fun CategoryOverviewView(
         categories.filter { cat ->
             val meta = getCategoryMeta(cat.category)
             cat.category.lowercase().contains(q) ||
-            meta.titleTr.lowercase().contains(q) ||
-            meta.descTr.lowercase().contains(q) ||
-            meta.descEn.lowercase().contains(q)
+            meta.getTitle(language).lowercase().contains(q) ||
+            meta.getDesc(language).lowercase().contains(q)
         }
     }
 
@@ -314,7 +313,7 @@ fun CategoryCardItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = if (language == AppLanguage.TR) meta.titleTr else category.category,
+                        text = meta.getTitle(language),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary
@@ -341,7 +340,7 @@ fun CategoryCardItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = if (language == AppLanguage.TR) meta.descTr else meta.descEn,
+                    text = meta.getDesc(language),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     maxLines = 2
@@ -428,7 +427,7 @@ fun CategoryDetailView(
 
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = if (language == AppLanguage.TR) meta.titleTr else categoryName,
+                                text = meta.getTitle(language),
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
@@ -444,7 +443,7 @@ fun CategoryDetailView(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     Text(
-                        text = if (language == AppLanguage.TR) meta.descTr else meta.descEn,
+                        text = meta.getDesc(language),
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextSecondary
                     )
@@ -480,10 +479,7 @@ fun CategoryDetailView(
                         decorationBox = { innerTextField ->
                             if (filterQuery.isEmpty()) {
                                 Text(
-                                    text = if (language == AppLanguage.TR) 
-                                        "${if (language == AppLanguage.TR) meta.titleTr else categoryName} içinde ara..." 
-                                    else 
-                                        "Filter in ${categoryName}...",
+                                    text = "${meta.getTitle(language)}...",
                                     color = TextMuted,
                                     fontSize = 13.sp
                                 )

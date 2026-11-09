@@ -202,7 +202,7 @@ fun SearchScreen(
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = if (language == AppLanguage.TR) meta.titleTr else cat.category,
+                            text = meta.getTitle(language),
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,

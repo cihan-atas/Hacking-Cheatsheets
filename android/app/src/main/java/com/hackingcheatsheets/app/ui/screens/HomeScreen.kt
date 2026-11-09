@@ -299,7 +299,7 @@ fun HomeScreen(
                             }
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                text = if (language == AppLanguage.TR) meta.titleTr else catName,
+                                text = meta.getTitle(language),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary,
@@ -307,7 +307,7 @@ fun HomeScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "$count ${if (language == AppLanguage.TR) "araç" else "tools"}",
+                                text = AppI18n.toolsBadge(language, count),
                                 fontSize = 10.sp,
                                 fontFamily = FontFamily.Monospace,
                                 color = meta.color

@@ -223,7 +223,7 @@ fun DetailScreen(
                         color = TextPrimary
                     )
                     Text(
-                        text = (if (language == AppLanguage.TR) meta.titleTr else tool.category).uppercase(),
+                        text = meta.getTitle(language).uppercase(),
                         fontSize = 10.sp,
                         fontFamily = FontFamily.Monospace,
                         color = meta.color
@@ -300,7 +300,7 @@ fun DetailScreen(
 
                     if (commands.isNotEmpty()) {
                         Text(
-                            text = if (language == AppLanguage.TR) "⚡ HIZLI KOMUT KOPYALAMA" else "⚡ QUICK COMMANDS",
+                            text = AppI18n.quickCommandsHeader(language),
                             style = MaterialTheme.typography.labelLarge,
                             color = CyberGreen
                         )
@@ -400,7 +400,7 @@ fun DetailScreen(
                                             color = TextPrimary
                                         )
                                         Text(
-                                            text = if (language == AppLanguage.TR) "Parametreleri ayarla & canlı komut türet" else "Configure flags & generate live commands",
+                                            text = AppI18n.configureFlagsSubtitle(language),
                                             style = MaterialTheme.typography.bodySmall,
                                             color = CyberGreen
                                         )
