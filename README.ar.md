@@ -65,6 +65,8 @@
 - [🔵 ورقة مرجعية لاختبار اختراق Azure](Cloud-Security/translations/Azure-Pentesting.ar.md)
 - [🔴 ورقة مرجعية لاختبار اختراق GCP](Cloud-Security/translations/GCP-Pentesting.ar.md)
 - [☁️ أوراق مرجعية لأمن السحابة](Cloud-Security/translations/README.ar.md)
+- [🛠️ Pacu AWS](Pacu/translations/README.ar.md)
+- [🛠️ Prowler](Prowler/translations/README.ar.md)
 
 <a id="category-04"></a>
 ## أمن تطبيقات الهواتف المحمولة
@@ -72,6 +74,8 @@
 - [🤖 دليل مرجعي لاختبار اختراق Android](Mobile-Security/translations/Android-Pentesting.ar.md)
 - [🍎 دليل مرجعي لاختبار اختراق iOS](Mobile-Security/translations/iOS-Pentesting.ar.md)
 - [📱 أدلة مرجعية لأمن الأجهزة المحمولة](Mobile-Security/translations/README.ar.md)
+- [🛠️ Frida](Frida/translations/README.ar.md)
+- [🛠️ Jadx (Jadx-GUI)](Jadx/translations/README.ar.md)
 
 <a id="category-05"></a>
 ## أمن الحاويات
@@ -79,6 +83,8 @@
 - [🐳 مرجع اختبار اختراق Docker](Container-Security/translations/Docker-Pentesting.ar.md)
 - [☸️ مرجع اختبار اختراق Kubernetes](Container-Security/translations/Kubernetes-Pentesting.ar.md)
 - [🐳 مراجع أمن الحاويات](Container-Security/translations/README.ar.md)
+- [🛠️ Trivy](Trivy/translations/README.ar.md)
+- [🛠️ kube-bench](kube-bench/translations/README.ar.md)
 
 <a id="category-06"></a>
 ## الهندسة الاجتماعية
@@ -103,6 +109,11 @@
 - [🌐 استخبارات المصادر المفتوحة للنطاقات وعناوين IP](OSINT/translations/Domain-IP-OSINT.ar.md)
 - [🖼️ استخبارات المصادر المفتوحة للصور](OSINT/translations/Image-OSINT.ar.md)
 - [🔍 مرجع استخبارات المصادر المفتوحة (OSINT)](OSINT/translations/README.ar.md)
+- [🛠️ theHarvester](theHarvester/translations/README.ar.md)
+- [🛠️ Sherlock](Sherlock/translations/README.ar.md)
+- [🛠️ TruffleHog](TruffleHog/translations/README.ar.md)
+- [🛠️ Gitleaks](Gitleaks/translations/README.ar.md)
+- [🛠️ GitTools](GitTools/translations/README.ar.md)
 
 <a id="category-09"></a>
 ## اختبار اختراق الشبكات
@@ -112,6 +123,11 @@
 - [🕵️ هجمات الوسيط (Man-in-the-Middle أو MITM)](Network-Pentesting/translations/MITM-Attacks.ar.md)
 - [💥 ورقة مرجعية لاستغلال الخدمات (Service Exploitation)](Network-Pentesting/translations/Service-Exploitation.ar.md)
 - [🌐 ورقة مرجعية لاختبار اختراق الشبكات](Network-Pentesting/translations/README.ar.md)
+- [🛠️ Chisel](Chisel/translations/README.ar.md)
+- [🛠️ Ligolo-ng](Ligolo-ng/translations/README.ar.md)
+- [🛠️ Proxychains](Proxychains/translations/README.ar.md)
+- [🛠️ sshuttle](sshuttle/translations/README.ar.md)
+- [🛠️ SSH Tunneling](SSH-Tunneling/translations/README.ar.md)
 
 <a id="category-10"></a>
 ## أدلة مسابقات CTF
@@ -138,6 +154,12 @@
 - [🔑 Mimikatz — ورقة مرجعية شاملة](Mimikatz/translations/README.ar.md)
 - [💻 PowerShell — دليل مرجعي شامل لاختبار الاختراق](PowerShell/translations/README.ar.md)
 - [🐧 أوامر Linux وBash — مرجع شامل لاختبار الاختراق](Linux-Commands/translations/README.ar.md)
+- [🛠️ Msfvenom](Msfvenom/translations/README.ar.md)
+- [🛠️ Sliver C2](Sliver/translations/README.ar.md)
+- [🛠️ Searchsploit](Searchsploit/translations/README.ar.md)
+- [🛠️ Netcat (nc)](Netcat/translations/README.ar.md)
+- [🛠️ Socat](Socat/translations/README.ar.md)
+- [🛠️ rlwrap](rlwrap/translations/README.ar.md)
 
 <a id="category-13"></a>
 ## الاستطلاع والفحص
@@ -145,6 +167,15 @@
 - [🔍 Nmap — دليل مرجعي شامل](Nmap/translations/README.ar.md)
 - [🚀 Gobuster — المرجع الشامل](Gobuster/translations/README.ar.md)
 - [🕷️ Nikto — ورقة مرجعية شاملة](Nikto/translations/README.ar.md)
+- [🛠️ RustScan](RustScan/translations/README.ar.md)
+- [🛠️ Masscan](Masscan/translations/README.ar.md)
+- [🛠️ dnsx](dnsx/translations/README.ar.md)
+- [🛠️ dnsrecon](dnsrecon/translations/README.ar.md)
+- [🛠️ Feroxbuster](Feroxbuster/translations/README.ar.md)
+- [🛠️ Dirb](Dirb/translations/README.ar.md)
+- [🛠️ dirsearch](dirsearch/translations/README.ar.md)
+- [🛠️ Naabu](Naabu/translations/README.ar.md)
+- [🛠️ WhatWeb](WhatWeb/translations/README.ar.md)
 
 <a id="category-14"></a>
 ## اختبار تطبيقات الويب
@@ -152,6 +183,17 @@
 - [💉 SQLMap — دليل مرجعي شامل](SQLMap/translations/README.ar.md)
 - [🔶 Burp Suite — المرجع الشامل](Burp-Suite/translations/README.ar.md)
 - [⚡ OWASP ZAP — ورقة مرجعية شاملة](OWASP-ZAP/translations/README.ar.md)
+- [🛠️ WPScan](WPScan/translations/README.ar.md)
+- [🛠️ Kiterunner](Kiterunner/translations/README.ar.md)
+- [🛠️ Wfuzz](Wfuzz/translations/README.ar.md)
+- [🛠️ Commix](Commix/translations/README.ar.md)
+- [🛠️ Tplmap](Tplmap/translations/README.ar.md)
+- [🛠️ jwt_tool](jwt_tool/translations/README.ar.md)
+- [🛠️ smuggler](smuggler/translations/README.ar.md)
+- [🛠️ CORSy](CORSy/translations/README.ar.md)
+- [🛠️ InQL](InQL/translations/README.ar.md)
+- [🛠️ wafw00f](wafw00f/translations/README.ar.md)
+- [🛠️ mitmproxy](mitmproxy/translations/README.ar.md)
 
 <a id="category-15"></a>
 ## فحص كلمات المرور واستعادتها
@@ -159,12 +201,21 @@
 - [🔓 Hydra — ورقة مرجعية شاملة](Hydra/translations/README.ar.md)
 - [🔨 John the Ripper — المرجع الشامل](John-The-Ripper/translations/README.ar.md)
 - [⚡ Hashcat — دليل مرجعي شامل](Hashcat/translations/README.ar.md)
+- [🛠️ CeWL](CeWL/translations/README.ar.md)
+- [🛠️ Crunch](Crunch/translations/README.ar.md)
+- [🛠️ name-that-hash](name-that-hash/translations/README.ar.md)
+- [🛠️ CUPP](CUPP/translations/README.ar.md)
+- [🛠️ fcrackzip](fcrackzip/translations/README.ar.md)
 
 <a id="category-16"></a>
 ## تحليل الشبكات
 
 - [🦈 Wireshark — المرجع الشامل](Wireshark/translations/README.ar.md)
 - [📡 tcpdump — ورقة مرجعية شاملة](tcpdump/translations/README.ar.md)
+- [🛠️ tshark](tshark/translations/README.ar.md)
+- [🛠️ Scapy](Scapy/translations/README.ar.md)
+- [🛠️ Ettercap](Ettercap/translations/README.ar.md)
+- [🛠️ Yersinia](Yersinia/translations/README.ar.md)
 
 <a id="category-17"></a>
 ## مكافآت اكتشاف الثغرات
@@ -204,6 +255,7 @@
 - [🔐 مرجع سريع لتجاوز المصادقة](Auth-Bypass/translations/README.ar.md)
 - [🌍 ورقة مرجعية لأخطاء إعداد CORS](CORS/translations/README.ar.md)
 - [🔀 مرجع إعادة التوجيه المفتوحة (Open Redirect)](Open-Redirect/translations/README.ar.md)
+- [🛠️ JWT Attacks](JWT-Attacks/translations/README.ar.md)
 
 <a id="category-20"></a>
 ## تقنيات الهجوم المتقدمة
@@ -227,6 +279,10 @@
 
 - [🐧 تصعيد الصلاحيات في Linux - مرجع شامل](Linux-PrivEsc/translations/README.ar.md)
 - [🪟 ورقة مرجعية شاملة لرفع الصلاحيات في Windows](Windows-PrivEsc/translations/README.ar.md)
+- [🛠️ PEASS-ng (LinPEAS / WinPEAS)](PEASS-ng/translations/README.ar.md)
+- [🛠️ LOLBAS & GTFOBins](LOLBAS-GTFOBins/translations/README.ar.md)
+- [🛠️ LaZagne](LaZagne/translations/README.ar.md)
+- [🛠️ pypykatz](pypykatz/translations/README.ar.md)
 
 <a id="category-23"></a>
 ## الأدلة الجنائية الرقمية
@@ -242,6 +298,12 @@
 - [🔍 ورقة مرجعية للهندسة العكسية باستخدام Ghidra](Ghidra/translations/README.ar.md)
 - [🐛 GDB - مرجع سريع لمصحّح GNU](GDB/translations/README.ar.md)
 - [🔧 x64dbg - ورقة مرجعية لتنقيح برامج Windows](x64dbg/translations/README.ar.md)
+- [🛠️ pwntools](pwntools/translations/README.ar.md)
+- [🛠️ pwndbg & GEF](pwndbg-GEF/translations/README.ar.md)
+- [🛠️ Radare2 (r2)](Radare2/translations/README.ar.md)
+- [🛠️ Ropper (ROP Gadgets)](Ropper/translations/README.ar.md)
+- [🛠️ checksec](checksec/translations/README.ar.md)
+- [🛠️ strace & ltrace](strace-ltrace/translations/README.ar.md)
 
 <a id="category-25"></a>
 ## أمن شبكات WiFi
@@ -249,6 +311,8 @@
 - [📶 Aircrack-ng - مرجع سريع لحزمة اختبار أمن WiFi](Aircrack-ng/translations/README.ar.md)
 - [📶 ورقة مرجعية لأداة تدقيق WiFi المؤتمتة Wifite](Wifite/translations/README.ar.md)
 - [🦈 Bettercap - ورقة مرجعية لإطار هجمات الشبكات](Bettercap/translations/README.ar.md)
+- [🛠️ hcxdumptool](hcxdumptool/translations/README.ar.md)
+- [🛠️ Reaver & PixieWPS](Reaver/translations/README.ar.md)
 
 <a id="category-26"></a>
 ## Active Directory
@@ -262,6 +326,13 @@
 - [🎣 Responder - تسميم استجابات LLMNR/NBT-NS](Responder/translations/README.ar.md)
 - [😈 Evil-WinRM — صدفة Windows عن بُعد](Evil-WinRM/translations/README.ar.md)
 - [🔑 Kerbrute - تعداد مستخدمي Kerberos](Kerbrute/translations/README.ar.md)
+- [🛠️ Certipy](Certipy/translations/README.ar.md)
+- [🛠️ NetExec](NetExec/translations/README.ar.md)
+- [🛠️ Snaffler](Snaffler/translations/README.ar.md)
+- [🛠️ Coercer](Coercer/translations/README.ar.md)
+- [🛠️ PKINITtools](PKINITtools/translations/README.ar.md)
+- [🛠️ adidnsdump](adidnsdump/translations/README.ar.md)
+- [🛠️ enum4linux-ng](enum4linux-ng/translations/README.ar.md)
 
 <a id="category-27"></a>
 ## الموارد

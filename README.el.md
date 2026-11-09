@@ -329,6 +329,15 @@
 | **Nmap** | Αναγνώριση δικτύου και έλεγχοι ασφάλειας | [📄 Προβολή](./Nmap/translations/README.el.md) |
 | **Gobuster** | Αναζήτηση καταλόγων, ονομάτων DNS και virtual hosts με λίστες τιμών | [📄 Προβολή](./Gobuster/translations/README.el.md) |
 | **Nikto** | Εργαλείο ελέγχων web server | [📄 Προβολή](./Nikto/translations/README.el.md) |
+| **RustScan** | Εξαιρετικά γρήγορος σαρωτής θυρών | [📄 Προβολή](./RustScan/translations/README.el.md) |
+| **Masscan** | Μαζικός σαρωτής δικτύου | [📄 Προβολή](./Masscan/translations/README.el.md) |
+| **dnsx** | Γρήγορος σαρωτής DNS πολλαπλών χρήσεων | [📄 Προβολή](./dnsx/translations/README.el.md) |
+| **dnsrecon** | Αναγνώριση και απαρίθμηση DNS | [📄 Προβολή](./dnsrecon/translations/README.el.md) |
+| **Feroxbuster** | Γρήγορη εύρεση περιεχομένου ιστού σε Rust | [📄 Προβολή](./Feroxbuster/translations/README.el.md) |
+| **Dirb** | Σαρωτής καταλόγων ιστού | [📄 Προβολή](./Dirb/translations/README.el.md) |
+| **dirsearch** | Προηγμένος σαρωτής διαδρομών ιστού | [📄 Προβολή](./dirsearch/translations/README.el.md) |
+| **Naabu** | Ταχύς σαρωτής θυρών TCP/UDP | [📄 Προβολή](./Naabu/translations/README.el.md) |
+| **WhatWeb** | Αναγνώριση τεχνολογιών ιστότοπων | [📄 Προβολή](./WhatWeb/translations/README.el.md) |
 
 <a id="section-16"></a>
 
@@ -339,6 +348,17 @@
 | **SQLMap** | Αυτοματοποίηση ελέγχων SQL injection | [📄 Προβολή](./SQLMap/translations/README.el.md) |
 | **Burp Suite** | Πλατφόρμα ελέγχων ασφάλειας εφαρμογών web | [📄 Προβολή](./Burp-Suite/translations/README.el.md) |
 | **OWASP ZAP** | Δωρεάν εργαλείο ελέγχων ασφάλειας εφαρμογών web | [📄 Προβολή](./OWASP-ZAP/translations/README.el.md) |
+| **WPScan** | Σαρωτής ασφάλειας WordPress | [📄 Προβολή](./WPScan/translations/README.el.md) |
+| **Kiterunner** | Σάρωση και ανίχνευση σημείων API | [📄 Προβολή](./Kiterunner/translations/README.el.md) |
+| **Wfuzz** | Εργαλείο δοκιμών ασάφειας εφαρμογών ιστού | [📄 Προβολή](./Wfuzz/translations/README.el.md) |
+| **Commix** | Αυτοματοποιημένη εκμετάλλευση Command Injection | [📄 Προβολή](./Commix/translations/README.el.md) |
+| **Tplmap** | Εκμετάλλευση Server-Side Template Injection (SSTI) | [📄 Προβολή](./Tplmap/translations/README.el.md) |
+| **jwt_tool** | Ανάλυση και εκμετάλλευση JSON Web Tokens | [📄 Προβολή](./jwt_tool/translations/README.el.md) |
+| **smuggler** | Ανίχνευση HTTP Request Smuggling | [📄 Προβολή](./smuggler/translations/README.el.md) |
+| **CORSy** | Έλεγχος εσφαλμένων ρυθμίσεων CORS | [📄 Προβολή](./CORSy/translations/README.el.md) |
+| **InQL** | Ανάλυση ασφάλειας GraphQL | [📄 Προβολή](./InQL/translations/README.el.md) |
+| **wafw00f** | Αναγνώριση Web Application Firewall (WAF) | [📄 Προβολή](./wafw00f/translations/README.el.md) |
+| **mitmproxy** | Διαδραστικός διαμεσολαβητής HTTP/HTTPS | [📄 Προβολή](./mitmproxy/translations/README.el.md) |
 
 <a id="section-17"></a>
 
@@ -438,6 +458,10 @@
 |-------|-------------|------------|
 | **Ανύψωση δικαιωμάτων Linux (αγγλικά)** | Έλεγχοι κλιμάκωσης προνομίων Linux | [📄 Προβολή](./Linux-PrivEsc/translations/README.el.md) |
 | **Ανύψωση δικαιωμάτων Windows (αγγλικά)** | Έλεγχοι κλιμάκωσης προνομίων Windows | [📄 Προβολή](./Windows-PrivEsc/translations/README.el.md) |
+| **PEASS-ng** | Αυτοματοποιημένος έλεγχος LinPEAS / WinPEAS | [📄 Προβολή](./PEASS-ng/translations/README.el.md) |
+| **LOLBAS & GTFOBins** | Εκμετάλλευση δυαδικών αρχείων συστήματος | [📄 Προβολή](./LOLBAS-GTFOBins/translations/README.el.md) |
+| **LaZagne** | Ανάκτηση αποθηκευμένων κωδικών πρόσβασης | [📄 Προβολή](./LaZagne/translations/README.el.md) |
+| **pypykatz** | Υλοποίηση Mimikatz σε Python | [📄 Προβολή](./pypykatz/translations/README.el.md) |
 
 <a id="section-25"></a>
 
@@ -459,6 +483,12 @@
 | **Ghidra** | Πλατφόρμα αντίστροφης μηχανικής της NSA | [📄 Προβολή](./Ghidra/translations/README.el.md) |
 | **GDB** | Αποσφαλματωτής GNU για ανάλυση προγραμμάτων | [📄 Προβολή](./GDB/translations/README.el.md) |
 | **x64dbg** | Αποσφαλματωτής προγραμμάτων Windows x64/x32 | [📄 Προβολή](./x64dbg/translations/README.el.md) |
+| **pwntools** | Πλαίσιο CTF και δυαδικής εκμετάλλευσης | [📄 Προβολή](./pwntools/translations/README.el.md) |
+| **pwndbg & GEF** | Επεκτάσεις GDB για δυαδική ανάλυση | [📄 Προβολή](./pwndbg-GEF/translations/README.el.md) |
+| **Radare2** | Πλαίσιο ανάλυσης δυαδικών και αποσυναρμολόγησης | [📄 Προβολή](./Radare2/translations/README.el.md) |
+| **Ropper** | Εύρεση gadgets ROP και ανάλυση αρχείων | [📄 Προβολή](./Ropper/translations/README.el.md) |
+| **checksec** | Έλεγχος μηχανισμών προστασίας δυαδικών αρχείων | [📄 Προβολή](./checksec/translations/README.el.md) |
+| **strace & ltrace** | Παρακολούθηση κλήσεων συστήματος και βιβλιοθηκών | [📄 Προβολή](./strace-ltrace/translations/README.el.md) |
 
 <a id="section-27"></a>
 
@@ -485,6 +515,13 @@
 | **Responder** | Έλεγχοι παραπλάνησης επίλυσης ονομάτων LLMNR/NBT-NS | [📄 Προβολή](./Responder/translations/README.el.md) |
 | **Evil-WinRM** | Διαδραστικό περιβάλλον απομακρυσμένης διαχείρισης WinRM | [📄 Προβολή](./Evil-WinRM/translations/README.el.md) |
 | **Kerbrute** | Αναζήτηση χρηστών και δοκιμές κωδικών μέσω Kerberos | [📄 Προβολή](./Kerbrute/translations/README.el.md) |
+| **Certipy** | Εργαλείο ελέγχου AD CS | [📄 Προβολή](./Certipy/translations/README.el.md) |
+| **NetExec** | Σύγχρονο πλαίσιο αυτοματισμού AD | [📄 Προβολή](./NetExec/translations/README.el.md) |
+| **Snaffler** | Εντοπισμός ευαίσθητων αρχείων σε κοινόχρηστα | [📄 Προβολή](./Snaffler/translations/README.el.md) |
+| **Coercer** | Αναγκαστικός έλεγχος ταυτότητας SMB/RPC | [📄 Προβολή](./Coercer/translations/README.el.md) |
+| **PKINITtools** | Εργαλεία PKINIT και Kerberos | [📄 Προβολή](./PKINITtools/translations/README.el.md) |
+| **adidnsdump** | Εξαγωγή εγγραφών DNS Active Directory | [📄 Προβολή](./adidnsdump/translations/README.el.md) |
+| **enum4linux-ng** | Καταγραφή πληροφοριών SMB και AD | [📄 Προβολή](./enum4linux-ng/translations/README.el.md) |
 
 <a id="section-29"></a>
 

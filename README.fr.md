@@ -65,6 +65,8 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🔵 Fiche pratique de test d’intrusion Azure](Cloud-Security/translations/Azure-Pentesting.fr.md)
 - [🔴 Fiche pratique de test d’intrusion GCP](Cloud-Security/translations/GCP-Pentesting.fr.md)
 - [☁️ Fiches pratiques de sécurité cloud](Cloud-Security/translations/README.fr.md)
+- [🛠️ Pacu AWS](Pacu/translations/README.fr.md)
+- [🛠️ Prowler](Prowler/translations/README.fr.md)
 
 <a id="category-04"></a>
 ## Sécurité des applications mobiles
@@ -72,6 +74,8 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🤖 Fiche pratique de test d’intrusion Android](Mobile-Security/translations/Android-Pentesting.fr.md)
 - [🍎 Fiche pratique de test d’intrusion iOS](Mobile-Security/translations/iOS-Pentesting.fr.md)
 - [📱 Fiches pratiques de sécurité mobile](Mobile-Security/translations/README.fr.md)
+- [🛠️ Frida](Frida/translations/README.fr.md)
+- [🛠️ Jadx (Jadx-GUI)](Jadx/translations/README.fr.md)
 
 <a id="category-05"></a>
 ## Sécurité des conteneurs
@@ -79,6 +83,8 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🐳 Fiche pratique de test d’intrusion Docker](Container-Security/translations/Docker-Pentesting.fr.md)
 - [☸️ Fiche pratique de test d’intrusion Kubernetes](Container-Security/translations/Kubernetes-Pentesting.fr.md)
 - [🐳 Fiches pratiques de sécurité des conteneurs](Container-Security/translations/README.fr.md)
+- [🛠️ Trivy](Trivy/translations/README.fr.md)
+- [🛠️ kube-bench](kube-bench/translations/README.fr.md)
 
 <a id="category-06"></a>
 ## Ingénierie sociale
@@ -103,6 +109,11 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🌐 OSINT sur les domaines et adresses IP](OSINT/translations/Domain-IP-OSINT.fr.md)
 - [🖼️ OSINT sur les images](OSINT/translations/Image-OSINT.fr.md)
 - [🔍 Fiche pratique OSINT (renseignement de sources ouvertes)](OSINT/translations/README.fr.md)
+- [🛠️ theHarvester](theHarvester/translations/README.fr.md)
+- [🛠️ Sherlock](Sherlock/translations/README.fr.md)
+- [🛠️ TruffleHog](TruffleHog/translations/README.fr.md)
+- [🛠️ Gitleaks](Gitleaks/translations/README.fr.md)
+- [🛠️ GitTools](GitTools/translations/README.fr.md)
 
 <a id="category-09"></a>
 ## Tests d’intrusion réseau
@@ -112,6 +123,11 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🕵️ Attaques MITM (interception par un intermédiaire)](Network-Pentesting/translations/MITM-Attacks.fr.md)
 - [💥 Fiche pratique d’exploitation des services](Network-Pentesting/translations/Service-Exploitation.fr.md)
 - [🌐 Fiche pratique de test d’intrusion réseau](Network-Pentesting/translations/README.fr.md)
+- [🛠️ Chisel](Chisel/translations/README.fr.md)
+- [🛠️ Ligolo-ng](Ligolo-ng/translations/README.fr.md)
+- [🛠️ Proxychains](Proxychains/translations/README.fr.md)
+- [🛠️ sshuttle](sshuttle/translations/README.fr.md)
+- [🛠️ SSH Tunneling](SSH-Tunneling/translations/README.fr.md)
 
 <a id="category-10"></a>
 ## Guides CTF
@@ -138,6 +154,12 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🔑 Mimikatz — fiche pratique complète](Mimikatz/translations/README.fr.md)
 - [💻 PowerShell — fiche pratique complète pour les tests d’intrusion](PowerShell/translations/README.fr.md)
 - [🐧 Commandes Linux et Bash — fiche complète pour les tests d’intrusion](Linux-Commands/translations/README.fr.md)
+- [🛠️ Msfvenom](Msfvenom/translations/README.fr.md)
+- [🛠️ Sliver C2](Sliver/translations/README.fr.md)
+- [🛠️ Searchsploit](Searchsploit/translations/README.fr.md)
+- [🛠️ Netcat (nc)](Netcat/translations/README.fr.md)
+- [🛠️ Socat](Socat/translations/README.fr.md)
+- [🛠️ rlwrap](rlwrap/translations/README.fr.md)
 
 <a id="category-13"></a>
 ## Reconnaissance et analyse
@@ -145,6 +167,15 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🔍 Nmap — fiche pratique complète](Nmap/translations/README.fr.md)
 - [🚀 Gobuster — fiche pratique complète](Gobuster/translations/README.fr.md)
 - [🕷️ Nikto — fiche pratique complète](Nikto/translations/README.fr.md)
+- [🛠️ RustScan](RustScan/translations/README.fr.md)
+- [🛠️ Masscan](Masscan/translations/README.fr.md)
+- [🛠️ dnsx](dnsx/translations/README.fr.md)
+- [🛠️ dnsrecon](dnsrecon/translations/README.fr.md)
+- [🛠️ Feroxbuster](Feroxbuster/translations/README.fr.md)
+- [🛠️ Dirb](Dirb/translations/README.fr.md)
+- [🛠️ dirsearch](dirsearch/translations/README.fr.md)
+- [🛠️ Naabu](Naabu/translations/README.fr.md)
+- [🛠️ WhatWeb](WhatWeb/translations/README.fr.md)
 
 <a id="category-14"></a>
 ## Tests des applications web
@@ -152,6 +183,17 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [💉 SQLMap — fiche pratique complète](SQLMap/translations/README.fr.md)
 - [🔶 Burp Suite — fiche pratique complète](Burp-Suite/translations/README.fr.md)
 - [⚡ OWASP ZAP — fiche pratique complète](OWASP-ZAP/translations/README.fr.md)
+- [🛠️ WPScan](WPScan/translations/README.fr.md)
+- [🛠️ Kiterunner](Kiterunner/translations/README.fr.md)
+- [🛠️ Wfuzz](Wfuzz/translations/README.fr.md)
+- [🛠️ Commix](Commix/translations/README.fr.md)
+- [🛠️ Tplmap](Tplmap/translations/README.fr.md)
+- [🛠️ jwt_tool](jwt_tool/translations/README.fr.md)
+- [🛠️ smuggler](smuggler/translations/README.fr.md)
+- [🛠️ CORSy](CORSy/translations/README.fr.md)
+- [🛠️ InQL](InQL/translations/README.fr.md)
+- [🛠️ wafw00f](wafw00f/translations/README.fr.md)
+- [🛠️ mitmproxy](mitmproxy/translations/README.fr.md)
 
 <a id="category-15"></a>
 ## Vérification et récupération des mots de passe
@@ -159,12 +201,21 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🔓 Hydra — fiche pratique complète](Hydra/translations/README.fr.md)
 - [🔨 John the Ripper — fiche pratique complète](John-The-Ripper/translations/README.fr.md)
 - [⚡ Hashcat — fiche pratique complète](Hashcat/translations/README.fr.md)
+- [🛠️ CeWL](CeWL/translations/README.fr.md)
+- [🛠️ Crunch](Crunch/translations/README.fr.md)
+- [🛠️ name-that-hash](name-that-hash/translations/README.fr.md)
+- [🛠️ CUPP](CUPP/translations/README.fr.md)
+- [🛠️ fcrackzip](fcrackzip/translations/README.fr.md)
 
 <a id="category-16"></a>
 ## Analyse réseau
 
 - [🦈 Wireshark — fiche pratique complète](Wireshark/translations/README.fr.md)
 - [📡 tcpdump - fiche pratique complète](tcpdump/translations/README.fr.md)
+- [🛠️ tshark](tshark/translations/README.fr.md)
+- [🛠️ Scapy](Scapy/translations/README.fr.md)
+- [🛠️ Ettercap](Ettercap/translations/README.fr.md)
+- [🛠️ Yersinia](Yersinia/translations/README.fr.md)
 
 <a id="category-17"></a>
 ## Bug bounty
@@ -204,6 +255,7 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🔐 Fiche pratique du contournement de l’authentification](Auth-Bypass/translations/README.fr.md)
 - [🌍 Fiche pratique des mauvaises configurations CORS](CORS/translations/README.fr.md)
 - [🔀 Fiche pratique des redirections ouvertes](Open-Redirect/translations/README.fr.md)
+- [🛠️ JWT Attacks](JWT-Attacks/translations/README.fr.md)
 
 <a id="category-20"></a>
 ## Techniques d’attaque avancées
@@ -227,6 +279,10 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 
 - [🐧 Élévation de privilèges Linux — aide-mémoire complet](Linux-PrivEsc/translations/README.fr.md)
 - [🪟 Élévation de privilèges Windows — aide-mémoire complet](Windows-PrivEsc/translations/README.fr.md)
+- [🛠️ PEASS-ng (LinPEAS / WinPEAS)](PEASS-ng/translations/README.fr.md)
+- [🛠️ LOLBAS & GTFOBins](LOLBAS-GTFOBins/translations/README.fr.md)
+- [🛠️ LaZagne](LaZagne/translations/README.fr.md)
+- [🛠️ pypykatz](pypykatz/translations/README.fr.md)
 
 <a id="category-23"></a>
 ## Investigation numérique
@@ -242,6 +298,12 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🔍 Ghidra — aide-mémoire de rétro-ingénierie](Ghidra/translations/README.fr.md)
 - [🐛 GDB — aide-mémoire du débogueur GNU](GDB/translations/README.fr.md)
 - [🔧 x64dbg — aide-mémoire du débogueur Windows](x64dbg/translations/README.fr.md)
+- [🛠️ pwntools](pwntools/translations/README.fr.md)
+- [🛠️ pwndbg & GEF](pwndbg-GEF/translations/README.fr.md)
+- [🛠️ Radare2 (r2)](Radare2/translations/README.fr.md)
+- [🛠️ Ropper (ROP Gadgets)](Ropper/translations/README.fr.md)
+- [🛠️ checksec](checksec/translations/README.fr.md)
+- [🛠️ strace & ltrace](strace-ltrace/translations/README.fr.md)
 
 <a id="category-25"></a>
 ## Sécurité WiFi
@@ -249,6 +311,8 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [📶 Aircrack-ng — aide-mémoire de la suite de test de sécurité Wi-Fi](Aircrack-ng/translations/README.fr.md)
 - [📶 Wifite — aide-mémoire d’audit WiFi automatisé](Wifite/translations/README.fr.md)
 - [🦈 Bettercap — aide-mémoire du framework d’attaque réseau](Bettercap/translations/README.fr.md)
+- [🛠️ hcxdumptool](hcxdumptool/translations/README.fr.md)
+- [🛠️ Reaver & PixieWPS](Reaver/translations/README.fr.md)
 
 <a id="category-26"></a>
 ## Active Directory
@@ -262,6 +326,13 @@ Des guides pratiques pour les tests d’intrusion, la sécurité défensive, les
 - [🎣 Responder — empoisonnement LLMNR/NBT-NS](Responder/translations/README.fr.md)
 - [😈 Evil-WinRM — console Windows à distance](Evil-WinRM/translations/README.fr.md)
 - [🔑 Kerbrute — énumération des utilisateurs Kerberos](Kerbrute/translations/README.fr.md)
+- [🛠️ Certipy](Certipy/translations/README.fr.md)
+- [🛠️ NetExec](NetExec/translations/README.fr.md)
+- [🛠️ Snaffler](Snaffler/translations/README.fr.md)
+- [🛠️ Coercer](Coercer/translations/README.fr.md)
+- [🛠️ PKINITtools](PKINITtools/translations/README.fr.md)
+- [🛠️ adidnsdump](adidnsdump/translations/README.fr.md)
+- [🛠️ enum4linux-ng](enum4linux-ng/translations/README.fr.md)
 
 <a id="category-27"></a>
 ## Ressources

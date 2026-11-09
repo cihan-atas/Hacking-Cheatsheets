@@ -65,6 +65,8 @@
 - [🔵 Шпаргалка по тестированию Azure на проникновение](Cloud-Security/translations/Azure-Pentesting.ru.md)
 - [🔴 Шпаргалка по тестированию GCP на проникновение](Cloud-Security/translations/GCP-Pentesting.ru.md)
 - [☁️ Шпаргалки по безопасности облачных сред](Cloud-Security/translations/README.ru.md)
+- [🛠️ Pacu AWS](Pacu/translations/README.ru.md)
+- [🛠️ Prowler](Prowler/translations/README.ru.md)
 
 <a id="category-04"></a>
 ## Безопасность мобильных приложений
@@ -72,6 +74,8 @@
 - [🤖 Шпаргалка по тестированию Android на проникновение](Mobile-Security/translations/Android-Pentesting.ru.md)
 - [🍎 Шпаргалка по тестированию iOS на проникновение](Mobile-Security/translations/iOS-Pentesting.ru.md)
 - [📱 Шпаргалки по безопасности мобильных приложений](Mobile-Security/translations/README.ru.md)
+- [🛠️ Frida](Frida/translations/README.ru.md)
+- [🛠️ Jadx (Jadx-GUI)](Jadx/translations/README.ru.md)
 
 <a id="category-05"></a>
 ## Безопасность контейнеров
@@ -79,6 +83,8 @@
 - [🐳 Шпаргалка по тестированию Docker на проникновение](Container-Security/translations/Docker-Pentesting.ru.md)
 - [☸️ Шпаргалка по тестированию Kubernetes на проникновение](Container-Security/translations/Kubernetes-Pentesting.ru.md)
 - [🐳 Шпаргалки по безопасности контейнеров](Container-Security/translations/README.ru.md)
+- [🛠️ Trivy](Trivy/translations/README.ru.md)
+- [🛠️ kube-bench](kube-bench/translations/README.ru.md)
 
 <a id="category-06"></a>
 ## Социальная инженерия
@@ -103,6 +109,11 @@
 - [🌐 OSINT для доменов и IP-адресов](OSINT/translations/Domain-IP-OSINT.ru.md)
 - [🖼️ OSINT по изображениям](OSINT/translations/Image-OSINT.ru.md)
 - [🔍 Шпаргалка по OSINT — разведке по открытым источникам](OSINT/translations/README.ru.md)
+- [🛠️ theHarvester](theHarvester/translations/README.ru.md)
+- [🛠️ Sherlock](Sherlock/translations/README.ru.md)
+- [🛠️ TruffleHog](TruffleHog/translations/README.ru.md)
+- [🛠️ Gitleaks](Gitleaks/translations/README.ru.md)
+- [🛠️ GitTools](GitTools/translations/README.ru.md)
 
 <a id="category-09"></a>
 ## Тестирование сетей на проникновение
@@ -112,6 +123,11 @@
 - [🕵️ Атаки MITM (Man-in-the-Middle — посредник между сторонами)](Network-Pentesting/translations/MITM-Attacks.ru.md)
 - [💥 Шпаргалка по эксплуатации сервисов](Network-Pentesting/translations/Service-Exploitation.ru.md)
 - [🌐 Шпаргалка по тестированию сетей на проникновение](Network-Pentesting/translations/README.ru.md)
+- [🛠️ Chisel](Chisel/translations/README.ru.md)
+- [🛠️ Ligolo-ng](Ligolo-ng/translations/README.ru.md)
+- [🛠️ Proxychains](Proxychains/translations/README.ru.md)
+- [🛠️ sshuttle](sshuttle/translations/README.ru.md)
+- [🛠️ SSH Tunneling](SSH-Tunneling/translations/README.ru.md)
 
 <a id="category-10"></a>
 ## Руководства по CTF
@@ -138,6 +154,12 @@
 - [🔑 Mimikatz — полная шпаргалка](Mimikatz/translations/README.ru.md)
 - [💻 PowerShell — полная шпаргалка для тестирования на проникновение](PowerShell/translations/README.ru.md)
 - [🐧 Команды Linux и Bash — полная шпаргалка для пентеста](Linux-Commands/translations/README.ru.md)
+- [🛠️ Msfvenom](Msfvenom/translations/README.ru.md)
+- [🛠️ Sliver C2](Sliver/translations/README.ru.md)
+- [🛠️ Searchsploit](Searchsploit/translations/README.ru.md)
+- [🛠️ Netcat (nc)](Netcat/translations/README.ru.md)
+- [🛠️ Socat](Socat/translations/README.ru.md)
+- [🛠️ rlwrap](rlwrap/translations/README.ru.md)
 
 <a id="category-13"></a>
 ## Разведка и сканирование
@@ -145,6 +167,15 @@
 - [🔍 Nmap — полная шпаргалка](Nmap/translations/README.ru.md)
 - [🚀 Gobuster — полная шпаргалка](Gobuster/translations/README.ru.md)
 - [🕷️ Nikto — полная шпаргалка](Nikto/translations/README.ru.md)
+- [🛠️ RustScan](RustScan/translations/README.ru.md)
+- [🛠️ Masscan](Masscan/translations/README.ru.md)
+- [🛠️ dnsx](dnsx/translations/README.ru.md)
+- [🛠️ dnsrecon](dnsrecon/translations/README.ru.md)
+- [🛠️ Feroxbuster](Feroxbuster/translations/README.ru.md)
+- [🛠️ Dirb](Dirb/translations/README.ru.md)
+- [🛠️ dirsearch](dirsearch/translations/README.ru.md)
+- [🛠️ Naabu](Naabu/translations/README.ru.md)
+- [🛠️ WhatWeb](WhatWeb/translations/README.ru.md)
 
 <a id="category-14"></a>
 ## Тестирование веб-приложений
@@ -152,6 +183,17 @@
 - [💉 SQLMap — полная шпаргалка](SQLMap/translations/README.ru.md)
 - [🔶 Burp Suite — полная шпаргалка](Burp-Suite/translations/README.ru.md)
 - [⚡ OWASP ZAP — полная шпаргалка](OWASP-ZAP/translations/README.ru.md)
+- [🛠️ WPScan](WPScan/translations/README.ru.md)
+- [🛠️ Kiterunner](Kiterunner/translations/README.ru.md)
+- [🛠️ Wfuzz](Wfuzz/translations/README.ru.md)
+- [🛠️ Commix](Commix/translations/README.ru.md)
+- [🛠️ Tplmap](Tplmap/translations/README.ru.md)
+- [🛠️ jwt_tool](jwt_tool/translations/README.ru.md)
+- [🛠️ smuggler](smuggler/translations/README.ru.md)
+- [🛠️ CORSy](CORSy/translations/README.ru.md)
+- [🛠️ InQL](InQL/translations/README.ru.md)
+- [🛠️ wafw00f](wafw00f/translations/README.ru.md)
+- [🛠️ mitmproxy](mitmproxy/translations/README.ru.md)
 
 <a id="category-15"></a>
 ## Проверка и восстановление паролей
@@ -159,12 +201,21 @@
 - [🔓 Hydra — полная шпаргалка](Hydra/translations/README.ru.md)
 - [🔨 John the Ripper — полная шпаргалка](John-The-Ripper/translations/README.ru.md)
 - [⚡ Hashcat — полная шпаргалка](Hashcat/translations/README.ru.md)
+- [🛠️ CeWL](CeWL/translations/README.ru.md)
+- [🛠️ Crunch](Crunch/translations/README.ru.md)
+- [🛠️ name-that-hash](name-that-hash/translations/README.ru.md)
+- [🛠️ CUPP](CUPP/translations/README.ru.md)
+- [🛠️ fcrackzip](fcrackzip/translations/README.ru.md)
 
 <a id="category-16"></a>
 ## Анализ сетевого трафика
 
 - [🦈 Wireshark — полная шпаргалка](Wireshark/translations/README.ru.md)
 - [📡 tcpdump — полная шпаргалка](tcpdump/translations/README.ru.md)
+- [🛠️ tshark](tshark/translations/README.ru.md)
+- [🛠️ Scapy](Scapy/translations/README.ru.md)
+- [🛠️ Ettercap](Ettercap/translations/README.ru.md)
+- [🛠️ Yersinia](Yersinia/translations/README.ru.md)
 
 <a id="category-17"></a>
 ## Bug Bounty
@@ -204,6 +255,7 @@
 - [🔐 Справочник по обходу аутентификации](Auth-Bypass/translations/README.ru.md)
 - [🌍 Справочник по ошибкам настройки CORS](CORS/translations/README.ru.md)
 - [🔀 Справочник по открытым перенаправлениям](Open-Redirect/translations/README.ru.md)
+- [🛠️ JWT Attacks](JWT-Attacks/translations/README.ru.md)
 
 <a id="category-20"></a>
 ## Продвинутые техники атак
@@ -227,6 +279,10 @@
 
 - [🐧 Повышение привилегий в Linux — полный справочник](Linux-PrivEsc/translations/README.ru.md)
 - [🪟 Повышение привилегий в Windows — полный справочник](Windows-PrivEsc/translations/README.ru.md)
+- [🛠️ PEASS-ng (LinPEAS / WinPEAS)](PEASS-ng/translations/README.ru.md)
+- [🛠️ LOLBAS & GTFOBins](LOLBAS-GTFOBins/translations/README.ru.md)
+- [🛠️ LaZagne](LaZagne/translations/README.ru.md)
+- [🛠️ pypykatz](pypykatz/translations/README.ru.md)
 
 <a id="category-23"></a>
 ## Цифровая криминалистика
@@ -242,6 +298,12 @@
 - [🔍 Ghidra — справочник по обратной разработке](Ghidra/translations/README.ru.md)
 - [🐛 GDB — справочник по отладчику GNU](GDB/translations/README.ru.md)
 - [🔧 x64dbg — справочник по отладчику Windows](x64dbg/translations/README.ru.md)
+- [🛠️ pwntools](pwntools/translations/README.ru.md)
+- [🛠️ pwndbg & GEF](pwndbg-GEF/translations/README.ru.md)
+- [🛠️ Radare2 (r2)](Radare2/translations/README.ru.md)
+- [🛠️ Ropper (ROP Gadgets)](Ropper/translations/README.ru.md)
+- [🛠️ checksec](checksec/translations/README.ru.md)
+- [🛠️ strace & ltrace](strace-ltrace/translations/README.ru.md)
 
 <a id="category-25"></a>
 ## Безопасность WiFi
@@ -249,6 +311,8 @@
 - [📶 Aircrack-ng — шпаргалка по набору инструментов для тестирования WiFi](Aircrack-ng/translations/README.ru.md)
 - [📶 Wifite — шпаргалка по автоматизированному аудиту Wi-Fi](Wifite/translations/README.ru.md)
 - [🦈 Bettercap — шпаргалка по платформе сетевых атак](Bettercap/translations/README.ru.md)
+- [🛠️ hcxdumptool](hcxdumptool/translations/README.ru.md)
+- [🛠️ Reaver & PixieWPS](Reaver/translations/README.ru.md)
 
 <a id="category-26"></a>
 ## Active Directory
@@ -262,6 +326,13 @@
 - [🎣 Responder — подмена ответов LLMNR/NBT-NS](Responder/translations/README.ru.md)
 - [😈 Evil-WinRM — удалённая оболочка Windows](Evil-WinRM/translations/README.ru.md)
 - [🔑 Kerbrute — перечисление пользователей через Kerberos](Kerbrute/translations/README.ru.md)
+- [🛠️ Certipy](Certipy/translations/README.ru.md)
+- [🛠️ NetExec](NetExec/translations/README.ru.md)
+- [🛠️ Snaffler](Snaffler/translations/README.ru.md)
+- [🛠️ Coercer](Coercer/translations/README.ru.md)
+- [🛠️ PKINITtools](PKINITtools/translations/README.ru.md)
+- [🛠️ adidnsdump](adidnsdump/translations/README.ru.md)
+- [🛠️ enum4linux-ng](enum4linux-ng/translations/README.ru.md)
 
 <a id="category-27"></a>
 ## Ресурсы

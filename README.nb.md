@@ -65,6 +65,8 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🔵 Hurtigreferanse for penetrasjonstesting av Azure](Cloud-Security/translations/Azure-Pentesting.nb.md)
 - [🔴 Hurtigreferanse for penetrasjonstesting av GCP](Cloud-Security/translations/GCP-Pentesting.nb.md)
 - [☁️ Hurtigreferanse for skysikkerhet](Cloud-Security/translations/README.nb.md)
+- [🛠️ Pacu AWS](Pacu/translations/README.nb.md)
+- [🛠️ Prowler](Prowler/translations/README.nb.md)
 
 <a id="category-04"></a>
 ## Sikkerhet i mobilapper
@@ -72,6 +74,8 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🤖 Hurtigreferanse for penetrasjonstesting av Android](Mobile-Security/translations/Android-Pentesting.nb.md)
 - [🍎 Hurtigreferanse for penetrasjonstesting av iOS](Mobile-Security/translations/iOS-Pentesting.nb.md)
 - [📱 Hurtigreferanse for mobilsikkerhet](Mobile-Security/translations/README.nb.md)
+- [🛠️ Frida](Frida/translations/README.nb.md)
+- [🛠️ Jadx (Jadx-GUI)](Jadx/translations/README.nb.md)
 
 <a id="category-05"></a>
 ## Containersikkerhet
@@ -79,6 +83,8 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🐳 Hurtigreferanse for penetrasjonstesting av Docker](Container-Security/translations/Docker-Pentesting.nb.md)
 - [☸️ Hurtigreferanse for penetrasjonstesting av Kubernetes](Container-Security/translations/Kubernetes-Pentesting.nb.md)
 - [🐳 Hurtigreferanse for containersikkerhet](Container-Security/translations/README.nb.md)
+- [🛠️ Trivy](Trivy/translations/README.nb.md)
+- [🛠️ kube-bench](kube-bench/translations/README.nb.md)
 
 <a id="category-06"></a>
 ## Sosial manipulering
@@ -103,6 +109,11 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🌐 OSINT for domener og IP-adresser](OSINT/translations/Domain-IP-OSINT.nb.md)
 - [🖼️ Bilde-OSINT](OSINT/translations/Image-OSINT.nb.md)
 - [🔍 OSINT (Open Source Intelligence) – hurtigreferanse](OSINT/translations/README.nb.md)
+- [🛠️ theHarvester](theHarvester/translations/README.nb.md)
+- [🛠️ Sherlock](Sherlock/translations/README.nb.md)
+- [🛠️ TruffleHog](TruffleHog/translations/README.nb.md)
+- [🛠️ Gitleaks](Gitleaks/translations/README.nb.md)
+- [🛠️ GitTools](GitTools/translations/README.nb.md)
 
 <a id="category-09"></a>
 ## Penetrasjonstesting av nettverk
@@ -112,6 +123,11 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🕵️ MITM-angrep (man-in-the-middle)](Network-Pentesting/translations/MITM-Attacks.nb.md)
 - [💥 Hurtigreferanse for utnyttelse av tjenester](Network-Pentesting/translations/Service-Exploitation.nb.md)
 - [🌐 Hurtigreferanse for penetrasjonstesting av nettverk](Network-Pentesting/translations/README.nb.md)
+- [🛠️ Chisel](Chisel/translations/README.nb.md)
+- [🛠️ Ligolo-ng](Ligolo-ng/translations/README.nb.md)
+- [🛠️ Proxychains](Proxychains/translations/README.nb.md)
+- [🛠️ sshuttle](sshuttle/translations/README.nb.md)
+- [🛠️ SSH Tunneling](SSH-Tunneling/translations/README.nb.md)
 
 <a id="category-10"></a>
 ## CTF-veiledninger
@@ -138,6 +154,12 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🔑 Mimikatz – komplett hurtigreferanse](Mimikatz/translations/README.nb.md)
 - [💻 PowerShell – komplett hurtigreferanse for penetrasjonstesting](PowerShell/translations/README.nb.md)
 - [🐧 Linux-kommandoer og Bash – komplett hurtigreferanse for penetrasjonstesting](Linux-Commands/translations/README.nb.md)
+- [🛠️ Msfvenom](Msfvenom/translations/README.nb.md)
+- [🛠️ Sliver C2](Sliver/translations/README.nb.md)
+- [🛠️ Searchsploit](Searchsploit/translations/README.nb.md)
+- [🛠️ Netcat (nc)](Netcat/translations/README.nb.md)
+- [🛠️ Socat](Socat/translations/README.nb.md)
+- [🛠️ rlwrap](rlwrap/translations/README.nb.md)
 
 <a id="category-13"></a>
 ## Rekognosering og skanning
@@ -145,6 +167,15 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🔍 Nmap – komplett hurtigreferanse](Nmap/translations/README.nb.md)
 - [🚀 Gobuster – komplett hurtigreferanse](Gobuster/translations/README.nb.md)
 - [🕷️ Nikto – komplett hurtigreferanse](Nikto/translations/README.nb.md)
+- [🛠️ RustScan](RustScan/translations/README.nb.md)
+- [🛠️ Masscan](Masscan/translations/README.nb.md)
+- [🛠️ dnsx](dnsx/translations/README.nb.md)
+- [🛠️ dnsrecon](dnsrecon/translations/README.nb.md)
+- [🛠️ Feroxbuster](Feroxbuster/translations/README.nb.md)
+- [🛠️ Dirb](Dirb/translations/README.nb.md)
+- [🛠️ dirsearch](dirsearch/translations/README.nb.md)
+- [🛠️ Naabu](Naabu/translations/README.nb.md)
+- [🛠️ WhatWeb](WhatWeb/translations/README.nb.md)
 
 <a id="category-14"></a>
 ## Testing av webapplikasjoner
@@ -152,6 +183,17 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [💉 SQLMap – komplett hurtigreferanse](SQLMap/translations/README.nb.md)
 - [🔶 Burp Suite – komplett hurtigreferanse](Burp-Suite/translations/README.nb.md)
 - [⚡ OWASP ZAP – komplett hurtigreferanse](OWASP-ZAP/translations/README.nb.md)
+- [🛠️ WPScan](WPScan/translations/README.nb.md)
+- [🛠️ Kiterunner](Kiterunner/translations/README.nb.md)
+- [🛠️ Wfuzz](Wfuzz/translations/README.nb.md)
+- [🛠️ Commix](Commix/translations/README.nb.md)
+- [🛠️ Tplmap](Tplmap/translations/README.nb.md)
+- [🛠️ jwt_tool](jwt_tool/translations/README.nb.md)
+- [🛠️ smuggler](smuggler/translations/README.nb.md)
+- [🛠️ CORSy](CORSy/translations/README.nb.md)
+- [🛠️ InQL](InQL/translations/README.nb.md)
+- [🛠️ wafw00f](wafw00f/translations/README.nb.md)
+- [🛠️ mitmproxy](mitmproxy/translations/README.nb.md)
 
 <a id="category-15"></a>
 ## Kontroll og gjenoppretting av passord
@@ -159,12 +201,21 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🔓 Hydra – komplett hurtigreferanse](Hydra/translations/README.nb.md)
 - [🔨 John the Ripper – komplett hurtigreferanse](John-The-Ripper/translations/README.nb.md)
 - [⚡ Hashcat – komplett hurtigreferanse](Hashcat/translations/README.nb.md)
+- [🛠️ CeWL](CeWL/translations/README.nb.md)
+- [🛠️ Crunch](Crunch/translations/README.nb.md)
+- [🛠️ name-that-hash](name-that-hash/translations/README.nb.md)
+- [🛠️ CUPP](CUPP/translations/README.nb.md)
+- [🛠️ fcrackzip](fcrackzip/translations/README.nb.md)
 
 <a id="category-16"></a>
 ## Nettverksanalyse
 
 - [🦈 Wireshark – komplett hurtigreferanse](Wireshark/translations/README.nb.md)
 - [📡 tcpdump – komplett hurtigreferanse](tcpdump/translations/README.nb.md)
+- [🛠️ tshark](tshark/translations/README.nb.md)
+- [🛠️ Scapy](Scapy/translations/README.nb.md)
+- [🛠️ Ettercap](Ettercap/translations/README.nb.md)
+- [🛠️ Yersinia](Yersinia/translations/README.nb.md)
 
 <a id="category-17"></a>
 ## Bug bounty
@@ -204,6 +255,7 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🔐 Hurtigreferanse for omgåelse av autentisering](Auth-Bypass/translations/README.nb.md)
 - [🌍 Hurtigreferanse for feilkonfigurert CORS](CORS/translations/README.nb.md)
 - [🔀 Hurtigreferanse for åpen omdirigering](Open-Redirect/translations/README.nb.md)
+- [🛠️ JWT Attacks](JWT-Attacks/translations/README.nb.md)
 
 <a id="category-20"></a>
 ## Avanserte angrepsteknikker
@@ -227,6 +279,10 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 
 - [🐧 Rettighetseskalering i Linux – komplett hurtigreferanse](Linux-PrivEsc/translations/README.nb.md)
 - [🪟 Rettighetseskalering i Windows – komplett hurtigreferanse](Windows-PrivEsc/translations/README.nb.md)
+- [🛠️ PEASS-ng (LinPEAS / WinPEAS)](PEASS-ng/translations/README.nb.md)
+- [🛠️ LOLBAS & GTFOBins](LOLBAS-GTFOBins/translations/README.nb.md)
+- [🛠️ LaZagne](LaZagne/translations/README.nb.md)
+- [🛠️ pypykatz](pypykatz/translations/README.nb.md)
 
 <a id="category-23"></a>
 ## Digital etterforskning
@@ -242,6 +298,12 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🔍 Ghidra – hurtigreferanse for omvendt utvikling](Ghidra/translations/README.nb.md)
 - [🐛 GDB – hurtigreferanse for GNU Debugger](GDB/translations/README.nb.md)
 - [🔧 x64dbg – hurtigreferanse for feilsøking i Windows](x64dbg/translations/README.nb.md)
+- [🛠️ pwntools](pwntools/translations/README.nb.md)
+- [🛠️ pwndbg & GEF](pwndbg-GEF/translations/README.nb.md)
+- [🛠️ Radare2 (r2)](Radare2/translations/README.nb.md)
+- [🛠️ Ropper (ROP Gadgets)](Ropper/translations/README.nb.md)
+- [🛠️ checksec](checksec/translations/README.nb.md)
+- [🛠️ strace & ltrace](strace-ltrace/translations/README.nb.md)
 
 <a id="category-25"></a>
 ## WiFi-sikkerhet
@@ -249,6 +311,8 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [📶 Aircrack-ng – hurtigguide til en verktøysamling for WiFi-testing](Aircrack-ng/translations/README.nb.md)
 - [📶 Wifite – hurtigguide til automatisert sikkerhetsrevisjon av WiFi](Wifite/translations/README.nb.md)
 - [🦈 Bettercap – hurtigguide til et rammeverk for nettverksangrep](Bettercap/translations/README.nb.md)
+- [🛠️ hcxdumptool](hcxdumptool/translations/README.nb.md)
+- [🛠️ Reaver & PixieWPS](Reaver/translations/README.nb.md)
 
 <a id="category-26"></a>
 ## Active Directory
@@ -262,6 +326,13 @@ Praktiske veiledninger for penetrasjonstesting, defensiv sikkerhet, CTF-øvelser
 - [🎣 Responder – forgiftning av LLMNR/NBT-NS](Responder/translations/README.nb.md)
 - [😈 Evil-WinRM – fjernskall for Windows](Evil-WinRM/translations/README.nb.md)
 - [🔑 Kerbrute – brukerkartlegging med Kerberos](Kerbrute/translations/README.nb.md)
+- [🛠️ Certipy](Certipy/translations/README.nb.md)
+- [🛠️ NetExec](NetExec/translations/README.nb.md)
+- [🛠️ Snaffler](Snaffler/translations/README.nb.md)
+- [🛠️ Coercer](Coercer/translations/README.nb.md)
+- [🛠️ PKINITtools](PKINITtools/translations/README.nb.md)
+- [🛠️ adidnsdump](adidnsdump/translations/README.nb.md)
+- [🛠️ enum4linux-ng](enum4linux-ng/translations/README.nb.md)
 
 <a id="category-27"></a>
 ## Ressurser

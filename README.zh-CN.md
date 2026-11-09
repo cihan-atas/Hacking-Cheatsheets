@@ -65,6 +65,8 @@
 - [🔵 Azure 渗透测试速查表](Cloud-Security/translations/Azure-Pentesting.zh-CN.md)
 - [🔴 GCP 渗透测试速查表](Cloud-Security/translations/GCP-Pentesting.zh-CN.md)
 - [☁️ 云安全速查表](Cloud-Security/translations/README.zh-CN.md)
+- [🛠️ Pacu AWS](Pacu/translations/README.zh-CN.md)
+- [🛠️ Prowler](Prowler/translations/README.zh-CN.md)
 
 <a id="category-04"></a>
 ## 移动应用安全
@@ -72,6 +74,8 @@
 - [🤖 Android 渗透测试速查表](Mobile-Security/translations/Android-Pentesting.zh-CN.md)
 - [🍎 iOS 渗透测试速查表](Mobile-Security/translations/iOS-Pentesting.zh-CN.md)
 - [📱 移动安全速查表](Mobile-Security/translations/README.zh-CN.md)
+- [🛠️ Frida](Frida/translations/README.zh-CN.md)
+- [🛠️ Jadx (Jadx-GUI)](Jadx/translations/README.zh-CN.md)
 
 <a id="category-05"></a>
 ## 容器安全
@@ -79,6 +83,8 @@
 - [🐳 Docker 渗透测试速查表](Container-Security/translations/Docker-Pentesting.zh-CN.md)
 - [☸️ Kubernetes 渗透测试速查表](Container-Security/translations/Kubernetes-Pentesting.zh-CN.md)
 - [🐳 容器安全速查表](Container-Security/translations/README.zh-CN.md)
+- [🛠️ Trivy](Trivy/translations/README.zh-CN.md)
+- [🛠️ kube-bench](kube-bench/translations/README.zh-CN.md)
 
 <a id="category-06"></a>
 ## 社会工程学
@@ -103,6 +109,11 @@
 - [🌐 域名与 IP 开源情报](OSINT/translations/Domain-IP-OSINT.zh-CN.md)
 - [🖼️ 图像 OSINT](OSINT/translations/Image-OSINT.zh-CN.md)
 - [🔍 OSINT（开源情报）速查表](OSINT/translations/README.zh-CN.md)
+- [🛠️ theHarvester](theHarvester/translations/README.zh-CN.md)
+- [🛠️ Sherlock](Sherlock/translations/README.zh-CN.md)
+- [🛠️ TruffleHog](TruffleHog/translations/README.zh-CN.md)
+- [🛠️ Gitleaks](Gitleaks/translations/README.zh-CN.md)
+- [🛠️ GitTools](GitTools/translations/README.zh-CN.md)
 
 <a id="category-09"></a>
 ## 网络渗透测试
@@ -112,6 +123,11 @@
 - [🕵️ MITM（Man-in-the-Middle，中间人）攻击](Network-Pentesting/translations/MITM-Attacks.zh-CN.md)
 - [💥 服务漏洞利用速查表](Network-Pentesting/translations/Service-Exploitation.zh-CN.md)
 - [🌐 网络渗透测试速查表](Network-Pentesting/translations/README.zh-CN.md)
+- [🛠️ Chisel](Chisel/translations/README.zh-CN.md)
+- [🛠️ Ligolo-ng](Ligolo-ng/translations/README.zh-CN.md)
+- [🛠️ Proxychains](Proxychains/translations/README.zh-CN.md)
+- [🛠️ sshuttle](sshuttle/translations/README.zh-CN.md)
+- [🛠️ SSH Tunneling](SSH-Tunneling/translations/README.zh-CN.md)
 
 <a id="category-10"></a>
 ## CTF 参考指南
@@ -138,6 +154,12 @@
 - [🔑 Mimikatz 完整速查表](Mimikatz/translations/README.zh-CN.md)
 - [💻 PowerShell 渗透测试完整速查表](PowerShell/translations/README.zh-CN.md)
 - [🐧 Linux 命令与 Bash——渗透测试完整速查表](Linux-Commands/translations/README.zh-CN.md)
+- [🛠️ Msfvenom](Msfvenom/translations/README.zh-CN.md)
+- [🛠️ Sliver C2](Sliver/translations/README.zh-CN.md)
+- [🛠️ Searchsploit](Searchsploit/translations/README.zh-CN.md)
+- [🛠️ Netcat (nc)](Netcat/translations/README.zh-CN.md)
+- [🛠️ Socat](Socat/translations/README.zh-CN.md)
+- [🛠️ rlwrap](rlwrap/translations/README.zh-CN.md)
 
 <a id="category-13"></a>
 ## 信息收集与扫描
@@ -145,6 +167,15 @@
 - [🔍 Nmap 完整速查表](Nmap/translations/README.zh-CN.md)
 - [🚀 Gobuster——完整速查表](Gobuster/translations/README.zh-CN.md)
 - [🕷️ Nikto 完整速查表](Nikto/translations/README.zh-CN.md)
+- [🛠️ RustScan](RustScan/translations/README.zh-CN.md)
+- [🛠️ Masscan](Masscan/translations/README.zh-CN.md)
+- [🛠️ dnsx](dnsx/translations/README.zh-CN.md)
+- [🛠️ dnsrecon](dnsrecon/translations/README.zh-CN.md)
+- [🛠️ Feroxbuster](Feroxbuster/translations/README.zh-CN.md)
+- [🛠️ Dirb](Dirb/translations/README.zh-CN.md)
+- [🛠️ dirsearch](dirsearch/translations/README.zh-CN.md)
+- [🛠️ Naabu](Naabu/translations/README.zh-CN.md)
+- [🛠️ WhatWeb](WhatWeb/translations/README.zh-CN.md)
 
 <a id="category-14"></a>
 ## Web 应用安全测试
@@ -152,6 +183,17 @@
 - [💉 SQLMap 完整速查表](SQLMap/translations/README.zh-CN.md)
 - [🔶 Burp Suite——完整速查表](Burp-Suite/translations/README.zh-CN.md)
 - [⚡ OWASP ZAP 完整速查表](OWASP-ZAP/translations/README.zh-CN.md)
+- [🛠️ WPScan](WPScan/translations/README.zh-CN.md)
+- [🛠️ Kiterunner](Kiterunner/translations/README.zh-CN.md)
+- [🛠️ Wfuzz](Wfuzz/translations/README.zh-CN.md)
+- [🛠️ Commix](Commix/translations/README.zh-CN.md)
+- [🛠️ Tplmap](Tplmap/translations/README.zh-CN.md)
+- [🛠️ jwt_tool](jwt_tool/translations/README.zh-CN.md)
+- [🛠️ smuggler](smuggler/translations/README.zh-CN.md)
+- [🛠️ CORSy](CORSy/translations/README.zh-CN.md)
+- [🛠️ InQL](InQL/translations/README.zh-CN.md)
+- [🛠️ wafw00f](wafw00f/translations/README.zh-CN.md)
+- [🛠️ mitmproxy](mitmproxy/translations/README.zh-CN.md)
 
 <a id="category-15"></a>
 ## 密码审计与恢复
@@ -159,12 +201,21 @@
 - [🔓 Hydra 完整速查表](Hydra/translations/README.zh-CN.md)
 - [🔨 John the Ripper——完整速查表](John-The-Ripper/translations/README.zh-CN.md)
 - [⚡ Hashcat 完整速查表](Hashcat/translations/README.zh-CN.md)
+- [🛠️ CeWL](CeWL/translations/README.zh-CN.md)
+- [🛠️ Crunch](Crunch/translations/README.zh-CN.md)
+- [🛠️ name-that-hash](name-that-hash/translations/README.zh-CN.md)
+- [🛠️ CUPP](CUPP/translations/README.zh-CN.md)
+- [🛠️ fcrackzip](fcrackzip/translations/README.zh-CN.md)
 
 <a id="category-16"></a>
 ## 网络分析
 
 - [🦈 Wireshark——完整速查表](Wireshark/translations/README.zh-CN.md)
 - [📡 tcpdump 完整速查表](tcpdump/translations/README.zh-CN.md)
+- [🛠️ tshark](tshark/translations/README.zh-CN.md)
+- [🛠️ Scapy](Scapy/translations/README.zh-CN.md)
+- [🛠️ Ettercap](Ettercap/translations/README.zh-CN.md)
+- [🛠️ Yersinia](Yersinia/translations/README.zh-CN.md)
 
 <a id="category-17"></a>
 ## 漏洞赏金
@@ -204,6 +255,7 @@
 - [🔐 身份验证绕过速查表](Auth-Bypass/translations/README.zh-CN.md)
 - [🌍 CORS 配置错误速查表](CORS/translations/README.zh-CN.md)
 - [🔀 开放重定向速查表](Open-Redirect/translations/README.zh-CN.md)
+- [🛠️ JWT Attacks](JWT-Attacks/translations/README.zh-CN.md)
 
 <a id="category-20"></a>
 ## 高级攻击技术
@@ -227,6 +279,10 @@
 
 - [🐧 Linux 权限提升完整速查表](Linux-PrivEsc/translations/README.zh-CN.md)
 - [🪟 Windows 权限提升完整速查表](Windows-PrivEsc/translations/README.zh-CN.md)
+- [🛠️ PEASS-ng (LinPEAS / WinPEAS)](PEASS-ng/translations/README.zh-CN.md)
+- [🛠️ LOLBAS & GTFOBins](LOLBAS-GTFOBins/translations/README.zh-CN.md)
+- [🛠️ LaZagne](LaZagne/translations/README.zh-CN.md)
+- [🛠️ pypykatz](pypykatz/translations/README.zh-CN.md)
 
 <a id="category-23"></a>
 ## 数字取证
@@ -242,6 +298,12 @@
 - [🔍 Ghidra 逆向工程速查表](Ghidra/translations/README.zh-CN.md)
 - [🐛 GDB - GNU 调试器速查表](GDB/translations/README.zh-CN.md)
 - [🔧 x64dbg — Windows 调试器速查表](x64dbg/translations/README.zh-CN.md)
+- [🛠️ pwntools](pwntools/translations/README.zh-CN.md)
+- [🛠️ pwndbg & GEF](pwndbg-GEF/translations/README.zh-CN.md)
+- [🛠️ Radare2 (r2)](Radare2/translations/README.zh-CN.md)
+- [🛠️ Ropper (ROP Gadgets)](Ropper/translations/README.zh-CN.md)
+- [🛠️ checksec](checksec/translations/README.zh-CN.md)
+- [🛠️ strace & ltrace](strace-ltrace/translations/README.zh-CN.md)
 
 <a id="category-25"></a>
 ## WiFi 安全
@@ -249,6 +311,8 @@
 - [📶 Aircrack-ng Wi-Fi 安全测试套件速查表](Aircrack-ng/translations/README.zh-CN.md)
 - [📶 Wifite 自动化 Wi-Fi 审计速查表](Wifite/translations/README.zh-CN.md)
 - [🦈 Bettercap — 网络攻击框架速查表](Bettercap/translations/README.zh-CN.md)
+- [🛠️ hcxdumptool](hcxdumptool/translations/README.zh-CN.md)
+- [🛠️ Reaver & PixieWPS](Reaver/translations/README.zh-CN.md)
 
 <a id="category-26"></a>
 ## Active Directory
@@ -262,6 +326,13 @@
 - [🎣 Responder：LLMNR/NBT-NS 投毒](Responder/translations/README.zh-CN.md)
 - [😈 Evil-WinRM：Windows 远程 Shell](Evil-WinRM/translations/README.zh-CN.md)
 - [🔑 Kerbrute - Kerberos 用户枚举](Kerbrute/translations/README.zh-CN.md)
+- [🛠️ Certipy](Certipy/translations/README.zh-CN.md)
+- [🛠️ NetExec](NetExec/translations/README.zh-CN.md)
+- [🛠️ Snaffler](Snaffler/translations/README.zh-CN.md)
+- [🛠️ Coercer](Coercer/translations/README.zh-CN.md)
+- [🛠️ PKINITtools](PKINITtools/translations/README.zh-CN.md)
+- [🛠️ adidnsdump](adidnsdump/translations/README.zh-CN.md)
+- [🛠️ enum4linux-ng](enum4linux-ng/translations/README.zh-CN.md)
 
 <a id="category-27"></a>
 ## 资源

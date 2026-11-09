@@ -370,25 +370,26 @@ def build_database(repo_root, output_db_path):
     # Find and process all cheatsheets
     count = 0
     for root, dirs, files in os.walk(repo_root):
-        if any(x in root for x in [".git", "android", "scripts"]):
+        if any(x in root for x in [".git", "android", "scripts", "translations"]):
             continue
         for f in files:
-            if f.endswith(".md") and not f.endswith(".tr.md") and not f.endswith(".it.md"):
+            # Skip translation files and root readmes
+            is_trans = bool(re.search(r"\.[a-z]{2}(-[A-Za-z]+)?\.md$", f))
+            if f.endswith(".md") and not is_trans:
                 en_path = os.path.join(root, f)
                 rel_path = os.path.relpath(en_path, repo_root)
                 parts = rel_path.split(os.sep)
 
-                # Skip root README/CONTRIBUTING if desired, or keep as General Reference
-                if len(parts) == 1:
-                    slug = f[:-3].lower()
-                    folder = "Reporting & Guides"
+                # Skip root-level README / homepages
+                if len(parts) <= 1:
+                    continue
+
+                folder = parts[0]
+                base_name = f[:-3]
+                if base_name == "README":
+                    slug = folder.lower()
                 else:
-                    folder = parts[0]
-                    base_name = f[:-3]
-                    if base_name == "README":
-                        slug = folder.lower()
-                    else:
-                        slug = f"{folder.lower()}-{base_name.lower()}"
+                    slug = f"{folder.lower()}-{base_name.lower()}"
 
                 category = CATEGORY_MAPPING.get(folder, folder.replace("-", " "))
 
