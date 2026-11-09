@@ -1,6 +1,6 @@
 # 🔴 Hacking Cheatsheets
 
-[🇮🇹 Versione Italiana](README.it.md) • [🇹🇷 Türkçe Sürüm](README.tr.md)
+[🇬🇧 English](README.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇹🇷 Türkçe](README.tr.md) • [🇮🇹 Italiano](README.it.md) • [🇩🇪 Deutsch](README.de.md) • [🇷🇺 Русский](README.ru.md) • [🇫🇷 Français](README.fr.md) • [🇪🇸 Español](README.es.md) • [🇵🇹 Português (Portugal)](README.pt.md) • [🌐 العربية](README.ar.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇳🇴 Norsk (Bokmål)](README.nb.md)
 
 ```
     ██╗  ██╗ █████╗  ██████╗██╗  ██╗██╗███╗   ██╗ ██████╗ 
@@ -35,6 +35,29 @@
   <a href="#-contributing">Contributing</a> •
   <a href="#-license">License</a>
 </p>
+
+---
+
+## 🌍 Available Languages
+
+Hacking Cheatsheets is available in **12 languages**: **English, Greek, Turkish, Italian, German, Russian, French, Spanish, Portuguese (Portugal), Arabic, Simplified Chinese, and Norwegian Bokmål**. Each language has its own homepage and links to the translated guides.
+
+English remains the primary version. The translations cover all **127 guides across 77 topic folders** linked from this homepage. Tool names, command syntax, paths, and necessary technical terms retain their original form. If a translation differs from the English source, please report it through an issue or pull request.
+
+| Language | Homepage |
+|----------|----------|
+| 🇬🇧 English | [English](README.md) |
+| 🇬🇷 Ελληνικά | [Ελληνικά](README.el.md) |
+| 🇹🇷 Türkçe | [Türkçe](README.tr.md) |
+| 🇮🇹 Italiano | [Italiano](README.it.md) |
+| 🇩🇪 Deutsch | [Deutsch](README.de.md) |
+| 🇷🇺 Русский | [Русский](README.ru.md) |
+| 🇫🇷 Français | [Français](README.fr.md) |
+| 🇪🇸 Español | [Español](README.es.md) |
+| 🇵🇹 Português (Portugal) | [Português (Portugal)](README.pt.md) |
+| 🌐 العربية | [العربية](README.ar.md) |
+| 🇨🇳 简体中文 | [简体中文](README.zh-CN.md) |
+| 🇳🇴 Norsk (Bokmål) | [Norsk (Bokmål)](README.nb.md) |
 
 ---
 

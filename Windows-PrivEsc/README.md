@@ -1,6 +1,9 @@
 # 🪟 Windows Privilege Escalation - Complete Cheatsheet
 
-[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
+<!-- language-home-navigation -->
+[🏠 Home](../README.md) • [🌐 Languages](../README.md#-available-languages)
+
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md) • [🇬🇷 Ελληνικά](translations/README.el.md)
 
 ```
   ██╗    ██╗██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗
@@ -147,6 +150,7 @@ Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uni
 
 ---
 
+<a id="-service-exploitation"></a>
 ## ⚙️ Service Exploitation
 
 ### Find Vulnerable Services
@@ -505,6 +509,7 @@ schtasks /create /tn "Evil" /tr "C:\Users\Public\shell.exe" /sc onlogon /ru SYST
 
 ---
 
+<a id="-uac-bypass"></a>
 ## 🛡️ UAC Bypass
 
 ### Check UAC Level

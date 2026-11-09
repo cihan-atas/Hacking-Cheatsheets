@@ -1,6 +1,9 @@
 # 🐧 Linux Privilege Escalation - Complete Cheatsheet
 
-[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
+<!-- language-home-navigation -->
+[🏠 Home](../README.md) • [🌐 Languages](../README.md#-available-languages)
+
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md) • [🇬🇷 Ελληνικά](translations/README.el.md)
 
 ```
   ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
@@ -443,6 +446,7 @@ chmod +x /home/user/backup.sh
 
 ---
 
+<a id="-path-hijacking"></a>
 ## 🛤️ PATH Hijacking
 
 ### Find Vulnerable Scripts
