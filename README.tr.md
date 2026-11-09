@@ -588,6 +588,18 @@ Bu proje MIT Lisansı altında lisanslanmıştır - ayrıntılar için [LICENSE]
 
 ---
 
+## 👏 Teşekkür ve Atıflar (Acknowledgements)
+
+Bu proje, açık kaynak siber güvenlik topluluğuna büyük katkılar sunan **[Ilias1988 (Ilias Georgopoulos)](https://github.com/Ilias1988)**'in değerli çalışmaları üzerine inşa edilmiş ve bağımsız bir ekosistem olarak geliştirilmiştir. Aşağıdaki orijinal depoları ve açık kaynak katkıları için kendisine en içten teşekkürlerimizi sunarız:
+
+- **[Ilias1988/Hacking-Cheatsheets](https://github.com/Ilias1988/Hacking-Cheatsheets)**: İlk sızma testi markdown dokümantasyon koleksiyonunun ve çok dilli rehber girişiminin temelini oluşturmuştur.
+- **[Ilias1988/ReverseShell-Web](https://github.com/Ilias1988/ReverseShell-Web)**: Kapsamlı Linux ve Windows ters/bind kabuk (reverse shell) payload'ları, kodlama yöntemleri ve dinleyici komutları için temel referans alınmıştır.
+- **[Ilias1988/ReverseShell-Generator](https://github.com/Ilias1988/ReverseShell-Generator)**: Bağımsız ters kabuk üretimi ve MSFVenom hazır şablon mantığı için ilham ve referans kaynağı olmuştur.
+
+Tüm orijinal çalışmalar kendi açık kaynak lisansları (MIT Lisansı) altında korunmaktadır. Bu repo, yerel Android uygulaması, 109 interaktif komut üreticisi, saha yardımcıları ve genişletilmiş araç desteğiyle bu misyonu daha ileriye taşımaktadır.
+
+---
+
 ## 🌟 Destek Olun
 
 Bu kılavuzları faydalı bulduysanız lütfen:

@@ -828,6 +828,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 👏 Acknowledgements & Credits
+
+This project builds upon and extends the incredible open-source cybersecurity work created by **[Ilias1988 (Ilias Georgopoulos)](https://github.com/Ilias1988)**. We express our utmost gratitude and appreciation for his original contributions and open-source tooling:
+
+- **[Ilias1988/Hacking-Cheatsheets](https://github.com/Ilias1988/Hacking-Cheatsheets)**: Provided the foundational collection of markdown penetration testing cheatsheets and multi-language initiative.
+- **[Ilias1988/ReverseShell-Web](https://github.com/Ilias1988/ReverseShell-Web)**: Reference for the extensive collection of Linux and Windows reverse/bind shell payloads, encodings, and listeners.
+- **[Ilias1988/ReverseShell-Generator](https://github.com/Ilias1988/ReverseShell-Generator)**: Inspiration and architectural reference for reverse shell generation and MSFVenom preset automation.
+
+All original works are licensed under their respective open-source licenses (MIT License). Our repository continues this mission as an expanded, community-driven ecosystem featuring a dedicated Android application, 109 interactive command builders, live generators, and extended tooling coverage.
+
+---
+
 ## 🌟 Show Your Support
 
 If you find these cheatsheets useful, please consider:
