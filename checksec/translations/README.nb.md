@@ -1,12 +1,16 @@
-# 🛡️ checksec – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🛡️ checksec & Binutils - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗██╗  ██╗███████╗ ██████╗██╗  ██╗███████╗███████╗ ██████╗
   ██╔════╝██║  ██║██╔════╝██╔════╝██║ ██╔╝██╔════╝██╔════╝██╔════╝
@@ -16,7 +20,6 @@
    ╚═════╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝
           Linux ELF Binary Mitigation Auditor & Inspection Toolkit
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/checksec-Security_Mitigations-blue?style=for-the-badge" alt="checksec">
   <img src="https://img.shields.io/badge/readelf-ELF_Headers-orange?style=for-the-badge" alt="readelf">
@@ -25,53 +28,52 @@
 </p>
 
 <p align="center">
-  <b>🛡️ Essential command-line tools for auditing Linux executable security mitigations (RELRO, Stack Canary, NX, PIE, Fortify) and dissecting ELF binary headers, sections, and symbol tables</b>
+  <b>🛡️ Essensielle kommandolinjeverktøy for å revidere Linux kjørbare sikkerhetsreduksjoner (RELRO, Stack Canary, NX, PIE, Fortify) og dissekere ELF binære overskrifter, seksjoner og symboltabeller</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--binary-mitigations-matrix)
-- [Installasjon](#-installation)
+- [Overview & Binary Mitigations Matrix](#-overview--binary-mitigations-matrix)
+- [Installasjon](#-installasjon)
 - [checksec: Rapid Mitigation Auditing](#-checksec-rapid-mitigation-auditing)
-  - [Auditing Single & Batch Binaries](#auditing-single--batch-binaries)
-  - [Auditing Running Processes](#auditing-running-processes)
-  - [JSON & CSV Output](#json--csv-output)
+  - [Revisjon av enkelt- og batchbinære filer](#revisjon-single--batch-binære filer)
+  - [Revisjon kjørende prosesser](#revisjon-løpende-prosesser)
+  - [JSON & CSV-utdata](#json--csv-utdata)
 - [readelf: ELF Header & Section Dissection](#-readelf-elf-header--section-dissection)
   - [ELF File Header (`-h`)](#elf-file-header--h)
-  - [The `readelf` utility displays information from ELF files without invoking any execution:](#program-headers--segments--l)
-  - [Section Headers (`-S`)](#section-headers--s)
-  - [(If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).](#symbol-tables--s----syms)
-  - [Dynamic Dependencies & Libraries (`-d`)](#dynamic-dependencies--libraries--d)
+  - [Program Headers & Segments (`-l`)](#program-headers--segments--l)
+  - [Seksjonsoverskrifter (`-S`)](#seksjonsoverskrifter--s)
+  - [Symboltabeller (`-s` / `--syms`)](#symbol-tables--s----syms)
+  - [Dynamiske avhengigheter og biblioteker (`-d`)](#dynamic-dependencies--libraries--d)
 - [objdump: Disassembly & Relocations](#-objdump-disassembly--relocations)
-  - [Intel Disassembly (`-d -M intel`)](#intel-disassembly--d--m-intel)
-  - [🧩 objdump: Disassembly & Relocations](#relocation-entries--got--r)
+  - [Intel-demontering (`-d -M intel`)](#intel-disassembly--d--m-intel)
+  - [Relocation Entries & GOT (`-R`)](#relocation-entries--got--r)
 - [nm & strings: Symbol Resolution & Strings](#-nm--strings-symbol-resolution--strings)
-  - [Shows address targets for functions like `puts`, `printf`, and `system`.](#listing-demangled-symbols-with-nm)
-  - [Extracting Obfuscated Strings with `strings`](#extracting-obfuscated-strings-with-strings)
-- [Ressurser og referanser](#-hardened-compilation-reference)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [Listing Deangled Symbols with `nm`](#listing-deangled-symbols-with-nm)
+  - [Ekstrahere obfuscated-strenger med `strings`](#extracting-obfuscated-strings-with-strings)
+- [Hardened Compilation Reference](#-hardened-compilation-reference)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og binær reduksjonsmatrise
 
-[Legal Disclaimer](#-legal-disclaimer)
+Før du starter en arbeidsflyt for omvendt utvikling eller utnyttelse, er det obligatorisk å forstå hvilke sikkerhetsbegrensninger som er aktivert:
 
-|Mitigation|Full Name|Protection Mechanism|Bypass Strategy|
-|------------|-----------|----------------------|-----------------|
-|**RELRO**|Relocation Read-Only|Makes `.got` read-only (`Full RELRO`) to prevent pointer overwriting|Target heap structures, return addresses, or function hooks|
-|**Canary**|Stack Protector|Places randomized cookie before return pointer; checks integrity upon return|Leak canary value via memory leak, or brute-force (forking daemons)|
-|**NX**|No-Execute / DEP|Marks stack, heap, and data segments as non-executable|Return-Oriented Programming (ROP) or Jump-Oriented Programming (JOP)|
-|**PIE**|Position Independent Executable|Loads binary base address at random location in virtual memory (ASLR)|Leak code pointer to calculate base address offset|
-|**Fortify**|`_FORTIFY_SOURCE`|Replaces unsafe string functions (`strcpy` -> `__strcpy_chk`) with bounds checking|Non-overflow logic bugs, format string without buffer overflow|
+| Redusering | Fullt navn | Beskyttelsesmekanisme | Bypass-strategi |
+|------------|--------|----------------|----------------|
+| **RELRO** | Flytting skrivebeskyttet | Gjør `.got` skrivebeskyttet (`Full RELRO`) for å hindre pekeroverskriving | Mål haugstrukturer, returadresser eller funksjonskroker |
+| **Kanari** | Stabelbeskytter | Plasserer randomisert informasjonskapsel før returpekeren; kontrollerer integritet ved retur | Lekk kanarieverdi via minnelekkasje, eller brute-force (forking daemons) |
+| **NX** | No-Execute / DEP | Markerer stabel-, heap- og datasegmenter som ikke-kjørbare | Returorientert programmering (ROP) eller Jump-Oriented Programmering (JOP) |
+| **PIE** | Stilling uavhengig kjørbar | Laster binær baseadresse på tilfeldig plassering i virtuelt minne (ASLR) | Lekkasjekodepeker for å beregne baseadresseforskyvning |
+| **Befeste** | `_FORTIFY_SOURCE` | Erstatter usikre strengfunksjoner (`strcpy` -> `__strcpy_chk`) med grensekontroll | Ikke-overflyt logikkfeil, formatstreng uten bufferoverflyt |
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y checksec binutils
@@ -82,12 +84,11 @@ sudo pacman -S checksec binutils
 # Python pip (standalone checksec)
 pip install checksec.py
 ```
-
 ---
 
 ## ⚡ checksec: Rapid Mitigation Auditing
 
-### Auditing Single & Batch Binaries
+### Revisjon av enkelt- og batchbinære filer
 ```bash
 # Audit a single executable
 checksec --file=./target_binary
@@ -95,14 +96,13 @@ checksec --file=./target_binary
 # Audit all binaries in directory
 checksec --dir=/usr/bin/
 ```
-*Standard Output Example:*
+*Standard Output Eksempel:*
 ```text
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Full RELRO      Canary found      NX enabled    PIE enabled     No RPATH   No RUNPATH   ./target_binary
 ```
-
-### Auditing Running Processes
-Auditing Single & Batch Binaries
+### Revisjon av løpende prosesser
+Overvåk minnebegrensninger og ASLR-status for en aktiv demon:
 ```bash
 # Audit by Process ID (PID)
 checksec --proc=1337
@@ -110,41 +110,37 @@ checksec --proc=1337
 # Audit process by name
 checksec --proc-all
 ```
-
-### JSON & CSV Output
-Export findings for automated analysis:
+### JSON- og CSV-utdata
+Eksporter funn for automatisert analyse:
 ```bash
 checksec --file=./target_binary --output=json > security.json
 checksec --file=./target_binary --output=csv > security.csv
 ```
-
 ---
 
 ## 🔬 readelf: ELF Header & Section Dissection
 
-The `readelf` utility displays information from ELF files without invoking any execution:
+`readelf`-verktøyet viser informasjon fra ELF-filer uten å påkalle noen kjøring:
 
-### ELF File Header (`-h`)
-Reveals CPU architecture, 32 vs 64-bit class, entry point address, and endianness:
+### ELF-filhode (`-h`)
+Avslører CPU-arkitektur, 32 vs 64-bits klasse, inngangspunktadresse og endianness:
 ```bash
 readelf -h ./target_binary
 ```
-
-### The `readelf` utility displays information from ELF files without invoking any execution:
-Displays segments loaded into memory at runtime and flags (`R`, `W`, `E`). Crucial for identifying whether the stack (`GNU_STACK`) has execution permissions:
+### Programoverskrifter og segmenter (`-l`)
+Viser segmenter lastet inn i minnet ved kjøretid og flagg (`R`, `W`, `E`). Avgjørende for å identifisere om stabelen (`GNU_STACK`) har utførelsestillatelser:
 ```bash
 readelf -l ./target_binary
 ```
-*(If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).*
+*(Hvis `GNU_STACK` har `RWE`, er stackkjøring tillatt; NX er deaktivert).*
 
-### Section Headers (`-S`)
-Inspect memory layouts, addresses, and offsets for `.text` (code), `.data` (initialized data), `.rodata` (constants), `.bss` (uninitialized data), `.plt`, and `.got`:
+### Seksjonsoverskrifter (`-S`)
+Inspiser minneoppsett, adresser og forskyvninger for `.text` (kode), `.data` (initialiserte data), `.rodata` (konstanter), `.bss` (uinitialiserte data), `.plt` og `.got`:
 ```bash
 readelf -S ./target_binary
 ```
-
-### (If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).
-List all exported functions, global variables, and imported libc symbols:
+### Symboltabeller (`-s` / `--syms`)
+Liste alle eksporterte funksjoner, globale variabler og importerte libc-symboler:
 ```bash
 # List all symbols
 readelf -s ./target_binary
@@ -152,19 +148,17 @@ readelf -s ./target_binary
 # Filter dynamic symbols used at runtime
 readelf --dyn-syms ./target_binary
 ```
-
-### Dynamic Dependencies & Libraries (`-d`)
-Lists required shared libraries (`NEEDED` tags, e.g. `libc.so.6`, `libssl.so`):
+### Dynamiske avhengigheter og biblioteker (`-d`)
+Viser nødvendige delte biblioteker (`NEEDED`-tagger, f.eks. `libc.so.6`, `libssl.so`):
 ```bash
 readelf -d ./target_binary
 ```
-
 ---
 
-## 🧩 objdump: Disassembly & Relocations
+## 🧩 objdump: Demontering og flytting
 
-### Intel Disassembly (`-d -M intel`)
-Disassemble executable sections into clean Intel-syntax assembly:
+### Intel-demontering (`-d -M intel`)
+Demonter kjørbare seksjoner til en ren Intel-syntakssamling:
 ```bash
 # Disassemble .text section in Intel syntax
 objdump -d -M intel ./target_binary
@@ -172,19 +166,18 @@ objdump -d -M intel ./target_binary
 # Disassemble specific function (e.g. main)
 objdump -d -M intel ./target_binary | grep -A 30 "<main>:"
 ```
-
-### 🧩 objdump: Disassembly & Relocations
-Display the Global Offset Table (GOT) relocation addresses for imported library calls:
+### Flytteoppføringer & GOT (`-R`)
+Vis flyttingsadressene for Global Offset Table (GOT) for importerte biblioteksamtaler:
 ```bash
 objdump -R ./target_binary
 ```
-*Shows address targets for functions like `puts`, `printf`, and `system`.*
+*Viser adressemål for funksjoner som `puts`, `printf` og `system`.*
 
 ---
 
-## 🔍 nm & strings: Symbol Resolution & Strings
+## 🔍 nm og strenger: Symboloppløsning og strenger
 
-### Shows address targets for functions like `puts`, `printf`, and `system`.
+### Viser demonterte symboler med `nm`
 ```bash
 # List defined symbols only (ignore external imports)
 nm --defined-only -C ./target_binary
@@ -192,8 +185,7 @@ nm --defined-only -C ./target_binary
 # List undefined external symbols (functions resolved by dynamic linker)
 nm -u -C ./target_binary
 ```
-
-### Extracting Obfuscated Strings with `strings`
+### Trekker ut obfuskerte strenger med `strings`
 ```bash
 # Extract ASCII strings with minimum 8 characters
 strings -a -n 8 ./target_binary
@@ -204,13 +196,11 @@ strings -e l -a ./target_binary
 # Print byte offset of each string in hex
 strings -a -t x ./target_binary
 ```
-
 ---
 
-## 🛡️ Ressurser og referanser
+## 🛡️ Hardened Compilation Reference
 
-To build an ELF binary with maximum security mitigations:
-
+Slik bygger du en ELF-binær med maksimale sikkerhetsbegrensninger:
 ```bash
 gcc -O2 \
   -Wall \
@@ -221,28 +211,27 @@ gcc -O2 \
   -Wl,-z,noexecstack \
   source.c -o secure_binary
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Revisjonsbegrensninger** | `checksec --file=<bin>` |
+| **Revisjon kjører PID** | `checksec --proc=<pid>` |
+| **Se ELF Header** | `readelf -h <bin>` |
+| **Se Stack NX-flagg** | `readelf -l <bin> \| grep -A 1 GNU_STACK` |
+| **Listeseksjoner (.got, .plt)**| `readelf -S <bin>` |
+| **Se dynamiske symboler** | `readelf --dyn-syms <bin>` |
+| **Intel-demontering** | `objdump -d -M intel <bin>` |
+| **Inspiser GOT-flyttinger** | `objdump -R <bin>` |
+| **Liste symboler (demanglet)** | `nm -C <bin>` |
+| ** Trekk ut UTF-16-strenger** | `strings -e l -a <bin>` |
+| **Vis strengforskyvninger** | `strings -a -t x <bin>` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-|Objective|Kommando|
-|-----------|---------|
-|**Audit Mitigations**|`checksec --file=<bin>`|
-|**Audit Running PID**|`checksec --proc=<pid>`|
-|**View ELF Header**|`readelf -h <bin>`|
-|**View Stack NX Flag**|`readelf -l <bin> \|grep -A 1 GNU_STACK`|
-|**List Sections (.got, .plt)**|`readelf -S <bin>`|
-|**View Dynamic Symbols**|`readelf --dyn-syms <bin>`|
-|**Intel Disassembly**|`objdump -d -M intel <bin>`|
-|**Inspect GOT Relocations**|`objdump -R <bin>`|
-|**List Symbols (Demangled)**|`nm -C <bin>`|
-|**Extract UTF-16 Strings**|`strings -e l -a <bin>`|
-|**Show String Offsets**|`strings -a -t x <bin>`|
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> checksec and GNU Binutils are diagnostic and reverse engineering tools intended for software security auditing, defense validation, and authorized binary research. Inspecting unauthorized software must adhere to local intellectual property regulations.
+> [!FORSIKTIG]
+> checksec og GNU Binutils er diagnostiske og omvendt utviklingsverktøy beregnet for programvaresikkerhetsrevisjon, forsvarsvalidering og autorisert binær forskning. Inspeksjon av uautorisert programvare må følge lokale forskrifter for intellektuell eiendom.

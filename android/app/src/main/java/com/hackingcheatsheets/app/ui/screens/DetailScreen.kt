@@ -68,6 +68,8 @@ import com.hackingcheatsheets.app.ui.components.MarkdownBlockView
 import com.hackingcheatsheets.app.ui.components.isActualCliTool
 import com.hackingcheatsheets.app.ui.components.normalizeAnchor
 import com.hackingcheatsheets.app.ui.components.parseMarkdown
+import com.hackingcheatsheets.app.ui.components.LanguageSelectorDialog
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.BackgroundDark
 import com.hackingcheatsheets.app.ui.theme.BorderDark
 import com.hackingcheatsheets.app.ui.theme.CodeBlockBg
@@ -97,6 +99,15 @@ fun DetailScreen(
     val language by viewModel.currentLanguage.collectAsState()
     val cheatsheet by viewModel.getCheatsheetFlow(id).collectAsState(initial = null)
     val isFav by viewModel.isFavorite(id).collectAsState(initial = false)
+    var showLanguageDialog by remember { mutableStateOf(false) }
+
+    if (showLanguageDialog) {
+        LanguageSelectorDialog(
+            currentLanguage = language,
+            onLanguageSelected = { viewModel.setLanguage(it) },
+            onDismissRequest = { showLanguageDialog = false }
+        )
+    }
 
     if (cheatsheet == null) {
         Box(
@@ -112,7 +123,7 @@ fun DetailScreen(
 
     val tool = cheatsheet!!
     val meta = getCategoryMeta(tool.category)
-    val content = if (language == AppLanguage.TR) tool.contentTr else tool.contentEn
+    val content = tool.getContent(language)
     val blocks = remember(content) { parseMarkdown(content) }
     val hasQuickCommands = !tool.quickCommandsJson.isNullOrBlank()
 
@@ -147,12 +158,18 @@ fun DetailScreen(
                     }
                 }
             }
-            target.endsWith(".tr.md") -> {
-                viewModel.setLanguage(AppLanguage.TR)
-            }
-            target.endsWith("README.md") && !target.contains("/") -> {
-                viewModel.setLanguage(AppLanguage.EN)
-            }
+            target.endsWith(".tr.md") -> viewModel.setLanguage(AppLanguage.TR)
+            target.endsWith(".de.md") -> viewModel.setLanguage(AppLanguage.DE)
+            target.endsWith(".es.md") -> viewModel.setLanguage(AppLanguage.ES)
+            target.endsWith(".fr.md") -> viewModel.setLanguage(AppLanguage.FR)
+            target.endsWith(".it.md") -> viewModel.setLanguage(AppLanguage.IT)
+            target.endsWith(".pt.md") -> viewModel.setLanguage(AppLanguage.PT)
+            target.endsWith(".ru.md") -> viewModel.setLanguage(AppLanguage.RU)
+            target.endsWith(".zh-CN.md") -> viewModel.setLanguage(AppLanguage.ZH_CN)
+            target.endsWith(".ar.md") -> viewModel.setLanguage(AppLanguage.AR)
+            target.endsWith(".el.md") -> viewModel.setLanguage(AppLanguage.EL)
+            target.endsWith(".nb.md") -> viewModel.setLanguage(AppLanguage.NB)
+            target.endsWith("README.md") && !target.contains("/") -> viewModel.setLanguage(AppLanguage.EN)
             target.startsWith("http://") || target.startsWith("https://") -> {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(target))
@@ -221,11 +238,11 @@ fun DetailScreen(
                         .clip(RoundedCornerShape(10.dp))
                         .background(SurfaceVariantDark)
                         .border(1.dp, BorderDark, RoundedCornerShape(10.dp))
-                        .clickable { viewModel.toggleLanguage() }
+                        .clickable { showLanguageDialog = true }
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = if (language == AppLanguage.TR) "🇹🇷 TR" else "🇬🇧 EN",
+                        text = "${language.flag} ${language.code.uppercase()}",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberGreen
@@ -303,7 +320,7 @@ fun DetailScreen(
                                         .clickable {
                                             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                             clipboard.setPrimaryClip(ClipData.newPlainText("Command", cmd))
-                                            Toast.makeText(context, if (language == AppLanguage.TR) "Komut kopyalandı!" else "Command copied!", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, AppI18n.copied(language), Toast.LENGTH_SHORT).show()
                                         }
                                         .padding(horizontal = 10.dp, vertical = 6.dp)
                                 ) {
@@ -377,7 +394,7 @@ fun DetailScreen(
                                     Spacer(modifier = Modifier.width(10.dp))
                                     Column {
                                         Text(
-                                            text = if (language == AppLanguage.TR) "İNTERAKTİF KOMUT OLUŞTURUCU" else "INTERACTIVE COMMAND BUILDER",
+                                            text = AppI18n.interactiveBuilder(language),
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.Bold,
                                             color = TextPrimary

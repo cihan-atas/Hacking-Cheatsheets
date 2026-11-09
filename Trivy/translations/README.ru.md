@@ -1,41 +1,44 @@
-# 🔍 Trivy — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Trivy](https://github.com/aquasecurity/trivy) by Aqua Security is a comprehensive, multi-purpose security scanner for containers, filesystems, Git repositories, virtual machine images, Kubernetes clusters, and Infrastructure as Code (IaC) configurations. It detects OS and language vulnerabilities (CVEs), leaked secrets, misconfigurations, and generates Software Bill of Materials (SBOM).
-
----
-
-## 📋 Содержание
-
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
-- [Установка](#installation)
-- [Установка](#container-image-scanning-trivy-image)
-- [4. Scan Stored Tar Archive](#filesystem--repository-scanning-trivy-fs--repo)
-- [Secret & Credential Detection (`--scanners secret`)](#secret--credential-detection---scanners-secret)
-- [Detect hardcoded API keys, tokens, and private keys embedded in code or container layers:](#kubernetes-cluster-auditing-trivy-k8s)
-- [Infrastructure as Code (IaC) Misconfiguration Scanning](#infrastructure-as-code-iac-misconfiguration-scanning)
-- [Detect risky configurations in Dockerfiles, Terraform, and Kubernetes YAML:](#cicd-integration--exit-codes)
-- [Automate pipeline gates to block vulnerable builds from shipping:](#sbom-generation-cyclonedx--spdx)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
 
-- **Vulnerabilities**: Detects CVEs across Alpine, Debian, RHEL, Ubuntu, Amazon Linux, and language packages (Go, Python, Node.js, Java, Rust, Ruby, PHP, .NET).
-- **| `-t` | Шаблоны для запуска |**: Audits Dockerfiles, Kubernetes manifests, Terraform, CloudFormation, and Helm charts against CIS Benchmarks.
-- **Secret Scanning**: Flags exposed API keys, private certificates, JWT tokens, and passwords.
-- **Cluster Scanning**: Audits Kubernetes workloads and control planes live.
-- **Fast & Lightweight**: Local SQLite database updated transparently without external daemon requirements.
+# Простая шпаргалка
+
+[Trivy](https://github.com/aquasecurity/trivy) от Aqua Security — это комплексный многоцелевой сканер безопасности для контейнеров, файловых систем, репозиториев Git, образов виртуальных машин, кластеров Kubernetes и конфигураций инфраструктуры как кода (IaC). Он обнаруживает уязвимости ОС и языка (CVE), утечку секретов, неправильные конфигурации и генерирует спецификацию программного обеспечения (SBOM).
+
+---
+
+## Содержание
+
+- [Основные возможности](#core-capabilities)
+- [Установка](#установка)
+- [Сканирование образа контейнера (`trivy image`)](#container-image-scanning-trivy-image)
+- [Сканирование файловой системы и репозитория (`trivy fs / repo`)](#filesystem--repository-scanning-trivy-fs--repo)
+- [Обнаружение секретов и учетных данных (`--scanners secret`)](#secret--credential-detection---scanners-secret)
+- [Аудит кластера Kubernetes (`trivy k8s`)](#kubernetes-cluster-auditing-trivy-k8s)
+- [Сканирование неправильной конфигурации инфраструктуры как кода (IaC)](#infrastructure-as-code-iac-misconfiguration-scanning)
+- [Интеграция CI/CD и коды выхода](#cicd-integration--exit-codes)
+- [Генерация SBOM (CycloneDX и SPDX)](#sbom-генерация-циклонедкс--spdx)
+
+---
+
+## Основные возможности
+
+- **Уязвимости:** обнаруживает CVE в Alpine, Debian, RHEL, Ubuntu, Amazon Linux и языковых пакетах (Go, Python, Node.js, Java, Rust, Ruby, PHP, .NET).
+- **Неправильные конфигурации**: проверяет файлы Dockerfile, манифесты Kubernetes, диаграммы Terraform, CloudFormation и Helm на соответствие CIS Benchmarks.
+- **Секретное сканирование.** Помечает открытые ключи API, частные сертификаты, токены JWT и пароли.
+- **Сканирование кластера:** проверяет рабочие нагрузки Kubernetes и плоскости управления в реальном времени.
+- **Быстро и легко:** Локальная база данных SQLite обновляется прозрачно, без необходимости использования внешнего демона.
 
 ---
 
 ## Установка
-
 ```bash
 # Debian / Ubuntu
 sudo apt-get install wget apt-transport-https gnupg
@@ -52,58 +55,50 @@ brew install trivy
 # Docker container
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image alpine:latest
 ```
-
 ---
 
-## Установка
+## Сканирование образа контейнера (`trivy image`)
 
-### 1. Basic Image Scan
-Scan a local or remote Docker image:
+### 1. Базовое сканирование изображения
+Сканируйте локальный или удаленный образ Docker:
 ```bash
 trivy image nginx:latest
 ```
-
-### Container Image Scanning (`trivy image`)
-Focus on actionable Critical and High vulnerabilities only:
+### 2. Фильтровать по уровню серьезности
+Сосредоточьтесь только на критических и высоких уязвимостях, требующих принятия мер:
 ```bash
 trivy image --severity HIGH,CRITICAL python:3.9-slim
 ```
-
-### 3. Display Only Fixable Vulnerabilities
-Filter out unpatched zero-days or unfixable upstream issues:
+### 3. Отображать только исправимые уязвимости
+Отфильтруйте неисправленные нулевые или неустранимые проблемы исходного кода:
 ```bash
 trivy image --ignore-unfixed --severity HIGH,CRITICAL node:18-alpine
 ```
-
-### 4. Scan Stored Tar Archive
-Scan offline container images exported via `docker save`:
+### 4. Сканирование сохраненного архива Tar
+Сканируйте автономные образы контейнеров, экспортированные через `docker save`:
 ```bash
 docker save myapp:v1 -o myapp.tar
 trivy image --input myapp.tar
 ```
-
 ---
 
-## 4. Scan Stored Tar Archive
+## Сканирование файловой системы и репозитория (`trivy fs / repo`)
 
-Scan source code trees, dependency lockfiles (`package-lock.json`, `poetry.lock`, `go.sum`, `pom.xml`):
+Сканировать деревья исходного кода, файлы блокировки зависимостей (`package-lock.json`, `poetry.lock`, `go.sum`, `pom.xml`):
 
-### 1. Scan Local Directory / Project
+### 1. Сканировать локальный каталог/проект
 ```bash
 trivy fs /path/to/project
 ```
-
-### 2. Scan Remote Git Repository Directly
+### 2. Сканировать удаленный репозиторий Git напрямую
 ```bash
 trivy repo https://github.com/example/vulnerable-app
 ```
-
 ---
 
-## Secret & Credential Detection (`--scanners secret`)
+## Обнаружение секретов и учетных данных (`--scanners secret`)
 
-Detect hardcoded API keys, tokens, and private keys embedded in code or container layers:
-
+Обнаруживайте жестко запрограммированные ключи API, токены и закрытые ключи, встроенные в уровни кода или контейнера:
 ```bash
 # Scan directory for secrets
 trivy fs --scanners secret .
@@ -111,34 +106,29 @@ trivy fs --scanners secret .
 # Scan container image for secrets and vulnerabilities simultaneously
 trivy image --scanners vuln,secret mycompany/api:latest
 ```
-
 ---
 
-## Detect hardcoded API keys, tokens, and private keys embedded in code or container layers:
+## Аудит кластера Kubernetes (`trivy k8s`)
 
-Audit active workloads and configuration in a live Kubernetes cluster using your active `kubectl` context:
+Аудит активных рабочих нагрузок и конфигурации в работающем кластере Kubernetes с использованием активного контекста `kubectl`:
 
-### 1. Audit Entire Cluster Workloads
+### 1. Аудит всей рабочей нагрузки кластера
 ```bash
 trivy k8s --report summary cluster
 ```
-
-### 2. Audit a Specific Namespace
+### 2. Аудит определенного пространства имен
 ```bash
 trivy k8s --namespace production --severity HIGH,CRITICAL all
 ```
-
-### 1. Audit Entire Cluster Workloads
+### 3. Соответствие критериям CIS Kubernetes Benchmark
 ```bash
 trivy k8s --compliance k8s-cis cluster
 ```
-
 ---
 
-## Infrastructure as Code (IaC) Misconfiguration Scanning
+## Сканирование неправильной конфигурации инфраструктуры как кода (IaC)
 
-Detect risky configurations in Dockerfiles, Terraform, and Kubernetes YAML:
-
+Обнаруживайте рискованные конфигурации в Dockerfiles, Terraform и Kubernetes YAML:
 ```bash
 # Scan Terraform files for cloud security violations
 trivy config ./terraform/
@@ -146,13 +136,11 @@ trivy config ./terraform/
 # Scan Dockerfile for root user or insecure exposed ports
 trivy config Dockerfile
 ```
-
 ---
 
-## Detect risky configurations in Dockerfiles, Terraform, and Kubernetes YAML:
+## Интеграция CI/CD и коды выхода
 
-Automate pipeline gates to block vulnerable builds from shipping:
-
+Автоматизируйте шлюзы конвейера, чтобы заблокировать доставку уязвимых сборок:
 ```bash
 # Break build (Exit code 1) if CRITICAL vulnerabilities exist
 trivy image --exit-code 1 --severity CRITICAL myapp:build-42
@@ -160,13 +148,11 @@ trivy image --exit-code 1 --severity CRITICAL myapp:build-42
 # Generate SARIF report for GitHub Code Scanning
 trivy image --format sarif --output trivy-results.sarif myapp:latest
 ```
-
 ---
 
-## Automate pipeline gates to block vulnerable builds from shipping:
+## Генерация SBOM (CycloneDX и SPDX)
 
-Generate Software Bill of Materials (SBOM) for compliance and supply-chain auditing:
-
+Создайте спецификацию программного обеспечения (SBOM) для проверки соответствия требованиям и цепочки поставок:
 ```bash
 # Generate CycloneDX JSON SBOM
 trivy image --format cyclonedx --output sbom.json myapp:latest

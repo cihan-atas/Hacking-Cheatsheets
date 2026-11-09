@@ -1,39 +1,42 @@
-# 🔍 fcrackzip – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[fcrackzip](https://github.com/hyc/fcrackzip) is a fast, multi-threaded command-line password cracker for encrypted ZIP archives. It supports both dictionary-based attacks and optimized brute-force attacks against traditional ZipCrypto (PKZIP stream cipher) and can verify archive integrity without full extraction.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [[Character Sets & Length Specification](#character-sets--length-specification)](#core-features--limitations)
+# fcrackzip Jukseark
+
+[fcrackzip](https://github.com/hyc/fcrackzip) er en rask flertråds kommandolinjepassordknekker for krypterte ZIP-arkiver. Den støtter både ordbokbaserte angrep og optimaliserte brute-force-angrep mot tradisjonell ZipCrypto (PKZIP-strømchiffer) og kan verifisere arkivintegritet uten full utvinning.
+
+---
+
+## Innholdsfortegnelse
+
+– [Kjernefunksjoner og begrensninger](#kjernefunksjoner--begrensninger)
 - [Installasjon](#installation)
-- [Installasjon](#dictionary-attacks--d--p)
-- [2. Verbose Output Mode](#brute-force-attacks--b)
-- [`-c A`: Uppercase letters (`A-Z`).](#character-sets--length-specification)
-- [Benchmark & Performance Optimization](#benchmark--performance-optimization)
-- [ZipCrypto vs. AES-256 (John/Hashcat Alternative)](#zipcrypto-vs-aes-256-johnhashcat-alternative)
+- [Ordbokangrep (`-D -p`)](#dictionary-attacks--d--p)
+- [Brute-Force Attacks (`-b`)](#brute-force-attacks--b)
+– [Tegnsett og lengdespesifikasjon](#tegnsett--lengdespesifikasjon)
+– [Referanse- og ytelsesoptimalisering](#benchmark--ytelsesoptimalisering)
+- [ZipCrypto vs. AES-256 (John/Hashcat-alternativ)](#zipcrypto-vs-aes-256-johnhashcat-alternative)
 
 ---
 
-## [Character Sets & Length Specification](#character-sets--length-specification)
+## Kjernefunksjoner og begrensninger
 
-- **Ultra-Fast ZipCrypto Cracker**: Written in C, optimized for legacy ZipCrypto algorithm (standard PKZIP encryption).
-- **Dictionary Mode**: Reads candidate passwords sequentially from wordlists.
-- **Brute-Force Mode**: Generates candidates on-the-fly using configurable character sets and length boundaries.
-- **Archive Unzip Test (`-u`)**: Verifies candidate passwords by attempting decompression, virtually eliminating false positives.
-- **Limitation**: Does **not** support modern WinZip AES-256 encryption. For AES-256 ZIPs, use `zip2john` + John the Ripper or Hashcat (mode 13600).
+- **Ultra-Fast ZipCrypto Cracker:** Skrevet i C, optimert for eldre ZipCrypto-algoritme (standard PKZIP-kryptering).
+- **Ordbokmodus:** Leser kandidatpassord sekvensielt fra ordlister.
+- **Brute-Force-modus:** Genererer kandidater på farten ved hjelp av konfigurerbare tegnsett og lengdegrenser.
+- **Archive Unzip Test (`-u`):** Verifiserer kandidatpassord ved å forsøke dekompresjon, og eliminerer praktisk talt falske positiver.
+- **Begrensning:** Støtter **ikke** moderne WinZip AES-256-kryptering. For AES-256 ZIP-er, bruk `zip2john` + John the Ripper eller Hashcat (modus 13600).
 
 ---
 
 ## Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y fcrackzip
@@ -47,70 +50,68 @@ sudo dnf install -y fcrackzip
 # Verify command
 fcrackzip -h
 ```
-
 ---
 
-## Installasjon
+## Ordbokangrep (`-D -p`)
 
-The fastest way to test against common wordlists:
+Den raskeste måten å teste mot vanlige ordlister:
 
-### 1. Basic Dictionary Attack with Unzip Verification
+### 1. Grunnleggende ordbokangrep med unzip-verifisering
 ```bash
 fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt secret_archive.zip
 ```
-- Dictionary Attacks (`-D -p`)
-- `-D`: Dictionary attack mode.
-- The fastest way to test against common wordlists:
+- `-u`: Unzip-modus (verifiserer den utpakkede filen CRC for å unngå falske positiver).
+- `-D`: Ordbokangrepsmodus.
+- `-p <file>`: Bane til ordbokfilen.
 
-### 1. Basic Dictionary Attack with Unzip Verification
-Display tested speed, current password, and debug info:
+### 2. Utførlig utgangsmodus
+Vis testet hastighet, gjeldende passord og feilsøkingsinformasjon:
 ```bash
 fcrackzip -v -u -D -p passwords.txt backup.zip
 ```
-
 ---
 
-## 2. Verbose Output Mode
+## Brute-Force Attacks (`-b`)
 
-When dictionary attacks fail, brute-force against unknown short passwords:
+Når ordbokangrep mislykkes, kan du bruke brute-force mot ukjente korte passord:
 
-### 1. Brute-Force Numeric PINs (4 to 6 Digits)
+### 1. Brute-Force numeriske PIN-koder (4 til 6 sifre)
 ```bash
 fcrackzip -u -b -c 1 -l 4-6 secure.zip
 ```
-- Brute-Force Attacks (`-b`)
-- `-c 1`: Character set: digits only (`0-9`).
-- When dictionary attacks fail, brute-force against unknown short passwords:
+- `-b`: Brute-force-modus.
+- `-c 1`: Tegnsett: kun sifre (`0-9`).
+- `-l 4-6`: Lengdeområde: min 4, maks 6 tegn.
 
-### 1. Brute-Force Numeric PINs (4 to 6 Digits)
+### 2. Alfanumeriske tegn med små bokstaver (1 til 5 tegn)
 ```bash
 fcrackzip -u -b -c a1 -l 1-5 archive.zip
 ```
-- `-b`: Brute-force mode.
+- `-c a1`: Små bokstaver (`a-z`) og sifre (`0-9`).
 
-### `-l 4-6`: Length range: min 4, max 6 characters.
+### 3. Små bokstaver + Store bokstaver + Siffer + Symboler
 ```bash
 fcrackzip -u -b -c aA1! -l 6-8 protected.zip
 ```
-- 2. Lowercase Alphanumeric Characters (1 to 5 Characters)
-- `-c A`: Uppercase letters (`A-Z`).
-- `-c a1`: Lowercase letters (`a-z`) and digits (`0-9`).
-- `-c !`: Special symbols (`[!:$%&/()=?{[]}+*~#]`).
+- `-c a`: Små bokstaver (`a-z`).
+- `-c A`: Store bokstaver (`A-Z`).
+- `-c 1`: Tall (`0-9`).
+- `-c !`: Spesialsymboler (`[!:$%&/()=?{[]}+*~#]`).
 
 ---
 
-## `-c A`: Uppercase letters (`A-Z`).
+## Tegnsett og lengdespesifikasjon
 
-|Flagg|Character Set Included|Example Candidates|
+| Flagg | Tegnsett inkludert | Eksempelkandidater |
 |---|---|---|
-|`-c a`|Lowercase letters (`a-z`)|`admin`, `secret`|
-|`-c A`|Uppercase letters (`A-Z`)|`SECRET`, `ROOT`|
-|`-c 1`|Digits (`0-9`)|`1234`, `2024`|
-|`-c !`|Special punctuation characters|`!@#$`|
-|`-c aA1`|Combined alphanumeric characters|`Admin123`|
-|`-p <prefix>`|Initial starting seed string|Useful to resume brute force|
+| `-c a` | Små bokstaver (`a-z`) | `admin`, `secret` |
+| `-c A` | Store bokstaver (`A-Z`) | `SECRET`, `ROOT` |
+| `-c 1` | Sifre (`0-9`) | `1234`, `2024` |
+| `-c !` | Spesielle tegnsettingstegn | `!@#$` |
+| `-c aA1` | Kombinerte alfanumeriske tegn | `Admin123` |
+| `-p <prefix>` | Første startfrøstreng | Nyttig for å gjenoppta brute force |
 
-|`-c A`|Uppercase letters (`A-Z`)|`SECRET`, `ROOT`|
+Angi lengdegrenser:
 ```bash
 # Minimum length 6, Maximum length 8
 -l 6-8
@@ -118,22 +119,19 @@ fcrackzip -u -b -c aA1! -l 6-8 protected.zip
 # Exact length 8
 -l 8-8
 ```
-
 ---
 
-## Benchmark & Performance Optimization
+## Benchmark og ytelsesoptimalisering
 
-Test CPU throughput on your machine:
+Test CPU-gjennomstrømning på maskinen din:
 ```bash
 fcrackzip -B
 ```
-
 ---
 
-## ZipCrypto vs. AES-256 (John/Hashcat Alternative)
+## ZipCrypto vs. AES-256 (John/Hashcat-alternativ)
 
-If `fcrackzip` returns `not a zipfile, or unsupported encryption type`, the archive is encrypted with AES-256 (WinZip AES). Use `zip2john`:
-
+Hvis `fcrackzip` returnerer `not a zipfile, or unsupported encryption type`, krypteres arkivet med AES-256 (WinZip AES). Bruk `zip2john`:
 ```bash
 # 1. Extract hash using zip2john
 zip2john aes_protected.zip > zip.hash

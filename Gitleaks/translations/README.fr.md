@@ -1,12 +1,16 @@
-# 🔑 Gitleaks — fiche pratique complète
-
 <!-- language-home-navigation -->
-[🏠 Accueil en français](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Page d'accueil Française](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔑 Gitleaks - Aide-mémoire complet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██╗████████╗██╗     ███████╗ █████╗ ██╗  ██╗███████╗
   ██╔════╝ ██║╚══██╔══╝██║     ██╔════╝██╔══██╗██║ ██╔╝██╔════╝
@@ -16,7 +20,6 @@
    ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
            Fast & Automated Secret Detection for Git Repositories
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Gitleaks-Secret_Scanner-blue?style=for-the-badge" alt="Gitleaks">
   <img src="https://img.shields.io/badge/Author-Zachary_Rice-orange?style=for-the-badge" alt="zricethezav">
@@ -25,42 +28,41 @@
 </p>
 
 <p align="center">
-  <b>🔑 SAST tool designed to find and detect hardcoded secrets like passwords, API keys, and tokens in Git repositories and commit histories</b>
+  <b>🔑 Outil SAST conçu pour rechercher et détecter les secrets codés en dur tels que les mots de passe, les clés API et les jetons dans les référentiels Git et les historiques de validation</b>
 </p>
 
 ---
 
 ## 📋 Table des matières
 
-- [Introduction](#-overview--detection-engine)
+- [Aperçu et moteur de détection](#-overview--detection-engine)
 - [Installation](#-installation)
-- [Basic Secret Scanning](#-basic-secret-scanning)
-  - [Scanning a Git Repository](#scanning-a-git-repository)
-  - [🚀 Basic Secret Scanning](#scanning-uncommitted-changes)
-  - [Scanning Plain Files & Folders](#scanning-plain-files--folders)
-- [Targeting Commit Ranges & History](#-targeting-commit-ranges--history)
-- [CI/CD & Pre-commit Integration](#-cicd--pre-commit-integration)
-- [Custom Detection Rules & Allowlisting](#-custom-detection-rules--allowlisting)
-- [Output Formats & Reporting](#-output-formats--reporting)
-- [Référence rapide](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Analyse secrète de base](#-basic-secret-scanning)
+  - [Analyse d'un référentiel Git](#scanning-a-git-repository)
+  - [Analyse des modifications non validées](#analyse-des modifications non validées)
+  - [Analyse des fichiers et dossiers bruts](#scanning-plain-files--folders)
+- [Plages et historique de validation de ciblage](#-targeting-commit-ranges--history)
+- [CI/CD et intégration pré-commit](#-cicd--pre-commit-integration)
+-[Règles de détection personnalisées et liste autorisée](#-custom-detection-rules--liste autorisée)
+- [Formats de sortie et rapports](#-output-formats--reporting)
+- [Tableau de référence rapide](#-quick-reference-table)
+- [Considérations défensives et mesures correctives](#-considérations-défensives--remédiation)
+- [Mentions légales](#-legal-disclaimer)
 
 ---
 
-## 🎯 Introduction
+## 🎯 Présentation et moteur de détection
 
-Hardcoded secrets (AWS access keys, SSH private keys, GitHub tokens, Slack webhooks, database credentials) inadvertently committed to git repositories are one of the most common vectors for initial cloud compromise.
+Les secrets codés en dur (clés d'accès AWS, clés privées SSH, jetons GitHub, webhooks Slack, informations d'identification de base de données) commis par inadvertance dans les référentiels git sont l'un des vecteurs les plus courants de compromission initiale du cloud.
 
-Created by **Zachary Rice (@zricethezav)**, **Gitleaks** provides ultra-fast regex-based and Shannon entropy analysis across:
-- **Full Git History**: Audits every branch, tag, and historical commit.
-- **Pre-commit Hooks**: Blocks engineers from accidentally committing credentials before code reaches remote servers.
-- **CI/CD Pipelines**: Automatically fails pull requests containing credential leaks.
+Créé par **Zachary Rice (@zricethezav)**, **Gitleaks** fournit une analyse ultra-rapide basée sur les expressions régulières et l'entropie de Shannon pour :
+- **Historique Git complet :** Audite chaque branche, balise et validation historique.
+- **Pre-commit Hooks :** empêche les ingénieurs de valider accidentellement les informations d'identification avant que le code n'atteigne les serveurs distants.
+- **Pipelines CI/CD :** Échoue automatiquement les demandes d'extraction contenant des fuites d'informations d'identification.
 
 ---
 
-## 📥 Installation
-
+## 📥Installation
 ```bash
 # macOS (Homebrew)
 brew install gitleaks
@@ -75,13 +77,12 @@ docker pull zricethezav/gitleaks:latest
 curl -sSL https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks_linux_x64.tar.gz | tar -xz
 sudo mv gitleaks /usr/local/bin/
 ```
-
 ---
 
-## 🚀 Basic Secret Scanning
+## 🚀 Analyse secrète de base
 
-### Scanning a Git Repository
-Audits the current repository's commit history:
+### Analyser un référentiel Git
+Audite l'historique des validations du référentiel actuel :
 ```bash
 # Run detection in current working repo
 gitleaks detect -v
@@ -89,9 +90,8 @@ gitleaks detect -v
 # Audit an external local repo path
 gitleaks detect --source /path/to/repo -v
 ```
-
-### 🚀 Basic Secret Scanning
-Audits staged and unstaged code changes before committing:
+### Analyse des modifications non validées
+Audite les modifications de code planifiées et non planifiées avant de les valider :
 ```bash
 # Inspect unstaged working directory changes
 gitleaks protect -v
@@ -99,17 +99,14 @@ gitleaks protect -v
 # Scan staged changes only
 gitleaks protect --staged -v
 ```
-
-### Scanning Plain Files & Folders
-Scan non-git directories (e.g., extracted firmware, decompiled mobile apps, configuration folders):
+### Analyse de fichiers et dossiers simples
+Analysez les répertoires non-git (par exemple, micrologiciels extraits, applications mobiles décompilées, dossiers de configuration) :
 ```bash
 gitleaks dir /path/to/directory -v
 ```
-
 ---
 
-## ⚡ Targeting Commit Ranges & History
-
+## ⚡ Ciblage des plages de validation et de l'historique
 ```bash
 # Scan commits made in the last 7 days
 gitleaks detect --log-opts="--since='7 days ago'" -v
@@ -120,12 +117,11 @@ gitleaks detect --log-opts="origin/main..feature-branch" -v
 # Target the latest 5 commits
 gitleaks detect --log-opts="-n 5" -v
 ```
-
 ---
 
-## ⚙️ CI/CD & Pre-commit Integration
+## ⚙️ Intégration CI/CD et pré-commit
 
-### Pre-commit Framework Configuration (`.pre-commit-config.yaml`)
+### Configuration du framework de pré-validation (`.pre-commit-config.yaml`)
 ```yaml
 repos:
   - repo: https://github.com/gitleaks/gitleaks
@@ -133,8 +129,7 @@ repos:
     hooks:
       - id: gitleaks
 ```
-
-### GitHub Actions Workflow
+### Flux de travail des actions GitHub
 ```yaml
 name: Gitleaks Security Scan
 on: [push, pull_request]
@@ -149,13 +144,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
 ---
 
-## 🧩 Custom Detection Rules & Allowlisting
+## 🧩 Règles de détection personnalisées et liste blanche
 
-Configure custom regex patterns or ignore false positives using `.gitleaks.toml`:
-
+Configurez des modèles d'expression régulière personnalisés ou ignorez les faux positifs à l'aide de `.gitleaks.toml` :
 ```toml
 [extend]
 useDefault = true
@@ -178,16 +171,13 @@ secretGroup = 1
 entropy = 3.5
 keywords = ["corp_secret_"]
 ```
-
-🧩 Custom Detection Rules & Allowlisting
+Exécuter avec une configuration personnalisée :
 ```bash
 gitleaks detect -c .gitleaks.toml -v
 ```
-
 ---
 
-## 📊 Output Formats & Reporting
-
+## 📊 Formats de sortie et rapports
 ```bash
 # Export results to clean JSON format
 gitleaks detect --report-path gitleaks-report.json --report-format json
@@ -198,32 +188,31 @@ gitleaks detect --report-path report.sarif --report-format sarif
 # Export to CSV
 gitleaks detect --report-path report.csv --report-format csv
 ```
-
 ---
 
-## ⚡ Référence rapide
+## ⚡ Tableau de référence rapide
 
-|Objective|Commande|
+| Objectif | Commande |
 |-----------|---------|
-|**Scan Entire Git History**|`gitleaks detect -v`|
-|**Scan Uncommitted Changes**|`gitleaks protect -v`|
-|**Scan Staged Changes Only**|`gitleaks protect --staged -v`|
-|**Scan Plain Directory (No Git)**|`gitleaks dir /path/to/folder -v`|
-|**Export to JSON**|`gitleaks detect -r report.json -f json`|
-|**Export to SARIF**|`gitleaks detect -r report.sarif -f sarif`|
-|**Use Custom Rules Config**|`gitleaks detect -c .gitleaks.toml`|
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
+| **Analyser l'intégralité de l'historique Git** | `gitleaks detect -v` |
+| **Analyser les modifications non validées** | `gitleaks protect -v` |
+| **Analyser les modifications par étapes uniquement** | `gitleaks protect --staged -v` |
+| **Analyser le répertoire simple (sans Git)**| `gitleaks dir /path/to/folder -v` |
+| **Exporter vers JSON** | `gitleaks detect -r report.json -f json` |
+| **Exporter vers SARIF** | `gitleaks detect -r report.sarif -f sarif` |
+| **Utiliser la configuration des règles personnalisées** | `gitleaks detect -c .gitleaks.toml` |
+| **Analyser une branche spécifique** | `gitleaks detect --log-opts="main..dev"` |
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## 🛡️ Considérations défensives et mesures correctives
 
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
-2. **Rewriting Git History:** Removing the commit or using `git filter-repo` / BFG Repo-Cleaner is required to scrub artifacts, but never substitute history rewrites for credential rotation.
+1. **Révocation immédiate :** Une fois qu'un secret est détecté dans l'historique git, considérez-le comme entièrement compromis et faites-le pivoter/révoquer immédiatement.
+2. **Réécriture de l'historique Git :** La suppression de la validation ou l'utilisation de `git filter-repo` / BFG Repo-Cleaner est nécessaire pour nettoyer les artefacts, mais ne remplacez jamais la réécriture de l'historique par la rotation des informations d'identification.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Mentions légales
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Gitleaks is designed for authorized internal security audits, continuous integration vulnerability checking, and defensive code review. Scanning unauthorized proprietary repositories without permission is strictly prohibited.
+> [!ATTENTION]
+> Gitleaks est conçu pour les audits de sécurité internes autorisés, la vérification continue des vulnérabilités d'intégration et la révision défensive du code. L'analyse des référentiels propriétaires non autorisés sans autorisation est strictement interdite.

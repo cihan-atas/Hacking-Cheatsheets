@@ -1,12 +1,16 @@
-# 🎯 Wfuzz – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎯 Wfuzz - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗    ██╗███████╗██╗   ██╗███████╗███████╗
   ██║    ██║██╔════╝██║   ██║╚══███╔╝╚══███╔╝
@@ -16,61 +20,59 @@
    ╚══╝╚══╝ ╚═╝      ╚═════╝ ╚══════╝╚══════╝
        The Flexible Web Application Fuzzer & Parameter Explorer
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Wfuzz-Web_Fuzzer-blue?style=for-the-badge" alt="Wfuzz">
   <img src="https://img.shields.io/badge/Language-Python-orange?style=for-the-badge" alt="Language Python">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security & API">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Nettsikkerhet og API">
   <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
 </p>
 
 <p align="center">
-  <b>🌐 Highly customizable HTTP fuzzer designed for discovering hidden parameters, bypasses, headers, and multi-payload matrices</b>
+  <b>🌐 Svært tilpassbar HTTP fuzzer designet for å oppdage skjulte parametere, omgåelser, overskrifter og multi-nyttelastmatriser</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--the-keyword-architecture)
-- [Wfuzz vs ffuf Comparison](#-wfuzz-vs-ffuf-comparison)
-- [Installasjon](#-installation)
+- [Oversikt og søkeordarkitekturen](#-oversikt--søkeordarkitekturen)
+- [Wfuzz vs ffuf-sammenligning](#-wfuzz-vs-ffuf-sammenligning)
+- [Installasjon](#-installasjon)
 - [Basic Directory & File Discovery](#-basic-directory--file-discovery)
-- [Filtering & Hiding Noise (`--hc`, `--hl`, `--hw`, `--hh`)](#-filtering--hiding-noise---hc---hl---hw---hh)
-- [Payload Types & Dynamic Encoders (`-z`)](#-payload-types--dynamic-encoders--z)
-- [Alternativer og parametere](#-parameter--hidden-variable-fuzzing)
-- [Headers, Cookies & Authentication](#-headers-cookies--authentication)
-- [Multi-Variable Fuzzing (`FUZZ` and `FUZ2Z`)](#-multi-variable-fuzzing-fuzz-and-fuz2z)
+- [Filtrering og skjul støy (`--hc`, `--hl`, `--hw`, `--hh`)](#-filtrering--skjuler-støy---hc---hl---hw---hh)
+- [Nyttelasttyper og dynamiske kodere (`-z`)](#-nyttelast-typer--dynamiske-kodere--z)
+- [Parameter & Hidden Variable Fuzzing](#-parameter--hidden-variable-fuzzing)
+- [Overskrifter, informasjonskapsler og autentisering](#-headers-informasjonskapsler--autentisering)
+- [Multi-Variable Fuzzing (`FUZZ` og `FUZ2Z`)](#-multi-variable-fuzzing-fuzz-and-fuz2z)
 - [Routing Through Burp Suite (`-p`)](#-routing-through-burp-suite--p)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og nøkkelordarkitekturen
 
-Written in Python by **Xavi Mendez**, **Wfuzz** is a classic, battle-tested tool for assessing web applications. It replaces designated placeholders (default: `FUZZ`) inside URLs, parameters, headers, and POST bodies with dictionary entries or algorithmically generated payloads.
+Skrevet i Python av **Xavi Mendez**, **Wfuzz** er et klassisk, kamptestet verktøy for å vurdere nettapplikasjoner. Den erstatter utpekte plassholdere (standard: `FUZZ`) i URL-er, parametere, overskrifter og POST-kropper med ordbokoppføringer eller algoritmisk genererte nyttelaster.
 
-Wfuzz stands out for its unmatched **payload versatility** (ranges, IP generators, regex strings, on-the-fly encoders like MD5 or Base64) and modular filtering mechanics.
+Wfuzz skiller seg ut for sin uovertrufne **nyttelastallsidighet** (serier, IP-generatorer, regex-strenger, on-the-fly-kodere som MD5 eller Base64) og modulær filtreringsmekanikk.
 
 ---
 
-## ⚖️ Wfuzz vs ffuf Comparison
+## ⚖️ Wfuzz vs ffuf sammenligning
 
-|Feature|Wfuzz|ffuf|
-|---------|-------|------|
-|**Implementation Language**|Python|Go|
-|**Raw Speed**|⭐⭐⭐ (Good)|⭐⭐⭐⭐⭐ (Blazingly Fast)|
-|**Dynamic Payload Encoders**|✅ Native (`-z file,pass.txt,md5`)|❌ Requires external scripts|
-|**Multi-Payload Combinations**|✅ Native (`FUZZ`, `FUZ2Z`, `FUZ3Z`)|✅ Supported (`-w w1:W1 -w w2:W2`)|
-|**Built-in Payload Generators**|✅ Ranges, IPs, Hex, Dictionaries|❌ File wordlists only|
-|**Resource Usage**|Moderate RAM / CPU|Low Memory footprint|
+| Funksjon | Wfuzz | ffuf |
+|--------|--------|------|
+| **Implementeringsspråk** | Python | Gå |
+| **Rå hastighet** | ⭐⭐⭐ (Bra) | ⭐⭐⭐⭐⭐ (Braande rask) |
+| **Dynamiske nyttelastkodere**| ✅ Innfødt (`-z file,pass.txt,md5`)| ❌ Krever eksterne skript |
+| **Multi-nyttelastkombinasjoner**| ✅ Native (`FUZZ`, `FUZ2Z`, `FUZ3Z`)| ✅ Støttet (`-w w1:W1 -w w2:W2`)|
+| **Innebygde nyttelastgeneratorer**| ✅ Områder, IP-er, Hex, Ordbøker| ❌ Bare filordlister |
+| **Ressursbruk** | Moderat RAM / CPU | Lite minne fotavtrykk |
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y wfuzz
@@ -81,11 +83,9 @@ pip3 install wfuzz
 # Arch Linux
 sudo pacman -S wfuzz
 ```
-
 ---
 
-## 🚀 Basic Directory & File Discovery
-
+## 🚀 Grunnleggende katalog og filoppdagelse
 ```bash
 # Basic directory fuzzing
 wfuzz -w /usr/share/wordlists/dirb/common.txt http://target.local/FUZZ
@@ -96,13 +96,11 @@ wfuzz -w extensions.txt http://target.local/index.FUZZ
 # Fuzzing hidden backup files
 wfuzz -w words.txt http://target.local/FUZZ.bak
 ```
-
 ---
 
-## 🎯 Filtering & Hiding Noise (`--hc`, `--hl`, `--hw`, `--hh`)
+## 🎯 Filtrering og skjule støy (`--hc`, `--hl`, `--hw`, `--hh`)
 
-Real-world servers return responses even for non-existent pages (custom 404 pages or redirects). Wfuzz provides fine-grained filtering flags:
-
+Virkelige servere returnerer svar selv for ikke-eksisterende sider (egendefinerte 404-sider eller omdirigeringer). Wfuzz tilbyr finkornede filtreringsflagg:
 ```bash
 # Hide specific HTTP status codes (e.g. 404, 403)
 wfuzz -w wordlist.txt --hc 404,403 http://target.local/FUZZ
@@ -119,13 +117,11 @@ wfuzz -w wordlist.txt --hh 0,1052 http://target.local/FUZZ
 # Show ONLY HTTP 200 and 302 responses
 wfuzz -w wordlist.txt --sc 200,302 http://target.local/FUZZ
 ```
-
 ---
 
-## 📦 Payload Types & Dynamic Encoders (`-z`)
+## 📦 Nyttelasttyper og dynamiske kodere (`-z`)
 
-Wfuzz provides built-in generators that eliminate the need for pre-generated text files:
-
+Wfuzz har innebygde generatorer som eliminerer behovet for forhåndsgenererte tekstfiler:
 ```bash
 # Numeric Range Fuzzing (e.g., IDOR testing from 1 to 500)
 wfuzz -z range,1-500 http://target.local/user.php?id=FUZZ
@@ -139,13 +135,11 @@ wfuzz -z file,passwords.txt,md5 http://target.local/login?hash=FUZZ
 # On-the-fly Base64 encoding
 wfuzz -z file,usernames.txt,base64 http://target.local/auth?token=FUZZ
 ```
-
 ---
 
-## 🔍 Alternativer og parametere
+## 🔍 Parameter og skjult variabel fuzzing
 
-Discover unlinked GET/POST parameters:
-
+Oppdag frakoblede GET/POST-parametere:
 ```bash
 # GET parameter discovery
 wfuzz -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt \
@@ -154,11 +148,9 @@ wfuzz -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt \
 # POST body parameter discovery
 wfuzz -w parameters.txt -d "FUZZ=admin" --hc 404 http://target.local/api/update
 ```
-
 ---
 
-## 🍪 Headers, Cookies & Authentication
-
+## 🍪 Overskrifter, informasjonskapsler og autentisering
 ```bash
 # Cookie Fuzzing (Session hijacking / privilege testing)
 wfuzz -w wordlist.txt -b "session=FUZZ" http://target.local/dashboard
@@ -169,13 +161,11 @@ wfuzz -z file,ips.txt -H "X-Forwarded-For: FUZZ" http://target.local/admin
 # Basic Authentication brute force
 wfuzz -z file,users.txt -z file,passwords.txt --basic "FUZZ:FUZ2Z" http://target.local/protected/
 ```
-
 ---
 
-## ⚡ Multi-Variable Fuzzing (`FUZZ` and `FUZ2Z`)
+## ⚡ Multivariabel fuzzing (`FUZZ` og `FUZ2Z`)
 
-Combine multiple wordlists using distinct placeholder tags:
-
+Kombiner flere ordlister ved å bruke distinkte plassholder-tagger:
 ```bash
 # Test username and password matrix simultaneously
 wfuzz -w users.txt -w passwords.txt -d "user=FUZZ&pass=FUZ2Z" --hc 200 http://target.local/login.php
@@ -183,44 +173,41 @@ wfuzz -w users.txt -w passwords.txt -d "user=FUZZ&pass=FUZ2Z" --hc 200 http://ta
 # Fuzz path and extension together
 wfuzz -w words.txt -w extensions.txt http://target.local/FUZZ.FUZ2Z
 ```
-
 ---
 
-## 🔁 Routing Through Burp Suite (`-p`)
+## 🔁 Ruting gjennom Burp Suite (`-p`)
 
-Inspect payloads and responses inside Burp Suite:
-
+Inspiser nyttelast og svar i Burp Suite:
 ```bash
 # Route requests through local Burp Suite proxy
 wfuzz -p 127.0.0.1:8080:HTTP -w wordlist.txt http://target.local/FUZZ
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Directory Fuzzing** | `wfuzz -w <DICT> <URL>/FUZZ` |
+| **Skjul HTTP-statuskoder** | `wfuzz -w <DICT> --hc 404,403 <URL>/FUZZ` |
+| **Skjul etter svarlengde** | `wfuzz -w <DICT> --hh <LENGTH> <URL>/FUZZ` |
+| **Fuzz GET-parameter** | `wfuzz -w <PARAMS> "<URL>?FUZZ=test"` |
+| **Fuzz POST Body** | `wfuzz -w <PARAMS> -d "FUZZ=test" <URL>` |
+| **Numerisk nyttelast** | `wfuzz -z range,1-100 "<URL>?id=FUZZ"` |
+| **Kod nyttelast på farten**| `wfuzz -z file,<DICT>,base64 "<URL>?token=FUZZ"` |
+| **Flere søkeord fuzzing** | `wfuzz -w <W1> -w <W2> -d "u=FUZZ&p=FUZ2Z" <URL>` |
+| **Rute via Burp Proxy** | `wfuzz -p 127.0.0.1:8080:HTTP -w <DICT> <URL>/FUZZ` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive betraktninger og OPSEC
 
-|Objective|Kommando|
-|-----------|---------|
-|**Directory Fuzzing**|`wfuzz -w <DICT> <URL>/FUZZ`|
-|**Hide HTTP Status Codes**|`wfuzz -w <DICT> --hc 404,403 <URL>/FUZZ`|
-|**Hide by Response Length**|`wfuzz -w <DICT> --hh <LENGTH> <URL>/FUZZ`|
-|**Fuzz GET Parameter**|`wfuzz -w <PARAMS> "<URL>?FUZZ=test"`|
-|**Fuzz POST Body**|`wfuzz -w <PARAMS> -d "FUZZ=test" <URL>`|
-|**Numeric Range Payloads**|`wfuzz -z range,1-100 "<URL>?id=FUZZ"`|
-|**Encode Payloads on the Fly**|`wfuzz -z file,<DICT>,base64 "<URL>?token=FUZZ"`|
-|**Multi-Keyword Fuzzing**|`wfuzz -w <W1> -w <W2> -d "u=FUZZ&p=FUZ2Z" <URL>`|
-|**Route via Burp Proxy**|`wfuzz -p 127.0.0.1:8080:HTTP -w <DICT> <URL>/FUZZ`|
+1. **WAF-blokkering:** Fuzzing av hundrevis av forespørsler per sekund utløser Cloudflare, AWS WAF og ModSecurity ratebegrensning. Bruk `-s <seconds>` for å strupe forespørselshastigheten.
+2. **Ressursutmattelse:** Kraftig fuzzing på uindekserte databasespørringer kan forårsake tjenestenekt-tilstander på eldre webservere.
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **WAF Blocking:** Fuzzing hundreds of requests per second triggers Cloudflare, AWS WAF, and ModSecurity rate limiting. Use `-s <seconds>` to throttle request velocity.
-2. **Resource Exhaustion:** Heavy fuzzing on unindexed database queries can cause Denial of Service (DoS) conditions on legacy web servers.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing and vulnerability auditing only. Fuzzing unauthorized applications is strictly prohibited.
+> [!FORSIKTIG]
+> Dette juksearket er kun for autorisert penetrasjonstesting og sårbarhetsrevisjon. Fuzzing av uautoriserte applikasjoner er strengt forbudt.

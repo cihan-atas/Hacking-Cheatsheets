@@ -1,12 +1,16 @@
-# 🕷️ CeWL — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🕷️ CeWL — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗███████╗██╗    ██╗██╗     
   ██╔════╝██╔════╝██║    ██║██║     
@@ -16,52 +20,50 @@
    ╚═════╝╚══════╝ ╚══╝╚══╝ ╚══════╝
        Custom Word List Generator by Robin Wood (DigiNinja)
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/CeWL-Custom_Wordlist_Generator-blue?style=for-the-badge" alt="CeWL">
   <img src="https://img.shields.io/badge/Author-DigiNinja-orange?style=for-the-badge" alt="DigiNinja">
-  <img src="https://img.shields.io/badge/Category-Password_Cracking-green?style=for-the-badge" alt="Password Cracking">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Category-Password_Cracking-green?style=for-the-badge" alt="Взлом пароля">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Лицензия GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Target-specific password dictionary generator that spiders websites to harvest specialized corporate terminology, brand names, and employee emails</b>
+<p выравнивание="центр">
+  <b>🌐 Генератор словаря паролей для конкретной цели, который сканирует веб-сайты для сбора специализированной корпоративной терминологии, названий брендов и электронных писем сотрудников.</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--the-targeted-password-philosophy)
-- [Установка](#-installation)
-- [Basic Website Crawling](#-basic-website-crawling)
-- [Spider Depth & Word Length Controls](#-spider-depth--word-length-controls)
-- [Harvesting Email Addresses (`-e`)](#-harvesting-email-addresses--e)
-- [Including Numbers & Lowercasing](#-including-numbers--lowercasing)
-- [Document Metadata Extraction (`-a`)](#-document-metadata-extraction--a)
-- [Word Count & Frequency Profiling (`-c`)](#-word-count--frequency-profiling--c)
-- [Chaining CeWL with Hashcat & John Rules](#-chaining-cewl-with-hashcat--john-rules)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и философия целевого пароля](#-overview--the-targeted-password-philosophy)
+- [Установка](#-установка)
+- [Базовое сканирование веб-сайта](#-basic-website-crawling)
+- [Элементы управления глубиной паука и длиной слова] (#-паук-глубина--слово-длина-контроля)
+- [Сбор адресов электронной почты (`-e`)](#-harvesting-email-addresses--e)
+- [Включая цифры и строчные буквы] (#-включая цифры--строчные буквы)
+- [Извлечение метаданных документа (`-a`)](#-document-metadata-extraction--a)
+- [Количество слов и частотное профилирование (`-c`)](#-word-count-- Frequency-profiling--c)
+- [Объединение CeWL с правилами Hashcat и John](#-chaining-cewl-with-hashcat--john-rules)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и OPSEC](#-защитные-соображения--opsec)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и философия целевого пароля
 
-Generic wordlists like `rockyou.txt` are effective for consumer passwords, but **they frequently fail against corporate password policies** requiring 12+ characters, special symbols, and seasonal rotations.
+Общие списки слов, такие как `rockyou.txt`, эффективны для потребительских паролей, но **они часто не соответствуют корпоративной политике паролей**, требующей более 12 символов, специальных символов и сезонной ротации.
 
-Employees routinely base their enterprise passwords on:
-- Company project names, internal codenames, and slogans (`Pegasus2026!`).
-- 🎯 Введение
-- Executive names, location landmarks, and office addresses.
+Сотрудники обычно основывают свои корпоративные пароли на:
+- Названия проектов компании, внутренние кодовые названия и слоганы (`Pegasus2026!`).
+- Специфическая отраслевая терминология, технический жаргон или брендинг продукции.
+- Названия руководителей, ориентиры и адреса офисов.
 
-Created by **Robin Wood (DigiNinja)**, **CeWL** (Custom Word List generator) is a Ruby spider that crawls a specified target URL to a defined depth, extracts unique words matching minimum length requirements, and builds an engagement-tailored password dictionary.
+**CeWL** (генератор пользовательских списков слов), созданный **Робином Вудом (DigiNinja)**, представляет собой Ruby-паук, который сканирует указанный целевой URL-адрес на определенную глубину, извлекает уникальные слова, соответствующие минимальным требованиям к длине, и создает словарь паролей, адаптированный для взаимодействия.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y cewl
@@ -72,11 +74,9 @@ yay -S cewl
 # Ruby Gem
 gem install cewl
 ```
-
 ---
 
-## 🚀 Basic Website Crawling
-
+## 🚀 Базовое сканирование веб-сайтов
 ```bash
 # Crawl website and output words to console
 cewl https://target.local
@@ -84,13 +84,11 @@ cewl https://target.local
 # Crawl and save to a custom wordlist file
 cewl https://target.local -w company_wordlist.txt
 ```
-
 ---
 
-## 🕸️ Spider Depth & Word Length Controls
+## 🕸️ Регулировка глубины паука и длины слова
 
-Control how deeply CeWL follows links and what word sizes it captures:
-
+Контролируйте, насколько глубоко CeWL следует по ссылкам и какие размеры слов он захватывает:
 ```bash
 # Crawl 2 links deep (-d 2) and enforce minimum word length of 8 characters (-m 8)
 cewl https://target.local -d 2 -m 8 -w wordlist_min8.txt
@@ -98,22 +96,18 @@ cewl https://target.local -d 2 -m 8 -w wordlist_min8.txt
 # Aggressive 3-level deep crawl for comprehensive corporate terminology
 cewl https://target.local -d 3 -m 7 --no-words -w deep_crawl.txt
 ```
-
 ---
 
-## 📧 Harvesting Email Addresses (`-e`)
+## 📧 Сбор адресов электронной почты (`-e`)
 
-Extract corporate email addresses for subsequent phishing simulations or credential spraying:
-
+Извлеките корпоративные адреса электронной почты для последующего моделирования фишинга или распыления учетных данных:
 ```bash
 # Extract emails to a separate dedicated file
 cewl https://target.local -e --email_file emails.txt -w words.txt
 ```
-
 ---
 
-## 🔡 Including Numbers & Lowercasing
-
+## 🔡 Включение цифр и строчных букв
 ```bash
 # Include words containing alphanumeric combinations (e.g., product names like V300, X86)
 cewl https://target.local --with-numbers -m 6 -w words_with_numbers.txt
@@ -121,24 +115,20 @@ cewl https://target.local --with-numbers -m 6 -w words_with_numbers.txt
 # Convert all discovered words to lowercase (great for rule generation)
 cewl https://target.local --lowercase -w lowercase_words.txt
 ```
-
 ---
 
-## 📄 Document Metadata Extraction (`-a`)
+## 📄 Извлечение метаданных документа (`-a`)
 
-Extract author and creator usernames from downloaded PDF and Microsoft Office documents:
-
+Извлеките имена авторов и создателей из загруженных документов PDF и Microsoft Office:
 ```bash
 # Download and analyze document metadata to extract employee usernames
 cewl https://target.local -a --meta_file extracted_authors.txt
 ```
-
 ---
 
-## 📊 Word Count & Frequency Profiling (`-c`)
+## 📊 Количество слов и частотный профиль (`-c`)
 
-Sort words by frequency to identify the most pervasive corporate buzzwords:
-
+Отсортируйте слова по частоте, чтобы определить наиболее распространенные корпоративные модные словечки:
 ```bash
 # Append occurrence count next to each word
 cewl https://target.local -c -m 6 -w frequency.txt
@@ -146,13 +136,11 @@ cewl https://target.local -c -m 6 -w frequency.txt
 # Sort by most frequent words in descending order
 sort -k2 -nr frequency.txt | head -n 30
 ```
-
 ---
 
-## ⚡ Chaining CeWL with Hashcat & John Rules
+## ⚡ Объединение CeWL с помощью правил Hashcat и John
 
-A raw CeWL wordlist contains base dictionary roots. To produce viable passwords, expand the wordlist using **Hashcat / John the Ripper mutation rules**:
-
+Необработанный список слов CeWL содержит корни базового словаря. Чтобы создать надежные пароли, расширьте список слов, используя **правила мутации Hashcat/John the Ripper**:
 ```bash
 # 1. Harvest base words from corporate website
 cewl https://target.local -m 5 --lowercase -w base_words.txt
@@ -163,32 +151,31 @@ hashcat --force base_words.txt -r /usr/share/hashcat/rules/best64.rule --stdout 
 # Example mutations produced:
 # Acmetool -> Acmetool2026!, !Acmetool123, 4cmet00l, Acmetool#1
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Basic Crawl to File**|`cewl <URL> -w wordlist.txt`|
-|**Set Min Length & Depth**|`cewl <URL> -m 8 -d 2 -w wordlist.txt`|
-|**Extract Corporate Emails**|`cewl <URL> -e --email_file emails.txt`|
-|**Extract Document Metadata**|`cewl <URL> -a --meta_file authors.txt`|
-|**Include Alphanumeric Words**|`cewl <URL> --with-numbers -w wordlist.txt`|
-|**Lowercase Output**|`cewl <URL> --lowercase -w wordlist.txt`|
-|**Count Word Frequencies**|`cewl <URL> -c -w frequencies.txt`|
-|**Authenticate Behind Login**|`cewl <URL> -a "Cookie: session=xyz"`|
+| **Базовое сканирование файла** | `cewl <URL> -w wordlist.txt` |
+| **Установить минимальную длину и глубину** | `cewl <URL> -m 8 -d 2 -w wordlist.txt` |
+| **Извлечение корпоративных писем**| `cewl <URL> -e --email_file emails.txt` |
+| **Извлечение метаданных документа**| `cewl <URL> -a --meta_file authors.txt` |
+| **Включить буквенно-цифровые слова**| `cewl <URL> --with-numbers -w wordlist.txt` |
+| **Вывод в нижнем регистре** | `cewl <URL> --lowercase -w wordlist.txt` |
+| **Подсчет частот слов** | `cewl <URL> -c -w frequencies.txt` |
+| **Аутентификация за входом**| `cewl <URL> -a "Cookie: session=xyz"` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Оборонительные соображения и OPSEC
 
-1. **Web Server Access Logs:** CeWL generates hundreds of rapid HTTP GET requests, producing identifiable spider access logs. Use custom User-Agent strings (`-u "Mozilla/5.0..."`) to blend in.
-2. **Honeyword Traps:** Defensive blue teams can embed invisible or hidden HTML links leading to canary credentials to flag automated spiders.
+1. **Журналы доступа к веб-серверу.** CeWL генерирует сотни быстрых HTTP-запросов GET, создавая идентифицируемые журналы доступа пауков. Используйте пользовательские строки User-Agent (`-u "Mozilla/5.0..."`), чтобы гармонировать.
+2. **Ловушки для медовых слов.** Синие оборонительные команды могут встраивать невидимые или скрытые HTML-ссылки, ведущие к учетным данным канарейки, чтобы пометить автоматических пауков.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> CeWL is designed for authorized security assessments, penetration testing, and password audit research only. Scraping or spidering unauthorized systems is strictly prohibited.
+> [!ВНИМАНИЕ]
+> CeWL предназначен только для авторизованных оценок безопасности, тестирования на проникновение и исследования аудита паролей. Скрапинг или просмотр неавторизованных систем строго запрещен.

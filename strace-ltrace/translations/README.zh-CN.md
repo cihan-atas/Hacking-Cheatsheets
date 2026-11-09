@@ -1,12 +1,16 @@
-# 🔬 strace-ltrace 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔬 strace 和 ltrace - 完整备忘单
 
+[🇹🇷 Türkçe Sürüm]（翻译/README.tr.md）
 ```
   ███████╗████████╗██████╗  █████╗  ██████╗███████╗    ██╗  ████████╗██████╗  █████╗  ██████╗███████╗
   ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝    ██║  ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝
@@ -16,59 +20,57 @@
   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝    ╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
             Linux Dynamic Binary Analysis: System & Library Call Tracers
 ```
-
-<p align="center">
+<p对齐=“中心”>
   <img src="https://img.shields.io/badge/strace-System_Calls-blue?style=for-the-badge" alt="strace">
   <img src="https://img.shields.io/badge/ltrace-Library_Calls-orange?style=for-the-badge" alt="ltrace">
   <img src="https://img.shields.io/badge/Platform-Linux_ELF-green?style=for-the-badge" alt="Linux">
-  <img src="https://img.shields.io/badge/Category-Dynamic_Analysis-purple?style=for-the-badge" alt="Dynamic Analysis">
+  <img src="https://img.shields.io/badge/Category-Dynamic_Analysis-purple?style=for-the-badge" alt="动态分析">
 </p>
 
-<p align="center">
-  <b>🔬 Essential command-line utilities for dynamic binary analysis: intercepting Linux kernel system calls (strace) and user-space dynamic library calls (ltrace)</b>
+<p对齐=“中心”>
+  <b>🔬动态二进制分析的基本命令行实用程序：拦截Linux内核系统调用（strace）和用户空间动态库调用（ltrace）</b>
 </p>
 
 ---
 
 ## 📋 目录
 
-- [简介](#-overview-system-calls-vs-library-calls)
-- [安装](#-installation)
-- [strace: System Call Tracing](#-strace-system-call-tracing)
-  - [Basic Tracing Execution](#basic-tracing-execution)
-  - [Run a target binary and stream all system calls to standard error:](#filtering-syscalls-by-class-or-name--e)
-  - [Tracing Child & Multi-Threaded Processes (`-f`)](#tracing-child--multi-threaded-processes--f)
-  - [Attaching to Running Processes (`-p`)](#attaching-to-running-processes--p)
-  - [Expanding Strings & Buffer Outputs (`-s`)](#expanding-strings--buffer-outputs--s)
-  - [Statistical Profiling & Bottleneck Analysis (`-c`)](#statistical-profiling--bottleneck-analysis--c)
-  - [Statistical Profiling & Bottleneck Analysis (`-c`)](#fault-injection-for-fuzzing--testing--e-fault)
-- [ltrace: Dynamic Library Call Tracing](#-ltrace-dynamic-library-call-tracing)
-  - [Basic Library Interception](#basic-library-interception)
-  - [🧩 ltrace: Dynamic Library Call Tracing](#cracking-hardcoded-password-checks-strcmp)
-  - [Cracking Hardcoded Password Checks (`strcmp`)](#demangling-c-symbols--c)
-  - [Filtering Specific Library Functions](#filtering-specific-library-functions)
-- [Combining strace and ltrace Workflows](#-combining-strace-and-ltrace-workflows)
-- [快速参考](#-quick-reference-table)
-- [Defensive Considerations & Anti-Tracing](#-defensive-considerations--anti-tracing)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [概述：系统调用与库调用](#-overview-system-calls-vs-library-calls)
+- [安装](#-安装)
+- [strace：系统调用跟踪](#-strace-system-call-tracing)
+  - [基本跟踪执行](#basic-tracing-execution)
+  - [按类或名称过滤系统调用 (`-e`)](#filtering-syscalls-by-class-or-name--e)
+  - [跟踪子进程和多线程进程 (`-f`)](#tracing-child--多线程进程--f)
+  - [附加到正在运行的进程 (`-p`)](#attaching-to-running-processes--p)
+  - [扩展字符串和缓冲区输出 (`-s`)](#expanding-strings--buffer-outputs--s)
+  - [统计分析和瓶颈分析 (`-c`)](#statistical-profiling--bottleneck-analysis--c)
+  - [用于模糊测试和测试的故障注入 (`-e fault`)](#fault-injection-for-fuzzing--testing--e-fault)
+- [ltrace：动态库调用跟踪](#-ltrace-dynamic-library-call-tracing)
+  - [基本库拦截](#basic-library-interception)
+  - [破解硬编码密码检查 (`strcmp`)](#cracking-hardcoded-password-checks-strcmp)
+  - [分解 C++ 符号 (`-C`)](#demangling-c-symbols--c)
+  - [过滤特定库函数](#filtering-specific-library-functions)
+- [组合 strace 和 ltrace 工作流程](#-combining-strace-and-ltrace-workflows)
+- [快速参考表](#-quick-reference-table)
+- [防御考虑与反追踪](#-defective-considerations--anti-tracing)
+- [法律免责声明](#-legal-disclaimer)
 
 ---
 
-## 🎯 简介
+## 🎯 概述：系统调用与库调用
 
-When analyzing compiled Linux ELF binaries, static analysis can be impeded by obfuscation, stripping, or packing. Dynamic tracing provides immediate visibility into runtime actions:
+在分析已编译的 Linux ELF 二进制文件时，混淆、剥离或打包可能会阻碍静态分析。动态跟踪提供对运行时操作的即时可见性：
 
-1. **System Calls (`strace`):**
-   - The interface between user-space applications and the Linux Linux kernel.
-   - Traces disk I/O (`openat`, `read`, `write`), networking (`socket`, `connect`), memory allocation (`mmap`, `brk`), and process management (`fork`, `execve`, `ptrace`).
-2. **Library Calls (`ltrace`):**
-   - The interface between the binary and dynamic shared libraries (such as `libc.so`, `libssl.so`).
-   - Intercepts calls like `strcmp()`, `strlen()`, `malloc()`, `system()`, and cryptographic routines, frequently exposing plaintext credentials in memory before encryption.
+1. **系统调用（`strace`）：**
+   - 用户空间应用程序和 Linux Linux 内核之间的接口。
+   - 跟踪磁盘 I/O（`openat`、`read`、`write`）、网络（`socket`、`connect`）、内存分配（`mmap`、`brk`）和进程管理（`fork`、`execve`、`ptrace`）。
+2. **库调用（`ltrace`）：**
+   - 二进制和动态共享库（例如`libc.so`、`libssl.so`）之间的接口。
+   - 拦截 `strcmp()`、`strlen()`、`malloc()`、`system()` 等调用和加密例程，经常在加密之前暴露内存中的明文凭据。
 
 ---
 
 ## 📥 安装
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y strace ltrace
@@ -79,25 +81,21 @@ sudo pacman -S strace ltrace
 # Fedora / Red Hat / CentOS
 sudo dnf install -y strace ltrace
 ```
-
 ---
 
-## ⚡ strace: System Call Tracing
+## ⚡ strace：系统调用跟踪
 
-### Basic Tracing Execution
-Run a target binary and stream all system calls to standard error:
+### 基本跟踪执行
+运行目标二进制文件并将所有系统调用流式传输到标准错误：
 ```bash
 strace ./target_binary
 ```
-
-⚡ strace: System Call Tracing
+将输出重定向到文件，以免扰乱程序执行：
 ```bash
 strace -o trace.log ./target_binary
 ```
-
-### Run a target binary and stream all system calls to standard error:
-Avoid noise by filtering only relevant syscall classes:
-
+### 按类或名称过滤系统调用 (`-e`)
+通过仅过滤相关的系统调用类来避免噪音：
 ```bash
 # Trace ONLY file-related operations (open, read, write, stat, access)
 strace -e trace=file ./target_binary
@@ -111,9 +109,8 @@ strace -e trace=process ./target_binary
 # Filter specific syscalls by exact name
 strace -e trace=open,openat,read,write ./target_binary
 ```
-
-### Tracing Child & Multi-Threaded Processes (`-f`)
-Filtering Syscalls by Class or Name (`-e`)
+### 跟踪子进程和多线程进程 (`-f`)
+现代二进制文件和恶意软件会产生子工作进程或线程。如果没有 `-f`，strace 将会错过它们：
 ```bash
 # Trace all child forks and threads
 strace -f ./target_binary
@@ -121,9 +118,8 @@ strace -f ./target_binary
 # Trace children and save each process output into separate files (trace.pid)
 strace -ff -o trace ./target_binary
 ```
-
-### Attaching to Running Processes (`-p`)
-Monitor a service or active malware process without restarting it:
+### 附加到正在运行的进程 (`-p`)
+监控服务或活动恶意软件进程而不重新启动它：
 ```bash
 # Attach by Process ID (PID)
 sudo strace -p 1337
@@ -131,20 +127,18 @@ sudo strace -p 1337
 # Attach to process and follow all newly spawned threads
 sudo strace -f -p 1337 -o attached.log
 ```
-
-### Expanding Strings & Buffer Outputs (`-s`)
-By default, strace truncates printed strings at 32 characters. Increase string length to inspect full file paths, URLs, or payloads:
+### 扩展字符串和缓冲区输出 (`-s`)
+默认情况下，strace 将打印的字符串截断为 32 个字符。增加字符串长度以检查完整文件路径、URL 或有效负载：
 ```bash
 # Display up to 2048 characters of strings and buffers
 strace -s 2048 -e trace=read,write ./target_binary
 ```
-
-### Statistical Profiling & Bottleneck Analysis (`-c`)
-Count time spent, number of calls, and errors per syscall:
+### 统计分析和瓶颈分析 (`-c`)
+计算每个系统调用所花费的时间、调用次数和错误：
 ```bash
 strace -c ./target_binary
 ```
-*Output Summary Example:*
+*输出摘要示例：*
 ```text
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
@@ -152,41 +146,36 @@ strace -c ./target_binary
  32.10    0.000710          71        10         2 openat
  13.58    0.000300          15        20           write
 ```
-
-### Statistical Profiling & Bottleneck Analysis (`-c`)
-Count time spent, number of calls, and errors per syscall:
+### 用于模糊测试和测试的故障注入 (`-e fault`)
+将任意错误注入系统调用以评估弹性：
 ```bash
 # Force the 3rd invocation of openat() to fail with Permission Denied (EACCES)
 strace -e fault=openat:error=EACCES:when=3 ./target_binary
 ```
-
 ---
 
-## 🧩 ltrace: Dynamic Library Call Tracing
+## 🧩 ltrace：动态库调用跟踪
 
-### Basic Library Interception
-Intercept calls made to dynamic `.so` libraries:
+### 基本库拦截
+拦截对动态 `.so` 库的调用：
 ```bash
 ltrace ./target_binary
 ```
-
-### 🧩 ltrace: Dynamic Library Call Tracing
-In reverse engineering CTFs and challenge binaries, password comparison functions (`strcmp`, `strncmp`, `memcmp`) reveal the target password in plaintext arguments:
+### 破解硬编码密码检查 (`strcmp`)
+在逆向工程 CTF 和质询二进制文件中，密码比较函数（`strcmp`、`strncmp`、`memcmp`）以明文参数揭示目标密码：
 ```bash
 ltrace -s 128 -e strcmp,strncmp ./license_check
 ```
-*Output Example:*
+*输出示例：*
 ```text
 strcmp("user_input", "SUPER_SECRET_FLAG_2026") = -1
 ```
-
-### Cracking Hardcoded Password Checks (`strcmp`)
-Demangle compiler-mangled C++ method names (`_ZNK4Test3fooEv` -> `Test::foo()`):
+### 分解 C++ 符号 (`-C`)
+Demangle 编译器损坏的 C++ 方法名称 (`_ZNK4Test3fooEv` -> `Test::foo()`)：
 ```bash
 ltrace -C ./cpp_binary
 ```
-
-### Filtering Specific Library Functions
+### 过滤特定的库函数
 ```bash
 # Intercept only memory allocation and string functions
 ltrace -e malloc+free+strdup ./target_binary
@@ -194,50 +183,49 @@ ltrace -e malloc+free+strdup ./target_binary
 # Intercept calls originating from specific dynamic libraries
 ltrace -l /lib/x86_64-linux-gnu/libcrypto.so.3 ./target_binary
 ```
-
 ---
 
-## 🔄 Combining strace and ltrace Workflows
+## 🔄 组合 strace 和 ltrace 工作流程
 
-When performing initial triage on an unknown binary:
+对未知二进制文件执行初始分类时：
 
-1. **Step 1:** Run `strace -e trace=file,network ./binary` to see what files and sockets it interacts with.
-2. **Step 2:** Run `ltrace -s 256 ./binary` to uncover internal library string comparisons, crypto calls, and memory logic.
-🔄 Combining strace and ltrace Workflows
+1. **第 1 步：** 运行 `strace -e trace=file,network ./binary` 以查看它与哪些文件和套接字交互。
+2. **第 2 步：** 运行 `ltrace -s 256 ./binary` 以发现内部库字符串比较、加密调用和内存逻辑。
+3. **第 3 步：** 组合这两个工具：
    ```bash
    ltrace -S ./binary
    ```
-   *(The `-S` flag tells ltrace to display system calls alongside library calls in a single unified view).*
+*（`-S` 标志告诉 ltrace 在单个统一视图中显示系统调用和库调用）。*
 
 ---
 
-## ⚡ 快速参考
+## ⚡ 快速参考表
 
-|Objective|命令|
-|-----------|---------|
-|**Trace All Syscalls**|`strace ./binary`|
-|**Log to File**|`strace -o log.txt ./binary`|
-|**Trace File Operations**|`strace -e trace=file ./binary`|
-|**Trace Network Activity**|`strace -e trace=network ./binary`|
-|**Follow Child Processes**|`strace -f ./binary`|
-|**Attach to Running PID**|`sudo strace -f -p <PID>`|
-|**Expand String Length**|`strace -s 2048 ./binary`|
-|**Syscall Summary Stats**|`strace -c ./binary`|
-|**Trace Library Calls**|`ltrace ./binary`|
-|**Catch Password Check**|`ltrace -s 128 -e strcmp,strncmp ./binary`|
-|**Demangle C++ Names**|`ltrace -C ./binary`|
-|**Combined Lib + Syscall**|`ltrace -S ./binary`|
-
----
-
-## 🛡️ Defensive Considerations & Anti-Tracing
-
-1. **Ptrace Self-Checking:** Linux allows only a single tracer to attach to a process via `ptrace`. Calling `ptrace(PTRACE_TRACEME, 0, 1, 0)` will fail if `strace` or `ltrace` is already attached.
-2. **Static Linking (`-static`):** Binaries compiled with static linking contain no dynamic library references (`DT_NEEDED`), rendering `ltrace` completely ineffective (use `strace` instead).
+|目标|命令 |
+|------------|---------|
+| **跟踪所有系统调用** | `strace ./binary` |
+| **登录到文件** | `strace -o log.txt ./binary` |
+| **跟踪文件操作** | `strace -e trace=file ./binary` |
+| **跟踪网络活动** | `strace -e trace=network ./binary` |
+| **跟随子进程** | `strace -f ./binary` |
+| **附加到正在运行的 PID** | `sudo strace -f -p <PID>` |
+| **扩展字符串长度** | `strace -s 2048 ./binary` |
+| **系统调用摘要统计** | `strace -c ./binary` |
+| **跟踪库调用** | `ltrace ./binary` |
+| **捕获密码检查** | `ltrace -s 128 -e strcmp,strncmp ./binary`|
+| **Demangle C++ 名称** | `ltrace -C ./binary`|
+| **组合库 + 系统调用**| `ltrace -S ./binary` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 🛡️ 防御考虑和反追踪
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> strace and ltrace are dynamic diagnostic tools designed for software development, debugging, and authorized security assessments. Tracing unauthorized processes or intercepting proprietary communication without permission is strictly prohibited.
+1. **Ptrace 自检：** Linux 仅允许单个跟踪器通过 `ptrace` 附加到进程。如果 `strace` 或 `ltrace` 已连接，则调用 `ptrace(PTRACE_TRACEME, 0, 1, 0)` 将失败。
+2. **静态链接（`-static`）：** 使用静态链接编译的二进制文件不包含动态库引用（`DT_NEEDED`），使`ltrace`完全无效（使用`strace`代替）。
+
+---
+
+## ⚠️ 法律免责声明
+
+> [!警告]
+> strace 和 ltrace 是动态诊断工具，专为软件开发、调试和授权安全评估而设计。严禁在未经许可的情况下跟踪未经授权的进程或拦截专有通信。

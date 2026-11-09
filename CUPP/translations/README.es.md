@@ -1,39 +1,42 @@
-# 🔍 CUPP - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
 
-
-[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) is a specialized password dictionary generator designed for targeted human profiling. Rather than brute-forcing with generic dictionaries, CUPP generates permutations based on personal details (target name, partner, pets, birth dates, company, hobbies, leet speak variations, and special character combinations).
-
----
-
-## 📋 Tabla de contenidos
-
-- [Introducción](#overview--use-cases)
-- [Instalación](#installation)
-- [Instalación](#interactive-profiling-wizard--i)
-- [Configuration & Leet Rules (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
-- [Downloading & Merging Dictionaries (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
-- [2. Improve an Existing Wordlist with Leet / Special Rules](#piping-output-to-hashcat--hydra)
-- [Defensive Insights & Password Policy Guidelines](#defensive-insights--password-policy-guidelines)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## Introducción
 
-Traditional dictionary attacks often fail against complex passwords that follow human-predictable patterns (e.g., `John1984!`, `Sarah_Fluffy2022#`). CUPP addresses this by:
-- Collecting target-specific personal intelligence.
-- Combining names, birth years, significant dates, and pet names.
-- Applying rule-based mutations (capitalization, leet speak replacement, special characters, random number appending).
-- Introducción
+# Hoja de referencia de CUPP (Perfilador de contraseñas de usuarios comunes)
+
+[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) es un generador de diccionario de contraseñas especializado diseñado para la elaboración de perfiles humanos específicos. En lugar de utilizar diccionarios genéricos por fuerza bruta, CUPP genera permutaciones basadas en datos personales (nombre del objetivo, pareja, mascotas, fechas de nacimiento, empresa, pasatiempos, variaciones de leet-speak y combinaciones de caracteres especiales).
+
+---
+
+## Tabla de contenidos
+
+- [Resumen y casos de uso](#overview--use-cases)
+- [Instalación](#instalación)
+- [Asistente de creación de perfiles interactivo (`-i`)](#interactive-profiling-wizard--i)
+- [Configuración y reglas Leet (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
+- [Descarga y combinación de diccionarios (`-l` y `-w`)](#downloading--merging-dictionaries--l---w)
+- [Salida de tubería a Hashcat e Hydra](#piping-output-to-hashcat--hydra)
+- [Información defensiva y directrices sobre política de contraseñas](#información-defensiva--directrices-política-de-contraseñas)
+
+---
+
+## Descripción general y casos de uso
+
+Los ataques de diccionario tradicionales a menudo fallan contra contraseñas complejas que siguen patrones predecibles por humanos (por ejemplo, `John1984!`, `Sarah_Fluffy2022#`). CUPP aborda esto mediante:
+- Recopilar inteligencia personal específica del objetivo.
+- Combinar nombres, años de nacimiento, fechas importantes y nombres de mascotas.
+- Aplicación de mutaciones basadas en reglas (mayúsculas, reemplazo de palabras, caracteres especiales, adición de números aleatorios).
+- Producir una lista de palabras optimizada y dirigida dramáticamente más pequeña que `rockyou.txt` pero con mayor relevancia para el objetivo.
 
 ---
 
 ## Instalación
-
 ```bash
 # Clone the repository
 git clone https://github.com/Mebus/cupp.git
@@ -45,18 +48,15 @@ sudo apt-get update && sudo apt-get install -y cupp
 # Check help options
 python3 cupp.py -h
 ```
-
 ---
 
-## Instalación
+## Asistente de creación de perfiles interactivo (`-i`)
 
-Launch the questionnaire prompt to build a personalized wordlist:
-
+Inicie el mensaje del cuestionario para crear una lista de palabras personalizada:
 ```bash
 python3 cupp.py -i
 ```
-
-Interactive Profiling Wizard (`-i`)
+Tutorial de ejemplo:
 ```text
 [+] Insert the targets information:
 > First Name: Alice
@@ -87,14 +87,13 @@ Interactive Profiling Wizard (`-i`)
 [+] Do you want to add some random numbers at the end of words? Y/n: y
 [+] Leet mode? (i.e. leet = 1337) Y/n: y
 ```
-
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+El archivo de salida `alice.csv` (o el archivo de texto especificado) se genera con miles de mutaciones personalizadas (por ejemplo, `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
 
 ---
 
-## Configuration & Leet Rules (`cupp.cfg`)
+## Configuración y reglas Leet (`cupp.cfg`)
 
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+La configuración de CUPP se controla a través de `cupp.cfg`. Las secciones clave incluyen:
 ```ini
 [years]
 # Set year range for automated suffix appending
@@ -118,32 +117,29 @@ o = 0
 s = 5,$
 t = 7
 ```
-
-Edit `cupp.cfg` to adjust to target locale and language specifics.
+Edite `cupp.cfg` para ajustarlo a las características específicas del idioma y la configuración regional de destino.
 
 ---
 
-## Downloading & Merging Dictionaries (`-l` & `-w`)
+## Descarga y combinación de diccionarios (`-l` y `-w`)
 
-### Edit `cupp.cfg` to adjust to target locale and language specifics.
-Download default linguistic wordlists:
+### 1. Descargue listas de palabras precompiladas desde repositorios
+Descargue listas de palabras lingüísticas predeterminadas:
 ```bash
 python3 cupp.py -l
 ```
-
-### Downloading & Merging Dictionaries (`-l` & `-w`)
-Apply CUPP mutation rules to a list of existing words:
+### 2. Mejorar una lista de palabras existente con Leet/reglas especiales
+Aplique las reglas de mutación CUPP a una lista de palabras existentes:
 ```bash
 python3 cupp.py -w /path/to/base_words.txt
 ```
-
 ---
 
-## 2. Improve an Existing Wordlist with Leet / Special Rules
+## Salida de tubería a Hashcat e Hydra
 
-Feed the generated customized dictionary directly into brute-force tools:
+Introduzca el diccionario personalizado generado directamente en herramientas de fuerza bruta:
 
-### Cracking Target Hashes with Hashcat
+### Descifrando hashes objetivo con Hashcat
 ```bash
 # Generate targeted list
 python3 cupp.py -i
@@ -151,16 +147,14 @@ python3 cupp.py -i
 # Run Hashcat against target NTLM hash
 hashcat -m 1000 target_ntlm.hash alice.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### Online Authentication Brute-Force with Hydra
+### Autenticación en línea Fuerza bruta con Hydra
 ```bash
 hydra -l alice -P alice.txt 192.168.1.50 ssh
 ```
-
 ---
 
-## Defensive Insights & Password Policy Guidelines
+## Información defensiva y directrices sobre políticas de contraseñas
 
-- **Ban Personal Attributes**: Prohibit user passwords containing employee first names, last names, usernames, company brand names, or birth dates.
-- **Enforce Length over Complexity**: A 16+ character passphrase (e.g., four random dictionary words) is significantly more resilient against profiling tools than an 8-character `NameYear!` pattern.
-- **Multi-Factor Authentication (MFA)**: Enforce hardware FIDO2 or TOTP tokens so customized dictionary generation alone cannot compromise accounts.
+- **Prohibir atributos personales:** Prohibir contraseñas de usuario que contengan nombres, apellidos, nombres de usuario, marcas de la empresa o fechas de nacimiento de los empleados.
+- **Hacer cumplir la longitud sobre la complejidad:** Una frase de contraseña de más de 16 caracteres (por ejemplo, cuatro palabras aleatorias del diccionario) es significativamente más resistente a las herramientas de creación de perfiles que un patrón `NameYear!` de 8 caracteres.
+- **Autenticación multifactor (MFA):** Aplique tokens FIDO2 o TOTP de hardware para que la generación de diccionarios personalizados por sí sola no comprometa las cuentas.

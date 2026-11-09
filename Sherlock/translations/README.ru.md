@@ -1,39 +1,42 @@
-# 🔍 Sherlock — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Sherlock](https://github.com/sherlock-project/sherlock) is an OSINT reconnaissance tool that hunts down social media accounts by username across more than 400 social platforms, forums, code hosting sites, and online communities simultaneously.
-
----
-
-## 📋 Содержание
-
-- [[Timeout & Threading Tuning](#timeout--threading-tuning)](#key-capabilities)
-- [Установка](#installation)
-- [Советы и рекомендации](#single--multiple-username-search)
-- [Filtering Sites & Platforms](#filtering-sites--platforms)
-- [Proxy & Tor Routing](#proxy--tor-routing)
-- [Timeout & Threading Tuning](#timeout--threading-tuning)
-- [Control request speeds and latency tolerances:](#export-formats-csv-xlsx-json)
-- [Automation & OSINT Pipeline Integration](#automation--osint-pipeline-integration)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Timeout & Threading Tuning](#timeout--threading-tuning)
 
-- **400+ Platforms**: Queries GitHub, Twitter/X, Instagram, Reddit, TikTok, LinkedIn, Telegram, Discord, Steam, Spotify, Docker Hub, Pastebin, and hundreds more.
-- **Async Concurrency**: High-speed parallel scanning using asynchronous Python requests.
-- **Accurate Detection**: Detects HTTP status codes, error messages, and redirects to avoid false positives.
-- **Tor & SOCKS5 Support**: Protects investigator anonymity and bypasses rate limits.
+# Шпаргалка по Шерлоку
+
+[Sherlock](https://github.com/sherlock-project/sherlock) — это инструмент OSINT-разведки, который отслеживает учетные записи социальных сетей по имени пользователя на более чем 400 социальных платформах, форумах, сайтах хостинга кода и онлайн-сообществах одновременно.
+
+---
+
+## Содержание
+
+- [Ключевые возможности](#key-capabilities)
+- [Установка](#установка)
+- [Поиск одного и нескольких имен пользователей](#single--multiple-username-search)
+- [Фильтрация сайтов и платформ](#filtering-sites--platforms)
+- [Прокси и маршрутизация Tor](#proxy--tor-routing)
+- [Настройка таймаута и потоков](#timeout--threading-tuning)
+- [Форматы экспорта (CSV, XLSX, JSON)](#export-formats-csv-xlsx-json)
+- [Интеграция автоматизации и OSINT-конвейера](#automation--osint-pipeline-integration)
+
+---
+
+## Ключевые возможности
+
+- **более 400 платформ:** запросы GitHub, Twitter/X, Instagram, Reddit, TikTok, LinkedIn, Telegram, Discord, Steam, Spotify, Docker Hub, Pastebin и сотни других.
+- **Асинхронный параллелизм.** Высокоскоростное параллельное сканирование с использованием асинхронных запросов Python.
+- **Точное обнаружение:** обнаруживает коды состояния HTTP, сообщения об ошибках и перенаправления, чтобы избежать ложных срабатываний.
+- **Поддержка Tor и SOCKS5:** защищает анонимность следователей и обходит ограничения скорости.
 
 ---
 
 ## Установка
-
 ```bash
 # Recommended: Install via pipx
 pipx install sherlock-project
@@ -49,56 +52,49 @@ sudo apt-get update && sudo apt-get install -y sherlock
 # Verify command
 sherlock --version
 ```
-
 ---
 
-## Советы и рекомендации
+## Поиск одного и нескольких имен пользователей
 
-### 1. Basic Username Search
-Search for a single target handle across all 400+ sites:
+### 1. Базовый поиск имени пользователя
+Найдите один целевой дескриптор на всех более чем 400 сайтах:
 ```bash
 sherlock target_user
 ```
-
-### Советы и рекомендации
+### 2. Поиск по нескольким именам пользователей одновременно
 ```bash
 sherlock target_user1 target_user2 alias_dev
 ```
-
-### Search for a single target handle across all 400+ sites:
+### 3. Печатать только найденные учетные записи (подавлять сообщения «Не найдено»/ошибки)
 ```bash
 sherlock --print-found target_user
 ```
-
 ---
 
-## Filtering Sites & Platforms
+## Фильтрация сайтов и платформ
 
-Narrow searches to specific platforms to save time or focus on specific intelligence categories:
+Ограничьте поиск конкретными платформами, чтобы сэкономить время или сосредоточиться на определенных категориях аналитики:
 
-### 1. Query Specific Sites Only
+### 1. Запрашивайте только определенные сайты
 ```bash
 sherlock --site github --site twitter --site reddit --site gitlab target_user
 ```
-
-### 2. Search Without Specific Platforms (Ignore False-Positive Heavy Sites)
+### 2. Поиск без конкретных платформ (игнорировать ложноположительные тяжелые сайты)
 ```bash
 sherlock target_user --site-list targets.txt
 ```
-
 ---
 
-## Proxy & Tor Routing
+## Прокси и маршрутизация Tor
 
-To prevent IP bans, rate limits, and maintain operational security:
+Чтобы предотвратить блокировку IP-адресов, ограничение скорости и обеспечить операционную безопасность:
 
-### 1. Route Through Tor Network
-Automatically route requests through local Tor SOCKS proxy (`127.0.0.1:9050`):
+### 1. Маршрут через сеть Tor
+Автоматически маршрутизировать запросы через локальный прокси-сервер Tor SOCKS (`127.0.0.1:9050`):
 ```bash
 sherlock --tor target_user
 ```
-
-### To prevent IP bans, rate limits, and maintain operational security:
+### 2. Пользовательский HTTP/SOCKS5-прокси
 ```bash
 # SOCKS5 proxy
 sherlock --proxy socks5://127.0.0.1:1080 target_user
@@ -106,13 +102,11 @@ sherlock --proxy socks5://127.0.0.1:1080 target_user
 # Authenticated HTTP proxy
 sherlock --proxy http://user:pass@proxy.corp.internal:8080 target_user
 ```
-
 ---
 
-## Timeout & Threading Tuning
+## Тайм-аут и настройка потоков
 
-Control request speeds and latency tolerances:
-
+Скорость запроса управления и допуски на задержку:
 ```bash
 # Set HTTP timeout to 5 seconds per site (default is usually 60s)
 sherlock target_user --timeout 5
@@ -120,35 +114,31 @@ sherlock target_user --timeout 5
 # Add delay between requests to avoid rate limits
 sherlock target_user --delay 1
 ```
-
 ---
 
-## Control request speeds and latency tolerances:
+## Форматы экспорта (CSV, XLSX, JSON)
 
-Save discoveries for investigations, evidence bundles, or reporting:
+Сохраняйте открытия для расследований, сбора доказательств или составления отчетов:
 
-### 1. Save Directly to CSV File
+### 1. Сохраните непосредственно в файл CSV.
 ```bash
 sherlock --csv --output /tmp/sherlock_results target_user
 ```
-
-### 2. Save Output into Specific Directory
+### 2. Сохранение вывода в определенный каталог
 ```bash
 sherlock --folderoutput /tmp/recon_data/ target_user
 ```
-Generates `/tmp/recon_data/target_user.txt` containing full URLs of confirmed profiles.
+Генерирует `/tmp/recon_data/target_user.txt`, содержащий полные URL-адреса подтвержденных профилей.
 
-### 3. Save as Excel Spreadsheet (XLSX)
+### 3. Сохранить как таблицу Excel (XLSX)
 ```bash
 sherlock --xlsx target_user
 ```
-
 ---
 
-## Automation & OSINT Pipeline Integration
+## Интеграция автоматизации и OSINT-конвейера
 
-Chain Sherlock into an automated investigator script:
-
+Присоедините Шерлока к сценарию автоматического следователя:
 ```bash
 #!/usr/bin/env bash
 TARGET="$1"

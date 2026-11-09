@@ -1,12 +1,16 @@
-# 🐍 Scapy — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🐍 Scapy - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗ ██████╗ █████╗ ██████╗ ██╗   ██╗
   ██╔════╝██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝
@@ -16,59 +20,57 @@
   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   
        Interactive Packet Crafting, Sniffing & Forging Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Scapy-Packet_Crafting-blue?style=for-the-badge" alt="Scapy">
   <img src="https://img.shields.io/badge/Author-Philippe_Biondi-orange?style=for-the-badge" alt="secdev">
   <img src="https://img.shields.io/badge/Language-Python-green?style=for-the-badge" alt="Python">
-  <img src="https://img.shields.io/badge/Category-Network_Attacks-purple?style=for-the-badge" alt="Network Attacks">
-</p>
+  <img src="https://img.shields.io/badge/Category-Network_Attacks-purple?style=for-the-badge" alt="هجمات الشبكة">
+</ص>
 
 <p align="center">
-  <b>🐍 The ultimate Python-based interactive packet manipulation tool and library capable of forging, sending, sniffing, dissecting, and fuzzing arbitrary network packets</b>
-</p>
+  <b>🐍 أداة ومكتبة معالجة الحزم التفاعلية المبنية على لغة Python القادرة على تزوير حزم الشبكة العشوائية وإرسالها واستنشاقها وتشريحها وتشويشها</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-overview--the-stacking-layer-model-)
-- [التثبيت](#-installation)
-- [Starting the Interactive Shell](#-starting-the-interactive-shell)
-- [Crafting Network Packets](#-crafting-network-packets)
-  - [IP and TCP Handshakes](#ip-and-tcp-handshakes)
+- [نظرة عامة ونموذج طبقة التراص (`/`)](#-نظرة عامة--نموذج-طبقة التراص-)
+- [التثبيت](#-التثبيت)
+- [بدء الصدفة التفاعلية](#-بدء الصدفة التفاعلية)
+- [صياغة حزم الشبكة](#-صياغة-حزم الشبكة)
+  - [مصافحات IP وTCP](#ip-and-tcp-handshakes)
   - [ICMP Ping & Traceroute](#icmp-ping--traceroute)
-  - [IP and TCP Handshakes](#dns-queries--resolution)
-- [Sending & Receiving Packets](#-sending--receiving-packets)
-  - [Layer 3: `send()`, `sr()`, `sr1()`](#layer-3-send-sr-sr1)
-  - [Layer 3: `send()`, `sr()`, `sr1()`](#layer-2-sendp-srp-srp1)
-- [Packet Sniffing & PCAP Handling](#-packet-sniffing--pcap-handling)
-  - [`srp(Ether() / ARP(...))`: Send ARP request and receive reply.](#capturing-live-packets-sniff)
-  - [Reading & Writing PCAP Files](#reading--writing-pcap-files)
-- [Offensive Network Attacks](#-offensive-network-attacks)
-  - [ARP Cache Poisoning (MITM)](#arp-cache-poisoning-mitm)
-  - [⚔️ Offensive Network Attacks](#syn-port-scanning-script)
+  - [استعلامات DNS والحل](#dns-queries--resolution)
+- [إرسال واستقبال الحزم](#-إرسال--استقبال-الحزم)
+  - [الطبقة 3: `send()`، `sr()`، `sr1()`](#layer-3-send-sr-sr1)
+  - [الطبقة 2: `sendp()`، `srp()`، `srp1()`](#layer-2-sendp-srp-srp1)
+- [استنشاق الحزم ومعالجة PCAP](#-استنشاق الحزم--معالجة PCAP)
+  - [التقاط الحزم الحية (`sniff()`)](#capturing-live-packets-sniff)
+  - [قراءة وكتابة ملفات PCAP](#reading--writing-pcap-files)
+- [هجمات الشبكة الهجومية](#-هجمات-الشبكة الهجومية)
+  - [تسمم ذاكرة التخزين المؤقت لـ ARP (MITM)](#arp-cache-poisoning-mitm)
+  - [البرنامج النصي لمسح منفذ SYN](#syn-port-scanning-script)
   - [TCP SYN / ICMP Flooding](#tcp-syn--icmp-flooding)
-- [مرجع سريع](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [الاعتبارات الدفاعية والكشف](#-الاعتبارات الدفاعية--الكشف)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 نظرة عامة ونموذج طبقة التراص (`/`)
 
-[Legal Disclaimer](#-legal-disclaimer)
+تم إنشاء **Scapy** بواسطة **Philippe Biondi**، وهو يحل محل العشرات من أدوات الشبكة ذات الغرض الواحد (ping، وtraceroute، وarpspoof، وnmap stubs).
 
-Scapy's genius lies in using Python's division operator (`/`) to stack protocol layers together:
+تكمن عبقرية Scapy في استخدام عامل تقسيم Python (`/`) لتكديس طبقات البروتوكول معًا:
 ```python
 packet = Ether() / IP(dst="192.168.1.1") / TCP(dport=80, flags="S") / "Raw Payload"
 ```
-🎯 مقدمة
+يحتوي كل حقل طبقة على قيم افتراضية معقولة يحسبها Scapy تلقائيًا (المجموع الاختباري، والأطوال، وعناوين MAC، وIP المصدر).
 
 ---
 
 ## 📥 التثبيت
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y python3-scapy
@@ -79,35 +81,30 @@ pip install scapy
 # Arch Linux
 sudo pacman -S python-scapy
 ```
-
 ---
 
-## 🚀 Starting the Interactive Shell
+## 🚀 بدء الصدفة التفاعلية
 
-Launch the interactive REPL shell (requires root privileges to forge raw sockets):
-
+قم بتشغيل غلاف REPL التفاعلي (يتطلب امتيازات الجذر لإنشاء مآخذ توصيل أولية):
 ```bash
 sudo scapy
 ```
-
-🚀 Starting the Interactive Shell
+فحص البروتوكولات والوظائف المتاحة داخل Scapy:
 ```python
 >>> ls()          # List all supported network protocols (850+)
 >>> ls(IP)        # List fields and defaults of the IP layer
 >>> lsc()         # List available Scapy command functions
 ```
-
 ---
 
-## 🛠️ Crafting Network Packets
+## 🛠️ صياغة حزم الشبكة
 
-### IP and TCP Handshakes
+### مصافحات IP وTCP
 ```python
 # Create a TCP SYN packet to web port 80
 syn_pkt = IP(dst="192.168.1.50") / TCP(dport=80, flags="S")
 syn_pkt.show()
 ```
-
 ### ICMP Ping & Traceroute
 ```python
 # Send ICMP Echo Request and await single response (sr1)
@@ -118,37 +115,35 @@ if reply:
 # Automated graphical TCP traceroute
 ans, unans = traceroute(["8.8.8.8", "1.1.1.1"], dport=443, maxttl=20)
 ```
-
-### IP and TCP Handshakes
+### استعلامات DNS وحلها
 ```python
 # Craft raw DNS A-record query to 8.8.8.8
 dns_query = IP(dst="8.8.8.8") / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname="example.com"))
 response = sr1(dns_query, verbose=False)
 print(response[DNS].summary())
 ```
+---
+
+## 📡 إرسال واستقبال الحزم
+
+Scapy يفصل الإرسال عن طريق طبقة OSI:
+
+### الطبقة 3: `send()`، `sr()`، `sr1()`
+تعمل مع رؤوس Ethernet المخصصة لـ kernel (تبدأ عند طبقة IP):
+- `send(pkt)`: ينقل الحزمة في الطبقة 3؛ لا ينتظر الرد.
+- `sr(pkt)`: يرسل الحزم ويعيد الأزواج المجابة والتي لم يتم الرد عليها `(ans, unans)`.
+- `sr1(pkt)`: يرسل الحزمة ويعيد حزمة الاستجابة الأولى فقط.
+
+### الطبقة الثانية: `sendp()`، `srp()`، `srp1()`
+تأطير إيثرنت/ارتباط البيانات المخصص (يبدأ عند `Ether()`):
+- `sendp(Ether() / IP(...), iface="eth0")`: إرسال إطار إيثرنت خام.
+- `srp(Ether() / ARP(...))`: أرسل طلب ARP واستقبل الرد.
 
 ---
 
-## 📡 Sending & Receiving Packets
+## 🔍 التعرف على الحزم والتعامل مع PCAP
 
-Scapy separates transmission by OSI Layer:
-
-### Layer 3: `send()`, `sr()`, `sr1()`
-Operates with kernel-assigned Ethernet headers (starts at IP layer):
-- 📡 Sending & Receiving Packets
-- `sr(pkt)`: Sends packets and returns answered and unanswered pairs `(ans, unans)`.
-- Scapy separates transmission by OSI Layer:
-
-### Layer 3: `send()`, `sr()`, `sr1()`
-Operates with kernel-assigned Ethernet headers (starts at IP layer):
-- `send(pkt)`: Transmits packet at Layer 3; does not wait for a reply.
-- `sr(pkt)`: Sends packets and returns answered and unanswered pairs `(ans, unans)`.
-
----
-
-## 🔍 Packet Sniffing & PCAP Handling
-
-### `srp(Ether() / ARP(...))`: Send ARP request and receive reply.
+### التقاط الحزم المباشرة (`sniff()`)
 ```python
 # Sniff 10 packets on interface eth0
 pkts = sniff(iface="eth0", count=10)
@@ -163,8 +158,7 @@ def packet_callback(packet):
 
 sniff(iface="eth0", prn=packet_callback, store=0)
 ```
-
-### Reading & Writing PCAP Files
+### قراءة وكتابة ملفات PCAP
 ```python
 # Save captured packets to standard Wireshark PCAP
 wrpcap("capture.pcap", pkts)
@@ -173,13 +167,12 @@ wrpcap("capture.pcap", pkts)
 read_pkts = rdpcap("capture.pcap")
 read_pkts[0].show()
 ```
-
 ---
 
-## ⚔️ Offensive Network Attacks
+## ⚔️ هجمات الشبكة الهجومية
 
-### ARP Cache Poisoning (MITM)
-Spoof ARP tables to intercept traffic between victim and gateway:
+### تسمم ذاكرة التخزين المؤقت لـ ARP (MITM)
+جداول ARP محاكاة ساخرة لاعتراض حركة المرور بين الضحية والبوابة:
 ```python
 from scapy.all import *
 import time
@@ -200,8 +193,7 @@ try:
 except KeyboardInterrupt:
     print("[*] Restoring network...")
 ```
-
-### ⚔️ Offensive Network Attacks
+### البرنامج النصي لمسح منفذ SYN
 ```python
 def scan_port(ip, port):
     pkt = IP(dst=ip) / TCP(dport=port, flags="S")
@@ -214,32 +206,31 @@ def scan_port(ip, port):
 
 scan_port("192.168.1.1", 80)
 ```
-
 ---
 
-## ⚡ مرجع سريع
+## ⚡ جدول مرجعي سريع
 
-|Objective|Scapy Command|
+| الهدف | أمر سكابي |
 |-----------|---------------|
-|**Start Interactive Shell**|`sudo scapy`|
-|**Inspect Protocol Fields**|`ls(IP)` or `ls(TCP)`|
-|**Send L3 Packet**|`send(IP(dst="1.1.1.1")/ICMP())`|
-|**Send & Receive 1st Reply**|`resp = sr1(IP(dst="1.1.1.1")/ICMP())`|
-|**Send L2 Ethernet Frame**|`sendp(Ether()/IP(...), iface="eth0")`|
-|**Sniff with BPF Filter**|`sniff(iface="eth0", filter="icmp", count=5)`|
-|**Save to PCAP**|`wrpcap("out.pcap", pkts)`|
-|**Read from PCAP**|`pkts = rdpcap("in.pcap")`|
+| **بدء تشغيل Shell التفاعلي** | `sudo scapy` |
+| **فحص حقول البروتوكول** | `ls(IP)` أو `ls(TCP)` |
+| **إرسال حزمة L3** | `send(IP(dst="1.1.1.1")/ICMP())` |
+| **إرسال واستقبال الرد الأول**| `resp = sr1(IP(dst="1.1.1.1")/ICMP())` |
+| **إرسال إطار L2 Ethernet** | `sendp(Ether()/IP(...), iface="eth0")` |
+| **الشم باستخدام مرشح BPF** | `sniff(iface="eth0", filter="icmp", count=5)` |
+| **حفظ في PCAP** | `wrpcap("out.pcap", pkts)` |
+| **اقرأ من PCAP** | `pkts = rdpcap("in.pcap")` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ الاعتبارات الدفاعية والكشوفات
 
-|**Read from PCAP**|`pkts = rdpcap("in.pcap")`|
-2. **IDS/Suricata Rules:** Rapid half-open SYN sweeps and malformed TCP flag combinations (Xmas, NULL) generated by Scapy trigger standard IDS alerts.
+1. **فحص ARP الديناميكي (DAI):** قم بتكوين محولات المؤسسة باستخدام DAI وDHCP Snooping لإسقاط ردود ARP المجانية المزيفة.
+2. **قواعد IDS/Suricata:** تقوم عمليات مسح SYN السريعة نصف المفتوحة ومجموعات إشارات TCP المشوهة (Xmas، NULL) التي تم إنشاؤها بواسطة Scapy بتشغيل تنبيهات IDS القياسية.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️إخلاء المسؤولية القانونية
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Scapy can generate malformed packets that cause denial-of-service conditions or intercept private data. It must strictly be utilized in authorized security assessments and isolated testing networks.
+> [!تنبيه]
+> يمكن لـ Scapy إنشاء حزم مشوهة تتسبب في ظروف رفض الخدمة أو تعترض البيانات الخاصة. ويجب استخدامه بشكل صارم في التقييمات الأمنية المعتمدة وشبكات الاختبار المعزولة.

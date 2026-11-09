@@ -1,12 +1,16 @@
-# 🛡️ checksec - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🛡️ checksec e Binutils - Cheatsheet completo
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗██╗  ██╗███████╗ ██████╗██╗  ██╗███████╗███████╗ ██████╗
   ██╔════╝██║  ██║██╔════╝██╔════╝██║ ██╔╝██╔════╝██╔════╝██╔════╝
@@ -16,62 +20,60 @@
    ╚═════╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝
           Linux ELF Binary Mitigation Auditor & Inspection Toolkit
 ```
-
-<p align="center">
+<palign="centro">
   <img src="https://img.shields.io/badge/checksec-Security_Mitigations-blue?style=for-the-badge" alt="checksec">
   <img src="https://img.shields.io/badge/readelf-ELF_Headers-orange?style=for-the-badge" alt="readelf">
   <img src="https://img.shields.io/badge/objdump-Disassembly-green?style=for-the-badge" alt="objdump">
   <img src="https://img.shields.io/badge/Platform-Linux_ELF-purple?style=for-the-badge" alt="Linux ELF">
 </p>
 
-<p align="center">
-  <b>🛡️ Essential command-line tools for auditing Linux executable security mitigations (RELRO, Stack Canary, NX, PIE, Fortify) and dissecting ELF binary headers, sections, and symbol tables</b>
+<palign="centro">
+  <b>🛡️ Strumenti essenziali da riga di comando per il controllo delle mitigazioni della sicurezza degli eseguibili Linux (RELRO, Stack Canary, NX, PIE, Fortify) e l'analisi di intestazioni binarie, sezioni e tabelle di simboli ELF</b>
 </p>
 
 ---
 
-## 📋 Indice
+## 📋 Sommario
 
-- [Introduzione](#-overview--binary-mitigations-matrix)
-- [Installazione](#-installation)
-- [checksec: Rapid Mitigation Auditing](#-checksec-rapid-mitigation-auditing)
-  - [Auditing Single & Batch Binaries](#auditing-single--batch-binaries)
-  - [Auditing Running Processes](#auditing-running-processes)
-  - [JSON & CSV Output](#json--csv-output)
-- [readelf: ELF Header & Section Dissection](#-readelf-elf-header--section-dissection)
-  - [ELF File Header (`-h`)](#elf-file-header--h)
-  - [The `readelf` utility displays information from ELF files without invoking any execution:](#program-headers--segments--l)
-  - [Section Headers (`-S`)](#section-headers--s)
-  - [(If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).](#symbol-tables--s----syms)
-  - [Dynamic Dependencies & Libraries (`-d`)](#dynamic-dependencies--libraries--d)
-- [objdump: Disassembly & Relocations](#-objdump-disassembly--relocations)
-  - [Intel Disassembly (`-d -M intel`)](#intel-disassembly--d--m-intel)
-  - [🧩 objdump: Disassembly & Relocations](#relocation-entries--got--r)
-- [nm & strings: Symbol Resolution & Strings](#-nm--strings-symbol-resolution--strings)
-  - [Shows address targets for functions like `puts`, `printf`, and `system`.](#listing-demangled-symbols-with-nm)
-  - [Extracting Obfuscated Strings with `strings`](#extracting-obfuscated-strings-with-strings)
-- [Risorse e riferimenti](#-hardened-compilation-reference)
-- [Riferimento rapido](#-quick-reference-table)
-- [Legal Disclaimer](#-legal-disclaimer)
-
----
-
-## 🎯 Introduzione
-
-[Legal Disclaimer](#-legal-disclaimer)
-
-|Mitigation|Full Name|Protection Mechanism|Bypass Strategy|
-|------------|-----------|----------------------|-----------------|
-|**RELRO**|Relocation Read-Only|Makes `.got` read-only (`Full RELRO`) to prevent pointer overwriting|Target heap structures, return addresses, or function hooks|
-|**Canary**|Stack Protector|Places randomized cookie before return pointer; checks integrity upon return|Leak canary value via memory leak, or brute-force (forking daemons)|
-|**NX**|No-Execute / DEP|Marks stack, heap, and data segments as non-executable|Return-Oriented Programming (ROP) or Jump-Oriented Programming (JOP)|
-|**PIE**|Position Independent Executable|Loads binary base address at random location in virtual memory (ASLR)|Leak code pointer to calculate base address offset|
-|**Fortify**|`_FORTIFY_SOURCE`|Replaces unsafe string functions (`strcpy` -> `__strcpy_chk`) with bounds checking|Non-overflow logic bugs, format string without buffer overflow|
+- [Panoramica e matrice delle mitigazioni binarie](#-overview--binary-mitigations-matrix)
+- [Installazione](#-installazione)
+- [checksec: controllo di mitigazione rapida](#-checksec-rapid-mitigation-auditing)
+  - [Auditing binari singoli e batch](#auditing-single--batch-binaries)
+  - [Controllo dei processi in esecuzione](#processi-in-esecuzione)
+  - [Uscita JSON e CSV](#json--uscita-csv)
+- [readelf: Intestazione ELF e dissezione della sezione](#-readelf-elf-header--section-dissection)
+  - [Intestazione file ELF (`-h`)](#elf-file-header--h)
+  - [Intestazioni e segmenti del programma (`-l`)](#intestazioni-programma--segmenti--l)
+  - [Intestazioni di sezione (`-S`)](#section-headers--s)
+  - [Tabelle dei simboli (`-s` / `--syms`)](#tabelle-simboli--s----simboli)
+  - [Dipendenze e librerie dinamiche (`-d`)](#dipendenze-dinamiche--librerie--d)
+- [objdump: smontaggio e riposizionamento](#-objdump-disassembly--relocations)
+  - [Disassemblaggio Intel (`-d -M intel`)](#disassemblaggio-intel--d--m-intel)
+  - [Voci di trasferimento e GOT (`-R`)](#voci-di-trasferimento--got--r)
+- [nm e stringhe: risoluzione dei simboli e stringhe](#-nm--strings-symbol-solving--strings)
+  - [Elenco dei simboli demangled con `nm`](#listing-demangled-symbols-with-nm)
+  - [Estrazione di stringhe offuscate con `strings`](#estrazione-stringhe-offuscate-con-stringhe)
+- [Riferimento compilazione rinforzata](#-riferimento-compilazione-hardened)
+- [Tabella di riferimento rapido](#-tabella-di-riferimento-rapido)
+- [Disclaimer legale](#-legal-disclaimer)
 
 ---
 
-## 📥 Installazione
+## 🎯 Panoramica e matrice delle mitigazioni binarie
 
+Prima di iniziare qualsiasi flusso di lavoro di reverse engineering o sfruttamento, è obbligatorio comprendere quali mitigazioni della sicurezza sono abilitate:
+
+| Mitigazione | Nome completo | Meccanismo di protezione | Strategia di bypass |
+|------------|-----------|----------------------|-----------|
+| **RELRO** | Riposizionamento di sola lettura | Rende `.got` di sola lettura (`Full RELRO`) per impedire la sovrascrittura del puntatore | Strutture heap di destinazione, indirizzi di ritorno o hook di funzioni |
+| **Canarie** | Protezione dello stack | Inserisce un cookie randomizzato prima del puntatore di ritorno; verifica l'integrità al momento della restituzione | Perdita del valore canary tramite perdita di memoria o forza bruta (biforcazione dei demoni) |
+| **NX** | Nessuna esecuzione / DEP | Contrassegna stack, heap e segmenti di dati come non eseguibili | Programmazione orientata al ritorno (ROP) o Programmazione orientata al salto (JOP) |
+| **TORTA** | Posizione Eseguibile Indipendente | Carica l'indirizzo di base binario in una posizione casuale nella memoria virtuale (ASLR) | Puntatore del codice di perdita per calcolare l'offset dell'indirizzo di base |
+| **Fortifica** | `_FORTIFY_SOURCE` | Sostituisce le funzioni di stringa non sicure (`strcpy` -> `__strcpy_chk`) con il controllo dei limiti | Bug logici di non overflow, stringa di formato senza buffer overflow |
+
+---
+
+## 📥Installazione
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y checksec binutils
@@ -82,12 +84,11 @@ sudo pacman -S checksec binutils
 # Python pip (standalone checksec)
 pip install checksec.py
 ```
-
 ---
 
-## ⚡ checksec: Rapid Mitigation Auditing
+## ⚡ checksec: audit di mitigazione rapida
 
-### Auditing Single & Batch Binaries
+### Controllo di file binari singoli e batch
 ```bash
 # Audit a single executable
 checksec --file=./target_binary
@@ -95,14 +96,13 @@ checksec --file=./target_binary
 # Audit all binaries in directory
 checksec --dir=/usr/bin/
 ```
-*Standard Output Example:*
+*Esempio di output standard:*
 ```text
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Full RELRO      Canary found      NX enabled    PIE enabled     No RPATH   No RUNPATH   ./target_binary
 ```
-
-### Auditing Running Processes
-Auditing Single & Batch Binaries
+### Controllo dei processi in esecuzione
+Controlla le mitigazioni della memoria e lo stato ASLR di un demone attivo:
 ```bash
 # Audit by Process ID (PID)
 checksec --proc=1337
@@ -110,41 +110,37 @@ checksec --proc=1337
 # Audit process by name
 checksec --proc-all
 ```
-
-### JSON & CSV Output
-Export findings for automated analysis:
+### Output JSON e CSV
+Esportare i risultati per l'analisi automatizzata:
 ```bash
 checksec --file=./target_binary --output=json > security.json
 checksec --file=./target_binary --output=csv > security.csv
 ```
-
 ---
 
-## 🔬 readelf: ELF Header & Section Dissection
+## 🔬 readelf: intestazione ELF e dissezione della sezione
 
-The `readelf` utility displays information from ELF files without invoking any execution:
+L'utilità `readelf` visualizza le informazioni dai file ELF senza invocare alcuna esecuzione:
 
-### ELF File Header (`-h`)
-Reveals CPU architecture, 32 vs 64-bit class, entry point address, and endianness:
+### Intestazione file ELF (`-h`)
+Rivela l'architettura della CPU, la classe a 32 o 64 bit, l'indirizzo del punto di ingresso e l'endianness:
 ```bash
 readelf -h ./target_binary
 ```
-
-### The `readelf` utility displays information from ELF files without invoking any execution:
-Displays segments loaded into memory at runtime and flags (`R`, `W`, `E`). Crucial for identifying whether the stack (`GNU_STACK`) has execution permissions:
+### Intestazioni e segmenti di programma (`-l`)
+Visualizza i segmenti caricati in memoria in fase di esecuzione e i flag (`R`, `W`, `E`). Fondamentale per identificare se lo stack (`GNU_STACK`) dispone dei permessi di esecuzione:
 ```bash
 readelf -l ./target_binary
 ```
-*(If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).*
+*(Se `GNU_STACK` ha `RWE`, l'esecuzione dello stack è consentita; NX è disabilitato).*
 
-### Section Headers (`-S`)
-Inspect memory layouts, addresses, and offsets for `.text` (code), `.data` (initialized data), `.rodata` (constants), `.bss` (uninitialized data), `.plt`, and `.got`:
+### Intestazioni delle sezioni (`-S`)
+Ispeziona layout, indirizzi e offset della memoria per `.text` (codice), `.data` (dati inizializzati), `.rodata` (costanti), `.bss` (dati non inizializzati), `.plt` e `.got`:
 ```bash
 readelf -S ./target_binary
 ```
-
-### (If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).
-List all exported functions, global variables, and imported libc symbols:
+### Tabelle dei simboli (`-s` / `--syms`)
+Elenca tutte le funzioni esportate, le variabili globali e i simboli libc importati:
 ```bash
 # List all symbols
 readelf -s ./target_binary
@@ -152,19 +148,17 @@ readelf -s ./target_binary
 # Filter dynamic symbols used at runtime
 readelf --dyn-syms ./target_binary
 ```
-
-### Dynamic Dependencies & Libraries (`-d`)
-Lists required shared libraries (`NEEDED` tags, e.g. `libc.so.6`, `libssl.so`):
+### Dipendenze e librerie dinamiche (`-d`)
+Elenca le librerie condivise richieste (tag `NEEDED`, ad esempio `libc.so.6`, `libssl.so`):
 ```bash
 readelf -d ./target_binary
 ```
-
 ---
 
-## 🧩 objdump: Disassembly & Relocations
+## 🧩 objdump: Smontaggio e trasloco
 
-### Intel Disassembly (`-d -M intel`)
-Disassemble executable sections into clean Intel-syntax assembly:
+### Disassemblaggio Intel (`-d -M intel`)
+Disassemblare le sezioni eseguibili in un assembly pulito di sintassi Intel:
 ```bash
 # Disassemble .text section in Intel syntax
 objdump -d -M intel ./target_binary
@@ -172,19 +166,18 @@ objdump -d -M intel ./target_binary
 # Disassemble specific function (e.g. main)
 objdump -d -M intel ./target_binary | grep -A 30 "<main>:"
 ```
-
-### 🧩 objdump: Disassembly & Relocations
-Display the Global Offset Table (GOT) relocation addresses for imported library calls:
+### Voci di trasferimento e GOT (`-R`)
+Visualizzare gli indirizzi di riposizionamento della Global Offset Table (GOT) per le chiamate di libreria importate:
 ```bash
 objdump -R ./target_binary
 ```
-*Shows address targets for functions like `puts`, `printf`, and `system`.*
+*Mostra gli indirizzi target per funzioni come `puts`, `printf` e `system`.*
 
 ---
 
-## 🔍 nm & strings: Symbol Resolution & Strings
+## 🔍 nm e stringhe: risoluzione dei simboli e stringhe
 
-### Shows address targets for functions like `puts`, `printf`, and `system`.
+### Elenco dei simboli sminuzzati con `nm`
 ```bash
 # List defined symbols only (ignore external imports)
 nm --defined-only -C ./target_binary
@@ -192,8 +185,7 @@ nm --defined-only -C ./target_binary
 # List undefined external symbols (functions resolved by dynamic linker)
 nm -u -C ./target_binary
 ```
-
-### Extracting Obfuscated Strings with `strings`
+### Estrazione di stringhe offuscate con `strings`
 ```bash
 # Extract ASCII strings with minimum 8 characters
 strings -a -n 8 ./target_binary
@@ -204,13 +196,11 @@ strings -e l -a ./target_binary
 # Print byte offset of each string in hex
 strings -a -t x ./target_binary
 ```
-
 ---
 
-## 🛡️ Risorse e riferimenti
+## 🛡️ Riferimento alla compilazione Hardened
 
-To build an ELF binary with maximum security mitigations:
-
+Per creare un binario ELF con le massime mitigazioni della sicurezza:
 ```bash
 gcc -O2 \
   -Wall \
@@ -221,28 +211,27 @@ gcc -O2 \
   -Wl,-z,noexecstack \
   source.c -o secure_binary
 ```
-
 ---
 
-## ⚡ Riferimento rapido
+## ⚡ Tabella di consultazione rapida
 
-|Objective|Comando|
+| Obiettivo | Comando |
 |-----------|---------|
-|**Audit Mitigations**|`checksec --file=<bin>`|
-|**Audit Running PID**|`checksec --proc=<pid>`|
-|**View ELF Header**|`readelf -h <bin>`|
-|**View Stack NX Flag**|`readelf -l <bin> \|grep -A 1 GNU_STACK`|
-|**List Sections (.got, .plt)**|`readelf -S <bin>`|
-|**View Dynamic Symbols**|`readelf --dyn-syms <bin>`|
-|**Intel Disassembly**|`objdump -d -M intel <bin>`|
-|**Inspect GOT Relocations**|`objdump -R <bin>`|
-|**List Symbols (Demangled)**|`nm -C <bin>`|
-|**Extract UTF-16 Strings**|`strings -e l -a <bin>`|
-|**Show String Offsets**|`strings -a -t x <bin>`|
+| **Mitigazioni del controllo** | `checksec --file=<bin>` |
+| **Audit in esecuzione PID** | `checksec --proc=<pid>` |
+| **Visualizza intestazione ELF** | `readelf -h <bin>` |
+| **Visualizza flag Stack NX** | `readelf -l <bin> \| grep -A 1 GNU_STACK` |
+| **Sezioni elenco (.got, .plt)**| `readelf -S <bin>` |
+| **Visualizza simboli dinamici** | `readelf --dyn-syms <bin>` |
+| **Smontaggio Intel** | `objdump -d -M intel <bin>` |
+| **Ispeziona i trasferimenti GOT** | `objdump -R <bin>` |
+| **Elenco Simboli (Demangled)** | `nm -C <bin>` |
+| **Estrai stringhe UTF-16** | `strings -e l -a <bin>` |
+| **Mostra offset stringa** | `strings -a -t x <bin>` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Disclaimer legale
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> checksec and GNU Binutils are diagnostic and reverse engineering tools intended for software security auditing, defense validation, and authorized binary research. Inspecting unauthorized software must adhere to local intellectual property regulations.
+> [!ATTENZIONE]
+> checksec e GNU Binutils sono strumenti diagnostici e di reverse engineering destinati al controllo della sicurezza del software, alla convalida della difesa e alla ricerca binaria autorizzata. L'ispezione del software non autorizzato deve rispettare le normative locali sulla proprietà intellettuale.

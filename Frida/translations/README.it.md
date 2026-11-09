@@ -1,12 +1,16 @@
-# 📱 Frida - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📱Frida e l'Obiezione - Cheatsheet completo
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗██████╗ ██╗██████╗  █████╗      ██████╗ ██████╗      ██╗███████╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗
   ██╔════╝██╔══██╗██║██╔══██╗██╔══██╗    ██╔═══██╗██╔══██╗     ██║██╔════╝██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║
@@ -16,65 +20,63 @@
   ╚═╝     ╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝  ╚═╝     ╚═════╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
            Dynamic Binary Instrumentation & Mobile Security Assessment
 ```
-
-<p align="center">
+<palign="centro">
   <img src="https://img.shields.io/badge/Frida-Runtime_Hooking-blue?style=for-the-badge" alt="Frida">
-  <img src="https://img.shields.io/badge/Objection-Mobile_Exploration-orange?style=for-the-badge" alt="Objection">
-<img src="https://img.shields.io/badge/Platforms-Android_%7C_iOS-green?style=for-the-badge" alt="Android|iOS">
-  <img src="https://img.shields.io/badge/Category-Mobile_Security-red?style=for-the-badge" alt="Mobile Security">
+  <img src="https://img.shields.io/badge/Objection-Mobile_Exploration-orange?style=for-the-badge" alt="Obiezione">
+  <img src="https://img.shields.io/badge/Platforms-Android_%7C_iOS-green?style=for-the-badge" alt="Android | iOS">
+  <img src="https://img.shields.io/badge/Category-Mobile_Security-red?style=for-the-badge" alt="Sicurezza mobile">
 </p>
 
-<p align="center">
-  <b>📱 Industry-standard dynamic binary instrumentation toolkit for Android and iOS runtime method hooking, SSL Pinning bypass, root/jailbreak evasion, and memory analysis</b>
+<palign="centro">
+  <b>📱 Toolkit di strumentazione binaria dinamica standard del settore per l'hooking del metodo runtime Android e iOS, bypass del pinning SSL, evasione root/jailbreak e analisi della memoria</b>
 </p>
 
 ---
 
-## 📋 Indice
+## 📋 Sommario
 
-- [Introduzione](#-overview--architecture)
-- [Installazione](#-installation--device-setup)
-  - [Installazione](#host-tools-installation)
-  - [Installazione](#android-device-setup-frida-server)
-  - [Installazione](#ios-device-setup)
-- [Frida CLI Fundamentals](#-frida-cli-fundamentals)
-  - [On a jailbroken iOS device, add the Frida repository in Cydia / Sileo (`https://build.frida.re`) and install the `Frida` package.](#listing-devices-and-running-processes)
+- [Panoramica e architettura](#-panoramica--architettura)
+- [Installazione e configurazione del dispositivo](#-installazione--configurazione del dispositivo)
+  - [Installazione degli strumenti host](#installazione-strumenti-host)
+  - [Configurazione dispositivo Android (`frida-server`)](#configurazione-dispositivo-android-frida-server)
+  - [Configurazione dispositivo iOS](#configurazione-dispositivo-ios)
+- [Frida CLI Fondamenti di base](#-frida-cli-fondamenti)
+  - [Elenco dei dispositivi e dei processi in esecuzione](#elenco dei dispositivi e dei processi in esecuzione)
   - [Attaching vs Spawning](#attaching-vs-spawning)
-- [JavaScript Hooking Scripts](#-javascript-hooking-scripts)
-  - [Bypassing Android SSL Pinning](#bypassing-android-ssl-pinning)
-  - [Universal TrustManager bypass script (`ssl_bypass.js`):](#bypassing-root-detection)
-  - [Java Method Interception & Argument Tampering](#java-method-interception--argument-tampering)
-- [Objection Runtime Toolkit](#-objection-runtime-toolkit)
-  - [Starting an Objection Session](#starting-an-objection-session)
-  - [One-Command SSL Pinning & Root Bypass](#one-command-ssl-pinning--root-bypass)
-  - [Risorse e riferimenti](#exploring-keystore-sqlite-and-shared-preferences)
-  - [Inside the objection shell:](#hooking-classes-and-listing-activities)
-- [Riferimento rapido](#-quick-reference-table)
-- [Defensive Considerations & Anti-Frida](#-defensive-considerations--anti-frida)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Script di aggancio JavaScript](#-javascript-hooking-scripts)
+  - [Ignorare il blocco SSL di Android](#bypassing-android-ssl-pinning)
+  - [Evitare il rilevamento della radice](#evitare-rilevamento-root)
+  - [Intercettazione metodo Java e manomissione argomento](#intercettazione-metodo Java--manomissione argomento)
+- [Kit degli strumenti di runtime delle obiezioni](#-objection-runtime-toolkit)
+  - [Avvio di una sessione di obiezione](#avvio-di-una-sessione-di-obiezione)
+  - [Binning SSL con un comando e bypass root](#one-command-ssl-pinning--root-bypass)
+  - [Esplorazione di Keystore, SQLite e Preferenze condivise](#exploring-keystore-sqlite-and-shared-preferences)
+  - [Corsi di aggancio e attività di inserimento](#corsi-di-aggancio-e-attività-di-inserimento)
+- [Tabella di riferimento rapido](#-tabella-di-riferimento-rapido)
+- [Considerazioni difensive e anti-Frida](#-considerazioni-difensive--anti-frida)
+- [Disclaimer legale](#-legal-disclaimer)
 
 ---
 
-## 🎯 Introduzione
+## 🎯 Panoramica e architettura
 
-**Frida** injects Google's V8 JavaScript runtime into target processes on Android, iOS, Windows, macOS, and Linux. It empowers security researchers to:
-- Hook arbitrary native (`libc`, OpenSSL) and managed (`Java`, `Objective-C`, `Swift`) functions.
-- Inspect and modify memory and function parameters on the fly.
-- Trace cryptographic APIs and decrypt encrypted traffic in memory.
+**Frida** inserisce il runtime JavaScript V8 di Google nei processi target su Android, iOS, Windows, macOS e Linux. Consente ai ricercatori di sicurezza di:
+- Aggancio di funzioni native arbitrarie (`libc`, OpenSSL) e gestite (`Java`, `Objective-C`, `Swift`).
+- Ispeziona e modifica al volo i parametri della memoria e delle funzioni.
+- Traccia le API crittografiche e decrittografa il traffico crittografato in memoria.
 
-**Objection** is a mobile security runtime assessment framework powered by Frida that automates common mobile pentesting tasks (disabling certificate pinning, dumping memory, bypassing biometric authentication) without requiring manual JavaScript code.
+**Objection** è un framework di valutazione del runtime di sicurezza mobile basato su Frida che automatizza le attività comuni di pentesting mobile (disabilitare il blocco dei certificati, scaricare la memoria, bypassare l'autenticazione biometrica) senza richiedere il codice JavaScript manuale.
 
 ---
 
-## 📥 Installazione
+## 📥 Installazione e configurazione del dispositivo
 
-### Installazione
+### Installazione degli strumenti host
 ```bash
 pip install frida frida-tools objection
 ```
-
-### Installazione
-📥 Installazione
+### Configurazione del dispositivo Android (`frida-server`)
+Scarica l'`frida-server` corrispondente alla versione Frida del tuo host e all'architettura della CPU del dispositivo (x86_64, arm64, ecc.):
 ```bash
 # Verify architecture
 adb shell getprop ro.product.cpu.abi
@@ -86,15 +88,14 @@ adb push frida-server-*-android-arm64 /data/local/tmp/frida-server
 adb shell "chmod 755 /data/local/tmp/frida-server"
 adb shell "/data/local/tmp/frida-server &"
 ```
-
-### Installazione
-On a jailbroken iOS device, add the Frida repository in Cydia / Sileo (`https://build.frida.re`) and install the `Frida` package.
+### Configurazione del dispositivo iOS
+Su un dispositivo iOS jailbroken, aggiungi il repository Frida in Cydia / Sileo (`https://build.frida.re`) e installa il pacchetto `Frida`.
 
 ---
 
-## 🚀 Frida CLI Fundamentals
+## 🚀Frida CLI Fondamenti
 
-### On a jailbroken iOS device, add the Frida repository in Cydia / Sileo (`https://build.frida.re`) and install the `Frida` package.
+### Elenco dei dispositivi e dei processi in esecuzione
 ```bash
 # List all connected USB devices
 frida-ls-devices
@@ -105,10 +106,9 @@ frida-ps -Uai
 # List all system processes on USB device
 frida-ps -U
 ```
-
-### Attaching vs Spawning
-- **Attach (`-n` or `-p`)**: Attaches to an already running app.
-- **Spawn (`-f`)**: Starts the application from early boot, pausing execution before initial constructors execute:
+### Attaccamento vs Generazione
+- **Allega (`-n` o `-p`):** Si collega a un'app già in esecuzione.
+- **Spawn (`-f`):** Avvia l'applicazione dall'avvio anticipato, sospendendo l'esecuzione prima che i costruttori iniziali eseguano:
 ```bash
 # Attach to running process
 frida -U -n com.example.app -l hook.js
@@ -116,13 +116,12 @@ frida -U -n com.example.app -l hook.js
 # Spawn process with early instrumentation
 frida -U -f com.example.app -l hook.js
 ```
-
 ---
 
-## 💻 JavaScript Hooking Scripts
+## 💻 Script di aggancio JavaScript
 
-### Bypassing Android SSL Pinning
-Universal TrustManager bypass script (`ssl_bypass.js`):
+### Bypassare il blocco SSL di Android
+Script di bypass di Universal TrustManager (`ssl_bypass.js`):
 ```javascript
 Java.perform(function() {
     var X509TrustManager = Java.use('javax.net.ssl.X509TrustManager');
@@ -148,14 +147,12 @@ Java.perform(function() {
     };
 });
 ```
-
-💻 JavaScript Hooking Scripts
+Corri con Frida:
 ```bash
 frida -U -f com.example.app -l ssl_bypass.js
 ```
-
-### Universal TrustManager bypass script (`ssl_bypass.js`):
-Hook standard RootBeer / Common checks:
+### Bypassare il rilevamento delle radici
+Aggancia RootBeer standard / Controlli comuni:
 ```javascript
 Java.perform(function() {
     var RootBeer = Java.use("com.scottyab.rootbeer.RootBeer");
@@ -165,8 +162,7 @@ Java.perform(function() {
     };
 });
 ```
-
-### Java Method Interception & Argument Tampering
+### Intercettazione del metodo Java e manomissione degli argomenti
 ```javascript
 Java.perform(function() {
     var LoginClass = Java.use("com.example.app.AuthManager");
@@ -177,20 +173,18 @@ Java.perform(function() {
     };
 });
 ```
-
 ---
 
 ## 🛠️ Objection Runtime Toolkit
 
-Objection enables effortless mobile testing through an interactive REPL shell:
+L'obiezione consente test mobili senza sforzo attraverso una shell REPL interattiva:
 
-### Starting an Objection Session
+### Avvio di una sessione di obiezione
 ```bash
 objection -g com.example.app explore
 ```
-
-### One-Command SSL Pinning & Root Bypass
-Objection enables effortless mobile testing through an interactive REPL shell:
+### Blocco SSL con un solo comando e bypass root
+All'interno del guscio delle obiezioni:
 ```text
 # Disable SSL Pinning immediately
 android sslpinning disable
@@ -202,8 +196,7 @@ android root disable
 ios sslpinning disable
 ios jailbreak disable
 ```
-
-### Risorse e riferimenti
+### Esplorazione di Keystore, SQLite e Preferenze condivise
 ```text
 # Dump Keystore certificates & keys
 android keystore list
@@ -216,8 +209,7 @@ sqlite execute schema
 env
 android hooking list activities
 ```
-
-### Inside the objection shell:
+### Classi di aggancio e attività di elenco
 ```text
 # Search classes matching keyword
 android hooking search classes auth
@@ -225,31 +217,30 @@ android hooking search classes auth
 # Watch method invocations in real time
 android hooking watch class_method com.example.app.Auth.login --dump-args --dump-return
 ```
+---
+
+## ⚡ Tabella di consultazione rapida
+
+| Obiettivo | Comando Frida | Comando di obiezione |
+|-----------|---------------|-------------|
+| **Elenco app USB** | `frida-ps -Uai` | `frida-ps -Uai` |
+| **App di spawn con gancio**| `frida -U -f <PKG> -l hook.js` | `objection -g <PKG> explore` |
+| **Ignora il blocco SSL** | `frida -U -f <PKG> -l ssl_bypass.js` | `android sslpinning disable` |
+| **Ignora controllo root** | Script hook Java personalizzato | `android root disable` |
+| **Scarica stringhe di memoria**| `frida-dump` | `memory dump all strings.txt` |
+| **Elenco attività** | `frida-ps` | `android hooking list activities` |
+| **Metodi della classe di traccia**| `frida-trace -U -j "com.pkg.Class!*"` | `android hooking watch class ...` |
 
 ---
 
-## ⚡ Riferimento rapido
+## 🛡️ Considerazioni difensive e anti-Frida
 
-|Objective|Frida Command|Objection Command|
-|-----------|---------------|-------------------|
-|**List USB Apps**|`frida-ps -Uai`|`frida-ps -Uai`|
-|**Spawn App with Hook**|`frida -U -f <PKG> -l hook.js`|`objection -g <PKG> explore`|
-|**Bypass SSL Pinning**|`frida -U -f <PKG> -l ssl_bypass.js`|`android sslpinning disable`|
-|**Bypass Root Check**|Custom Java hook script|`android root disable`|
-|**Dump Memory Strings**|`frida-dump`|`memory dump all strings.txt`|
-|**List Activities**|`frida-ps`|`android hooking list activities`|
-|**Trace Class Methods**|`frida-trace -U -j "com.pkg.Class!*"`|`android hooking watch class ...`|
+1. **Scansione delle porte per Frida:** Controlla la porta `27042` dell'host locale aperta o esamina `/proc/self/maps` per `frida-agent.so`.
+2. **Protezione Ptrace nativa:** chiama `ptrace(PTRACE_TRACEME, 0, 1, 0)` nelle librerie C/JNI native per impedire il collegamento di debugger e motori di strumentazione.
 
 ---
 
-## 🛡️ Defensive Considerations & Anti-Frida
+## ⚠️ Disclaimer legale
 
-|**Trace Class Methods**|`frida-trace -U -j "com.pkg.Class!*"`|`android hooking watch class ...`|
-2. **Native Ptrace Protection:** Call `ptrace(PTRACE_TRACEME, 0, 1, 0)` in native C/JNI libraries to block debuggers and instrumentation engines from attaching.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Frida and Objection are specialized reverse engineering and penetration testing tools designed strictly for authorized security assessments. Instrumenting third-party mobile applications without permission violates terms of service and intellectual property laws.
+> [!ATTENZIONE]
+> Frida e Objection sono strumenti specializzati di reverse engineering e test di penetrazione progettati rigorosamente per valutazioni di sicurezza autorizzate. L'utilizzo di applicazioni mobili di terze parti senza autorizzazione viola i termini di servizio e le leggi sulla proprietà intellettuale.

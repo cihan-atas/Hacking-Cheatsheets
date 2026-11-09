@@ -1,12 +1,16 @@
-# 🛡️ WPScan — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🛡️ WPScan — полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗    ██╗██████╗ ███████╗ ██████╗ █████╗ ███╗   ██╗
   ██║    ██║██╔══██╗██╔════╝██╔════╝██╔══██╗████╗  ██║
@@ -16,51 +20,49 @@
    ╚══╝╚══╝ ╚═╝     ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
        The WordPress Security & Vulnerability Scanner
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/WPScan-WordPress_Security-blue?style=for-the-badge" alt="WPScan">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Веб-безопасность">
   <img src="https://img.shields.io/badge/Database-WPVDB_API-green?style=for-the-badge" alt="WPVDB API">
-  <img src="https://img.shields.io/badge/License-GPLv3-red?style=for-the-badge" alt="License GPLv3">
+  <img src="https://img.shields.io/badge/License-GPLv3-red?style=for-the-badge" alt="Лицензия GPLv3">
 </p>
 
-<p align="center">
-  <b>🌐 Black box vulnerability scanner designed to detect WordPress core, plugin, theme, and user vulnerabilities</b>
+<p выравнивание="центр">
+  <b>🌐 Сканер уязвимостей «черный ящик», предназначенный для обнаружения уязвимостей ядра, плагинов, тем и пользователей WordPress</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--architecture)
-- [Установка](#-installation)
-- [API Token Integration (WPVDB)](#-api-token-integration-wpvdb)
-- [Basic Scan & Target Enumeration](#-basic-scan--target-enumeration)
-- [Параметры и опции](#-enumeration-flags-breakdown--e)
-  - [Vulnerable Plugins (`-e vp`)](#vulnerable-plugins--e-vp)
-  - [WPScan allows modular target enumeration using the `--enumerate` (or `-e`) flag:](#all-plugins--e-ap)
-  - [Themes (`-e vt`, `-e at`)](#themes--e-vt--e-at)
-  - [Probes for thousands of known plugins via dictionary brute-force:](#usernames--e-u)
-  - [Sensitive Backups (`-e cb`, `-e dbe`)](#sensitive-backups--e-cb--e-dbe)
-- [Detection Modes (`--plugins-detection`)](#-detection-modes---plugins-detection)
-- [Password Brute-Forcing (`wp-login.php` & XML-RPC)](#-password-brute-forcing-wp-loginphp--xml-rpc)
-- [Stealth & WAF Evasion](#-stealth--waf-evasion)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & Hardening](#-defensive-considerations--hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и архитектура](#-обзор--архитектура)
+- [Установка](#-установка)
+- [Интеграция токенов API (WPVDB)](#-api-token-integration-wpvdb)
+- [Базовое сканирование и перечисление целей](#-basic-scan--target-enumeration)
+- [Разбивка флагов перечисления (`-e`)](#-enumeration-flags-breakdown--e)
+  - [Уязвимые плагины (`-e vp`)](#vulnerable-plugins--e-vp)
+  - [Все плагины (`-e ap`)](#all-plugins--e-ap)
+  - [Темы (`-e vt`, `-e at`)](#themes--e-vt--e-at)
+  - [Имена пользователей (`-e u`)](#usernames--e-u)
+  - [Конфиденциальные резервные копии (`-e cb`, `-e dbe`)](#sensitive-backups--e-cb--e-dbe)
+- [Режимы обнаружения (`--plugins-detection`)](#-detection-modes---plugins-detection)
+- [Подбор пароля (`wp-login.php` и XML-RPC)](#-password-brute-forcing-wp-loginphp--xml-rpc)
+- [Скрытность и уклонение от WAF](#-стелс--waf-уклонение)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и усиление](#-защитные-соображения--укрепление)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и архитектура
 
-[Legal Disclaimer](#-legal-disclaimer)
+Поскольку WordPress используется более чем на 40% из 10 миллионов лучших веб-сайтов, это наиболее целевая система управления контентом (CMS) в мире.
 
-Written in Ruby, **WPScan** is the industry-standard black box vulnerability scanner for WordPress installations. It catalogues active core versions, enumerates installed plugins and themes, extracts registered administrative usernames, and correlates them against the **WPScan Vulnerability Database (WPVDB)** containing thousands of known CVEs.
+**WPScan**, написанный на Ruby, представляет собой стандартный сканер уязвимостей «черного ящика» для установок WordPress. Он каталогизирует активные основные версии, перечисляет установленные плагины и темы, извлекает зарегистрированные имена пользователей-администраторов и сопоставляет их с **базой данных уязвимостей WPScan (WPVDB)**, содержащей тысячи известных CVE.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y wpscan
@@ -74,13 +76,11 @@ gem install wpscan
 # Docker Container
 docker run -it --rm wpscan/wpscan --url https://target.local
 ```
-
 ---
 
-## 🔑 API Token Integration (WPVDB)
+## 🔑 Интеграция токенов API (WPVDB)
 
-To display known vulnerabilities and CVE scores, WPScan requires a free API token from [wpscan.com](https://wpscan.com/):
-
+Чтобы отобразить известные уязвимости и оценки CVE, WPScan требует бесплатный токен API от [wpscan.com](https://wpscan.com/):
 ```bash
 # Provide API token via CLI
 wpscan --url https://target.local --api-token YOUR_API_TOKEN
@@ -88,11 +88,9 @@ wpscan --url https://target.local --api-token YOUR_API_TOKEN
 # Or export to environment variable
 export WPSCAN_API_TOKEN="YOUR_API_TOKEN"
 ```
-
 ---
 
-## 🚀 Basic Scan & Target Enumeration
-
+## 🚀 Базовое сканирование и перечисление целей
 ```bash
 # Quick non-intrusive scan
 wpscan --url https://target.local
@@ -100,26 +98,23 @@ wpscan --url https://target.local
 # Update the local database before scanning
 wpscan --update
 ```
-
 ---
 
-## 🔍 Параметры и опции
+## 🔍 Разбивка флагов перечисления (`-e`)
 
-WPScan allows modular target enumeration using the `--enumerate` (or `-e`) flag:
+WPScan позволяет модульное перечисление целей с использованием флага `--enumerate` (или `-e`):
 
-### Vulnerable Plugins (`-e vp`)
-Scans for plugins that have known security vulnerabilities in the WPVDB database:
+### Уязвимые плагины (`-e vp`)
+Сканирует плагины, имеющие известные уязвимости безопасности в базе данных WPVDB:
 ```bash
 wpscan --url https://target.local -e vp --api-token YOUR_TOKEN
 ```
-
-### WPScan allows modular target enumeration using the `--enumerate` (or `-e`) flag:
-Probes for thousands of known plugins via dictionary brute-force:
+### Все плагины (`-e ap`)
+Проверка тысяч известных плагинов методом перебора по словарю:
 ```bash
 wpscan --url https://target.local -e ap --plugins-detection aggressive
 ```
-
-### Themes (`-e vt`, `-e at`)
+### Темы (`-e vt`, `-e at`)
 ```bash
 # Enumerate vulnerable themes
 wpscan --url https://target.local -e vt
@@ -127,25 +122,21 @@ wpscan --url https://target.local -e vt
 # Enumerate all installed themes
 wpscan --url https://target.local -e at
 ```
-
-### Probes for thousands of known plugins via dictionary brute-force:
-Extracts registered author usernames through REST API endpoints (`/wp-json/wp/v2/users`), author archives (`/?author=1`), and login error messages:
+### Имена пользователей (`-e u`)
+Извлекает имена пользователей зарегистрированных авторов через конечные точки REST API (`/wp-json/wp/v2/users`), архивы авторов (`/?author=1`) и сообщения об ошибках входа:
 ```bash
 wpscan --url https://target.local -e u1-10
 ```
-
-### Sensitive Backups (`-e cb`, `-e dbe`)
-Searches for exposed `wp-config.php.bak`, database dumps, and backup archives:
+### Конфиденциальные резервные копии (`-e cb`, `-e dbe`)
+Поиск открытых `wp-config.php.bak`, дампов баз данных и архивов резервных копий:
 ```bash
 wpscan --url https://target.local -e cb,dbe
 ```
-
 ---
 
-## ⚙️ Detection Modes (`--plugins-detection`)
+## ⚙️ Режимы обнаружения (`--plugins-detection`)
 
-Controls how thoroughly WPScan searches for plugins:
-
+Управляет тщательностью поиска плагинов WPScan:
 ```bash
 # Passive (Fast, inspects HTML source, script tags, style links)
 wpscan --url https://target.local --plugins-detection passive
@@ -156,13 +147,11 @@ wpscan --url https://target.local --plugins-detection aggressive
 # Mixed (Recommended default - passive followed by targeted active requests)
 wpscan --url https://target.local --plugins-detection mixed
 ```
-
 ---
 
-## 🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
+## 🔓 Подбор пароля (`wp-login.php` и XML-RPC)
 
-Once valid usernames are enumerated, launch targeted credential brute-forcing:
-
+После того, как действительные имена пользователей будут перечислены, запустите целевой подбор учетных данных:
 ```bash
 # Brute force login using enumerated username list
 wpscan --url https://target.local -U users.txt -P /usr/share/wordlists/rockyou.txt
@@ -173,14 +162,12 @@ wpscan --url https://target.local -U users.txt -p 'Winter2026!'
 # Multi-threaded password attack
 wpscan --url https://target.local -U admin -P passwords.txt -t 20
 ```
-
-🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
-> If `xmlrpc.php` is enabled on the server, WPScan automatically leverages XML-RPC multicall methods to test hundreds of password combinations per single HTTP request!
+> [!ПРИМЕЧАНИЕ]
+> Если на сервере включен `xmlrpc.php`, WPScan автоматически использует методы многовызова XML-RPC для проверки сотен комбинаций паролей за один HTTP-запрос!
 
 ---
 
-## 🥷 Stealth & WAF Evasion
-
+## 🥷 Скрытность и уклонение от WAF
 ```bash
 # Randomize User-Agent header to evade simple bot signatures
 wpscan --url https://target.local --random-user-agent
@@ -194,33 +181,32 @@ wpscan --url https://target.local --proxy socks5://127.0.0.1:9050
 # Ignore SSL/TLS certificate warnings
 wpscan --url https://target.local --disable-tls-checks
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Standard Scan**|`wpscan --url <URL> --api-token <TOKEN>`|
-|**Enumerate Vulnerable Plugins**|`wpscan --url <URL> -e vp --api-token <TOKEN>`|
-|**Enumerate All Plugins**|`wpscan --url <URL> -e ap --plugins-detection aggressive`|
-|**Enumerate Users**|`wpscan --url <URL> -e u`|
-|**Enumerate Backups & Configs**|`wpscan --url <URL> -e cb,dbe`|
-|**Password Brute Force**|`wpscan --url <URL> -U <USERS> -P <PASSWORDS>`|
-|**Random User-Agent & Stealth**|`wpscan --url <URL> --random-user-agent --stealthy`|
-|**Export to JSON File**|`wpscan --url <URL> -f json -o wpscan_report.json`|
+| **Стандартное сканирование** | `wpscan --url <URL> --api-token <TOKEN>` |
+| **Перечень уязвимых плагинов** | `wpscan --url <URL> -e vp --api-token <TOKEN>` |
+| **Перечислить все плагины** | `wpscan --url <URL> -e ap --plugins-detection aggressive` |
+| **Перечислить пользователей** | `wpscan --url <URL> -e u` |
+| **Перечислить резервные копии и конфигурации** | `wpscan --url <URL> -e cb,dbe` |
+| **Перебор пароля** | `wpscan --url <URL> -U <USERS> -P <PASSWORDS>` |
+| **Случайный пользовательский агент и скрытность** | `wpscan --url <URL> --random-user-agent --stealthy` |
+| **Экспорт в файл JSON** | `wpscan --url <URL> -f json -o wpscan_report.json` |
 
 ---
 
-## 🛡️ Defensive Considerations & Hardening
+## 🛡️ Соображения по защите и закалке
 
-1. **Disable XML-RPC:** Block access to `xmlrpc.php` via `.htaccess` or Nginx configuration to neutralize high-speed multicall brute-force attacks.
-2. **Restrict REST API Users Endpoint:** Disable public access to `/wp-json/wp/v2/users` to prevent trivial author enumeration.
-3. **Patch Plugins Regularly:** Over 90% of WordPress vulnerabilities reside in third-party plugins and themes rather than WordPress core.
+1. **Отключить XML-RPC:** Заблокируйте доступ к `xmlrpc.php` через конфигурацию `.htaccess` или Nginx, чтобы нейтрализовать высокоскоростные атаки перебора с несколькими вызовами.
+2. **Ограничить конечную точку пользователей REST API.** Отключите публичный доступ к `/wp-json/wp/v2/users`, чтобы предотвратить тривиальное перечисление авторов.
+3. **Регулярно обновляйте плагины.** Более 90% уязвимостей WordPress находятся в сторонних плагинах и темах, а не в ядре WordPress.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is intended for authorized penetration testing, vulnerability assessments, and web application auditing only. Brute-forcing passwords or scanning systems without explicit authorization is illegal.
+> [!ВНИМАНИЕ]
+> Эта шпаргалка предназначена только для авторизованного тестирования на проникновение, оценки уязвимостей и аудита веб-приложений. Подбор паролей или сканирование систем без явного разрешения являются незаконными.

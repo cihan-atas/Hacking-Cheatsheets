@@ -1,12 +1,16 @@
-# ⚡ Naabu – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⚡ Naabu - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███╗   ██╗ █████╗  █████╗ ██████╗ ██╗   ██╗
   ████╗  ██║██╔══██╗██╔══██╗██╔══██╗██║   ██║
@@ -16,7 +20,6 @@
   ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ 
         Fast & Reliable SYN/CONNECT Port Scanner
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Naabu-Port_Scanner-blue?style=for-the-badge" alt="Naabu">
   <img src="https://img.shields.io/badge/Author-ProjectDiscovery-orange?style=for-the-badge" alt="ProjectDiscovery">
@@ -25,43 +28,42 @@
 </p>
 
 <p align="center">
-  <b>⚡ Fast and reliable port scanner focused on simplicity and seamless piping with ProjectDiscovery tools (httpx, nuclei)</b>
+  <b>⚡ Rask og pålitelig portskanner fokusert på enkelhet og sømløs rørføring med ProjectDiscovery-verktøy (httpx, nuclei)</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--key-features)
-- [Installasjon](#-installation)
-- [Basic Port Scanning](#-basic-port-scanning)
-  - [> `sudo setcap cap_net_raw=+ep $(which naabu)`](#single-host-scan)
-  - [Top Ports & Full Port Range](#top-ports--full-port-range)
-- [Scan Modes: SYN (Raw Socket) vs CONNECT](#-scan-modes-syn-raw-socket-vs-connect)
+- [Oversikt og nøkkelfunksjoner](#-oversikt--nøkkelfunksjoner)
+- [Installasjon](#-installasjon)
+- [Grunnleggende portskanning](#-grunnleggende portskanning)
+  - [Single Host Scan](#single-host-scan)
+  - [Topporter og fullt portområde](#topports--full-port-range)
+- [Skannemoduser: SYN (Raw Socket) vs CONNECT](#-scan-modes-syn-raw-socket-vs-connect)
 - [Rate Limiting & Performance Tuning](#-rate-limiting--performance-tuning)
 - [Multi-Target Scanning & CIDR Blocks](#-multi-target-scanning--cidr-blocks)
-- [Seamless Pipeline Workflows](#-seamless-pipeline-workflows)
-  - [Naabu shines when piped with other ProjectDiscovery tools:](#naabu--httpx--nuclei)
+- [Sømløse arbeidsflyter for rørledning](#-sømløse arbeidsflyter)
+  - [Naabu + Httpx + Nuclei](#naabu--httpx--nuclei)
   - [Subfinder + Naabu](#subfinder--naabu)
-- [Nmap Integration (`-nmap`)](#-nmap-integration--nmap)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Nmap-integrasjon (`-nmap`)](#-nmap-integration--nmap)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & Detection](#-defensive-considerations--detection)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og nøkkelfunksjoner
 
-Developed by **ProjectDiscovery**, **Naabu** is a port scanner designed to be fast, accurate, and optimized for integration into modern reconnaissance automation pipelines:
-- **SYN & CONNECT Scans**: Automatic fallback to TCP CONNECT when raw socket privileges (`libpcap` / root) are absent.
-- **ProjectDiscovery Ecosystem**: Native pipeline architecture allowing seamless piping from `subfinder` into `naabu`, then into `httpx` and `nuclei`.
-- **Integrated Nmap Engine**: Capability to trigger active Nmap service and version scanning on discovered open ports automatically.
-- **CDN Exclusion**: Automatically bypasses cloud CDN edge nodes (Cloudflare, Akamai, CloudFront) to prevent wasted bandwidth and false positives.
+Utviklet av **ProjectDiscovery**, **Naabu** er en portskanner designet for å være rask, nøyaktig og optimalisert for integrering i moderne rekognoseringsautomatiseringsrørledninger:
+- **SYN & CONNECT-skanninger:** Automatisk fallback til TCP CONNECT når rå socket-privilegier (`libpcap` / root) er fraværende.
+- **ProjectDiscovery Ecosystem:** Innebygd rørledningsarkitektur som tillater sømløs rørføring fra `subfinder` til `naabu`, deretter inn i `httpx` og `nuclei`.
+- **Integrert Nmap Engine:** Mulighet til å utløse aktiv Nmap-tjeneste og versjonsskanning på oppdagede åpne porter automatisk.
+- **CDN-ekskludering:** Omgår automatisk sky-CDN-kantnoder (Cloudflare, Akamai, CloudFront) for å forhindre bortkastet båndbredde og falske positiver.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Using Go (Recommended)
 go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
@@ -75,16 +77,15 @@ yay -S naabu-bin
 # Kali Linux
 sudo apt update && sudo apt install -y naabu
 ```
-
-🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
-> On Linux, granting `CAP_NET_RAW` allows running SYN scans without root:
-📥 Installasjon
+> [!MERK]
+> På Linux, tillater `CAP_NET_RAW` å kjøre SYN-skanninger uten rot:
+> `sudo setcap cap_net_raw=+ep $(which naabu)`
 
 ---
 
-## 🚀 Basic Port Scanning
+## 🚀 Grunnleggende portskanning
 
-### > `sudo setcap cap_net_raw=+ep $(which naabu)`
+### Single Host Scan
 ```bash
 # Scan default top 100 ports
 naabu -host example.com
@@ -92,8 +93,7 @@ naabu -host example.com
 # Scan specific ports
 naabu -host example.com -p 80,443,8080,8443
 ```
-
-### Top Ports & Full Port Range
+### Toppporter og fullt portområde
 ```bash
 # Scan top 1000 ports
 naabu -host example.com -top-ports 1000
@@ -101,14 +101,12 @@ naabu -host example.com -top-ports 1000
 # Full port scan (1-65535)
 naabu -host example.com -p -
 ```
-
 ---
 
-## ⚡ Scan Modes: SYN (Raw Socket) vs CONNECT
+## ⚡ Skannemoduser: SYN (Raw Socket) vs CONNECT
 
-- **SYN Scan (`-s syn` / root required)**: Sends raw TCP SYN packets without finishing the 3-way handshake (half-open scan). Much faster and less noisy in application logs.
-- **CONNECT Scan (`-s conn`)**: Uses the standard OS `connect()` socket call. Operates without root privileges and penetrates restrictive virtual environments.
-
+- **SYN-skanning (`-s syn` / rot kreves):** Sender rå TCP SYN-pakker uten å fullføre 3-veis håndtrykk (halvåpen skanning). Mye raskere og mindre støyende i applikasjonslogger.
+- **CONNECT Scan (`-s conn`):** Bruker standard OS `connect()` socket call. Fungerer uten root-privilegier og trenger gjennom restriktive virtuelle miljøer.
 ```bash
 # Explicit SYN Scan (Requires sudo or CAP_NET_RAW)
 sudo naabu -host example.com -s syn
@@ -116,11 +114,9 @@ sudo naabu -host example.com -s syn
 # Explicit TCP Connect Scan (No root required)
 naabu -host example.com -s conn
 ```
-
 ---
 
-## ⚙️ Rate Limiting & Performance Tuning
-
+## ⚙️ Hastighetsbegrensning og ytelsesjustering
 ```bash
 # Adjust packet rate per second (default: 1000)
 sudo naabu -host example.com -rate 2500
@@ -131,11 +127,9 @@ naabu -host example.com -timeout 1000
 # Exclude CDN edge servers (Cloudflare, CloudFront, Fastly)
 naabu -host example.com -exclude-cdn
 ```
-
 ---
 
-## 🌐 Multi-Target Scanning & CIDR Blocks
-
+## 🌐 Multi-Target Scanning og CIDR-blokker
 ```bash
 # Scan targets from list
 naabu -list targets.txt -p 80,443,8080 -o open_ports.txt
@@ -143,21 +137,19 @@ naabu -list targets.txt -p 80,443,8080 -o open_ports.txt
 # Scan a /24 subnet block
 sudo naabu -host 192.168.1.0/24 -p 22,80,443,445,3389
 ```
-
 ---
 
-## 🔄 Seamless Pipeline Workflows
+## 🔄 Sømløse arbeidsflyter for rørledninger
 
-Naabu shines when piped with other ProjectDiscovery tools:
+Naabu skinner når den kobles til andre ProjectDiscovery-verktøy:
 
 ### Subfinder + Naabu
-Enumerate subdomains and immediately discover which ones have open web/SSH ports:
+Tell opp underdomener og oppdag umiddelbart hvilke som har åpne nett-/SSH-porter:
 ```bash
 subfinder -d example.com -silent | naabu -silent -p 80,443,8080,8443
 ```
-
-### Naabu shines when piped with other ProjectDiscovery tools:
-The canonical offensive bug bounty reconnaissance pipeline:
+### Naabu + Httpx + Nuclei
+Den kanoniske offensive bug bounty rekognoseringsrørledningen:
 ```bash
 # 1. Port scan subdomains -> 2. Probe HTTP services -> 3. Vulnerability scan
 subfinder -d target.com -silent \
@@ -165,42 +157,39 @@ subfinder -d target.com -silent \
   | httpx -silent \
   | nuclei -severity medium,high,critical -o findings.txt
 ```
-
 ---
 
-## 🔍 Nmap Integration (`-nmap`)
+## 🔍 Nmap-integrasjon (`-nmap`)
 
-Pass discovered open ports directly to Nmap for service detection (`-sV`) and script scanning (`-sC`):
-
+Send oppdagede åpne porter direkte til Nmap for tjenestedeteksjon (`-sV`) og skriptskanning (`-sC`):
 ```bash
 sudo naabu -host target.local -top-ports 1000 -nmap-cli 'nmap -sV -sC -oN naabu_nmap.txt'
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Standardskanning (Topp 100)** | `naabu -host <TARGET>` |
+| **Full rekkeviddeskanning (1-65535)**| `naabu -host <TARGET> -p -` |
+| **Topp 1000 porter** | `naabu -host <TARGET> -top-ports 1000` |
+| **SYN-skanning (rask, snikende)**| `sudo naabu -host <TARGET> -s syn` |
+| **Ekskluder CDN Edge IP-er** | `naabu -host <TARGET> -exclude-cdn` |
+| **Utgang til JSON** | `naabu -host <TARGET> -json -o results.json` |
+| **Rør til HTTPX** | `naabu -host <TARGET> -silent \| httpx` |
+| **Trigger Nmap Service Scan**| `sudo naabu -host <TARGET> -nmap-cli 'nmap -sV'` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive vurderinger og gjenkjenning
 
-|Objective|Kommando|
-|-----------|---------|
-|**Default Scan (Top 100)**|`naabu -host <TARGET>`|
-|**Full Range Scan (1-65535)**|`naabu -host <TARGET> -p -`|
-|**Top 1000 Ports**|`naabu -host <TARGET> -top-ports 1000`|
-|**SYN Scan (Fast, Stealthy)**|`sudo naabu -host <TARGET> -s syn`|
-|**Exclude CDN Edge IPs**|`naabu -host <TARGET> -exclude-cdn`|
-|**Output to JSON**|`naabu -host <TARGET> -json -o results.json`|
-|**Pipe to HTTPX**|`naabu -host <TARGET> -silent \|httpx`|
-|**Trigger Nmap Service Scan**|`sudo naabu -host <TARGET> -nmap-cli 'nmap -sV'`|
+1. **Brannmur- og IDS-regler:** Høyhastighets SYN-sveip generert av Naabu produserer høye TCP RST/SYN-forhold som lett fanges opp av Snort/Suricata-regler.
+2. **Nettverkshastighetsbegrensning:** Håndhev innkommende tilkoblingshastighetsbegrensning (`iptables -m limit --limit 50/s`) for å redusere hastigheten og forstyrre automatisert skanning.
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-|**Trigger Nmap Service Scan**|`sudo naabu -host <TARGET> -nmap-cli 'nmap -sV'`|
-2. **Network Rate Limiting:** Enforce inbound connection rate-limiting (`iptables -m limit --limit 50/s`) to slow down and disrupt automated scanning.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Naabu is developed strictly for authorized security assessments, penetration testing, and defensive asset discovery. Scanning networks without explicit permission is strictly prohibited.
+> [!FORSIKTIG]
+> Naabu er utviklet kun for autoriserte sikkerhetsvurderinger, penetrasjonstesting og defensiv aktivafunn. Det er strengt forbudt å skanne nettverk uten eksplisitt tillatelse.

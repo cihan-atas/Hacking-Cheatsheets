@@ -1,39 +1,42 @@
-# 🔍 Sherlock – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Sherlock](https://github.com/sherlock-project/sherlock) is an OSINT reconnaissance tool that hunts down social media accounts by username across more than 400 social platforms, forums, code hosting sites, and online communities simultaneously.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [[Timeout & Threading Tuning](#timeout--threading-tuning)](#key-capabilities)
+# Sherlock Cheatsheet
+
+[Sherlock](https://github.com/sherlock-project/sherlock) er et OSINT-rekognoseringsverktøy som leter etter sosiale mediekontoer etter brukernavn på mer enn 400 sosiale plattformer, fora, kodevertssider og nettsamfunn samtidig.
+
+---
+
+## Innholdsfortegnelse
+
+- [Key Capabilities](#key-capabilities)
 - [Installasjon](#installation)
-- [Tips og beste praksis](#single--multiple-username-search)
-- [Filtering Sites & Platforms](#filtering-sites--platforms)
-- [Proxy & Tor Routing](#proxy--tor-routing)
+- [Enkelt- og flere brukernavnsøk](#single--multiple-username-search)
+- [Filtrering av nettsteder og plattformer](#filtreringsnettsteder--plattformer)
+- [Proxy- og Tor-ruting](#proxy--tor-ruting)
 - [Timeout & Threading Tuning](#timeout--threading-tuning)
-- [Control request speeds and latency tolerances:](#export-formats-csv-xlsx-json)
-- [Automation & OSINT Pipeline Integration](#automation--osint-pipeline-integration)
+- [Eksporter formater (CSV, XLSX, JSON)](#export-formats-csv-xlsx-json)
+- [Automasjon og OSINT Pipeline Integration](#automation--osint-pipeline-integration)
 
 ---
 
-## [Timeout & Threading Tuning](#timeout--threading-tuning)
+## Nøkkelfunksjoner
 
-- **400+ Platforms**: Queries GitHub, Twitter/X, Instagram, Reddit, TikTok, LinkedIn, Telegram, Discord, Steam, Spotify, Docker Hub, Pastebin, and hundreds more.
-- **Async Concurrency**: High-speed parallel scanning using asynchronous Python requests.
-- **Accurate Detection**: Detects HTTP status codes, error messages, and redirects to avoid false positives.
-- **Tor & SOCKS5 Support**: Protects investigator anonymity and bypasses rate limits.
+- **400+ plattformer:** Spørringer GitHub, Twitter/X, Instagram, Reddit, TikTok, LinkedIn, Telegram, Discord, Steam, Spotify, Docker Hub, Pastebin og hundrevis flere.
+- **Asynkron samtidighet:** Høyhastighets parallellskanning ved bruk av asynkrone Python-forespørsler.
+- **Nøyaktig deteksjon:** Oppdager HTTP-statuskoder, feilmeldinger og omdirigeringer for å unngå falske positiver.
+- **Tor & SOCKS5-støtte:** Beskytter etterforskers anonymitet og omgår hastighetsgrenser.
 
 ---
 
 ## Installasjon
-
 ```bash
 # Recommended: Install via pipx
 pipx install sherlock-project
@@ -49,56 +52,49 @@ sudo apt-get update && sudo apt-get install -y sherlock
 # Verify command
 sherlock --version
 ```
-
 ---
 
-## Tips og beste praksis
+## Søk etter enkelt og flere brukernavn
 
-### 1. Basic Username Search
-Search for a single target handle across all 400+ sites:
+### 1. Grunnleggende brukernavnsøk
+Søk etter ett enkelt målhåndtak på tvers av alle 400+ nettsteder:
 ```bash
 sherlock target_user
 ```
-
-### Tips og beste praksis
+### 2. Søk i flere brukernavn samtidig
 ```bash
 sherlock target_user1 target_user2 alias_dev
 ```
-
-### Search for a single target handle across all 400+ sites:
+### 3. Skriv ut kun funnet kontoer (undertrykk ikke funnet / feil)
 ```bash
 sherlock --print-found target_user
 ```
-
 ---
 
-## Filtering Sites & Platforms
+## Filtrering av nettsteder og plattformer
 
-Narrow searches to specific platforms to save time or focus on specific intelligence categories:
+Begrens søk til spesifikke plattformer for å spare tid eller fokusere på spesifikke intelligenskategorier:
 
-### 1. Query Specific Sites Only
+### 1. Bare spør etter spesifikke nettsteder
 ```bash
 sherlock --site github --site twitter --site reddit --site gitlab target_user
 ```
-
-### 2. Search Without Specific Platforms (Ignore False-Positive Heavy Sites)
+### 2. Søk uten spesifikke plattformer (Ignorer falsk-positive tunge nettsteder)
 ```bash
 sherlock target_user --site-list targets.txt
 ```
-
 ---
 
-## Proxy & Tor Routing
+## Proxy- og Tor-ruting
 
-To prevent IP bans, rate limits, and maintain operational security:
+For å forhindre IP-forbud, takstgrenser og opprettholde driftssikkerhet:
 
-### 1. Route Through Tor Network
-Automatically route requests through local Tor SOCKS proxy (`127.0.0.1:9050`):
+### 1. Rute gjennom Tor-nettverket
+Rut forespørsler automatisk gjennom lokal Tor SOCKS-proxy (`127.0.0.1:9050`):
 ```bash
 sherlock --tor target_user
 ```
-
-### To prevent IP bans, rate limits, and maintain operational security:
+### 2. Egendefinert HTTP / SOCKS5 Proxy
 ```bash
 # SOCKS5 proxy
 sherlock --proxy socks5://127.0.0.1:1080 target_user
@@ -106,13 +102,11 @@ sherlock --proxy socks5://127.0.0.1:1080 target_user
 # Authenticated HTTP proxy
 sherlock --proxy http://user:pass@proxy.corp.internal:8080 target_user
 ```
-
 ---
 
-## Timeout & Threading Tuning
+## Tidsavbrudd og trådjustering
 
-Control request speeds and latency tolerances:
-
+Kontroller forespørselshastigheter og latenstidstoleranser:
 ```bash
 # Set HTTP timeout to 5 seconds per site (default is usually 60s)
 sherlock target_user --timeout 5
@@ -120,35 +114,31 @@ sherlock target_user --timeout 5
 # Add delay between requests to avoid rate limits
 sherlock target_user --delay 1
 ```
-
 ---
 
-## Control request speeds and latency tolerances:
+## Eksportformater (CSV, XLSX, JSON)
 
-Save discoveries for investigations, evidence bundles, or reporting:
+Lagre funn for undersøkelser, bevispakker eller rapportering:
 
-### 1. Save Directly to CSV File
+### 1. Lagre direkte til CSV-fil
 ```bash
 sherlock --csv --output /tmp/sherlock_results target_user
 ```
-
-### 2. Save Output into Specific Directory
+### 2. Lagre utdata i spesifikk katalog
 ```bash
 sherlock --folderoutput /tmp/recon_data/ target_user
 ```
-Generates `/tmp/recon_data/target_user.txt` containing full URLs of confirmed profiles.
+Genererer `/tmp/recon_data/target_user.txt` som inneholder fullstendige URL-er til bekreftede profiler.
 
-### 3. Save as Excel Spreadsheet (XLSX)
+### 3. Lagre som Excel-regneark (XLSX)
 ```bash
 sherlock --xlsx target_user
 ```
-
 ---
 
-## Automation & OSINT Pipeline Integration
+## Automatisering og OSINT Pipeline Integration
 
-Chain Sherlock into an automated investigator script:
-
+Lede Sherlock inn i et automatisert etterforskermanus:
 ```bash
 #!/usr/bin/env bash
 TARGET="$1"

@@ -33,6 +33,12 @@ interface CheatsheetDao {
            OR category LIKE '%' || :query || '%'
            OR content_en LIKE '%' || :query || '%'
            OR content_tr LIKE '%' || :query || '%'
+           OR content_de LIKE '%' || :query || '%'
+           OR content_es LIKE '%' || :query || '%'
+           OR content_fr LIKE '%' || :query || '%'
+           OR content_ru LIKE '%' || :query || '%'
+           OR content_zh_cn LIKE '%' || :query || '%'
+           OR content_ar LIKE '%' || :query || '%'
         ORDER BY 
           CASE 
             WHEN LOWER(id) = LOWER(:query) THEN 1

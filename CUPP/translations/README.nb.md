@@ -1,39 +1,42 @@
-# 🔍 CUPP – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) is a specialized password dictionary generator designed for targeted human profiling. Rather than brute-forcing with generic dictionaries, CUPP generates permutations based on personal details (target name, partner, pets, birth dates, company, hobbies, leet speak variations, and special character combinations).
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#overview--use-cases)
+# CUPP (Common User Passwords Profiler) Jukseark
+
+[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) er en spesialisert passordordbokgenerator designet for målrettet menneskelig profilering. I stedet for å tvangspresse med generiske ordbøker, genererer CUPP permutasjoner basert på personlige detaljer (målnavn, partner, kjæledyr, fødselsdatoer, selskap, hobbyer, leet speak-variasjoner og spesialtegnkombinasjoner).
+
+---
+
+## Innholdsfortegnelse
+
+- [Oversikt og brukstilfeller](#oversikt--brukstilfeller)
 - [Installasjon](#installation)
-- [Installasjon](#interactive-profiling-wizard--i)
-- [Configuration & Leet Rules (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
-- [Downloading & Merging Dictionaries (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
-- [2. Improve an Existing Wordlist with Leet / Special Rules](#piping-output-to-hashcat--hydra)
-- [Defensive Insights & Password Policy Guidelines](#defensive-insights--password-policy-guidelines)
+- [Interactive Profiling Wizard (`-i`)](#interactive-profiling-wizard--i)
+- [Konfigurasjon og Leet-regler (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
+- [Last ned og slå sammen ordbøker (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
+- [Piping Output to Hashcat & Hydra](#piping-output-to-hashcat--hydra)
+– [Defensive Insights & Password Policy Guidelines](#defensive-insights--password-policy-guidelines)
 
 ---
 
-## Introduksjon
+## Oversikt og brukstilfeller
 
-Traditional dictionary attacks often fail against complex passwords that follow human-predictable patterns (e.g., `John1984!`, `Sarah_Fluffy2022#`). CUPP addresses this by:
-- Collecting target-specific personal intelligence.
-- Combining names, birth years, significant dates, and pet names.
-- Applying rule-based mutations (capitalization, leet speak replacement, special characters, random number appending).
-- Introduksjon
+Tradisjonelle ordbokangrep mislykkes ofte mot komplekse passord som følger menneskelige forutsigbare mønstre (f.eks. `John1984!`, `Sarah_Fluffy2022#`). CUPP adresserer dette ved:
+- Innhenting av målspesifikk personlig etterretning.
+- Kombinere navn, fødselsår, viktige datoer og kjæledyrnavn.
+- Bruk av regelbaserte mutasjoner (store bokstaver, erstatning av leet speak, spesialtegn, tilføying av tilfeldige tall).
+- Produserer en optimalisert, målrettet ordliste som er dramatisk mindre enn `rockyou.txt`, men med høyere målrelevans.
 
 ---
 
 ## Installasjon
-
 ```bash
 # Clone the repository
 git clone https://github.com/Mebus/cupp.git
@@ -45,18 +48,15 @@ sudo apt-get update && sudo apt-get install -y cupp
 # Check help options
 python3 cupp.py -h
 ```
-
 ---
 
-## Installasjon
+## Interactive Profiling Wizard (`-i`)
 
-Launch the questionnaire prompt to build a personalized wordlist:
-
+Start spørreskjemaet for å lage en personlig ordliste:
 ```bash
 python3 cupp.py -i
 ```
-
-Interactive Profiling Wizard (`-i`)
+Eksempel på ledetekst:
 ```text
 [+] Insert the targets information:
 > First Name: Alice
@@ -87,14 +87,13 @@ Interactive Profiling Wizard (`-i`)
 [+] Do you want to add some random numbers at the end of words? Y/n: y
 [+] Leet mode? (i.e. leet = 1337) Y/n: y
 ```
-
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+Utdatafil `alice.csv` (eller spesifisert tekstfil) genereres med tusenvis av tilpassede mutasjoner (f.eks. `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
 
 ---
 
-## Configuration & Leet Rules (`cupp.cfg`)
+## Konfigurasjon og Leet-regler (`cupp.cfg`)
 
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+CUPP-konfigurasjonen styres via `cupp.cfg`. Nøkkelseksjoner inkluderer:
 ```ini
 [years]
 # Set year range for automated suffix appending
@@ -118,32 +117,29 @@ o = 0
 s = 5,$
 t = 7
 ```
-
-Edit `cupp.cfg` to adjust to target locale and language specifics.
+Rediger `cupp.cfg` for å justere til mållokale og språkspesifikke.
 
 ---
 
-## Downloading & Merging Dictionaries (`-l` & `-w`)
+## Laste ned og slå sammen ordbøker (`-l` & `-w`)
 
-### Edit `cupp.cfg` to adjust to target locale and language specifics.
-Download default linguistic wordlists:
+### 1. Last ned forhåndskompilerte ordlister fra arkiver
+Last ned standard språklige ordlister:
 ```bash
 python3 cupp.py -l
 ```
-
-### Downloading & Merging Dictionaries (`-l` & `-w`)
-Apply CUPP mutation rules to a list of existing words:
+### 2. Forbedre en eksisterende ordliste med Leet / Spesialregler
+Bruk CUPP mutasjonsregler på en liste over eksisterende ord:
 ```bash
 python3 cupp.py -w /path/to/base_words.txt
 ```
-
 ---
 
-## 2. Improve an Existing Wordlist with Leet / Special Rules
+## Piping-utgang til Hashcat & Hydra
 
-Feed the generated customized dictionary directly into brute-force tools:
+Mat den genererte tilpassede ordboken direkte inn i brute-force-verktøy:
 
-### Cracking Target Hashes with Hashcat
+### Å knekke målhasher med Hashcat
 ```bash
 # Generate targeted list
 python3 cupp.py -i
@@ -151,16 +147,14 @@ python3 cupp.py -i
 # Run Hashcat against target NTLM hash
 hashcat -m 1000 target_ntlm.hash alice.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### Online Authentication Brute-Force with Hydra
+### Online autentisering Brute-Force med Hydra
 ```bash
 hydra -l alice -P alice.txt 192.168.1.50 ssh
 ```
-
 ---
 
-## Defensive Insights & Password Policy Guidelines
+## Retningslinjer for defensiv innsikt og passordretningslinjer
 
-- **Ban Personal Attributes**: Prohibit user passwords containing employee first names, last names, usernames, company brand names, or birth dates.
-- **Enforce Length over Complexity**: A 16+ character passphrase (e.g., four random dictionary words) is significantly more resilient against profiling tools than an 8-character `NameYear!` pattern.
-- **Multi-Factor Authentication (MFA)**: Enforce hardware FIDO2 or TOTP tokens so customized dictionary generation alone cannot compromise accounts.
+- **Forby personlige attributter:** Forby brukerpassord som inneholder ansattes fornavn, etternavn, brukernavn, firmamerkenavn eller fødselsdatoer.
+- **Håndhev lengde over kompleksitet:** En passordfrase på 16+ tegn (f.eks. fire tilfeldige ordbokord) er betydelig mer motstandsdyktig mot profileringsverktøy enn et 8-tegns `NameYear!`-mønster.
+- **Multi-Factor Authentication (MFA):** Håndhev maskinvare FIDO2- eller TOTP-tokens slik at tilpasset ordbokgenerering alene ikke kan kompromittere kontoer.

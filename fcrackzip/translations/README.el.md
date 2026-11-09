@@ -1,39 +1,42 @@
-# 🔍 fcrackzip — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[fcrackzip](https://github.com/hyc/fcrackzip) is a fast, multi-threaded command-line password cracker for encrypted ZIP archives. It supports both dictionary-based attacks and optimized brute-force attacks against traditional ZipCrypto (PKZIP stream cipher) and can verify archive integrity without full extraction.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[Character Sets & Length Specification](#character-sets--length-specification)](#core-features--limitations)
+# fcrackzip Cheatsheet
+
+Το [fcrackzip](https://github.com/hyc/fcrackzip) είναι ένα γρήγορο πρόγραμμα επεξεργασίας κωδικού πρόσβασης γραμμής εντολών πολλαπλών νημάτων για κρυπτογραφημένα αρχεία ZIP. Υποστηρίζει τόσο επιθέσεις που βασίζονται σε λεξικό όσο και βελτιστοποιημένες επιθέσεις ωμής βίας κατά του παραδοσιακού ZipCrypto (κρυπτογράφηση ροής PKZIP) και μπορεί να επαληθεύσει την ακεραιότητα του αρχείου χωρίς πλήρη εξαγωγή.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Βασικά χαρακτηριστικά & περιορισμοί](#core-features--limitations)
 - [Εγκατάσταση](#installation)
-- [Εγκατάσταση](#dictionary-attacks--d--p)
-- [2. Verbose Output Mode](#brute-force-attacks--b)
-- [`-c A`: Uppercase letters (`A-Z`).](#character-sets--length-specification)
+- [Dictionary Attacks (`-D -p`)](#dictionary-attacks--d--p)
+- [Brute-Force Attacks (`-b`)](#brute-force-attacks--b)
+- [Character Sets & Length Specification](#character-sets--length-specification)
 - [Benchmark & Performance Optimization](#benchmark--performance-optimization)
 - [ZipCrypto vs. AES-256 (John/Hashcat Alternative)](#zipcrypto-vs-aes-256-johnhashcat-alternative)
 
 ---
 
-## [Character Sets & Length Specification](#character-sets--length-specification)
+## Βασικά Χαρακτηριστικά & Περιορισμοί
 
-- **Ultra-Fast ZipCrypto Cracker**: Written in C, optimized for legacy ZipCrypto algorithm (standard PKZIP encryption).
-- **Dictionary Mode**: Reads candidate passwords sequentially from wordlists.
-- **Brute-Force Mode**: Generates candidates on-the-fly using configurable character sets and length boundaries.
-- **Archive Unzip Test (`-u`)**: Verifies candidate passwords by attempting decompression, virtually eliminating false positives.
-- **Limitation**: Does **not** support modern WinZip AES-256 encryption. For AES-256 ZIPs, use `zip2john` + John the Ripper or Hashcat (mode 13600).
+- **Ultra-Fast ZipCrypto Cracker:** Γραμμένο σε C, βελτιστοποιημένο για τον αλγόριθμο ZipCrypto παλαιού τύπου (τυπική κρυπτογράφηση PKZIP).
+- **Λειτουργία λεξικού:** Διαβάζει διαδοχικά τους κωδικούς πρόσβασης υποψηφίων από λίστες λέξεων.
+- **Λειτουργία Brute-Force:** Δημιουργεί υποψήφιους εν κινήσει χρησιμοποιώντας διαμορφώσιμα σύνολα χαρακτήρων και όρια μήκους.
+- **Archive Unzip Test (`-u`):** Επαληθεύει τους υποψήφιους κωδικούς πρόσβασης επιχειρώντας αποσυμπίεση, εξαλείφοντας ουσιαστικά τα ψευδώς θετικά.
+- **Περιορισμός:** **Δεν** υποστηρίζει σύγχρονη κρυπτογράφηση WinZip AES-256. Για τα ZIP AES-256, χρησιμοποιήστε `zip2john` + John the Ripper ή Hashcat (λειτουργία 13600).
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y fcrackzip
@@ -47,70 +50,68 @@ sudo dnf install -y fcrackzip
 # Verify command
 fcrackzip -h
 ```
-
 ---
 
-## Εγκατάσταση
+## Επιθέσεις λεξικού (`-D -p`)
 
-The fastest way to test against common wordlists:
+Ο πιο γρήγορος τρόπος για να δοκιμάσετε τις κοινές λίστες λέξεων:
 
-### 1. Basic Dictionary Attack with Unzip Verification
+### 1. Basic Dictionary Attack με Unzip Verification
 ```bash
 fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt secret_archive.zip
 ```
-- Dictionary Attacks (`-D -p`)
-- `-D`: Dictionary attack mode.
-- The fastest way to test against common wordlists:
+- `-u`: Λειτουργία αποσυμπίεσης (επαληθεύει το εξαγόμενο αρχείο CRC για την αποφυγή ψευδών θετικών αποτελεσμάτων).
+- `-D`: Λειτουργία επίθεσης λεξικού.
+- `-p <file>`: Διαδρομή προς το αρχείο λεξικού.
 
-### 1. Basic Dictionary Attack with Unzip Verification
-Display tested speed, current password, and debug info:
+### 2. Λεπτή λειτουργία εξόδου
+Εμφάνιση δοκιμασμένης ταχύτητας, τρέχοντος κωδικού πρόσβασης και πληροφοριών εντοπισμού σφαλμάτων:
 ```bash
 fcrackzip -v -u -D -p passwords.txt backup.zip
 ```
-
 ---
 
-## 2. Verbose Output Mode
+## Επιθέσεις Brute-Force (`-b`)
 
-When dictionary attacks fail, brute-force against unknown short passwords:
+Όταν οι επιθέσεις λεξικού αποτυγχάνουν, ωμή βία εναντίον άγνωστων σύντομων κωδικών πρόσβασης:
 
-### 1. Brute-Force Numeric PINs (4 to 6 Digits)
+### 1. Αριθμητικά PIN ωμής δύναμης (4 έως 6 ψηφία)
 ```bash
 fcrackzip -u -b -c 1 -l 4-6 secure.zip
 ```
-- Brute-Force Attacks (`-b`)
-- `-c 1`: Character set: digits only (`0-9`).
-- When dictionary attacks fail, brute-force against unknown short passwords:
+- `-b`: Λειτουργία ωμής δύναμης.
+- `-c 1`: Σύνολο χαρακτήρων: μόνο ψηφία (`0-9`).
+- `-l 4-6`: Εύρος μήκους: min 4, max 6 χαρακτήρες.
 
-### 1. Brute-Force Numeric PINs (4 to 6 Digits)
+### 2. Μικροί αλφαριθμητικοί χαρακτήρες (1 έως 5 χαρακτήρες)
 ```bash
 fcrackzip -u -b -c a1 -l 1-5 archive.zip
 ```
-- `-b`: Brute-force mode.
+- `-c a1`: Μικρά γράμματα (`a-z`) και ψηφία (`0-9`).
 
-### `-l 4-6`: Length range: min 4, max 6 characters.
+### 3. Πεζά + κεφαλαία + ψηφία + σύμβολα
 ```bash
 fcrackzip -u -b -c aA1! -l 6-8 protected.zip
 ```
-- 2. Lowercase Alphanumeric Characters (1 to 5 Characters)
-- `-c A`: Uppercase letters (`A-Z`).
-- `-c a1`: Lowercase letters (`a-z`) and digits (`0-9`).
-- `-c !`: Special symbols (`[!:$%&/()=?{[]}+*~#]`).
+- `-c a`: Μικρά γράμματα (`a-z`).
+- `-c A`: Κεφαλαία γράμματα (`A-Z`).
+- `-c 1`: Αριθμοί (`0-9`).
+- `-c !`: Ειδικά σύμβολα (`[!:$%&/()=?{[]}+*~#]`).
 
 ---
 
-## `-c A`: Uppercase letters (`A-Z`).
+## Σύνολα χαρακτήρων & Προδιαγραφή μήκους
 
-|Σημαία|Character Set Included|Example Candidates|
+| Σημαία | Περιλαμβάνεται σετ χαρακτήρων | Παράδειγμα Υποψηφίων |
 |---|---|---|
-|`-c a`|Lowercase letters (`a-z`)|`admin`, `secret`|
-|`-c A`|Uppercase letters (`A-Z`)|`SECRET`, `ROOT`|
-|`-c 1`|Digits (`0-9`)|`1234`, `2024`|
-|`-c !`|Special punctuation characters|`!@#$`|
-|`-c aA1`|Combined alphanumeric characters|`Admin123`|
-|`-p <prefix>`|Initial starting seed string|Useful to resume brute force|
+| `-c a` | Μικρά γράμματα (`a-z`) | `admin`, `secret` |
+| `-c A` | Κεφάλαια γράμματα (`A-Z`) | `SECRET`, `ROOT` |
+| `-c 1` | Ψηφία (`0-9`) | `1234`, `2024` |
+| `-c !` | Ειδικοί χαρακτήρες στίξης | `!@#$` |
+| `-c aA1` | Συνδυαστικοί αλφαριθμητικοί χαρακτήρες | `Admin123` |
+| `-p <prefix>` | Αρχική αρχική σειρά σπόρων | Χρήσιμο για την επανέναρξη της ωμής βίας |
 
-|`-c A`|Uppercase letters (`A-Z`)|`SECRET`, `ROOT`|
+Καθορισμός ορίων μήκους:
 ```bash
 # Minimum length 6, Maximum length 8
 -l 6-8
@@ -118,22 +119,19 @@ fcrackzip -u -b -c aA1! -l 6-8 protected.zip
 # Exact length 8
 -l 8-8
 ```
-
 ---
 
-## Benchmark & Performance Optimization
+## Βελτιστοποίηση σημείων αναφοράς και απόδοσης
 
-Test CPU throughput on your machine:
+Δοκιμάστε την απόδοση της CPU στο μηχάνημά σας:
 ```bash
 fcrackzip -B
 ```
-
 ---
 
-## ZipCrypto vs. AES-256 (John/Hashcat Alternative)
+## ZipCrypto εναντίον AES-256 (εναλλακτικό John/Hashcat)
 
-If `fcrackzip` returns `not a zipfile, or unsupported encryption type`, the archive is encrypted with AES-256 (WinZip AES). Use `zip2john`:
-
+Εάν το `fcrackzip` επιστρέψει το `not a zipfile, or unsupported encryption type`, το αρχείο κρυπτογραφείται με AES-256 (WinZip AES). Χρησιμοποιήστε το `zip2john`:
 ```bash
 # 1. Extract hash using zip2john
 zip2john aes_protected.zip > zip.hash

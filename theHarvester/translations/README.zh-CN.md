@@ -1,41 +1,45 @@
-# 🔍 theHarvester 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[theHarvester](https://github.com/laramies/theHarvester) is one of the most widely used open-source intelligence (OSINT) tools for gathering emails, subdomains, employee names, virtual hosts, open ports, and employee PGP keys from diverse public sources (search engines, PGP key servers, Shodan, Censys, Certspotter, etc.).
-
----
-
-## 📋 目录
-
-- [[Active DNS Verification & Brute-Forcing](#active-dns-verification--brute-forcing)](#supported-data-sources)
-- [安装](#installation--api-key-configuration)
-- [Many sources (Hunter, Shodan, Censys, Intelx, GitHub) require free or paid API keys.](#basic-domain-reconnaissance)
-- [Passive Multi-Source Harvesting](#passive-multi-source-harvesting)
-- [Active DNS Verification & Brute-Forcing](#active-dns-verification--brute-forcing)
-- [3. Virtual Host Verification (`-v`)](#output-formats-html-xml-json)
-- [2. Parse Discovered Subdomains with `jq`](#pentest-workflow-integration)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Active DNS Verification & Brute-Forcing](#active-dns-verification--brute-forcing)
 
-[Pentest Workflow Integration](#pentest-workflow-integration)
-- **Search Engines (Free / No Key)**: Google, Bing, DuckDuckGo, Yahoo, Baidu.
-- **Certificate Transparency**: CRT.sh, Certspotter.
-- **Code & Threat Repositories**: GitHub, AlienVault OTX, ThreatCrowd, Rapid7, VirusTotal.
-- **Reconnaissance & OSINT APIs**: Shodan, Censys, Hunter.io, SecurityTrails, Intelx, FullContact.
-- **Network / DNS**: Anubis, HackerTarget, DNSDumpster.
+# theHarvester 备忘单
+
+[theHarvester](https://github.com/laramies/theHarvester) 是最广泛使用的开源情报 (OSINT) 工具之一，用于从不同的公共来源（搜索引擎、PGP 密钥服务器、Shodan、Censys、Certspotter 等）收集电子邮件、子域、员工姓名、虚拟主机、开放端口和员工 PGP 密钥。
 
 ---
 
-## 安装
+## 目录
 
-### 安装
+- [支持的数据源](#supported-data-sources)
+- [安装和 API 密钥配置](#installation--api-key-configuration)
+- [基本域侦察](#basic-domain-reconnaissance)
+- [被动多源收获](#passive-multi-source-harvesting)
+- [主动 DNS 验证和暴力破解](#active-dns-verification--brute-forcing)
+- [输出格式（HTML、XML、JSON）](#output-formats-html-xml-json)
+- [Pentest 工作流程集成](#pentest-workflow-integration)
+
+---
+
+## 支持的数据源
+
+theHarvester 汇集了来自数十个被动和主动来源的情报：
+- **搜索引擎（免费/无密钥）：** Google、Bing、DuckDuckGo、Yahoo、Baidu。
+- **证书透明度：** CRT.sh、Certspotter。
+- **代码和威胁存储库：** GitHub、AlienVault OTX、ThreatCrowd、Rapid7、VirusTotal。
+- **侦察和 OSINT API：** Shodan、Censys、Hunter.io、SecurityTrails、Intelx、FullContact。
+- **网络/DNS：** Anubis、HackerTarget、DNSDumpster。
+
+---
+
+## 安装和 API 密钥配置
+
+### 1.安装
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y theharvester
@@ -48,10 +52,9 @@ python3 -m pip install -r requirements/base.txt
 # Test binary
 theHarvester -h
 ```
-
-### 2. Configure API Keys (`api-keys.yaml`)
-Many sources (Hunter, Shodan, Censys, Intelx, GitHub) require free or paid API keys.
-Create or edit `api-keys.yaml` in the configuration path:
+### 2.配置API密钥(`api-keys.yaml`)
+许多来源（Hunter、Shodan、Censys、Intelx、GitHub）需要免费或付费的 API 密钥。
+在配置路径中创建或编辑`api-keys.yaml`：
 ```yaml
 apikeys:
   hunter:
@@ -63,36 +66,33 @@ apikeys:
   securityTrails:
     key: "YOUR_SECURITYTRAILS_KEY"
 ```
-
 ---
 
-## Many sources (Hunter, Shodan, Censys, Intelx, GitHub) require free or paid API keys.
+## 基本域侦察
 
-### 1. Harvest Emails and Subdomains Using Free Engines
+### 1. 使用免费引擎收集电子邮件和子域名
 ```bash
 theHarvester -d example.com -l 500 -b duckduckgo,bing,crtsh
 ```
-- `-d <domain>`: Target domain to recon.
-- `-l <limit>`: Number of results to query per engine.
-- Basic Domain Reconnaissance
+- `-d <domain>`：要侦察的目标域。
+- `-l <limit>`：每个引擎查询的结果数。
+- `-b <sources>`：以逗号分隔的源列表（或 `all`）。
 
-### 1. Harvest Emails and Subdomains Using Free Engines
+### 2.查询所有配置的来源
 ```bash
 theHarvester -d example.com -l 500 -b all
 ```
-
 ---
 
-## Passive Multi-Source Harvesting
+## 被动多源采集
 
-Query specific threat intelligence and certificate transparency databases without sending traffic to the target:
+查询特定威胁情报和证书透明度数据库，而不向目标发送流量：
 
-### 1. Certificate Transparency & Threat Intel
+### 1. 证书透明度和威胁英特尔
 ```bash
 theHarvester -d example.com -b crtsh,certspotter,anubis,hackertarget,otx
 ```
-
-### 2. Target Specific Source Groups
+### 2. 针对特定源组
 ```bash
 # Query GitHub commits and issues for leaked emails and subdomains
 theHarvester -d example.com -b github-code
@@ -100,55 +100,49 @@ theHarvester -d example.com -b github-code
 # Query Shodan for discovered IP addresses and open ports
 theHarvester -d example.com -b shodan
 ```
-
 ---
 
-## Active DNS Verification & Brute-Forcing
+## 主动 DNS 验证和暴力破解
 
-### 1. Resolve Discovered Subdomains (`-r`)
-Perform active DNS lookups to verify if collected subdomains are currently live:
+### 1. 解析发现的子域 (`-r`)
+执行主动 DNS 查找以验证收集的子域当前是否有效：
 ```bash
 theHarvester -d example.com -b crtsh,bing -r
 ```
-
-### Active DNS Verification & Brute-Forcing
-Perform wordlist-based DNS subdomain brute-forcing directly within theHarvester:
+### 2. DNS 暴力破解 (`-c`)
+直接在 theHarvester 中执行基于单词列表的 DNS 子域暴力破解：
 ```bash
 theHarvester -d example.com -b duckduckgo -c
 ```
-
-### 3. Virtual Host Verification (`-v`)
-Verify virtual hosts via HTTP requests:
+### 3.虚拟主机验证（`-v`）
+通过 HTTP 请求验证虚拟主机：
 ```bash
 theHarvester -d example.com -b duckduckgo -v
 ```
-
 ---
 
-## 3. Virtual Host Verification (`-v`)
+## 输出格式（HTML、XML、JSON）
 
-Export results for automated reporting or downstream reconnaissance:
+导出结果以进行自动报告或下游侦察：
 
-### 1. Export to HTML & XML
+### 1. 导出为 HTML 和 XML
 ```bash
 theHarvester -d example.com -b duckduckgo,crtsh -f /tmp/theharvester_results
 ```
-Output Formats (HTML, XML, JSON)
+创建 `/tmp/theharvester_results.html` 和 `/tmp/theharvester_results.xml`。
 
-### Export results for automated reporting or downstream reconnaissance:
-If exporting or parsing JSON:
+### 2. 使用 `jq` 解析发现的子域
+如果导出或解析 JSON：
 ```bash
 theHarvester -d example.com -b crtsh,duckduckgo -f recon_out
 # Extract clean host list
 cat recon_out.xml | grep -oP '(?<=<host>).*?(?=</host>)' | sort -u > live_hosts.txt
 ```
-
 ---
 
-## 2. Parse Discovered Subdomains with `jq`
+## 渗透测试工作流程集成
 
-Chain theHarvester results directly with active vulnerability scanners:
-
+将 theHarvester 结果直接与主动漏洞扫描程序链接起来：
 ```bash
 # 1. Harvest passive subdomains
 theHarvester -d target.corp -b crtsh,duckduckgo,bing -f target_recon

@@ -1,12 +1,16 @@
-# 🦀 RustScan — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦀 RustScan - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ██╗   ██╗███████╗████████╗███████╗ ██████╗ █████╗ ███╗   ██╗
   ██╔══██╗██║   ██║██╔════╝╚══██╔══╝██╔════╝██╔════╝██╔══██╗████╗  ██║
@@ -16,7 +20,6 @@
   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
        The Modern Port Scanner - Scan All 65k Ports in 3 Seconds into Nmap
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/RustScan-Port_Scanner-blue?style=for-the-badge" alt="RustScan">
   <img src="https://img.shields.io/badge/Language-Rust-orange?style=for-the-badge" alt="Language Rust">
@@ -25,50 +28,49 @@
 </p>
 
 <p align="center">
-  <b>🌐 Fast, customizable, and automated port scanner designed to pipe discovered open ports directly into Nmap scripts</b>
+  <b>🌐 Γρήγορος, προσαρμόσιμος και αυτοματοποιημένος σαρωτής θυρών που έχει σχεδιαστεί για να διοχετεύει ανοιχτές θύρες απευθείας σε σενάρια Nmap</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--architecture)
-- [Tool Comparison: RustScan vs Nmap vs Masscan](#-tool-comparison-rustscan-vs-nmap-vs-masscan)
-- [Εγκατάσταση](#-installation)
-- [Βασική σύνταξη](#-basic-usage--single-host-scanning)
+- [Επισκόπηση & Αρχιτεκτονική](#-επισκόπηση--αρχιτεκτονική)
+- [Σύγκριση εργαλείων: RustScan vs Nmap vs Masscan](#-tool-comparison-rustscan-vs-nmap-vs-masscan)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Βασική χρήση και σάρωση μεμονωμένου κεντρικού υπολογιστή] (#-βασική-χρήση--σάρωση ενός κεντρικού υπολογιστή)
 - [Automated Nmap Integration](#-automated-nmap-integration)
 - [Performance Tuning (`ulimit` & Batch Size)](#-performance-tuning-ulimit--batch-size)
 - [Scanning Port Ranges & CIDR Subnets](#-scanning-port-ranges--cidr-subnets)
-- [Scripting & Output Formatting](#-scripting--output-formatting)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Scripting & Output Formatting] (#-scripting--output-formatting)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική
 
-**RustScan** is a modern, high-speed port scanner engineered in **Rust**. Its core philosophy is simple: **scan ports blazingly fast, find open ports across the entire 1-65535 spectrum in 3 seconds, and immediately hand off those open ports to Nmap for comprehensive service and vulnerability scanning**.
+Το **RustScan** είναι ένας σύγχρονος σαρωτής θύρας υψηλής ταχύτητας κατασκευασμένος σε **Rust**. Η βασική του φιλοσοφία είναι απλή: **σαρώστε τις θύρες απίστευτα γρήγορα, βρείτε ανοιχτές θύρες σε ολόκληρο το φάσμα 1-65535 σε 3 δευτερόλεπτα και παραδώστε αμέσως αυτές τις ανοιχτές θύρες στο Nmap για ολοκληρωμένη εξυπηρέτηση και σάρωση ευπάθειας**.
 
-Instead of waiting 10–20 minutes for `nmap -p-` to complete its sequential TCP handshake sweeps, RustScan leverages asynchronous multi-threading and OS socket batching to pinpoint open ports almost instantaneously.
+Αντί να περιμένει 10–20 λεπτά για να ολοκληρώσει το `nmap -p-` τις διαδοχικές σαρώσεις χειραψίας TCP, το RustScan αξιοποιεί την ασύγχρονη multi-threading και δέσμη OS για να εντοπίσει τις ανοιχτές θύρες σχεδόν στιγμιαία.
 
 ---
 
-## ⚖️ Tool Comparison: RustScan vs Nmap vs Masscan
+## ⚖️ Σύγκριση εργαλείων: RustScan vs Nmap vs Masscan
 
-|Feature|RustScan|Nmap|Masscan|
+| Χαρακτηριστικό | RustScan | Nmap | Masscan |
 |---------|----------|------|---------|
-|**Primary Goal**|Fast discovery -> Nmap pipe|Deep service & NSE scripts|High-rate internet-wide SYN scan|
-|**All-Ports Speed (1-65535)**|⭐⭐⭐⭐⭐ (~3 seconds)|⭐⭐ (5–20 minutes)|⭐⭐⭐⭐⭐ (~2 seconds)|
-|**Service Version Detection**|Via Nmap pipe|Native (`-sV`)|❌ Minimal|
-|**NSE Script Engine**|Via Nmap pipe|Native (`-sC`, `--script`)|❌ No|
-|**Packet Engine**|Async TCP Sockets|Raw IP / Custom TCP stack|Custom Asynchronous SYN stack|
-|**Ease of Automation**|Native CLI arguments (`--`)|Extensive CLI options|High complexity|
+| **Κύριος στόχος** | Γρήγορη ανακάλυψη -> Σωλήνας Nmap | Deep service & σενάρια NSE | Σάρωση SYN σε όλο το διαδίκτυο υψηλής ταχύτητας |
+| **Ταχύτητα All-Ports (1-65535)**| ⭐⭐⭐⭐⭐ (~3 δευτερόλεπτα) | ⭐⭐ (5–20 λεπτά) | ⭐⭐⭐⭐⭐ (~2 δευτερόλεπτα) |
+| **Εντοπισμός έκδοσης υπηρεσίας**| Μέσω σωλήνα Nmap | Εγγενής (`-sV`) | ❌ Ελάχιστο |
+| **Μηχανή δέσμης ενεργειών NSE** | Μέσω σωλήνα Nmap | Εγγενής (`-sC`, `--script`) | ❌ Όχι |
+| **Μηχανή πακέτων** | Async TCP Sockets | Ακατέργαστη στοίβα IP / Προσαρμοσμένη στοίβα TCP | Προσαρμοσμένη στοίβα Asynchronous SYN |
+| **Ευκολία Αυτοματισμού** | Εγγενή ορίσματα CLI (`--`) | Εκτεταμένες επιλογές CLI | Υψηλή πολυπλοκότητα |
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux (.deb package)
 wget https://github.com/RustScan/RustScan/releases/download/2.3.0/rustscan_2.3.0_amd64.deb
@@ -83,11 +85,9 @@ cargo install rustscan
 # Docker Container
 docker run -it --rm --name rustscan rustscan/rustscan:2.1.1 -a 10.10.10.50
 ```
-
 ---
 
-## 🚀 Βασική σύνταξη
-
+## 🚀 Βασική χρήση και σάρωση μεμονωμένου κεντρικού υπολογιστή
 ```bash
 # Scan all 65,535 ports on a single IP
 rustscan -a 10.10.10.50
@@ -98,13 +98,11 @@ rustscan -a 10.10.10.50 --greppable
 # Quiet mode (suppresses the ASCII banner)
 rustscan -q -a 10.10.10.50
 ```
-
 ---
 
-## 🔗 Automated Nmap Integration
+## 🔗 Αυτοματοποιημένη ενσωμάτωση Nmap
 
-RustScan's most powerful feature is passing open ports straight to Nmap using the trailing `--` separator:
-
+Το πιο ισχυρό χαρακτηριστικό του RustScan είναι η μετάδοση ανοιχτών θυρών απευθείας στο Nmap χρησιμοποιώντας το διαχωριστικό `--`:
 ```bash
 # Scan target and execute default safe scripts & version detection on open ports
 rustscan -a 10.10.10.50 -- -sC -sV
@@ -115,13 +113,11 @@ rustscan -a 10.10.10.50 -- -sC -sV -oN nmap_report.txt
 # Run vulnerability audit with Nmap Vuln scripts
 rustscan -a 10.10.10.50 -- --script vuln -oA target_vulns
 ```
-
 ---
 
-## ⚡ Performance Tuning (`ulimit` & Batch Size)
+## ⚡ Συντονισμός απόδοσης (`ulimit` & μέγεθος παρτίδας)
 
-RustScan relies on your operating system's file descriptor limits. By default, it auto-adjusts, but manual tuning provides peak performance:
-
+Το RustScan βασίζεται στα όρια περιγραφής αρχείων του λειτουργικού σας συστήματος. Από προεπιλογή, προσαρμόζεται αυτόματα, αλλά ο χειροκίνητος συντονισμός παρέχει κορυφαία απόδοση:
 ```bash
 # Increase batch size and socket ulimit for high-speed local networks
 rustscan -a 10.10.10.50 -b 5000 -u 5000
@@ -129,11 +125,9 @@ rustscan -a 10.10.10.50 -b 5000 -u 5000
 # Lower batch size for high-latency or packet-dropping WiFi networks
 rustscan -a 10.10.10.50 -b 500 --scan-order "random"
 ```
-
 ---
 
-## 🌐 Scanning Port Ranges & CIDR Subnets
-
+## 🌐 Εύρος θυρών σάρωσης και υποδίκτυα CIDR
 ```bash
 # Scan a specific port range instead of all ports
 rustscan -a 10.10.10.50 -r 1-1000
@@ -144,11 +138,9 @@ rustscan -a 10.10.10.50,10.10.10.51
 # Scan an entire CIDR subnet range
 rustscan -a 192.168.1.0/24
 ```
-
 ---
 
-## 📊 Scripting & Output Formatting
-
+## 📊 Σενάριο & Μορφοποίηση εξόδου
 ```bash
 # Output discovered open ports in JSON format
 rustscan -a 10.10.10.50 --accessible
@@ -156,32 +148,31 @@ rustscan -a 10.10.10.50 --accessible
 # Read target hosts from a file
 rustscan -a 'hosts.txt'
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Scan All 65k Ports**|`rustscan -a <IP>`|
-|**Scan All Ports + Nmap Scripts**|`rustscan -a <IP> -- -sC -sV`|
-|**Scan CIDR Subnet**|`rustscan -a <SUBNET>/24`|
-|**Scan Port Range**|`rustscan -a <IP> -r 1-1000`|
-|**Tune Batch Size & ulimit**|`rustscan -a <IP> -b 3000 -u 3000`|
-|**Quiet Mode (No Banner)**|`rustscan -q -a <IP>`|
-|**Greppable Output**|`rustscan -a <IP> --greppable`|
-|**Export to Nmap File**|`rustscan -a <IP> -- -sC -sV -oN nmap.txt`|
+| **Σάρωση όλων των θυρών 65k** | `rustscan -a <IP>` |
+| **Σάρωση όλων των θυρών + σενάρια Nmap**| `rustscan -a <IP> -- -sC -sV` |
+| **Σάρωση υποδικτύου CIDR** | `rustscan -a <SUBNET>/24` |
+| **Scan Port Range** | `rustscan -a <IP> -r 1-1000` |
+| **Συντονίστε το μέγεθος παρτίδας και το όριο** | `rustscan -a <IP> -b 3000 -u 3000` |
+| **Αθόρυβη λειτουργία (Χωρίς Banner)** | `rustscan -q -a <IP>` |
+| **Greppable Έξοδος** | `rustscan -a <IP> --greppable` |
+| **Εξαγωγή σε αρχείο Nmap** | `rustscan -a <IP> -- -sC -sV -oN nmap.txt` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Αμυντικές Θεωρήσεις & OPSEC
 
-1. **Massive Noise & IDS Alerts:** Scanning 65k ports in 3 seconds generates thousands of TCP SYN packets instantaneously. It will trigger Snort, Suricata, and firewall rate-limiting immediately.
-2. **SYN Flooding & Dropped Packets:** On unstable VPN links (e.g., HackTheBox, TryHackMe), high batch sizes (`-b 4000`) can cause packet loss. If results seem inconsistent, lower the batch size to `-b 1000`.
+1. **Ειδοποιήσεις μαζικού θορύβου και IDS:** Η σάρωση 65k θυρών σε 3 δευτερόλεπτα δημιουργεί χιλιάδες πακέτα TCP SYN στιγμιαία. Θα ενεργοποιήσει αμέσως το Snort, το Suricata και τον περιορισμό του ρυθμού τείχους προστασίας.
+2. **SYN Flooding & Dropped Packets:** Σε ασταθείς συνδέσμους VPN (π.χ. HackTheBox, TryHackMe), τα υψηλά μεγέθη παρτίδας (`-b 4000`) μπορεί να προκαλέσουν απώλεια πακέτων. Εάν τα αποτελέσματα φαίνονται ασυνεπή, μειώστε το μέγεθος της παρτίδας σε `-b 1000`.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing and educational research only. Scanning networks without authorization is strictly prohibited.
+> [!ΠΡΟΣΟΧΗ]
+> Αυτό το cheatsheet προορίζεται μόνο για εξουσιοδοτημένες δοκιμές διείσδυσης και εκπαιδευτική έρευνα. Scanning networks without authorization is strictly prohibited.

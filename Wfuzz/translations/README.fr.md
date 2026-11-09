@@ -1,12 +1,16 @@
-# 🎯 Wfuzz — fiche pratique complète
-
 <!-- language-home-navigation -->
-[🏠 Accueil en français](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Page d'accueil Française](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎯 Wfuzz - Aide-mémoire complet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗    ██╗███████╗██╗   ██╗███████╗███████╗
   ██║    ██║██╔════╝██║   ██║╚══███╔╝╚══███╔╝
@@ -16,61 +20,59 @@
    ╚══╝╚══╝ ╚═╝      ╚═════╝ ╚══════╝╚══════╝
        The Flexible Web Application Fuzzer & Parameter Explorer
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Wfuzz-Web_Fuzzer-blue?style=for-the-badge" alt="Wfuzz">
   <img src="https://img.shields.io/badge/Language-Python-orange?style=for-the-badge" alt="Language Python">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security & API">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Sécurité Web et API">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Licence GPLv2">
 </p>
 
 <p align="center">
-  <b>🌐 Highly customizable HTTP fuzzer designed for discovering hidden parameters, bypasses, headers, and multi-payload matrices</b>
+  <b>🌐 Fuzzer HTTP hautement personnalisable conçu pour découvrir les paramètres cachés, les contournements, les en-têtes et les matrices multi-charges utiles</b>
 </p>
 
 ---
 
 ## 📋 Table des matières
 
-- [Introduction](#-overview--the-keyword-architecture)
-- [Wfuzz vs ffuf Comparison](#-wfuzz-vs-ffuf-comparison)
+- [Vue d'ensemble et architecture des mots-clés](#-overview--the-keyword-architecture)
+- [Comparaison Wfuzz vs ffuf] (#-wfuzz-vs-ffuf-comparison)
 - [Installation](#-installation)
-- [Basic Directory & File Discovery](#-basic-directory--file-discovery)
-- [Filtering & Hiding Noise (`--hc`, `--hl`, `--hw`, `--hh`)](#-filtering--hiding-noise---hc---hl---hw---hh)
-- [Payload Types & Dynamic Encoders (`-z`)](#-payload-types--dynamic-encoders--z)
-- [Options et paramètres](#-parameter--hidden-variable-fuzzing)
-- [Headers, Cookies & Authentication](#-headers-cookies--authentication)
-- [Multi-Variable Fuzzing (`FUZZ` and `FUZ2Z`)](#-multi-variable-fuzzing-fuzz-and-fuz2z)
-- [Routing Through Burp Suite (`-p`)](#-routing-through-burp-suite--p)
-- [Référence rapide](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Répertoire de base et découverte de fichiers](#-basic-directory--file-discovery)
+-[Filtrage et masquage du bruit (`--hc`, `--hl`, `--hw`, `--hh`)](#-filtrage--masquage-bruit---hc---hl---hw---hh)
+-[Types de charge utile et encodeurs dynamiques (`-z`)](#-payload-types--dynamic-encoders--z)
+- [Fuzzing des paramètres et variables cachées](#-paramètre--variable-cachée-fuzzing)
+-[En-têtes, cookies et authentification](#-headers-cookies--authentification)
+- [Fuzzing multi-variable (`FUZZ` et `FUZ2Z`)](#-multi-variable-fuzzing-fuzz-and-fuz2z)
+-[Routage via Burp Suite (`-p`)](#-routing-through-burp-suite--p)
+- [Tableau de référence rapide](#-quick-reference-table)
+- [Considérations défensives et OPSEC](#-defensive-considérations--opsec)
+- [Mentions légales](#-legal-disclaimer)
 
 ---
 
-## 🎯 Introduction
+## 🎯 Présentation et architecture des mots clés
 
-Written in Python by **Xavi Mendez**, **Wfuzz** is a classic, battle-tested tool for assessing web applications. It replaces designated placeholders (default: `FUZZ`) inside URLs, parameters, headers, and POST bodies with dictionary entries or algorithmically generated payloads.
+Écrit en Python par **Xavi Mendez**, **Wfuzz** est un outil classique et éprouvé pour évaluer les applications Web. Il remplace les espaces réservés désignés (par défaut : `FUZZ`) dans les URL, les paramètres, les en-têtes et les corps POST par des entrées de dictionnaire ou des charges utiles générées de manière algorithmique.
 
-Wfuzz stands out for its unmatched **payload versatility** (ranges, IP generators, regex strings, on-the-fly encoders like MD5 or Base64) and modular filtering mechanics.
+Wfuzz se distingue par sa **polyvalence de charge utile** inégalée (plages, générateurs IP, chaînes d'expressions régulières, encodeurs à la volée comme MD5 ou Base64) et sa mécanique de filtrage modulaire.
 
 ---
 
-## ⚖️ Wfuzz vs ffuf Comparison
+## ⚖️ Comparaison Wfuzz vs ffuf
 
-|Feature|Wfuzz|ffuf|
+| Fonctionnalité | Wfuzz | ffff |
 |---------|-------|------|
-|**Implementation Language**|nmap** (anciennes versions)|Go|
-|**Raw Speed**|⭐⭐⭐ (Good)|⭐⭐⭐⭐⭐ (Blazingly Fast)|
-|**Dynamic Payload Encoders**|✅ Native (`-z file,pass.txt,md5`)|❌ Requires external scripts|
-|**Multi-Payload Combinations**|✅ Native (`FUZZ`, `FUZ2Z`, `FUZ3Z`)|✅ Supported (`-w w1:W1 -w w2:W2`)|
-|**Built-in Payload Generators**|✅ Ranges, IPs, Hex, Dictionaries|❌ File wordlists only|
-|**Resource Usage**|Moderate RAM / CPU|Low Memory footprint|
+| **Langage d'implémentation** | Python | Aller |
+| **Vitesse brute** | ⭐⭐⭐ (Bon) | ⭐⭐⭐⭐⭐ (Incroyablement rapide) |
+| **Encodeurs de charge utile dynamiques**| ✅ Natif (`-z file,pass.txt,md5`)| ❌ Nécessite des scripts externes |
+| **Combinaisons multi-charges utiles**| ✅ Natif (`FUZZ`, `FUZ2Z`, `FUZ3Z`)| ✅ Pris en charge (`-w w1:W1 -w w2:W2`)|
+| **Générateurs de charge utile intégrés**| ✅ Plages, IP, Hex, Dictionnaires| ❌ Fichiers de listes de mots uniquement |
+| **Utilisation des ressources** | RAM/CPU modérés | Faible empreinte mémoire |
 
 ---
 
-## 📥 Installation
-
+## 📥Installation
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y wfuzz
@@ -81,11 +83,9 @@ pip3 install wfuzz
 # Arch Linux
 sudo pacman -S wfuzz
 ```
-
 ---
 
-## 🚀 Basic Directory & File Discovery
-
+## 🚀 Répertoire de base et découverte de fichiers
 ```bash
 # Basic directory fuzzing
 wfuzz -w /usr/share/wordlists/dirb/common.txt http://target.local/FUZZ
@@ -96,13 +96,11 @@ wfuzz -w extensions.txt http://target.local/index.FUZZ
 # Fuzzing hidden backup files
 wfuzz -w words.txt http://target.local/FUZZ.bak
 ```
-
 ---
 
-## 🎯 Filtering & Hiding Noise (`--hc`, `--hl`, `--hw`, `--hh`)
+## 🎯 Filtrage et masquage du bruit (`--hc`, `--hl`, `--hw`, `--hh`)
 
-Real-world servers return responses even for non-existent pages (custom 404 pages or redirects). Wfuzz provides fine-grained filtering flags:
-
+Les serveurs du monde réel renvoient des réponses même pour les pages inexistantes (pages 404 personnalisées ou redirections). Wfuzz fournit des indicateurs de filtrage précis :
 ```bash
 # Hide specific HTTP status codes (e.g. 404, 403)
 wfuzz -w wordlist.txt --hc 404,403 http://target.local/FUZZ
@@ -119,13 +117,11 @@ wfuzz -w wordlist.txt --hh 0,1052 http://target.local/FUZZ
 # Show ONLY HTTP 200 and 302 responses
 wfuzz -w wordlist.txt --sc 200,302 http://target.local/FUZZ
 ```
-
 ---
 
-## 📦 Payload Types & Dynamic Encoders (`-z`)
+## 📦 Types de charge utile et encodeurs dynamiques (`-z`)
 
-Wfuzz provides built-in generators that eliminate the need for pre-generated text files:
-
+Wfuzz fournit des générateurs intégrés qui éliminent le besoin de fichiers texte pré-générés :
 ```bash
 # Numeric Range Fuzzing (e.g., IDOR testing from 1 to 500)
 wfuzz -z range,1-500 http://target.local/user.php?id=FUZZ
@@ -139,13 +135,11 @@ wfuzz -z file,passwords.txt,md5 http://target.local/login?hash=FUZZ
 # On-the-fly Base64 encoding
 wfuzz -z file,usernames.txt,base64 http://target.local/auth?token=FUZZ
 ```
-
 ---
 
-## 🔍 Options et paramètres
+## 🔍 Fuzzing des paramètres et des variables cachées
 
-Discover unlinked GET/POST parameters:
-
+Découvrez les paramètres GET/POST non liés :
 ```bash
 # GET parameter discovery
 wfuzz -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt \
@@ -154,11 +148,9 @@ wfuzz -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt \
 # POST body parameter discovery
 wfuzz -w parameters.txt -d "FUZZ=admin" --hc 404 http://target.local/api/update
 ```
-
 ---
 
-## 🍪 Headers, Cookies & Authentication
-
+## 🍪 En-têtes, cookies et authentification
 ```bash
 # Cookie Fuzzing (Session hijacking / privilege testing)
 wfuzz -w wordlist.txt -b "session=FUZZ" http://target.local/dashboard
@@ -169,13 +161,11 @@ wfuzz -z file,ips.txt -H "X-Forwarded-For: FUZZ" http://target.local/admin
 # Basic Authentication brute force
 wfuzz -z file,users.txt -z file,passwords.txt --basic "FUZZ:FUZ2Z" http://target.local/protected/
 ```
-
 ---
 
-## ⚡ Multi-Variable Fuzzing (`FUZZ` and `FUZ2Z`)
+## ⚡ Fuzzing multi-variable (`FUZZ` et `FUZ2Z`)
 
-Combine multiple wordlists using distinct placeholder tags:
-
+Combinez plusieurs listes de mots à l'aide de balises d'espace réservé distinctes :
 ```bash
 # Test username and password matrix simultaneously
 wfuzz -w users.txt -w passwords.txt -d "user=FUZZ&pass=FUZ2Z" --hc 200 http://target.local/login.php
@@ -183,44 +173,41 @@ wfuzz -w users.txt -w passwords.txt -d "user=FUZZ&pass=FUZ2Z" --hc 200 http://ta
 # Fuzz path and extension together
 wfuzz -w words.txt -w extensions.txt http://target.local/FUZZ.FUZ2Z
 ```
-
 ---
 
-## 🔁 Routing Through Burp Suite (`-p`)
+## 🔁 Routage via Burp Suite (`-p`)
 
-Inspect payloads and responses inside Burp Suite:
-
+Inspectez les charges utiles et les réponses dans Burp Suite :
 ```bash
 # Route requests through local Burp Suite proxy
 wfuzz -p 127.0.0.1:8080:HTTP -w wordlist.txt http://target.local/FUZZ
 ```
-
 ---
 
-## ⚡ Référence rapide
+## ⚡ Tableau de référence rapide
 
-|Objective|Commande|
+| Objectif | Commande |
 |-----------|---------|
-|**Directory Fuzzing**|`wfuzz -w <DICT> <URL>/FUZZ`|
-|**Hide HTTP Status Codes**|`wfuzz -w <DICT> --hc 404,403 <URL>/FUZZ`|
-|**Hide by Response Length**|`wfuzz -w <DICT> --hh <LENGTH> <URL>/FUZZ`|
-|**Fuzz GET Parameter**|`wfuzz -w <PARAMS> "<URL>?FUZZ=test"`|
-|**Fuzz POST Body**|`wfuzz -w <PARAMS> -d "FUZZ=test" <URL>`|
-|**Numeric Range Payloads**|`wfuzz -z range,1-100 "<URL>?id=FUZZ"`|
-|**Encode Payloads on the Fly**|`wfuzz -z file,<DICT>,base64 "<URL>?token=FUZZ"`|
-|**Multi-Keyword Fuzzing**|`wfuzz -w <W1> -w <W2> -d "u=FUZZ&p=FUZ2Z" <URL>`|
-|**Route via Burp Proxy**|`wfuzz -p 127.0.0.1:8080:HTTP -w <DICT> <URL>/FUZZ`|
+| **Fuzzing de répertoire** | `wfuzz -w <DICT> <URL>/FUZZ` |
+| **Masquer les codes d'état HTTP** | `wfuzz -w <DICT> --hc 404,403 <URL>/FUZZ` |
+| **Masquer par longueur de réponse** | `wfuzz -w <DICT> --hh <LENGTH> <URL>/FUZZ` |
+| **Paramètre Fuzz GET** | `wfuzz -w <PARAMS> "<URL>?FUZZ=test"` |
+| **Corps Fuzz POST** | `wfuzz -w <PARAMS> -d "FUZZ=test" <URL>` |
+| **Charges utiles à plage numérique** | `wfuzz -z range,1-100 "<URL>?id=FUZZ"` |
+| **Encodez les charges utiles à la volée**| `wfuzz -z file,<DICT>,base64 "<URL>?token=FUZZ"` |
+| **Fuzzing multi-mots-clés** | `wfuzz -w <W1> -w <W2> -d "u=FUZZ&p=FUZ2Z" <URL>` |
+| **Itinéraire via Burp Proxy** | `wfuzz -p 127.0.0.1:8080:HTTP -w <DICT> <URL>/FUZZ` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Considérations défensives et OPSEC
 
-1. **WAF Blocking:** Fuzzing hundreds of requests per second triggers Cloudflare, AWS WAF, and ModSecurity rate limiting. Use `-s <seconds>` to throttle request velocity.
-2. **Resource Exhaustion:** Heavy fuzzing on unindexed database queries can cause Denial of Service (DoS) conditions on legacy web servers.
+1. **Blocage WAF :** Le fuzzing de centaines de requêtes par seconde déclenche la limitation du débit Cloudflare, AWS WAF et ModSecurity. Utilisez `-s <seconds>` pour limiter la vitesse des requêtes.
+2. **Épuisement des ressources :** Un fuzz important sur les requêtes de bases de données non indexées peut entraîner des conditions de déni de service (DoS) sur les serveurs Web existants.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Mentions légales
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing and vulnerability auditing only. Fuzzing unauthorized applications is strictly prohibited.
+> [!ATTENTION]
+> Cette aide-mémoire est destinée uniquement aux tests d'intrusion et aux audits de vulnérabilité autorisés. Le fuzzing d’applications non autorisées est strictement interdit.

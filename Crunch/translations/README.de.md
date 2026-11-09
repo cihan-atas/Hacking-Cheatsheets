@@ -1,12 +1,16 @@
-# 🔢 Crunch – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔢 Crunch – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗██████╗ ██╗   ██╗███╗   ██╗ ██████╗██╗  ██╗
   ██╔════╝██╔══██╗██║   ██║████╗  ██║██╔════╝██║  ██║
@@ -16,7 +20,6 @@
    ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝
        High-Speed Pattern-Based Wordlist & Character Matrix Generator
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Crunch-Wordlist_Generator-blue?style=for-the-badge" alt="Crunch">
   <img src="https://img.shields.io/badge/Language-C-orange?style=for-the-badge" alt="Language C">
@@ -25,37 +28,36 @@
 </p>
 
 <p align="center">
-  <b>🌐 Wordlist generator that generates all possible combinations of character sets using custom lengths, patterns, and symbols</b>
+  <b>🌐 Wortlistengenerator, der alle möglichen Kombinationen von Zeichensätzen mit benutzerdefinierten Längen, Mustern und Symbolen generiert</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--the-permutation-engine)
-- [Installation](#-installation)
-- [Grundsyntax](#-basic-syntax--character-sets)
-- [Pattern Matching & Placeholders (`-t`)](#-pattern-matching--placeholders--t)
-- [Using System Charsets (`charset.lst`)](#-using-system-charsets-charsetlst)
-- [Duplicate Character Limiting (`-d`)](#-duplicate-character-limiting--d)
-- [Splitting Wordlists into Chunks (`-b` & `-c`)](#-splitting-wordlists-into-chunks--b---c)
-- [Piping Directly into Attack Tools (Zero Disk Space)](#-piping-directly-into-attack-tools-zero-disk-space)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & Calculation Warnings](#-defensive-considerations--calculation-warnings)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Übersicht und die Permutations-Engine](#-overview--the-permutation-engine)
+- [Installation](#-Installation)
+- [Grundlegende Syntax und Zeichensätze](#-basic-syntax--character-sets)
+- [Mustervergleich und Platzhalter (`-t`)](#-pattern-matching--placeholders--t)
+- [Verwendung von Systemzeichensätzen (`charset.lst`)](#-using-system-charsets-charsetlst)
+- [Beschränkung doppelter Zeichen (`-d`)](#-duplicate-character-limiting--d)
+- [Wortlisten in Blöcke aufteilen (`-b` & `-c`)](#-splitting-wordlists-into-chunks--b---c)
+- [Direktes Weiterleiten an Attack Tools (kein Speicherplatz)](#-piping-directly-into-attack-tools-zero-disk-space)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Defensive Überlegungen und Berechnungswarnungen](#-defensive-considerations--calculation-warnings)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Übersicht und die Permutations-Engine
 
-When attacking known password patterns (e.g., corporate PINs, phone numbers, or passwords conforming to standard complexity rules like `Word2026!`), standard static dictionaries like `rockyou.txt` are either missing the target or inefficient.
+Beim Angriff auf bekannte Passwortmuster (z. B. Unternehmens-PINs, Telefonnummern oder Passwörter, die Standardkomplexitätsregeln wie `Word2026!` entsprechen) verfehlen standardmäßige statische Wörterbücher wie `rockyou.txt` entweder das Ziel oder sind ineffizient.
 
-Written in C by **bofheaded**, **Crunch** is a blazingly fast wordlist generator. It calculates permutations mathematically, allowing you to define exact character positions, lengths, character pools, and duplication constraints.
+**Crunch** wurde von **bofheaded** in C geschrieben und ist ein rasend schneller Wortlistengenerator. Es berechnet Permutationen mathematisch und ermöglicht Ihnen die Definition exakter Zeichenpositionen, Längen, Zeichenpools und Duplikationsbeschränkungen.
 
 ---
 
 ## 📥 Installation
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y crunch
@@ -63,13 +65,11 @@ sudo apt update && sudo apt install -y crunch
 # Arch Linux (AUR)
 yay -S crunch
 ```
-
 ---
 
-## 🚀 Grundsyntax
+## 🚀 Grundlegende Syntax und Zeichensätze
 
-The core syntax requires minimum length, maximum length, and optionally an alphabet:
-
+Die Kernsyntax erfordert eine Mindestlänge, eine Höchstlänge und optional ein Alphabet:
 ```bash
 # crunch <min> <max> [characterset] [options]
 
@@ -82,22 +82,20 @@ crunch 5 5 abcdef -o custom_words.txt
 # Generate lowercase alphabet combinations from length 3 to 4
 crunch 3 4 abcdefghijklmnopqrstuvwxyz -o alpha_3_4.txt
 ```
-
 ---
 
-## 🎭 Pattern Matching & Placeholders (`-t`)
+## 🎭 Mustervergleich und Platzhalter (`-t`)
 
-The `-t` flag allows fixing known characters while fuzzing the unknown slots using special placeholders:
+Das `-t`-Flag ermöglicht das Korrigieren bekannter Zeichen und das Fuzzing unbekannter Slots mithilfe spezieller Platzhalter:
 
-|Placeholder|Character Type|
+| Platzhalter | Zeichentyp |
 |-------------|----------------|
-|`@`|Lowercase letters (`a-z`)|
-|`,`|Uppercase letters (`A-Z`)|
-|`%`|Numbers (`0-9`)|
-|`^`|Special symbols / punctuation (`!@#$%^&*...`)|
+| `@` | Kleinbuchstaben (`a-z`) |
+| `,` | Großbuchstaben (`A-Z`) |
+| `%` | Zahlen (`0-9`) |
+| `^` | Sonderzeichen/Satzzeichen (`!@#$%^&*...`) |
 
-### Praxisbeispiele
-
+### Praktische Musterbeispiele:
 ```bash
 # Generate Turkish phone numbers (e.g., 0532XXXXXXX)
 crunch 11 11 -t 0532%%%%%%% -o phone_numbers.txt
@@ -109,13 +107,11 @@ crunch 8 8 -t ,@@@@%%^ -o policy_passwords.txt
 # Target known prefix: Spring2026! or Spring2026#
 crunch 11 11 -t Spring2026^ -o spring_passwords.txt
 ```
-
 ---
 
-## 📚 Using System Charsets (`charset.lst`)
+## 📚 Systemzeichensätze verwenden (`charset.lst`)
 
-Crunch bundles pre-configured character matrices in `/usr/share/crunch/charset.lst`:
-
+Crunch bündelt vorkonfigurierte Zeichenmatrizen in `/usr/share/crunch/charset.lst`:
 ```bash
 # Use pre-defined alphanumeric set (mixalpha-numeric)
 crunch 6 6 -f /usr/share/crunch/charset.lst mixalpha-numeric -o out.txt
@@ -123,13 +119,11 @@ crunch 6 6 -f /usr/share/crunch/charset.lst mixalpha-numeric -o out.txt
 # Use hexadecimal lowercase characters (0-9, a-f)
 crunch 8 8 -f /usr/share/crunch/charset.lst hex-lower -o hex_keys.txt
 ```
-
 ---
 
-## 🚫 Duplicate Character Limiting (`-d`)
+## 🚫 Beschränkung doppelter Zeichen (`-d`)
 
-Enforce limits on consecutive duplicate characters to weed out unlikely passwords:
-
+Setzen Sie Beschränkungen für aufeinanderfolgende doppelte Zeichen durch, um unwahrscheinliche Passwörter auszusortieren:
 ```bash
 # Generate 8-character lowercase words with at most 2 consecutive identical letters
 # (e.g., prevents 'aaabbb' while allowing 'aab')
@@ -138,13 +132,11 @@ crunch 8 8 abcdefghijklmnopqrstuvwxyz -d 2@ -o deduped.txt
 # Limit consecutive numbers to at most 1 (prevents '11' or '22')
 crunch 6 6 -t %%%%%% -d 1% -o no_repeated_digits.txt
 ```
-
 ---
 
-## 📦 Splitting Wordlists into Chunks (`-b` & `-c`)
+## 📦 Wortlisten in Blöcke aufteilen (`-b` & `-c`)
 
-Prevent multi-terabyte files from exhausting disk space by splitting them into manageable volumes:
-
+Verhindern Sie, dass Multi-Terabyte-Dateien den Speicherplatz beanspruchen, indem Sie sie in überschaubare Volumes aufteilen:
 ```bash
 # Split wordlist into 500MB chunks
 crunch 8 8 -f /usr/share/crunch/charset.lst mixalpha-numeric -b 500mb -o START
@@ -152,13 +144,11 @@ crunch 8 8 -f /usr/share/crunch/charset.lst mixalpha-numeric -b 500mb -o START
 # Split by line count (every 1,000,000 lines)
 crunch 8 8 0123456789 -c 1000000 -o START
 ```
-
 ---
 
-## ⚡ Piping Directly into Attack Tools (Zero Disk Space)
+## ⚡ Direktes Weiterleiten an Angriffstools (kein Speicherplatz)
 
-Never write gigantic wordlists to disk when you can stream permutations directly into cracking tools:
-
+Schreiben Sie niemals riesige Wortlisten auf die Festplatte, wenn Sie Permutationen direkt in Cracking-Tools streamen können:
 ```bash
 # Stream 8-digit numeric PINs straight into Aircrack-ng
 crunch 8 8 0123456789 | aircrack-ng -w - -b 00:11:22:33:44:55 capture.cap
@@ -169,32 +159,31 @@ crunch 8 8 -t Admin%%^ | hydra -l admin -P - 10.10.10.50 ssh
 # Stream into John the Ripper
 crunch 6 6 0123456789 | john --stdin --format=raw-md5 hashes.txt
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Objective|Befehl|
+| Ziel | Befehl |
 |-----------|---------|
-|**Numeric PINs (4-digit)**|`crunch 4 4 0123456789 -o pins.txt`|
-|**Pattern: Capital + Word + Numbers**|`crunch 8 8 -t ,@@@@%%^ -o passwords.txt`|
-|**Pattern: Specific Prefix**|`crunch 10 10 -t Company%%% -o wordlist.txt`|
-|**Use Charset File**|`crunch 6 6 -f charset.lst mixalpha-numeric -o out.txt`|
-|**Limit Consecutive Identical**|`crunch 8 8 -t @@@@@@@@ -d 2@ -o out.txt`|
-|**Split into 1GB Files**|`crunch 8 8 <CHARS> -b 1gb -o START`|
-|**Pipe to Aircrack-ng**|`crunch 8 8 0123456789 \|aircrack-ng -w - target.cap`|
-|**Pipe to Hydra**|`crunch 7 7 -t User%%% \|hydra -l user -P - <IP> ssh`|
+| **Numerische PINs (4-stellig)** | `crunch 4 4 0123456789 -o pins.txt` |
+| **Muster: Großbuchstabe + Wort + Zahlen**| `crunch 8 8 -t ,@@@@%%^ -o passwords.txt` |
+| **Muster: Spezifisches Präfix** | `crunch 10 10 -t Company%%% -o wordlist.txt` |
+| **Zeichensatzdatei verwenden** | `crunch 6 6 -f charset.lst mixalpha-numeric -o out.txt` |
+| **Aufeinanderfolgende Identische beschränken**| `crunch 8 8 -t @@@@@@@@ -d 2@ -o out.txt` |
+| **In 1-GB-Dateien aufteilen** | `crunch 8 8 <CHARS> -b 1gb -o START` |
+| **Rohr zu Aircrack-ng** | `crunch 8 8 0123456789 \| aircrack-ng -w - target.cap` |
+| **Rohr zur Hydra** | `crunch 7 7 -t User%%% \| hydra -l user -P - <IP> ssh` |
 
 ---
 
-## 🛡️ Defensive Considerations & Calculation Warnings
+## 🛡️ Defensive Überlegungen und Berechnungswarnungen
 
-|**Pipe to Hydra**|`crunch 7 7 -t User%%% \|hydra -l user -P - <IP> ssh`|
-> **Permutation Explosions:** Always check Crunch's projected output size before confirming disk generation. An unconstrained 8-character alphanumeric wordlist produces **over 200 Terabytes** of text data! Pipe output whenever possible.
+> [!WARNUNG]
+> **Permutationsexplosionen:** Überprüfen Sie immer die projizierte Ausgabegröße von Crunch, bevor Sie die Festplattengenerierung bestätigen. Eine uneingeschränkte alphanumerische Wortliste mit 8 Zeichen erzeugt **über 200 Terabyte** an Textdaten! Pipe-Ausgabe, wann immer möglich.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Crunch is intended for authorized password recovery, penetration testing, and security auditing only. Brute-forcing passwords on unauthorized systems is strictly illegal.
+> [!ACHTUNG]
+> Crunch ist nur für autorisierte Passwortwiederherstellung, Penetrationstests und Sicherheitsüberprüfungen gedacht. Das brutale Erzwingen von Passwörtern auf nicht autorisierten Systemen ist strengstens illegal.

@@ -1,12 +1,16 @@
-# 🌐 WhatWeb – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌐 WhatWeb - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗    ██╗██╗  ██╗ █████╗ ████████╗██╗    ██╗███████╗██████╗ 
   ██║    ██║██║  ██║██╔══██╗╚══██╔══╝██║    ██║██╔════╝██╔══██╗
@@ -16,7 +20,6 @@
    ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚══╝╚══╝ ╚══════╝╚═════╝ 
        Next Generation Web Scanner & Technology Fingerprinter
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/WhatWeb-Web_Fingerprinter-blue?style=for-the-badge" alt="WhatWeb">
   <img src="https://img.shields.io/badge/Author-Andrew_Horton-orange?style=for-the-badge" alt="urbanadventurer">
@@ -25,44 +28,43 @@
 </p>
 
 <p align="center">
-  <b>🌐 Next-generation web scanner designed to identify content management systems (CMS), blogging platforms, JavaScript libraries, and server technologies</b>
+  <b>🌐 Neste generasjons nettskanner designet for å identifisere innholdsstyringssystemer (CMS), bloggeplattformer, JavaScript-biblioteker og serverteknologier</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--technology-fingerprinting)
-- [Installasjon](#-installation)
-- [Basic Website Fingerprinting](#-basic-website-fingerprinting)
-- [Aggression Levels Explained (`-a`)](#-aggression-levels-explained--a)
+- [Oversikt og teknologifingeravtrykk](#-oversikt--teknologi-fingeravtrykk)
+- [Installasjon](#-installasjon)
+– [Basic Website Fingerprinting](#-basic-website-fingerprinting)
+- [Aggression Levels Explained (`-a`)](#-aggresjonsnivåer-forklart--a)
   - [Stealthy Passive Mode (`-a 1`)](#stealthy-passive-mode--a-1)
-  - [WhatWeb balances stealth against depth using four aggression levels:](#aggressive-mode--a-3)
+  - [Aggressiv modus (`-a 3`)](#aggressiv-modus--a-3)
   - [Heavy / Brute Mode (`-a 4`)](#heavy--brute-mode--a-4)
-- [Scanning Subnets & Target Files](#-scanning-subnets--target-files)
-- [Plugin System & Selective Auditing](#-plugin-system--selective-auditing)
-- [Output Logging & Report Exporting](#-output-logging--report-exporting)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Skanning av undernett og målfiler](#-skanning-undernett--målfiler)
+- [Plugin-system og selektiv revisjon](#-plugin-system--selektiv-revisjon)
+- [Output-logging og rapporteksport](#-output-logging--report-exporting)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og teknologi Fingeravtrykk
 
-[Legal Disclaimer](#-legal-disclaimer)
+Før du lanserer utnyttelser eller brute-force fuzzers mot en nettapplikasjon, er det avgjørende å identifisere den nøyaktige teknologistabelen.
 
-Created by **Andrew Horton (urbanadventurer)**, **WhatWeb** recognizes over 1,800 distinct web technologies:
-- **Content Management Systems (CMS)**: WordPress, Drupal, Joomla, Ghost, Magento.
-- **Web Servers & Proxies**: Apache, Nginx, Microsoft-IIS, Cloudflare, Envoy.
-- **Backend Frameworks**: Laravel, Django, Ruby on Rails, ASP.NET, Spring Boot.
-- **Frontend Libraries**: React, Vue.js, Angular, jQuery, Bootstrap.
-- **Embedded Devices**: Webcams, routers, printers, SCADA interfaces.
+Laget av **Andrew Horton (urbanadventurer)**, **WhatWeb** gjenkjenner over 1800 forskjellige nettteknologier:
+- **Content Management Systems (CMS):** WordPress, Drupal, Joomla, Ghost, Magento.
+- **Nettservere og proxyer:** Apache, Nginx, Microsoft-IIS, Cloudflare, Envoy.
+- **Backend Frameworks:** Laravel, Django, Ruby on Rails, ASP.NET, Spring Boot.
+- **Frontendbiblioteker:** React, Vue.js, Angular, jQuery, Bootstrap.
+- **Innebygde enheter:** Webkameraer, rutere, skrivere, SCADA-grensesnitt.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y whatweb
@@ -73,11 +75,9 @@ sudo pacman -S whatweb
 # macOS (Homebrew)
 brew install whatweb
 ```
-
 ---
 
-## 🚀 Basic Website Fingerprinting
-
+## 🚀 Grunnleggende nettstedsfingeravtrykk
 ```bash
 # Scan a single domain
 whatweb https://target.local
@@ -88,35 +88,30 @@ whatweb --color=never -q https://target.local
 # Verbose detailed report showing evidence matches
 whatweb -v https://target.local
 ```
-
 ---
 
-## ⚡ Aggression Levels Explained (`-a`)
+## ⚡ Aggresjonsnivåer forklart (`-a`)
 
-WhatWeb balances stealth against depth using four aggression levels:
+WhatWeb balanserer sniking mot dybde ved å bruke fire aggresjonsnivåer:
 
-### Stealthy Passive Mode (`-a 1`)
-Sends a single HTTP GET request to the provided URL and analyzes the returned response headers, cookies, and HTML tags without requesting extra pages:
+### Stealthy passiv modus (`-a 1`)
+Sender en enkelt HTTP GET-forespørsel til den angitte URL-adressen og analyserer de returnerte svarhodene, informasjonskapslene og HTML-taggene uten å be om ekstra sider:
 ```bash
 whatweb -a 1 https://target.local
 ```
-
-### WhatWeb balances stealth against depth using four aggression levels:
-Recommended for penetration tests. Follows redirects and requests common plugin files (e.g., `wp-login.php`, `robots.txt`, favicon hashes):
+### Aggressiv modus (`-a 3`)
+Anbefalt for penetrasjonstester. Følger omdirigeringer og ber om vanlige plugin-filer (f.eks. `wp-login.php`, `robots.txt`, favicon-hasher):
 ```bash
 whatweb -a 3 https://target.local
 ```
-
 ### Heavy / Brute Mode (`-a 4`)
-Attempts thousands of plugin guesses and known fingerprint URLs:
+Forsøker tusenvis av plugin-gjettinger og kjente fingeravtrykksadresser:
 ```bash
 whatweb -a 4 https://target.local
 ```
-
 ---
 
-## 🌐 Scanning Subnets & Target Files
-
+## 🌐 Skanning av undernett og målfiler
 ```bash
 # Scan an entire CIDR network block
 whatweb 192.168.1.0/24
@@ -127,13 +122,11 @@ whatweb -i targets.txt
 # Pipe live web endpoints from httpx into WhatWeb
 cat live_hosts.txt | whatweb --no-errors
 ```
-
 ---
 
-## 🧩 Plugin System & Selective Auditing
+## 🧩 Plugin-system og selektiv revisjon
 
-WhatWeb features a rich plugin architecture:
-
+WhatWeb har en rik plugin-arkitektur:
 ```bash
 # List all 1,800+ available plugins
 whatweb -l
@@ -144,11 +137,9 @@ whatweb --grep wordpress
 # Run ONLY a specific plugin against a target
 whatweb --plugins="apache,php,wordpress" https://target.local
 ```
-
 ---
 
-## 📊 Output Logging & Report Exporting
-
+## 📊 Utdatalogging og rapporteksport
 ```bash
 # Export results to clean JSON format
 whatweb https://target.local --log-json results.json
@@ -159,32 +150,31 @@ whatweb https://target.local --log-xml results.xml
 # Export to compact CSV format
 whatweb -i targets.txt --log-brief results.txt
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Standard skanning** | `whatweb <URL>` |
+| ** Utførlig detaljert rapport** | `whatweb -v <URL>` |
+| **Stealth Passive Scan** | `whatweb -a 1 <URL>` |
+| **Aggressiv dyp skanning** | `whatweb -a 3 <URL>` |
+| **Skann undernett (CIDR)** | `whatweb <SUBNET>/24` |
+| **Skann mål fra fil** | `whatweb -i targets.txt` |
+| **Eksporter til JSON** | `whatweb <URL> --log-json report.json` |
+| **Filtrer etter spesifikke plugins**| `whatweb --plugins="wordpress,nginx" <URL>` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive betraktninger og OPSEC
 
-|Objective|Kommando|
-|-----------|---------|
-|**Standard Scan**|`whatweb <URL>`|
-|**Verbose Detailed Report**|`whatweb -v <URL>`|
-|**Stealth Passive Scan**|`whatweb -a 1 <URL>`|
-|**Aggressive Deep Scan**|`whatweb -a 3 <URL>`|
-|**Scan Subnet (CIDR)**|`whatweb <SUBNET>/24`|
-|**Scan Targets from File**|`whatweb -i targets.txt`|
-|**Export to JSON**|`whatweb <URL> --log-json report.json`|
-|**Filter by Specific Plugins**|`whatweb --plugins="wordpress,nginx" <URL>`|
+1. **Server Header Masking:** Fjern eller randomiser `Server` og `X-Powered-By` HTTP-svarhodene i Apache/Nginx for å bekjempe passiv bannerfingeravtrykk.
+2. **Favicon Hash Masking:** WhatWeb bruker MD5-hasher av `/favicon.ico` for å identifisere nettrammeverk. Tilpass standard rammeverkfavikoner.
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **Server Header Masking:** Remove or randomize the `Server` and `X-Powered-By` HTTP response headers in Apache/Nginx to defeat passive banner fingerprinting.
-2. **Favicon Hash Masking:** WhatWeb uses MD5 hashes of `/favicon.ico` to identify web frameworks. Customize default framework favicons.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> WhatWeb is intended for authorized reconnaissance, security auditing, and system inventory only. Scanning unauthorized networks or web applications without permission may violate applicable laws.
+> [!FORSIKTIG]
+> WhatWeb er kun ment for autorisert rekognosering, sikkerhetsrevisjon og systeminventar. Skanning av uautoriserte nettverk eller nettapplikasjoner uten tillatelse kan være i strid med gjeldende lover.

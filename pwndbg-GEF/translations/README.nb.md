@@ -1,12 +1,16 @@
-# 🎯 pwndbg-GEF – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎯 pwndbg & GEF - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗    ██╗███╗   ██╗██████╗ ██████╗  ██████╗      ██████╗ ███████╗███████╗
   ██╔══██╗██║    ██║████╗  ██║██╔══██╗██╔══██╗██╔════╝     ██╔════╝ ██╔════╝██╔════╝
@@ -16,7 +20,6 @@
   ╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚═════╝ ╚═════╝  ╚═════╝      ╚═════╝ ╚══════╝╚═╝     
          Next-Gen GDB Enhancements for Reversing & Binary Exploitation
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/pwndbg-GDB_Plugin-blue?style=for-the-badge" alt="pwndbg">
   <img src="https://img.shields.io/badge/GEF-GDB_Enhanced_Features-orange?style=for-the-badge" alt="GEF">
@@ -25,69 +28,67 @@
 </p>
 
 <p align="center">
-  <b>🎯 The premier open-source GDB terminal enhancements designed for binary reverse engineering, memory corruption analysis, heap layout inspection, and CTF exploit development</b>
+  <b>🎯 De fremste åpen kildekode-forbedringene for GDB-terminaler designet for binær omvendt utvikling, minnekorrupsjonsanalyse, heap-layoutinspeksjon og utvikling av CTF-utnyttelse</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--why-vanilla-gdb-needs-enhancements)
-- [Installasjon](#-installation--switching-between-frameworks)
-  - [Installing pwndbg](#installing-pwndbg)
-  - [Installing GEF](#installing-gef)
-  - [Installing pwndbg](#managing-gdbinit)
+- [Oversikt og hvorfor Vanilla GDB trenger forbedringer](#-overview--why-vanilla-gdb-needs-enhancements)
+- [Installasjon og veksling mellom rammer](#-installasjon--bytte-mellom-rammeverk)
+  - [Installerer pwndbg](#installing-pwndbg)
+  - [Installerer GEF](#installing-gef)
+  - [Managing `.gdbinit`](#managing-gdbinit)
 - [The Context Display Engine](#-the-context-display-engine)
-  - [Registers Section](#registers-section)
-  - [Disassembly & Jump Predictions](#disassembly--jump-predictions)
-  - [Stack & Telescope](#stack--telescope)
+  - [Registerseksjon](#registers-section)
+  - [Demontering og hoppprediksjoner](#disassembly--jump-prediksjoner)
+  - [Stabel og teleskop](#stabel--teleskop)
   - [Backtrace & Threads](#backtrace--threads)
-- [Memory Inspection & Navigation](#-memory-inspection--navigation)
+– [Minneinspeksjon og -navigasjon](#-minneinspeksjon--navigasjon)
   - [Telescoping Pointers (`telescope`)](#telescoping-pointers-telescope)
-  - [🔍 Memory Inspection & Navigation](#process-memory-mappings-vmmap)
+  - [Process Memory Mappings (`vmmap`)](#process-memory-mappings-vmmap)
   - [Searching Memory (`search`)](#searching-memory-search)
-- [Heap Exploitation & Inspection](#-heap-exploitation--inspection)
+– [haug-utnyttelse og inspeksjon](#-haug-utnyttelse--inspeksjon)
   - [Viewing Chunks & Arenas](#viewing-chunks--arenas)
-  - [Inspecting Free Bins (Tcache, Fastbins, Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
-  - [Viewing Chunks & Arenas](#visualizing-heap-layout-vis_heap_chunks)
-- [Exploit Development Helpers](#-exploit-development-helpers)
+  - [Inspeksjon av gratiskasser (Tcache, Fastbins, Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
+  - [Visualizing Heap Layout (`vis_heap_chunks`)](#visualizing-heap-layout-vis_heap_chunks)
+– [Exploit Development Helpers](#-exploit-development-helpers)
   - [Checksec & Mitigation Audit](#checksec--mitigation-audit)
-  - [Inspects:](#stack-canary-locator-canary)
-  - [PIE**: PIE enabled (Position Independent Executable / ASLR)](#cyclic-patterns--offset-calculation)
+  - [Stack Canary Locator (`canary`)](#stack-canary-locator-canary)
+  - [Cyclic Patterns & Offset Calculation](#cyclic-patterns--offset-calculation)
   - [In-Memory ROP Gadget Hunting](#in-memory-rop-gadget-hunting)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Binary Protections](#-defensive-considerations--binary-protections)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+- [Defensive betraktninger og binære beskyttelser](#-defensive-betraktninger--binære-beskyttelser)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og hvorfor Vanilla GDB trenger forbedringer
 
-Standard GNU Debugger (`gdb`) is an industrial-strength tool, but its out-of-the-box user experience is visually austere. It does not automatically update register states, dereference multi-level pointers, or display stack views upon stepping through instructions.
+Standard GNU Debugger (`gdb`) er et verktøy med industriell styrke, men dens ut-av-boksen brukeropplevelse er visuelt streng. Den oppdaterer ikke automatisk registertilstander, fjerner pekere på flere nivåer eller viser stabelvisninger når du går gjennom instruksjonene.
 
-**pwndbg** and **GEF** turn GDB into an elite reverse engineering and binary exploitation suite:
-- **pwndbg**: Specifically engineered for low-level software exploitation, heap debugging (glibc 2.27 - 2.39+ allocator internals), and automated pointer dereferencing.
-- **GEF (GDB Enhanced Features)**: A single standalone Python script with zero external dependencies, offering architecture-agnostic features (ARM, MIPS, PowerPC, x86) and dynamic structure parsing.
+**pwndbg** og **GEF** gjør GDB til en eliteserie for omvendt konstruksjon og binær utnyttelse:
+- **pwndbg:** Spesielt konstruert for programvareutnyttelse på lavt nivå, heap-feilsøking (glibc 2.27 - 2.39+ allokatorinternal) og automatisert pekereferering.
+- **GEF (GDB Enhanced Features):** Et enkelt frittstående Python-skript med null eksterne avhengigheter, og tilbyr arkitekturagnostiske funksjoner (ARM, MIPS, PowerPC, x86) og dynamisk strukturanalyse.
 
 ---
 
-## 📥 Installasjon
+## 📥 Installasjon og veksling mellom rammeverk
 
-### Installing pwndbg
+### Installerer pwndbg
 ```bash
 git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
 ```
-
-### Installing GEF
+### Installerer GEF
 ```bash
 # Automated one-liner download
 bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
 ```
-
-### Installing pwndbg
-To switch between pwndbg and GEF without conflict, configure your `~/.gdbinit`:
+### Administrere `.gdbinit`
+For å bytte mellom pwndbg og GEF uten konflikt, konfigurer din `~/.gdbinit`:
 ```bash
 # To use pwndbg:
 echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
@@ -95,13 +96,11 @@ echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
 # To use GEF:
 echo "source ~/.gdbinit-gef.py" > ~/.gdbinit
 ```
-
 ---
 
-## 🖥️ The Context Display Engine
+## 🖥️ Context Display Engine
 
-Every time execution halts at a breakpoint or step, both pwndbg and GEF print an automated, multi-panel terminal view:
-
+Hver gang kjøringen stopper ved et bruddpunkt eller et trinn, skriver både pwndbg og GEF ut en automatisert terminalvisning med flere paneler:
 ```text
 ──────────────────────────[ REGISTERS / FLAGS ]──────────────────────────
 RAX: 0x0 
@@ -131,82 +130,75 @@ RIP: 0x401140 (<main+12>: cmp QWORD PTR [rbp-0x8], 0x0)
    2   0x7ffff7df6e40 __libc_start_main+128
    3   0x401065 _start+37
 ```
-
 ---
 
-## 🔍 Memory Inspection & Navigation
+## 🔍 Minneinspeksjon og navigering
 
-### Telescoping Pointers (`telescope`)
-Dereferences memory pointers recursively, displaying ASCII text, function symbols, or target pointers:
+### Teleskoppekere (`telescope`)
+Frareferanser minnepekere rekursivt, viser ASCII-tekst, funksjonssymboler eller målpekere:
 ```text
 pwndbg> telescope $rsp 16       # Dereference 16 entries starting at RSP
 pwndbg> telescope 0x404000 8    # Dereference data section
 ```
-
-### 🔍 Memory Inspection & Navigation
-Displays complete virtual memory segments with read/write/execute permissions:
+### Prosess minnetilordninger (`vmmap`)
+Viser komplette virtuelle minnesegmenter med lese-/skrive-/utføringstillatelser:
 ```text
 pwndbg> vmmap
 ```
-*Quickly spot segments with `rwx` permissions (vital for shellcode injection).*
+*Søk raskt segmenter med `rwx`-tillatelser (viktig for shellcode-injeksjon).*
 
-### Searching Memory (`search`)
-Process Memory Mappings (`vmmap`)
+### Søker etter minne (`search`)
+Finn strenger, heltall eller pekere hvor som helst på innlastede minnesider:
 ```text
 pwndbg> search -s "/bin/sh"     # Search for string "/bin/sh"
 pwndbg> search -p 0x401135      # Search for pointers to main()
 pwndbg> search -x "41414141"    # Search for raw hexadecimal bytes
 ```
-
 ---
 
-## 🧱 Heap Exploitation & Inspection
+## 🧱 Heap-utnyttelse og inspeksjon
 
-Analyzing modern `glibc` heap allocators is straightforward with dedicated heap commands:
+Det er enkelt å analysere moderne `glibc` heap-tildelere med dedikerte heap-kommandoer:
 
-### Viewing Chunks & Arenas
+### Visningsbiter og arenaer
 ```text
 pwndbg> heap                    # Display entire heap layout
 pwndbg> chunk 0x602000          # Parse chunk headers (size, flags: PREV_INUSE, IS_MMAPPED, NON_MAIN_ARENA)
 pwndbg> arenas                  # List all active heap arenas
 ```
-
-### Inspecting Free Bins (Tcache, Fastbins, Smallbins)
+### Inspiserer gratis søppelkasser (Tcache, Fastbins, Smallbins)
 ```text
 pwndbg> bins                    # Show all free bins simultaneously
 pwndbg> tcache                  # Display per-thread tcache entries
 pwndbg> fastbins                # List single-linked fastbins
 pwndbg> unsortedbin             # List unsorted bin chunks (used for libc leak)
 ```
-
-### Viewing Chunks & Arenas
+### Visualiserer heap-layout (`vis_heap_chunks`)
 ```text
 pwndbg> vis_heap_chunks 10      # Draw color-coded visual representation of consecutive heap chunks
 ```
-
 ---
 
-## 🛠️ Exploit Development Helpers
+## 🛠️ Utnytt utviklingshjelpere
 
 ### Checksec & Mitigation Audit
-Check compiler security mitigations directly from the GDB prompt:
+Sjekk kompilatorsikkerhetsbegrensninger direkte fra GDB-ledeteksten:
 ```text
 pwndbg> checksec
 ```
-*Inspects:*
-- **RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
-- **Stack**: Canary found vs No canary
-- **NX**: NX enabled (Non-executable stack/heap)
-- **PIE**: PIE enabled (Position Independent Executable / ASLR)
+*Inspiserer:*
+- **RELRO:** Delvis vs Full RELRO (beskytter Global Offset Table `.got.plt`)
+- **Stabel:** Kanarifugl funnet vs ingen kanarifugl
+- **NX:** NX aktivert (ikke-kjørbar stack/heap)
+- **PIE:** PIE aktivert (posisjonsuavhengig kjørbar / ASLR)
 
-### Inspects:
-RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
+### Stack Canary Locator (`canary`)
+Finn trådkanarieverdien i Thread Local Storage (TLS) og kontroller hvor den ligger på gjeldende stabelramme:
 ```text
 pwndbg> canary
 ```
-
-### PIE**: PIE enabled (Position Independent Executable / ASLR)
-Determine the exact offset to overwrite the instruction pointer (EIP/RIP):
+### Sykliske mønstre og forskyvningsberegning
+Bestem den nøyaktige forskyvningen for å overskrive instruksjonspekeren (EIP/RIP):
 ```text
 # Generate a 100-byte De Bruijn cyclic sequence
 pwndbg> cyclic 100
@@ -215,43 +207,41 @@ pwndbg> cyclic 100
 pwndbg> cyclic -l $rip
 # Output: Finding cyclic pattern at offset 72
 ```
-
-### In-Memory ROP Gadget Hunting
-Search loaded executable segments for specific gadgets:
+### In-Memory ROP Gadget Jakt
+Søk i lastede kjørbare segmenter etter spesifikke gadgets:
 ```text
 pwndbg> rop --grep "pop rdi"
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Start med pwndbg/GEF**| `gdb ./target_binary` |
+| **Inspiser registre/stabel** | `context` |
+| **Rekursiv Pointer Deref**| `telescope $rsp 10` |
+| **Minnekart og RWX-sjekk**| `vmmap` |
+| **Søkestreng i minne**| `search -s "/bin/sh"` |
+| **Revisjonsbegrensninger** | `checksec` |
+| **Finn Stack Canary** | `canary` |
+| **Haap Chunks Oversikt** | `heap` |
+| **Inspiser gratis søppelkasser** | `bins` |
+| **Beregn bufferforskyvning**| `cyclic 100` -> `cyclic -l <val>` |
+| **Sett brytepunkt ved symbol**| `b *main` |
+| **Kjør / Fortsett / Trinn** | `r` / `c` / `si` / `ni` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive betraktninger og binær beskyttelse
 
-|Objective|Kommando|
-|-----------|---------|
-|**Start with pwndbg/GEF**|`gdb ./target_binary`|
-|**Inspect Registers/Stack**|`context`|
-|**Recursive Pointer Deref**|`telescope $rsp 10`|
-|**Memory Map & RWX Check**|`vmmap`|
-|**Search String in Memory**|`search -s "/bin/sh"`|
-|**Audit Mitigations**|`checksec`|
-|**Find Stack Canary**|`canary`|
-|**Heap Chunks Overview**|`heap`|
-|**Inspect Free Bins**|`bins`|
-|**Calculate Buffer Offset**|`cyclic 100` -> `cyclic -l <val>`|
-|**Set Breakpoint at Symbol**|`b *main`|
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
+1. **Full RELRO:** Kompilering med `-Wl,-z,relro,-z,now` gjør `.got` fullstendig skrivebeskyttet, og beseirer GOT-overskriveangrep.
+2. **Stack Canaries:** Kompilering med `-fstack-protector-all` plasserer informasjonskapsler før returadresser, noe som forårsaker `__stack_chk_fail` på bufferoverflyt.
+3. **PIE & ASLR:** Randomiserer kode-, heap- og bibliotekbaseadresser ved hver kjøring.
 
 ---
 
-## 🛡️ Defensive Considerations & Binary Protections
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
-2. **Stack Canaries:** Compiling with `-fstack-protector-all` places cookies before return addresses, causing `__stack_chk_fail` on buffer overflows.
-3. **PIE & ASLR:** Randomizes code, heap, and library base addresses on every execution.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> pwndbg and GEF are binary analysis and exploit engineering tools intended strictly for authorized vulnerability research, defensive software auditing, and academic CTF competitions. Exploiting software without permission is illegal.
+> [!FORSIKTIG]
+> pwndbg og GEF er binære analyse- og utnyttelsestekniske verktøy ment for autorisert sårbarhetsforskning, defensiv programvarerevisjon og akademiske CTF-konkurranser. Å utnytte programvare uten tillatelse er ulovlig.

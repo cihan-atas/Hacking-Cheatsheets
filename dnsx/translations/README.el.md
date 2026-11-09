@@ -1,12 +1,16 @@
-# 📡 dnsx — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📡 dnsx - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ███╗   ██╗███████╗██╗  ██╗
   ██╔══██╗████╗  ██║██╔════╝╚██╗██╔╝
@@ -16,58 +20,56 @@
   ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
        Fast & Multi-Purpose DNS Toolkit by ProjectDiscovery
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/dnsx-DNS_Toolkit-blue?style=for-the-badge" alt="dnsx">
   <img src="https://img.shields.io/badge/Developer-ProjectDiscovery-orange?style=for-the-badge" alt="ProjectDiscovery">
   <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Recon & Scanning">
-  <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="License MIT">
+  <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="Άδεια MIT">
 </p>
 
 <p align="center">
-  <b>🌐 High-performance DNS resolution, wildcard filtering, reverse DNS lookups, and multi-query extraction engine</b>
+  <b>🌐 Ανάλυση DNS υψηλής απόδοσης, φιλτράρισμα χαρακτήρων μπαλαντέρ, αντίστροφες αναζητήσεις DNS και μηχανή εξαγωγής πολλαπλών ερωτημάτων</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--architecture)
-- [Why dnsx? (Wildcard Handling & Speed)](#-why-dnsx-wildcard-handling--speed)
-- [Εγκατάσταση](#-installation)
+- [Επισκόπηση & Αρχιτεκτονική](#-επισκόπηση--αρχιτεκτονική)
+- [Γιατί dnsx; (Χειρισμός χαρακτήρων μπαλαντέρ & ταχύτητα)](#-why-dnsx-wildcard-handling--speed)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [Basic Subdomain Probing & Resolution](#-basic-subdomain-probing--resolution)
-- [Wildcard DNS Filtering (`-wd`)](#-wildcard-dns-filtering---wd)
-- [Querying Specific DNS Record Types](#-querying-specific-dns-record-types)
-- [Reverse DNS Lookups (`-ptr`)](#-reverse-dns-lookups---ptr)
+- [Φιλτράρισμα DNS με μπαλαντέρ (`-wd`)](#-μπαλαντέρ-dns-φιλτράρισμα---wd)
+- [Querying Specific Record Types DNS](#-querying-specific-dns-record-types)
+- [Αντίστροφες αναζητήσεις DNS (`-ptr`)](#-reverse-dns-lookups---ptr)
 - [Using Custom Resolvers & Rate Limiting](#-using-custom-resolvers--rate-limiting)
-- [Pipeline Automation (Subfinder + dnsx + httpx)](#-pipeline-automation-subfinder--dnsx--httpx)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Αυτοματισμός Pipeline (Subfinder + dnsx + httpx)](#-pipeline-automation-subfinder--dnsx--httpx)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική
 
-Engineered in Go by **ProjectDiscovery**, **dnsx** is a fast and multipurpose DNS toolkit designed for reconnaissance, bug bounty hunting, and network discovery.
+Σχεδιασμένο στο Go από **ProjectDiscovery**, το **dnsx** είναι ένα γρήγορο και πολλαπλών χρήσεων εργαλειοθήκη DNS σχεδιασμένο για αναγνώριση, κυνήγι επικηρυγμένων σφαλμάτων και ανακάλυψη δικτύου.
 
-While tools like `dig`, `nslookup`, and `host` resolve records one by one, `dnsx` processes thousands of queries asynchronously, automatically retries failed resolvers, extracts clean response IPs, and eliminates wildcard noise that pollutes subdomain enumeration.
+Ενώ εργαλεία όπως τα `dig`, `nslookup` και `host` επιλύουν τις εγγραφές μία προς μία, το `dnsx` επεξεργάζεται χιλιάδες ερωτήματα ασύγχρονα, επαναλαμβάνει αυτόματα αποτυχημένες λύσεις επίλυσης, εξάγει καθαρές IP απόκρισης και εξαλείφει τον θόρυβο χαρακτήρων μπαλαντέρ που μολύνει την απαρίθμηση υποτομέων.
 
 ---
 
-## ⚡ Why dnsx? (Wildcard Handling & Speed)
+## ⚡ Γιατί dnsx; (Χειρισμός μπαλαντέρ και ταχύτητα)
 
-During bug bounty reconnaissance, passive tools (`subfinder`, `amass`) often return thousands of dead or wildcard subdomains. Testing HTTP endpoints on dead DNS entries wastes massive bandwidth.
+Κατά την αναγνώριση σφαλμάτων bounty, τα παθητικά εργαλεία (`subfinder`, `amass`) συχνά επιστρέφουν χιλιάδες νεκρούς υποτομείς ή υποτομείς μπαλαντέρ. Η δοκιμή τελικών σημείων HTTP σε νεκρές καταχωρήσεις DNS σπαταλά τεράστιο εύρος ζώνης.
 
-`dnsx` solves this by:
-1. **Filtering out Wildcards (`-wd`):** Detects if `*.domain.com` resolves to a catch-all IP and filters out phantom subdomains.
-⚡ Why dnsx? (Wildcard Handling & Speed)
-3. **Clean Output Piping:** Feeds directly into `httpx` or `nmap`.
+Το `dnsx` το λύνει με:
+1. **Φιλτράρισμα χαρακτήρων μπαλαντέρ (`-wd`):** Ανιχνεύει εάν το `*.domain.com` επιλύει σε μια ολοκληρωμένη IP και φιλτράρει τους υποτομείς φανταστικούς.
+2. **Ταχύτητα & Ταυτόχρονη:** Επιλύει 10.000+ τομείς ανά λεπτό σε δημόσιες και ιδιωτικές ομάδες επίλυσης.
+3. **Καθαρισμός σωληνώσεων εξόδου:** Τροφοδοτείται απευθείας στο `httpx` ή στο `nmap`.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Go Install (Recommended)
 go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
@@ -81,11 +83,9 @@ brew install dnsx
 # Verify installation
 dnsx -version
 ```
-
 ---
 
-## 🚀 Basic Subdomain Probing & Resolution
-
+## 🚀 Βασική διερεύνηση και ανάλυση υποτομέα
 ```bash
 # Resolve a single domain
 echo "target.com" | dnsx
@@ -99,13 +99,11 @@ dnsx -l subdomains.txt -a -resp
 # Output only resolved IP addresses (ready for Nmap)
 dnsx -l subdomains.txt -resp-only
 ```
-
 ---
 
-## 🚫 Wildcard DNS Filtering (`-wd`)
+## 🚫 Φιλτράρισμα DNS με χαρακτήρες μπαλαντέρ (`-wd`)
 
-Wildcards return a valid IP for non-existent subdomains (`random123xyz.target.com`), poisoning reconnaissance datasets.
-
+Οι χαρακτήρες μπαλαντέρ επιστρέφουν μια έγκυρη IP για ανύπαρκτους υποτομείς (`random123xyz.target.com`), σύνολα δεδομένων αναγνώρισης δηλητηρίασης.
 ```bash
 # Filter wildcard subdomains and print only genuine hosts
 dnsx -l subdomains.txt -wd target.com -o valid_hosts.txt
@@ -113,13 +111,11 @@ dnsx -l subdomains.txt -wd target.com -o valid_hosts.txt
 # Filter wildcards with custom threshold
 dnsx -l subdomains.txt -wd target.com -wt 3
 ```
-
 ---
 
-## 📋 Querying Specific DNS Record Types
+## 📋 Ερώτημα για συγκεκριμένους τύπους εγγραφής DNS
 
-Query specific record types across thousands of domains:
-
+Ζητήστε συγκεκριμένους τύπους καρτελών σε χιλιάδες τομείς:
 ```bash
 # Query CNAME records (Crucial for Subdomain Takeover detection)
 dnsx -l subdomains.txt -cname -resp
@@ -133,13 +129,11 @@ dnsx -l domains.txt -txt -resp
 # Query All standard records (A, AAAA, CNAME, NS, TXT, MX, SOA)
 dnsx -l domains.txt -recon
 ```
-
 ---
 
-## 🔄 Reverse DNS Lookups (`-ptr`)
+## 🔄 Αντίστροφες αναζητήσεις DNS (`-ptr`)
 
-Discover active infrastructure and virtual hosts by performing PTR lookups on an IP range:
-
+Ανακαλύψτε την ενεργή υποδομή και τους εικονικούς κεντρικούς υπολογιστές πραγματοποιώντας αναζητήσεις PTR σε μια περιοχή IP:
 ```bash
 # Reverse resolve a CIDR IP range to hostnames
 dnsx -ptr -l ip_ranges.txt -resp
@@ -147,13 +141,11 @@ dnsx -ptr -l ip_ranges.txt -resp
 # Reverse resolve a single subnet
 echo "192.168.1.0/24" | dnsx -ptr -resp
 ```
-
 ---
 
-## ⚙️ Using Custom Resolvers & Rate Limiting
+## ⚙️ Χρήση προσαρμοσμένων επιλύσεων και περιορισμού τιμών
 
-Avoid being rate-limited by your ISP or Google DNS by utilizing a high-speed curated resolver pool:
-
+Αποφύγετε τον περιορισμό του ρυθμού από τον ISP ή το Google DNS, χρησιμοποιώντας μια ομάδα επιμελητών επιλύσεων υψηλής ταχύτητας:
 ```bash
 # Use a custom trusted resolver list
 dnsx -l subdomains.txt -r resolvers.txt
@@ -161,45 +153,42 @@ dnsx -l subdomains.txt -r resolvers.txt
 # Set thread concurrency and query rate limit (queries per second)
 dnsx -l subdomains.txt -t 100 -rl 300
 ```
-
 ---
 
-## ⛓️ Pipeline Automation (Subfinder + dnsx + httpx)
+## ⛓️ Αυτοματισμός αγωγών (Subfinder + dnsx + httpx)
 
-The ultimate recon workflow for bug bounty hunters and penetration testers:
-
+Η απόλυτη ροή εργασιών ανανέωσης για κυνηγούς επικηρυγμένων σφαλμάτων και δοκιμαστές διείσδυσης:
 ```bash
 # Discover subdomains -> Validate via dnsx -> Probe live HTTP web services
 subfinder -d target.com -silent | \
   dnsx -silent -wd target.com | \
   httpx -silent -status-code -title -tech-detect
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Resolve Subdomains**|`dnsx -l subdomains.txt`|
-|**Extract IP Addresses Only**|`dnsx -l subdomains.txt -resp-only`|
-|**Filter Wildcard Domains**|`dnsx -l subdomains.txt -wd <DOMAIN>`|
-|**Extract CNAME (Takeover)**|`dnsx -l subdomains.txt -cname -resp`|
-|**Query All Records (Recon)**|`dnsx -l domains.txt -recon`|
-|**Reverse DNS Lookup (PTR)**|`dnsx -l ips.txt -ptr -resp`|
-|**Custom Resolvers & Threads**|`dnsx -l list.txt -r resolvers.txt -t 150`|
-|**JSON Output**|`dnsx -l list.txt -json -o results.json`|
+| **Επίλυση υποτομέων** | `dnsx -l subdomains.txt` |
+| **Εξαγωγή μόνο διευθύνσεων IP** | `dnsx -l subdomains.txt -resp-only` |
+| **Φιλτράρισμα τομέων μπαλαντέρ** | `dnsx -l subdomains.txt -wd <DOMAIN>` |
+| **Εξαγωγή CNAME (Ανάληψη)** | `dnsx -l subdomains.txt -cname -resp` |
+| **Ερώτημα όλων των εγγραφών (Επανάληψη)** | `dnsx -l domains.txt -recon` |
+| **Αντίστροφη αναζήτηση DNS (PTR)** | `dnsx -l ips.txt -ptr -resp` |
+| **Custom Resolvers & Threads**| `dnsx -l list.txt -r resolvers.txt -t 150` |
+| **Έξοδος JSON** | `dnsx -l list.txt -json -o results.json` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Αμυντικές Θεωρήσεις & OPSEC
 
-1. **DNS Flooding:** Firing tens of thousands of DNS queries through corporate internal DNS servers will spike CPU loads and trigger SIEM alerts for DNS tunneling/DDoS.
-2. **Resolver Poisoning:** Always use verified, trusted resolver lists to prevent malicious resolvers from intercepting queries.
+1. **Πλημμύρα DNS:** Η ενεργοποίηση δεκάδων χιλιάδων ερωτημάτων DNS μέσω εταιρικών εσωτερικών διακομιστών DNS θα αυξήσει τα φορτία της CPU και θα ενεργοποιήσει ειδοποιήσεις SIEM για διοχέτευση σήραγγας DNS/DDoS.
+2. **Δηλητηρίαση επίλυσης:** Χρησιμοποιείτε πάντα επαληθευμένες, αξιόπιστες λίστες επίλυσης για να αποτρέψετε κακόβουλους επιλύτες να υποκλέψουν ερωτήματα.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing and bug bounty engagements only. Conducting high-volume DNS probes against unauthorized infrastructure is strictly prohibited.
+> [!ΠΡΟΣΟΧΗ]
+> Αυτό το cheatsheet προορίζεται μόνο για εξουσιοδοτημένες δοκιμές διείσδυσης και δεσμεύσεις bounty bug. Η διεξαγωγή ανιχνευτών DNS μεγάλου όγκου έναντι μη εξουσιοδοτημένης υποδομής απαγορεύεται αυστηρά.

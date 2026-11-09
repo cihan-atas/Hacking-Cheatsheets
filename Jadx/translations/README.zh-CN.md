@@ -1,12 +1,16 @@
-# 🔍 Jadx 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔍 Jadx 和 Apktool - 完整备忘单
 
+[🇹🇷 Türkçe Sürüm]（翻译/README.tr.md）
 ```
        ██╗ █████╗ ██████╗ ██╗  ██╗    ███████╗    █████╗ ██████╗ ██╗  ██╗████████╗ ██████╗  ██████╗ ██╗     
        ██║██╔══██╗██╔══██╗╚██╗██╔╝    ██╔════╝   ██╔══██╗██╔══██╗██║ ██╔╝╚══██╔══╝██╔═══██╗██╔═══██╗██║     
@@ -16,55 +20,53 @@
    ╚════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝    ╚══════╝╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝
            Android APK Decompilation, Smali Patching & Repackaging
 ```
-
-<p align="center">
+<p对齐=“中心”>
   <img src="https://img.shields.io/badge/Jadx-DEX_to_Java-blue?style=for-the-badge" alt="Jadx">
   <img src="https://img.shields.io/badge/Apktool-Smali_Disassembler-orange?style=for-the-badge" alt="Apktool">
   <img src="https://img.shields.io/badge/Category-Mobile_Reverse_Engineering-green?style=for-the-badge" alt="Mobile RE">
   <img src="https://img.shields.io/badge/Platform-Android-purple?style=for-the-badge" alt="Android">
 </p>
 
-<p align="center">
-  <b>🔍 Complete guide for Android reverse engineering: decompiling APK/DEX/AAR files into readable Java source code with Jadx, and disassembling/patching Smali code and repackaging with Apktool</b>
+<p对齐=“中心”>
+  <b>🔍 Android 逆向工程完整指南：使用 Jadx 将 APK/DEX/AAR 文件反编译为可读的 Java 源代码，并使用 Apktool 反汇编/修补 Smali 代码并重新打包</b>
 </p>
 
 ---
 
 ## 📋 目录
 
-- [简介](#-overview--architecture)
-- [安装](#-installation)
-- [Jadx: Decompiling to Java Source](#-jadx-decompiling-to-java-source)
-  - [Jadx GUI Mode](#jadx-gui-mode)
-  - [Jadx CLI Batch Decompilation](#jadx-cli-batch-decompilation)
-  - [`N`: Rename variable / method (with automated refactoring).](#extracting-high-value-assets--manifest)
-- [Apktool: Disassembly & Smali Extraction](#-apktool-disassembly--smali-extraction)
-  - [参考资源](#decompiling-to-smali--resources)
-  - [Analyzing & Patching Smali Code](#analyzing--patching-smali-code)
-  - [To bypass an in-app check (e.g. `isPremium()` or `isRooted()`):](#bypassing-network-security-config-cleartextburp)
-- [Rebuilding, Aligning & Signing the Patched APK](#-rebuilding-aligning--signing-the-patched-apk)
-  - [1. Rebuild with Apktool](#1-rebuild-with-apktool)
-  - [2. Generate Keystore Certificate](#2-generate-keystore-certificate)
-  - [1. Rebuild with Apktool](#3-zipalign-optimization)
-  - [4. Sign with Apksigner](#4-sign-with-apksigner)
-- [快速参考](#-quick-reference-table)
-- [Defensive Considerations & Code Obfuscation](#-defensive-considerations--code-obfuscation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [概述与架构](#-overview--architecture)
+- [安装](#-安装)
+- [Jadx：反编译为 Java 源代码](#-jadx-decompiling-to-java-source)
+  - [Jadx GUI 模式](#jadx-gui-mode)
+  - [Jadx CLI 批量反编译](#jadx-cli-batch-decompilation)
+  - [提取高价值资产和清单](#extracting-high-value-assets--manifest)
+- [Apktool：反汇编和 Smali 提取](#-apktool-disassemble--smali-extraction)
+  - [反编译为 Smali 和资源](#decompiling-to-smali--resources)
+  - [分析和修补 Smali 代码](#analyzing--patching-smali-code)
+  - [绕过网络安全配置（Cleartext/Burp）](#bypassing-network-security-config-cleartextburp)
+- [重建、对齐和签署已修补的 APK](#-rebuilding-aligning--signing-the-patched-apk)
+  - [1.使用 Apktool 重建](#1-rebuild-with-apktool)
+  - [2.生成密钥库证书](#2-generate-keystore-certificate)
+  - [3. Zipalign 优化](#3-zipalign-optimization)
+  - [4.使用 Apksigner 签名](#4-sign-with-apksigner)
+- [快速参考表](#-quick-reference-table)
+- [防御注意事项和代码混淆](#-defective-considerations--code-obfuscation)
+- [法律免责声明](#-legal-disclaimer)
 
 ---
 
-## 🎯 简介
+## 🎯 概述与架构
 
-Android applications (`.apk`) are essentially ZIP archives containing compiled Dalvik Executable bytecode (`classes.dex`), pre-compiled resources (`resources.arsc`), binary XML manifests (`AndroidManifest.xml`), and native C/C++ libraries (`lib/`).
+Android 应用程序 (`.apk`) 本质上是 ZIP 存档，其中包含已编译的 Dalvik 可执行字节码 (`classes.dex`)、预编译资源 (`resources.arsc`)、二进制 XML 清单 (`AndroidManifest.xml`) 和本机 C/C++ 库 (`lib/`)。
 
-Two essential complementary tools form the backbone of Android analysis:
-1. **Jadx (Dex to Java decompiler):** Converts Dalvik bytecode directly into clean, human-readable Java source code. It features a fast GUI with code cross-references (xrefs), method searches, and deobfuscation algorithms.
-2. **Apktool:** Disassembles APK resources into their near-original form and converts Dalvik bytecode into **Smali** intermediate assembly. It allows modifying application logic, injecting custom Smali hooks, and repackaging the modified APK.
+两个重要的补充工具构成了 Android 分析的支柱：
+1. **Jadx（Dex 到 Java 反编译器）：** 将 Dalvik 字节码直接转换为干净、人类可读的 Java 源代码。它具有快速 GUI，具有代码交叉引用 (xref)、方法搜索和反混淆算法。
+2. **Apktool：** 将 APK 资源反汇编成接近原始的形式，并将 Dalvik 字节码转换为 **Smali** 中间程序集。它允许修改应用程序逻辑、注入自定义 Smali 挂钩以及重新打包修改后的 APK。
 
 ---
 
 ## 📥 安装
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y jadx apktool apksigner zipalign
@@ -75,23 +77,22 @@ brew install jadx apktool android-commandlinetools
 # Arch Linux
 sudo pacman -S jadx apktool
 ```
-
 ---
 
-## ☕ Jadx: Decompiling to Java Source
+## ☕ Jadx：反编译为 Java 源代码
 
-### Jadx GUI Mode
-The easiest way to analyze an APK interactively:
+### Jadx GUI 模式
+交互式分析 APK 的最简单方法：
 ```bash
 jadx-gui target.apk
 ```
-*Keyboard Shortcuts in Jadx-GUI:*
-- ☕ Jadx: Decompiling to Java Source
-- `R`: Find Cross-References (where a class or method is used).
-- Jadx GUI Mode
+*Jadx-GUI 中的键盘快捷键：*
+- `Ctrl + Shift + F`：全局文本和类别搜索。
+- `R`：查找交叉引用（使用类或方法的地方）。
+- `N`：重命名变量/方法（使用自动重构）。
 
-### Jadx CLI Batch Decompilation
-Keyboard Shortcuts in Jadx-GUI:
+### Jadx CLI批量反编译
+将 Java 源代码、资产和资源导出到输出目录，而无需启动 GUI：
 ```bash
 # Decompile entire APK into src/ directory
 jadx -d output_src target.apk
@@ -102,16 +103,15 @@ jadx -r -d output_src target.apk
 # Enable automated deobfuscation of scrambled names (a, b, c -> p001_a)
 jadx --deobf -d output_deobf target.apk
 ```
-
-### `N`: Rename variable / method (with automated refactoring).
-- `resources/AndroidManifest.xml`: Identifies exported activities, services, broadcast receivers, and intent filters.
-- Jadx CLI Batch Decompilation
+### 提取高价值资产和清单
+- `resources/AndroidManifest.xml`：标识导出的活动、服务、广播接收器和意图过滤器。
+- `resources/res/values/strings.xml`：经常包含硬编码的 API 密钥、服务器 URL 和 OAuth 客户端机密。
 
 ---
 
-## 🔨 Apktool: Disassembly & Smali Extraction
+## 🔨 Apktool：反汇编和 Smali 提取
 
-### 参考资源
+### 反编译为 Smali 和资源
 ```bash
 # Disassemble APK into a work folder
 apktool d target.apk -o apk_workdir
@@ -119,16 +119,14 @@ apktool d target.apk -o apk_workdir
 # Keep broken resources without crashing
 apktool d -r target.apk -o apk_workdir
 ```
+`apk_workdir`内部：
+- `smali/`：Dalvik 组装说明。
+- `res/`：解码的 Android 资源（布局、字符串、绘图）。
+- `AndroidManifest.xml`：纯文本 XML 清单。
 
-Inside `apk_workdir`:
-- 🔨 Apktool: Disassembly & Smali Extraction
-- `res/`: Decoded Android resources (layouts, strings, drawables).
-- 参考资源
-
-### Analyzing & Patching Smali Code
-Inside `apk_workdir`:
-`smali/`: Dalvik assembly instructions.
-
+### 分析和修补 Smali 代码
+要绕过应用内检查（例如 `isPremium()` 或 `isRooted()`）：
+打开对应的`.smali`文件，找到方法：
 ```smali
 .method public isRooted()Z
     .registers 2
@@ -139,15 +137,15 @@ Inside `apk_workdir`:
     return v0
 .end method
 ```
-Changing `const/4 v0, 0x1` to `0x0` forces the method to always return `false`.
+将 `const/4 v0, 0x1` 更改为 `0x0` 会强制该方法始终返回 `false`。
 
-### To bypass an in-app check (e.g. `isPremium()` or `isRooted()`):
-Open the corresponding `.smali` file and locate the method:
-1. In `AndroidManifest.xml`, check `application` tag:
+### 绕过网络安全配置（明文/Burp）
+要在 Burp Suite 中捕获来自 Android 7+ (API 24+) 应用程序的 HTTPS 流量：
+1. 在`AndroidManifest.xml`中，检查`application`标签：
    ```xml
    android:networkSecurityConfig="@xml/network_security_config"
    ```
-Changing `const/4 v0, 0x1` to `0x0` forces the method to always return `false`.
+2. 在`res/xml/network_security_config.xml`中，允许用户证书：
    ```xml
    <?xml version="1.0" encoding="utf-8"?>
    <network-security-config>
@@ -159,70 +157,64 @@ Changing `const/4 v0, 0x1` to `0x0` forces the method to always return `false`.
        </base-config>
    </network-security-config>
    ```
-
 ---
 
-## 🔄 Rebuilding, Aligning & Signing the Patched APK
+## 🔄 重建、对齐并签署已修补的 APK
 
-Android strictly requires every installed APK to be zip-aligned and cryptographically signed.
+Android 严格要求每个安装的 APK 都经过 zip 对齐和加密签名。
 
-### 1. Rebuild with Apktool
+### 1. 使用 Apktool 重建
 ```bash
 apktool b apk_workdir -o modified.apk
 ```
-
-### 2. Generate Keystore Certificate (One-Time)
+### 2. 生成密钥库证书（一次性）
 ```bash
 keytool -genkey -v -keystore my-release-key.jks -alias alias_name \
   -keyalg RSA -keysize 2048 -validity 10000 -storepass password123 -keypass password123 \
   -dname "CN=Security, OU=Testing, O=Audit, L=City, S=State, C=US"
 ```
-
-### 1. Rebuild with Apktool
-Align uncompressed data on 4-byte boundaries for memory-mapped efficiency:
+### 3.Zipalign 优化
+在 4 字节边界上对齐未压缩数据以提高内存映射效率：
 ```bash
 zipalign -p -f -v 4 modified.apk modified_aligned.apk
 ```
-
-### 4. Sign with Apksigner
-Sign using APK Signature Scheme v2/v3:
+### 4. 使用 Apksigner 签名
+使用 APK 签名方案 v2/v3 进行签名：
 ```bash
 apksigner sign --ks my-release-key.jks --ks-pass pass:password123 --out modified_signed.apk modified_aligned.apk
 
 # Verify signature
 apksigner verify modified_signed.apk
 ```
-
-Install on connected Android device:
+在连接的 Android 设备上安装：
 ```bash
 adb install -r modified_signed.apk
 ```
+---
+
+## ⚡ 快速参考表
+
+|目标|命令 |
+|------------|---------|
+| **交互式GUI反编译** | `jadx-gui <target.apk>` |
+| **CLI Java 导出** | `jadx -d out_dir <target.apk>` |
+| **CLI 反混淆模式** | `jadx --deobf -d out_dir <target.apk>` |
+| **反汇编成Smali** | `apktool d <target.apk> -o workdir` |
+| **重建 APK** | `apktool b workdir -o patched.apk` |
+| **Zipalign 二进制（4 字节）** | `zipalign -p -f -v 4 in.apk aligned.apk` |
+| **签署已修补的 APK** | `apksigner sign --ks key.jks --out final.apk aligned.apk` |
+| **验证 APK 签名** | `apksigner verify final.apk` |
 
 ---
 
-## ⚡ 快速参考
+## 🛡️ 防御考虑和代码混淆
 
-|Objective|命令|
-|-----------|---------|
-|**Interactive GUI Decompilation**|`jadx-gui <target.apk>`|
-|**CLI Java Export**|`jadx -d out_dir <target.apk>`|
-|**CLI Deobfuscation Mode**|`jadx --deobf -d out_dir <target.apk>`|
-|**Disassemble to Smali**|`apktool d <target.apk> -o workdir`|
-|**Rebuild APK**|`apktool b workdir -o patched.apk`|
-|**Zipalign Binary (4-byte)**|`zipalign -p -f -v 4 in.apk aligned.apk`|
-|**Sign Patched APK**|`apksigner sign --ks key.jks --out final.apk aligned.apk`|
-|**Verify APK Signature**|`apksigner verify final.apk`|
+1. **R8 / ProGuard 缩小：** 剥离未使用的类并将标识符重命名为单个非描述性字符 (`a.b.c`)。
+2. **DexGuard / 商业混淆：** 加密字符串，动态隐藏 API 调用，并注入本机完整性自检查（篡改检测）。
 
 ---
 
-## 🛡️ Defensive Considerations & Code Obfuscation
+## ⚠️ 法律免责声明
 
-|**Verify APK Signature**|`apksigner verify final.apk`|
-2. **DexGuard / Commercial Obfuscation:** Encrypt strings, hide API calls dynamically, and inject native integrity self-checks (tamper detection).
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Jadx and Apktool are intended strictly for authorized vulnerability research, reverse engineering of self-owned software, and defensive analysis. Decompiling proprietary third-party software without authorization may violate licensing agreements and copyright laws.
+> [!警告]
+> Jadx 和 Apktool 严格用于授权漏洞研究、自有软件逆向工程和防御分析。未经授权反编译第三方专有软件可能违反许可协议和版权法。

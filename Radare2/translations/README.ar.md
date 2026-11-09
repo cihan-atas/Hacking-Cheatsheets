@@ -1,12 +1,16 @@
-# ⚡ Radare2 — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⚡ Radare2 (r2) - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗  █████╗ ██████╗  █████╗ ██████╗ ███████╗██████╗ 
   ██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝╚════██╗
@@ -16,55 +20,53 @@
   ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝
       UNIX-like Command-Line Reverse Engineering Framework
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Radare2-CLI_Reversing-blue?style=for-the-badge" alt="Radare2">
   <img src="https://img.shields.io/badge/Author-Sergi_Álvarez-orange?style=for-the-badge" alt="pancake">
-  <img src="https://img.shields.io/badge/Category-Reverse_Engineering-green?style=for-the-badge" alt="Reverse Engineering">
+  <img src="https://img.shields.io/badge/Category-Reverse_Engineering-green?style=for-the-badge" alt="الهندسة العكسية">
   <img src="https://img.shields.io/badge/License-LGPLv3-purple?style=for-the-badge" alt="LGPLv3">
-</p>
+</ص>
 
 <p align="center">
-  <b>⚡ Powerful, open-source, terminal-based framework for binary analysis, disassembly, debugging, hex editing, and binary patching</b>
-</p>
+  <b>⚡ إطار عمل قوي ومفتوح المصدر وقائم على المحطة الطرفية للتحليل الثنائي والتفكيك وتصحيح الأخطاء والتحرير السداسي والتصحيح الثنائي</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-overview--architecture)
-- [التثبيت](#-installation)
-- [Opening Files & Session Modes](#-opening-files--session-modes)
-- [Binary Analysis Commands (`a`)](#-binary-analysis-commands-a)
-- [Navigation & Seeking (`s`)](#-navigation--seeking-s)
-- [Printing & Disassembly (`p`)](#-printing--disassembly-p)
-- [Interactive Visual & Graph Modes (`V` & `VV`)](#-interactive-visual--graph-modes-v--vv)
-- [Binary Patching & Modification (`w`)](#-binary-patching--modification-w)
-- [The Radare2 Companion Toolset](#-the-radare2-companion-toolset)
-  - [rabin2: Binary Information Extraction](#rabin2-binary-information-extraction)
-  - [rasm2: Assembler & Disassembler](#rasm2-assembler--disassembler)
-  - [rabin2: Binary Information Extraction](#radiff2-binary-difference-engine)
-  - [rasm2: Assembler & Disassembler](#rafind2-byte--string-search)
-  - [radiff2: Binary Difference Engine](#rax2-base--numeric-converter)
-- [Debugging Basics with r2 (`-d`)](#-debugging-basics-with-r2--d)
-- [مرجع سريع](#-quick-reference-table)
-- [Defensive Considerations & Anti-Reversing](#-defensive-considerations--anti-reversing)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [نظرة عامة والهندسة المعمارية](#-نظرة عامة--الهندسة المعمارية)
+- [التثبيت](#-التثبيت)
+- [فتح الملفات وأوضاع الجلسة](#-فتح الملفات--أوضاع الجلسة)
+- [أوامر التحليل الثنائي (`a`)](#-binary-analyse-commands-a)
+- [الملاحة والبحث (`s`)](#-الملاحة--البحث-s)
+- [الطباعة والتفكيك (`p`)](#-الطباعة--التفكيك-p)
+- [أوضاع الرسم البياني والمرئي التفاعلي (`V` و`VV`)](#-interactive-visual--graph-modes-v--vv)
+- [تصحيح وتعديل الثنائي (`w`)](#-تصحيح ثنائي--تعديل-w)
+- [مجموعة أدوات Radare2 المصاحبة](#-مجموعة أدوات-radare2-companion)
+  - [rabin2: استخراج المعلومات الثنائية](#rabin2-استخراج المعلومات الثنائية)
+  - [rasm2: المجمع والمفكك](#rasm2-assembler--disassembler)
+  - [radiff2: محرك الفرق الثنائي](#radiff2-binary-difference-engine)
+  - [rafind2: البحث عن البايت والسلسلة](#rafind2-byte--string-search)
+  - [rax2: المحول الأساسي والرقمي](#rax2-base--numeric-converter)
+- [أساسيات التصحيح باستخدام r2 (`-d`)](#-debugging-basics-with-r2--d)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [الاعتبارات الدفاعية ومكافحة التراجع](#-الاعتبارات الدفاعية--مكافحة التراجع)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 نظرة عامة والهندسة المعمارية
 
-Created by **Sergi Álvarez (pancake)**, **Radare2** (`r2`) is a portable, modular reverse engineering framework built entirely around the UNIX philosophy. It runs entirely inside your terminal without requiring heavy graphical dependencies:
-- **Full Architecture Support**: x86/x64, ARM, ARM64, MIPS, PowerPC, AVR, SPARC, WebAssembly, Java, Dalvik, and EVM.
-- **Composable CLI Utilities**: Comes bundled with specialized command-line tools (`rabin2`, `rasm2`, `radiff2`, `rafind2`, `rax2`).
-- **Interactive Visual Modes**: Split-screen hex editors, ASCII control flow graphs, register monitors, and decompiler views.
-- **Scriptable & Extensible**: Integrates with Python, r2pipe, Ghidra (`r2ghidra`), and Rizin.
+تم إنشاء **Radare2** (`r2`) بواسطة **Sergi Álvarez (pancake)**، وهو عبارة عن إطار عمل هندسي عكسي معياري محمول تم تصميمه بالكامل حول فلسفة UNIX. يتم تشغيله بالكامل داخل جهازك دون الحاجة إلى تبعيات رسومية ثقيلة:
+- **دعم كامل للبنية:** x86/x64، ARM، ARM64، MIPS، PowerPC، AVR، SPARC، WebAssembly، Java، Dalvik، وEVM.
+- ** أدوات CLI المساعدة القابلة للتركيب: ** تأتي مرفقة بأدوات سطر الأوامر المتخصصة (`rabin2`، `rasm2`، `radiff2`، `rafind2`، `rax2`).
+- ** الأوضاع المرئية التفاعلية: ** محررات سداسية ذات شاشة مقسمة، ورسوم بيانية لتدفق التحكم في ASCII، وشاشات تسجيل، وطرق عرض أداة فك التحويل البرمجي.
+- **قابل للبرمجة وقابل للتوسيع:** يتكامل مع Python وr2pipe وGhidra (`r2ghidra`) وRizin.
 
 ---
 
 ## 📥 التثبيت
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y radare2
@@ -80,11 +82,9 @@ cd radare2 && sys/install.sh
 r2pm update
 r2pm -i r2ghidra
 ```
-
 ---
 
-## 🚀 Opening Files & Session Modes
-
+## 🚀 فتح الملفات وأوضاع الجلسة
 ```bash
 # Open binary in read-only mode
 r2 /bin/ls
@@ -101,13 +101,11 @@ r2 -b 32 -n /path/to/raw.bin
 # Open in quiet mode (no greeting banner)
 r2 -q target.bin
 ```
-
 ---
 
-## 🔬 Binary Analysis Commands (`a`)
+## 🔬 أوامر التحليل الثنائي (`a`)
 
-Inside the `r2` shell, commands are single letters or short prefixes. You can append `?` to any command to see inline help:
-
+داخل هيكل `r2`، تكون الأوامر عبارة عن أحرف مفردة أو بادئات قصيرة. يمكنك إلحاق `?` بأي أمر لرؤية المساعدة المضمنة:
 ```text
 [0x00000000]> a?        # Show analysis help
 [0x00000000]> aa        # Basic analysis (symbols, basic blocks)
@@ -120,13 +118,11 @@ Inside the `r2` shell, commands are single letters or short prefixes. You can ap
 [0x00000000]> axt <addr># Find cross-references (xrefs) TO address
 [0x00000000]> axf <addr># Find cross-references (xrefs) FROM address
 ```
-
 ---
 
-## 🧭 Navigation & Seeking (`s`)
+## 🧭 الملاحة والبحث (`s`)
 
-The seek command changes the current cursor address:
-
+يقوم أمر البحث بتغيير عنوان المؤشر الحالي:
 ```text
 [0x00000000]> s main        # Seek to main function
 [0x00401122]> s 0x401200    # Seek to absolute address
@@ -136,11 +132,9 @@ The seek command changes the current cursor address:
 [0x00401210]> u             # Undo seek (go back to previous address)
 [0x00401200]> U             # Redo seek
 ```
-
 ---
 
-## 📜 Printing & Disassembly (`p`)
-
+## 📜 الطباعة والتفكيك (`p`)
 ```text
 [0x00401122]> pd 10     # Disassemble 10 instructions
 [0x00401122]> pdf       # Disassemble entire current function
@@ -150,30 +144,28 @@ The seek command changes the current cursor address:
 [0x00401122]> pz        # Print zero-terminated string
 [0x00401122]> pi 5      # Print 5 instructions (concise format)
 ```
+---
+
+## 🖥️ الأوضاع المرئية والرسمية التفاعلية (`V` و`VV`)
+
+يؤدي الضغط على `V` أو `VV` إلى تحويل Radare2 إلى تطبيق طرفي تفاعلي غني:
+
+- **الدخول إلى الوضع المرئي:** اكتب `V`
+  - اضغط على `p` / `P` لتدوير طرق العرض (Hex dump -> Disassembly -> Debugger -> Decompiler).
+  - اضغط على `c` لتبديل وضع المؤشر (استخدم مفاتيح الأسهم أو `hjkl` لتحديد البايتات).
+  - اضغط على `d` لإعادة تعريف البايتات كرمز أو بيانات أو سلاسل.
+  - اضغط على `q` للعودة إلى الموجه القياسي.
+- **أدخل إلى عرض الرسم البياني:** اكتب `VV`
+  - يعرض الرسم البياني لتدفق التحكم ASCII (CFG).
+  - استخدم `Tab` / `Shift+Tab` للانتقال بين العقد الفرعية المشروطة.
+  - اضغط على `t` لمتابعة الفرع الحقيقي؛ `f` لمتابعة الفرع الخاطئ.
+  - اضغط على `u` للتراجع عن الفرع.
 
 ---
 
-## 🖥️ Interactive Visual & Graph Modes (`V` & `VV`)
+## ✍️ التصحيح والتعديل الثنائي (`w`)
 
-Pressing `V` or `VV` turns Radare2 into a rich interactive terminal application:
-
-- **Enter Visual Mode**: Type `V`
-  - Press `p` / `P` to cycle views (Hex dump -> Disassembly -> Debugger -> Decompiler).
-  - 🖥️ Interactive Visual & Graph Modes (`V` & `VV`)
-  - Press `d` to redefine bytes as code, data, or strings.
-  - Pressing `V` or `VV` turns Radare2 into a rich interactive terminal application:
-- **Enter Graph View**: Type `VV`
-  - Enter Visual Mode**: Type `V`
-  - Press `p` / `P` to cycle views (Hex dump -> Disassembly -> Debugger -> Decompiler).
-  - Press `c` to toggle cursor mode (use arrow keys or `hjkl` to select bytes).
-  - Press `d` to redefine bytes as code, data, or strings.
-
----
-
-## ✍️ Binary Patching & Modification (`w`)
-
-Press `u` to step back out of a branch.
-
+لتعديل ثنائي على القرص، تأكد من فتح r2 في وضع الكتابة (`r2 -w target` أو اكتب `oo+` داخل جلسة نشطة):
 ```text
 [0x00401150]> oo+                           # Re-open current binary with write permissions
 [0x00401150]> wa nop                        # Assemble 'nop' instruction at current address
@@ -182,14 +174,13 @@ Press `u` to step back out of a branch.
 [0x00401150]> w "Modified string\x00"       # Overwrite string with null-terminator
 [0x00401150]> w0 16                         # Zero-fill 16 bytes (NUL padding)
 ```
-
 ---
 
-## 🛠️ The Radare2 Companion Toolset
+## 🛠️ مجموعة الأدوات المصاحبة لـ Radare2
 
-Radare2 includes standalone CLI utilities:
+يتضمن Radare2 أدوات مساعدة CLI مستقلة:
 
-### rabin2: Binary Information Extraction
+### Rabin2: استخراج المعلومات الثنائية
 ```bash
 # Print general binary architecture, bits, and security mitigations (NX, PIE, Canary)
 rabin2 -I target.bin
@@ -206,8 +197,7 @@ rabin2 -z target.bin
 # List sections (.text, .data, .rodata)
 rabin2 -S target.bin
 ```
-
-### rasm2: Assembler & Disassembler
+### rasm2: المجمع والمفكك
 ```bash
 # Assemble x64 instructions into hexadecimal opcode
 rasm2 -a x86 -b 64 "xor eax, eax; ret"
@@ -219,8 +209,7 @@ rasm2 -a x86 -b 64 -d "31c0c3"
 # xor eax, eax
 # ret
 ```
-
-### rabin2: Binary Information Extraction
+### radiff2: محرك الفرق الثنائي
 ```bash
 # Compare two binaries and count differing bytes
 radiff2 -c original.bin patched.bin
@@ -228,8 +217,7 @@ radiff2 -c original.bin patched.bin
 # Detailed code comparison graph
 radiff2 -g main original.bin patched.bin | xdot -
 ```
-
-### rasm2: Assembler & Disassembler
+### rafind2: البحث عن البايت والسلسلة
 ```bash
 # Search for ASCII string in file
 rafind2 -s "admin_password" target.bin
@@ -237,8 +225,7 @@ rafind2 -s "admin_password" target.bin
 # Search for hexadecimal pattern
 rafind2 -x "4889e5" target.bin
 ```
-
-### radiff2: Binary Difference Engine
+### rax2: المحول الأساسي والرقمي
 ```bash
 # Convert hex to decimal
 rax2 0x1337      # Output: 4919
@@ -249,17 +236,14 @@ rax2 4919        # Output: 0x1337
 # Convert string to hex
 rax2 -S "admin"  # Output: 61646d696e
 ```
-
 ---
 
-## 🐛 Debugging Basics with r2 (`-d`)
-
+## 🐛 أساسيات تصحيح الأخطاء باستخدام r2 (`-d`)
 ```bash
 # Start debugging binary with arguments
 r2 -d target.bin arg1 arg2
 ```
-
-Inside the debugger shell:
+داخل قذيفة المصحح:
 ```text
 [0x7f112233]> db main       # Set software breakpoint at main
 [0x7f112233]> db 0x401150   # Set breakpoint at specific address
@@ -271,36 +255,35 @@ Inside the debugger shell:
 [0x7f112233]> dr rax        # Print specific register value
 [0x7f112233]> dr rax = 0x1  # Modify register value
 ```
+---
+
+## ⚡ جدول مرجعي سريع
+
+| الهدف | الأمر |
+|-----------|--------|
+| **تحليل عميق** | `aaa` |
+| ** وظائف القائمة ** | `afl` |
+| **البحث عن الوظيفة/العنوان** | `s <addr>` / `s main` |
+| **وظيفة التفكيك** | `pdf` |
+| **وظيفة التفكيك (r2ghidra)** | `pdc` |
+| **التفكيك المرئي التفاعلي** | `V` |
+| **الرسم البياني لتدفق ASCII** | `VV` |
+| **تعليمات التجميع** | `wa <instruction>` |
+| **اكتب بايت سداسي عشري** | `wx <bytes>` |
+| ** إعادة الفتح في القراءة والكتابة ** | `oo+` |
+| **استخراج المعلومات الثنائية** | `rabin2 -I <binary>` |
+| **تجميع CLI** | `rasm2 -a x86 -b 64 "<asm>"` |
 
 ---
 
-## ⚡ مرجع سريع
+## 🛡️ الاعتبارات الدفاعية ومكافحة التراجع
 
-|Objective|الأمر|
-|-----------|---------|
-|**Deep Analysis**|`aaa`|
-|**List Functions**|`afl`|
-|**Seek to Function / Addr**|`s <addr>` / `s main`|
-|**Disassemble Function**|`pdf`|
-|**Decompile Function (r2ghidra)**|`pdc`|
-|**Interactive Visual Disassembly**|`V`|
-|**ASCII Flow Graph**|`VV`|
-|**Assemble Instructions**|`wa <instruction>`|
-|**Write Hex Bytes**|`wx <bytes>`|
-|**Reopen in Read-Write**|`oo+`|
-|**Extract Binary Info**|`rabin2 -I <binary>`|
-|**Assemble CLI**|`rasm2 -a x86 -b 64 "<asm>"`|
+1. ** اكتشاف مكافحة التصحيح: ** يعتمد مصحح أخطاء Radare2 على Linux `ptrace` القياسي. يمكن للثنائيات ذات عمليات الفحص الذاتي لـ `ptrace(PTRACE_TRACEME)` حظر المرفقات ما لم يتم تصحيحها.
+2. ** التشويش والتحكم في تسطيح التدفق: ** الثنائيات المبهمة بشدة (OLLVM) تربك عملية استرداد الكتلة الأساسية. استخدم `aaaa` أو محركات التنفيذ الرمزية (مثل angr) لتبسيط الوظائف المسطحة.
 
 ---
 
-## 🛡️ Defensive Considerations & Anti-Reversing
+## ⚠️إخلاء المسؤولية القانونية
 
-1. **Anti-Debugging Detection:** Radare2's debugger relies on standard Linux `ptrace`. Binaries with `ptrace(PTRACE_TRACEME)` self-checks can block attachment unless patched.
-2. **Obfuscation & Control Flow Flattening:** Heavily obfuscated binaries (OLLVM) confuse basic block recovery. Use `aaaa` or symbolic execution engines (like angr) to simplify flattened functions.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Radare2 is a reverse engineering and analysis toolkit intended strictly for authorized security assessments, malware analysis, vulnerability research, and personal educational use. Reverse engineering proprietary software without permission may violate end-user license agreements and copyright laws.
+> [!تنبيه]
+> Radare2 عبارة عن مجموعة أدوات للهندسة العكسية والتحليل مخصصة حصريًا للتقييمات الأمنية المعتمدة وتحليل البرامج الضارة وأبحاث الثغرات الأمنية والاستخدام التعليمي الشخصي. قد تنتهك البرامج الاحتكارية ذات الهندسة العكسية دون إذن اتفاقيات ترخيص المستخدم النهائي وقوانين حقوق الطبع والنشر.

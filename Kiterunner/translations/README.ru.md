@@ -1,12 +1,16 @@
-# 🪁 Kiterunner — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🪁 Kiterunner — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗  ██╗██╗████████╗███████╗██████╗ ██╗   ██╗███╗   ██╗███╗   ██╗███████╗██████╗ 
   ██║ ██╔╝██║╚══██╔══╝██╔════╝██╔══██╗██║   ██║████╗  ██║████╗  ██║██╔════╝██╔══██╗
@@ -16,62 +20,60 @@
   ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
        Context-Aware API Endpoint & Route Discovery Engine by Assetnote
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/Kiterunner-API_Discovery-blue?style=for-the-badge" alt="Kiterunner">
   <img src="https://img.shields.io/badge/Author-Assetnote-orange?style=for-the-badge" alt="Assetnote">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security & API">
-  <img src="https://img.shields.io/badge/License-Apache_2.0-red?style=for-the-badge" alt="License Apache 2.0">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Веб-безопасность и API">
+  <img src="https://img.shields.io/badge/License-Apache_2.0-red?style=for-the-badge" alt="Лицензия Apache 2.0">
 </p>
 
-<p align="center">
-  <b>🌐 High-performance REST and GraphQL API route brute-forcer designed to map modern API architectures using contextual datasets</b>
+<p выравнивание="центр">
+  <b>🌐 Высокопроизводительный перебор маршрутов REST и GraphQL API, предназначенный для сопоставления современных архитектур API с использованием контекстных наборов данных.</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--the-api-discovery-problem)
-- [Tool Comparison: Kiterunner vs ffuf vs dirsearch](#-tool-comparison-kiterunner-vs-ffuf-vs-dirsearch)
-- [Установка](#-installation)
-- [Downloading Assetnote Kite Datasets](#-downloading-assetnote-kite-datasets)
-- [Scanning APIs (`kr scan`)](#-scanning-apis-kr-scan)
-- [Standard Wordlist Brute-Forcing (`kr brute`)](#-standard-wordlist-brute-forcing-kr-brute)
-- [Headers, Cookies & Authentication](#-headers-cookies--authentication)
-- [Filtering & Status Codes](#-filtering--status-codes)
-- [Replaying Discovered Routes (`curl` output)](#-replaying-discovered-routes-curl-output)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и проблема обнаружения API](#-overview--the-api-discovery-problem)
+- [Сравнение инструментов: Kiterunner, ffuf и dirsearch](#-tool-comparison-kiterunner-vs-ffuf-vs-dirsearch)
+- [Установка](#-установка)
+- [Загрузка наборов данных Assetnote Kite](#-downloading-assetnote-kite-datasets)
+- [API сканирования (`kr scan`)](#-scanning-apis-kr-scan)
+- [Стандартный перебор списка слов (`kr brute`)](#-standard-wordlist-brute-forcing-kr-brute)
+- [Заголовки, файлы cookie и аутентификация](#-headers-cookies--аутентификация)
+- [Фильтрация и коды состояния](#-filtering--status-codes)
+- [Воспроизведение обнаруженных маршрутов (выходные данные `curl`)](#-replaying-discovered-routes-curl-output)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и OPSEC](#-защитные-соображения--opsec)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и проблема обнаружения API
 
-Traditional web content discovery tools (`ffuf`, `dirsearch`, `gobuster`) use flat, single-word dictionaries (e.g., `admin`, `api`, `login`). While this works for traditional file hierarchies, **it fails against modern REST and GraphQL APIs**.
+Традиционные инструменты обнаружения веб-контента (`ffuf`, `dirsearch`, `gobuster`) используют плоские словари из одного слова (например, `admin`, `api`, `login`). Хотя это работает для традиционных файловых иерархий, **но не работает с современными API-интерфейсами REST и GraphQL**.
 
-Modern APIs use nested, multi-tier routes such as:
+Современные API используют вложенные многоуровневые маршруты, такие как:
 `/api/v2/organizations/{org_id}/users/export?format=json`
 
-**Kiterunner**, created by **Assetnote**, solves this by compiling real-world OpenAPI, Swagger, Postman, and schema definitions into compact binary datasets (`.kite`). Instead of guessing random words, Kiterunner reconstructs entire hierarchical API call structures with correct HTTP methods (`GET`, `POST`, `PUT`, `DELETE`).
+**Kiterunner**, созданный **Assetnote**, решает эту проблему путем компиляции реальных определений OpenAPI, Swagger, Postman и схемы в компактные двоичные наборы данных (`.kite`). Вместо того, чтобы угадывать случайные слова, Kiterunner реконструирует целые иерархические структуры вызовов API с помощью правильных методов HTTP (`GET`, `POST`, `PUT`, `DELETE`).
 
 ---
 
-## ⚖️ Tool Comparison: Kiterunner vs ffuf vs dirsearch
+## ⚖️ Сравнение инструментов: Kiterunner, ffuf и dirsearch
 
-|Feature|Kiterunner (`kr`)|ffuf|dirsearch|
+| Особенность | Кайтраннер (`kr`) | ффуф | поиск |
 |---------|-------------------|------|-----------|
-|**Core Target Focus**|REST, GraphQL, OpenAPI|General Web Fuzzing|| **cirt-default-passwords.txt** | Стандартные учётные данные | SecLists/Passwords/Default-Credentials/ ||
-|**Route Hierarchy Awareness**|✅ Native (`.kite` files)|❌ Flat wordlist|❌ Flat wordlist|
-|**HTTP Verb Swapping**|✅ Tests GET, POST, PUT, DELETE|❌ Manual configuration|❌ Limited|
-|**Swagger / OpenAPI Parsing**|✅ Native schema ingestion|❌ No|❌ No|
-|**Speed & Concurrency**|⭐⭐⭐⭐⭐ (Go Engine)|⭐⭐⭐⭐⭐ (Go Engine)|⭐⭐⭐⭐ (Python)|
+| **Основная цель** | REST, GraphQL, OpenAPI | Общий веб-фаззинг | Перебор каталогов |
+| **Информация об иерархии маршрутов**| ✅ Собственный (файлы `.kite`) | ❌ Плоский список слов | ❌ Плоский список слов |
+| **Обмен HTTP-глаголами** | ✅ Тесты GET, POST, PUT, DELETE | ❌ Ручная настройка | ❌ Ограниченная |
+| **Разбор Swagger/OpenAPI** | ✅ Прием встроенной схемы | ❌ Нет | ❌ Нет |
+| **Скорость и параллелизм** | ⭐⭐⭐⭐⭐ (Go Engine) | ⭐⭐⭐⭐⭐ (Go Engine) | ⭐⭐⭐⭐ (Питон) |
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Download precompiled binary from GitHub Releases
 wget https://github.com/assetnote/kiterunner/releases/download/v1.0.2/kiterunner_1.0.2_linux_amd64.tar.gz
@@ -81,13 +83,11 @@ sudo mv kr /usr/local/bin/
 # Verify installation
 kr version
 ```
-
 ---
 
-## 📦 Downloading Assetnote Kite Datasets
+## 📦 Загрузка наборов данных Assetnote Kite
 
-Kiterunner relies on pre-built `.kite` route datasets created from millions of analyzed public APIs:
-
+Kiterunner использует готовые наборы данных маршрутов `.kite`, созданные на основе миллионов проанализированных общедоступных API:
 ```bash
 # Create wordlists directory
 mkdir -p ~/.kiterunner && cd ~/.kiterunner
@@ -100,13 +100,11 @@ tar -xzvf routes-small.kite.tar.gz
 wget https://wordlists-cdn.assetnote.io/data/kiterunner/routes-large.kite.tar.gz
 tar -xzvf routes-large.kite.tar.gz
 ```
-
 ---
 
-## 🚀 Scanning APIs (`kr scan`)
+## 🚀 API сканирования (`kr scan`)
 
-The `scan` command uses `.kite` datasets to probe targets using contextual route hierarchies:
-
+Команда `scan` использует наборы данных `.kite` для проверки целей с использованием контекстных иерархий маршрутов:
 ```bash
 # Scan a single target using the small dataset
 kr scan https://target.local/api -w ~/.kiterunner/routes-small.kite
@@ -117,13 +115,11 @@ kr scan targets.txt -w ~/.kiterunner/routes-small.kite -c 100 -j 50
 # Scan with maximum verbosity
 kr scan https://target.local -w ~/.kiterunner/routes-small.kite -v
 ```
-
 ---
 
-## 🔨 Standard Wordlist Brute-Forcing (`kr brute`)
+## 🔨 Стандартный перебор списка слов (`kr brute`)
 
-If you want to use standard `.txt` wordlists while taking advantage of Kiterunner's multi-method API engine:
-
+Если вы хотите использовать стандартные списки слов `.txt`, одновременно используя преимущества многометодного API-движка Kiterunner:
 ```bash
 # Brute force standard paths using a text dictionary
 kr brute https://target.local -w /usr/share/wordlists/dirb/common.txt
@@ -131,13 +127,11 @@ kr brute https://target.local -w /usr/share/wordlists/dirb/common.txt
 # Brute force with custom API prefixes
 kr brute https://target.local/api/v1 -w endpoints.txt
 ```
-
 ---
 
-## 🔑 Headers, Cookies & Authentication
+## 🔑 Заголовки, файлы cookie и аутентификация
 
-APIs frequently require JWTs, Bearer tokens, or custom organization headers:
-
+Для API часто требуются JWT, токены Bearer или пользовательские заголовки организации:
 ```bash
 # Pass custom Authorization header
 kr scan https://target.local/api -w routes-small.kite -H "Authorization: Bearer eyJhbGci..."
@@ -145,11 +139,9 @@ kr scan https://target.local/api -w routes-small.kite -H "Authorization: Bearer 
 # Pass custom API key and Cookie
 kr scan https://target.local -w routes-small.kite -H "X-API-Key: secret123" -H "Cookie: session=xyz"
 ```
-
 ---
 
-## 🎯 Filtering & Status Codes
-
+## 🎯 Фильтрация и коды состояния
 ```bash
 # Exclude standard error codes (404, 403, 502)
 kr scan https://target.local -w routes-small.kite -x 404,403,502
@@ -157,42 +149,39 @@ kr scan https://target.local -w routes-small.kite -x 404,403,502
 # Filter out responses by length / content size
 kr scan https://target.local -w routes-small.kite --filter-length 0,324
 ```
-
 ---
 
-## 🔄 Replaying Discovered Routes (`curl` output)
+## 🔄 Воспроизведение обнаруженных маршрутов (выходные данные `curl`)
 
-Kiterunner can output discovered routes as actionable `curl` commands, allowing instant reproduction in terminal or Burp Suite:
-
+Kiterunner может выводить обнаруженные маршруты в виде активных команд `curl`, что позволяет мгновенно воспроизводить их в терминале или Burp Suite:
 ```bash
 # Print reproducible curl command lines for all successful matches
 kr scan https://target.local -w routes-small.kite -o json | jq -r '.[] | .curl'
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Scan API with Small Dataset**|`kr scan <URL> -w routes-small.kite`|
-|**Scan API with Large Dataset**|`kr scan <URL> -w routes-large.kite`|
-|**Scan Multiple Hosts**|`kr scan hosts.txt -w routes-small.kite -c 100`|
-|**Brute Force Text Wordlist**|`kr brute <URL> -w wordlist.txt`|
-|**Authenticate with Bearer Token**|`kr scan <URL> -w routes-small.kite -H "Authorization: Bearer <TOKEN>"`|
-|**Exclude Status Codes**|`kr scan <URL> -w routes-small.kite -x 404,403`|
-|**Output to JSON File**|`kr scan <URL> -w routes-small.kite -o json -oFile results.json`|
+| **API сканирования с небольшим набором данных** | `kr scan <URL> -w routes-small.kite` |
+| **API сканирования с большим набором данных** | `kr scan <URL> -w routes-large.kite` |
+| **Сканировать несколько хостов** | `kr scan hosts.txt -w routes-small.kite -c 100` |
+| **Список слов для текста методом грубой силы** | `kr brute <URL> -w wordlist.txt` |
+| **Аутентификация с помощью токена на предъявителя**| `kr scan <URL> -w routes-small.kite -H "Authorization: Bearer <TOKEN>"` |
+| **Исключить коды состояния** | `kr scan <URL> -w routes-small.kite -x 404,403` |
+| **Вывод в файл JSON** | `kr scan <URL> -w routes-small.kite -o json -oFile results.json` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Оборонительные соображения и OPSEC
 
-1. **Massive Request Volume:** The `routes-large.kite` dictionary generates millions of requests. Ensure rate limiting (`-q 200`) is enabled when testing production environments.
-2. **State-Changing Methods:** Kiterunner sends `POST`, `PUT`, and `DELETE` requests. On unhardened test APIs, this can inadvertently modify or delete backend records.
+1. **Огромный объем запросов.** Словарь `routes-large.kite` генерирует миллионы запросов. Убедитесь, что ограничение скорости (`-q 200`) включено при тестировании производственных сред.
+2. **Методы изменения состояния.** Kiterunner отправляет запросы `POST`, `PUT` и `DELETE`. В незащищенных тестовых API это может привести к непреднамеренному изменению или удалению записей серверной части.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Kiterunner is designed for authorized API security testing and bug bounty engagements only. Fuzzing unauthorized APIs is strictly illegal.
+> [!ВНИМАНИЕ]
+> Kiterunner предназначен только для авторизованного тестирования безопасности API и участия в программе «Bug Bounty». Фаззинг неавторизованных API строго противозаконен.

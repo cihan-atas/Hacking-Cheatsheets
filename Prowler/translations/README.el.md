@@ -1,12 +1,16 @@
-# 🌩️ Prowler — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌩️ Prowler - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ██████╗  ██████╗ ██╗    ██╗██╗     ███████╗██████╗ 
   ██╔══██╗██╔══██╗██╔═══██╗██║    ██║██║     ██╔════╝██╔══██╗
@@ -16,7 +20,6 @@
   ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚══════╝╚═╝  ╚═╝
        Multi-Cloud Security Posture Assessment & CIS Benchmark Auditor
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Prowler-Cloud_Security-blue?style=for-the-badge" alt="Prowler">
   <img src="https://img.shields.io/badge/Author-Toni_de_la_Fuente-orange?style=for-the-badge" alt="toniblyx">
@@ -25,45 +28,44 @@
 </p>
 
 <p align="center">
-  <b>🌩️ Industry-standard open-source security tool for AWS, Azure, Google Cloud (GCP), and Kubernetes posture assessment, misconfiguration auditing, and compliance verification</b>
+  <b>🌩️ Εργαλείο ασφαλείας ανοιχτού κώδικα βιομηχανικού προτύπου για AWS, Azure, Google Cloud (GCP) και Kubernetes αξιολόγηση στάσης, έλεγχος εσφαλμένης διαμόρφωσης και επαλήθευση συμμόρφωσης</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--architecture)
-- [Εγκατάσταση](#-installation)
+- [Επισκόπηση & Αρχιτεκτονική](#-επισκόπηση--αρχιτεκτονική)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [AWS Security Auditing](#-aws-security-auditing)
-  - [Default Account Audit](#default-account-audit)
-  - [Ensure your environment has valid AWS credentials configured (`aws configure`, environment variables, or IAM instance profile):](#targeting-specific-services-s3-iam-ec2)
-  - [Runs all built-in checks across all enabled services and regions:](#targeting-specific-aws-regions)
-  - [Multi-Account Scanning with AWS Organizations](#multi-account-scanning-with-aws-organizations)
-- [Azure & Google Cloud (GCP) Auditing](#-azure--google-cloud-gcp-auditing)
+  - [Προεπιλεγμένος έλεγχος λογαριασμού](#default-account-audit)
+  - [Targeting Specific Services (S3, IAM, EC2)](#targeting-specific-services-s3-iam-ec2)
+  - [Targeting Specific AWS Regions](#targeting-specific-aws-regions)
+  - [Σάρωση πολλαπλών λογαριασμών με οργανισμούς AWS](#multi-account-scanning-with-aws-organizations)
+- [Έλεγχος Azure & Google Cloud (GCP)](#-azure--google-cloud-gcp-auditing)
   - [Microsoft Azure Assessment](#microsoft-azure-assessment)
-  - [🔷 Azure & Google Cloud (GCP) Auditing](#google-cloud-platform-gcp-assessment)
-- [Compliance Frameworks (CIS, ISO27001, PCI-DSS)](#-compliance-frameworks-cis-iso27001-pci-dss)
-- [Reporting & Output Formats (HTML, JSON, CSV)](#-reporting--output-formats-html-json-csv)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+  - [Αξιολόγηση Google Cloud Platform (GCP)](#google-cloud-platform-gcp-assessment)
+- [Πλαίσια Συμμόρφωσης (CIS, ISO27001, PCI-DSS)](#-compliance-frameworks-cis-iso27001-pci-dss)
+- [Μορφές αναφοράς και εξόδου (HTML, JSON, CSV)](#-reporting--output-formats-html-json-csv)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική
 
-Originally created by **Toni de la Fuente (@toniblyx)**, **Prowler** is an essential multi-cloud security assessment tool. It performs automated evaluations across infrastructure-as-a-service (IaaS) and platform services to detect:
-- Publicly readable/writable S3 buckets and storage accounts.
-- Root accounts missing Multi-Factor Authentication (MFA).
-- Over-privileged IAM policies with wildcard `*` permissions.
-- 🎯 Εισαγωγή
-- Open security groups exposing management ports (SSH 22, RDP 3389) to `0.0.0.0/0`.
-- Non-compliance with CIS Benchmarks, ISO 27001, HIPAA, PCI-DSS, and GDPR.
+Αρχικά δημιουργήθηκε από τον **Toni de la Fuente (@toniblyx)**, το **Prowler** είναι ένα απαραίτητο εργαλείο αξιολόγησης ασφάλειας πολλαπλών νέφους. Εκτελεί αυτοματοποιημένες αξιολογήσεις σε υπηρεσίες υποδομής ως υπηρεσία (IaaS) και πλατφόρμας για τον εντοπισμό:
+- Κάδοι S3 και λογαριασμοί αποθήκευσης με δυνατότητα ανάγνωσης/εγγραφής στο κοινό.
+- Στους λογαριασμούς ρίζας λείπει έλεγχος ταυτότητας πολλαπλών παραγόντων (MFA).
+- Υπερ-προνομιακές πολιτικές IAM με δικαιώματα μπαλαντέρ `*`.
+- Μη κρυπτογραφημένες βάσεις δεδομένων, δίσκοι και αντίγραφα ασφαλείας.
+- Ανοίξτε τις ομάδες ασφαλείας που εκθέτουν τις θύρες διαχείρισης (SSH 22, RDP 3389) στο `0.0.0.0/0`.
+- Μη συμμόρφωση με δείκτες αναφοράς CIS, ISO 27001, HIPAA, PCI-DSS και GDPR.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Using pip / pipx (Recommended)
 pipx install prowler
@@ -76,20 +78,18 @@ docker pull prowlercloud/prowler:latest
 # Verify installation
 prowler -v
 ```
-
 ---
 
-## ☁️ AWS Security Auditing
+## ☁️ Έλεγχος ασφαλείας AWS
 
-Ensure your environment has valid AWS credentials configured (`aws configure`, environment variables, or IAM instance profile):
+Βεβαιωθείτε ότι το περιβάλλον σας έχει διαμορφωμένα έγκυρα διαπιστευτήρια AWS (`aws configure`, μεταβλητές περιβάλλοντος ή προφίλ παρουσίας IAM):
 
-### Default Account Audit
-Runs all built-in checks across all enabled services and regions:
+### Προεπιλεγμένος έλεγχος λογαριασμού
+Εκτελεί όλους τους ενσωματωμένους ελέγχους σε όλες τις ενεργοποιημένες υπηρεσίες και περιοχές:
 ```bash
 prowler aws
 ```
-
-### Ensure your environment has valid AWS credentials configured (`aws configure`, environment variables, or IAM instance profile):
+### Ειδικές υπηρεσίες στόχευσης (S3, IAM, EC2)
 ```bash
 # Run only S3 bucket checks
 prowler aws --services s3
@@ -97,25 +97,22 @@ prowler aws --services s3
 # Run IAM and EC2 checks together
 prowler aws --services iam,ec2
 ```
-
-### Runs all built-in checks across all enabled services and regions:
-Avoid scanning empty unused regions to dramatically increase scan speed:
+### Στόχευση συγκεκριμένων περιοχών AWS
+Αποφύγετε τη σάρωση κενών αχρησιμοποίητων περιοχών για να αυξήσετε δραματικά την ταχύτητα σάρωσης:
 ```bash
 prowler aws --region us-east-1,eu-west-1
 ```
-
-### Multi-Account Scanning with AWS Organizations
-Audit all accounts under an AWS Organization by assuming a centralized management role:
+### Σάρωση πολλών λογαριασμών με οργανισμούς AWS
+Ελέγξτε όλους τους λογαριασμούς σε έναν οργανισμό AWS αναλαμβάνοντας έναν κεντρικό ρόλο διαχείρισης:
 ```bash
 prowler aws --sp-role-arn arn:aws:iam::111122223333:role/SecurityAuditRole
 ```
-
 ---
 
-## 🔷 Azure & Google Cloud (GCP) Auditing
+## 🔷 Έλεγχος Azure & Google Cloud (GCP).
 
 ### Microsoft Azure Assessment
-Authenticate via Azure CLI (`az login`):
+Έλεγχος ταυτότητας μέσω Azure CLI (`az login`):
 ```bash
 # Audit entire Azure subscription
 prowler azure --subscription-ids "00000000-0000-0000-0000-000000000000"
@@ -123,9 +120,8 @@ prowler azure --subscription-ids "00000000-0000-0000-0000-000000000000"
 # Target specific services (Storage, Entra ID / IAM)
 prowler azure --services storage,iam
 ```
-
-### 🔷 Azure & Google Cloud (GCP) Auditing
-Authenticate via Google Cloud SDK (`gcloud auth application-default login`):
+### Αξιολόγηση Google Cloud Platform (GCP).
+Έλεγχος ταυτότητας μέσω του Google Cloud SDK (`gcloud auth application-default login`):
 ```bash
 # Audit specific GCP Project
 prowler gcp --project-ids my-production-project
@@ -133,13 +129,11 @@ prowler gcp --project-ids my-production-project
 # Target Google Cloud Storage
 prowler gcp --services storage
 ```
-
 ---
 
-## 📜 Compliance Frameworks (CIS, ISO27001, PCI-DSS)
+## 📜 Πλαίσια Συμμόρφωσης (CIS, ISO27001, PCI-DSS)
 
-Prowler categorizes checks into official compliance standards:
-
+Το Prowler κατηγοριοποιεί τους ελέγχους σε επίσημα πρότυπα συμμόρφωσης:
 ```bash
 # Run CIS AWS Foundations Benchmark v3.0
 prowler aws --compliance cis_3.0_aws
@@ -153,46 +147,43 @@ prowler aws --compliance iso27001_2013_aws
 # List all supported compliance frameworks
 prowler aws --list-compliance
 ```
-
 ---
 
-## 📊 Reporting & Output Formats (HTML, JSON, CSV)
+## 📊 Μορφές αναφοράς και εξόδου (HTML, JSON, CSV)
 
-By default, Prowler outputs reports to an `output/` directory:
-- **Interactive HTML**: Visual dashboard showing failed, passed, and muted checks.
-- **CSV**: Easy to import into spreadsheets or ticketing systems.
-- **JSON-ASFF / JSON-OCSF**: AWS Security Hub and SIEM-compatible telemetry.
-
+Από προεπιλογή, το Prowler εξάγει αναφορές σε έναν κατάλογο `output/`:
+- **Διαδραστικό HTML:** Οπτικός πίνακας εργαλείων που δείχνει αποτυχημένες, επιτυχείς και σίγαση ελέγχους.
+- **CSV:** Εύκολη εισαγωγή σε υπολογιστικά φύλλα ή συστήματα έκδοσης εισιτηρίων.
+- **JSON-ASFF / JSON-OCSF:** AWS Security Hub και τηλεμετρία συμβατή με SIEM.
 ```bash
 # Generate HTML and JSON reports in a custom folder
 prowler aws -M html,json,csv -o /path/to/audit-reports/
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Full AWS Audit**|`prowler aws`|
-|**Audit Specific Service**|`prowler aws --services s3,iam`|
-|**Audit Single Region**|`prowler aws --region us-east-1`|
-|**CIS Benchmark Audit**|`prowler aws --compliance cis_3.0_aws`|
-|**Full Azure Audit**|`prowler azure --subscription-ids <SUB_ID>`|
-|**Full GCP Audit**|`prowler gcp --project-ids <PROJECT_ID>`|
-|**Export HTML/CSV/JSON**|`prowler aws -M html,csv,json -o ./reports`|
-|**List Available Checks**|`prowler aws --list-checks`|
+| **Πλήρης Έλεγχος AWS** | `prowler aws` |
+| **Ειδική Υπηρεσία Ελέγχου** | `prowler aws --services s3,iam` |
+| **Έλεγχος Ενιαίας Περιφέρειας** | `prowler aws --region us-east-1` |
+| **Έλεγχος αναφοράς CIS** | `prowler aws --compliance cis_3.0_aws` |
+| **Πλήρης Έλεγχος Azure** | `prowler azure --subscription-ids <SUB_ID>` |
+| **Πλήρης έλεγχος GCP** | `prowler gcp --project-ids <PROJECT_ID>` |
+| **Εξαγωγή HTML/CSV/JSON** | `prowler aws -M html,csv,json -o ./reports` |
+| **Λίστα διαθέσιμων επιταγών**| `prowler aws --list-checks` |
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## 🛡️ Αμυντικές Θεωρήσεις & Αποκατάσταση
 
-1. **Automated Remediation:** Review Prowler's output recommendations which provide the exact AWS CLI command or Terraform parameter required to fix each misconfiguration.
-2. **AWS Security Hub Integration:** Feed Prowler JSON-ASFF findings directly into AWS Security Hub for centralized multi-account vulnerability alerting.
+1. **Αυτόματη αποκατάσταση:** Εξετάστε τις προτάσεις εξόδου του Prowler που παρέχουν την ακριβή εντολή AWS CLI ή την παράμετρο Terraform που απαιτείται για τη διόρθωση κάθε εσφαλμένης διαμόρφωσης.
+2. **Ενσωμάτωση AWS Security Hub:** Feed Prowler JSON-ASFF ευρήματα απευθείας στο AWS Security Hub για κεντρική ειδοποίηση ευπάθειας πολλών λογαριασμών.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Prowler is an audit and posture assessment tool. Ensure that you have proper authorization from the cloud tenant and subscription owners before executing compliance scans across production environments.
+> [!ΠΡΟΣΟΧΗ]
+> Το Prowler είναι ένα εργαλείο αξιολόγησης ελέγχου και στάσης. Βεβαιωθείτε ότι έχετε την κατάλληλη εξουσιοδότηση από τον μισθωτή του cloud και τους κατόχους συνδρομών προτού εκτελέσετε σαρώσεις συμμόρφωσης σε περιβάλλοντα παραγωγής.

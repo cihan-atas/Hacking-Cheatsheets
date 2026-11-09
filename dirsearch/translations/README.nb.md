@@ -1,12 +1,16 @@
-# 🔍 dirsearch – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔍 dirsearch - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗██████╗ ███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗
   ██╔══██╗██║██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
@@ -16,82 +20,80 @@
   ╚═════╝ ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
        Advanced Web Path Scanner & Directory Brute-Forcer
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/dirsearch-Web_Bruteforcer-blue?style=for-the-badge" alt="dirsearch">
   <img src="https://img.shields.io/badge/Language-Python_Async-green?style=for-the-badge" alt="Python Async">
-  <img src="https://img.shields.io/badge/Recon-Web_Discovery-orange?style=for-the-badge" alt="Web Discovery">
+  <img src="https://img.shields.io/badge/Recon-Web_Discovery-orange?style=for-the-badge" alt="Nettoppdagelse">
   <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
 </p>
 
 <p align="center">
-  <b>🌐 Fast, feature-packed command-line web path scanner with intelligent extension handling, recursion, and crawling</b>
+  <b>🌐 Rask, funksjonsfylt kommandolinje-nettbaneskanner med intelligent utvidelseshåndtering, rekursjon og gjennomgang</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-introduction)
-- [Tool Comparison](#-tool-comparison)
-- [Installasjon](#-installation)
-- [Grunnleggende syntaks](#-basic-usage--target-selection)
-- [Extension & Suffix Management](#-extension--suffix-management)
-- [Wordlists & Dictionaries](#-wordlists--dictionaries)
-- [Recursion & Web Crawling](#-recursion--web-crawling)
+– [Introduksjon](#-introduksjon)
+- [Verktøysammenligning](#-verktøy-sammenligning)
+- [Installasjon](#-installasjon)
+– [Grunnleggende bruk og målvalg](#-grunnbruk--målvalg)
+- [Extension & Suffix Management](#-extension--suffiks-administrasjon)
+- [Ordlister og ordbøker](#-ordlister--ordbøker)
+- [Rekursjon og nettgjennomgang](#-rekursjon--nettgjennomgang)
 - [Threading, Rate Limiting & Delays](#-threading-rate-limiting--delays)
-- [Filtering & Matching Responses](#-filtering--matching-responses)
-- [HTTP Request Customization](#-http-request-customization)
-  - [Custom Headers & User-Agents](#custom-headers--user-agents)
-  - [🛠️ HTTP Request Customization](#cookies--authentication)
-  - [POST Data & Request Methods](#post-data--request-methods)
+- [Filtrering og samsvarende svar](#-filtrering--samsvarende-svar)
+– [Tilpasning av HTTP-forespørsel](#-http-tilpasning)
+  - [Egendefinerte overskrifter og brukeragenter](#tilpassede overskrifter--brukeragenter)
+  - [informasjonskapsler og autentisering](#informasjonskapsler--autentisering)
+  – [POST-data og forespørselsmetoder](#post-data--request-methods)
 - [Proxies, Tor & Evasion](#-proxies-tor--evasion)
-- [Output Formats & Reporting](#-output-formats--reporting)
+- [Utdataformater og rapportering](#-utdataformater--rapportering)
 - [Real-World Pentest & Bug Bounty Recipes](#-real-world-pentest--bug-bounty-recipes)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Tips og beste praksis](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Tips og beste fremgangsmåter](#-tips--beste praksis)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
 ## 🎯 Introduksjon
 
-**dirsearch** (created by Mauro Soria) is one of the most popular and versatile command-line tools for discovering hidden files and directories on web servers. Written in Python, it provides unmatched flexibility with its rich command-line arguments, colorized terminal output, automatic recursive crawling, intelligent wildcard extension expansion, and built-in evasion controls.
+**dirsearch** (laget av Mauro Soria) er et av de mest populære og allsidige kommandolinjeverktøyene for å oppdage skjulte filer og kataloger på webservere. Den er skrevet i Python og gir uovertruffen fleksibilitet med sine rike kommandolinjeargumenter, fargede terminalutdata, automatisk rekursiv gjennomgang, intelligent utvidelse av jokertegn og innebygde unnvikelseskontroller.
 
-Whether you are performing web penetration testing, bug bounty hunting, or internal CTF assessments, `dirsearch` is tailored to uncover hidden administrative interfaces, backup databases, forgotten API endpoints, and sensitive credentials.
+Enten du utfører nettpenetrasjonstesting, skuddpremiejakt eller interne CTF-vurderinger, er `dirsearch` skreddersydd for å avdekke skjulte administrative grensesnitt, sikkerhetskopieringsdatabaser, glemte API-endepunkter og sensitive legitimasjoner.
 
-### 🎯 Introduksjon
+### Nøkkelfunksjoner
 
-|Feature|Beskrivelse|
-|---------|-------------|
-|**Multi-Threaded**|High-performance asynchronous and threaded request engine|
-|**Extension Wildcards**|Expand `-e *` to test all known web file extensions automatically|
-|**Integrated Crawling**|Follows HTML/JS links to seed recursive directory queues|
-|**Rich Filtering**|Filter responses by status code, byte size, word count, line count, or regex|
-|**Raw Request Replay**|Load complete Burp Suite HTTP requests via `--raw`|
-|**Multiple Formats**|Generates reports in Plaintext, JSON, CSV, Markdown, and HTML|
+| Funksjon | Beskrivelse |
+|--------|-------------|
+| **Multi-Thread** | Høyytelses asynkron og gjenget forespørselsmotor |
+| **Jokertegn for utvidelse** | Utvid `-e *` for å teste alle kjente nettfilutvidelser automatisk |
+| **Integrert Crawling** | Følger HTML/JS-lenker til rekursive katalogkøer |
+| **Rik filtrering** | Filtrer svar etter statuskode, bytestørrelse, ordantall, linjeantall eller regulært uttrykk |
+| **Raw Request Replay** | Last inn komplette Burp Suite HTTP-forespørsler via `--raw` |
+| **Flere formater** | Genererer rapporter i rentekst, JSON, CSV, Markdown og HTML |
 
 ---
 
-## ⚖️ Tool Comparison
+## ⚖️ Verktøysammenligning
 
-|Feature|Systematisk utprøving av katalognavn|ffuf|Feroxbuster|Gobuster|DIRB|
-|---------|-----------|------|-------------|----------|------|
-|**Language**|Python|Go|Rust|Go|C|
-|**Speed**|⭐⭐⭐⭐ (Fast)|⭐⭐⭐⭐⭐ (Extremely fast)|⭐⭐⭐⭐⭐ (Blazingly fast)|⭐⭐⭐⭐ (Fast)|⭐⭐ (Low thread)|
-|**Default Recursion**|✅ Automatic (`-r`)|Optional (`-recursion`)|✅ Automatic (`-d`)|Optional (`-r`)|✅ Automatic|
-|**Extension Wildcard (`*`)**|✅ Native (`-e *`)|❌ No|❌ No|❌ No|❌ No|
-|**Built-in Web Crawler**|✅ Yes (`--crawl`)|❌ No|✅ Yes (`--extract-links`)|❌ No|❌ No|
-|**POST / Data Fuzzing**|✅ Yes (`--data`)|✅ Full HTTP|❌ Limited|❌ No|❌ No|
-|**Burp Raw Request Replay**|✅ Yes (`--raw`)|✅ Yes (`-request`)|❌ No|❌ No|❌ No|
-|**Built-in Wordlist**|✅ Curated (`db/dicc.txt`)|❌ None|❌ None|❌ None|✅ Small list|
+| Funksjon | dirsearch | ffuf | Feroxbuster | Gobuster | DIRB |
+|--------|------------|------|--------|--------|-----|
+| **Språk** | Python | Gå | Rust | Gå | C |
+| **Hastighet** | ⭐⭐⭐⭐ (Rask) | ⭐⭐⭐⭐⭐ (Ekstremt rask) | ⭐⭐⭐⭐⭐ (Braande rask) | ⭐⭐⭐⭐ (Rask) | ⭐⭐ (Lav tråd) |
+| **Standard rekursjon** | ✅ Automatisk (`-r`) | Valgfritt (`-recursion`) | ✅ Automatisk (`-d`) | Valgfritt (`-r`) | ✅ Automatisk |
+| **Jokertegn for utvidelse (`*`)**| ✅ Innfødt (`-e *`) | ❌ Nei | ❌ Nei | ❌ Nei | ❌ Nei |
+| **Innebygd Web Crawler** | ✅ Ja (`--crawl`) | ❌ Nei | ✅ Ja (`--extract-links`) | ❌ Nei | ❌ Nei |
+| **POST / Data fuzzing** | ✅ Ja (`--data`) | ✅ Full HTTP | ❌ Begrenset | ❌ Nei | ❌ Nei |
+| **Burp Raw Request Replay**| ✅ Ja (`--raw`) | ✅ Ja (`-request`) | ❌ Nei | ❌ Nei | ❌ Nei |
+| **Innebygd ordliste** | ✅ Kuratert (`db/dicc.txt`)| ❌ Ingen | ❌ Ingen | ❌ Ingen | ✅ Liten liste |
 
 ---
 
 ## 📥 Installasjon
 
-### |**Built-in Wordlist**|✅ Curated (`db/dicc.txt`)|❌ None|❌ None|❌ None|✅ Small list|
-
+### Bruke pipx (anbefalt for Kali og moderne Linux)
 ```bash
 # Install via pipx (isolated Python environment)
 pipx install dirsearch
@@ -99,16 +101,12 @@ pipx install dirsearch
 # Verify installation
 dirsearch --version
 ```
-
-### 📥 Installasjon
-
+### Bruker pip
 ```bash
 # Install via standard pip
 pip3 install dirsearch
 ```
-
-### Using Git Clone (Direct from Source)
-
+### Bruke Git Clone (direkte fra kilden)
 ```bash
 # Clone the official repository
 git clone https://github.com/maurosoria/dirsearch.git --depth 1
@@ -118,9 +116,7 @@ cd dirsearch
 pip3 install -r requirements.txt
 python3 dirsearch.py --version
 ```
-
-### Kali Linux Package & Docker
-
+### Kali Linux-pakke og docker
 ```bash
 # Kali / Debian repository
 sudo apt update && sudo apt install -y dirsearch
@@ -128,13 +124,11 @@ sudo apt update && sudo apt install -y dirsearch
 # Docker container
 docker run -it --rm maurosoria/dirsearch -u https://example.com -e php,html
 ```
-
 ---
 
-## 🚀 Grunnleggende syntaks
+## 🚀 Grunnleggende bruk og målvalg
 
-### 📖 Grunnleggende bruk
-
+### Enkelt mål
 ```bash
 # Basic scan against a single URL specifying extensions
 dirsearch -u https://target.com -e php,html,js,txt
@@ -142,9 +136,7 @@ dirsearch -u https://target.com -e php,html,js,txt
 # Scan with trailing slash forced
 dirsearch -u https://target.com -e php -f
 ```
-
-### Tips og beste praksis
-
+### Flere mål
 ```bash
 # Scan a list of targets from file
 dirsearch -l targets.txt -e php,aspx,txt
@@ -152,9 +144,7 @@ dirsearch -l targets.txt -e php,aspx,txt
 # Scan stdin input from subfinder / httpx
 cat live_hosts.txt | dirsearch --stdin -e php
 ```
-
-### Port Scanning & CIDR Targeting
-
+### Portskanning og CIDR-målretting
 ```bash
 # Scan specific ports on a host
 dirsearch -u https://target.com --ports 80,443,8080,8443 -e php
@@ -162,13 +152,11 @@ dirsearch -u https://target.com --ports 80,443,8080,8443 -e php
 # Scan an entire subnet range
 dirsearch --cidr 192.168.1.0/24 -e html
 ```
-
 ---
 
-## 🧩 Extension & Suffix Management
+## 🧩 Utvidelses- og suffiksadministrasjon
 
-`dirsearch` has the most powerful extension management system among all directory scanners:
-
+`dirsearch` har det kraftigste utvidelsesadministrasjonssystemet blant alle katalogskannere:
 ```bash
 # Specify multiple extensions
 dirsearch -u https://target.com -e php,html,json,txt,zip
@@ -182,13 +170,11 @@ dirsearch -u https://target.com -e php --prefixes test_,dev_,staging_,old_
 # Add suffixes to wordlist entries (e.g. admin_backup, admin_old)
 dirsearch -u https://target.com -e php --suffixes _bak,~,_2026,_old
 ```
-
 ---
 
-## 📚 Wordlists & Dictionaries
+## 📚 Ordlister og ordbøker
 
-`dirsearch` bundles a comprehensive, battle-tested wordlist at `db/dicc.txt`:
-
+`dirsearch` samler en omfattende, kamptestet ordliste på `db/dicc.txt`:
 ```bash
 # Run using the default bundled dictionary
 dirsearch -u https://target.com -e php
@@ -203,13 +189,11 @@ dirsearch -u https://target.com -e php -w list1.txt,list2.txt
 dirsearch -u https://target.com -e php --lowercase
 dirsearch -u https://target.com -e php --uppercase
 ```
-
 ---
 
-## 🔄 Recursion & Web Crawling
+## 🔄 Rekursjon og webcrawling
 
-### Recursive Scanning
-
+### Rekursiv skanning
 ```bash
 # Recursively scan newly found directories
 dirsearch -u https://target.com -e php -r
@@ -220,20 +204,16 @@ dirsearch -u https://target.com -e php -r --recursion-depth 2
 # Recursively scan only if HTTP status is 200, 301, or 302
 dirsearch -u https://target.com -e php -r --recursion-status 200,301,302
 ```
-
-### 🔄 Recursion & Web Crawling
-
+### Integrert Web Crawler
 ```bash
 # Crawl the target website for internal URLs and feed them into the scan queue
 dirsearch -u https://target.com -e php --crawl
 ```
-
 ---
 
-## ⚡ Threading, Rate Limiting & Delays
+## ⚡ Tråding, ratebegrensning og forsinkelser
 
-Control scan aggressiveness to prevent triggering rate-limiting or Web Application Firewalls (WAF):
-
+Kontroller skanningens aggressivitet for å forhindre utløsning av hastighetsbegrensning eller brannmurer for nettapplikasjoner (WAF):
 ```bash
 # Set number of concurrent threads (default: 25)
 dirsearch -u https://target.com -e php -t 50
@@ -250,13 +230,11 @@ dirsearch -u https://target.com -e php --timeout 8 --retries 3
 # Exit scan immediately on excessive connection errors
 dirsearch -u https://target.com -e php --exit-on-error
 ```
-
 ---
 
-## 🎯 Filtering & Matching Responses
+## 🎯 Filtrering og samsvarende svar
 
-### Status Code Inclusion & Exclusion
-
+### Statuskode inkludering og ekskludering
 ```bash
 # Include only specific status codes (e.g., ignore everything except 200, 301, 403)
 dirsearch -u https://target.com -e php -i 200,301,302,403
@@ -264,9 +242,7 @@ dirsearch -u https://target.com -e php -i 200,301,302,403
 # Exclude specific status codes (e.g., exclude 404 and 500)
 dirsearch -u https://target.com -e php -x 404,400,500,502,503
 ```
-
-### 🎯 Filtering & Matching Responses
-
+### Filtrering etter størrelse, ord og innhold
 ```bash
 # Exclude responses by specific byte size (e.g. ignore custom 404 pages)
 dirsearch -u https://target.com -e php --exclude-sizes 0B,1542B,3421B
@@ -277,13 +253,11 @@ dirsearch -u https://target.com -e php --exclude-texts "Not Found","Access Denie
 # Exclude responses matching a regular expression
 dirsearch -u https://target.com -e php --exclude-regex "^Error:.*"
 ```
-
 ---
 
-## 🛠️ HTTP Request Customization
+## 🛠️ HTTP-forespørselstilpasning
 
-### Custom Headers & User-Agents
-
+### Egendefinerte overskrifter og brukeragenter
 ```bash
 # Set a custom header (e.g., authorization token or internal bypass header)
 dirsearch -u https://target.com -e php -H "X-Forwarded-For: 127.0.0.1" -H "X-Requested-With: XMLHttpRequest"
@@ -297,9 +271,7 @@ dirsearch -u https://target.com -e php --random-agent
 # Set a custom User-Agent
 dirsearch -u https://target.com -e php --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 ```
-
-### 🛠️ HTTP Request Customization
-
+### Informasjonskapsler og autentisering
 ```bash
 # Provide session cookies for authenticated scanning
 dirsearch -u https://target.com -e php -b "PHPSESSID=abc123xyz; admin_logged=true"
@@ -310,9 +282,7 @@ dirsearch -u https://target.com -e php --auth admin:SecretPass123 --auth-type ba
 # NTLM Authentication for corporate Windows portals
 dirsearch -u https://target.com -e php --auth CORP\\alice:Welcome2026 --auth-type ntlm
 ```
-
-### POST Data & Request Methods
-
+### POST-data og forespørselsmetoder
 ```bash
 # Perform fuzzing using HTTP POST requests
 dirsearch -u https://target.com/api -m POST -d "action=test&token=xyz" -e json
@@ -320,11 +290,9 @@ dirsearch -u https://target.com/api -m POST -d "action=test&token=xyz" -e json
 # Replay an entire raw HTTP request saved from Burp Suite
 dirsearch -u https://target.com --raw request.txt -e php
 ```
-
 ---
 
 ## 🛡️ Proxies, Tor & Evasion
-
 ```bash
 # Route all traffic through an HTTP or SOCKS5 proxy (e.g., Burp Suite)
 dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080
@@ -335,11 +303,9 @@ dirsearch -u https://target.com -e php --tor
 # Skip SSL/TLS certificate verification
 dirsearch -u https://target.com -e php --no-check-certificate
 ```
-
 ---
 
-## 📄 Output Formats & Reporting
-
+## 📄 Utdataformater og rapportering
 ```bash
 # Save output as a clean text file
 dirsearch -u https://target.com -e php -o results.txt
@@ -352,13 +318,11 @@ dirsearch -u https://target.com -e php -o report.html --format html
 dirsearch -u https://target.com -e php -o results.csv --format csv
 dirsearch -u https://target.com -e php -o report.md --format markdown
 ```
-
 ---
 
-## 🎯 Real-World Pentest & Bug Bounty Recipes
+## 🎯 Real-World Pentest & Bug Bounty-oppskrifter
 
-### 1. Rapid Full-Scope Web Reconnaissance
-
+### 1. Rask full-Scope web-rekognosering
 ```bash
 # Scan with common web extensions, follow redirects, random UA, 40 threads
 dirsearch -u https://target.com \
@@ -368,9 +332,7 @@ dirsearch -u https://target.com \
   -i 200,301,302,403 \
   -o target_recon.txt
 ```
-
-### 🎯 Real-World Pentest & Bug Bounty Recipes
-
+### 2. Jakt på glemte sikkerhetskopier og kildelekkasjer
 ```bash
 # Test for database dumps, git repos, env files, and zip archives
 dirsearch -u https://target.com \
@@ -379,9 +341,7 @@ dirsearch -u https://target.com \
   -i 200 \
   --exclude-sizes 0B
 ```
-
 ### 3. Deep Recursive Directory Discovery
-
 ```bash
 # 2-level recursion, crawling pages for new paths, ignoring error status codes
 dirsearch -u https://target.com \
@@ -391,9 +351,7 @@ dirsearch -u https://target.com \
   -x 404,500,502 \
   -o deep_scan.json --format json
 ```
-
-### 4. Authenticated Internal Portal Assessment
-
+### 4. Autentisert intern portalvurdering
 ```bash
 # Scan through Burp Suite with internal session cookies and WAF bypass headers
 dirsearch -u https://intranet.corp.local \
@@ -402,37 +360,36 @@ dirsearch -u https://intranet.corp.local \
   -H "X-Forwarded-For: 127.0.0.1" \
   --proxy http://127.0.0.1:8080
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Oppgave | Kommando |
+|------|--------|
+| **Grunnleggende skanning med utvidelser** | `dirsearch -u https://target.com -e php,html,txt` |
+| **Jokertegn for alle utvidelser** | `dirsearch -u https://target.com -e *` |
+| **Egendefinert ordliste** | `dirsearch -u https://target.com -e php -w /path/to/wordlist.txt` |
+| **Skann flere mål** | `dirsearch -l targets.txt -e php,aspx` |
+| **Rekursiv oppdagelse** | `dirsearch -u https://target.com -e php -r --recursion-depth 2` |
+| **Gjennomsøk målkoblinger** | `dirsearch -u https://target.com -e php --crawl` |
+| **Inkluder statuskoder** | `dirsearch -u https://target.com -e php -i 200,301,302,403` |
+| **Ekskluder statuskoder** | `dirsearch -u https://target.com -e php -x 404,500,502` |
+| **Ekskluder falske positive størrelser**| `dirsearch -u https://target.com -e php --exclude-sizes 0B,1240B` |
+| **Autentiser med informasjonskapsler** | `dirsearch -u https://target.com -e php -b "session=abc123"` |
+| **Rute gjennom Burp Suite** | `dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080` |
+| **Lagre rapporten til JSON** | `dirsearch -u https://target.com -e php -o report.json --format json` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 💡 Tips og beste fremgangsmåter
 
-|Task|Kommando|
-|------|---------|
-|**Basic scan with extensions**|`dirsearch -u https://target.com -e php,html,txt`|
-|**All extensions wildcard**|`dirsearch -u https://target.com -e *`|
-|**Custom wordlist**|`dirsearch -u https://target.com -e php -w /path/to/wordlist.txt`|
-|**Scan multiple targets**|`dirsearch -l targets.txt -e php,aspx`|
-|**Recursive discovery**|`dirsearch -u https://target.com -e php -r --recursion-depth 2`|
-|**Crawl target links**|`dirsearch -u https://target.com -e php --crawl`|
-|**Include status codes**|`dirsearch -u https://target.com -e php -i 200,301,302,403`|
-|**Exclude status codes**|`dirsearch -u https://target.com -e php -x 404,500,502`|
-|**Exclude false positive sizes**|`dirsearch -u https://target.com -e php --exclude-sizes 0B,1240B`|
-|**Authenticate with cookies**|`dirsearch -u https://target.com -e php -b "session=abc123"`|
-|**Route through Burp Suite**|`dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080`|
-|**Save report to JSON**|`dirsearch -u https://target.com -e php -o report.json --format json`|
+1. **Bruk `-e *` sparsomt på store ordlister:** Utvidelse med jokertegn multipliserer hvert ord med 20+ utvidelser. Bruk `-e *` kun med mindre lister som `common.txt` eller `dicc.txt`.
+2. **Filtrer ut falske positive størrelser:** Moderne nettrammeverk returnerer tilpassede 404-sider med HTTP 200. Inspiser størrelsen på standardsvaret og legg til `--exclude-sizes <size>` for å eliminere støy.
+3. **Sjekk alltid 403 Forbidden Paths:** I moderne sky- og bedriftsmiljøer indikerer HTTP 403-svar at katalogen eller endepunktet eksisterer. Dokumenter alle 403-er for omkjøring av topptekst og testing av banegjennomgang.
+4. **Utnytt prefikser og suffikser for sikkerhetskopier:** Utviklere lagrer ofte sikkerhetskopier av sensitive filer (f.eks. `config.php.bak`, `old_database.sql`). Bruk `--prefixes` og `--suffixes` for å oppdage dem automatisk.
 
 ---
 
-## 💡 Tips og beste praksis
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **Use `-e *` Sparingly on Large Wordlists:** Wildcard extension expansion multiplies each word by 20+ extensions. Use `-e *` only with smaller lists like `common.txt` or `dicc.txt`.
-2. **Filter Out False-Positive Sizes:** Modern web frameworks return custom 404 pages with HTTP 200. Inspect the size of the default response and add `--exclude-sizes <size>` to eliminate noise.
-3. **Always Check 403 Forbidden Paths:** In modern cloud and enterprise environments, HTTP 403 responses indicate that the directory or endpoint exists. Document all 403s for header bypass and path traversal testing.
-4. **Leverage Prefixes & Suffixes for Backups:** Developers frequently save backup copies of sensitive files (e.g. `config.php.bak`, `old_database.sql`). Use `--prefixes` and `--suffixes` to automatically discover them.
-
----
-
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** Unauthorized port scanning, directory brute-forcing, and web enumeration against servers without explicit, written permission is illegal. Use `dirsearch` strictly in legal bug bounty engagements, authorized penetration tests, and CTF lab environments.
+> **VIKTIG:** Uautorisert portskanning, katalog brute-forcing og nettoppregning mot servere uten eksplisitt, skriftlig tillatelse er ulovlig. Bruk `dirsearch` strengt tatt i lovlige bug bounty-engasjementer, autoriserte penetrasjonstester og CTF-labmiljøer.

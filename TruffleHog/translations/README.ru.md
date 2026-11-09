@@ -1,12 +1,16 @@
-# 🐽 TruffleHog — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🐽 TruffleHog — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ████████╗██████╗ ██╗   ██╗███████╗███████╗██╗     ███████╗██╗  ██╗ ██████╗  ██████╗ 
   ╚══██╔══╝██╔══██╗██║   ██║██╔════╝██╔════╝██║     ██╔════╝██║  ██║██╔═══██╗██╔════╝ 
@@ -16,62 +20,60 @@
      ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝     ╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ 
        Find Exposed Credentials & Secrets with Real-Time Active Verification
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/TruffleHog-Secret_Scanner-blue?style=for-the-badge" alt="TruffleHog">
   <img src="https://img.shields.io/badge/Developer-Truffle_Security-orange?style=for-the-badge" alt="Truffle Security">
-  <img src="https://img.shields.io/badge/Category-OSINT_&_Code_Security-green?style=for-the-badge" alt="Code Security">
-  <img src="https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge" alt="License AGPLv3">
+  <img src="https://img.shields.io/badge/Category-OSINT_&_Code_Security-green?style=for-the-badge" alt="Безопасность кода">
+  <img src="https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge" alt="Лицензия AGPLv3">
 </p>
 
-<p align="center">
-  <b>🌐 High-accuracy secret scanner designed to hunt down leaked API keys, tokens, and private certificates across Git, S3, Docker, and filesystems with live validation</b>
+<p выравнивание="центр">
+  <b>🌐 Высокоточный секретный сканер, предназначенный для поиска утечек ключей API, токенов и частных сертификатов в Git, S3, Docker и файловых системах с проверкой в реальном времени.</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--the-live-verification-superpower)
-- [TruffleHog vs Gitleaks Comparison](#-trufflehog-vs-gitleaks-comparison)
-- [Установка](#-installation)
-- [Scanning Git Repositories](#-scanning-git-repositories)
-- [Scanning Local Filesystems & Directories](#-scanning-local-filesystems--directories)
-- [Scanning Entire GitHub Organizations](#-scanning-entire-github-organizations)
-- [Scanning S3 Buckets & Docker Images](#-scanning-s3-buckets--docker-images)
-- [Filtering False Positives (`--only-verified`)](#-filtering-false-positives---only-verified)
-- [JSON Output & CI/CD Integration](#-json-output--cicd-integration)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и суперсила живой проверки](#-overview--the-live-verification-superpower)
+- [Сравнение TruffleHog и Gitleaks](#-trufflehog-vs-gitleaks-сравнение)
+- [Установка](#-установка)
+- [Сканирование репозиториев Git](#-scanning-git-repositories)
+- [Сканирование локальных файловых систем и каталогов](#-scanning-local-filesystems--directory)
+- [Сканирование целых организаций GitHub](#-сканирование-всех-github-организаций)
+- [Сканирование сегментов S3 и изображений Docker](#-scanning-s3-buckets--docker-images)
+- [Фильтрация ложных срабатываний (`--only-verified`)](#-filtering-false-positives---только проверенные)
+- [Вывод JSON и интеграция CI/CD](#-json-output--cicd-integration)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и OPSEC](#-защитные-соображения--opsec)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и суперсила живой проверки
 
-Developers frequently commit high-privilege credentials into Git repositories (AWS access keys, Stripe private keys, Slack webhooks, SSH private keys, database passwords). Even when deleted in subsequent commits, **these secrets remain permanently buried in the repository commit history**.
+Разработчики часто передают учетные данные с высоким уровнем привилегий в репозитории Git (ключи доступа AWS, закрытые ключи Stripe, веб-перехватчики Slack, закрытые ключи SSH, пароли базы данных). Даже будучи удаленными при последующих коммитах, **эти секреты остаются навсегда похороненными в истории коммитов репозитория**.
 
-Written in Go by **Truffle Security**, **TruffleHog** scans commit histories, filesystems, and cloud storage to uncover leaked secrets.
+Написанный на Go **Truffle Security**, **TruffleHog** сканирует историю коммитов, файловые системы и облачные хранилища для обнаружения утекших секретов.
 
-🎯 Введение
-Unlike traditional regex scanners that flood security teams with thousands of false positives (e.g., example documentation keys), TruffleHog contacts the respective cloud provider (AWS, GitHub, Slack, OpenAI) to **verify whether the extracted secret is actively functional**.
+Его определяющей суперсилой является **Живая проверка**:
+В отличие от традиционных сканеров регулярных выражений, которые заваливают команды безопасности тысячами ложных срабатываний (например, примеров ключей документации), TruffleHog связывается с соответствующим поставщиком облачных услуг (AWS, GitHub, Slack, OpenAI), чтобы **проверить, активно ли работает извлеченный секрет**.
 
 ---
 
-## ⚖️ TruffleHog vs Gitleaks Comparison
+## ⚖️ Сравнение TruffleHog и Gitleaks
 
-|Feature|TruffleHog|Gitleaks|
+| Особенность | ТрюфельХог | Гитликс |
 |---------|------------|----------|
-|**Live Credential Verification**|✅ Yes (750+ detectors tested live)|❌ No (Regex only)|
-|**Target Data Sources**|Git, GitHub, S3, Docker, Filesystem|Git, Local Files|
-|**Speed on Huge Repos**|Fast (Go Multi-threaded)|Extremely Fast (Minimal regex)|
-|**False Positive Rate**|Near Zero (with `--only-verified`)|Moderate (Requires allowlists)|
-|**Pre-Commit Hook Friendly**|✅ Supported|✅ Highly Optimized|
+| **Живая проверка учетных данных** | ✅ Да (более 750 детекторов протестированы вживую)| ❌ Нет (только регулярное выражение) |
+| **Целевые источники данных** | Git, GitHub, S3, Docker, файловая система| Git, локальные файлы |
+| **Скорость работы с огромными репозиториями** | Быстро (многопоточный режим) | Чрезвычайно быстро (минимальное регулярное выражение) |
+| **Доля ложноположительных результатов** | Около нуля (с `--only-verified`) | Умеренный (требуются белые списки)|
+| **Доступность к перехвату перед фиксацией** | ✅ Поддерживается | ✅ Высокая оптимизация |
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Debian / Ubuntu / Kali Linux (via curl installer)
 curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sudo sh -s -- -b /usr/local/bin
@@ -85,11 +87,9 @@ brew install trufflehog
 # Docker Container
 docker run -it --rm trufflesecurity/trufflehog:latest git https://github.com/target/repo
 ```
-
 ---
 
-## 🚀 Scanning Git Repositories
-
+## 🚀 Сканирование репозиториев Git
 ```bash
 # Scan a remote Git repository (including entire commit history)
 trufflehog git https://github.com/targetcorp/public-project
@@ -100,13 +100,11 @@ trufflehog git https://username:token@gitlab.corp.local/repo.git
 # Scan only the most recent commit (great for pre-commit hooks)
 trufflehog git file://./ --since-commit HEAD~1
 ```
-
 ---
 
-## 📂 Scanning Local Filesystems & Directories
+## 📂 Сканирование локальных файловых систем и каталогов
 
-Scan local directories, extracted backup archives, or deindexed web roots:
-
+Сканируйте локальные каталоги, извлеченные резервные архивы или деиндексированные корни веб-страниц:
 ```bash
 # Scan current directory recursively
 trufflehog filesystem .
@@ -114,13 +112,11 @@ trufflehog filesystem .
 # Scan specific sensitive configuration directory
 trufflehog filesystem /var/www/html/ --exclude-paths tests/,vendor/
 ```
-
 ---
 
-## 🏢 Scanning Entire GitHub Organizations
+## 🏢 Сканирование целых организаций GitHub
 
-Audit all public repositories belonging to an organization:
-
+Проведите аудит всех публичных репозиториев, принадлежащих организации:
 ```bash
 # Scan all public repos of a GitHub organization
 trufflehog github --org=targetorg --token=YOUR_GITHUB_TOKEN
@@ -128,11 +124,9 @@ trufflehog github --org=targetorg --token=YOUR_GITHUB_TOKEN
 # Scan all private and public repositories across a personal account
 trufflehog github --user=targetuser --token=YOUR_GITHUB_TOKEN
 ```
-
 ---
 
-## ☁️ Scanning S3 Buckets & Docker Images
-
+## ☁️ Сканирование сегментов S3 и образов Docker
 ```bash
 # Scan an AWS S3 bucket for exposed credentials in stored logs and backups
 trufflehog s3 --bucket=target-backup-bucket
@@ -140,13 +134,11 @@ trufflehog s3 --bucket=target-backup-bucket
 # Scan a Docker container image layers for baked-in secrets
 trufflehog docker --image=targetcorp/api-server:latest
 ```
-
 ---
 
-## 🎯 Filtering False Positives (`--only-verified`)
+## 🎯 Фильтрация ложных срабатываний (`--only-verified`)
 
-Suppress all unverified regex hits and display **only confirmed active credentials**:
-
+Подавить все непроверенные попадания в регулярные выражения и отображать **только подтвержденные активные учетные данные**:
 ```bash
 # Report ONLY confirmed functional credentials verified against providers
 trufflehog git https://github.com/target/repo --only-verified
@@ -154,11 +146,9 @@ trufflehog git https://github.com/target/repo --only-verified
 # Scan filesystem for verified secrets only
 trufflehog filesystem /opt/backups/ --only-verified
 ```
-
 ---
 
-## 📊 JSON Output & CI/CD Integration
-
+## 📊 Вывод JSON и интеграция CI/CD
 ```bash
 # Export findings to structured JSON format
 trufflehog git https://github.com/target/repo --json > secrets_report.json
@@ -166,34 +156,33 @@ trufflehog git https://github.com/target/repo --json > secrets_report.json
 # Parse live AWS keys with jq
 cat secrets_report.json | jq -r 'select(.Verified == true) | .Raw'
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Scan Remote Git Repo**|`trufflehog git <GIT_URL>`|
-|**Scan Verified Secrets Only**|`trufflehog git <GIT_URL> --only-verified`|
-|**Scan Local Filesystem**|`trufflehog filesystem <DIRECTORY>`|
-|**Scan GitHub Organization**|`trufflehog github --org=<ORG> --token=<PAT>`|
-|**Scan Docker Image**|`trufflehog docker --image=<IMAGE>`|
-|**Scan S3 Bucket**|`trufflehog s3 --bucket=<BUCKET_NAME>`|
-|**Export to JSON**|`trufflehog git <GIT_URL> --json`|
+| **Сканировать удаленный репозиторий Git** | `trufflehog git <GIT_URL>` |
+| **Сканировать только проверенные секреты** | `trufflehog git <GIT_URL> --only-verified` |
+| **Сканировать локальную файловую систему** | `trufflehog filesystem <DIRECTORY>` |
+| **Сканировать организацию GitHub** | `trufflehog github --org=<ORG> --token=<PAT>` |
+| **Сканировать изображение Docker** | `trufflehog docker --image=<IMAGE>` |
+| **Сканирование сегмента S3** | `trufflehog s3 --bucket=<BUCKET_NAME>` |
+| **Экспорт в JSON** | `trufflehog git <GIT_URL> --json` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Оборонительные соображения и OPSEC
 
-1. **Outbound API Verification Traffic:** When running without `--no-verification`, TruffleHog connects to third-party endpoints (Slack, AWS, Stripe) to test keys. This triggers authentication logs in the victim's cloud tenant! If stealth is paramount, disable live validation:
+1. **Исходящий трафик проверки API:** При работе без `--no-verification` TruffleHog подключается к сторонним конечным точкам (Slack, AWS, Stripe) для проверки ключей. Это запускает журналы аутентификации в клиенте облака жертвы! Если скрытность имеет первостепенное значение, отключите живую проверку:
    ```bash
    trufflehog git <URL> --no-verification
    ```
-2. **Key Revocation & Incident Response:** When valid secrets are discovered in public repositories, immediately rotate the credentials and check CloudTrail / audit logs for unauthorized access.
+2. **Отзыв ключа и реагирование на инциденты.** При обнаружении действительных секретов в общедоступных репозиториях немедленно замените учетные данные и проверьте журналы CloudTrail/аудит на предмет несанкционированного доступа.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is intended for authorized security audits, Red Team operations, and credential hygiene assessments. Utilizing discovered credentials to access unauthorized accounts or private cloud environments is strictly illegal.
+> [!ВНИМАНИЕ]
+> Эта шпаргалка предназначена для авторизованных проверок безопасности, операций Red Team и оценки гигиены учетных данных. Использование обнаруженных учетных данных для доступа к неавторизованным учетным записям или частным облачным средам строго незаконно.

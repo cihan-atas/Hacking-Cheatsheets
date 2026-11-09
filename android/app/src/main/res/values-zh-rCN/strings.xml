@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Hacking Cheatsheets</string>
+    <string name="nav_home">首页</string>
+    <string name="nav_categories">分类</string>
+    <string name="nav_search">搜索</string>
+    <string name="nav_favorites">收藏</string>
+    <string name="nav_utilities">工具箱</string>
+    <string name="search_hint">搜索工具、命令、参数或 CVE...</string>
+    <string name="copied_to_clipboard">已复制到剪贴板！</string>
+    <string name="switch_language">切换语言</string>
+</resources>

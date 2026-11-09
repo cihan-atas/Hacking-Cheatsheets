@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Hacking Cheatsheets</string>
+    <string name="nav_home">Главная</string>
+    <string name="nav_categories">Категории</string>
+    <string name="nav_search">Поиск</string>
+    <string name="nav_favorites">Избранное</string>
+    <string name="nav_utilities">Утилиты</string>
+    <string name="search_hint">Поиск инструментов, команд, флагов или CVE...</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена!</string>
+    <string name="switch_language">Сменить язык</string>
+</resources>

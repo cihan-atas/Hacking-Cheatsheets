@@ -1,48 +1,52 @@
-# 🔍 kube-bench – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[kube-bench](https://github.com/aquasecurity/kube-bench) is a Go-based security auditing tool developed by Aqua Security that checks whether Kubernetes is deployed securely according to the Center for Internet Security (CIS) Kubernetes Benchmark recommendations.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#cis-kubernetes-benchmark-overview)
-- [Installasjon](#installation--deployment-methods)
-- [3. Deploy as a Kubernetes Job](#running-on-control-plane-master-nodes)
-- [Run `kube-bench` on your master/control-plane node to audit core services:](#running-on-worker-nodes)
-- [Anonymous auth disabled (`--anonymous-auth=false`).](#managed-kubernetes-eks-gke-aks)
-- [Filtering Tests & Benchmarks](#filtering-tests--benchmarks)
-- [Run targeted subsets of checks to focus remediation efforts:](#json--junit-output-for-automation)
+# kube-bench Jukseark
+
+[kube-bench](https://github.com/aquasecurity/kube-bench) er et Go-basert sikkerhetsrevisjonsverktøy utviklet av Aqua Security som sjekker om Kubernetes er distribuert sikkert i henhold til anbefalinger fra Center for Internet Security (CIS) Kubernetes Benchmark.
+
+---
+
+## Innholdsfortegnelse
+
+- [CIS Kubernetes Benchmark Overview](#cis-kubernetes-benchmark-overview)
+- [Installasjon og distribusjonsmetoder](#installation--deployment-methods)
+- [Kjører på kontrollplan (hovednoder)](#kjører-på-kontrollplan-hovednoder)
+- [Kjører på arbeidernoder](#kjører-på-arbeidernoder)
+- [Administrerte Kubernetes (EKS, GKE, AKS)](#managed-kubernetes-eks-gke-aks)
+- [Filtreringstester og benchmarks](#filtering-tests--benchmarks)
+- [JSON & JUnit Output for Automation](#json--junit-output-for-automation)
 - [Remediation & Hardening Workflow](#remediation--hardening-workflow)
 
 ---
 
-## Introduksjon
+## CIS Kubernetes Benchmark Oversikt
 
-[Remediation & Hardening Workflow](#remediation--hardening-workflow)
-1. **Control Plane Components:** API Server, Controller Manager, Scheduler.
-2. **etcd:** File permissions, TLS certificates, client encryption.
-3. **Control Plane Configuration:** Authentication, authorization, RBAC, admission controllers.
-Introduksjon
-5. **Policies:** RBAC, Pod Security Standards / Admission, NetworkPolicies, Secrets management.
+`kube-bench` utfører tester definert i YAML-filer som tilsvarer CIS Benchmark-seksjoner:
+1. **Kontrollplankomponenter:** API-server, kontrolleradministrator, planlegger.
+2. **etcd:** Filtillatelser, TLS-sertifikater, klientkryptering.
+3. **Konfigurasjon av kontrollplan:** Autentisering, autorisasjon, RBAC, adgangskontrollere.
+4. **Arbeidernoder:** Kubelet-konfigurasjon, tjenestefiler, TLS-autentisering.
+5. **Retningslinjer:** RBAC, Pod Security Standards / Admission, Network Policy, Secrets management.
 
-1. **Control Plane Components:** API Server, Controller Manager, Scheduler.
-- 2. **etcd:** File permissions, TLS certificates, client encryption.
-- 3. **Control Plane Configuration:** Authentication, authorization, RBAC, admission controllers.
-- 4. **Worker Nodes:** Kubelet configuration, service files, TLS authentication.
-- 5. **Policies:** RBAC, Pod Security Standards / Admission, NetworkPolicies, Secrets management.
+Statuser returnert per test:
+- `[PASS]`: Oppfyller CIS Benchmark-standarder.
+- `[FAIL]`: Avviker fra anbefaling; krever utbedring.
+- `[WARN]`: Kontroller manuelt (avhenger av miljøvariabler).
+- `[INFO]`: Informasjonsmerknad.
 
 ---
 
-## Installasjon
+## Installasjon og distribusjonsmetoder
 
-### `[INFO]`: Informational note.
+### 1. Last ned forhåndskompilert binær
 ```bash
 # Download latest release from GitHub
 curl -L https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_amd64.tar.gz | tar -xz
@@ -51,14 +55,12 @@ sudo mv kube-bench /usr/local/bin/
 # Verify installation
 kube-bench version
 ```
-
-### 2. Run Directly Inside a Docker Container
+### 2. Kjør direkte inne i en Docker-beholder
 ```bash
 docker run --rm -v /etc:/etc:ro -v /var:/var:ro -t aquasec/kube-bench:latest run --targets master
 ```
-
-### 1. Download Pre-Compiled Binary
-Run directly inside the cluster using Aqua Security's official Job manifest:
+### 3. Distribuer som en Kubernetes-jobb
+Kjør direkte inne i klyngen ved å bruke Aqua Securitys offisielle jobbmanifest:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml
 
@@ -66,13 +68,11 @@ kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/
 kubectl get pods -l app=kube-bench
 kubectl logs -l app=kube-bench
 ```
-
 ---
 
-## 3. Deploy as a Kubernetes Job
+## Kjører på kontrollplan (masternoder)
 
-Run `kube-bench` on your master/control-plane node to audit core services:
-
+Kjør `kube-bench` på hoved-/kontrollplan-noden for å revidere kjernetjenester:
 ```bash
 # Run all control plane checks
 kube-bench run --targets master
@@ -80,50 +80,43 @@ kube-bench run --targets master
 # Run specifically against the API server and etcd
 kube-bench run --targets master,etcd
 ```
-
 ---
 
-## Run `kube-bench` on your master/control-plane node to audit core services:
+## Kjører på arbeidernoder
 
-Execute on worker nodes to audit the `kubelet` daemon and container runtime:
-
+Kjør på arbeidernoder for å revidere `kubelet`-demonen og containerkjøringen:
 ```bash
 kube-bench run --targets node
 ```
-
-Running on Worker Nodes
-- Kubelet configuration file permissions (`600` or `644`).
-- Execute on worker nodes to audit the `kubelet` daemon and container runtime:
-- Authorization mode set to `Webhook`.
-- Read-only port (`10255`) disabled.
+Sjekker bekrefter:
+- Kubelet-konfigurasjonsfiltillatelser (`600` eller `644`).
+- Anonym auth deaktivert (`--anonymous-auth=false`).
+- Autorisasjonsmodus satt til `Webhook`.
+- Skrivebeskyttet port (`10255`) deaktivert.
 
 ---
 
-## Anonymous auth disabled (`--anonymous-auth=false`).
+## Administrerte Kubernetes (EKS, GKE, AKS)
 
-Read-only port (`10255`) disabled.
+Skyleverandører administrerer hovedkontrollplanet på EKS, GKE og AKS. Overvåk bare arbeidernodene og skyspesifikke konfigurasjoner:
 
 ### Amazon EKS
 ```bash
 kube-bench run --benchmark eks-1.4.0 --targets node
 ```
-
 ### Google GKE
 ```bash
 kube-bench run --benchmark gke-1.4.0 --targets node
 ```
-
-### Amazon EKS
+### Microsoft AKS
 ```bash
 kube-bench run --benchmark aks-1.4.0 --targets node
 ```
-
 ---
 
-## Filtering Tests & Benchmarks
+## Filtreringstester og benchmarks
 
-Run targeted subsets of checks to focus remediation efforts:
-
+Kjør målrettede undersett av kontroller for å fokusere utbedringsarbeidet:
 ```bash
 # Run specific test check IDs (e.g. 1.2.1 and 1.2.2)
 kube-bench run --check 1.2.1,1.2.2
@@ -134,44 +127,39 @@ kube-bench run --scored --targets master
 # Specify exact Kubernetes version benchmark
 kube-bench run --version 1.28
 ```
-
 ---
 
-## Run targeted subsets of checks to focus remediation efforts:
+## JSON & JUnit-utgang for automatisering
 
-Integrate compliance scanning into SIEM or compliance dashboards:
+Integrer samsvarsskanning i SIEM- eller samsvarskontrollpaneler:
 
-### 1. JSON Export
+### 1. JSON-eksport
 ```bash
 kube-bench run --output json > kube-bench-report.json
 ```
-
-### 2. JUnit XML Export (CI/CD Pipelines)
+### 2. JUnit XML-eksport (CI/CD-rørledninger)
 ```bash
 kube-bench run --output junit > kube-bench-junit.xml
 ```
-
 ---
 
-## Remediation & Hardening Workflow
+## Arbeidsflyt for utbedring og herding
 
-At the end of every run, `kube-bench` provides detailed remediation commands for failed tests.
+På slutten av hver kjøring gir `kube-bench` detaljerte utbedringskommandoer for mislykkede tester.
 
-Example failure:
+Eksempel på feil:
 ```text
 [FAIL] 1.2.6 Ensure that the --anonymous-auth argument is set to false (Automated)
 ```
-
-Generated remediation advice:
+Genererte utbedringsråd:
 ```text
 == Remediation 1.2.6 ==
 Edit the API server pod specification file /etc/kubernetes/manifests/kube-apiserver.yaml
 on the control plane node and set the below parameter:
 --anonymous-auth=false
 ```
-
-### Example failure:
-1. Open `/etc/kubernetes/manifests/kube-apiserver.yaml`.
-2. Add or update `--anonymous-auth=false` under `spec.containers[0].command`.
-Generated remediation advice:
-4. Re-run `kube-bench run --check 1.2.6` to verify `[PASS]`.
+### Trinn-for-trinn-fiks:
+1. Åpne `/etc/kubernetes/manifests/kube-apiserver.yaml`.
+2. Legg til eller oppdater `--anonymous-auth=false` under `spec.containers[0].command`.
+3. Lagre filen. Kubelet starter automatisk den statiske poden på nytt.
+4. Kjør `kube-bench run --check 1.2.6` på nytt for å bekrefte `[PASS]`.

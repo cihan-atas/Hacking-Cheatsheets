@@ -1,12 +1,16 @@
-# 🛡️ checksec — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🛡️ checksec & Binutils - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
    ██████╗██╗  ██╗███████╗ ██████╗██╗  ██╗███████╗███████╗ ██████╗
   ██╔════╝██║  ██║██╔════╝██╔════╝██║ ██╔╝██╔════╝██╔════╝██╔════╝
@@ -16,7 +20,6 @@
    ╚═════╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝
           Linux ELF Binary Mitigation Auditor & Inspection Toolkit
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/checksec-Security_Mitigations-blue?style=for-the-badge" alt="checksec">
   <img src="https://img.shields.io/badge/readelf-ELF_Headers-orange?style=for-the-badge" alt="readelf">
@@ -25,53 +28,52 @@
 </p>
 
 <p align="center">
-  <b>🛡️ Essential command-line tools for auditing Linux executable security mitigations (RELRO, Stack Canary, NX, PIE, Fortify) and dissecting ELF binary headers, sections, and symbol tables</b>
+  <b>🛡️ Βασικά εργαλεία γραμμής εντολών για τον έλεγχο εκτελέσιμων μετριασμών ασφαλείας του Linux (RELRO, Stack Canary, NX, PIE, Fortify) και την ανατομή δυαδικών κεφαλίδων, τμημάτων και πινάκων συμβόλων ELF</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--binary-mitigations-matrix)
-- [Εγκατάσταση](#-installation)
+- [Overview & Binary Mitigations Matrix](#-overview--binary-mitigations-matrix)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [checksec: Rapid Mitigation Auditing](#-checksec-rapid-mitigation-auditing)
   - [Auditing Single & Batch Binaries](#auditing-single--batch-binaries)
   - [Auditing Running Processes](#auditing-running-processes)
-  - [JSON & CSV Output](#json--csv-output)
+  - [Έξοδος JSON & CSV](#json--csv-output)
 - [readelf: ELF Header & Section Dissection](#-readelf-elf-header--section-dissection)
   - [ELF File Header (`-h`)](#elf-file-header--h)
-  - [The `readelf` utility displays information from ELF files without invoking any execution:](#program-headers--segments--l)
+  - [Κεφαλίδες και τμήματα προγράμματος (`-l`)](#program-headers--segments--l)
   - [Section Headers (`-S`)](#section-headers--s)
-  - [(If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).](#symbol-tables--s----syms)
+  - [Πίνακες συμβόλων (`-s` / `--syms`)](#symbol-tables--s----syms)
   - [Dynamic Dependencies & Libraries (`-d`)](#dynamic-dependencies--libraries--d)
 - [objdump: Disassembly & Relocations](#-objdump-disassembly--relocations)
   - [Intel Disassembly (`-d -M intel`)](#intel-disassembly--d--m-intel)
-  - [🧩 objdump: Disassembly & Relocations](#relocation-entries--got--r)
-- [nm & strings: Symbol Resolution & Strings](#-nm--strings-symbol-resolution--strings)
-  - [Shows address targets for functions like `puts`, `printf`, and `system`.](#listing-demangled-symbols-with-nm)
-  - [Extracting Obfuscated Strings with `strings`](#extracting-obfuscated-strings-with-strings)
-- [Πηγές και αναφορές](#-hardened-compilation-reference)
-- [Γρήγορη αναφορά](#-quick-reference-table)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [Εγγραφές μετεγκατάστασης & GOT (`-R`)](#relocation-entries--got--r)
+- [nm & strings: Symbol Resolution & String](#-nm--strings-symbol-resolution--strings)
+  - [Καταχώριση απογυμνωμένων συμβόλων με `nm`](#listing-demangled-symbols-with-nm)
+  - [Εξαγωγή συσκοτισμένων συμβολοσειρών με `strings`](#extracting-obfuscated-strings-with-strings)
+- [Hardened Compilation Reference](#-hardened-compilation-reference)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & δυαδικός πίνακας μετριασμού
 
-[Legal Disclaimer](#-legal-disclaimer)
+Πριν ξεκινήσετε οποιαδήποτε ροή εργασιών αντίστροφης μηχανικής ή εκμετάλλευσης, είναι υποχρεωτικό να κατανοήσετε ποιοι μετριασμούς ασφαλείας είναι ενεργοποιημένοι:
 
-|Mitigation|Full Name|Protection Mechanism|Bypass Strategy|
-|------------|-----------|----------------------|-----------------|
-|**RELRO**|Relocation Read-Only|Makes `.got` read-only (`Full RELRO`) to prevent pointer overwriting|Target heap structures, return addresses, or function hooks|
-|**Canary**|Stack Protector|Places randomized cookie before return pointer; checks integrity upon return|Leak canary value via memory leak, or brute-force (forking daemons)|
-|**NX**|No-Execute / DEP|Marks stack, heap, and data segments as non-executable|Return-Oriented Programming (ROP) or Jump-Oriented Programming (JOP)|
-|**PIE**|Position Independent Executable|Loads binary base address at random location in virtual memory (ASLR)|Leak code pointer to calculate base address offset|
-|**Fortify**|`_FORTIFY_SOURCE`|Replaces unsafe string functions (`strcpy` -> `__strcpy_chk`) with bounds checking|Non-overflow logic bugs, format string without buffer overflow|
+| Μετριασμός | Πλήρες Όνομα | Μηχανισμός Προστασίας | Στρατηγική Παράκαμψης |
+|------------|-----------|---------------------|-----------------|
+| **RELRO** | Μετακίνηση Μόνο για ανάγνωση | Κάνει το `.got` μόνο για ανάγνωση (`Full RELRO`) για να αποτρέψει την αντικατάσταση δείκτη | Στοχεύστε δομές σωρού, διευθύνσεις επιστροφής ή άγκιστρα συναρτήσεων |
+| **Καναρίνι** | Stack Protector | Τοποθετεί τυχαία cookie πριν από τον δείκτη επιστροφής. ελέγχει την ακεραιότητα κατά την επιστροφή | Διαρροή τιμής καναρίνι μέσω διαρροής μνήμης, ή ωμής δύναμης (διακλάδωση δαίμονες) |
+| **NX** | Χωρίς εκτέλεση / DEP | Επισημαίνει τμήματα στοίβας, σωρού και δεδομένων ως μη εκτελέσιμα | Προγραμματισμός προσανατολισμένου προς την επιστροφή (ROP) ή προγραμματισμός προσανατολισμένου προς την επιστροφή (JOP) |
+| **ΠΙΤΑ** | Θέση Ανεξάρτητο Εκτελεστό | Φορτώνει τη δυαδική διεύθυνση βάσης σε τυχαία τοποθεσία στην εικονική μνήμη (ASLR) | Δείκτης κώδικα διαρροής για τον υπολογισμό της μετατόπισης διεύθυνσης βάσης |
+| **Οχυρώστε** | `_FORTIFY_SOURCE` | Αντικαθιστά μη ασφαλείς συναρτήσεις συμβολοσειράς (`strcpy` -> `__strcpy_chk`) με έλεγχο ορίων | Λογικά σφάλματα χωρίς υπερχείλιση, μορφοποίηση συμβολοσειράς χωρίς υπερχείλιση buffer |
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y checksec binutils
@@ -82,12 +84,11 @@ sudo pacman -S checksec binutils
 # Python pip (standalone checksec)
 pip install checksec.py
 ```
-
 ---
 
-## ⚡ checksec: Rapid Mitigation Auditing
+## ⚡ checksec: Ταχεία Έλεγχος Μετριασμού
 
-### Auditing Single & Batch Binaries
+### Έλεγχος δυαδικών απλών & παρτίδων
 ```bash
 # Audit a single executable
 checksec --file=./target_binary
@@ -95,14 +96,13 @@ checksec --file=./target_binary
 # Audit all binaries in directory
 checksec --dir=/usr/bin/
 ```
-*Standard Output Example:*
+*Παράδειγμα τυπικής εξόδου:*
 ```text
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Full RELRO      Canary found      NX enabled    PIE enabled     No RPATH   No RUNPATH   ./target_binary
 ```
-
-### Auditing Running Processes
-Auditing Single & Batch Binaries
+### Έλεγχος Εκτελούμενων Διαδικασιών
+Έλεγχος μετριασμού μνήμης και κατάστασης ASLR ενός ενεργού δαίμονα:
 ```bash
 # Audit by Process ID (PID)
 checksec --proc=1337
@@ -110,41 +110,37 @@ checksec --proc=1337
 # Audit process by name
 checksec --proc-all
 ```
-
-### JSON & CSV Output
-Export findings for automated analysis:
+### Έξοδος JSON & CSV
+Εξαγωγή ευρημάτων για αυτοματοποιημένη ανάλυση:
 ```bash
 checksec --file=./target_binary --output=json > security.json
 checksec --file=./target_binary --output=csv > security.csv
 ```
-
 ---
 
 ## 🔬 readelf: ELF Header & Section Dissection
 
-The `readelf` utility displays information from ELF files without invoking any execution:
+Το βοηθητικό πρόγραμμα `readelf` εμφανίζει πληροφορίες από αρχεία ELF χωρίς να επικαλείται καμία εκτέλεση:
 
-### ELF File Header (`-h`)
-Reveals CPU architecture, 32 vs 64-bit class, entry point address, and endianness:
+### Κεφαλίδα αρχείου ELF (`-h`)
+Αποκαλύπτει την αρχιτεκτονική της CPU, την κλάση 32 έναντι 64-bit, τη διεύθυνση σημείου εισόδου και την endianness:
 ```bash
 readelf -h ./target_binary
 ```
-
-### The `readelf` utility displays information from ELF files without invoking any execution:
-Displays segments loaded into memory at runtime and flags (`R`, `W`, `E`). Crucial for identifying whether the stack (`GNU_STACK`) has execution permissions:
+### Κεφαλίδες και τμήματα προγράμματος (`-l`)
+Εμφανίζει τμήματα που έχουν φορτωθεί στη μνήμη κατά το χρόνο εκτέλεσης και σημαίες (`R`, `W`, `E`). Είναι ζωτικής σημασίας για τον προσδιορισμό του εάν η στοίβα (`GNU_STACK`) έχει δικαιώματα εκτέλεσης:
 ```bash
 readelf -l ./target_binary
 ```
-*(If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).*
+*(Εάν το `GNU_STACK` έχει `RWE`, επιτρέπεται η εκτέλεση στοίβας, το NX είναι απενεργοποιημένο).*
 
-### Section Headers (`-S`)
-Inspect memory layouts, addresses, and offsets for `.text` (code), `.data` (initialized data), `.rodata` (constants), `.bss` (uninitialized data), `.plt`, and `.got`:
+### Κεφαλίδες Ενοτήτων (`-S`)
+Ελέγξτε τις διατάξεις, τις διευθύνσεις και τις μετατοπίσεις μνήμης για `.text` (κωδικός), `.data` (αρχικοποιημένα δεδομένα), `.rodata` (σταθερές), `.bss` (μη αρχικοποιημένα δεδομένα), `.plt` και `.got`:
 ```bash
 readelf -S ./target_binary
 ```
-
-### (If `GNU_STACK` has `RWE`, stack execution is permitted; NX is disabled).
-List all exported functions, global variables, and imported libc symbols:
+### Πίνακες συμβόλων (`-s` / `--syms`)
+Καταχωρίστε όλες τις εξαγόμενες συναρτήσεις, τις καθολικές μεταβλητές και τα εισαγόμενα σύμβολα libc:
 ```bash
 # List all symbols
 readelf -s ./target_binary
@@ -152,19 +148,17 @@ readelf -s ./target_binary
 # Filter dynamic symbols used at runtime
 readelf --dyn-syms ./target_binary
 ```
-
-### Dynamic Dependencies & Libraries (`-d`)
-Lists required shared libraries (`NEEDED` tags, e.g. `libc.so.6`, `libssl.so`):
+### Δυναμικές εξαρτήσεις και βιβλιοθήκες (`-d`)
+Εμφανίζει τις απαιτούμενες κοινόχρηστες βιβλιοθήκες (ετικέτες `NEEDED`, π.χ. `libc.so.6`, `libssl.so`):
 ```bash
 readelf -d ./target_binary
 ```
-
 ---
 
-## 🧩 objdump: Disassembly & Relocations
+## 🧩 objdump: Αποσυναρμολόγηση & μετατοπίσεις
 
-### Intel Disassembly (`-d -M intel`)
-Disassemble executable sections into clean Intel-syntax assembly:
+### Αποσυναρμολόγηση Intel (`-d -M intel`)
+Αποσυναρμολογήστε εκτελέσιμα τμήματα σε καθαρό συγκρότημα σύνταξης Intel:
 ```bash
 # Disassemble .text section in Intel syntax
 objdump -d -M intel ./target_binary
@@ -172,19 +166,18 @@ objdump -d -M intel ./target_binary
 # Disassemble specific function (e.g. main)
 objdump -d -M intel ./target_binary | grep -A 30 "<main>:"
 ```
-
-### 🧩 objdump: Disassembly & Relocations
-Display the Global Offset Table (GOT) relocation addresses for imported library calls:
+### Εγγραφές μετεγκατάστασης & GOT (`-R`)
+Εμφάνιση των διευθύνσεων μετεγκατάστασης του Παγκόσμιου Πίνακα Μετατόπισης (GOT) για εισαγόμενες κλήσεις βιβλιοθήκης:
 ```bash
 objdump -R ./target_binary
 ```
-*Shows address targets for functions like `puts`, `printf`, and `system`.*
+*Εμφανίζει στόχους διευθύνσεων για λειτουργίες όπως `puts`, `printf` και `system`.*
 
 ---
 
-## 🔍 nm & strings: Symbol Resolution & Strings
+## 🔍 nm & συμβολοσειρές: Ανάλυση συμβόλων & συμβολοσειρές
 
-### Shows address targets for functions like `puts`, `printf`, and `system`.
+### Καταχώριση απογυμνωμένων συμβόλων με `nm`
 ```bash
 # List defined symbols only (ignore external imports)
 nm --defined-only -C ./target_binary
@@ -192,8 +185,7 @@ nm --defined-only -C ./target_binary
 # List undefined external symbols (functions resolved by dynamic linker)
 nm -u -C ./target_binary
 ```
-
-### Extracting Obfuscated Strings with `strings`
+### Εξαγωγή ασαφούς συμβολοσειρών με το `strings`
 ```bash
 # Extract ASCII strings with minimum 8 characters
 strings -a -n 8 ./target_binary
@@ -204,13 +196,11 @@ strings -e l -a ./target_binary
 # Print byte offset of each string in hex
 strings -a -t x ./target_binary
 ```
-
 ---
 
-## 🛡️ Πηγές και αναφορές
+## 🛡️ Αναφορά σκληρυμένης συλλογής
 
-To build an ELF binary with maximum security mitigations:
-
+Για να δημιουργήσετε ένα δυαδικό ELF με μέγιστους μετριασμούς ασφαλείας:
 ```bash
 gcc -O2 \
   -Wall \
@@ -221,28 +211,27 @@ gcc -O2 \
   -Wl,-z,noexecstack \
   source.c -o secure_binary
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Audit Mitigations**|`checksec --file=<bin>`|
-|**Audit Running PID**|`checksec --proc=<pid>`|
-|**View ELF Header**|`readelf -h <bin>`|
-|**View Stack NX Flag**|`readelf -l <bin> \|grep -A 1 GNU_STACK`|
-|**List Sections (.got, .plt)**|`readelf -S <bin>`|
-|**View Dynamic Symbols**|`readelf --dyn-syms <bin>`|
-|**Intel Disassembly**|`objdump -d -M intel <bin>`|
-|**Inspect GOT Relocations**|`objdump -R <bin>`|
-|**List Symbols (Demangled)**|`nm -C <bin>`|
-|**Extract UTF-16 Strings**|`strings -e l -a <bin>`|
-|**Show String Offsets**|`strings -a -t x <bin>`|
+| **Μετριασμούς Ελέγχου** | `checksec --file=<bin>` |
+| **Audit Running PID** | `checksec --proc=<pid>` |
+| **Προβολή κεφαλίδας ELF** | `readelf -h <bin>` |
+| **Προβολή Stack NX Flag** | `readelf -l <bin> \| grep -A 1 GNU_STACK` |
+| **Ενότητες λίστας (.got, .plt)**| `readelf -S <bin>` |
+| **Προβολή δυναμικών συμβόλων** | `readelf --dyn-syms <bin>` |
+| **Αποσυναρμολόγηση Intel** | `objdump -d -M intel <bin>` |
+| **Επιθεώρηση GOT Relocations** | `objdump -R <bin>` |
+| **Σύμβολα λίστας (Αποδιαλυμένα)** | `nm -C <bin>` |
+| **Εξαγωγή συμβολοσειρών UTF-16** | `strings -e l -a <bin>` |
+| **Εμφάνιση μετατοπίσεων συμβολοσειρών** | `strings -a -t x <bin>` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> checksec and GNU Binutils are diagnostic and reverse engineering tools intended for software security auditing, defense validation, and authorized binary research. Inspecting unauthorized software must adhere to local intellectual property regulations.
+> [!ΠΡΟΣΟΧΗ]
+> Το checksec και το GNU Binutils είναι εργαλεία διάγνωσης και αντίστροφης μηχανικής που προορίζονται για έλεγχο ασφάλειας λογισμικού, επικύρωση άμυνας και εξουσιοδοτημένη δυαδική έρευνα. Η επιθεώρηση μη εξουσιοδοτημένου λογισμικού πρέπει να συμμορφώνεται με τους τοπικούς κανονισμούς πνευματικής ιδιοκτησίας.

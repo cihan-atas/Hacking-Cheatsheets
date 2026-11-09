@@ -1,12 +1,16 @@
-# 📦 smuggler — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📦 контрабандист — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗███╗   ███╗██╗   ██╗ ██████╗  ██████╗ ██╗     ███████╗██████╗ 
   ██╔════╝████╗ ████║██║   ██║██╔════╝ ██╔════╝ ██║     ██╔════╝██╔══██╗
@@ -16,55 +20,53 @@
   ╚══════╝╚═╝     ╚═╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
              High-Performance HTTP Request Smuggling Scanner
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/smuggler-HTTP_Smuggling-blue?style=for-the-badge" alt="smuggler">
   <img src="https://img.shields.io/badge/Author-Evan_Ricaurte-orange?style=for-the-badge" alt="defparam">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Веб-безопасность">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
-<p align="center">
-  <b>📦 Ultra-fast, modular Python tool designed to detect and verify HTTP Request Smuggling vulnerabilities (CL.TE, TE.CL, and header mutation desyncs) across modern web infrastructure</b>
+<p выравнивание="центр">
+  <b>📦 Сверхбыстрый модульный инструмент Python, предназначенный для обнаружения и проверки уязвимостей контрабанды HTTP-запросов (CL.TE, TE.CL и рассинхронизации мутаций заголовков) в современной веб-инфраструктуре.</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--http-smuggling-theory)
-  - [CL.TE vs TE.CL Discrepancies](#clte-vs-tecl-discrepancies)
-- [Установка](#-installation)
-- [Basic Target Scanning](#-basic-target-scanning)
-- [Scan Configurations & Mutation Engines](#-scan-configurations--mutation-engines)
-  - [By default, smuggler tests for both `CL.TE` and `TE.CL` behaviors using safe timing payloads.](#default-vs-exhaustive-scan)
-  - [Smuggler includes different payload profiles:](#custom-headers--cookies)
-- [Multi-Target & Pipeline Scanning](#-multi-target--pipeline-scanning)
-- [Analyzing Results & Exploitation Paths](#-analyzing-results--exploitation-paths)
-  - [Cache Poisoning via Smuggling](#cache-poisoning-via-smuggling)
-  - [When smuggler reports a positive match:](#bypassing-front-end-security-controls)
-  - [Smuggle a request that generates an off-site redirect (e.g. Host header manipulation) to poison web caches serving JavaScript libraries to all users.](#hijacking-other-users-requests)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и теория HTTP-контрабанды](#-overview--http-smuggling-theory)
+  - [Расхождения CL.TE и TE.CL](#clte-vs-tecl-discrepancies)
+- [Установка](#-установка)
+- [Базовое сканирование целей](#-базовое-сканирование-целей)
+- [Конфигурации сканирования и механизмы мутации](#-scan-configurations--mutation-engines)
+  - [По умолчанию или полное сканирование](#default-vs-exhaustive-scan)
+  - [Пользовательские заголовки и файлы cookie](#custom-headers--cookies)
+- [Многоцелевое и конвейерное сканирование](#-multi-target--pipeline-scanning)
+- [Результаты анализа и пути эксплуатации](#-analyzing-results--exploitation-paths)
+  - [Отравление тайника через контрабанду](#cache-poisoning-via-smuggling)
+  - [Обход внешних элементов управления безопасностью](#bypassing-front-end-security-controls)
+  - [Перехват запросов других пользователей](#hijacking-other-users-requests)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и исправление](#-защитные-соображения--восстановление)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и теория HTTP-контрабанды
 
-[Legal Disclaimer](#-legal-disclaimer)
+Контрабанда HTTP-запросов происходит, когда внешний прокси-сервер/балансировщик нагрузки и внутренний веб-сервер расходятся во мнениях относительно границ HTTP-запроса:
 
-### CL.TE vs TE.CL Discrepancies
-- **CL.TE**: Front-end uses `Content-Length`, back-end uses `Transfer-Encoding: chunked`.
-- **TE.CL**: Front-end uses `Transfer-Encoding: chunked`, back-end uses `Content-Length`.
-- **TE.TE**: Both support `Transfer-Encoding`, but one can be tricked into ignoring it via header obfuscation (e.g., `Transfer-Encoding: xchunked`, tabs, or line folding).
+### Расхождения между CL.TE и TE.CL
+- **CL.TE:** На внешней стороне используется `Content-Length`, на внутренней — `Transfer-Encoding: chunked`.
+- **TE.CL:** На внешней стороне используется `Transfer-Encoding: chunked`, на внутренней — `Content-Length`.
+- **TE.TE:** Оба поддерживают `Transfer-Encoding`, но можно обманом заставить его игнорировать его с помощью обфускации заголовка (например, `Transfer-Encoding: xchunked`, табуляции или переноса строк).
 
-Created by **defparam (Evan Ricaurte)**, **smuggler** injects carefully crafted payloads to observe timing delays or desynchronization responses without breaking backend service stability.
+Созданный **defparam (Эван Рикаурте)**, **smuggler** внедряет тщательно созданные полезные данные для наблюдения за временными задержками или реакциями десинхронизации, не нарушая при этом стабильность серверной службы.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Clone the repository
 git clone https://github.com/defparam/smuggler.git
@@ -73,48 +75,41 @@ cd smuggler
 # Run using Python 3
 python3 smuggler.py -h
 ```
-
 ---
 
-## 🚀 Basic Target Scanning
+## 🚀 Базовое сканирование целей
 
-Scan a single web application endpoint:
-
+Сканируйте одну конечную точку веб-приложения:
 ```bash
 # Basic scan against a single target
 python3 smuggler.py -u https://target.com/
 ```
-
-🚀 Basic Target Scanning
+По умолчанию контрабандист проверяет поведение `CL.TE` и `TE.CL`, используя полезные данные безопасного времени.
 
 ---
 
-## ⚙️ Scan Configurations & Mutation Engines
+## ⚙️ Конфигурации сканирования и механизмы мутаций
 
-### By default, smuggler tests for both `CL.TE` and `TE.CL` behaviors using safe timing payloads.
-Smuggler includes different payload profiles:
-- **Default profile**: Fast, common desync mutations.
-- **Exhaustive profile**: Comprehensive mutations testing whitespace variations, multiple headers, and obfuscated transfer-encoding headers:
-
+### По умолчанию против полного сканирования
+Smuggler включает в себя различные профили полезной нагрузки:
+- **Профиль по умолчанию:** Быстрые, распространенные мутации рассинхронизации.
+- **Исчерпывающий профиль:** Комплексные мутации, проверяющие варианты пробелов, множественные заголовки и запутанные заголовки кодирования передачи:
 ```bash
 # Run exhaustive scan testing all mutation gadgets
 python3 smuggler.py -u https://target.com/ -c exhaustive
 ```
-
-### Smuggler includes different payload profiles:
-Default profile**: Fast, common desync mutations.
+### Пользовательские заголовки и файлы cookie
+Если требуется аутентификация или определенные заголовки хоста:
 ```bash
 python3 smuggler.py -u https://target.com/api/ \
   -H "Cookie: session=xyz123" \
   -H "X-Forwarded-Host: target.com"
 ```
-
 ---
 
-## 🌐 Multi-Target & Pipeline Scanning
+## 🌐 Многоцелевое и конвейерное сканирование
 
-Pipe endpoints discovered from `httpx` or `subfinder` directly into smuggler:
-
+Конечные точки канала, обнаруженные у `httpx` или `subfinder`, напрямую контрабандисту:
 ```bash
 # Scan a list of URLs from file
 python3 smuggler.py -f live_hosts.txt -t 10
@@ -122,21 +117,19 @@ python3 smuggler.py -f live_hosts.txt -t 10
 # Adjust timeout per probe (default: 10s)
 python3 smuggler.py -u https://target.com/ --timeout 5
 ```
-
 ---
 
-## 💥 Analyzing Results & Exploitation Paths
+## 💥 Анализ результатов и пути использования
 
-When smuggler reports a positive match:
+Когда контрабандист сообщает о положительном совпадении:
 ```text
 [CRITICAL] CL.TE Desync Detected: https://target.com/
 ```
+### Отравление тайника посредством контрабанды
+Переправить запрос, который генерирует перенаправление за пределы сайта (например, манипулирование заголовком хоста), чтобы отравить веб-кэши, предоставляющие библиотеки JavaScript всем пользователям.
 
-### Cache Poisoning via Smuggling
-Smuggle a request that generates an off-site redirect (e.g. Host header manipulation) to poison web caches serving JavaScript libraries to all users.
-
-### When smuggler reports a positive match:
-If the front-end proxy blocks `/admin`, smuggle a secondary internal request that reaches the back-end directly without proxy inspection:
+### Обход внешнего контроля безопасности
+Если внешний прокси-сервер блокирует `/admin`, переправьте вторичный внутренний запрос, который достигнет серверной части напрямую без проверки прокси-сервера:
 ```http
 POST / HTTP/1.1
 Host: target.com
@@ -148,33 +141,32 @@ Transfer-Encoding: chunked
 GET /admin HTTP/1.1
 Host: localhost
 ```
-
-### Smuggle a request that generates an off-site redirect (e.g. Host header manipulation) to poison web caches serving JavaScript libraries to all users.
-Smuggle a prefix of an HTTP request. When the next user sends their request, it gets appended to your smuggled request, exposing their cookies and session tokens.
+### Перехват запросов других пользователей
+Переправить префикс HTTP-запроса. Когда следующий пользователь отправляет свой запрос, он добавляется к вашему контрабандному запросу, раскрывая его файлы cookie и токены сеанса.
 
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Quick Single Target**|`python3 smuggler.py -u https://target.com/`|
-|**Exhaustive Deep Scan**|`python3 smuggler.py -u https://target.com/ -c exhaustive`|
-|**Scan Target List**|`python3 smuggler.py -f targets.txt -t 15`|
-|**Custom Headers/Cookies**|`python3 smuggler.py -u <URL> -H "Cookie: sess=123"`|
-|**Custom Timeout**|`python3 smuggler.py -u <URL> --timeout 15`|
+| **Быстрая одиночная цель** | `python3 smuggler.py -u https://target.com/` |
+| **Исчерпывающее глубокое сканирование**| `python3 smuggler.py -u https://target.com/ -c exhaustive` |
+| **Список целей сканирования** | `python3 smuggler.py -f targets.txt -t 15` |
+| **Пользовательские заголовки/файлы cookie**| `python3 smuggler.py -u <URL> -H "Cookie: sess=123"` |
+| **Пользовательский тайм-аут** | `python3 smuggler.py -u <URL> --timeout 15` |
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## 🛡️ Соображения по поводу защиты и исправления
 
-|**Custom Timeout**|`python3 smuggler.py -u <URL> --timeout 15`|
-2. **Normalize HTTP Headers:** Configure reverse proxies to reject requests containing both `Content-Length` and `Transfer-Encoding`.
-3. **Drop Ambiguous Mutations:** Drop requests with obfuscated `Transfer-Encoding` headers (e.g., spaces before colon, multiple values).
+1. **Обязательно использовать HTTP/2 или HTTP/3 End-to-End:** HTTP/2 определяет однозначную длину кадра, устраняя неоднозначность заголовка.
+2. **Нормализация заголовков HTTP.** Настройте обратные прокси-серверы для отклонения запросов, содержащих как `Content-Length`, так и `Transfer-Encoding`.
+3. **Отбрасывать неоднозначные мутации.** Отбрасывать запросы с запутанными заголовками `Transfer-Encoding` (например, пробелы перед двоеточием, несколько значений).
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> HTTP Request Smuggling can disrupt live backend queues and poison shared caching nodes. smuggler must be used exclusively on explicitly authorized test targets with strict permission from asset owners.
+> [!ВНИМАНИЕ]
+> Контрабанда HTTP-запросов может нарушить работу живых серверных очередей и отравить узлы общего кэширования. Контрабандист должен использоваться исключительно на явно разрешенных испытательных объектах со строгим разрешением владельцев активов.

@@ -1,12 +1,16 @@
-# 📂 GitTools - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📂 GitTools - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
    ██████╗ ██╗████████╗████████╗ ██████╗  ██████╗ ██╗     ███████╗
   ██╔════╝ ██║╚══██╔══╝╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝
@@ -16,50 +20,48 @@
    ╚═════╝ ╚═╝   ╚═╝      ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
       Exposed /.git/ Repository Dumping, Extraction & Secret Hunting
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/GitTools-Git_Dumping-blue?style=for-the-badge" alt="GitTools">
   <img src="https://img.shields.io/badge/Author-Internetwache-orange?style=for-the-badge" alt="internetwache">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_Secrets-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_Secrets-green?style=for-the-badge" alt="Seguridad web">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
-<p align="center">
-  <b>📂 Essential toolkit for discovering exposed <code>/.git/</code> folders on web servers, downloading raw Git object stores, and fully reconstructing original source code and commit history</b>
+<p align="centro">
+  <b>📂 Kit de herramientas esencial para descubrir carpetas <code>/.git/</code> expuestas en servidores web, descargar almacenes de objetos Git sin procesar y reconstruir completamente el código fuente original y el historial de confirmaciones</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview--the-exposed-git-hazard)
-- [Instalación](#-installation)
-- [The Three GitTools Modules](#-the-three-gittools-modules)
+- [Descripción general y peligro .git expuesto] (#-descripción general--el-peligro-git-expuesto)
+- [Instalación](#-instalación)
+- [Los tres módulos de GitTools](#-los-tres-módulos-de-gittools)
   - [1. Dumper (`gitdumper.sh`)](#1-dumper-gitdumpersh)
-  - [GitTools is organized into three specialized utilities:](#2-extractor-extractorsh)
-  - [3. Finder (`finder.py`)](#3-finder-finderpy)
-- [Alternative Python Dumper: `git-dumper`](#-alternative-python-dumper-git-dumper)
-- [Post-Reconstruction Secret & Credential Hunting](#-post-reconstruction-secret--credential-hunting)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Web Server Hardening](#-defensive-considerations--web-server-hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [2. Extractor (`extractor.sh`)](#2-extractor-extractorsh)
+  - [3. Buscador (`finder.py`)](#3-finder-finderpy)
+- [Dumper alternativo de Python: `git-dumper`] (#-alternative-python-dumper-git-dumper)
+- [Secreto posterior a la reconstrucción y búsqueda de credenciales](#-secreto-posterior a la reconstrucción--búsqueda-de-credenciales)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y endurecimiento del servidor web](#-consideraciones-defensivas--endurecimiento-del-servidor-web)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Descripción general y el peligro expuesto de .git
 
-When developers deploy web applications via `git clone` or automated scripts without properly restricting access to hidden directories, the **`/.git/`** folder becomes accessible over HTTP/HTTPS:
+Cuando los desarrolladores implementan aplicaciones web a través de `git clone` o scripts automatizados sin restringir adecuadamente el acceso a directorios ocultos, se puede acceder a la carpeta **`/.git/`** a través de HTTP/HTTPS:
 `https://target.com/.git/`
 
-Even if directory listing (indexing) is disabled, Git's deterministic structure allows an attacker to download `/.git/HEAD`, `/.git/config`, `/.git/index`, and traverse all Git loose objects (`.git/objects/xx/xxxx...`). This enables complete reconstruction of:
-- 🎯 Introducción
-- Database credentials, API tokens, and private SSH keys in configuration files.
-- Full git commit logs, author emails, and development branches.
+Incluso si el listado de directorios (indexación) está deshabilitado, la estructura determinista de Git permite a un atacante descargar `/.git/HEAD`, `/.git/config`, `/.git/index` y atravesar todos los objetos sueltos de Git (`.git/objects/xx/xxxx...`). Esto permite la reconstrucción completa de:
+- Código fuente completo de la aplicación y API internas.
+- Credenciales de base de datos, tokens API y claves SSH privadas en archivos de configuración.
+- Registros completos de confirmación de git, correos electrónicos de autores y ramas de desarrollo.
 
 ---
 
 ## 📥 Instalación
-
 ```bash
 # Clone GitTools repository
 git clone https://github.com/internetwache/GitTools.git
@@ -69,40 +71,36 @@ chmod +x Dumper/gitdumper.sh Extractor/extractor.sh
 # Install alternative standalone Python git-dumper via pip
 pip install git-dumper
 ```
-
 ---
 
-## 🚀 The Three GitTools Modules
+## 🚀 Los tres módulos de GitTools
 
-GitTools is organized into three specialized utilities:
+GitTools está organizado en tres utilidades especializadas:
 
-### 1. Dumper (`gitdumper.sh`)
-Downloads as much of the `.git` directory as possible from the web server:
+### 1. Volquete (`gitdumper.sh`)
+Descarga la mayor cantidad posible del directorio `.git` desde el servidor web:
 ```bash
 # Syntax: ./gitdumper.sh <URL_TO_GIT> <LOCAL_DESTINATION>
 ./Dumper/gitdumper.sh https://target.com/.git/ /tmp/target_repo/
 ```
-
-### GitTools is organized into three specialized utilities:
-Reconstructs original files, commit trees, and branches from the dumped `.git` loose objects:
+### 2. Extractor (`extractor.sh`)
+Reconstruye archivos originales, árboles de confirmación y ramas de los objetos sueltos `.git` volcados:
 ```bash
 # Syntax: ./extractor.sh <DUMPED_DIR> <OUTPUT_CODE_DIR>
 ./Extractor/extractor.sh /tmp/target_repo/ /tmp/extracted_source/
 ```
-Downloads as much of the `.git` directory as possible from the web server:
+Dentro de `/tmp/extracted_source/`, cada confirmación se restaura en un directorio aislado que contiene el árbol de archivos completo en ese momento.
 
-### 3. Finder (`finder.py`)
-2. Extractor (`extractor.sh`)
+### 3. Buscador (`finder.py`)
+Analiza listas de dominios o bloques CIDR para detectar directorios `.git` expuestos:
 ```bash
 python3 Finder/finder.py -i targets.txt -u "Mozilla/5.0"
 ```
-
 ---
 
-## 🐍 Alternative Python Dumper: `git-dumper`
+## 🐍 Dumper Python alternativo: `git-dumper`
 
-`git-dumper` is a multi-threaded Python alternative that reconstructs a live, working git repository automatically in one step:
-
+`git-dumper` es una alternativa de Python multiproceso que reconstruye automáticamente un repositorio git activo y funcional en un solo paso:
 ```bash
 # Dump and reconstruct working repository in one command
 git-dumper https://target.com/.git/ ./recovered_repo/
@@ -110,21 +108,18 @@ git-dumper https://target.com/.git/ ./recovered_repo/
 # Run through HTTP/SOCKS proxy
 git-dumper --proxy http://127.0.0.1:8080 https://target.com/.git/ ./recovered_repo/
 ```
-
-🐍 Alternative Python Dumper: `git-dumper`
+Una vez completado, puede usar los comandos `git` normales dentro de la carpeta:
 ```bash
 cd ./recovered_repo/
 git log -p              # Review all commit diffs and historical edits
 git status              # Check untracked files
 git branch -a           # List all remote and local branches
 ```
-
 ---
 
-## 🔍 Post-Reconstruction Secret & Credential Hunting
+## 🔍 Búsqueda de credenciales y secretos posteriores a la reconstrucción
 
-Once the repository is recovered, search for credentials and hidden files:
-
+Una vez recuperado el repositorio, busque credenciales y archivos ocultos:
 ```bash
 cd ./recovered_repo/
 
@@ -135,40 +130,39 @@ grep -Erio "password|secret|api_key|token|AWS" .
 gitleaks detect -v
 trufflehog git file://$(pwd)
 ```
+---
+
+## ⚡ Tabla de referencia rápida
+
+| Objetivo | Comando |
+|-----------|------------------|
+| **Volcado con git-dumper (Python)**| `git-dumper https://target.com/.git/ ./repo/` |
+| **Volcado con GitTools Bash** | `./Dumper/gitdumper.sh https://target.com/.git/ ./dump/` |
+| **Extraer compromisos con la fuente** | `./Extractor/extractor.sh ./dump/ ./source/` |
+| **Escanear la lista de hosts en busca de .git** | `python3 Finder/finder.py -i domains.txt` |
+| **Ver historial de confirmaciones** | `git log -p --color` |
+| **Busca secretos codificados** | `gitleaks detect -v` |
 
 ---
 
-## ⚡ Referencia rápida
+## 🛡️ Consideraciones defensivas y refuerzo del servidor web
 
-|Objective|Comando|
-|-----------|---------|
-|**Dump with git-dumper (Python)**|`git-dumper https://target.com/.git/ ./repo/`|
-|**Dump with GitTools Bash**|`./Dumper/gitdumper.sh https://target.com/.git/ ./dump/`|
-|**Extract Commits to Source**|`./Extractor/extractor.sh ./dump/ ./source/`|
-|**Scan Host List for .git**|`python3 Finder/finder.py -i domains.txt`|
-|**View Commit History**|`git log -p --color`|
-|**Hunt Hardcoded Secrets**|`gitleaks detect -v`|
-
----
-
-## 🛡️ Defensive Considerations & Web Server Hardening
-
-1. **Nginx Hardening:**
+1. **Endurecimiento de Nginx:**
    ```nginx
    location ~ /\.git {
        deny all;
        return 404;
    }
    ```
-2. **Apache Hardening (`.htaccess`):**
+2. **Endurecimiento de Apache (`.htaccess`):**
    ```apache
    RedirectMatch 404 /\.git
    ```
-3. **CI/CD Best Practices:** Never deploy code by cloning git directly into the web root (`/var/www/html/`). Use clean artifact bundles or Docker containers.
+3. **Prácticas recomendadas de CI/CD:** Nunca implemente código clonando git directamente en la raíz web (`/var/www/html/`). Utilice paquetes de artefactos limpios o contenedores Docker.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Aviso legal
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> GitTools and git-dumper are designed for authorized vulnerability assessments and defensive infrastructure auditing. Downloading proprietary source code from unauthorized web applications without permission is illegal.
+> [!PRECAUCIÓN]
+> GitTools y git-dumper están diseñados para evaluaciones de vulnerabilidad autorizadas y auditorías de infraestructura defensiva. Descargar código fuente propietario de aplicaciones web no autorizadas sin permiso es ilegal.

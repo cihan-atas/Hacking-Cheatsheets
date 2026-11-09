@@ -1,40 +1,43 @@
-# 🔍 wafw00f — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[wafw00f](https://github.com/EnableSecurity/wafw00f) is an open-source command-line Web Application Firewall (WAF) fingerprinting and detection tool. It identifies and fingerprints over 150 commercial and open-source WAF security solutions protecting target websites by sending normal and provocative HTTP requests and analyzing behavioral responses, headers, and cookies.
-
----
-
-## 📋 Содержание
-
-- [[Export Formats (JSON, CSV, Text)](#export-formats-json-csv-text)](#why-fingerprint-wafs)
-- [Установка](#installation)
-- [Установка](#basic--target-scanning)
-- [3. Disable Redirect Following (`-r`)](#exhaustive-multi-waf-detection--a)
-- [Bulk Target Scanning from File (`-i`)](#bulk-target-scanning-from-file--i)
-- [Scan an entire list of subdomains or target assets gathered from `subfinder` or `amass`:](#proxy--tor-routing--p)
-- [Export Formats (JSON, CSV, Text)](#export-formats-json-csv-text)
-- [List Supported WAF Signatures (`-l`)](#list-supported-waf-signatures--l)
-- [Cloud Providers**: Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.](#bug-bounty--penetration-testing-integration)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Export Formats (JSON, CSV, Text)](#export-formats-json-csv-text)
 
-Launching active web attacks (SQL injection, XSS, SSRF) against a protected target without prior reconnaissance often results in instant IP bans or false-negative vulnerability results. Identifying the exact WAF enables:
-- **Tailored Evasion**: Selecting vendor-specific bypass techniques (e.g., Unicode normalization for ModSecurity, chunked transfer encoding for Cloudflare).
-- **Origin IP Hunting**: If Cloudflare or Akamai is detected, pivoting to find the backend origin IP before testing.
-- **Rule Threshold Awareness**: Tuning scanner concurrency and rate limits below blocking thresholds.
+# wafw00f Шпаргалка
+
+[wafw00f](https://github.com/EnableSecurity/wafw00f) — это инструмент для снятия отпечатков и обнаружения брандмауэра веб-приложений (WAF) с открытым исходным кодом. Он идентифицирует и фиксирует более 150 коммерческих решений безопасности WAF с открытым исходным кодом, защищающих целевые веб-сайты, отправляя обычные и провокационные HTTP-запросы и анализируя поведенческие ответы, заголовки и файлы cookie.
+
+---
+
+## Содержание
+
+- [Почему WAF отпечатков пальцев?](#why-fingerprint-wafs)
+- [Установка](#установка)
+- [Базовое и целевое сканирование](#basic--target-scanning)
+- [Исчерпывающее обнаружение нескольких WAF (`-a`)](#exhaustive-multi-waf-detection--a)
+- [Массовое сканирование целей из файла (`-i`)](#bulk-target-scanning-from-file--i)
+- [Прокси и маршрутизация Tor (`-p`)](#proxy--tor-routing--p)
+- [Форматы экспорта (JSON, CSV, текст)](#export-formats-json-csv-text)
+- [Список поддерживаемых подписей WAF (`-l`)](#list-supported-waf-signatures--l)
+- [Интеграция Bug Bounty и тестирования на проникновение](#bug-bounty--penetration-testing-integration)
+
+---
+
+## Зачем нужны WAF отпечатков пальцев?
+
+Запуск активных веб-атак (SQL-инъекция, XSS, SSRF) против защищенной цели без предварительной разведки часто приводит к мгновенным банам IP или ложноотрицательным результатам уязвимости. Определение точного WAF позволяет:
+- **Индивидуальное уклонение:** выбор методов обхода, зависящих от поставщика (например, нормализация Unicode для ModSecurity, кодирование передачи фрагментов для Cloudflare).
+- **Охота за исходным IP-адресом.** Если обнаружены Cloudflare или Akamai, перед тестированием необходимо выполнить поворот, чтобы найти исходный IP-адрес серверной части.
+- **Узнавание о пороговых значениях правил:** Настройка одновременной работы сканера и ограничений скорости ниже пороговых значений блокировки.
 
 ---
 
 ## Установка
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y wafw00f
@@ -48,100 +51,88 @@ python3 -m pip install --user wafw00f
 # Verify installation
 wafw00f --version
 ```
-
 ---
 
-## Установка
+## Базовое и целевое сканирование
 
-### 1. Scan a Single Domain
+### 1. Сканирование одного домена
 ```bash
 wafw00f https://example.com
 ```
-*wafw00f sends baseline HTTP requests followed by tailored malicious patterns to trigger security filters, identifying signatures in headers, status codes, and error pages.*
+*wafw00f отправляет базовые HTTP-запросы, за которыми следуют адаптированные вредоносные шаблоны для активации фильтров безопасности, идентификации сигнатур в заголовках, кодах состояния и страницах ошибок.*
 
-### Basic & Target Scanning
-Inspect specific matching headers, HTTP status codes, and heuristics:
+### 2. Режим подробного вывода (`-v` / `-vv`)
+Проверьте конкретные совпадающие заголовки, коды состояния HTTP и эвристики:
 ```bash
 wafw00f https://example.com -v
 ```
-
-### 3. Disable Redirect Following (`-r`)
-Prevent wafw00f from following 301/302 redirects to separate edge reverse proxies from backend applications:
+### 3. Отключить подписку на перенаправление (`-r`)
+Запретите wafw00f следовать перенаправлениям 301/302, чтобы отделить пограничные обратные прокси от серверных приложений:
 ```bash
 wafw00f https://example.com -r
 ```
-
 ---
 
-## 3. Disable Redirect Following (`-r`)
+## Полное обнаружение нескольких WAF (`-a`)
 
-By default, wafw00f stops scanning as soon as the first WAF match is confirmed. Use `-a` to check all known vendor signatures (essential when an application sits behind a multi-tier defense like Cloudflare CDN + AWS WAF):
-
+По умолчанию wafw00f прекращает сканирование, как только будет подтверждено первое совпадение с WAF. Используйте `-a` для проверки подписей всех известных поставщиков (это важно, когда приложение находится за многоуровневой защитой, например Cloudflare CDN + AWS WAF):
 ```bash
 wafw00f https://example.com -a
 ```
-
 ---
 
-## Bulk Target Scanning from File (`-i`)
+## Массовое сканирование целей из файла (`-i`)
 
-Scan an entire list of subdomains or target assets gathered from `subfinder` or `amass`:
-
+Сканируйте весь список поддоменов или целевых ресурсов, собранный из `subfinder` или `amass`:
 ```bash
 wafw00f -i /path/to/domains.txt -o /tmp/waf_results.txt
 ```
-
 ---
 
-## Scan an entire list of subdomains or target assets gathered from `subfinder` or `amass`:
+## Прокси и маршрутизация Tor (`-p`)
 
-Route probing traffic through proxies to prevent IP blacklisting or inspect queries in Burp Suite:
+Направляйте зондирующий трафик через прокси, чтобы предотвратить занесение IP-адресов в черный список или проверять запросы в Burp Suite:
 
-### 1. Route Through Burp Suite Proxy
+### 1. Маршрутизация через прокси-сервер Burp Suite
 ```bash
 wafw00f https://example.com -p http://127.0.0.1:8080
 ```
-
-### 2. Route Through Local Tor SOCKS5 Proxy
+### 2. Маршрутизация через локальный прокси-сервер Tor SOCKS5
 ```bash
 wafw00f https://example.com -p socks5://127.0.0.1:9050
 ```
-
 ---
 
-## Export Formats (JSON, CSV, Text)
+## Форматы экспорта (JSON, CSV, текст)
 
-Export results for automated reporting or downstream reconnaissance tooling:
+Экспортируйте результаты для автоматизированных отчетов или последующих инструментов разведки:
 
-### 1. Export to JSON Format
+### 1. Экспорт в формат JSON
 ```bash
 wafw00f https://example.com -o results.json --format json
 ```
-
-### 2. Export to CSV Spreadsheet
+### 2. Экспорт в таблицу CSV
 ```bash
 wafw00f -i targets.txt -o results.csv --format csv
 ```
-
 ---
 
-## List Supported WAF Signatures (`-l`)
+## Список поддерживаемых подписей WAF (`-l`)
 
-View all 150+ detectable WAF products:
+Просмотрите все более 150 обнаруживаемых продуктов WAF:
 ```bash
 wafw00f -l
 ```
-Key supported products include:
-- **Cloud Providers**: Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.
-- **Enterprise Appliances**: F5 BIG-IP ASM, Imperva SecureSphere, Barracuda, Fortinet FortiWeb, Citrix NetScaler.
-- **Open Source / Software**: ModSecurity, NAXSI, Shadow Daemon, OpenResty.
+Ключевые поддерживаемые продукты включают:
+– **Поставщики облачных услуг:** Cloudflare, AWS WAF, Akamai, брандмауэр веб-приложений Microsoft Azure, Google Cloud Armor.
+- **Корпоративные устройства:** F5 BIG-IP ASM, Imperva SecureSphere, Barracuda, Fortinet FortiWeb, Citrix NetScaler.
+- **Открытый исходный код/программное обеспечение:** ModSecurity, NAXSI, Shadow Daemon, OpenResty.
 
 ---
 
-## Cloud Providers**: Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.
+## Интеграция Bug Bounty и тестирования на проникновение
 
-Open Source / Software**: ModSecurity, NAXSI, Shadow Daemon, OpenResty.
-
+Интегрируйте wafw00f в автоматизированный конвейер веб-атак:
 ```bash
 #!/usr/bin/env bash
 TARGET="https://app.target.corp"

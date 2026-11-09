@@ -1,40 +1,43 @@
-# 🔍 enum4linux-ng — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[enum4linux-ng](https://github.com/cddmp/enum4linux-ng) is a next-generation rewrite of the legacy `enum4linux` tool written in Python 3. It performs comprehensive Windows and Samba information gathering over SMB (Server Message Block), NetBIOS, RPC (Remote Procedure Call), and LDAP. It extracts user accounts, group memberships, shared folders, password policies, OS information, and RID cycles.
-
----
-
-## 📋 جدول المحتويات
-
-- [[RID Cycling & User Account Harvesting](#rid-cycling--user-account-harvesting)](#key-improvements-over-legacy-enum4linux)
-- [التثبيت](#installation--requirements)
-- [التثبيت](#basic-smb--domain-enumeration)
-- [Shared directories and access permissions.](#authentication-modes-null-session-vs-valid-user)
-- [Targeted Enumeration Modules](#targeted-enumeration-modules)
-- [RID Cycling & User Account Harvesting](#rid-cycling--user-account-harvesting)
-- [3. Extract Clean Username Wordlist](#exporting-reports-json-yaml-text)
-- [Defensive Hardening for SMB & RPC](#defensive-hardening-for-smb--rpc)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [RID Cycling & User Account Harvesting](#rid-cycling--user-account-harvesting)
 
-- **Modern Python 3 Engine**: Multi-threaded execution based on `impacket`, eliminating old Perl script crashes.
-- **Enhanced OS Detection**: Precise detection of Windows Server (2012–2025), Windows 10/11, and modern Samba versions.
-- **Structured Reporting**: Native export to JSON and YAML for seamless SIEM or scripting integration.
-- **Smarter RID Cycling**: Flexible range adjustments and automatic administrator/guest RID detection.
-- **Colorized CLI Output**: Clear visual indicators for security misconfigurations and null sessions.
+# ورقة الغش enum4linux-ng
+
+[enum4linux-ng](https://github.com/cddmp/enum4linux-ng) عبارة عن إعادة كتابة من الجيل التالي لأداة `enum4linux` القديمة المكتوبة بلغة Python 3. وهي تقوم بجمع معلومات Windows وSamba الشاملة عبر SMB (كتلة رسائل الخادم)، وNetBIOS، وRPC (استدعاء الإجراء البعيد)، وLDAP. يقوم باستخراج حسابات المستخدمين وعضويات المجموعة والمجلدات المشتركة وسياسات كلمة المرور ومعلومات نظام التشغيل ودورات RID.
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
+- [التحسينات الرئيسية على التراث القديم enum4linux](#key-improvements-over-legacy-enum4linux)
+- [التثبيت والمتطلبات](#التثبيت--المتطلبات)
+- [التعداد الأساسي للشركات الصغيرة والمتوسطة والمجال](#basic-smb--domain-enumeration)
+- [أوضاع المصادقة (جلسة فارغة مقابل مستخدم صالح)](#authentication-modes-null-session-vs-valid-user)
+- [وحدات التعداد المستهدفة](#targeted-enumeration-modules)
+- [تجميع RID وحصاد حساب المستخدم](#rid-cycling--user-account-harvesting)
+- [تصدير التقارير (JSON، YAML، نص)](#exporting-reports-json-yaml-text)
+- [التقوية الدفاعية للشركات الصغيرة والمتوسطة وRPC](#التقوية الدفاعية للشركات الصغيرة والمتوسطة--rpc)
+
+---
+
+## تحسينات رئيسية على الإرث القديم enum4linux
+
+- **محرك Python 3 الحديث:** تنفيذ متعدد الخيوط يعتمد على `impacket`، مما يزيل أعطال البرنامج النصي Perl القديم.
+- **الكشف المحسّن عن نظام التشغيل:** الكشف الدقيق عن Windows Server (2012–2025)، وWindows 10/11، وإصدارات Samba الحديثة.
+- **التقارير المنظمة:** التصدير الأصلي إلى JSON وYAML من أجل التكامل السلس مع SIEM أو البرمجة النصية.
+- ** ركوب الدراجات RID الأكثر ذكاءً: ** تعديلات النطاق المرنة والكشف التلقائي عن RID للمسؤول / الضيف.
+- **إخراج CLI الملون:** مؤشرات مرئية واضحة للتكوينات الأمنية الخاطئة والجلسات الفارغة.
+
+---
+
+## التثبيت والمتطلبات
 ```bash
 # Clone the repository
 git clone https://github.com/cddmp/enum4linux-ng.git
@@ -49,67 +52,62 @@ sudo ln -sf "$(pwd)/enum4linux-ng.py" /usr/local/bin/enum4linux-ng
 # Verify command
 enum4linux-ng -h
 ```
-
 ---
 
-## التثبيت
+## التعداد الأساسي للشركات الصغيرة والمتوسطة والمجال
 
-### 1. Default Enumeration Run (`-A`)
-Run all non-intrusive enumeration checks against the target:
+### 1. تشغيل التعداد الافتراضي (`-A`)
+قم بتشغيل جميع عمليات التحقق من التعداد غير التدخلية على الهدف:
 ```bash
 enum4linux-ng -A 192.168.1.50
 ```
-This module queries:
-- Basic SMB & Domain Enumeration
-- Operating system version and architecture.
-- 1. Default Enumeration Run (`-A`)
-- Run all non-intrusive enumeration checks against the target:
-- Users and local groups via RPC/SAMR.
+تستعلم هذه الوحدة:
+- أسماء NetBIOS وأسماء مجموعة العمل/المجال.
+- إصدار نظام التشغيل والهندسة المعمارية.
+- الدلائل المشتركة وأذونات الوصول.
+- سياسة كلمة المرور (عتبة التأمين، الحد الأدنى للطول، التاريخ).
+- المستخدمون والمجموعات المحلية عبر RPC/SAMR.
 
 ---
 
-## Shared directories and access permissions.
+## أوضاع المصادقة (جلسة فارغة مقابل مستخدم صالح)
 
-### Users and local groups via RPC/SAMR.
-Test if the target permits unauthenticated IPC$ connections:
+### 1. جلسة مجهولة / فارغة (`-u '' -p ''`)
+اختبر ما إذا كان الهدف يسمح باتصالات IPC$ غير المصادق عليها:
 ```bash
 enum4linux-ng -u "" -p "" 192.168.1.50
 ```
-
-### Authentication Modes (Null Session vs. Valid User)
-Supply valid low-privilege credentials to dramatically expand harvested data:
+### 2. المجال المصدق / الحساب المحلي
+توفير بيانات اعتماد صالحة ذات امتيازات منخفضة لتوسيع البيانات المجمعة بشكل كبير:
 ```bash
 enum4linux-ng -u "jdoe" -p "Password123!" 192.168.1.50
 ```
-
-### 3. Supply Specific Domain Name (`-d`)
+### 3. توفير اسم المجال المحدد (`-d`)
 ```bash
 enum4linux-ng -u "jdoe" -p "Password123!" -d "CORP.LOCAL" 192.168.1.50
 ```
-
 ---
 
-## Targeted Enumeration Modules
+## وحدات التعداد المستهدفة
 
-Run specific modules to minimize network footprints and avoid intrusion detection alerts:
+قم بتشغيل وحدات محددة لتقليل آثار الشبكة وتجنب تنبيهات اكتشاف التسلل:
 
-### 1. Shared Folders & Access Permissions (`-S`)
-Enumerate shares, comments, and check read/write access:
+### 1. المجلدات المشتركة وأذونات الوصول (`-S`)
+تعداد المشاركات والتعليقات والتحقق من الوصول للقراءة/الكتابة:
 ```bash
 enum4linux-ng -S 192.168.1.50
 ```
-
-### Run specific modules to minimize network footprints and avoid intrusion detection alerts:
-Identify account lockout thresholds to safely plan password spraying:
+### 2. استخراج سياسة كلمة المرور (`-P`)
+تحديد عتبات تأمين الحساب للتخطيط بأمان لرش كلمة المرور:
 ```bash
 enum4linux-ng -P 192.168.1.50
 ```
-Enumerate shares, comments, and check read/write access:
-- **Minimum Password Length**: e.g., 8 characters.
-- **Account Lockout Threshold**: e.g., 5 attempts (do not spray faster than lockout window!).
-- **Reset Lockout Counter**: e.g., 30 minutes.
+المخرجات الرئيسية التي يجب مراعاتها:
+- **الحد الأدنى لطول كلمة المرور:** على سبيل المثال، 8 أحرف.
+- **عتبة قفل الحساب:** على سبيل المثال، 5 محاولات (لا ترش بشكل أسرع من نافذة القفل!).
+- **إعادة ضبط عداد التأمين:** على سبيل المثال، 30 دقيقة.
 
-### 3. Users and Groups Only (`-U` and `-G`)
+### 3. المستخدمون والمجموعات فقط (`-U` و`-G`)
 ```bash
 # Enumerate user list
 enum4linux-ng -U 192.168.1.50
@@ -117,51 +115,46 @@ enum4linux-ng -U 192.168.1.50
 # Enumerate domain and local groups
 enum4linux-ng -G 192.168.1.50
 ```
-
-### Account Lockout Threshold**: e.g., 5 attempts (do not spray faster than lockout window!).
+### 4. نظام التشغيل ومعلومات NetBIOS فقط (`-O` و`-I`)
 ```bash
 enum4linux-ng -O -I 192.168.1.50
 ```
-
 ---
 
-## RID Cycling & User Account Harvesting
+## ركوب الدراجات RID وحصاد حساب المستخدم
 
-When user enumeration via standard RPC queries is restricted, perform Relative Identifier (RID) cycling via SAMR query calls:
+عندما يتم تقييد تعداد المستخدم عبر استعلامات RPC القياسية، قم بإجراء دورة المعرف النسبي (RID) عبر استدعاءات استعلام SAMR:
 
-### 1. Default RID Cycling (Range 500 - 1100)
+### 1. ركوب الدراجات RID الافتراضي (النطاق 500 - 1100)
 ```bash
 enum4linux-ng -R 192.168.1.50
 ```
-
-### 2. Custom RID Range (e.g. 500 to 5000 for Large Organizations)
+### 2. نطاق RID المخصص (على سبيل المثال، من 500 إلى 5000 للمؤسسات الكبيرة)
 ```bash
 enum4linux-ng -r 500-5000 192.168.1.50
 ```
-
-### 1. Default RID Cycling (Range 500 - 1100)
-Filter discovered RID usernames into a text file for password spraying:
+### 3. استخرج قائمة الكلمات النظيفة لاسم المستخدم
+تصفية أسماء مستخدمي RID المكتشفة في ملف نصي لرش كلمة المرور:
 ```bash
 enum4linux-ng -R 192.168.1.50 -oJ /tmp/enum_out
 jq -r '.users[].username' /tmp/enum_out.json | sort -u > /tmp/users.txt
 ```
-
 ---
 
-## 3. Extract Clean Username Wordlist
+## تصدير التقارير (JSON، YAML، نص)
 
-Export enumeration results for documentation or programmatic parsing:
+تصدير نتائج التعداد للتوثيق أو التحليل البرمجي:
 
-### 1. Export in All Formats Simultaneously (`-oA`)
+### 1. التصدير بجميع التنسيقات في وقت واحد (`-oA`)
 ```bash
 enum4linux-ng -A 192.168.1.50 -oA /tmp/target_recon
 ```
-Exporting Reports (JSON, YAML, Text)
-- `/tmp/target_recon.json`
-- Export enumeration results for documentation or programmatic parsing:
+يولد:
+-`/tmp/target_recon.json`
+-`/tmp/target_recon.yaml`
 - `/tmp/target_recon.txt`
 
-### 2. Export to Specific Format
+### 2. التصدير إلى تنسيق محدد
 ```bash
 # JSON only
 enum4linux-ng -A 192.168.1.50 -oJ /tmp/target.json
@@ -169,14 +162,13 @@ enum4linux-ng -A 192.168.1.50 -oJ /tmp/target.json
 # YAML only
 enum4linux-ng -A 192.168.1.50 -oY /tmp/target.yaml
 ```
-
 ---
 
-## Defensive Hardening for SMB & RPC
+## التصلب الدفاعي للشركات الصغيرة والمتوسطة وRPC
 
-|Vector|Risk|Hardening Recommendation|
+| ناقل | خطر | توصية تصلب |
 |---|---|---|
-|**Null Session (Anonymous IPC$)**|Unauthenticated domain reconnaissance|Set `RestrictNullSessAccess=1` in Windows Registry; configure `RestrictAnonymous=2` in SAM.|
-|**SMBv1 Active**|EternalBlue (MS17-010) & MITM attacks|Completely disable SMBv1 across all endpoints and Domain Controllers.|
-|**Cleartext Share Permissions**|Sensitive files and credentials exposed|Audit share permissions; enforce access-based enumeration (ABE).|
-|**RID Cycling Enumeration**|Full user account list extraction|Restrict anonymous SAM accounts enumeration via Local Security Policy.|
+| **جلسة فارغة (مجهول IPC$)** | استطلاع المجال غير المصادق | قم بتعيين `RestrictNullSessAccess=1` في سجل Windows؛ تكوين `RestrictAnonymous=2` في SAM. |
+| **SMBv1 نشط** | هجمات EternalBlue (MS17-010) وMITM | قم بتعطيل SMBv1 تمامًا عبر جميع نقاط النهاية ووحدات تحكم المجال. |
+| **أذونات مشاركة النص الواضح** | الملفات الحساسة وبيانات الاعتماد مكشوفة | تدقيق أذونات المشاركة؛ فرض التعداد القائم على الوصول (ABE). |
+| ** تعداد ركوب الدراجات RID ** | استخراج قائمة حسابات المستخدم الكاملة | تقييد تعداد حسابات SAM المجهولة عبر سياسة الأمان المحلية. |

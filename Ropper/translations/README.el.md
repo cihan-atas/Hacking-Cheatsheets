@@ -1,12 +1,16 @@
-# 🧩 Ropper — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🧩 Ropper & ROPgadget - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗ 
   ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -16,7 +20,6 @@
   ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝
      Advanced ROP & JOP Gadget Finder and Chain Generator
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Ropper-Gadget_Finder-blue?style=for-the-badge" alt="Ropper">
   <img src="https://img.shields.io/badge/ROPgadget-Exploit_Tool-orange?style=for-the-badge" alt="ROPgadget">
@@ -25,46 +28,45 @@
 </p>
 
 <p align="center">
-  <b>🧩 Essential command-line utilities for discovering Return-Oriented Programming (ROP) and Jump-Oriented Programming (JOP) gadgets to bypass Non-Executable (NX / DEP) memory protections</b>
+  <b>🧩 Βασικά βοηθητικά προγράμματα γραμμής εντολών για την ανακάλυψη gadget προγραμματισμού προσανατολισμένου στην επιστροφή (ROP) και προγραμματισμού προσανατολισμού μετάβασης (JOP) για να παρακάμψετε τις μη εκτελέσιμες (NX / DEP) προστασίες μνήμης</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--rop-theory)
-- [Εγκατάσταση](#-installation)
+- [Επισκόπηση & Θεωρία ROP](#-επισκόπηση--θεωρία rop)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [Basic Gadget Discovery](#-basic-gadget-discovery)
-  - [Extracting All Gadgets](#extracting-all-gadgets)
+  - [Εξαγωγή όλων των gadget] (#extracting-all-gadgets)
   - [Limiting Instruction Depth](#limiting-instruction-depth)
-- [Advanced Search & Pattern Filtering](#-advanced-search--pattern-filtering)
+- [Σύνθετη αναζήτηση και φιλτράρισμα μοτίβων](#-advanced-search--pattern-filtering)
   - [Targeting Specific Registers (`rdi`, `rsi`, `rdx`, `rax`)](#targeting-specific-registers-rdi-rsi-rdx-rax)
-  - [Memory Write Gadgets (Write-What-Where)](#memory-write-gadgets-write-what-where)
-  - [Syscall & Interrupt Gadgets](#syscall--interrupt-gadgets)
-- [Excluding Bad Characters (`--badbytes`)](#-excluding-bad-characters---badbytes)
-- [Automated ROP Chain Generation](#-automated-rop-chain-generation)
-  - [Ropper Automated Chains](#ropper-automated-chains)
+  - [Gadgets εγγραφής μνήμης (Write-What-Where)](#memory-write-gadgets-write-what-where)
+  - [Gadget Syscall & Interrupt](#syscall--interrupt-gadgets)
+- [Εξαιρούνται οι κακοί χαρακτήρες (`--badbytes`)] (#-εξαιρούνται οι κακοί χαρακτήρες---badbyte)
+- [Automated ROP Chain Generation] (#-automated-rop-chain-generation)
+  - [Ropper Automated Chains] (#ropper-automated-chains)
   - [ROPgadget Automated Chains](#ropgadget-automated-chains)
-- [Analyzing Loaded Libraries (libc ROP Chains)](#-analyzing-loaded-libraries-libc-rop-chains)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Analysing Loaded Libraries (libc ROP Chains)](#-analyzing-loaded-libraries-libc-rop-chains)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Mitigations](#-defensive-considerations--mitigations)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Θεωρία ROP
 
-Modern operating systems enforce **NX (No-Execute) / DEP (Data Execution Prevention)**, which prevents direct execution of shellcode placed on the stack or heap.
+Τα σύγχρονα λειτουργικά συστήματα επιβάλλουν το **NX (No-Execute) / DEP (Data Execution Prevention)**, το οποίο εμποδίζει την άμεση εκτέλεση του shellcode που τοποθετείται στη στοίβα ή στο σωρό.
 
-**Return-Oriented Programming (ROP)** circumvents this restriction by reusing small existing machine instructions already present in executable memory (`.text` section of the binary or shared libraries like `libc.so`). Each instruction sequence ending in a `ret` instruction is called a **gadget**. By arranging addresses on the stack, attackers chain gadgets together to:
-1. Load arguments into CPU registers (e.g., `pop rdi; ret` for x64 calling conventions).
-🎯 Εισαγωγή
-3. Trigger `execve("/bin/sh", NULL, NULL)` or invoke `system()`.
+Ο **Προγραμματισμός με προσανατολισμό στην επιστροφή (ROP)** παρακάμπτει αυτόν τον περιορισμό επαναχρησιμοποιώντας μικρές υπάρχουσες οδηγίες μηχανήματος που υπάρχουν ήδη στην εκτελέσιμη μνήμη (τμήμα `.text` της δυαδικής ή κοινόχρηστων βιβλιοθηκών όπως η `libc.so`). Κάθε ακολουθία εντολών που τελειώνει σε μια εντολή `ret` ονομάζεται **gadget**. Τακτοποιώντας διευθύνσεις στη στοίβα, οι εισβολείς ενώνουν τα gadget μεταξύ τους για να:
+1. Φορτώστε ορίσματα σε καταχωρητές CPU (π.χ. `pop rdi; ret` για συμβάσεις κλήσης x64).
+2. Γράψτε συμβολοσειρές (όπως `/bin/sh`) σε εγγράψιμες ενότητες `.bss` ή `.data`.
+3. Ενεργοποιήστε το `execve("/bin/sh", NULL, NULL)` ή καλέστε το `system()`.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y ropper python3-ropgadget
@@ -76,12 +78,11 @@ pip install ROPgadget
 # Arch Linux
 sudo pacman -S ropper python-ropgadget
 ```
-
 ---
 
-## 🚀 Basic Gadget Discovery
+## 🚀 Βασική Ανακάλυψη Gadget
 
-### Extracting All Gadgets
+### Εξαγωγή όλων των gadget
 ```bash
 # Using Ropper (Faster multi-threaded engine)
 ropper --file ./target_binary --nocolor
@@ -89,22 +90,19 @@ ropper --file ./target_binary --nocolor
 # Using ROPgadget
 ROPgadget --binary ./target_binary
 ```
-
-### Limiting Instruction Depth
-🚀 Basic Gadget Discovery
+### Περιορισμός βάθους εντολών
+Μειώστε τις θορυβώδεις μακριές αλυσίδες περιορίζοντας το μήκος του gadget (αριθμός οδηγιών πριν από το `ret`):
 ```bash
 # Limit to maximum 3 instructions before return
 ropper --file ./target_binary --inst-count 3
 ROPgadget --binary ./target_binary --depth 3
 ```
-
 ---
 
-## 🔍 Advanced Search & Pattern Filtering
+## 🔍 Προηγμένη αναζήτηση και φιλτράρισμα μοτίβων
 
-### Targeting Specific Registers (`rdi`, `rsi`, `rdx`, `rax`)
-In 64-bit Linux calling convention, the first three arguments to a function or syscall must reside in `rdi`, `rsi`, and `rdx`:
-
+### Συγκεκριμένοι καταχωρητές στόχευσης (`rdi`, `rsi`, `rdx`, `rax`)
+Στη σύμβαση κλήσης Linux 64-bit, τα τρία πρώτα ορίσματα σε μια συνάρτηση ή μια κλήση συστήματος πρέπει να βρίσκονται στα `rdi`, `rsi` και `rdx`:
 ```bash
 # Find pop rdi gadgets (1st argument)
 ropper --file ./target_binary --search "pop rdi"
@@ -118,19 +116,17 @@ ropper --file ./target_binary --search "pop rdx"
 # Find gadgets that control RAX (Syscall number: 59 for execve)
 ropper --file ./target_binary --search "pop rax"
 ```
-
-Using ROPgadget regex matching:
+Χρήση αντιστοίχισης ROPgadget regex:
 ```bash
 ROPgadget --binary ./target_binary --only "pop|ret" | grep -E "rdi|rsi|rdx|rax"
 ```
-
-### Memory Write Gadgets (Write-What-Where)
-When you need to store `/bin/sh` or arbitrary arguments into memory:
+### Gadgets εγγραφής μνήμης (Write-What-Where)
+Όταν χρειάζεται να αποθηκεύσετε `/bin/sh` ή αυθαίρετα ορίσματα στη μνήμη:
 ```bash
 # Find instructions moving registers into pointer memory
 ropper --file ./target_binary --search "mov [???], ???"
 ```
-*Example match:* `mov qword ptr [rdi], rsi; ret` allows writing whatever is in `rsi` to the address pointed to by `rdi`.
+*Παράδειγμα αντιστοίχισης:* Το `mov qword ptr [rdi], rsi; ret` επιτρέπει την εγγραφή ό,τι υπάρχει στο `rsi` στη διεύθυνση που υποδεικνύει το `rdi`.
 
 ### Syscall & Interrupt Gadgets
 ```bash
@@ -140,42 +136,37 @@ ropper --file ./target_binary --search "syscall"
 # x86 32-bit software interrupt
 ropper --file ./target_binary --search "int 0x80"
 ```
-
 ---
 
-## 🚫 Excluding Bad Characters (`--badbytes`)
+## 🚫 Εξαιρούνται οι κακοί χαρακτήρες (`--badbytes`)
 
-String formatting vulnerabilities or functions like `strcpy()` terminate on null bytes (`\x00`), newlines (`\x0a`), or carriage returns (`\x0d`). Exclude addresses containing these bytes:
-
+Οι ευπάθειες ή οι συναρτήσεις μορφοποίησης συμβολοσειρών όπως το `strcpy()` τερματίζονται σε μηδενικά byte (`\x00`), νέες γραμμές (`\x0a`) ή επιστροφές μεταφοράς (`\x0d`). Εξαίρεση διευθύνσεων που περιέχουν αυτά τα byte:
 ```bash
 # Filter out gadgets whose addresses contain bad characters
 ropper --file ./target_binary --badbytes 000a0d --search "pop rdi"
 ROPgadget --binary ./target_binary --badbytes "00|0a|0d"
 ```
-
 ---
 
-## ⚡ Automated ROP Chain Generation
+## ⚡ Αυτοματοποιημένη δημιουργία αλυσίδας ROP
 
-Both tools can automatically build functional Python exploit templates that invoke `execve("/bin/sh")`:
+Και τα δύο εργαλεία μπορούν να δημιουργήσουν αυτόματα λειτουργικά πρότυπα εκμετάλλευσης Python που καλούν το `execve("/bin/sh")`:
 
-### Ropper Automated Chains
+### Αυτοματοποιημένες αλυσίδες Ropper
 ```bash
 ropper --file ./target_binary --chain "execve"
 ```
-
-### ROPgadget Automated Chains
+### Αυτοματοποιημένες αλυσίδες ROPgadget
 ```bash
 ROPgadget --binary ./target_binary --ropchain
 ```
-*This produces a ready-to-use Python payload skeleton chaining `mprotect()` or `execve()`.*
+*Αυτό παράγει έναν έτοιμο προς χρήση σκελετό ωφέλιμου φορτίου Python που αλυσιδώνει `mprotect()` ή `execve()`.*
 
 ---
 
-## 📚 Analyzing Loaded Libraries (libc ROP Chains)
+## 📚 Ανάλυση φορτωμένων βιβλιοθηκών (libc ROP Chains)
 
-When the binary itself is compiled as **PIE** or contains few useful gadgets, extract gadgets directly from the target system's shared C library (`libc.so.6`):
-
+Όταν το ίδιο το δυαδικό έχει μεταγλωττιστεί ως **PIE** ή περιέχει λίγα χρήσιμα gadget, εξάγετε gadget απευθείας από την κοινόχρηστη βιβλιοθήκη C του συστήματος προορισμού (`libc.so.6`):
 ```bash
 # Search gadgets in libc
 ropper --file /lib/x86_64-linux-gnu/libc.so.6 --search "pop rdi; ret"
@@ -183,32 +174,32 @@ ropper --file /lib/x86_64-linux-gnu/libc.so.6 --search "pop rdi; ret"
 # Find "/bin/sh" string offset inside libc
 strings -a -t x /lib/x86_64-linux-gnu/libc.so.6 | grep "/bin/sh"
 ```
-*(Add discovered offsets to the leaked base address of libc at runtime).*
+*(Προσθέστε μετατοπίσεις που εντοπίστηκαν στη διεύθυνση βάσης του libc που διέρρευσε κατά το χρόνο εκτέλεσης).*
 
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Ropper Command|ROPgadget Command|
+| Στόχος | Εντολή Ropper | Εντολή ROPgadget |
 |-----------|----------------|-------------------|
-|**Dump All Gadgets**|`ropper --file <bin>`|`ROPgadget --binary <bin>`|
-|**Search Specific Gadget**|`ropper --file <bin> --search "pop rdi"`|`ROPgadget --binary <bin> \|grep "pop rdi"`|
-|**Filter Bad Bytes**|`ropper --file <bin> --badbytes 000a`|`ROPgadget --binary <bin> --badbytes "00\|0a"`|
-|**Limit Depth / Length**|`ropper --file <bin> --inst-count 3`|`ROPgadget --binary <bin> --depth 3`|
-|**Search JOP Gadgets**|`ropper --file <bin> --type jop`|`ROPgadget --binary <bin> --norop`|
-|**Auto Build ROP Chain**|`ropper --file <bin> --chain "execve"`|`ROPgadget --binary <bin> --ropchain`|
-|**Search Memory Writes**|`ropper --file <bin> --search "mov [???], ???"`|`ROPgadget --binary <bin> \|grep "mov \["`|
+| **Απόθεση όλων των gadget** | `ropper --file <bin>` | `ROPgadget --binary <bin>` |
+| **Συγκεκριμένο gadget Αναζήτησης** | `ropper --file <bin> --search "pop rdi"` | `ROPgadget --binary <bin> \| grep "pop rdi"` |
+| **Φιλτράρισμα κακών bytes** | `ropper --file <bin> --badbytes 000a` | `ROPgadget --binary <bin> --badbytes "00\|0a"` |
+| **Όριο βάθους / μήκους** | `ropper --file <bin> --inst-count 3` | `ROPgadget --binary <bin> --depth 3` |
+| **Αναζήτηση JOP Gadgets** | `ropper --file <bin> --type jop` | `ROPgadget --binary <bin> --norop` |
+| **Αυτόματη κατασκευή ROP Αλυσίδα** | `ropper --file <bin> --chain "execve"`| `ROPgadget --binary <bin> --ropchain` |
+| **Αναζήτηση Μνήμης Γράφει** | `ropper --file <bin> --search "mov [???], ???"` | `ROPgadget --binary <bin> \| grep "mov \["` |
 
 ---
 
-## 🛡️ Defensive Considerations & Mitigations
+## 🛡️ Αμυντικοί προβληματισμοί & μετριασμοί
 
-1. **Control-flow Enforcement Technology (Intel CET / Shadow Stack):** Modern processors maintain an isolated hardware shadow stack that verifies return addresses upon `ret`, terminating ROP chains immediately.
-2. **Clang / GCC Control Flow Integrity (CFI):** Validates function pointer targets against a forward-edge graph before indirect calls.
+1. **Τεχνολογία επιβολής ροής ελέγχου (Intel CET / Shadow Stack):** Οι σύγχρονοι επεξεργαστές διατηρούν μια απομονωμένη σκιώδη στοίβα υλικού που επαληθεύει τις διευθύνσεις επιστροφής στο `ret`, τερματίζοντας αμέσως τις αλυσίδες ROP.
+2. **Clang / Ακεραιότητα ροής ελέγχου GCC (CFI):** Επικυρώνει τους στόχους του δείκτη συναρτήσεων έναντι ενός γραφήματος προς τα εμπρός πριν από έμμεσες κλήσεις.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Ropper and ROPgadget are exploit development and software security evaluation utilities. They must strictly be used in authorized penetration tests, CTF challenges, or defensive security research. Exploiting software without explicit authorization is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το Ropper και το ROPgadget είναι βοηθητικά προγράμματα ανάπτυξης εκμετάλλευσης και αξιολόγησης ασφάλειας λογισμικού. Πρέπει να χρησιμοποιούνται αυστηρά σε εξουσιοδοτημένες δοκιμές διείσδυσης, προκλήσεις CTF ή αμυντική έρευνα ασφάλειας. Η εκμετάλλευση λογισμικού χωρίς ρητή εξουσιοδότηση είναι παράνομη.

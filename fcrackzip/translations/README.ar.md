@@ -1,39 +1,42 @@
-# 🔍 fcrackzip — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[fcrackzip](https://github.com/hyc/fcrackzip) is a fast, multi-threaded command-line password cracker for encrypted ZIP archives. It supports both dictionary-based attacks and optimized brute-force attacks against traditional ZipCrypto (PKZIP stream cipher) and can verify archive integrity without full extraction.
-
----
-
-## 📋 جدول المحتويات
-
-- [[Character Sets & Length Specification](#character-sets--length-specification)](#core-features--limitations)
-- [التثبيت](#installation)
-- [التثبيت](#dictionary-attacks--d--p)
-- [2. Verbose Output Mode](#brute-force-attacks--b)
-- [`-c A`: Uppercase letters (`A-Z`).](#character-sets--length-specification)
-- [Benchmark & Performance Optimization](#benchmark--performance-optimization)
-- [ZipCrypto vs. AES-256 (John/Hashcat Alternative)](#zipcrypto-vs-aes-256-johnhashcat-alternative)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Character Sets & Length Specification](#character-sets--length-specification)
 
-- **Ultra-Fast ZipCrypto Cracker**: Written in C, optimized for legacy ZipCrypto algorithm (standard PKZIP encryption).
-- **Dictionary Mode**: Reads candidate passwords sequentially from wordlists.
-- **Brute-Force Mode**: Generates candidates on-the-fly using configurable character sets and length boundaries.
-- **Archive Unzip Test (`-u`)**: Verifies candidate passwords by attempting decompression, virtually eliminating false positives.
-- **Limitation**: Does **not** support modern WinZip AES-256 encryption. For AES-256 ZIPs, use `zip2john` + John the Ripper or Hashcat (mode 13600).
+# ورقة الغش fcrackzip
+
+[fcrackzip](https://github.com/hyc/fcrackzip) عبارة عن أداة سريعة ومتعددة الخيوط لتكسير كلمات مرور سطر الأوامر لأرشيفات ZIP المشفرة. وهو يدعم كلا من الهجمات المستندة إلى القاموس وهجمات القوة الغاشمة المحسنة ضد ZipCrypto التقليدي (تشفير دفق PKZIP) ويمكنه التحقق من سلامة الأرشيف دون الاستخراج الكامل.
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
+- [الميزات والقيود الأساسية](#الميزات الأساسية--القيود)
+- [التثبيت](#التثبيت)
+- [هجمات القاموس (`-D -p`)](#dictionary-attacks--d--p)
+- [هجمات القوة الغاشمة (`-b`)](#هجمات القوة الغاشمة--ب)
+- [مجموعات الأحرف ومواصفات الطول](#مجموعات الأحرف--مواصفات الطول)
+- [تحسين الأداء والمعيار](#benchmark--Performance-optimization)
+- [ZipCrypto مقابل AES-256 (John/Hashcat البديل)](#zipcrypto-vs-aes-256-johnhashcat-alternative)
+
+---
+
+## الميزات والقيود الأساسية
+
+- **أداة ZipCrypto Cracker فائقة السرعة:** مكتوبة بلغة C، ومُحسَّنة لخوارزمية ZipCrypto القديمة (تشفير PKZIP القياسي).
+- **وضع القاموس:** يقرأ كلمات المرور المرشحة بالتسلسل من قوائم الكلمات.
+- **وضع القوة الغاشمة:** يُنشئ مرشحين سريعًا باستخدام مجموعات أحرف قابلة للتكوين وحدود الطول.
+- **اختبار فك ضغط الأرشيف (`-u`):** يتحقق من كلمات المرور المرشحة عن طريق محاولة فك الضغط، والقضاء فعليًا على النتائج الإيجابية الخاطئة.
+- **القيود:** لا **لا** يدعم تشفير WinZip AES-256 الحديث. بالنسبة إلى ملفات ZIP AES-256، استخدم `zip2john` + John the Ripper أو Hashcat (الوضع 13600).
+
+---
+
+## تثبيت
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y fcrackzip
@@ -47,70 +50,68 @@ sudo dnf install -y fcrackzip
 # Verify command
 fcrackzip -h
 ```
-
 ---
 
-## التثبيت
+## هجمات القاموس (`-D -p`)
 
-The fastest way to test against common wordlists:
+أسرع طريقة للاختبار مقابل قوائم الكلمات الشائعة:
 
-### 1. Basic Dictionary Attack with Unzip Verification
+### 1. هجوم القاموس الأساسي مع التحقق من فك الضغط
 ```bash
 fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt secret_archive.zip
 ```
-- Dictionary Attacks (`-D -p`)
-- `-D`: Dictionary attack mode.
-- The fastest way to test against common wordlists:
+- `-u`: وضع فك الضغط (يتحقق من الملف المستخرج CRC لتجنب النتائج الإيجابية الخاطئة).
+- `-D`: وضع هجوم القاموس.
+- `-p <file>`: المسار إلى ملف القاموس.
 
-### 1. Basic Dictionary Attack with Unzip Verification
-Display tested speed, current password, and debug info:
+### 2. وضع الإخراج المطول
+عرض السرعة التي تم اختبارها وكلمة المرور الحالية ومعلومات التصحيح:
 ```bash
 fcrackzip -v -u -D -p passwords.txt backup.zip
 ```
-
 ---
 
-## 2. Verbose Output Mode
+## هجمات القوة الغاشمة (`-b`)
 
-When dictionary attacks fail, brute-force against unknown short passwords:
+عندما تفشل هجمات القاموس، استخدم القوة الغاشمة ضد كلمات المرور القصيرة غير المعروفة:
 
-### 1. Brute-Force Numeric PINs (4 to 6 Digits)
+### 1. أرقام التعريف الشخصية الرقمية ذات القوة الغاشمة (4 إلى 6 أرقام)
 ```bash
 fcrackzip -u -b -c 1 -l 4-6 secure.zip
 ```
-- Brute-Force Attacks (`-b`)
-- `-c 1`: Character set: digits only (`0-9`).
-- When dictionary attacks fail, brute-force against unknown short passwords:
+- `-b`: وضع القوة الغاشمة.
+- `-c 1`: مجموعة الأحرف: أرقام فقط (`0-9`).
+- `-l 4-6`: نطاق الطول: الحد الأدنى 4، الحد الأقصى 6 أحرف.
 
-### 1. Brute-Force Numeric PINs (4 to 6 Digits)
+### 2. أحرف أبجدية رقمية صغيرة (من 1 إلى 5 أحرف)
 ```bash
 fcrackzip -u -b -c a1 -l 1-5 archive.zip
 ```
-- `-b`: Brute-force mode.
+- `-c a1`: الحروف الصغيرة (`a-z`) والأرقام (`0-9`).
 
-### `-l 4-6`: Length range: min 4, max 6 characters.
+### 3. أحرف صغيرة + أحرف كبيرة + أرقام + رموز
 ```bash
 fcrackzip -u -b -c aA1! -l 6-8 protected.zip
 ```
-- 2. Lowercase Alphanumeric Characters (1 to 5 Characters)
-- `-c A`: Uppercase letters (`A-Z`).
-- `-c a1`: Lowercase letters (`a-z`) and digits (`0-9`).
-- `-c !`: Special symbols (`[!:$%&/()=?{[]}+*~#]`).
+- `-c a`: الحروف الصغيرة (`a-z`).
+- `-c A`: الحروف الكبيرة (`A-Z`).
+- `-c 1`: الأرقام (`0-9`).
+- `-c !`: الرموز الخاصة (`[!:$%&/()=?{[]}+*~#]`).
 
 ---
 
-## `-c A`: Uppercase letters (`A-Z`).
+## مجموعات الأحرف ومواصفات الطول
 
-|العلامة|Character Set Included|Example Candidates|
+| علم | مجموعة الأحرف متضمنة | المرشحين المثال |
 |---|---|---|
-|`-c a`|Lowercase letters (`a-z`)|`admin`, `secret`|
-|`-c A`|Uppercase letters (`A-Z`)|`SECRET`, `ROOT`|
-|`-c 1`|Digits (`0-9`)|`1234`, `2024`|
-|`-c !`|Special punctuation characters|`!@#$`|
-|`-c aA1`|Combined alphanumeric characters|`Admin123`|
-|`-p <prefix>`|Initial starting seed string|Useful to resume brute force|
+| `-c a` | أحرف صغيرة (`a-z`) | `admin`، `secret` |
+| `-c A` | الحروف الكبيرة (`A-Z`) | `SECRET`، `ROOT` |
+| `-c 1` | أرقام (`0-9`) | `1234`، `2024` |
+| `-c !` | أحرف الترقيم الخاصة | `!@#$` |
+| `-c aA1` | الحروف الأبجدية الرقمية المدمجة | `Admin123` |
+| `-p <prefix>` | سلسلة بذرة البداية الأولية | من المفيد استئناف القوة الغاشمة |
 
-|`-c A`|Uppercase letters (`A-Z`)|`SECRET`, `ROOT`|
+تحديد حدود الطول:
 ```bash
 # Minimum length 6, Maximum length 8
 -l 6-8
@@ -118,22 +119,19 @@ fcrackzip -u -b -c aA1! -l 6-8 protected.zip
 # Exact length 8
 -l 8-8
 ```
-
 ---
 
-## Benchmark & Performance Optimization
+## تحسين الأداء والأداء
 
-Test CPU throughput on your machine:
+اختبار إنتاجية وحدة المعالجة المركزية على جهازك:
 ```bash
 fcrackzip -B
 ```
-
 ---
 
-## ZipCrypto vs. AES-256 (John/Hashcat Alternative)
+## ZipCrypto مقابل AES-256 (بديل John/Hashcat)
 
-If `fcrackzip` returns `not a zipfile, or unsupported encryption type`, the archive is encrypted with AES-256 (WinZip AES). Use `zip2john`:
-
+إذا قام `fcrackzip` بإرجاع `not a zipfile, or unsupported encryption type`، فسيتم تشفير الأرشيف باستخدام AES-256 (WinZip AES). استخدم `zip2john`:
 ```bash
 # 1. Extract hash using zip2john
 zip2john aes_protected.zip > zip.hash

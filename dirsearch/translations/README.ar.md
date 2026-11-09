@@ -1,12 +1,16 @@
-# 🔍 dirsearch — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔍 dirsearch - ورقة الغش كاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗██████╗ ███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗
   ██╔══██╗██║██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
@@ -16,82 +20,80 @@
   ╚═════╝ ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
        Advanced Web Path Scanner & Directory Brute-Forcer
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/dirsearch-Web_Bruteforcer-blue?style=for-the-badge" alt="dirsearch">
   <img src="https://img.shields.io/badge/Language-Python_Async-green?style=for-the-badge" alt="Python Async">
-  <img src="https://img.shields.io/badge/Recon-Web_Discovery-orange?style=for-the-badge" alt="Web Discovery">
+  <img src="https://img.shields.io/badge/Recon-Web_Discovery-orange?style=for-the-badge" alt="اكتشاف الويب">
   <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
-</p>
+</ص>
 
 <p align="center">
-  <b>🌐 Fast, feature-packed command-line web path scanner with intelligent extension handling, recursion, and crawling</b>
-</p>
+  <b>🌐 ماسح مسار ويب سريع ومليء بالميزات مع معالجة ذكية للامتدادات والتكرار والزحف</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-introduction)
-- [Tool Comparison](#-tool-comparison)
-- [التثبيت](#-installation)
-- [بناء الجملة الأساسي](#-basic-usage--target-selection)
-- [Extension & Suffix Management](#-extension--suffix-management)
-- [Wordlists & Dictionaries](#-wordlists--dictionaries)
-- [Recursion & Web Crawling](#-recursion--web-crawling)
-- [Threading, Rate Limiting & Delays](#-threading-rate-limiting--delays)
-- [Filtering & Matching Responses](#-filtering--matching-responses)
-- [HTTP Request Customization](#-http-request-customization)
-  - [Custom Headers & User-Agents](#custom-headers--user-agents)
-  - [🛠️ HTTP Request Customization](#cookies--authentication)
-  - [POST Data & Request Methods](#post-data--request-methods)
-- [Proxies, Tor & Evasion](#-proxies-tor--evasion)
-- [Output Formats & Reporting](#-output-formats--reporting)
-- [Real-World Pentest & Bug Bounty Recipes](#-real-world-pentest--bug-bounty-recipes)
-- [مرجع سريع](#-quick-reference-table)
-- [نصائح وأفضل الممارسات](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [المقدمة](#-المقدمة)
+- [مقارنة الأدوات](#-مقارنة الأدوات)
+- [التثبيت](#-التثبيت)
+- [الاستخدام الأساسي واختيار الهدف](#-الاستخدام الأساسي--تحديد الهدف)
+- [إدارة الامتدادات واللاحقات](#-إدارة-الامتداد--اللاحقة)
+- [قوائم الكلمات والقواميس](#-قوائم الكلمات--القواميس)
+- [العودة والزحف على الويب](#-العودة--الزحف على الويب)
+- [الترابط، تحديد المعدل والتأخير](#-تحديد معدل الترابط--التأخير)
+- [تصفية ومطابقة الردود](#-تصفية--مطابقة-الردود)
+- [تخصيص طلب HTTP](#-http-request-customization)
+  - [الترويسات المخصصة ووكلاء المستخدم](#custom-headers--user-agents)
+  - [ملفات تعريف الارتباط والمصادقة](#ملفات تعريف الارتباط--المصادقة)
+  - [بيانات النشر وطرق الطلب](#post-data--request-methods)
+- [الوكلاء، تور والتهرب](#-proxies-tor--evasion)
+- [تنسيقات الإخراج وإعداد التقارير](#-تنسيقات الإخراج--التقارير)
+- [وصفات Pentest & Bug Bounty في العالم الحقيقي] (#-real-world-pentest--bug-bounty-recipes)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [النصائح وأفضل الممارسات](#-نصائح--أفضل-الممارسات)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 المقدمة
 
-**dirsearch** (created by Mauro Soria) is one of the most popular and versatile command-line tools for discovering hidden files and directories on web servers. Written in Python, it provides unmatched flexibility with its rich command-line arguments, colorized terminal output, automatic recursive crawling, intelligent wildcard extension expansion, and built-in evasion controls.
+**dirsearch** (الذي أنشأه Mauro Soria) هو أحد أدوات سطر الأوامر الأكثر شيوعًا وتنوعًا لاكتشاف الملفات والأدلة المخفية على خوادم الويب. وهو مكتوب بلغة Python، وهو يوفر مرونة لا مثيل لها من خلال وسائط سطر الأوامر الغنية، والمخرجات الطرفية الملونة، والزحف العودي التلقائي، وتوسيع امتداد أحرف البدل الذكية، وعناصر التحكم المضمنة في التهرب.
 
-Whether you are performing web penetration testing, bug bounty hunting, or internal CTF assessments, `dirsearch` is tailored to uncover hidden administrative interfaces, backup databases, forgotten API endpoints, and sensitive credentials.
+سواء كنت تقوم بإجراء اختبار اختراق الويب، أو البحث عن مكافآت الأخطاء، أو تقييمات CTF الداخلية، فقد تم تصميم `dirsearch` للكشف عن الواجهات الإدارية المخفية، وقواعد البيانات الاحتياطية، ونقاط نهاية API المنسية، وبيانات الاعتماد الحساسة.
 
-### 🎯 مقدمة
+### الميزات الرئيسية
 
-|Feature|الوصف|
-|---------|-------------|
-|**Multi-Threaded**|High-performance asynchronous and threaded request engine|
-|**Extension Wildcards**|Expand `-e *` to test all known web file extensions automatically|
-|**Integrated Crawling**|Follows HTML/JS links to seed recursive directory queues|
-|**Rich Filtering**|Filter responses by status code, byte size, word count, line count, or regex|
-|**Raw Request Replay**|Load complete Burp Suite HTTP requests via `--raw`|
-|**Multiple Formats**|Generates reports in Plaintext, JSON, CSV, Markdown, and HTML|
+| ميزة | الوصف |
+|---------|------------|
+| **متعدد الخيوط** | محرك طلب غير متزامن ومترابط عالي الأداء |
+| ** أحرف البدل الملحقة ** | قم بتوسيع `-e *` لاختبار جميع امتدادات ملفات الويب المعروفة تلقائيًا |
+| ** الزحف المتكامل ** | يتبع روابط HTML/JS لقوائم انتظار الدليل العودية |
+| **تصفية غنية** | قم بتصفية الاستجابات حسب رمز الحالة أو حجم البايت أو عدد الكلمات أو عدد الأسطر أو التعبير العادي |
+| **إعادة الطلب الخام** | قم بتحميل طلبات Burp Suite HTTP الكاملة عبر `--raw` |
+| **تنسيقات متعددة** | يُنشئ تقارير بتنسيق Plaintext وJSON وCSV وMarkdown وHTML |
 
 ---
 
-## ⚖️ Tool Comparison
+## ⚖️ مقارنة الأدوات
 
-|Feature|🔴 اكتشاف البرمجة النصية عبر المواقع (XSS)|ffuf|Feroxbuster|Gobuster|DIRB|
-|---------|-----------|------|-------------|----------|------|
-|**Language**|Python|Go|Rust|Go|C|
-|**Speed**|⭐⭐⭐⭐ (Fast)|⭐⭐⭐⭐⭐ (Extremely fast)|⭐⭐⭐⭐⭐ (Blazingly fast)|⭐⭐⭐⭐ (Fast)|⭐⭐ (Low thread)|
-|**Default Recursion**|✅ Automatic (`-r`)|Optional (`-recursion`)|✅ Automatic (`-d`)|Optional (`-r`)|✅ Automatic|
-|**Extension Wildcard (`*`)**|✅ Native (`-e *`)|❌ No|❌ No|❌ No|❌ No|
-|**Built-in Web Crawler**|✅ Yes (`--crawl`)|❌ No|✅ Yes (`--extract-links`)|❌ No|❌ No|
-|**POST / Data Fuzzing**|✅ Yes (`--data`)|✅ Full HTTP|❌ Limited|❌ No|❌ No|
-|**Burp Raw Request Replay**|✅ Yes (`--raw`)|✅ Yes (`-request`)|❌ No|❌ No|❌ No|
-|**Built-in Wordlist**|✅ Curated (`db/dicc.txt`)|❌ None|❌ None|❌ None|✅ Small list|
+| ميزة | ديرسيرتش | ففوف | فيروكسبوستر | جوبستر | ديرب |
+|---------|----------|-------------|-----------|------|----------|--|
+| **اللغة** | بايثون | اذهب | الصدأ | اذهب | ج |
+| **السرعة** | ⭐⭐⭐⭐ (سريع) | ⭐⭐⭐⭐⭐ (سريع للغاية) | ⭐⭐⭐⭐⭐ (سريع للغاية) | ⭐⭐⭐⭐ (سريع) | ⭐⭐(الخيط المنخفض) |
+| ** العودية الافتراضية ** | ✅ أوتوماتيك (`-r`) | اختياري (`-recursion`) | ✅ أوتوماتيك (`-d`) | اختياري (`-r`) | ✅ اوتوماتيك |
+| **حرف بدل الامتداد (`*`)**| ✅ أصلي (`-e *`) | ❌ لا | ❌ لا | ❌ لا | ❌ لا |
+| ** زاحف الويب المدمج ** | ✅ نعم (`--crawl`) | ❌ لا | ✅ نعم (`--extract-links`) | ❌ لا | ❌ لا |
+| **POST / تشويش البيانات** | ✅ نعم (`--data`) | ✅ HTTP كامل | ❌ محدودة | ❌ لا | ❌ لا |
+| ** إعادة تشغيل طلب التجشؤ الخام **| ✅ نعم (`--raw`) | ✅ نعم (`-request`) | ❌ لا | ❌ لا | ❌ لا |
+| ** قائمة الكلمات المضمنة ** | ✅ برعاية (`db/dicc.txt`)| ❌ لا يوجد | ❌ لا يوجد | ❌ لا يوجد | ✅ قائمة صغيرة |
 
 ---
 
 ## 📥 التثبيت
 
-### |**Built-in Wordlist**|✅ Curated (`db/dicc.txt`)|❌ None|❌ None|❌ None|✅ Small list|
-
+### استخدام pipx (موصى به لنظامي Kali وModern Linux)
 ```bash
 # Install via pipx (isolated Python environment)
 pipx install dirsearch
@@ -99,16 +101,12 @@ pipx install dirsearch
 # Verify installation
 dirsearch --version
 ```
-
-### 📥 التثبيت
-
+### استخدام النقطة
 ```bash
 # Install via standard pip
 pip3 install dirsearch
 ```
-
-### Using Git Clone (Direct from Source)
-
+### استخدام Git Clone (مباشرة من المصدر)
 ```bash
 # Clone the official repository
 git clone https://github.com/maurosoria/dirsearch.git --depth 1
@@ -118,9 +116,7 @@ cd dirsearch
 pip3 install -r requirements.txt
 python3 dirsearch.py --version
 ```
-
-### Kali Linux Package & Docker
-
+### حزمة كالي لينكس ودوكر
 ```bash
 # Kali / Debian repository
 sudo apt update && sudo apt install -y dirsearch
@@ -128,13 +124,11 @@ sudo apt update && sudo apt install -y dirsearch
 # Docker container
 docker run -it --rm maurosoria/dirsearch -u https://example.com -e php,html
 ```
-
 ---
 
-## 🚀 بناء الجملة الأساسي
+## 🚀 الاستخدام الأساسي واختيار الهدف
 
-### Single Target
-
+### هدف واحد
 ```bash
 # Basic scan against a single URL specifying extensions
 dirsearch -u https://target.com -e php,html,js,txt
@@ -142,9 +136,7 @@ dirsearch -u https://target.com -e php,html,js,txt
 # Scan with trailing slash forced
 dirsearch -u https://target.com -e php -f
 ```
-
-### نصائح وأفضل الممارسات
-
+### أهداف متعددة
 ```bash
 # Scan a list of targets from file
 dirsearch -l targets.txt -e php,aspx,txt
@@ -152,9 +144,7 @@ dirsearch -l targets.txt -e php,aspx,txt
 # Scan stdin input from subfinder / httpx
 cat live_hosts.txt | dirsearch --stdin -e php
 ```
-
-### Port Scanning & CIDR Targeting
-
+### فحص المنافذ واستهداف CIDR
 ```bash
 # Scan specific ports on a host
 dirsearch -u https://target.com --ports 80,443,8080,8443 -e php
@@ -162,13 +152,11 @@ dirsearch -u https://target.com --ports 80,443,8080,8443 -e php
 # Scan an entire subnet range
 dirsearch --cidr 192.168.1.0/24 -e html
 ```
-
 ---
 
-## 🧩 Extension & Suffix Management
+## 🧩 إدارة الامتدادات واللاحقات
 
-`dirsearch` has the most powerful extension management system among all directory scanners:
-
+يتمتع `dirsearch` بأقوى نظام لإدارة الامتدادات بين جميع ماسحات الدليل:
 ```bash
 # Specify multiple extensions
 dirsearch -u https://target.com -e php,html,json,txt,zip
@@ -182,13 +170,11 @@ dirsearch -u https://target.com -e php --prefixes test_,dev_,staging_,old_
 # Add suffixes to wordlist entries (e.g. admin_backup, admin_old)
 dirsearch -u https://target.com -e php --suffixes _bak,~,_2026,_old
 ```
-
 ---
 
-## 📚 Wordlists & Dictionaries
+## 📚 قوائم الكلمات والقواميس
 
-`dirsearch` bundles a comprehensive, battle-tested wordlist at `db/dicc.txt`:
-
+يحتوي `dirsearch` على قائمة كلمات شاملة تم اختبارها في المعركة في `db/dicc.txt`:
 ```bash
 # Run using the default bundled dictionary
 dirsearch -u https://target.com -e php
@@ -203,13 +189,11 @@ dirsearch -u https://target.com -e php -w list1.txt,list2.txt
 dirsearch -u https://target.com -e php --lowercase
 dirsearch -u https://target.com -e php --uppercase
 ```
-
 ---
 
-## 🔄 Recursion & Web Crawling
+## 🔄 العودية والزحف على الويب
 
-### | `-s` | الوضع الصامت |
-
+### المسح العودي
 ```bash
 # Recursively scan newly found directories
 dirsearch -u https://target.com -e php -r
@@ -220,20 +204,16 @@ dirsearch -u https://target.com -e php -r --recursion-depth 2
 # Recursively scan only if HTTP status is 200, 301, or 302
 dirsearch -u https://target.com -e php -r --recursion-status 200,301,302
 ```
-
-### 🔄 Recursion & Web Crawling
-
+### زاحف الويب المتكامل
 ```bash
 # Crawl the target website for internal URLs and feed them into the scan queue
 dirsearch -u https://target.com -e php --crawl
 ```
-
 ---
 
-## ⚡ Threading, Rate Limiting & Delays
+## ⚡ الخيوط، تحديد المعدل والتأخير
 
-Control scan aggressiveness to prevent triggering rate-limiting or Web Application Firewalls (WAF):
-
+التحكم في عدوانية الفحص لمنع تشغيل الحد من المعدل أو جدران حماية تطبيقات الويب (WAF):
 ```bash
 # Set number of concurrent threads (default: 25)
 dirsearch -u https://target.com -e php -t 50
@@ -250,13 +230,11 @@ dirsearch -u https://target.com -e php --timeout 8 --retries 3
 # Exit scan immediately on excessive connection errors
 dirsearch -u https://target.com -e php --exit-on-error
 ```
-
 ---
 
-## 🎯 Filtering & Matching Responses
+## 🎯 تصفية ومطابقة الردود
 
-### Status Code Inclusion & Exclusion
-
+### إدراج واستبعاد رمز الحالة
 ```bash
 # Include only specific status codes (e.g., ignore everything except 200, 301, 403)
 dirsearch -u https://target.com -e php -i 200,301,302,403
@@ -264,9 +242,7 @@ dirsearch -u https://target.com -e php -i 200,301,302,403
 # Exclude specific status codes (e.g., exclude 404 and 500)
 dirsearch -u https://target.com -e php -x 404,400,500,502,503
 ```
-
-### 🎯 Filtering & Matching Responses
-
+### التصفية حسب الحجم والكلمات والمحتوى
 ```bash
 # Exclude responses by specific byte size (e.g. ignore custom 404 pages)
 dirsearch -u https://target.com -e php --exclude-sizes 0B,1542B,3421B
@@ -277,13 +253,11 @@ dirsearch -u https://target.com -e php --exclude-texts "Not Found","Access Denie
 # Exclude responses matching a regular expression
 dirsearch -u https://target.com -e php --exclude-regex "^Error:.*"
 ```
-
 ---
 
-## 🛠️ HTTP Request Customization
+## 🛠️ تخصيص طلب HTTP
 
-### Custom Headers & User-Agents
-
+### الرؤوس المخصصة ووكلاء المستخدم
 ```bash
 # Set a custom header (e.g., authorization token or internal bypass header)
 dirsearch -u https://target.com -e php -H "X-Forwarded-For: 127.0.0.1" -H "X-Requested-With: XMLHttpRequest"
@@ -297,9 +271,7 @@ dirsearch -u https://target.com -e php --random-agent
 # Set a custom User-Agent
 dirsearch -u https://target.com -e php --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 ```
-
-### 🛠️ HTTP Request Customization
-
+### ملفات تعريف الارتباط والمصادقة
 ```bash
 # Provide session cookies for authenticated scanning
 dirsearch -u https://target.com -e php -b "PHPSESSID=abc123xyz; admin_logged=true"
@@ -310,9 +282,7 @@ dirsearch -u https://target.com -e php --auth admin:SecretPass123 --auth-type ba
 # NTLM Authentication for corporate Windows portals
 dirsearch -u https://target.com -e php --auth CORP\\alice:Welcome2026 --auth-type ntlm
 ```
-
-### POST Data & Request Methods
-
+### نشر البيانات وطرق الطلب
 ```bash
 # Perform fuzzing using HTTP POST requests
 dirsearch -u https://target.com/api -m POST -d "action=test&token=xyz" -e json
@@ -320,11 +290,9 @@ dirsearch -u https://target.com/api -m POST -d "action=test&token=xyz" -e json
 # Replay an entire raw HTTP request saved from Burp Suite
 dirsearch -u https://target.com --raw request.txt -e php
 ```
-
 ---
 
-## 🛡️ Proxies, Tor & Evasion
-
+## 🛡️ الوكلاء والتور والتهرب
 ```bash
 # Route all traffic through an HTTP or SOCKS5 proxy (e.g., Burp Suite)
 dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080
@@ -335,11 +303,9 @@ dirsearch -u https://target.com -e php --tor
 # Skip SSL/TLS certificate verification
 dirsearch -u https://target.com -e php --no-check-certificate
 ```
-
 ---
 
-## 📄 Output Formats & Reporting
-
+## 📄 تنسيقات الإخراج وإعداد التقارير
 ```bash
 # Save output as a clean text file
 dirsearch -u https://target.com -e php -o results.txt
@@ -352,13 +318,11 @@ dirsearch -u https://target.com -e php -o report.html --format html
 dirsearch -u https://target.com -e php -o results.csv --format csv
 dirsearch -u https://target.com -e php -o report.md --format markdown
 ```
-
 ---
 
-## 🎯 Real-World Pentest & Bug Bounty Recipes
+## 🎯 وصفات Pentest ومكافآت الأخطاء في العالم الحقيقي
 
-### 1. Rapid Full-Scope Web Reconnaissance
-
+### 1. استطلاع سريع واسع النطاق للويب
 ```bash
 # Scan with common web extensions, follow redirects, random UA, 40 threads
 dirsearch -u https://target.com \
@@ -368,9 +332,7 @@ dirsearch -u https://target.com \
   -i 200,301,302,403 \
   -o target_recon.txt
 ```
-
-### 🎯 Real-World Pentest & Bug Bounty Recipes
-
+### 2. البحث عن النسخ الاحتياطية المنسية وتسريبات المصادر
 ```bash
 # Test for database dumps, git repos, env files, and zip archives
 dirsearch -u https://target.com \
@@ -379,9 +341,7 @@ dirsearch -u https://target.com \
   -i 200 \
   --exclude-sizes 0B
 ```
-
-### 3. Deep Recursive Directory Discovery
-
+### 3. اكتشاف الدليل العودي العميق
 ```bash
 # 2-level recursion, crawling pages for new paths, ignoring error status codes
 dirsearch -u https://target.com \
@@ -391,9 +351,7 @@ dirsearch -u https://target.com \
   -x 404,500,502 \
   -o deep_scan.json --format json
 ```
-
-### 4. Authenticated Internal Portal Assessment
-
+### 4. تقييم البوابة الداخلية الموثقة
 ```bash
 # Scan through Burp Suite with internal session cookies and WAF bypass headers
 dirsearch -u https://intranet.corp.local \
@@ -402,37 +360,36 @@ dirsearch -u https://intranet.corp.local \
   -H "X-Forwarded-For: 127.0.0.1" \
   --proxy http://127.0.0.1:8080
 ```
-
 ---
 
-## ⚡ مرجع سريع
+## ⚡ جدول مرجعي سريع
 
-|Task|الأمر|
+| مهمة | الأمر |
 |------|---------|
-|**Basic scan with extensions**|`dirsearch -u https://target.com -e php,html,txt`|
-|**All extensions wildcard**|`dirsearch -u https://target.com -e *`|
-|**Custom wordlist**|`dirsearch -u https://target.com -e php -w /path/to/wordlist.txt`|
-|**Scan multiple targets**|`dirsearch -l targets.txt -e php,aspx`|
-|**Recursive discovery**|`dirsearch -u https://target.com -e php -r --recursion-depth 2`|
-|**Crawl target links**|`dirsearch -u https://target.com -e php --crawl`|
-|**Include status codes**|`dirsearch -u https://target.com -e php -i 200,301,302,403`|
-|**Exclude status codes**|`dirsearch -u https://target.com -e php -x 404,500,502`|
-|**Exclude false positive sizes**|`dirsearch -u https://target.com -e php --exclude-sizes 0B,1240B`|
-|**Authenticate with cookies**|`dirsearch -u https://target.com -e php -b "session=abc123"`|
-|**Route through Burp Suite**|`dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080`|
-|**Save report to JSON**|`dirsearch -u https://target.com -e php -o report.json --format json`|
+| **المسح الأساسي مع الامتدادات** | `dirsearch -u https://target.com -e php,html,txt` |
+| ** جميع أحرف البدل للامتدادات ** | `dirsearch -u https://target.com -e *` |
+| **قائمة الكلمات المخصصة** | `dirsearch -u https://target.com -e php -w /path/to/wordlist.txt` |
+| **مسح أهداف متعددة** | `dirsearch -l targets.txt -e php,aspx` |
+| **الاكتشاف العودي** | `dirsearch -u https://target.com -e php -r --recursion-depth 2` |
+| **الزحف إلى الروابط المستهدفة** | `dirsearch -u https://target.com -e php --crawl` |
+| **تضمين رموز الحالة** | `dirsearch -u https://target.com -e php -i 200,301,302,403` |
+| **استبعاد رموز الحالة** | `dirsearch -u https://target.com -e php -x 404,500,502` |
+| **استبعاد الأحجام الإيجابية الخاطئة**| `dirsearch -u https://target.com -e php --exclude-sizes 0B,1240B` |
+| **المصادقة باستخدام ملفات تعريف الارتباط** | `dirsearch -u https://target.com -e php -b "session=abc123"` |
+| **الطريق عبر Burp Suite** | `dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080` |
+| **حفظ التقرير إلى JSON** | `dirsearch -u https://target.com -e php -o report.json --format json` |
 
 ---
 
-## 💡 نصائح وأفضل الممارسات
+## 💡 النصائح وأفضل الممارسات
 
-1. **Use `-e *` Sparingly on Large Wordlists:** Wildcard extension expansion multiplies each word by 20+ extensions. Use `-e *` only with smaller lists like `common.txt` or `dicc.txt`.
-2. **Filter Out False-Positive Sizes:** Modern web frameworks return custom 404 pages with HTTP 200. Inspect the size of the default response and add `--exclude-sizes <size>` to eliminate noise.
-3. **Always Check 403 Forbidden Paths:** In modern cloud and enterprise environments, HTTP 403 responses indicate that the directory or endpoint exists. Document all 403s for header bypass and path traversal testing.
-4. **Leverage Prefixes & Suffixes for Backups:** Developers frequently save backup copies of sensitive files (e.g. `config.php.bak`, `old_database.sql`). Use `--prefixes` and `--suffixes` to automatically discover them.
+1. ** استخدم `-e *` بشكل مقتصد في قوائم الكلمات الكبيرة: ** يؤدي توسيع امتداد حرف البدل إلى مضاعفة كل كلمة بأكثر من 20 امتدادًا. استخدم `-e *` فقط مع القوائم الأصغر مثل `common.txt` أو `dicc.txt`.
+2. **تصفية الأحجام الإيجابية الزائفة:** تُرجع أطر عمل الويب الحديثة 404 صفحة مخصصة مع HTTP 200. افحص حجم الاستجابة الافتراضية وأضف `--exclude-sizes <size>` للتخلص من الضوضاء.
+3. **التحقق دائمًا من 403 المسارات المحظورة:** في البيئات السحابية والمؤسساتية الحديثة، تشير استجابات HTTP 403 إلى وجود الدليل أو نقطة النهاية. قم بتوثيق جميع 403s الخاصة بتجاوز الرأس واختبار اجتياز المسار.
+4. ** الاستفادة من البادئات واللاحقات للنسخ الاحتياطية: ** يقوم المطورون بشكل متكرر بحفظ نسخ احتياطية من الملفات الحساسة (مثل `config.php.bak`، `old_database.sql`). استخدم `--prefixes` و`--suffixes` لاكتشافهما تلقائيًا.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️إخلاء المسؤولية القانونية
 
-> **IMPORTANT:** Unauthorized port scanning, directory brute-forcing, and web enumeration against servers without explicit, written permission is illegal. Use `dirsearch` strictly in legal bug bounty engagements, authorized penetration tests, and CTF lab environments.
+> **هام:** يعد فحص المنافذ غير المصرح به، والضغط الغاشمة على الدليل، وتعداد الويب ضد الخوادم دون الحصول على إذن كتابي صريح أمرًا غير قانوني. استخدم `dirsearch` بشكل صارم في ارتباطات مكافآت الأخطاء القانونية، واختبارات الاختراق المعتمدة، وبيئات مختبرات CTF.

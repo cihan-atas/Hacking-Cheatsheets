@@ -1,12 +1,16 @@
-# 🕸️ InQL – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🕸️ InQL – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗███╗   ██╗ ██████╗ ██╗     
   ██║████╗  ██║██╔═══██╗██║     
@@ -16,7 +20,6 @@
   ╚═╝╚═╝  ╚═══╝ ╚══▀▀═╝ ╚══════╝
       Comprehensive GraphQL Security Assessment & Introspection Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/InQL-GraphQL_Security-blue?style=for-the-badge" alt="InQL">
   <img src="https://img.shields.io/badge/Author-Doyensec-orange?style=for-the-badge" alt="Doyensec">
@@ -25,45 +28,44 @@
 </p>
 
 <p align="center">
-  <b>🕸️ Advanced CLI security framework and Burp Suite extension developed by Doyensec to dump GraphQL introspection schemas, generate query templates, and audit GraphQL API security</b>
+  <b>🕸️ Erweitertes CLI-Sicherheitsframework und Burp Suite-Erweiterung, entwickelt von Doyensec, um GraphQL-Introspektionsschemata zu sichern, Abfragevorlagen zu generieren und die GraphQL-API-Sicherheit zu prüfen</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--graphql-security-fundamentals)
-  - [Introspection Query Hazards](#introspection-query-hazards)
-- [Installation](#-installation)
-- [Introspection Dumping & Schema Generation](#-introspection-dumping--schema-generation)
-  - [CLI Introspection Query](#cli-introspection-query)
-  - [`mutations/`: Auto-generated mutation templates for data modification.](#dumping-to-schema-definition-language-sdl)
-  - [Generating Ready-to-Run Query Templates](#generating-ready-to-run-query-templates)
-- [Auditing Mutations & Sensitive Queries](#-auditing-mutations--sensitive-queries)
-- [Detecting Denial of Service & Batching Flaws](#-detecting-denial-of-service--batching-flaws)
-  - [Batch Querying (Array Batching)](#batch-querying-array-batching)
-  - [Ressourcen und Referenzen](#circular-references--nested-queries)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & Hardening](#-defensive-considerations--hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Übersicht und GraphQL-Sicherheitsgrundlagen](#-overview--graphql-security-fundamentals)
+  - [Gefahren bei Introspection-Abfragen](#introspection-query-hazards)
+- [Installation](#-Installation)
+- [Introspection Dumping & Schemagenerierung](#-introspection-dumping--schema-generation)
+  - [CLI-Introspection-Abfrage](#cli-introspection-query)
+  - [Dumping in die Schema Definition Language (SDL)](#dumping-to-schema-definition-sprache-sdl)
+  - [Generieren von betriebsbereiten Abfragevorlagen](#generating-ready-to-run-query-templates)
+- [Überwachung von Mutationen und sensiblen Abfragen](#-auditing-mutations--sensitive-queries)
+- [Denial-of-Service- und Batching-Fehler erkennen](#-detecting-denial-of-service--batching-flaws)
+  - [Batch-Abfrage (Array-Batching)](#batch-querying-array-batching)
+  - [Zirkuläre Referenzen und verschachtelte Abfragen](#circular-references--nested-queries)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Verteidigungsüberlegungen und Härtung](#-defensive-überlegungen--härtung)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Übersicht und GraphQL-Sicherheitsgrundlagen
 
-Unlike standard REST APIs with discrete URLs (`/api/v1/users`), GraphQL exposes a single HTTP endpoint (usually `/graphql`) where clients request custom data shapes via queries and mutations.
+Im Gegensatz zu Standard-REST-APIs mit diskreten URLs (`/api/v1/users`) stellt GraphQL einen einzelnen HTTP-Endpunkt (normalerweise `/graphql`) bereit, an dem Clients über Abfragen und Mutationen benutzerdefinierte Datenformen anfordern.
 
-### Introspection Query Hazards
-GraphQL features a built-in introspection system (`__schema`, `__type`) designed for developer tooling. If left enabled in production:
-- 🎯 Einführung
-- Unreleased features, internal administrative mutations (e.g. `deleteUser`, `changeRole`), and private fields are completely exposed.
+### Gefahren bei Introspektion-Abfragen
+GraphQL verfügt über ein integriertes Introspektionssystem (`__schema`, `__type`), das für Entwicklertools entwickelt wurde. Wenn in der Produktion aktiviert bleibt:
+– Angreifer können das gesamte Backend-Schema abfragen.
+– Unveröffentlichte Funktionen, interne administrative Mutationen (z. B. `deleteUser`, `changeRole`) und private Felder werden vollständig offengelegt.
 
-Created by **Doyensec**, **InQL** automates introspection extraction, parses schemas, generates documentation, and builds ready-to-use exploit templates.
+**InQL** wurde von **Doyensec** entwickelt und automatisiert die Introspektionsextraktion, analysiert Schemata, generiert Dokumentation und erstellt gebrauchsfertige Exploit-Vorlagen.
 
 ---
 
 ## 📥 Installation
-
 ```bash
 # Using Python pip (Recommended)
 pip install inql
@@ -75,42 +77,39 @@ cd inql && pip install .
 # Verify installation
 inql -h
 ```
-
 ---
 
-## 🚀 Introspection Dumping & Schema Generation
+## 🚀 Selbstbeobachtungs-Dumping und Schemagenerierung
 
-### CLI Introspection Query
-Query a remote GraphQL endpoint, extract the complete schema, and save it to an output folder:
+### CLI-Introspektion-Abfrage
+Fragen Sie einen Remote-GraphQL-Endpunkt ab, extrahieren Sie das vollständige Schema und speichern Sie es in einem Ausgabeordner:
 ```bash
 inql -t https://target.com/graphql -o /tmp/graphql_audit/
 ```
-*Generated in output directory:*
-- 🚀 Introspection Dumping & Schema Generation
-- `schema.graphql`: Human-readable Schema Definition Language (SDL).
-- CLI Introspection Query
-- Query a remote GraphQL endpoint, extract the complete schema, and save it to an output folder:
+*Im Ausgabeverzeichnis generiert:*
+- `schema.json`: Roher JSON-Introspektion-Dump.
+- `schema.graphql`: Menschenlesbare Schemadefinitionssprache (SDL).
+- `queries/`: Automatisch generierte Abfragevorlagen für jede verfügbare Abfrage.
+- `mutations/`: Automatisch generierte Mutationsvorlagen zur Datenänderung.
 
-### Generated in output directory:
-`schema.json`: Raw JSON introspection dump.
+### Authentifiziertes Scannen und benutzerdefinierte Header
+Übergeben Sie Sitzungscookies, Autorisierungstoken oder benutzerdefinierte Header:
 ```bash
 inql -t https://target.com/graphql \
   -H "Authorization: Bearer <TOKEN>" \
   -H "X-API-Key: secret123" \
   -o ./audit_report/
 ```
-
-### `mutations/`: Auto-generated mutation templates for data modification.
-Convert existing raw JSON schema to SDL:
+### Dumping in die Schema Definition Language (SDL)
+Konvertieren Sie das vorhandene JSON-Rohschema in SDL:
 ```bash
 inql -f schema.json --generate-sdl -o ./sdl_output/
 ```
-
 ---
 
-## 💥 Auditing Mutations & Sensitive Queries
+## 💥 Prüfung von Mutationen und sensiblen Abfragen
 
-Review auto-generated mutation files in the output folder:
+Überprüfen Sie automatisch generierte Mutationsdateien im Ausgabeordner:
 ```text
 mutations/
 ├── registerUser.graphql
@@ -118,20 +117,18 @@ mutations/
 ├── updateProfile.graphql
 └── adminPromoteUser.graphql
 ```
-
-Send high-impact mutations using curl or Burp Suite:
+Senden Sie Mutationen mit großer Auswirkung mit Curl oder Burp Suite:
 ```bash
 curl -X POST https://target.com/graphql \
   -H "Content-Type: application/json" \
   -d '{"query": "mutation { adminPromoteUser(userId: 10, role: \"SUPERADMIN\") { success } }"}'
 ```
-
 ---
 
-## ⚡ Detecting Denial of Service & Batching Flaws
+## ⚡ Erkennung von Denial-of-Service- und Batch-Fehlern
 
-### Batch Querying (Array Batching)
-Test if the server processes arrays of queries in a single HTTP request (bypasses rate-limiting):
+### Batch-Abfrage (Array-Batching)
+Testen Sie, ob der Server Arrays von Abfragen in einer einzigen HTTP-Anfrage verarbeitet (umgeht die Ratenbegrenzung):
 ```json
 [
   {"query": "query { getUser(id: 1) { email } }"},
@@ -139,9 +136,8 @@ Test if the server processes arrays of queries in a single HTTP request (bypasse
   {"query": "query { getUser(id: 3) { email } }"}
 ]
 ```
-
-### Ressourcen und Referenzen
-Test for recursive relation crashes:
+### Zirkelverweise und verschachtelte Abfragen
+Test auf Abstürze bei rekursiven Beziehungen:
 ```graphql
 query {
   thread {
@@ -159,29 +155,28 @@ query {
   }
 }
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Objective|Befehl|
+| Ziel | Befehl |
 |-----------|---------|
-|**Dump Introspection**|`inql -t https://target.com/graphql -o ./out/`|
-|**Authenticated Introspection**|`inql -t <URL> -H "Authorization: Bearer <TOKEN>" -o ./out/`|
-|**Convert JSON Schema to SDL**|`inql -f schema.json --generate-sdl -o ./sdl/`|
-|**Generate HTML Docs**|`inql -t <URL> --generate-html -o ./docs/`|
+| **Dump-Selbstbeobachtung** | `inql -t https://target.com/graphql -o ./out/` |
+| **Authentifizierte Selbstbeobachtung**| `inql -t <URL> -H "Authorization: Bearer <TOKEN>" -o ./out/` |
+| **JSON-Schema in SDL konvertieren** | `inql -f schema.json --generate-sdl -o ./sdl/` |
+| **HTML-Dokumente generieren** | `inql -t <URL> --generate-html -o ./docs/` |
 
 ---
 
-## 🛡️ Defensive Considerations & Hardening
+## 🛡️ Defensive Überlegungen und Abhärtung
 
-|**Generate HTML Docs**|`inql -t <URL> --generate-html -o ./docs/`|
-2. **Enforce Query Depth & Cost Analysis:** Implement libraries like `graphql-depth-limit` or query cost analysis to drop deeply nested queries.
-3. **Disable Batching:** Limit or disable array-based batch query execution if not strictly necessary.
+1. **Introspektion in der Produktion deaktivieren:** Deaktivieren Sie `introspection` in Ihrer GraphQL-Serverkonfiguration (Apollo, Yoga, GraphQL-Java).
+2. **Abfragetiefe und Kostenanalyse erzwingen:** Implementieren Sie Bibliotheken wie `graphql-depth-limit` oder die Abfragekostenanalyse, um tief verschachtelte Abfragen zu löschen.
+3. **Batching deaktivieren:** Beschränken oder deaktivieren Sie die Ausführung von Array-basierten Batch-Abfragen, wenn dies nicht unbedingt erforderlich ist.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> InQL is developed for authorized security evaluations, penetration tests, and API security auditing. Extracting schemas or modifying data on unauthorized endpoints is illegal.
+> [!ACHTUNG]
+> InQL wurde für autorisierte Sicherheitsbewertungen, Penetrationstests und API-Sicherheitsprüfungen entwickelt. Das Extrahieren von Schemata oder das Ändern von Daten auf nicht autorisierten Endpunkten ist illegal.

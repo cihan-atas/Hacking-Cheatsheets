@@ -1,12 +1,16 @@
-# ⚡ Masscan - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⚡ Masscan - Scheda completa
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███╗   ███╗ █████╗ ███████╗███████╗ ██████╗ █████╗ ███╗   ██╗
   ████╗ ████║██╔══██╗██╔════╝██╔════╝██╔════╝██╔══██╗████╗  ██║
@@ -16,60 +20,58 @@
   ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
        The Fastest Internet Port Scanner - Asynchronous 10M Packets/Second
 ```
-
-<p align="center">
+<palign="centro">
   <img src="https://img.shields.io/badge/Masscan-Internet_Port_Scanner-blue?style=for-the-badge" alt="Masscan">
-  <img src="https://img.shields.io/badge/Language-C-orange?style=for-the-badge" alt="Language C">
-  <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Recon & Scanning">
-  <img src="https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge" alt="License AGPLv3">
+  <img src="https://img.shields.io/badge/Language-C-orange?style=for-the-badge" alt="Lingua C">
+  <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Ricognizione e scansione">
+  <img src="https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge" alt="Licenza AGPLv3">
 </p>
 
-<p align="center">
-  <b>🌐 High-performance asynchronous TCP port scanner capable of scanning the entire IPv4 Internet in under 5 minutes</b>
+<palign="centro">
+  <b>🌐 Scanner di porte TCP asincrono ad alte prestazioni in grado di scansionare l'intera Internet IPv4 in meno di 5 minuti</b>
 </p>
 
 ---
 
-## 📋 Indice
+## 📋 Sommario
 
-- [Introduzione](#-overview--the-asynchronous-architecture)
-- [Tool Comparison: Masscan vs Nmap vs RustScan](#-tool-comparison-masscan-vs-nmap-vs-rustscan)
-- [Installazione](#-installation)
-- [Sintassi di base](#-basic-usage--scanning-targets)
-- [Transmission Rate Control (`--rate`)](#-transmission-rate-control---rate)
-- [Port Specifications (TCP & UDP)](#-port-specifications-tcp--udp)
-- [Banner Grabbing & Basic Protocol Probing](#-banner-grabbing--basic-protocol-probing)
-- [Target Exclusions & Blacklists (`--excludefile`)](#-target-exclusions--blacklists---excludefile)
-- [Output Formats & Piping into Nmap](#-output-formats--piping-into-nmap)
-- [Riferimento rapido](#-quick-reference-table)
-- [Defensive Considerations & Hardware Limits](#-defensive-considerations--hardware-limits)
-- [Legal Disclaimer](#-legal-disclaimer)
-
----
-
-## 🎯 Introduzione
-
-Created by **Robert Graham**, **Masscan** is hailed as the fastest port scanner in existence. It produces results similar to Nmap, but functions internally like `scanrand`, `unicornscan`, and `ZMap`, utilizing **asynchronous transmission**.
-
-Unlike Nmap, which uses the operating system's kernel TCP stack and waits for responses before probing subsequent ports, Masscan incorporates its own custom user-space TCP/IP stack. It blasts raw SYN packets at rates exceeding **10 million packets per second** without maintaining connection state tables.
+- [Panoramica e architettura asincrona](#-panoramica--l'architettura-asincrona)
+- [Confronto strumenti: Masscan vs Nmap vs RustScan](#-tool-comparison-masscan-vs-nmap-vs-rustscan)
+- [Installazione](#-installazione)
+- [Utilizzo di base e target di scansione](#-basic-usage--scanning-targets)
+- [Controllo velocità di trasmissione (`--rate`)](#-controllo-velocità-di-trasmissione---velocità)
+- [Specifiche della porta (TCP e UDP)](#-port-specifications-tcp--udp)
+- [Cattura banner e sondaggio del protocollo di base](#-banner-cabbing--basic-prob-probing)
+- [Esclusioni target e liste nere (`--excludefile`)](#-target-exclusions--blacklists---excludefile)
+- [Formati di output e piping in Nmap](#-output-formats--piping-into-nmap)
+- [Tabella di riferimento rapido](#-tabella-di-riferimento-rapido)
+- [Considerazioni difensive e limiti hardware](#-considerazioni-difensive--limiti-hardware)
+- [Disclaimer legale](#-legal-disclaimer)
 
 ---
 
-## ⚖️ Tool Comparison: Masscan vs Nmap vs RustScan
+## 🎯 Panoramica e architettura asincrona
 
-|Feature|Masscan|Nmap|RustScan|
+Creato da **Robert Graham**, **Masscan** è considerato lo scanner di porte più veloce esistente. Produce risultati simili a Nmap, ma funziona internamente come `scanrand`, `unicornscan` e `ZMap`, utilizzando la **trasmissione asincrona**.
+
+A differenza di Nmap, che utilizza lo stack TCP del kernel del sistema operativo e attende risposte prima di sondare le porte successive, Masscan incorpora il proprio stack TCP/IP personalizzato nello spazio utente. Invia pacchetti SYN grezzi a velocità superiori a **10 milioni di pacchetti al secondo** senza mantenere tabelle di stato della connessione.
+
+---
+
+## ⚖️ Confronto strumenti: Masscan vs Nmap vs RustScan
+
+| Caratteristica | Massano | Nmap | RustScan |
 |---------|---------|------|----------|
-|**Maximum Packet Rate**|10,000,000 pkts/sec|~1,000 pkts/sec|OS socket limit|
-|**Entire Internet Scan (/0)**|✅ Under 5 minutes|❌ Days / Weeks|❌ Not designed for /0|
-|**TCP Stack Implementation**|Custom User-space Raw SYN|OS Kernel / Raw Sockets|Async Tokio TCP Sockets|
-|**Deep Version & NSE Scripts**|❌ Primitive Banners|✅ 600+ NSE scripts|✅ Via Nmap handoff|
-|**State Tracking**|Stateless (Blackrock PRNG)|Stateful connection pool|Stateful async tasks|
-|**Ideal Target Scope**|Class A/B blocks (/8, /16)|Single targets & /24 subnets|Single machines & /24 subnets|
+| **Tasso massimo dei pacchetti** | 10.000.000 di pkt/sec | ~1.000 pkt/sec | Limite socket del sistema operativo |
+| **Scansione Internet completa (/0)**| ✅ Meno di 5 minuti | ❌ Giorni/Settimane | ❌ Non progettato per /0 |
+| **Implementazione dello stack TCP**| Spazio utente personalizzato Raw SYN| Kernel del sistema operativo/socket grezzi| Socket TCP Tokio asincroni |
+| **Versione approfondita e script NSE**| ❌ Banner primitivi | ✅ Oltre 600 script NSE | ✅ Tramite Nmap handoff |
+| **Monitoraggio dello stato** | Apolide (Blackrock PRNG) | Pool di connessioni con stato| Attività asincrone con stato |
+| **Ambito di mira ideale** | Blocchi di classe A/B (/8, /16)| Destinazioni singole e /24 sottoreti | Macchine singole e /24 sottoreti |
 
 ---
 
-## 📥 Installazione
-
+## 📥Installazione
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y masscan
@@ -83,11 +85,9 @@ git clone https://github.com/robertdavidgraham/masscan
 cd masscan && make -j$(nproc)
 sudo make install
 ```
-
 ---
 
-## 🚀 Sintassi di base
-
+## 🚀 Utilizzo di base e obiettivi di scansione
 ```bash
 # Scan a single IP for top web ports
 sudo masscan 10.10.10.50 -p80,443,8080 --rate 1000
@@ -98,16 +98,14 @@ sudo masscan 172.16.0.0/16 -p445 --rate 5000
 # Scan all 65,535 ports on a specific IP
 sudo masscan 10.10.10.50 -p1-65535 --rate 2000
 ```
-
-> [!IMPORTANT]
-> Because Masscan generates raw packets via `libpcap`, it **must be run with root / sudo privileges**.
+> [!IMPORTANTE]
+> Poiché Masscan genera pacchetti grezzi tramite `libpcap`, **deve essere eseguito con privilegi root/sudo**.
 
 ---
 
-## ⚡ Transmission Rate Control (`--rate`)
+## ⚡ Controllo della velocità di trasmissione (`--rate`)
 
-The `--rate` parameter dictates how many packets per second Masscan transmits. Calibrating this is critical to avoid saturating network equipment:
-
+Il parametro `--rate` determina quanti pacchetti al secondo trasmette Masscan. La calibrazione è fondamentale per evitare di saturare le apparecchiature di rete:
 ```bash
 # Gentle rate for home routers / WiFi (100–500 pkts/sec)
 sudo masscan 10.10.10.0/24 -p1-1000 --rate 300
@@ -118,13 +116,11 @@ sudo masscan 10.0.0.0/8 -p80,443 --rate 10000
 # High-speed data center 10Gbps uplink rate (100,000+ pkts/sec)
 sudo masscan 0.0.0.0/0 -p443 --rate 100000
 ```
-
 ---
 
-## 🔌 Port Specifications (TCP & UDP)
+## 🔌 Specifiche della porta (TCP e UDP)
 
-Masscan supports both TCP and UDP port lists simultaneously:
-
+Masscan supporta contemporaneamente sia gli elenchi di porte TCP che UDP:
 ```bash
 # Specific TCP ports
 sudo masscan 10.10.10.50 -p21,22,80,443,445,3389
@@ -135,24 +131,20 @@ sudo masscan 10.10.10.50 --top-ports 100
 # UDP ports (prefixed with U:)
 sudo masscan 10.10.10.50 -p U:53,U:161,U:123 --rate 500
 ```
-
 ---
 
-## 🔍 Banner Grabbing & Basic Protocol Probing
+## 🔍 Acquisizione di banner e sondaggio del protocollo di base
 
-While Masscan is primarily a SYN scanner, it can complete three-way handshakes to grab application banners:
-
+Sebbene Masscan sia principalmente uno scanner SYN, può completare handshake a tre vie per acquisire i banner delle applicazioni:
 ```bash
 # Grab HTTP, FTP, and SSH banners
 sudo masscan 10.10.10.0/24 -p80,21,22 --banners --rate 1000
 ```
-
 ---
 
-## 🚫 Target Exclusions & Blacklists (`--excludefile`)
+## 🚫 Esclusioni target e liste nere (`--excludefile`)
 
-When conducting wide-scope penetration tests, always exclude critical infrastructure and off-limit addresses:
-
+Quando si eseguono test di penetrazione ad ampio raggio, escludere sempre le infrastrutture critiche e gli indirizzi off-limit:
 ```bash
 # Exclude government and military ranges or local gateway
 sudo masscan 10.0.0.0/8 -p80 --rate 2000 --exclude 10.0.0.1,10.1.1.1
@@ -160,13 +152,11 @@ sudo masscan 10.0.0.0/8 -p80 --rate 2000 --exclude 10.0.0.1,10.1.1.1
 # Use an exclusion file (e.g., standard exclude.conf)
 sudo masscan 192.168.0.0/16 -p445 --rate 2000 --excludefile /etc/masscan/exclude.conf
 ```
-
 ---
 
-## 📊 Output Formats & Piping into Nmap
+## 📊 Formati di output e piping in Nmap
 
-Save discovered hosts in greppable or JSON formats, then feed them into Nmap for full vulnerability assessment:
-
+Salva gli host rilevati in formati greppable o JSON, quindi inseriscili in Nmap per una valutazione completa della vulnerabilità:
 ```bash
 # Save to JSON format
 sudo masscan 10.10.10.0/24 -p80,443 -oJ masscan_results.json
@@ -177,36 +167,34 @@ sudo masscan 10.10.10.0/24 -p1-65535 --rate 2000 -oL open_ports.txt
 # Extract discovered ports and feed directly to Nmap
 cat open_ports.txt | awk '{print $4}' | sort -u | paste -sd, - | xargs -I{} nmap -sC -sV -p{} 10.10.10.50
 ```
-
 ---
 
-## ⚡ Riferimento rapido
+## ⚡ Tabella di consultazione rapida
 
-|Objective|Comando|
+| Obiettivo | Comando |
 |-----------|---------|
-|**Scan Single Host (All Ports)**|`sudo masscan <IP> -p1-65535 --rate 2000`|
-|**Scan CIDR Subnet for Port**|`sudo masscan <SUBNET>/16 -p<PORT> --rate 5000`|
-|**Scan with Banner Grabbing**|`sudo masscan <IP> -p80,22 --banners --rate 1000`|
-|**Scan UDP Ports**|`sudo masscan <IP> -p U:53,U:161 --rate 500`|
-|**Exclude IP Addresses**|`sudo masscan <NET> -p80 --exclude <IP1>,<IP2>`|
-|**Output to JSON**|`sudo masscan <IP> -p80,443 -oJ output.json`|
-|**Output to Simple List**|`sudo masscan <IP> -p80,443 -oL output.txt`|
+| **Scansione host singolo (tutte le porte)** | `sudo masscan <IP> -p1-65535 --rate 2000` |
+| **Scansiona la sottorete CIDR per la porta** | `sudo masscan <SUBNET>/16 -p<PORT> --rate 5000` |
+| **Scansione con cattura banner** | `sudo masscan <IP> -p80,22 --banners --rate 1000` |
+| **Scansiona porte UDP** | `sudo masscan <IP> -p U:53,U:161 --rate 500` |
+| **Escludi indirizzi IP** | `sudo masscan <NET> -p80 --exclude <IP1>,<IP2>` |
+| **Output in JSON** | `sudo masscan <IP> -p80,443 -oJ output.json` |
+| **Output nell'elenco semplice** | `sudo masscan <IP> -p80,443 -oL output.txt` |
 
 ---
 
-## 🛡️ Defensive Considerations & Hardware Limits
+## 🛡️ Considerazioni difensive e limiti hardware
 
-1. **Consumer Router Crash:** Setting `--rate 100000` on a home DSL/cable router or standard Wi-Fi will overwhelm its NAT connection tracking state table and crash the router. Keep `--rate` below `1000` on residential connections.
-2. **Bandwidth Consumption:** Transmitting at 10 million packets per second consumes approximately 5.4 Gbps of network bandwidth.
-3. **Local Firewall Rejection (RST):** Because Masscan uses a custom user-space TCP stack, your Linux kernel doesn't know about open connections and may send automatic TCP RST packets to targets. To avoid this during banner grabs:
+1. **Arresto del router consumer:** l'impostazione di `--rate 100000` su un router domestico DSL/cavo o Wi-Fi standard sovraccarica la tabella dello stato di tracciamento della connessione NAT e provoca l'arresto anomalo del router. Mantenere `--rate` sotto `1000` sui collegamenti residenziali.
+2. **Consumo di larghezza di banda:** La trasmissione a 10 milioni di pacchetti al secondo consuma circa 5,4 Gbps di larghezza di banda della rete.
+3. **Rifiuto del firewall locale (RST):** Poiché Masscan utilizza uno stack TCP personalizzato nello spazio utente, il kernel Linux non riconosce le connessioni aperte e potrebbe inviare pacchetti TCP RST automatici alle destinazioni. Per evitare ciò durante la cattura dei banner:
    ```bash
    sudo iptables -A INPUT -p tcp --dport 60000 -j DROP
    sudo masscan ... --source-port 60000
    ```
-
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Disclaimer legale
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Masscan is an exceptionally powerful network reconnaissance utility. Scanning unauthorized networks, government IP ranges, or public Internet subnets can violate telecommunications and cybersecurity laws. Always verify written authorization before initiating scans.
+> [!ATTENZIONE]
+> Masscan è un'utilità di ricognizione di rete eccezionalmente potente. La scansione di reti non autorizzate, intervalli IP governativi o sottoreti Internet pubbliche può violare le leggi sulle telecomunicazioni e sulla sicurezza informatica. Verificare sempre l'autorizzazione scritta prima di avviare le scansioni.

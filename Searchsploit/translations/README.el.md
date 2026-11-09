@@ -1,40 +1,44 @@
-# 🔍 Searchsploit — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Searchsploit](https://www.exploit-db.com/searchsploit) is the official command-line utility for [Exploit-Database](https://www.exploit-db.com/). It allows security professionals, penetration testers, and vulnerability researchers to conduct offline searches across tens of thousands of published exploits, shellcodes, and whitepapers without sending network traffic to third-party search engines.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#overview--architecture)
-- [Εγκατάσταση](#installation--local-database-updates)
-- [Basic & Advanced Exploit Searching](#basic--advanced-exploit-searching)
-- [5. Exclude Unwanted Results (`--exclude`)](#examining--copying-exploits--m---p---x)
-- [3. Read Exploit Code in Terminal Pager (`-x`)](#filtering-by-platform--type)
+# Αναζήτηση sploit Cheatsheet
+
+Το [Searchsploit](https://www.exploit-db.com/searchsploit) είναι το επίσημο βοηθητικό πρόγραμμα γραμμής εντολών για το [Exploit-Database](https://www.exploit-db.com/). Επιτρέπει σε επαγγελματίες ασφαλείας, ελεγκτές διείσδυσης και ερευνητές ευπάθειας να πραγματοποιούν αναζητήσεις εκτός σύνδεσης σε δεκάδες χιλιάδες δημοσιευμένα exploits, shellcodes και whitepapers χωρίς να στέλνουν κίνηση δικτύου σε μηχανές αναζήτησης τρίτων.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Επισκόπηση & Αρχιτεκτονική](#overview--architecture)
+- [Installation & Local Database Updates](#installation--local-database-updates)
+- [Βασική και προηγμένη αναζήτηση εκμετάλλευσης](#basic--advanced-exploit-searching)
+- [Εξέταση και αντιγραφή εκμεταλλεύσεων (`-m` / `-p` / `-x`)](#examining--copying-exploits--m---p---x)
+- [Φιλτράρισμα ανά πλατφόρμα και τύπο] (#filtering-by-platform--type)
 - [Nmap XML / Grepable Scanning Integration](#nmap-xml--grepable-scanning-integration)
 - [JSON Output & Script Automation](#json-output--script-automation)
-- [Best Practices in Penetration Testing](#best-practices-in-penetration-testing)
+- [Best Practices in Penetration Testing] (#best-practices-in-penetration-testing)
 
 ---
 
-## Εισαγωγή
+## Επισκόπηση & Αρχιτεκτονική
 
-[Best Practices in Penetration Testing](#best-practices-in-penetration-testing)
-- **Zero Network Fingerprint**: Searches run against local CSV and directory structures.
-- **Offline Reliability**: Fully functional in air-gapped target environments and engagement networks.
-- **Integrated Mirroring**: Copies exploit files directly to the current working directory for immediate review and modification.
+Το Searchsploit ζητά έναν τοπικό κλώνο git του Exploit-DB που είναι αποθηκευμένος στο `/usr/share/exploitdb/`.
+- **Δακτυλικό αποτύπωμα μηδενικού δικτύου:** Οι αναζητήσεις εκτελούνται σε τοπικές δομές CSV και καταλόγου.
+- **Αξιοπιστία εκτός σύνδεσης:** Πλήρως λειτουργικό σε περιβάλλοντα στόχου με διάκενο αέρα και δίκτυα εμπλοκής.
+- **Integrated Mirroring:** Αντιγράφει αρχεία εκμετάλλευσης απευθείας στον τρέχοντα κατάλογο εργασίας για άμεση εξέταση και τροποποίηση.
 
 ---
 
-## Εγκατάσταση
+## Εγκατάσταση & Ενημερώσεις τοπικής βάσης δεδομένων
 
-### Integrated Mirroring**: Copies exploit files directly to the current working directory for immediate review and modification.
+### Debian / Ubuntu / Kali Linux / Parrot OS
 ```bash
 # Kali and Parrot include searchsploit by default
 sudo apt-get update && sudo apt-get install -y exploitdb
@@ -42,8 +46,7 @@ sudo apt-get update && sudo apt-get install -y exploitdb
 # Update the local exploit database archive
 searchsploit -u
 ```
-
-### Εγκατάσταση
+### Εγκατάσταση Git Repository (Οποιαδήποτε διανομή Linux)
 ```bash
 git clone https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb
 sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
@@ -51,53 +54,47 @@ sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
 # Check version and status
 searchsploit -v
 ```
-
 ---
 
-## Basic & Advanced Exploit Searching
+## Βασική και προηγμένη αναζήτηση εκμετάλλευσης
 
-### 1. Simple Keyword Search
-Search for specific services, daemons, or software:
+### 1. Απλή αναζήτηση λέξεων-κλειδιών
+Αναζήτηση για συγκεκριμένες υπηρεσίες, δαίμονες ή λογισμικό:
 ```bash
 searchsploit apache 2.4.49
 searchsploit openssh 7.2
 searchsploit wordpress core 5.8
 ```
-
-### Basic & Advanced Exploit Searching
-Restrict search queries strictly to exploit titles to eliminate noisy description matches:
+### 2. Ακριβής αντιστοίχιση τίτλου (`-t`)
+Περιορίστε τα ερωτήματα αναζήτησης αυστηρά για να εκμεταλλευτείτε τίτλους για να εξαλείψετε τις θορυβώδεις αντιστοιχίσεις περιγραφής:
 ```bash
 searchsploit -t "Privilege Escalation" linux kernel
 searchsploit -t "Remote Code Execution" smb
 ```
-
-### 3. Strict Case & Term Matching (`-e`)
-Find exact version and pattern matches:
+### 3. Αυστηρή αντιστοίχιση πεζών και όρων (`-e`)
+Βρείτε ακριβείς αντιστοιχίσεις έκδοσης και μοτίβων:
 ```bash
 searchsploit -e "Apache Struts"
 ```
-
-### 4. Search by CVE Identifier
-Query exploits mapped to specific Common Vulnerabilities and Exposures numbers:
+### 4. Αναζήτηση κατά αναγνωριστικό CVE
+Εκμεταλλεύσεις ερωτημάτων που αντιστοιχίζονται σε συγκεκριμένους αριθμούς κοινών ευπαθειών και εκθέσεων:
 ```bash
 searchsploit --cve 2021-44228
 searchsploit --cve 2017-0144
 ```
-
-### 5. Exclude Unwanted Results (`--exclude`)
-Filter out denial-of-service (DoS) or auxiliary scripts when seeking remote code execution (RCE):
+### 5. Εξαίρεση ανεπιθύμητων αποτελεσμάτων (`--exclude`)
+Φιλτράρετε τα σενάρια άρνησης υπηρεσίας (DoS) ή βοηθητικά σενάρια κατά την αναζήτηση απομακρυσμένης εκτέλεσης κώδικα (RCE):
 ```bash
 searchsploit linux kernel 5.4 --exclude="Denial of Service"
 ```
-
 ---
 
-## 5. Exclude Unwanted Results (`--exclude`)
+## Εξέταση και αντιγραφή εκμεταλλεύσεων (`-m` / `-p` / `-x`)
 
-Never edit or execute exploits directly in the `/usr/share/exploitdb/` directory. Use Searchsploit's copy and inspect functions.
+Ποτέ μην επεξεργάζεστε ή εκτελείτε εκμεταλλεύσεις απευθείας στον κατάλογο `/usr/share/exploitdb/`. Χρησιμοποιήστε τις λειτουργίες αντιγραφής και επιθεώρησης του Searchsploit.
 
-### 1. Copy (Mirror) Exploit to Current Directory (`-m`)
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+### 1. Αντιγραφή (Mirror) Exploit στον τρέχοντα κατάλογο (`-m`)
+Αντιγράψτε ένα αρχείο PoC exploit (Python, C, Ruby, bash) απευθείας στον τοπικό σας κατάλογο εργασίας:
 ```bash
 # Mirror by Exploit-DB ID (EBD-ID)
 searchsploit -m 50383
@@ -105,33 +102,30 @@ searchsploit -m 50383
 # Mirror by search path pattern
 searchsploit -m windows/remote/48537.py
 ```
-
-### Never edit or execute exploits directly in the `/usr/share/exploitdb/` directory. Use Searchsploit's copy and inspect functions.
-Display the absolute filesystem path and Exploit-DB URL for an EDB-ID:
+### 2. Επιθεώρηση μεταδεδομένων και πλήρους διαδρομής Exploit (`-p`)
+Εμφάνιση της απόλυτης διαδρομής συστήματος αρχείων και της διεύθυνσης URL Exploit-DB για ένα EDB-ID:
 ```bash
 searchsploit -p 50383
 ```
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+Παραγωγή:
 ```text
   Exploit: Apache HTTP Server 2.4.49 - Path Traversal & Remote Code Execution (RCE)
       URL: https://www.exploit-db.com/exploits/50383
      Path: /usr/share/exploitdb/exploits/multiple/webapps/50383.sh
 File Type: Bourne-Again shell script, ASCII text executable
 ```
-
-### 2. Inspect Exploit Metadata & Full Path (`-p`)
-Display the absolute filesystem path and Exploit-DB URL for an EDB-ID:
+### 3. Διαβάστε τον Κώδικα Exploit στο Terminal Pager (`-x`)
+Ανοίξτε τον κωδικό εκμετάλλευσης απευθείας στο `less` για γρήγορη επιθεώρηση:
 ```bash
 searchsploit -x 50383
 ```
-
 ---
 
-## 3. Read Exploit Code in Terminal Pager (`-x`)
+## Φιλτράρισμα ανά πλατφόρμα και τύπο
 
-Searchsploit indexes exploits, shellcode, and research papers across multiple architectures:
+Το Searchsploit ευρετηριάζει εκμεταλλεύσεις, shellcode και ερευνητικές εργασίες σε πολλές αρχιτεκτονικές:
 
-### 1. Filter by Target Operating System
+### 1. Φιλτράρισμα κατά στόχο λειτουργικό σύστημα
 ```bash
 # Search only Linux exploits
 searchsploit linux kernel 4.4
@@ -142,25 +136,21 @@ searchsploit windows smb eternal
 # Search web applications
 searchsploit webapps tomcat
 ```
-
-### 2. Filter for Raw Shellcodes Only (`-s`)
-Searchsploit indexes exploits, shellcode, and research papers across multiple architectures:
+### 2. Φίλτρο μόνο για ακατέργαστους κώδικες κελύφους (`-s`)
+Αναζητήστε ωφέλιμα φορτία κώδικα κελύφους για συγκεκριμένη αρχιτεκτονική (π.χ. execve `/bin/sh` χωρίς null byte):
 ```bash
 searchsploit -s linux/x64 "execve"
 searchsploit -s windows/x86 "reverse shell"
 ```
-
-### 3. Filter for Security Papers and Whitepapers (`-w`)
+### 3. Φίλτρο για χαρτιά ασφαλείας και λευκές βίβλους (`-w`)
 ```bash
 searchsploit -w "Active Directory Kerberos"
 ```
-
 ---
 
-## Nmap XML / Grepable Scanning Integration
+## Nmap XML / Ενσωμάτωση σάρωσης Grepable
 
-Searchsploit can automatically parse Nmap XML scan outputs and match discovered software versions against known exploits:
-
+Το Searchsploit μπορεί να αναλύσει αυτόματα τις εξόδους σάρωσης Nmap XML και να αντιστοιχίσει τις ανακαλυφθείσες εκδόσεις λογισμικού με γνωστά exploit:
 ```bash
 # 1. Perform service detection and save XML output
 nmap -sV -p- -T4 -oX /tmp/target_scan.xml 192.168.1.50
@@ -168,31 +158,28 @@ nmap -sV -p- -T4 -oX /tmp/target_scan.xml 192.168.1.50
 # 2. Feed the XML scan file directly to Searchsploit
 searchsploit --nmap /tmp/target_scan.xml
 ```
-*Searchsploit inspects every open port banner and version string, querying local exploits for immediate triage.*
+*Το Searchsploit επιθεωρεί κάθε banner ανοιχτής θύρας και συμβολοσειρά έκδοσης, ζητώντας τοπικά exploit για άμεση διαλογή.*
 
 ---
 
-## JSON Output & Script Automation
+## Αυτοματισμός εξόδου και σεναρίου JSON
 
-Searchsploit inspects every open port banner and version string, querying local exploits for immediate triage.
-
+Για τον αυτοματισμό αγωγών και τα προσαρμοσμένα εργαλεία αναγνώρισης, τα αποτελέσματα εξόδου σε δομημένο JSON:
 ```bash
 searchsploit "Apache Struts" --json > struts_exploits.json
 ```
-
-JSON Output & Script Automation
+Φιλτράρετε διαδρομές αρχείων εκμετάλλευσης χρησιμοποιώντας το `jq`:
 ```bash
 searchsploit --cve 2021-41773 --json | jq -r '.RESULTS_EXPLOIT[].Path'
 ```
-
 ---
 
-## Συμβουλές και βέλτιστες πρακτικές
+## Βέλτιστες πρακτικές στις δοκιμές διείσδυσης
 
-1. **Verify Before Running:** Always inspect exploit source code (`searchsploit -x <id>`) before compilation or execution. Verify hardcoded shellcode, target IP addresses, and ensure there are no backdoors or malicious payload stagers.
-2. **Compile with Correct Flags:** Many Exploit-DB C exploits require specific GCC flags (e.g., `-m32`, `-lpthread`, or `-lcrypto`):
+1. **Επαλήθευση πριν από την εκτέλεση:** Να ελέγχετε πάντα τον πηγαίο κώδικα εκμετάλλευσης (`searchsploit -x <id>`) πριν από τη μεταγλώττιση ή την εκτέλεση. Επαληθεύστε τον σκληρό κώδικα κελύφους, στοχεύστε τις διευθύνσεις IP και βεβαιωθείτε ότι δεν υπάρχουν κερκόπορτες ή κακόβουλοι σταθμοί ωφέλιμου φορτίου.
+2. **Μεταγλωττίσεις με σωστές σημαίες:** Πολλά exploit-DB C απαιτούν συγκεκριμένες σημαίες GCC (π.χ. `-m32`, `-lpthread` ή `-lcrypto`):
    ```bash
    searchsploit -m 40839
    gcc -pthread 40839.c -o dirtycow -lcrypt
    ```
-3. **Keep Database Updated:** Run `searchsploit -u` regularly to ensure newly published zero-days and proof-of-concepts are indexed locally.
+3. **Διατήρηση της βάσης δεδομένων ενημερωμένη:** Εκτελέστε το `searchsploit -u` τακτικά για να διασφαλίσετε ότι οι πρόσφατα δημοσιευμένες μηδενικές ημέρες και οι αποδείξεις εννοιών έχουν ευρετηριαστεί τοπικά.

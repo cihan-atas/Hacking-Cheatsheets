@@ -1,42 +1,45 @@
-# 🔍 dnsrecon — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[dnsrecon](https://github.com/darkoperator/dnsrecon) is a comprehensive DNS reconnaissance and enumeration tool written in Python. It supports zone transfers (AXFR), reverse lookups, domain brute-forcing, SRV record discovery, wildcard detection, cache snooping, and TLD expansion.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
+# dnsrecon Cheatsheet
+
+Το [dnsrecon](https://github.com/darkoperator/dnsrecon) είναι ένα ολοκληρωμένο εργαλείο αναγνώρισης και απαρίθμησης DNS γραμμένο σε Python. Υποστηρίζει μεταφορές ζωνών (AXFR), αντίστροφες αναζητήσεις, brute-forcing τομέα, ανακάλυψη εγγραφής SRV, ανίχνευση χαρακτήρων μπαλαντέρ, παρακολούθηση προσωρινής μνήμης και επέκταση TLD.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Core Capabilities](#core-capabilities)
 - [Εγκατάσταση](#installation)
-- [Εγκατάσταση](#standard-enumeration--zone-transfers--d--t-std--axfr)
-- [Test only for AXFR vulnerability against all authoritative nameservers:](#dns-subdomain-brute-forcing--t-brt)
-- [Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:](#reverse-lookup-range-scanning--t-rvl)
-- [DNS Cache Snooping (`-t snoop`)](#dns-cache-snooping--t-snoop)
+- [Τυπική απαρίθμηση και μεταφορές ζωνών (`-d -t std / axfr`)](#standard-enumeration--zone-transfers--d--t-std--axfr)
+- [DNS Subdomain Brute-Forcing (`-t brt`)](#dns-subdomain-brute-forcing--t-brt)
+- [Σάρωση εύρους αντίστροφης αναζήτησης (`-t rvl`)](#reverse-lookup-range-scanning--t-rvl)
+- [Υποβολή κρυφής μνήμης DNS (`-t snoop`)](#dns-cache-snooping--t-snoop)
 - [Targeting Specific Nameservers (`-n`)](#targeting-specific-nameservers--n)
-- [Query internal or target-specific DNS servers directly rather than public upstream resolvers:](#output-formats-csv-json-sqlite-xml)
+- [Μορφές εξόδου (CSV, JSON, SQLite, XML)](#output-formats-csv-json-sqlite-xml)
 - [Defensive Hardening for DNS Servers](#defensive-hardening-for-dns-servers)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
+## Βασικές Δυνατότητες
 
-- **Zone Transfer Testing (AXFR)**: Automatically tests all authoritative name servers for unauthenticated zone transfers.
-- **Record Enumeration**: Retrieves SOA, NS, A, AAAA, MX, TXT, SPF, and SRV records.
-- **Subdomain Brute-Force**: Multi-threaded dictionary lookups with wildcard filtering.
-- **Reverse IP Range Scanning**: PTR record extraction across arbitrary CIDR blocks.
-- **Cache Snooping**: Tests if recursive name servers have specific domains cached in memory.
-- **TLD Expansion**: Discovers matching domains across country-code and generic top-level domains.
+- **Δοκιμή μεταφοράς ζώνης (AXFR):** Ελέγχει αυτόματα όλους τους έγκυρους διακομιστές ονομάτων για μη επαληθευμένες μεταφορές ζώνης.
+- **Απαρίθμηση εγγραφών:** Ανακτά εγγραφές SOA, NS, A, AAAA, MX, TXT, SPF και SRV.
+- **Subdomain Brute-Force:** Αναζητήσεις λεξικών πολλαπλών νημάτων με φιλτράρισμα χαρακτήρων μπαλαντέρ.
+- **Αντίστροφη σάρωση εύρους IP:** Εξαγωγή εγγραφής PTR σε αυθαίρετα μπλοκ CIDR.
+- **Υποβολή κρυφής μνήμης:** Ελέγχει εάν οι αναδρομικοί διακομιστές ονομάτων έχουν συγκεκριμένους τομείς αποθηκευμένους στη μνήμη.
+- **Επέκταση TLD:** Ανακαλύπτει τομείς που ταιριάζουν μεταξύ κωδικών χώρας και γενικών τομέων ανώτατου επιπέδου.
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y dnsrecon
@@ -52,108 +55,99 @@ pip install -r requirements.txt
 # Verify installation
 dnsrecon -h
 ```
-
 ---
 
-## Εγκατάσταση
+## Τυπική απαρίθμηση και μεταφορές ζωνών (`-d -t std / axfr`)
 
-### 1. Standard DNS Record Enumeration
-Collects SOA, NS, A, AAAA, MX, and TXT records, and automatically attempts zone transfers against each authoritative NS:
+### 1. Τυπική απαρίθμηση εγγραφών DNS
+Συλλέγει εγγραφές SOA, NS, A, AAAA, MX και TXT και επιχειρεί αυτόματα μεταφορές ζώνης σε κάθε έγκυρο NS:
 ```bash
 dnsrecon -d example.com -t std
 ```
-
-### Standard Enumeration & Zone Transfers (`-d -t std / axfr`)
-Test only for AXFR vulnerability against all authoritative nameservers:
+### 2. Μόνο δοκιμή μεταφοράς ζώνης (AXFR).
+Δοκιμάστε μόνο για ευπάθεια AXFR έναντι όλων των έγκυρων διακομιστών ονομάτων:
 ```bash
 dnsrecon -d example.com -t axfr
 ```
-*If successful, the entire DNS database of the target is dumped without brute force.*
+*Εάν είναι επιτυχής, ολόκληρη η βάση δεδομένων DNS του στόχου απορρίπτεται χωρίς ωμή βία.*
 
 ---
 
-## Test only for AXFR vulnerability against all authoritative nameservers:
+## DNS Subdomain Brute-Forcing (`-t brt`)
 
-If successful, the entire DNS database of the target is dumped without brute force.
+Υποτομείς ωμής βίας που χρησιμοποιούν προσαρμοσμένες ή προεπιλεγμένες λίστες λέξεων:
 
-### 1. Subdomain Brute-Force with Custom Wordlist
+### 1. Subdomain Brute-Force με προσαρμοσμένη λίστα λέξεων
 ```bash
 dnsrecon -d example.com -t brt -D /usr/share/wordlists/dnsmap.txt
 ```
-- DNS Subdomain Brute-Forcing (`-t brt`)
-- `-t brt`: Brute-force mode.
-- Brute-force subdomains using custom or default wordlists:
+- `-d <domain>`: Τομέας στόχευσης.
+- `-t brt`: Λειτουργία ωμής δύναμης.
+- `-D <file>`: Αρχείο λεξικού υποτομέα.
 
-### 1. Subdomain Brute-Force with Custom Wordlist
-Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:
+### 2. Brute-Force με φιλτράρισμα χαρακτήρων μπαλαντέρ
+Αποτρέπει τις διαμορφώσεις DNS με χαρακτήρες μπαλαντέρ (το `*.example.com` επιλύεται σε μια μοναδική IP) από ρυπογόνα αποτελέσματα:
 ```bash
 dnsrecon -d example.com -t brt -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --iw
 ```
-- `-t brt`: Brute-force mode.
+- `--iw`: Αγνοήστε τα αποτελέσματα ανάλυσης χαρακτήρων μπαλαντέρ.
 
 ---
 
-## Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:
+## Σάρωση εύρους αντίστροφης αναζήτησης (`-t rvl`)
 
-`--iw`: Ignore wildcard resolution results.
-
+Αριθμήστε εγγραφές PTR για ένα μπλοκ IP για να προσδιορίσετε εσωτερικούς κεντρικούς υπολογιστές, πύλες αλληλογραφίας και στιγμιότυπα σταδιακής λειτουργίας:
 ```bash
 dnsrecon -r 192.168.1.0/24 -t rvl
 ```
-- `-r <range>`: IP range in CIDR notation (e.g. `192.168.1.0/24`) or start-end notation (`192.168.1.1-192.168.1.254`).
-- Reverse Lookup Range Scanning (`-t rvl`)
+- `-r <range>`: Εύρος IP σε συμβολισμό CIDR (π.χ. `192.168.1.0/24`) ή συμβολισμό έναρξης τέλους (`192.168.1.1-192.168.1.254`).
+- `-t rvl`: Λειτουργία αντίστροφης αναζήτησης.
 
 ---
 
-## DNS Cache Snooping (`-t snoop`)
+## Παρακολούθηση προσωρινής μνήμης DNS (`-t snoop`)
 
-`-t rvl`: Reverse lookup mode.
-
+Προσδιορίστε εάν οι πελάτες σε ένα δίκτυο-στόχο έχουν επιλύσει πρόσφατα συγκεκριμένους τομείς μέσω του εσωτερικού τους προγράμματος επίλυσης:
 ```bash
 dnsrecon -t snoop -n 192.168.1.1 -D sensitive_domains.txt
 ```
-- `-n <resolver_ip>`: Target DNS server to query.
-- DNS Cache Snooping (`-t snoop`)
+- `-n <resolver_ip>`: Στόχευση διακομιστή DNS για αναζήτηση.
+- `-D <domains_file>`: Λίστα τομέων προς δοκιμή (π.χ. ανταγωνιστές, κακόβουλα C2, εσωτερικές πύλες).
 
 ---
 
-## Targeting Specific Nameservers (`-n`)
+## Στόχευση συγκεκριμένων διακομιστών ονομάτων (`-n`)
 
-`-D <domains_file>`: List of domains to test (e.g. competitors, malicious C2s, internal portals).
-
+Υποβάλετε ερώτημα σε εσωτερικούς ή συγκεκριμένους διακομιστές DNS απευθείας αντί για δημόσιους αναλυτές ανάντη:
 ```bash
 # Query the company's internal DNS server directly
 dnsrecon -d corp.internal -n 10.10.10.2 -t std
 ```
-
 ---
 
-## Query internal or target-specific DNS servers directly rather than public upstream resolvers:
+## Μορφές εξόδου (CSV, JSON, SQLite, XML)
 
-Save results for integration with ticketing, SIEM, or further attack phases:
+Αποθηκεύστε αποτελέσματα για ενσωμάτωση με έκδοση εισιτηρίων, SIEM ή περαιτέρω φάσεις επίθεσης:
 
-### 1. Export to JSON
+### 1. Εξαγωγή σε JSON
 ```bash
 dnsrecon -d example.com -t std --json /tmp/dns_recon.json
 ```
-
-### 2. Export to SQLite Database
+### 2. Εξαγωγή στη βάση δεδομένων SQLite
 ```bash
 dnsrecon -d example.com -t std --db /tmp/dns_results.sqlite
 ```
-
-### 1. Export to JSON
+### 3. Εξαγωγή σε CSV & XML
 ```bash
 dnsrecon -d example.com -t std --csv /tmp/dns_results.csv --xml /tmp/dns_results.xml
 ```
-
 ---
 
-## Defensive Hardening for DNS Servers
+## Defensive Hardening για διακομιστές DNS
 
-|Vulnerability|Exploitation Risk|Recommended Defense|
+| Ευπάθεια | Κίνδυνος εκμετάλλευσης | Προτεινόμενη άμυνα |
 |---|---|---|
-|**Unrestricted AXFR**|Full internal infrastructure mapping|Restrict zone transfers to authorized secondary nameserver IPs only (`allow-transfer { 10.0.0.2; };` in BIND).|
-|**Open Recursive Resolver**|DNS Amplification DDoS & Snooping|Disable external recursion (`recursion no;` in BIND).|
-|**Predictable Hostnames**|Subdomain brute-forcing|Use randomized subdomains for sensitive staging environments.|
-|**Subdomain Takeover**|CNAME pointing to unclaimed AWS/GitHub/Azure services|Audit dangling DNS CNAME records and remove unused mappings immediately.|
+| **Απεριόριστο AXFR** | Πλήρης εσωτερική χαρτογράφηση υποδομής | Περιορίστε τις μεταφορές ζώνης μόνο σε εξουσιοδοτημένες δευτερεύουσες διευθύνσεις ονομάτων IP (`allow-transfer { 10.0.0.2; };` σε BIND). |
+| **Άνοιγμα Recursive Resolver** | Ενίσχυση DNS DDoS & Snooping | Απενεργοποιήστε την εξωτερική αναδρομή (`recursion no;` σε BIND). |
+| **Προβλέψιμα ονόματα κεντρικών υπολογιστών** | Υποτομέας brute-forcing | Χρησιμοποιήστε τυχαιοποιημένους υποτομείς για ευαίσθητα περιβάλλοντα σταδιοποίησης. |
+| **Εξαγορά υποτομέα** | Το CNAME δείχνει σε μη διεκδικημένες υπηρεσίες AWS/GitHub/Azure | Ελέγξτε τις κρέμες εγγραφές DNS CNAME και αφαιρέστε αμέσως τις αχρησιμοποίητες αντιστοιχίσεις. |

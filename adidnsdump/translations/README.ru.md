@@ -1,12 +1,16 @@
-# 🌲 adidnsdump — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌲 adidnsdump — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    █████╗ ██████╗ ██╗██████╗ ███╗   ██╗███████╗██████╗ ██╗   ██╗███╗   ███╗██████╗ 
   ██╔══██╗██╔══██╗██║██╔══██╗████╗  ██║██╔════╝██╔══██╗██║   ██║████╗ ████║██╔══██╗
@@ -16,54 +20,52 @@
   ╚═╝  ╚═╝╚═════╝ ╚═╝╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝     
            Active Directory Integrated DNS (ADIDNS) Reconnaissance Tool
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/Tool-adidnsdump-blue?style=for-the-badge" alt="adidnsdump">
   <img src="https://img.shields.io/badge/Author-Dirk--jan_Mollema-orange?style=for-the-badge" alt="dirkjanm">
   <img src="https://img.shields.io/badge/Category-Active_Directory-green?style=for-the-badge" alt="Active Directory">
   <img src="https://img.shields.io/badge/Protocol-LDAP_%2F_LDAPS-purple?style=for-the-badge" alt="LDAP">
 </p>
 
-<p align="center">
-  <b>🌲 Enumerate and dump Active Directory Integrated DNS (ADIDNS) zones and records over LDAP without DNS zone transfers (AXFR)</b>
+<p выравнивание="центр">
+  <b>🌲 Перечислять и выгружать зоны и записи интегрированного DNS Active Directory (ADIDNS) через LDAP без передачи зон DNS (AXFR)</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--technical-background)
-- [Установка](#-installation)
-- [Authentication Methods](#-authentication-methods)
-  - [Password Authentication](#password-authentication)
-  - [Pass-the-Hash (NTLM)](#pass-the-hash-ntlm)
-  - [Kerberos Ticket (ccache)](#kerberos-ticket-ccache)
-- [Core Dumping Commands](#-core-dumping-commands)
-  - [Standard Active Directory DNS Zone Dump](#standard-active-directory-dns-zone-dump)
-  - [Dumping Tombstoned / Deleted Records](#dumping-tombstoned--deleted-records)
-  - [This generates a file named `records.csv` in your current working directory.](#dumping-forest-dns--domain-dns-zones)
-  - [Targeting Specific DNS Zones](#targeting-specific-dns-zones)
-- [Export Formats & Post-Processing](#-export-formats--post-processing)
-  - [CSV Output](#csv-output)
-  - [By default, `adidnsdump` outputs `records.csv`. The fields include:](#integrating-with-bloodhound--nmap)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и техническая информация](#-overview--technical-background)
+- [Установка](#-установка)
+- [Методы аутентификации](#-методы-аутентификации)
+  - [Аутентификация по паролю](#пароль-аутентификация)
+  - [Передать хеш (NTLM)](#pass-the-hash-ntlm)
+  - [Билет Kerberos (ccache)](#kerberos-ticket-ccache)
+- [Команды дампа ядра](#-core-dumping-commands)
+  - [Стандартный дамп зоны DNS Active Directory](#standard-active-directory-dns-zone-dump)
+  - [Сброс надгробных/удалённых записей](#dumping-tombstoned--deleted-records)
+  - [Сброс лесных DNS и доменных DNS-зон](#dumping-forest-dns--domain-dns-zones)
+  - [Нацеливание на определенные зоны DNS](#targeting-special-dns-zones)
+- [Форматы экспорта и постобработка](#-export-formats--постобработка)
+  - [Вывод CSV](#csv-вывод)
+  - [Интеграция с BloodHound и Nmap](#интеграция-с-bloodhound--nmap)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и обнаружение](#-защитные-соображения--обнаружение)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и техническая информация
 
-In standard Windows Active Directory environments, DNS is usually integrated into Active Directory (**Active Directory-Integrated DNS / ADIDNS**). In these configurations, DNS records are not stored in simple text flat-files, but as LDAP objects within the domain partition (such as `DC=DomainDnsZones` and `DC=ForestDnsZones`).
+В стандартных средах Windows Active Directory DNS обычно интегрирован в Active Directory (**DNS, интегрированный в Active Directory/ADIDNS**). В этих конфигурациях записи DNS хранятся не в простых текстовых файлах, а в виде объектов LDAP внутри раздела домена (например, `DC=DomainDnsZones` и `DC=ForestDnsZones`).
 
-Traditional DNS zone transfers (`AXFR`) are almost universally disabled on domain controllers. However, **any authenticated domain user** (even low-privileged accounts or compromised service accounts) has read permissions over the LDAP nodes storing ADIDNS records by default.
+Традиционная передача зоны DNS (`AXFR`) почти повсеместно отключена на контроллерах домена. Однако **любой прошедший проверку подлинности пользователь домена** (даже учетные записи с низким уровнем привилегий или скомпрометированные учетные записи служб) имеет разрешения на чтение узлов LDAP, хранящих записи ADIDNS по умолчанию.
 
-Developed by **Dirk-jan Mollema (@dirkjanm)**, **`adidnsdump`** connects to the Domain Controller via LDAP or LDAPS, queries the ADIDNS partitions, and extracts all records (A, AAAA, CNAME, SRV, TXT, MX, and tombstoned records), creating an accurate inventory of every computer, workstation, and internal web service in the domain.
+Разработанный **Dirk-jan Mollema (@dirkjanm)**, **`adidnsdump`** подключается к контроллеру домена через LDAP или LDAPS, запрашивает разделы ADIDNS и извлекает все записи (A, AAAA, CNAME, SRV, TXT, MX и записи-захоронения), создавая точную инвентаризацию каждого компьютера, рабочей станции и внутренней веб-службы в домене.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Clone the repository and install with pip
 git clone https://github.com/dirkjanm/adidnsdump.git
@@ -73,77 +75,69 @@ pip install .
 # Or install directly via pipx / pip
 pipx install git+https://github.com/dirkjanm/adidnsdump.git
 ```
-
 ---
 
-## 🔑 Authentication Methods
+## 🔑 Методы аутентификации
 
-### Password Authentication
+### Аутентификация по паролю
 ```bash
 adidnsdump -u 'CORP\jdoe' -p 'P@ssw0rd123!' 192.168.1.10
 ```
-
-### Pass-the-Hash (NTLM)
-🔑 Authentication Methods
+### Передача хеша (NTLM)
+Если вы извлекли хэши NTLM с помощью Mimikatz или Secretsdump:
 ```bash
 adidnsdump -u 'CORP\jdoe' --hashes :31d6cfe0d16ae931b73c59d7e0c089c0 192.168.1.10
 ```
-
-### Kerberos Ticket (ccache)
-Using an existing Kerberos TGT/TGS ticket stored in `KRB5CCNAME`:
+### Билет Kerberos (ccache)
+Использование существующего билета Kerberos TGT/TGS, хранящегося в `KRB5CCNAME`:
 ```bash
 export KRB5CCNAME=/tmp/jdoe.ccache
 adidnsdump -k -u 'CORP\jdoe' dc01.corp.local
 ```
-
 ---
 
-## 🚀 Core Dumping Commands
+## 🚀 Команды дампа ядра
 
-### Standard Active Directory DNS Zone Dump
-Dumps all active DNS records from the default DomainDnsZones partition:
+### Стандартный дамп зоны DNS Active Directory
+Выводит все активные записи DNS из раздела DomainDnsZones по умолчанию:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' ldap://dc01.corp.local
 ```
-This generates a file named `records.csv` in your current working directory.
+Это создаст файл с именем `records.csv` в вашем текущем рабочем каталоге.
 
-### Dumping Tombstoned / Deleted Records
-Windows DNS marks deleted records as "tombstoned" for several days before physical deletion. These records often reveal decommissioned systems, legacy servers, or test environments:
+### Удаление захороненных/удалённых записей
+DNS Windows помечает удаленные записи как «захороненные» за несколько дней до физического удаления. Эти записи часто показывают выведенные из эксплуатации системы, устаревшие серверы или тестовые среды:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' --include-tombstoned ldap://dc01.corp.local
 ```
-
-### This generates a file named `records.csv` in your current working directory.
-Extract records from Forest-level DNS partitions:
+### Сброс лесных DNS и DNS-зон домена
+Извлеките записи из разделов DNS на уровне леса:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' --forest ldap://dc01.corp.local
 ```
-
-### Targeting Specific DNS Zones
-If the target operates multiple split-brain DNS zones or subdomains:
+### Таргетинг на определенные зоны DNS
+Если цель управляет несколькими разделенными DNS-зонами или поддоменами:
 ```bash
 adidnsdump -u 'corp.local\jdoe' -p 'P@ssw0rd123!' --zone dev.corp.local ldap://dc01.corp.local
 ```
-
-### Secure LDAPS Encrypted Communication
-Prevent credentials from traversing the network in plaintext:
+### Безопасная шифрованная связь LDAPS
+Запретите передачу учетных данных по сети в виде открытого текста:
 ```bash
 adidnsdump --ssl -u 'corp.local\jdoe' -p 'P@ssw0rd123!' ldaps://dc01.corp.local
 ```
-
 ---
 
-## 📊 Export Formats & Post-Processing
+## 📊 Форматы экспорта и постобработка
 
-### CSV Output
-By default, `adidnsdump` outputs `records.csv`. The fields include:
-- `zone`: The DNS zone the record belongs to.
-- `name`: Record hostname or label.
-- 📊 Export Formats & Post-Processing
-- `value`: Target IP address, hostname, or string.
+### CSV-вывод
+По умолчанию `adidnsdump` выводит `records.csv`. Поля включают в себя:
+- `zone`: зона DNS, к которой принадлежит запись.
+- `name`: Запишите имя хоста или метку.
+- `type`: тип записи (A, AAAA, CNAME, SRV и т. д.).
+- `value`: целевой IP-адрес, имя хоста или строка.
 
-### By default, `adidnsdump` outputs `records.csv`. The fields include:
-`zone`: The DNS zone the record belongs to.
+### Интеграция с BloodHound и Nmap
+Извлеките все уникальные IP-адреса из дампов записей для автоматического сканирования:
 ```bash
 # Filter unique IP addresses (Type A records)
 awk -F',' '$3=="A" {print $4}' records.csv | sort -u > live_ips.txt
@@ -151,32 +145,31 @@ awk -F',' '$3=="A" {print $4}' records.csv | sort -u > live_ips.txt
 # Run fast port scan against newly discovered internal hosts
 nmap -sS -Pn -iL live_ips.txt -T4 -p 80,443,445,3389 -oA internal_assets
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Standard ADIDNS Dump**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' <DC_IP>`|
-|**Pass-the-Hash (NTLM)**|`adidnsdump -u 'DOMAIN\User' --hashes :<NTLM> <DC_IP>`|
-|**Kerberos Ticket Auth**|`adidnsdump -k -u 'DOMAIN\User' <DC_FQDN>`|
-|**Dump Tombstoned Records**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' --include-tombstoned <DC_IP>`|
-|**Dump Forest Zones**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' --forest <DC_IP>`|
-|**Specify Target Zone**|`adidnsdump -u 'DOMAIN\User' -p 'Pass' --zone <ZONE> <DC_IP>`|
-|**Enforce LDAPS (SSL)**|`adidnsdump --ssl -u 'DOMAIN\User' -p 'Pass' ldaps://<DC_IP>`|
+| **Стандартный дамп ADIDNS** | `adidnsdump -u 'DOMAIN\User' -p 'Pass' <DC_IP>` |
+| **Передача хэша (NTLM)** | `adidnsdump -u 'DOMAIN\User' --hashes :<NTLM> <DC_IP>` |
+| **Аутентификация билета Kerberos** | `adidnsdump -k -u 'DOMAIN\User' <DC_FQDN>` |
+| **Удалить надгробные записи**| `adidnsdump -u 'DOMAIN\User' -p 'Pass' --include-tombstoned <DC_IP>` |
+| **Свалка лесных зон** | `adidnsdump -u 'DOMAIN\User' -p 'Pass' --forest <DC_IP>` |
+| **Укажите целевую зону** | `adidnsdump -u 'DOMAIN\User' -p 'Pass' --zone <ZONE> <DC_IP>` |
+| **Принудительное использование LDAPS (SSL)** | `adidnsdump --ssl -u 'DOMAIN\User' -p 'Pass' ldaps://<DC_IP>` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Соображения по защите и обнаружению
 
-1. **LDAP Query Monitoring:** Enable Advanced Audit Policy for Directory Service Access (Event ID 4662) to alert on high-volume queries against `CN=MicrosoftDNS,DC=DomainDnsZones`.
-2. **Restrict ADIDNS ACLs:** Restrict read permissions on the `MicrosoftDNS` container to domain administrators or specific administrative roles if non-admins do not require internal DNS introspection.
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
+1. **Мониторинг запросов LDAP.** Включите политику расширенного аудита для доступа к службе каталогов (идентификатор события 4662), чтобы получать оповещения о больших объемах запросов к `CN=MicrosoftDNS,DC=DomainDnsZones`.
+2. **Ограничить списки ACL ADIDNS.** Ограничьте разрешения на чтение в контейнере `MicrosoftDNS` администраторами домена или определенными административными ролями, если администраторам, не являющимся администраторами, не требуется внутренний самоанализ DNS.
+3. **Honeytokens.** Размещайте привлекательные DNS-записи (например, `backup-vault.corp.local` или `admin-portal.corp.local`), указывающие на IP-адреса ловушек.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> adidnsdump is intended strictly for authorized security assessments, Active Directory audits, and penetration testing within permitted scopes. Querying directory services on unauthorized networks is illegal.
+> [!ВНИМАНИЕ]
+> adidnsdump предназначен исключительно для авторизованных оценок безопасности, аудита Active Directory и тестирования на проникновение в пределах разрешенных областей. Запрос к службам каталогов в неавторизованных сетях является незаконным.

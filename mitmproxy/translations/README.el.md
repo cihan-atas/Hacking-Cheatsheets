@@ -1,12 +1,16 @@
-# 🕶️ mitmproxy — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🕶️ mitmproxy - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ███╗   ███╗██╗████████╗███╗   ███╗██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗
   ████╗ ████║██║╚══██╔══╝████╗ ████║██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝
@@ -16,55 +20,54 @@
   ╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝     ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   
        Interactive, Scriptable Terminal HTTP/HTTPS Proxy & Traffic Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/mitmproxy-Terminal_Proxy-blue?style=for-the-badge" alt="mitmproxy">
   <img src="https://img.shields.io/badge/Author-mitmproxy_Project-orange?style=for-the-badge" alt="mitmproxy">
-  <img src="https://img.shields.io/badge/Category-Network_&_Web_Analysis-green?style=for-the-badge" alt="Network Analysis">
+  <img src="https://img.shields.io/badge/Category-Network_&_Web_Analysis-green?style=for-the-badge" alt="Ανάλυση δικτύου">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
 <p align="center">
-  <b>🕶️ An interactive, SSL/TLS-capable intercepting HTTP proxy for penetration testers, security researchers, and software engineers with a rich console interface and Python scripting API</b>
+  <b>🕶️ Ένας διαδραστικός διακομιστής υποκλοπής HTTP με δυνατότητα SSL/TLS για δοκιμαστές διείσδυσης, ερευνητές ασφαλείας και μηχανικούς λογισμικού με πλούσια διεπαφή κονσόλας και API δέσμης ενεργειών Python</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--the-three-binaries)
-- [Εγκατάσταση](#-installation--certificate-setup)
-  - [3. **`mitmweb`:** A lightweight browser-based graphical web interface.](#installing-on-linux--macos)
+- [Επισκόπηση & Τα τρία δυαδικά] (#-επισκόπηση--τα-τρία-δυαδικά)
+- [Εγκατάσταση & Ρύθμιση πιστοποιητικού](#-εγκατάσταση--ρύθμιση πιστοποιητικού)
+  - [Εγκατάσταση σε Linux / macOS](#installing-on-linux--macos)
   - [Installing CA Certificate for SSL/TLS Interception](#installing-ca-certificate-for-ssltls-interception)
-- [Operating Modes: Regular, Transparent & Reverse Proxy](#-operating-modes-regular-transparent--reverse-proxy)
-- [Interactive TUI Navigation (`mitmproxy`)](#-interactive-tui-navigation-mitmproxy)
-  - [💻 Εργαλεία γραμμής εντολών του Sleuth Kit](#keyboard-shortcuts)
-  - [`d`: Delete current flow.](#filtering--intercepting-flows)
-- [Non-Interactive Automation (`mitmdump`)](#-non-interactive-automation-mitmdump)
-  - [Recording & Replaying Traffic](#recording--replaying-traffic)
+- [Τρόποι λειτουργίας: Κανονικός, Διαφανής & Αντίστροφος διακομιστής μεσολάβησης](#-λειτουργία-τρόποι-κανονικό-διαφανές--αντίστροφος διακομιστής μεσολάβησης)
+- [Διαδραστική πλοήγηση TUI (`mitmproxy`)](#-interactive-tui-navigation-mitmproxy)
+  - [Συντομεύσεις πληκτρολογίου] (#keyboard-shortcuts)
+  - [Filtering & Intercepting Flows](#filtering--intercepting-flows)
+- [Μη διαδραστικός αυτοματισμός (`mitmdump`)](#-non-interactive-automation-mitmdump)
+  - [Εγγραφή και επανάληψη κυκλοφορίας](#recording--replaying-traffic)
 - [Python Scripting & Addons](#-python-scripting--addons)
-  - [Automated Header Manipulation Script](#automated-header-manipulation-script)
+  - [Αυτοματοποιημένο σενάριο χειρισμού κεφαλίδας](#automated-header-manipulation-script)
   - [Live Response Body Tampering](#live-response-body-tampering)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & The Three Binaries
 
-Unlike bulky graphical desktop proxies, **mitmproxy** delivers lightning-fast, scriptable, full-fidelity HTTP/1, HTTP/2, and WebSockets interception directly inside your terminal or automation pipeline.
+Σε αντίθεση με τους ογκώδεις γραφικούς διακομιστές επιτραπέζιου υπολογιστή, το **mitmproxy** παρέχει αστραπιαία, δυνατότητα εγγραφής, πλήρους πιστότητας υποκλοπή HTTP/1, HTTP/2 και WebSockets απευθείας μέσα στο τερματικό ή τη σωλήνωση αυτοματισμού σας.
 
-It ships with three entry-point binaries:
-1. **`mitmproxy`:** The interactive, ncurses-based Terminal User Interface (TUI).
-🎯 Εισαγωγή
-3. **`mitmweb`:** A lightweight browser-based graphical web interface.
+Αποστέλλεται με τρία δυαδικά σημεία εισόδου:
+1. **`mitmproxy`:** Η διαδραστική, βασισμένη σε ncurses Terminal User Interface (TUI).
+2. **`mitmdump`:** Η μη διαδραστική έκδοση γραμμής εντολών (το ισοδύναμο `tcpdump` για το HTTP).
+3. **`mitmweb`:** Μια ελαφριά γραφική διεπαφή ιστού που βασίζεται σε πρόγραμμα περιήγησης.
 
 ---
 
-## 📥 Εγκατάσταση
+## 📥 Εγκατάσταση & Ρύθμιση πιστοποιητικού
 
-### 3. **`mitmweb`:** A lightweight browser-based graphical web interface.
+### Εγκατάσταση σε Linux / macOS
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y mitmproxy
@@ -75,63 +78,58 @@ sudo pacman -S mitmproxy
 # Python pip / pipx
 pipx install mitmproxy
 ```
-
-### Installing CA Certificate for SSL/TLS Interception
-📥 Εγκατάσταση
-1. Start mitmproxy once: `mitmproxy` (creates certificates in `~/.mitmproxy/`).
-Installing on Linux / macOS
-3. Browse to `http://mitm.it` and download/install the certificate for Android, iOS, Windows, or Linux.
+### Εγκατάσταση πιστοποιητικού CA για υποκλοπή SSL/TLS
+Για να παρακολουθήσουν την επισκεψιμότητα HTTPS, οι στόχοι πρέπει να εμπιστεύονται τη δυναμική Αρχή έκδοσης πιστοποιητικών του mitmproxy:
+1. Ξεκινήστε το mitmproxy μία φορά: `mitmproxy` (δημιουργεί πιστοποιητικά στο `~/.mitmproxy/`).
+2. Στη συσκευή/πρόγραμμα προγράμματος-πελάτη, διαμορφώστε τον διακομιστή μεσολάβησης `127.0.0.1:8080`.
+3. Περιηγηθείτε στο `http://mitm.it` και κατεβάστε/εγκαταστήστε το πιστοποιητικό για Android, iOS, Windows ή Linux.
 
 ---
 
-## ⚙️ Operating Modes: Regular, Transparent & Reverse Proxy
+## ⚙️ Τρόποι λειτουργίας: Κανονικός, Διαφανής & Αντίστροφος διακομιστής μεσολάβησης
 
-### 3. Browse to `http://mitm.it` and download/install the certificate for Android, iOS, Windows, or Linux.
-Standard forward proxy listening on port 8080:
+### Κανονική λειτουργία διακομιστή μεσολάβησης (Προεπιλογή)
+Τυπική ακρόαση μεσολάβησης προώθησης στη θύρα 8080:
 ```bash
 mitmproxy -p 8080
 ```
-
-### ⚙️ Operating Modes: Regular, Transparent & Reverse Proxy
-Relays incoming traffic to a specific target server (ideal for API testing):
+### Αντίστροφη λειτουργία διακομιστή μεσολάβησης
+Αναμεταδίδει την εισερχόμενη κίνηση σε έναν συγκεκριμένο διακομιστή προορισμού (ιδανικός για δοκιμή API):
 ```bash
 mitmproxy --mode reverse:https://api.target.com -p 8080
 ```
-
-### Transparent Mode
-Intercepts traffic routed through iptables without configuring client proxy settings:
+### Διαφανής λειτουργία
+Αναχαιτίζει την κυκλοφορία που δρομολογείται μέσω iptables χωρίς να διαμορφώνει τις ρυθμίσεις διακομιστή μεσολάβησης πελάτη:
 ```bash
 mitmproxy --mode transparent --showhost
 ```
-
 ---
 
-## 🖥️ Interactive TUI Navigation (`mitmproxy`)
+## 🖥️ Διαδραστική πλοήγηση TUI (`mitmproxy`)
 
-### 💻 Εργαλεία γραμμής εντολών του Sleuth Kit
-- `?`: Open help overlay.
-- `Enter`: Inspect selected HTTP flow (Request / Response / Detail).
-- `q`: Go back / quit.
-- 🖥️ Interactive TUI Navigation (`mitmproxy`)
-- `r`: Replay selected request to server.
-- 💻 Εργαλεία γραμμής εντολών του Sleuth Kit
-- `?`: Open help overlay.
-- `Enter`: Inspect selected HTTP flow (Request / Response / Detail).
+### Συντομεύσεις πληκτρολογίου
+- `?`: Ανοίξτε την επικάλυψη βοήθειας.
+- `Enter`: Επιθεωρήστε την επιλεγμένη ροή HTTP (Αίτημα / Απόκριση / Λεπτομέρεια).
+- `q`: Επιστρέψτε / σταματήστε.
+- `d`: Διαγραφή ροής ρεύματος.
+- `r`: Επανάληψη της επιλεγμένης αίτησης στον διακομιστή.
+- `e`: Επεξεργασία κεφαλίδων αιτήματος/απόκρισης, διαδρομής ή σώματος.
+- `a`: Συνέχιση της ροής σε παύση (κατά την αναχαίτιση).
+- `A`: Συνέχιση όλων των ροών σε παύση.
 
-### `d`: Delete current flow.
-`r`: Replay selected request to server.
+### Φιλτράρισμα και παρεμπόδιση ροών
+Πατήστε `i` για να εισαγάγετε μια έκφραση φίλτρου υποκλοπής:
 ```text
 ~u /api/v1/ & ~m POST      # Intercept only POST requests to /api/v1/
 ~c 401 | ~c 403            # Filter flows by HTTP status code
 ~b "password"              # Filter flows where body contains "password"
 ```
-
 ---
 
-## ⚡ Non-Interactive Automation (`mitmdump`)
+## ⚡ Μη Διαδραστικός Αυτοματισμός (`mitmdump`)
 
-### Recording & Replaying Traffic
-Capture live traffic directly into a binary dump file:
+### Εγγραφή & Επανάληψη κυκλοφορίας
+Καταγράψτε τη ζωντανή κίνηση απευθείας σε ένα δυαδικό αρχείο ένδειξης σφαλμάτων:
 ```bash
 # Record all HTTP traffic to file
 mitmdump -w traffic.dump
@@ -142,14 +140,13 @@ mitmdump -n -r traffic.dump
 # Replay client requests from dump against target
 mitmdump --client-replay traffic.dump
 ```
-
 ---
 
 ## 🐍 Python Scripting & Addons
 
-mitmproxy features a native Python API for modifying traffic programmatically:
+Το mitmproxy διαθέτει ένα εγγενές API Python για την τροποποίηση της κυκλοφορίας μέσω προγραμματισμού:
 
-### Automated Header Manipulation Script (`add_headers.py`)
+### Αυτοματοποιημένο σενάριο χειρισμού κεφαλίδας (`add_headers.py`)
 ```python
 from mitmproxy import http
 
@@ -161,12 +158,11 @@ class AddHeader:
 
 addons = [AddHeader()]
 ```
-🐍 Python Scripting & Addons
+Τρέξτε με:
 ```bash
 mitmproxy -s add_headers.py
 ```
-
-### Live Response Body Tampering (`tamper_response.py`)
+### Παραβίαση σώματος ζωντανής απόκρισης (`tamper_response.py`)
 ```python
 from mitmproxy import http
 
@@ -175,35 +171,34 @@ def response(flow: http.HTTPFlow):
     if "api/user/me" in flow.request.url:
         flow.response.text = flow.response.text.replace('"isAdmin": false', '"isAdmin": true')
 ```
-🐍 Python Scripting & Addons
+Τρέξτε με:
 ```bash
 mitmdump -s tamper_response.py
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Start Interactive TUI**|`mitmproxy -p 8080`|
-|**Start Web GUI**|`mitmweb -p 8080`|
-|**Silent CLI Logger**|`mitmdump -p 8080`|
-|**Reverse Proxy Target**|`mitmproxy --mode reverse:https://target.com`|
-|**Record Traffic to File**|`mitmdump -w capture.mitm`|
-|**Load Python Addon Script**|`mitmproxy -s script.py`|
-|**Ignore Target Hosts**|`mitmproxy --ignore-hosts ".*apple\.com"`|
+| **Έναρξη διαδραστικής TUI** | `mitmproxy -p 8080` |
+| **Έναρξη Web GUI** | `mitmweb -p 8080` |
+| **Αθόρυβο CLI Logger** | `mitmdump -p 8080` |
+| **Αντίστροφος στόχος διακομιστή μεσολάβησης** | `mitmproxy --mode reverse:https://target.com` |
+| **Καταγραφή επισκεψιμότητας στο αρχείο** | `mitmdump -w capture.mitm` |
+| **Φορτώστε το σενάριο Python Addon**| `mitmproxy -s script.py` |
+| **Παράβλεψη κεντρικών υπολογιστών στόχων** | `mitmproxy --ignore-hosts ".*apple\.com"` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Αμυντικές Θεωρήσεις & Ανίχνευση
 
-1. **Certificate Pinning:** Mobile apps enforcing SSL Pinning reject mitmproxy's CA certificate. Pair with Frida / Objection to bypass client-side checks.
-2. **Proxy Detection in TLS Handshake:** Proxies introduce custom TLS cipher suites and ALPN negotiation fingerprints that WAFs and bot managers can detect.
+1. **Καρφίτσωμα πιστοποιητικού:** Οι εφαρμογές για κινητά που επιβάλλουν το καρφίτσωμα SSL απορρίπτουν το πιστοποιητικό CA του mitmproxy. Σύζευξη με Frida / Objection για παράκαμψη ελέγχων από την πλευρά του πελάτη.
+2. **Ανίχνευση διακομιστή μεσολάβησης στη χειραψία TLS:** Οι διακομιστής μεσολάβησης εισάγουν προσαρμοσμένες σουίτες κρυπτογράφησης TLS και δακτυλικά αποτυπώματα διαπραγμάτευσης ALPN που μπορούν να ανιχνεύσουν τα WAF και οι διαχειριστές ρομπότ.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> mitmproxy intercepts and decrypts sensitive network communications. It must strictly be deployed on systems and networks where explicit authorization has been secured. Intercepting communications without consent is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το mitmproxy παρεμποδίζει και αποκρυπτογραφεί ευαίσθητες επικοινωνίες δικτύου. Πρέπει να αναπτύσσεται αυστηρά σε συστήματα και δίκτυα όπου έχει εξασφαλιστεί ρητή εξουσιοδότηση. Η υποκλοπή επικοινωνιών χωρίς συγκατάθεση είναι παράνομη.

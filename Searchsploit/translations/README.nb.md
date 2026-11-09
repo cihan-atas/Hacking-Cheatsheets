@@ -1,40 +1,44 @@
-# 🔍 Searchsploit – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Searchsploit](https://www.exploit-db.com/searchsploit) is the official command-line utility for [Exploit-Database](https://www.exploit-db.com/). It allows security professionals, penetration testers, and vulnerability researchers to conduct offline searches across tens of thousands of published exploits, shellcodes, and whitepapers without sending network traffic to third-party search engines.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#overview--architecture)
-- [Installasjon](#installation--local-database-updates)
-- [Basic & Advanced Exploit Searching](#basic--advanced-exploit-searching)
-- [5. Exclude Unwanted Results (`--exclude`)](#examining--copying-exploits--m---p---x)
-- [3. Read Exploit Code in Terminal Pager (`-x`)](#filtering-by-platform--type)
+# Searchsploit Cheatsheet
+
+[Searchsploit](https://www.exploit-db.com/searchsploit) er det offisielle kommandolinjeverktøyet for [Exploit-Database](https://www.exploit-db.com/). Den lar sikkerhetseksperter, penetrasjonstestere og sårbarhetsforskere utføre offline søk på tvers av titusenvis av publiserte utnyttelser, shellcodes og whitepapers uten å sende nettverkstrafikk til tredjeparts søkemotorer.
+
+---
+
+## Innholdsfortegnelse
+
+- [Oversikt og arkitektur](#oversikt--arkitektur)
+- [Installasjon og lokale databaseoppdateringer](#installation--local-database-updates)
+– [Basic & Advanced Exploit Searching](#basic--advanced-exploit-searching)
+- [Undersøker og kopierer utnyttelser (`-m` / `-p` / `-x`)](#undersøker--kopierer-utnytter--m---p---x)
+- [Filtrering etter plattform og type](#filtrering etter plattform--type)
 - [Nmap XML / Grepable Scanning Integration](#nmap-xml--grepable-scanning-integration)
 - [JSON Output & Script Automation](#json-output--script-automation)
-- [Best Practices in Penetration Testing](#best-practices-in-penetration-testing)
+– [Beste fremgangsmåter for penetrasjonstesting](#best-practices-in-penetration-testing)
 
 ---
 
-## Introduksjon
+## Oversikt og arkitektur
 
-[Best Practices in Penetration Testing](#best-practices-in-penetration-testing)
-- **Zero Network Fingerprint**: Searches run against local CSV and directory structures.
-- **Offline Reliability**: Fully functional in air-gapped target environments and engagement networks.
-- **Integrated Mirroring**: Copies exploit files directly to the current working directory for immediate review and modification.
+Searchsploit spør etter en lokal git-klon av Exploit-DB lagret i `/usr/share/exploitdb/`.
+- **Null nettverksfingeravtrykk:** Søk kjøres mot lokale CSV- og katalogstrukturer.
+- **Offline-pålitelighet:** Fullt funksjonell i luftgappede målmiljøer og engasjementsnettverk.
+- **Integrert speiling:** Kopierer utnyttelsesfiler direkte til gjeldende arbeidskatalog for umiddelbar gjennomgang og endring.
 
 ---
 
-## Installasjon
+## Installasjon og lokale databaseoppdateringer
 
-### Integrated Mirroring**: Copies exploit files directly to the current working directory for immediate review and modification.
+### Debian / Ubuntu / Kali Linux / Parrot OS
 ```bash
 # Kali and Parrot include searchsploit by default
 sudo apt-get update && sudo apt-get install -y exploitdb
@@ -42,8 +46,7 @@ sudo apt-get update && sudo apt-get install -y exploitdb
 # Update the local exploit database archive
 searchsploit -u
 ```
-
-### Installasjon
+### Git Repository Installasjon (enhver Linux-distribusjon)
 ```bash
 git clone https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb
 sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
@@ -51,53 +54,47 @@ sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
 # Check version and status
 searchsploit -v
 ```
-
 ---
 
-## Basic & Advanced Exploit Searching
+## Grunnleggende og avansert utnyttelsessøking
 
-### 1. Simple Keyword Search
-Search for specific services, daemons, or software:
+### 1. Enkelt søkeordsøk
+Søk etter spesifikke tjenester, demoner eller programvare:
 ```bash
 searchsploit apache 2.4.49
 searchsploit openssh 7.2
 searchsploit wordpress core 5.8
 ```
-
-### Basic & Advanced Exploit Searching
-Restrict search queries strictly to exploit titles to eliminate noisy description matches:
+### 2. Eksakt tittelmatching (`-t`)
+Begrens søk strengt for å utnytte titler for å eliminere støyende beskrivelsestreff:
 ```bash
 searchsploit -t "Privilege Escalation" linux kernel
 searchsploit -t "Remote Code Execution" smb
 ```
-
-### 3. Strict Case & Term Matching (`-e`)
-Find exact version and pattern matches:
+### 3. Strikt samsvar mellom store og små bokstaver og termer (`-e`)
+Finn eksakte versjoner og mønstertreff:
 ```bash
 searchsploit -e "Apache Struts"
 ```
-
-### 4. Search by CVE Identifier
-Query exploits mapped to specific Common Vulnerabilities and Exposures numbers:
+### 4. Søk etter CVE Identifier
+Forespørselsutnyttelser tilordnet spesifikke Common Vulnerabilities and Exposures-numre:
 ```bash
 searchsploit --cve 2021-44228
 searchsploit --cve 2017-0144
 ```
-
-### 5. Exclude Unwanted Results (`--exclude`)
-Filter out denial-of-service (DoS) or auxiliary scripts when seeking remote code execution (RCE):
+### 5. Ekskluder uønskede resultater (`--exclude`)
+Filtrer ut tjenestenekt (DoS) eller hjelpeskript når du søker ekstern kjøring av kode (RCE):
 ```bash
 searchsploit linux kernel 5.4 --exclude="Denial of Service"
 ```
-
 ---
 
-## 5. Exclude Unwanted Results (`--exclude`)
+## Undersøker og kopierer utnyttelser (`-m` / `-p` / `-x`)
 
-Never edit or execute exploits directly in the `/usr/share/exploitdb/` directory. Use Searchsploit's copy and inspect functions.
+Aldri rediger eller utfør utnyttelser direkte i `/usr/share/exploitdb/`-katalogen. Bruk Searchsploits kopierings- og inspeksjonsfunksjoner.
 
-### 1. Copy (Mirror) Exploit to Current Directory (`-m`)
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+### 1. Kopier (speil) utnyttelse til gjeldende katalog (`-m`)
+Kopier en utnyttelses PoC-fil (Python, C, Ruby, bash) direkte til din lokale arbeidskatalog:
 ```bash
 # Mirror by Exploit-DB ID (EBD-ID)
 searchsploit -m 50383
@@ -105,33 +102,30 @@ searchsploit -m 50383
 # Mirror by search path pattern
 searchsploit -m windows/remote/48537.py
 ```
-
-### Never edit or execute exploits directly in the `/usr/share/exploitdb/` directory. Use Searchsploit's copy and inspect functions.
-Display the absolute filesystem path and Exploit-DB URL for an EDB-ID:
+### 2. Inspiser utnyttelsesmetadata og fullstendig bane (`-p`)
+Vis den absolutte filsystembanen og Exploit-DB URL for en EDB-ID:
 ```bash
 searchsploit -p 50383
 ```
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+Produksjon:
 ```text
   Exploit: Apache HTTP Server 2.4.49 - Path Traversal & Remote Code Execution (RCE)
       URL: https://www.exploit-db.com/exploits/50383
      Path: /usr/share/exploitdb/exploits/multiple/webapps/50383.sh
 File Type: Bourne-Again shell script, ASCII text executable
 ```
-
-### 2. Inspect Exploit Metadata & Full Path (`-p`)
-Display the absolute filesystem path and Exploit-DB URL for an EDB-ID:
+### 3. Les Exploit Code i Terminal Personsøker (`-x`)
+Åpne utnyttelseskoden direkte i `less` for rask inspeksjon:
 ```bash
 searchsploit -x 50383
 ```
-
 ---
 
-## 3. Read Exploit Code in Terminal Pager (`-x`)
+## Filtrering etter plattform og type
 
-Searchsploit indexes exploits, shellcode, and research papers across multiple architectures:
+Searchsploit indekserer utnyttelser, shellcode og forskningsartikler på tvers av flere arkitekturer:
 
-### 1. Filter by Target Operating System
+### 1. Filtrer etter måloperativsystem
 ```bash
 # Search only Linux exploits
 searchsploit linux kernel 4.4
@@ -142,25 +136,21 @@ searchsploit windows smb eternal
 # Search web applications
 searchsploit webapps tomcat
 ```
-
-### 2. Filter for Raw Shellcodes Only (`-s`)
-Searchsploit indexes exploits, shellcode, and research papers across multiple architectures:
+### 2. Filter kun for rå skallkoder (`-s`)
+Slå opp arkitekturspesifikke shellcode-nyttelaster (f.eks. execve `/bin/sh` uten nullbyte):
 ```bash
 searchsploit -s linux/x64 "execve"
 searchsploit -s windows/x86 "reverse shell"
 ```
-
-### 3. Filter for Security Papers and Whitepapers (`-w`)
+### 3. Filter for sikkerhetspapirer og whitepapers (`-w`)
 ```bash
 searchsploit -w "Active Directory Kerberos"
 ```
-
 ---
 
 ## Nmap XML / Grepable Scanning Integration
 
-Searchsploit can automatically parse Nmap XML scan outputs and match discovered software versions against known exploits:
-
+Searchsploit kan automatisk analysere Nmap XML-skanneutdata og matche oppdagede programvareversjoner mot kjente utnyttelser:
 ```bash
 # 1. Perform service detection and save XML output
 nmap -sV -p- -T4 -oX /tmp/target_scan.xml 192.168.1.50
@@ -168,31 +158,28 @@ nmap -sV -p- -T4 -oX /tmp/target_scan.xml 192.168.1.50
 # 2. Feed the XML scan file directly to Searchsploit
 searchsploit --nmap /tmp/target_scan.xml
 ```
-*Searchsploit inspects every open port banner and version string, querying local exploits for immediate triage.*
+*Searchsploit inspiserer alle åpne portbannere og versjonsstrenger, og spør etter lokale utnyttelser for umiddelbar triage.*
 
 ---
 
 ## JSON Output & Script Automation
 
-Searchsploit inspects every open port banner and version string, querying local exploits for immediate triage.
-
+For rørledningsautomatisering og tilpassede rekognoseringsverktøy, resulterer utdata i strukturert JSON:
 ```bash
 searchsploit "Apache Struts" --json > struts_exploits.json
 ```
-
-JSON Output & Script Automation
+Filtrer utnyttelsesfilbaner ved hjelp av `jq`:
 ```bash
 searchsploit --cve 2021-41773 --json | jq -r '.RESULTS_EXPLOIT[].Path'
 ```
-
 ---
 
-## Tips og beste praksis
+## Beste praksis for penetrasjonstesting
 
-1. **Verify Before Running:** Always inspect exploit source code (`searchsploit -x <id>`) before compilation or execution. Verify hardcoded shellcode, target IP addresses, and ensure there are no backdoors or malicious payload stagers.
-2. **Compile with Correct Flags:** Many Exploit-DB C exploits require specific GCC flags (e.g., `-m32`, `-lpthread`, or `-lcrypto`):
+1. **Bekreft før kjøring:** Inspiser alltid utnyttelseskildekoden (`searchsploit -x <id>`) før kompilering eller kjøring. Bekreft hardkodet skallkode, målrett IP-adresser og sørg for at det ikke er noen bakdører eller ondsinnede nyttelaster.
+2. **Kompiler med riktige flagg:** Mange Exploit-DB C-utnyttelser krever spesifikke GCC-flagg (f.eks. `-m32`, `-lpthread` eller `-lcrypto`):
    ```bash
    searchsploit -m 40839
    gcc -pthread 40839.c -o dirtycow -lcrypt
    ```
-3. **Keep Database Updated:** Run `searchsploit -u` regularly to ensure newly published zero-days and proof-of-concepts are indexed locally.
+3. **Hold databasen oppdatert:** Kjør `searchsploit -u` regelmessig for å sikre at nylig publiserte zero-days og proof-of-concepts indekseres lokalt.

@@ -1,12 +1,16 @@
-# ⌨️ rlwrap – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⌨️ rlwrap – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗     ██╗    ██╗██████╗  █████╗ ██████╗ 
   ██╔══██╗██║     ██║    ██║██╔══██╗██╔══██╗██╔══██╗
@@ -16,7 +20,6 @@
   ╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     
        Readline Wrapper for Reverse Shells & Dumb Terminals
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/rlwrap-Readline_Wrapper-blue?style=for-the-badge" alt="rlwrap">
   <img src="https://img.shields.io/badge/Utility-Shell_Stabilization-green?style=for-the-badge" alt="Shell Stabilization">
@@ -25,50 +28,49 @@
 </p>
 
 <p align="center">
-  <b>🌐 Turn raw Netcat listeners and dumb reverse shells into full command-line interfaces with arrow keys, history, and auto-completion</b>
+  <b>🌐 Verwandeln Sie rohe Netcat-Listener und dumme Reverse-Shells in vollständige Befehlszeilenschnittstellen mit Pfeiltasten, Verlauf und automatischer Vervollständigung</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-introduction-the-dumb-shell-problem)
-- [Installation](#-installation)
-- [Grundsyntax](#-basic-usage)
-- [Catching Reverse Shells (`rlwrap + nc`)](#-catching-reverse-shells-rlwrap--nc)
-- [Persistent History Management](#-persistent-history-management)
-- [Command Auto-Completion (`-f`)](#-command-auto-completion--f)
-- [Full 5-Step TTY Shell Upgrade Workflow](#-full-5-step-tty-shell-upgrade-workflow)
-- [Using rlwrap with Other Pentest Tools](#-using-rlwrap-with-other-pentest-tools)
+- [Einführung: Das „Dumb Shell“-Problem](#-introduction-the-dumb-shell-problem)
+- [Installation](#-Installation)
+- [Grundlegende Nutzung](#-basic-usage)
+- [Reverse Shells einfangen (`rlwrap + nc`)](#-catcher-reverse-shells-rlwrap--nc)
+- [Persistente Verlaufsverwaltung](#-persistent-history-management)
+- [Befehlsautomatische Vervollständigung (`-f`)](#-command-auto-completion--f)
+- [Vollständiger 5-stufiger TTY-Shell-Upgrade-Workflow](#-full-5-step-tty-shell-upgrade-workflow)
+- [Verwenden von rlwrap mit anderen Pentest-Tools](#-using-rlwrap-with-other-pentest-tools)
   - [Oracle SQL*Plus](#oracle-sqlplus)
-  - [`rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:](#redis--telnet)
-  - [Socat & Custom Sockets](#socat--custom-sockets)
-- [Kurzreferenz](#-quick-reference-table)
-- [Tipps und bewährte Vorgehensweisen](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [Redis & Telnet](#redis--telnet)
+  - [Socat & benutzerdefinierte Sockets](#socat--custom-sockets)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Tipps und Best Practices](#-tips--best-practices)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Einführung: Das „Dumb Shell“-Problem
 
-When you catch a reverse shell using traditional tools like Netcat (`nc -lvnp 4444`), you obtain a **dumb terminal**. A dumb terminal lacks standard line-editing capabilities:
+Wenn Sie mit herkömmlichen Tools wie Netcat (`nc -lvnp 4444`) eine Reverse-Shell abfangen, erhalten Sie ein **dummes Terminal**. Einem dummen Terminal fehlen die Standardfunktionen zur Zeilenbearbeitung:
 
-- ❌ Pressing the **Up/Down arrow keys** prints escape sequences like `^[[A` or `^[[B` instead of cycling through command history.
-- ❌ Pressing **Backspace** or **Delete** prints `^H` or `^?` instead of deleting characters.
-- 🎯 Einführung
-- ❌ Commands like `su`, `sudo`, `nano`, `vim`, or `passwd` fail because there is no pseudo-terminal (PTY) attached.
-- ❌ No persistent command history is retained across sessions.
+- ❌ Durch Drücken der **Aufwärts-/Abwärtspfeiltasten** werden Escape-Sequenzen wie `^[[A` oder `^[[B` gedruckt, anstatt durch den Befehlsverlauf zu blättern.
+- ❌ Durch Drücken der **Rücktaste** oder **Entf** wird `^H` oder `^?` gedruckt, anstatt Zeichen zu löschen.
+- ❌ Durch Drücken von **Strg + C** wird der Reverse-Shell-Listener sofort beendet und der hart erarbeitete Zugriff verloren.
+- ❌ Befehle wie `su`, `sudo`, `nano`, `vim` oder `passwd` schlagen fehl, weil kein Pseudo-Terminal (PTY) angeschlossen ist.
+- ❌ Es wird kein dauerhafter Befehlsverlauf über Sitzungen hinweg gespeichert.
 
-**rlwrap** (Readline Wrapper, written by Hans Lub) solves this by sitting between your terminal and the target command. It intercepts keyboard strokes, leverages **GNU Readline**, and provides arrow-key navigation, line editing, persistent command history files, and dictionary-based auto-completion!
+**rlwrap** (Readline Wrapper, geschrieben von Hans Lub) löst dieses Problem, indem es zwischen Ihrem Terminal und dem Zielbefehl sitzt. Es fängt Tastaturanschläge ab, nutzt **GNU Readline** und bietet Pfeiltastennavigation, Zeilenbearbeitung, persistente Befehlsverlaufsdateien und wörterbuchbasierte automatische Vervollständigung!
 
 ---
 
 ## 📥 Installation
 
-`rlwrap` is lightweight and available in the default package repositories of virtually every Linux distribution:
+`rlwrap` ist leichtgewichtig und in den Standardpaket-Repositorys praktisch jeder Linux-Distribution verfügbar:
 
-### Kali Linux, Debian & Ubuntu
-
+### Kali Linux, Debian und Ubuntu
 ```bash
 # Update and install rlwrap
 sudo apt update && sudo apt install -y rlwrap
@@ -76,59 +78,49 @@ sudo apt update && sudo apt install -y rlwrap
 # Verify installation and version
 rlwrap --version
 ```
-
-### `rlwrap` is lightweight and available in the default package repositories of virtually every Linux distribution:
-
+### Fedora, CentOS und RHEL
 ```bash
 # Fedora / CentOS / RHEL
 sudo dnf install -y rlwrap || sudo yum install -y epel-release && sudo yum install -y rlwrap
 ```
-
 ### Arch Linux
-
 ```bash
 # Arch Linux / Manjaro
 sudo pacman -S rlwrap
 ```
-
 ### macOS (Homebrew)
-
 ```bash
 # macOS
 brew install rlwrap
 ```
-
 ---
 
-## 🚀 Grundsyntax
+## 🚀 Grundlegende Verwendung
 
-The basic syntax is simply wrapping any command line with `rlwrap`:
-
+Die grundlegende Syntax besteht einfach darin, jede Befehlszeile mit `rlwrap` zu umschließen:
 ```bash
 # General syntax
 rlwrap [options] <command> [command-arguments]
 ```
+### Gemeinsame Flaggen
 
-### Optionen und Parameter
-
-|Flag|Beschreibung|
+| Flagge | Beschreibung |
 |------|-------------|
-|`-c`|Enable file and path name completion|
-|`-A`|Ignore prompt formatting escape codes (prevents prompt line glitches)|
-|`-r`|Remember all words entered on input and put them into the completion wordlist|
-|`-H <file>`|Specify a dedicated history file for saving and recalling commands|
-|`-s <num>`|Set the maximum number of history lines (default: 300)|
-|`-f <file>`|Load a custom completion dictionary file|
-|`-b <chars>`|Define word-break characters|
-|`-m`|Enable multi-line input editing|
-|`-p[color]`|Colorize the command prompt|
+| `-c` | Datei- und Pfadnamenvervollständigung aktivieren |
+| `-A` | Ignorieren Sie Escape-Codes für die Eingabeaufforderungsformatierung (verhindert Störungen in der Eingabeaufforderungszeile) |
+| `-r` | Merken Sie sich alle bei der Eingabe eingegebenen Wörter und fügen Sie sie in die Vervollständigungswortliste | ein
+| `-H <file>` | Geben Sie eine dedizierte Verlaufsdatei zum Speichern und Abrufen von Befehlen an |
+| `-s <num>` | Legen Sie die maximale Anzahl an Verlaufszeilen fest (Standard: 300) |
+| `-f <file>` | Laden Sie eine benutzerdefinierte Vervollständigungswörterbuchdatei |
+| `-b <chars>` | Wortumbruchzeichen definieren |
+| `-m` | Mehrzeilige Eingabebearbeitung aktivieren |
+| `-p[color]` | Färben Sie die Eingabeaufforderung ein |
 
 ---
 
-## 🎣 Catching Reverse Shells (`rlwrap + nc`)
+## 🎣 Reverse Shells fangen (`rlwrap + nc`)
 
-The most common use case in offensive security is wrapping a Netcat listener (see the [Netcat Cheatsheet](../Netcat/README.md) for full listener variants and flags):
-
+Der häufigste Anwendungsfall bei offensiver Sicherheit ist das Umschließen eines Netcat-Listeners (vollständige Listener-Varianten und Flags finden Sie im [Netcat-Cheatsheet](../Netcat/README.md)):
 ```bash
 # Basic Netcat listener with arrow-key editing & history
 rlwrap nc -lvnp 4444
@@ -136,19 +128,17 @@ rlwrap nc -lvnp 4444
 # Professional pentester flags: -c (file completion), -A (prompt fix), -r (remember words)
 rlwrap -cAr nc -lvnp 4444
 ```
+### Erläuterung der `-cAr`-Flags:
 
-### Optionen und Parameter
-
-1. **`-c` (File Completion):** Allows using `<TAB>` to auto-complete file and directory names.
-2. **`-A` (Prompts):** Prevents weird line wraps and prompt duplication when the remote server sends unstandardized prompt strings (e.g. `root@victim:/#`).
-3. **`-r` (Remember Words):** Learns words you type into the shell so you can tab-complete them later.
+1. **`-c` (Dateivervollständigung):** Ermöglicht die Verwendung von `<TAB>` zur automatischen Vervollständigung von Datei- und Verzeichnisnamen.
+2. **`-A` (Eingabeaufforderungen):** Verhindert seltsame Zeilenumbrüche und die Duplizierung von Eingabeaufforderungen, wenn der Remote-Server nicht standardisierte Eingabeaufforderungszeichenfolgen sendet (z. B. `root@victim:/#`).
+3. **`-r` (Wörter merken):** Lernt Wörter, die Sie in die Shell eingeben, damit Sie sie später durch Tabulatoren vervollständigen können.
 
 ---
 
-## 💾 Persistent History Management
+## 💾 Persistente Verlaufsverwaltung
 
-3. **`-r` (Remember Words):** Learns words you type into the shell so you can tab-complete them later.
-
+Standardmäßig speichert `rlwrap` den Befehlsverlauf in `~/.<command>_history`. Sie können benutzerdefinierte Verlaufsdateien pro Engagement konfigurieren:
 ```bash
 # Save history to a dedicated engagement file
 rlwrap -H ~/.history_target_corp nc -lvnp 4444
@@ -159,13 +149,11 @@ rlwrap -H ~/.history_target -s 5000 nc -lvnp 4444
 # Case-insensitive history search
 rlwrap -i nc -lvnp 4444
 ```
-
 ---
 
-## 🔍 Command Auto-Completion (`-f`)
+## 🔍 Automatische Befehlsvervollständigung (`-f`)
 
-You can provide `rlwrap` with a text file containing common Linux or Windows commands, and it will auto-complete them when you press `<TAB>`:
-
+Sie können `rlwrap` eine Textdatei bereitstellen, die gängige Linux- oder Windows-Befehle enthält. Diese werden automatisch vervollständigt, wenn Sie `<TAB>` drücken:
 ```bash
 # Create a wordlist of essential post-exploitation commands
 cat << 'EOF' > /tmp/pentest_commands.txt
@@ -188,24 +176,20 @@ EOF
 # Start listener with custom tab-completion dictionary
 rlwrap -f /tmp/pentest_commands.txt nc -lvnp 4444
 ```
-
 ---
 
-## 🛠️ Full 5-Step TTY Shell Upgrade Workflow
+## 🛠️ Vollständiger 5-stufiger TTY-Shell-Upgrade-Workflow
 
-While `rlwrap` provides immediate arrow-key navigation and history, certain interactive programs (`su`, `sudo`, `vim`) still require a fully allocated TTY terminal. Here is the industry-standard 5-step upgrade pipeline:
+Während `rlwrap` eine sofortige Pfeiltastennavigation und einen Verlauf bietet, erfordern bestimmte interaktive Programme (`su`, `sudo`, `vim`) immer noch ein vollständig zugewiesenes TTY-Terminal. Hier ist die branchenübliche 5-stufige Upgrade-Pipeline:
 
-### Step 1: Start Listener with rlwrap
-
+### Schritt 1: Listener mit rlwrap starten
 ```bash
 # Attacker machine: start enhanced listener
 rlwrap -cAr nc -lvnp 4444
 ```
+### Schritt 2: Reverse Shell & Spawn PTY auslösen
 
-### Step 2: Trigger Reverse Shell & Spawn PTY
-
-Step 1: Start Listener with rlwrap
-
+Sobald Ihre Reverse-Shell eine Verbindung zu Ihrem Listener herstellt, erzeugen Sie ein Pseudo-Terminal auf dem Ziel:
 ```bash
 # Target shell: Spawn PTY via Python
 python3 -c 'import pty; pty.spawn("/bin/bash")'
@@ -213,25 +197,19 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 # OR via script if Python is unavailable:
 /usr/bin/script -qc /bin/bash /dev/null
 ```
-
-### Step 2: Trigger Reverse Shell & Spawn PTY
-
+### Schritt 3: Hintergrund der Shell
 ```bash
 # Press Ctrl + Z to put the reverse shell into the background
 [1]+  Stopped                 rlwrap -cAr nc -lvnp 4444
 ```
-
-### Step 4: Configure Local Terminal Raw Mode
-
+### Schritt 4: Konfigurieren Sie den Raw-Modus des lokalen Terminals
 ```bash
 # Attacker machine: disable local echo and enable raw keystrokes
 stty raw -echo; fg
 ```
+*(Drücken Sie nach dem Ausführen von `fg` zweimal die Eingabetaste, um die Eingabeaufforderung wiederherzustellen)*
 
-*(Press Enter twice after running `fg` to restore the prompt)*
-
-### Step 4: Configure Local Terminal Raw Mode
-
+### Schritt 5: Terminalabmessungen zurücksetzen und festlegen
 ```bash
 # Target shell: set terminal type and environment
 reset
@@ -244,24 +222,20 @@ export SHELL=bash
 # Apply rows and columns to target shell:
 stty rows 38 columns 160
 ```
-
-> ✅ **Result:** You now have an indestructible, full-featured interactive bash shell with tab-completion, clear screen (`Ctrl+L`), signal handling (`Ctrl+C` does not disconnect), and full terminal dimensions!
+> ✅ **Ergebnis:** Sie haben jetzt eine unzerstörbare, voll funktionsfähige interaktive Bash-Shell mit Tab-Vervollständigung, klarem Bildschirm (`Ctrl+L`), Signalverarbeitung (`Ctrl+C` trennt die Verbindung nicht) und vollständigen Terminalabmessungen!
 
 ---
 
-## 🔧 Using rlwrap with Other Pentest Tools
+## 🔧 Verwendung von rlwrap mit anderen Pentest-Tools
 
-`rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:
+`rlwrap` ist nicht auf Netcat beschränkt. Jedes CLI-Tool ohne Zeilenbearbeitung profitiert davon:
 
 ### Oracle SQL*Plus
-
 ```bash
 # Oracle's sqlplus utility notoriously lacks line editing and history on Linux
 rlwrap sqlplus scott/tiger@10.10.10.50:1521/ORCL
 ```
-
-### `rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:
-
+### Redis und Telnet
 ```bash
 # Redis CLI interactive console
 rlwrap redis-cli -h 10.10.10.50 -p 6379
@@ -269,9 +243,7 @@ rlwrap redis-cli -h 10.10.10.50 -p 6379
 # Raw Telnet or socket interaction
 rlwrap telnet 10.10.10.50 25
 ```
-
-### Socat & Custom Sockets
-
+### Socat- und benutzerdefinierte Sockel
 ```bash
 # Socat listener with rlwrap
 rlwrap socat file:`tty`,raw,echo=0 tcp-listen:4444
@@ -279,35 +251,34 @@ rlwrap socat file:`tty`,raw,echo=0 tcp-listen:4444
 # Connecting to raw sockets / CTF pwn challenges
 rlwrap nc ctf.challenge.local 1337
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Task|Befehl|
+| Aufgabe | Befehl |
 |------|---------|
-|**Enhanced Netcat Listener**|`rlwrap nc -lvnp 4444`|
-|**Full File & Prompt Flags**|`rlwrap -cAr nc -lvnp 4444`|
-|**Dedicated History File**|`rlwrap -H ~/.nc_history nc -lvnp 4444`|
-|**Custom Tab-Completion**|`rlwrap -f /path/to/wordlist.txt nc -lvnp 4444`|
-|**Increase History Size**|`rlwrap -s 10000 nc -lvnp 4444`|
-|**Wrap Oracle SQLPlus**|`rlwrap sqlplus user/pass@host/db`|
-|**Wrap Redis CLI**|`rlwrap redis-cli -h 10.10.10.50`|
-|**Wrap Socat Listener**|`rlwrap socat TCP-LISTEN:4444,reuseaddr -`|
+| **Erweiterter Netcat-Listener** | `rlwrap nc -lvnp 4444` |
+| **Vollständige Datei- und Eingabeaufforderungsflags** | `rlwrap -cAr nc -lvnp 4444` |
+| **Dedizierte Verlaufsdatei** | `rlwrap -H ~/.nc_history nc -lvnp 4444` |
+| **Benutzerdefinierte Tab-Vervollständigung** | `rlwrap -f /path/to/wordlist.txt nc -lvnp 4444` |
+| **Verlaufsgröße erhöhen** | `rlwrap -s 10000 nc -lvnp 4444` |
+| **Oracle SQLPlus umschließen** | `rlwrap sqlplus user/pass@host/db` |
+| **Redis-CLI umschließen** | `rlwrap redis-cli -h 10.10.10.50` |
+| **Socat-Listener umschließen** | `rlwrap socat TCP-LISTEN:4444,reuseaddr -` |
 
 ---
 
-## 💡 Tipps und bewährte Vorgehensweisen
+## 💡 Tipps und Best Practices
 
-|**Wrap Socat Listener**|`rlwrap socat TCP-LISTEN:4444,reuseaddr -`|
+1. **Erstellen Sie einen Bash-Alias:** Fügen Sie dies Ihrem `~/.bashrc` oder `~/.zshrc` hinzu, damit Sie nie vergessen, es zu verwenden:
    ```bash
    alias nc='rlwrap -cAr nc'
    ```
-2. **Never Miss `Ctrl+C` Safety:** When catching unstable shells, `rlwrap` intercepts basic keyboard glitches, but always remember to do the 5-step `stty raw -echo; fg` upgrade if you plan on running long interactive commands.
-3. **Isolate Client Histories:** When testing multiple clients or machines, always use `-H ~/.client_name.hist` to maintain separate audit trails and command histories.
+2. **Verpassen Sie niemals die `Ctrl+C`-Sicherheit:** Beim Abfangen instabiler Shells fängt `rlwrap` grundlegende Tastaturfehler ab, aber denken Sie immer daran, das 5-stufige `stty raw -echo; fg`-Upgrade durchzuführen, wenn Sie vorhaben, lange interaktive Befehle auszuführen.
+3. **Client-Verläufe isolieren:** Wenn Sie mehrere Clients oder Maschinen testen, verwenden Sie immer `-H ~/.client_name.hist`, um separate Prüfprotokolle und Befehlsverläufe zu verwalten.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-> **IMPORTANT:** Reverse shells and post-exploitation tools must only be used in authorized penetration tests, red team engagements, and educational lab environments with explicit written consent.
+> **WICHTIG:** Reverse Shells und Post-Exploitation-Tools dürfen nur mit ausdrücklicher schriftlicher Genehmigung in autorisierten Penetrationstests, Red-Team-Einsätzen und Lehrlaborumgebungen verwendet werden.

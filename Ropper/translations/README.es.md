@@ -1,12 +1,16 @@
-# 🧩 Ropper - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🧩 Ropper & ROPgadget - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
   ██████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗ 
   ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -16,55 +20,53 @@
   ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝
      Advanced ROP & JOP Gadget Finder and Chain Generator
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/Ropper-Gadget_Finder-blue?style=for-the-badge" alt="Ropper">
   <img src="https://img.shields.io/badge/ROPgadget-Exploit_Tool-orange?style=for-the-badge" alt="ROPgadget">
   <img src="https://img.shields.io/badge/Bypass-NX_%7C_DEP-red?style=for-the-badge" alt="NX Bypass">
   <img src="https://img.shields.io/badge/Category-Exploit_Development-green?style=for-the-badge" alt="Exploit Dev">
 </p>
 
-<p align="center">
-  <b>🧩 Essential command-line utilities for discovering Return-Oriented Programming (ROP) and Jump-Oriented Programming (JOP) gadgets to bypass Non-Executable (NX / DEP) memory protections</b>
+<p align="centro">
+  <b>🧩 Utilidades de línea de comandos esenciales para descubrir dispositivos de programación orientada al retorno (ROP) y programación orientada a saltos (JOP) para evitar las protecciones de memoria no ejecutables (NX/DEP)</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview--rop-theory)
-- [Instalación](#-installation)
-- [Basic Gadget Discovery](#-basic-gadget-discovery)
-  - [Extracting All Gadgets](#extracting-all-gadgets)
-  - [Limiting Instruction Depth](#limiting-instruction-depth)
-- [Advanced Search & Pattern Filtering](#-advanced-search--pattern-filtering)
-  - [Targeting Specific Registers (`rdi`, `rsi`, `rdx`, `rax`)](#targeting-specific-registers-rdi-rsi-rdx-rax)
-  - [Memory Write Gadgets (Write-What-Where)](#memory-write-gadgets-write-what-where)
-  - [Syscall & Interrupt Gadgets](#syscall--interrupt-gadgets)
-- [Excluding Bad Characters (`--badbytes`)](#-excluding-bad-characters---badbytes)
-- [Automated ROP Chain Generation](#-automated-rop-chain-generation)
-  - [Ropper Automated Chains](#ropper-automated-chains)
-  - [ROPgadget Automated Chains](#ropgadget-automated-chains)
-- [Analyzing Loaded Libraries (libc ROP Chains)](#-analyzing-loaded-libraries-libc-rop-chains)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Mitigations](#-defensive-considerations--mitigations)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Resumen y teoría ROP](#-overview--rop-theory)
+- [Instalación](#-instalación)
+- [Descubrimiento de gadgets básicos](#-descubrimiento-de-gadgets-basicos)
+  - [Extrayendo todos los gadgets](#extracting-all-gadgets)
+  - [Limitar la profundidad de la instrucción](#limiting-instrucción-profundidad)
+- [Búsqueda avanzada y filtrado de patrones] (#-búsqueda-avanzada--filtrado-de-patrones)
+  - [Apuntando a registros específicos (`rdi`, `rsi`, `rdx`, `rax`)](#targeting-specific-registers-rdi-rsi-rdx-rax)
+  - [Dispositivos de escritura de memoria (escribir-qué-dónde)] (#dispositivos-de-escritura de memoria-escribir-qué-dónde)
+  - [Gadgets de interrupción y llamada al sistema] (#syscall--interrupt-gadgets)
+- [Excluyendo caracteres malos (`--badbytes`)](#-excluyendo-caracteres-malos---badbytes)
+- [Generación automatizada de cadena ROP] (#-generación-automatizada-de-cadena-rop)
+  - [Cadenas automatizadas Ropper](#ropper-cadenas-automatizadas)
+  - [Cadenas automatizadas ROPgadget](#ropgadget-cadenas-automatizadas)
+- [Análisis de bibliotecas cargadas (cadenas ROP de libc)](#-analyzing-loaded-libraries-libc-rop-chains)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y mitigaciones](#-consideraciones-defensivas--mitigaciones)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Descripción general y teoría ROP
 
-Modern operating systems enforce **NX (No-Execute) / DEP (Data Execution Prevention)**, which prevents direct execution of shellcode placed on the stack or heap.
+Los sistemas operativos modernos aplican **NX (No-Execute)/DEP (Prevención de ejecución de datos)**, lo que impide la ejecución directa del código shell colocado en la pila o el montón.
 
-**Return-Oriented Programming (ROP)** circumvents this restriction by reusing small existing machine instructions already present in executable memory (`.text` section of the binary or shared libraries like `libc.so`). Each instruction sequence ending in a `ret` instruction is called a **gadget**. By arranging addresses on the stack, attackers chain gadgets together to:
-1. Load arguments into CPU registers (e.g., `pop rdi; ret` for x64 calling conventions).
-🎯 Introducción
-3. Trigger `execve("/bin/sh", NULL, NULL)` or invoke `system()`.
+**Programación orientada al retorno (ROP)** evita esta restricción al reutilizar pequeñas instrucciones de máquina existentes que ya están presentes en la memoria ejecutable (sección `.text` de las bibliotecas binarias o compartidas como `libc.so`). Cada secuencia de instrucciones que termina en una instrucción `ret` se denomina **gadget**. Al organizar las direcciones en la pila, los atacantes encadenan dispositivos para:
+1. Cargue argumentos en los registros de la CPU (por ejemplo, `pop rdi; ret` para convenciones de llamadas x64).
+2. Escriba cadenas (como `/bin/sh`) en secciones `.bss` o `.data` grabables.
+3. Active `execve("/bin/sh", NULL, NULL)` o invoque `system()`.
 
 ---
 
 ## 📥 Instalación
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y ropper python3-ropgadget
@@ -76,12 +78,11 @@ pip install ROPgadget
 # Arch Linux
 sudo pacman -S ropper python-ropgadget
 ```
-
 ---
 
-## 🚀 Basic Gadget Discovery
+## 🚀 Descubrimiento básico de gadgets
 
-### Extracting All Gadgets
+### Extrayendo todos los gadgets
 ```bash
 # Using Ropper (Faster multi-threaded engine)
 ropper --file ./target_binary --nocolor
@@ -89,22 +90,19 @@ ropper --file ./target_binary --nocolor
 # Using ROPgadget
 ROPgadget --binary ./target_binary
 ```
-
-### Limiting Instruction Depth
-🚀 Basic Gadget Discovery
+### Limitar la profundidad de la instrucción
+Reduzca las cadenas largas ruidosas restringiendo la longitud del dispositivo (número de instrucciones antes de `ret`):
 ```bash
 # Limit to maximum 3 instructions before return
 ropper --file ./target_binary --inst-count 3
 ROPgadget --binary ./target_binary --depth 3
 ```
-
 ---
 
-## 🔍 Advanced Search & Pattern Filtering
+## 🔍 Búsqueda avanzada y filtrado de patrones
 
-### Targeting Specific Registers (`rdi`, `rsi`, `rdx`, `rax`)
-In 64-bit Linux calling convention, the first three arguments to a function or syscall must reside in `rdi`, `rsi`, and `rdx`:
-
+### Orientación a registros específicos (`rdi`, `rsi`, `rdx`, `rax`)
+En la convención de llamadas de Linux de 64 bits, los primeros tres argumentos de una función o llamada al sistema deben residir en `rdi`, `rsi` y `rdx`:
 ```bash
 # Find pop rdi gadgets (1st argument)
 ropper --file ./target_binary --search "pop rdi"
@@ -118,21 +116,19 @@ ropper --file ./target_binary --search "pop rdx"
 # Find gadgets that control RAX (Syscall number: 59 for execve)
 ropper --file ./target_binary --search "pop rax"
 ```
-
-Using ROPgadget regex matching:
+Usando la coincidencia de expresiones regulares de ROPgadget:
 ```bash
 ROPgadget --binary ./target_binary --only "pop|ret" | grep -E "rdi|rsi|rdx|rax"
 ```
-
-### Memory Write Gadgets (Write-What-Where)
-When you need to store `/bin/sh` or arbitrary arguments into memory:
+### Gadgets de escritura en memoria (Escribir-qué-dónde)
+Cuando necesite almacenar `/bin/sh` o argumentos arbitrarios en la memoria:
 ```bash
 # Find instructions moving registers into pointer memory
 ropper --file ./target_binary --search "mov [???], ???"
 ```
-*Example match:* `mov qword ptr [rdi], rsi; ret` allows writing whatever is in `rsi` to the address pointed to by `rdi`.
+*Ejemplo de coincidencia:* `mov qword ptr [rdi], rsi; ret` permite escribir lo que esté en `rsi` en la dirección señalada por `rdi`.
 
-### Syscall & Interrupt Gadgets
+### Gadgets de llamada al sistema e interrupción
 ```bash
 # Find raw syscall instructions
 ropper --file ./target_binary --search "syscall"
@@ -140,42 +136,37 @@ ropper --file ./target_binary --search "syscall"
 # x86 32-bit software interrupt
 ropper --file ./target_binary --search "int 0x80"
 ```
-
 ---
 
-## 🚫 Excluding Bad Characters (`--badbytes`)
+## 🚫 Excluyendo personajes malos (`--badbytes`)
 
-String formatting vulnerabilities or functions like `strcpy()` terminate on null bytes (`\x00`), newlines (`\x0a`), or carriage returns (`\x0d`). Exclude addresses containing these bytes:
-
+Las vulnerabilidades de formato de cadenas o funciones como `strcpy()` terminan en bytes nulos (`\x00`), nuevas líneas (`\x0a`) o retornos de carro (`\x0d`). Excluya las direcciones que contengan estos bytes:
 ```bash
 # Filter out gadgets whose addresses contain bad characters
 ropper --file ./target_binary --badbytes 000a0d --search "pop rdi"
 ROPgadget --binary ./target_binary --badbytes "00|0a|0d"
 ```
-
 ---
 
-## ⚡ Automated ROP Chain Generation
+## ⚡ Generación automatizada de cadena ROP
 
-Both tools can automatically build functional Python exploit templates that invoke `execve("/bin/sh")`:
+Ambas herramientas pueden crear automáticamente plantillas funcionales de explotación de Python que invocan `execve("/bin/sh")`:
 
-### Ropper Automated Chains
+### Cadenas automatizadas Ropper
 ```bash
 ropper --file ./target_binary --chain "execve"
 ```
-
-### ROPgadget Automated Chains
+### Cadenas automatizadas ROPgadget
 ```bash
 ROPgadget --binary ./target_binary --ropchain
 ```
-*This produces a ready-to-use Python payload skeleton chaining `mprotect()` or `execve()`.*
+*Esto produce un esqueleto de carga útil de Python listo para usar que encadena `mprotect()` o `execve()`.*
 
 ---
 
-## 📚 Analyzing Loaded Libraries (libc ROP Chains)
+## 📚 Análisis de bibliotecas cargadas (cadenas ROP libc)
 
-When the binary itself is compiled as **PIE** or contains few useful gadgets, extract gadgets directly from the target system's shared C library (`libc.so.6`):
-
+Cuando el binario en sí está compilado como **PIE** o contiene pocos elementos útiles, extraiga los elementos directamente de la biblioteca C compartida del sistema de destino (`libc.so.6`):
 ```bash
 # Search gadgets in libc
 ropper --file /lib/x86_64-linux-gnu/libc.so.6 --search "pop rdi; ret"
@@ -183,32 +174,32 @@ ropper --file /lib/x86_64-linux-gnu/libc.so.6 --search "pop rdi; ret"
 # Find "/bin/sh" string offset inside libc
 strings -a -t x /lib/x86_64-linux-gnu/libc.so.6 | grep "/bin/sh"
 ```
-*(Add discovered offsets to the leaked base address of libc at runtime).*
+*(Agregue compensaciones descubiertas a la dirección base filtrada de libc en tiempo de ejecución).*
 
 ---
 
-## ⚡ Referencia rápida
+## ⚡ Tabla de referencia rápida
 
-|Objective|Ropper Command|ROPgadget Command|
-|-----------|----------------|-------------------|
-|**Dump All Gadgets**|`ropper --file <bin>`|`ROPgadget --binary <bin>`|
-|**Search Specific Gadget**|`ropper --file <bin> --search "pop rdi"`|`ROPgadget --binary <bin> \|grep "pop rdi"`|
-|**Filter Bad Bytes**|`ropper --file <bin> --badbytes 000a`|`ROPgadget --binary <bin> --badbytes "00\|0a"`|
-|**Limit Depth / Length**|`ropper --file <bin> --inst-count 3`|`ROPgadget --binary <bin> --depth 3`|
-|**Search JOP Gadgets**|`ropper --file <bin> --type jop`|`ROPgadget --binary <bin> --norop`|
-|**Auto Build ROP Chain**|`ropper --file <bin> --chain "execve"`|`ROPgadget --binary <bin> --ropchain`|
-|**Search Memory Writes**|`ropper --file <bin> --search "mov [???], ???"`|`ROPgadget --binary <bin> \|grep "mov \["`|
-
----
-
-## 🛡️ Defensive Considerations & Mitigations
-
-1. **Control-flow Enforcement Technology (Intel CET / Shadow Stack):** Modern processors maintain an isolated hardware shadow stack that verifies return addresses upon `ret`, terminating ROP chains immediately.
-2. **Clang / GCC Control Flow Integrity (CFI):** Validates function pointer targets against a forward-edge graph before indirect calls.
+| Objetivo | Comando Ropper | Comando ROPgadget |
+|-----------|----------------|-------------|
+| **Volcar todos los gadgets** | `ropper --file <bin>` | `ROPgadget --binary <bin>` |
+| **Buscar gadget específico** | `ropper --file <bin> --search "pop rdi"` | `ROPgadget --binary <bin> \| grep "pop rdi"` |
+| **Filtrar bytes incorrectos** | `ropper --file <bin> --badbytes 000a` | `ROPgadget --binary <bin> --badbytes "00\|0a"` |
+| **Límite de profundidad/longitud** | `ropper --file <bin> --inst-count 3` | `ROPgadget --binary <bin> --depth 3` |
+| **Buscar gadgets JOP** | `ropper --file <bin> --type jop` | `ROPgadget --binary <bin> --norop` |
+| **Cadena ROP de construcción automática** | `ropper --file <bin> --chain "execve"`| `ROPgadget --binary <bin> --ropchain` |
+| **Buscar escrituras en memoria** | `ropper --file <bin> --search "mov [???], ???"` | `ROPgadget --binary <bin> \| grep "mov \["` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 🛡️ Consideraciones defensivas y mitigaciones
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Ropper and ROPgadget are exploit development and software security evaluation utilities. They must strictly be used in authorized penetration tests, CTF challenges, or defensive security research. Exploiting software without explicit authorization is illegal.
+1. **Tecnología de aplicación de flujo de control (Intel CET/Shadow Stack):** Los procesadores modernos mantienen una pila de sombra de hardware aislada que verifica las direcciones de retorno en `ret`, terminando las cadenas ROP de inmediato.
+2. **Integridad del flujo de control (CFI) de Clang/GCC:** Valida los objetivos del puntero de función frente a un gráfico de vanguardia antes de las llamadas indirectas.
+
+---
+
+## ⚠️ Aviso legal
+
+> [!PRECAUCIÓN]
+> Ropper y ROPgadget son utilidades de evaluación de seguridad de software y desarrollo de exploits. Deben usarse estrictamente en pruebas de penetración autorizadas, desafíos CTF o investigaciones de seguridad defensiva. Explotar software sin autorización explícita es ilegal.

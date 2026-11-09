@@ -1,12 +1,16 @@
-# ☁️ Pacu — fiche pratique complète
-
 <!-- language-home-navigation -->
-[🏠 Accueil en français](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Page d'accueil Française](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ☁️ Pacu - Aide-mémoire complet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗  █████╗  ██████╗██╗   ██╗
   ██╔══██╗██╔══██╗██╔════╝██║   ██║
@@ -16,55 +20,53 @@
   ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ 
        The AWS Exploitation Framework by Rhino Security Labs
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Pacu-AWS_Exploitation-blue?style=for-the-badge" alt="Pacu">
   <img src="https://img.shields.io/badge/Author-Rhino_Security_Labs-orange?style=for-the-badge" alt="Rhino Security Labs">
   <img src="https://img.shields.io/badge/Platform-Amazon_Web_Services-gold?style=for-the-badge" alt="AWS">
-  <img src="https://img.shields.io/badge/Category-Cloud_Security-green?style=for-the-badge" alt="Cloud Security">
+  <img src="https://img.shields.io/badge/Category-Cloud_Security-green?style=for-the-badge" alt="Sécurité Cloud">
 </p>
 
 <p align="center">
-  <b>☁️ The open-source AWS exploitation framework designed for penetration testing cloud environments, privilege escalation, credential harvesting, and infrastructure reconnaissance</b>
+  <b>☁️ Le cadre d'exploitation AWS open source conçu pour les tests d'intrusion dans les environnements cloud, l'élévation des privilèges, la collecte d'informations d'identification et la reconnaissance de l'infrastructure</b>
 </p>
 
 ---
 
 ## 📋 Table des matières
 
-- [Introduction](#-overview--architecture)
+- [Vue d'ensemble et architecture](#-overview--architecture)
 - [Installation](#-installation)
-- [Session Management & AWS Key Import](#-session-management--aws-key-import)
-  - [🔑 Session Management & AWS Key Import](#importing-compromised-credentials)
-  - [Assumed Roles and Session Tokens](#assumed-roles-and-session-tokens)
-- [Reconnaissance & Enumeration Modules](#-reconnaissance--enumeration-modules)
-  - [Enumerating Current IAM Permissions](#enumerating-current-iam-permissions)
-  - [🔍 Reconnaissance & Enumeration Modules](#scanning-ec2-instances--s3-buckets)
-- [Privilege Escalation Techniques in AWS](#-privilege-escalation-techniques-in-aws)
-  - [Automatic Privilege Escalation Scanner](#automatic-privilege-escalation-scanner)
-  - [Executing Escalation Modules](#executing-escalation-modules)
-- [Persistence & Defense Evasion](#-persistence--defense-evasion)
-  - [Backdooring IAM Roles & Users](#backdooring-iam-roles--users)
-  - [Disrupting CloudTrail Logging](#disrupting-cloudtrail-logging)
-- [Référence rapide](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Gestion de session et importation de clé AWS](#-session-management--aws-key-import)
+  - [Importation d'informations d'identification compromises](#importing-compromis-credentials)
+  - [Rôles supposés et jetons de session](#assumed-roles-and-session-tokens)
+- [Modules de reconnaissance et d'énumération](#-reconnaissance--enumeration-modules)
+  - [Énumération des autorisations IAM actuelles](#enumerating-current-iam-permissions)
+  - [Analyse des instances EC2 et des compartiments S3](#scanning-ec2-instances--s3-buckets)
+- [Techniques d'escalade de privilèges dans AWS](#-privilege-escalation-techniques-in-aws)
+  - [Scanner automatique d'escalade de privilèges](#automatic-privilege-escalation-scanner)
+  - [Exécution des modules d'escalade](#executing-escalation-modules)
+- [Persistance et évasion de défense](#-persistence--défense-évasion)
+  - [Rôles et utilisateurs IAM de porte dérobée](#backdooring-iam-roles--users)
+  - [Perturbation de la journalisation CloudTrail](#disrupting-cloudtrail-logging)
+- [Tableau de référence rapide](#-quick-reference-table)
+- [Considérations défensives et détection](#-considérations-defensives--détection)
+- [Mentions légales](#-legal-disclaimer)
 
 ---
 
-## 🎯 Introduction
+## 🎯 Présentation et architecture
 
-Created by **Rhino Security Labs**, **Pacu** is the "Metasploit for AWS". It is designed to emulate adversarial tactics within Amazon Web Services environments.
+Créé par **Rhino Security Labs**, **Pacu** est le « Metasploit pour AWS ». Il est conçu pour imiter les tactiques contradictoires au sein des environnements Amazon Web Services.
 
-Pacu operates using a local SQLite database that maintains state across offensive sessions:
-- **Modular Pipeline**: Over 40 specialized modules covering discovery, lateral movement, privilege escalation, persistence, and exfiltration.
-- **Permission Enumeration**: Analyzes IAM policies without triggering alert thresholds by testing API actions or reviewing attached managed policies.
-- **Privesc Automation**: Evaluates known IAM permission escalation paths (such as `iam:CreateAccessKey`, `iam:PassRole`, `iam:AttachUserPolicy`).
+Pacu fonctionne à l'aide d'une base de données SQLite locale qui maintient l'état tout au long des sessions offensives :
+- **Pipeline modulaire :** Plus de 40 modules spécialisés couvrant la découverte, le mouvement latéral, l'élévation de privilèges, la persistance et l'exfiltration.
+- **Énumération des autorisations :** analyse les stratégies IAM sans déclencher de seuils d'alerte en testant les actions de l'API ou en examinant les stratégies gérées attachées.
+- **Privesc Automation :** évalue les chemins d'escalade des autorisations IAM connus (tels que `iam:CreateAccessKey`, `iam:PassRole`, `iam:AttachUserPolicy`).
 
 ---
 
-## 📥 Installation
-
+## 📥Installation
 ```bash
 # Clone the repository
 git clone https://github.com/RhinoSecurityLabs/pacu.git
@@ -78,18 +80,15 @@ pip install -r requirements.txt
 # Launch Pacu console
 python3 pacu.py
 ```
-
 ---
 
-## 🔑 Session Management & AWS Key Import
+## 🔑 Gestion de session et importation de clés AWS
 
-When Pacu launches, you enter an interactive console. Create or select a session:
-
+Lorsque Pacu se lance, vous entrez dans une console interactive. Créez ou sélectionnez une session :
 ```text
 Pacu > set_session client_assessment
 ```
-
-### 🔑 Session Management & AWS Key Import
+### Importation d'identifiants compromis
 ```text
 Pacu (client_assessment) > set_keys
 Enter Key Alias: compromised_dev
@@ -98,26 +97,23 @@ Enter AWS Secret Access Key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 Enter AWS Session Token (Optional): 
 Enter Default Region: us-east-1
 ```
-
-### Assumed Roles and Session Tokens
+### Rôles assumés et jetons de session
 ```text
 # Switch active keys within the session
 Pacu (client_assessment) > swap_keys
 ```
-
 ---
 
-## 🔍 Reconnaissance & Enumeration Modules
+## 🔍 Modules de reconnaissance et de dénombrement
 
-### Enumerating Current IAM Permissions
-Determine who you are and what the active credentials are permitted to do:
+### Énumération des autorisations IAM actuelles
+Déterminez qui vous êtes et ce que les informations d'identification actives sont autorisées à faire :
 ```text
 # Query caller identity and enumerate attached user/group/role policies
 Pacu (client_assessment) > run iam__enum_permissions
 Pacu (client_assessment) > whoami
 ```
-
-### 🔍 Reconnaissance & Enumeration Modules
+### Analyse des instances EC2 et des compartiments S3
 ```text
 # Enumerate all EC2 instances and security groups
 Pacu (client_assessment) > run ec2__enum
@@ -125,21 +121,20 @@ Pacu (client_assessment) > run ec2__enum
 # Enumerate accessible S3 buckets and identify public read/write permissions
 Pacu (client_assessment) > run s3__enum
 ```
-
 ---
 
-## ⚡ Privilege Escalation Techniques in AWS
+## ⚡ Techniques d'escalade de privilèges dans AWS
 
-AWS privilege escalation relies on misconfigured IAM policies that permit non-administrative users to grant themselves or other entities administrative rights.
+L'élévation des privilèges AWS repose sur des politiques IAM mal configurées qui permettent aux utilisateurs non administratifs de s'accorder ou d'accorder à d'autres entités des droits administratifs.
 
-### Automatic Privilege Escalation Scanner
-Scans your enumerated permissions against 21+ documented AWS privesc vectors:
+### Scanner automatique d'élévation de privilèges
+Analyse vos autorisations énumérées par rapport à plus de 21 vecteurs privés AWS documentés :
 ```text
 Pacu (client_assessment) > run iam__privesc_scan
 ```
-*Sample output highlights vulnerable permissions like `iam:PutUserPolicy`, `iam:AttachUserPolicy`, or `iam:CreateAccessKey`.*
+*Un exemple de sortie met en évidence les autorisations vulnérables telles que `iam:PutUserPolicy`, `iam:AttachUserPolicy` ou `iam:CreateAccessKey`.*
 
-### Executing Escalation Modules
+### Exécution de modules d'escalade
 ```text
 # Exploit iam:AttachUserPolicy to attach AdministratorAccess
 Pacu (client_assessment) > run iam__privesc_scan --exec
@@ -147,12 +142,11 @@ Pacu (client_assessment) > run iam__privesc_scan --exec
 # Exploit iam:CreateAccessKey to create keys for another high-priv user
 Pacu (client_assessment) > run iam__backdoor_users_keys --username target_admin
 ```
-
 ---
 
-## 🛡️ Persistence & Defense Evasion
+## 🛡️ Persistance et évasion défensive
 
-### Backdooring IAM Roles & Users
+### Rôles et utilisateurs IAM de porte dérobée
 ```text
 # Add a new access key to an existing user for persistent access
 Pacu (client_assessment) > run iam__backdoor_users_keys --username backup_service
@@ -160,8 +154,7 @@ Pacu (client_assessment) > run iam__backdoor_users_keys --username backup_servic
 # Modify assume-role trust policy to allow external account access
 Pacu (client_assessment) > run iam__backdoor_assume_role --role-name ProductionSupport --external-account-id 123456789012
 ```
-
-### Disrupting CloudTrail Logging
+### Perturbation de la journalisation CloudTrail
 ```text
 # Identify CloudTrail trails
 Pacu (client_assessment) > run cloudtrail__enum
@@ -169,33 +162,32 @@ Pacu (client_assessment) > run cloudtrail__enum
 # Stop logging on active trails to blind SOC monitors
 Pacu (client_assessment) > run cloudtrail__disrupt_logging --trail-name CorpSecurityTrail
 ```
-
 ---
 
-## ⚡ Référence rapide
+## ⚡ Tableau de référence rapide
 
-|Objective|Pacu Command|
+| Objectif | Commande Pacu |
 |-----------|--------------|
-|**Set/Select Session**|`set_session <NAME>`|
-|**Import AWS Credentials**|`set_keys`|
-|**Show Current Identity**|`whoami`|
-|**Enumerate IAM Rights**|`run iam__enum_permissions`|
-|**Scan for Privesc Vectors**|`run iam__privesc_scan`|
-|**Enumerate S3 Buckets**|`run s3__enum`|
-|**Enumerate EC2 Instances**|`run ec2__enum`|
-|**Disrupt CloudTrail**|`run cloudtrail__disrupt_logging`|
-|**List Available Modules**|`list`|
+| **Définir/Sélectionner une session** | `set_session <NAME>` |
+| **Importer les informations d'identification AWS** | `set_keys` |
+| **Afficher l'identité actuelle** | `whoami` |
+| **Énumérer les droits IAM** | `run iam__enum_permissions` |
+| **Rechercher des vecteurs Privesc** | `run iam__privesc_scan` |
+| **Énumérer les compartiments S3** | `run s3__enum` |
+| **Énumérer les instances EC2** | `run ec2__enum` |
+| **Perturber CloudTrail** | `run cloudtrail__disrupt_logging` |
+| **Liste des modules disponibles** | `list` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Considérations défensives et détection
 
-1. **GuardDuty & CloudTrail Monitoring:** Pacu's automated privilege escalation and permission scanning generate rapid sequential API queries easily flagged by AWS GuardDuty.
-2. **SCP & Permission Boundaries:** Enforce AWS Organizations Service Control Policies (SCPs) preventing any principal—including full Admins—from tampering with CloudTrail or modifying root organization structures.
+1. **GuardDuty et CloudTrail Monitoring :** L'escalade automatisée des privilèges et l'analyse des autorisations de Pacu génèrent des requêtes API séquentielles rapides facilement signalées par AWS GuardDuty.
+2. ** Limites de SCP et d'autorisation :** Appliquez les politiques de contrôle de service (SCP) d'AWS Organizations empêchant tout mandataire, y compris les administrateurs complets, de falsifier CloudTrail ou de modifier les structures de l'organisation racine.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Mentions légales
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Pacu is designed specifically for authorized AWS penetration tests and security evaluations. Testing cloud accounts without explicit prior permission from the asset owner violates Amazon Web Services Acceptable Use Policy and international law.
+> [!ATTENTION]
+> Pacu est spécialement conçu pour les tests d'intrusion et les évaluations de sécurité AWS autorisés. Tester des comptes cloud sans l'autorisation préalable explicite du propriétaire de l'actif enfreint la politique d'utilisation acceptable d'Amazon Web Services et le droit international.

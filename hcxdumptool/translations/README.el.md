@@ -1,38 +1,41 @@
-# 🔍 hcxdumptool — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[hcxdumptool](https://github.com/ZerBea/hcxdumptool) is a modern, high-performance command-line Wi-Fi attack and packet capture tool. Unlike legacy Aircrack-ng tools, `hcxdumptool` captures WPA/WPA2/WPA3 PMKID (Pairwise Master Key Identifier) frames without requiring connected clients, captures EAPOL 4-way handshakes, and integrates directly with `hcxtools` for Hashcat cracking (mode 22000).
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)](#core-advantages--modern-architecture)
-- [Εγκατάσταση](#installation-hcxdumptool--hcxtools)
-- [Εγκατάσταση](#wireless-interface-setup)
-- [Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:](#capturing-pmkid-clientless-attack)
-- [Converting Captures with `hcxpcapngtool`](#converting-captures-with-hcxpcapngtool)
-- [`-o hash.hc22000`: Output hash file in modern Hashcat format.](#hashcat-cracking-mode-22000)
+# hcxdumptool Cheatsheet
+
+Το [hcxdumptool](https://github.com/ZerBea/hcxdumptool) είναι ένα σύγχρονο, υψηλής απόδοσης εργαλείο επίθεσης Wi-Fi γραμμής εντολών και λήψης πακέτων. Σε αντίθεση με τα παλαιού τύπου εργαλεία Aircrack-ng, το `hcxdumptool` καταγράφει καρέ WPA/WPA2/WPA3 PMKID (Pairwise Master Key Identifier) ​​χωρίς να απαιτεί συνδεδεμένους πελάτες, συλλαμβάνει χειραψίες 4 κατευθύνσεων EAPOL και ενσωματώνεται απευθείας με το `hcxtools` για σπασίματα Hashcat (λειτουργία 20002).
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Core Advantages & Modern Architecture](#core-advantages--modern-architecture)
+- [Εγκατάσταση (`hcxdumptool` & `hcxtools`)](#installation-hcxdumptool--hcxtools)
+- [Ρύθμιση ασύρματης διεπαφής] (#wireless-interface-setup)
+- [Capturing PMKID (Clientless Attack)] (#capturing-pmkid-clientless-attack)
+- [Μετατροπή φωτογραφιών με `hcxpcapngtool`](#converting-captures-with-hcxpcapngtool)
+- [Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)
 - [Filtering Channels and BSSIDs](#filtering-channels-and-bssids)
-- [Optimize capture speed by constraining scanning parameters:](#defensive-countermeasures--wpa3)
+- [Defensive Countermeasures & WPA3](#defensive-countermeasures--wpa3)
 
 ---
 
-## [Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)
+## Βασικά Πλεονεκτήματα & Σύγχρονη Αρχιτεκτονική
 
-- **Clientless PMKID Attack**: Exploits the RSN IE (Robust Security Network Information Element) PMKID feature in modern routers. You do **not** need a connected client or deauthentication packets to capture the key material.
-- **Unified Hashcat Mode 22000**: Generates Hashcat-native hash files supporting both PMKID and full WPA-PBKDF2-PMK handshakes.
-- **Channel Hopping & Active Interrogation**: Transmits targeted association requests to elicit PMKIDs from listening APs.
+- **Επίθεση PMKID χωρίς πελάτη:** Εκμεταλλεύεται τη δυνατότητα RSN IE (Ισχυρό στοιχείο πληροφοριών δικτύου ασφαλείας) PMKID σε σύγχρονους δρομολογητές. **Δεν** χρειάζεστε έναν συνδεδεμένο πελάτη ή πακέτα κατάργησης ταυτότητας για να καταγράψετε το βασικό υλικό.
+- **Unified Hashcat Mode 22000:** Δημιουργεί εγγενή αρχεία κατακερματισμού Hashcat που υποστηρίζουν χειραψίες PMKID και πλήρεις WPA-PBKDF2-PMK.
+- **Channel Hopping & Active Interrogation:** Μεταδίδει στοχευμένα αιτήματα συσχέτισης για να εξάγει PMKID από AP.
 
 ---
 
-## Εγκατάσταση
-
+## Εγκατάσταση (`hcxdumptool` & `hcxtools`)
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y hcxdumptool hcxtools
@@ -44,13 +47,11 @@ sudo pacman -S hcxdumptool hcxtools
 hcxdumptool --version
 hcxpcapngtool --version
 ```
-
 ---
 
-## Εγκατάσταση
+## Ρύθμιση ασύρματης διεπαφής
 
-Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:
-
+Πριν εκτελέσετε το `hcxdumptool`, τερματίστε τις υπηρεσίες διαχείρισης δικτύου παρασκηνίου που παρεμβαίνουν στην έγχυση πρωτογενών πακέτων:
 ```bash
 # 1. Terminate interfering network services (NetworkManager, wpa_supplicant)
 sudo systemctl stop NetworkManager
@@ -64,87 +65,80 @@ sudo ip link set wlan0 up
 # 3. Verify monitor mode
 iw dev
 ```
-
 ---
 
-## Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:
+## Λήψη PMKID (Επίθεση χωρίς πελάτη)
 
-### 1. General PMKID Capture Across All 2.4GHz & 5GHz Channels
-Capture all nearby access points to a `.pcapng` file:
+### 1. Γενική λήψη PMKID σε όλα τα κανάλια 2,4 GHz & 5 GHz
+Καταγράψτε όλα τα κοντινά σημεία πρόσβασης σε ένα αρχείο `.pcapng`:
 ```bash
 sudo hcxdumptool -i wlan0 -w capture.pcapng --rds=1
 ```
-- `-i wlan0`: Wireless monitor interface.
-- Capturing PMKID (Clientless Attack)
-- `--rds=1`: Transmit RTS frames to prompt AP responses.
+- `-i wlan0`: Ασύρματη διεπαφή οθόνης.
+- `-w capture.pcapng`: Εξαγωγή αρχείου λήψης.
+- `--rds=1`: Μεταδώστε καρέ RTS για να ζητήσετε απαντήσεις AP.
 
-### Capture all nearby access points to a `.pcapng` file:
-Target only an authorized BSSID to prevent affecting unauthorized third-party routers:
+### 2. Καταγράψτε ένα συγκεκριμένο σημείο πρόσβασης στόχου (Φίλτρο BSSID)
+Στοχεύστε μόνο ένα εξουσιοδοτημένο BSSID για να αποτρέψετε τον επηρεασμό μη εξουσιοδοτημένων δρομολογητών τρίτων:
 
-`-w capture.pcapng`: Output capture file.
+1. Δημιουργία λίστας φίλτρων προορισμού (`target_bssid.txt`):
 ```text
 001122334455
 ```
-*(BSSID without colons)*
+*(BSSID χωρίς άνω και κάτω τελεία)*
 
-Target only an authorized BSSID to prevent affecting unauthorized third-party routers:
+2. Εκτελέστε στοχευμένη λήψη:
 ```bash
 sudo hcxdumptool -i wlan0 -w target.pcapng --bpfp=target_bssid.txt -c 6
 ```
-- 1. Create target filter list (`target_bssid.txt`):
-- `--bpfp`: Apply BPF (Berkeley Packet Filter) list for target BSSIDs.
+- `-c 6`: Κλείδωμα έγχυσης και ακρόαση του καναλιού 6.
+- `--bpfp`: Εφαρμόστε τη λίστα BPF (Berkeley Packet Filter) για BSSID-στόχους.
 
 ---
 
-## Converting Captures with `hcxpcapngtool`
+## Μετατροπή φωτογραφιών με `hcxpcapngtool`
 
-`--bpfp`: Apply BPF (Berkeley Packet Filter) list for target BSSIDs.
-
+Μόλις συλλεχθούν τα πλαίσια PMKID ή EAPOL, μετατρέψτε τη λήψη `.pcapng` σε μορφή συμβατή με Hashcat:
 ```bash
 hcxpcapngtool -o hash.hc22000 -E essid_list.txt capture.pcapng
 ```
-- `-o hash.hc22000`: Output hash file in modern Hashcat format.
-- Converting Captures with `hcxpcapngtool`
-- The tool reports total PMKID and EAPOL frames extracted.
+- `-o hash.hc22000`: Εξαγωγή αρχείου κατακερματισμού σε σύγχρονη μορφή Hashcat.
+- `-E essid_list.txt`: Αποθηκεύστε τα ονόματα δικτύων που εντοπίστηκαν (ESSID) σε ένα λεξικό για στοχευμένη διάρρηξη κωδικού πρόσβασης.
+- Το εργαλείο αναφέρει συνολικά εξαγόμενα πλαίσια PMKID και EAPOL.
 
 ---
 
-## `-o hash.hc22000`: Output hash file in modern Hashcat format.
+## Hashcat Cracking (Λειτουργία 22000)
 
-The tool reports total PMKID and EAPOL frames extracted.
+Η λειτουργία `22000` είναι η ενοποιημένη λειτουργία σπασίματος WPA-PBKDF2-PMKID + EAPOL της Hashcat:
 
-### 1. Dictionary Attack
+### 1. Λεξικό Επίθεση
 ```bash
 hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
 ```
-
-### 2. Rule-Based Mutation Attack
+### 2. Επίθεση μετάλλαξης βάσει κανόνων
 ```bash
 hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### 1. Dictionary Attack
+### 3. Μάσκα / Επίθεση ωμής δύναμης (8-ψήφιοι αριθμητικοί κωδικοί πρόσβασης)
 ```bash
 hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d
 ```
-
 ---
 
-## Filtering Channels and BSSIDs
+## Φιλτράρισμα καναλιών και BSSID
 
-Optimize capture speed by constraining scanning parameters:
-
+Βελτιστοποιήστε την ταχύτητα λήψης περιορίζοντας τις παραμέτρους σάρωσης:
 ```bash
 # Scan only specific channels (e.g. 1, 6, 11)
 sudo hcxdumptool -i wlan0 -w filtered.pcapng -c 1,6,11
 ```
-
 ---
 
-## Optimize capture speed by constraining scanning parameters:
+## Αμυντικά αντίμετρα & WPA3
 
-|Vulnerability|Attack Mechanism|Defense Recommendation|
+| Ευπάθεια | Μηχανισμός Επίθεσης | Σύσταση Άμυνας |
 |---|---|---|
-|**PMKID Caching**|AP transmits PMKID in EAPOL frame 1 without client authentication|Disable 802.11r (Fast Transition / Roaming) if not needed; update router firmware.|
-|**Weak WPA2 Pre-Shared Key**|Offline PBKDF2 dictionary cracking (Hashcat mode 22000)|Enforce 16+ character random passphrases.|
-|**Legacy WPA2 Protocol**|Susceptible to PMKID and handshake capture|Upgrade to **WPA3-Personal (SAE)**; WPA3 uses Dragonfly handshake with forward secrecy, rendering captured frames uncrackable offline.|
+| **Προσωρινή αποθήκευση PMKID** | Το AP μεταδίδει PMKID στο πλαίσιο EAPOL 1 χωρίς έλεγχο ταυτότητας πελάτη | Απενεργοποιήστε το 802.11r (Γρήγορη μετάβαση / Περιαγωγή) εάν δεν χρειάζεται. ενημέρωση υλικολογισμικού δρομολογητή. |
+| **Αδύναμο προ-κοινόχρηστο κλειδί WPA2** | Σπάσιμο λεξικού PBKDF2 εκτός σύνδεσης (λειτουργία Hashcat 22000) | Επιβολή τυχαίων φράσεων πρόσβασης 16+ χαρακτήρων. |
+| **Πρωτόκολλο WPA2 παλαιού τύπου** | Επιρρεπείς σε PMKID και σύλληψη χειραψίας | Αναβάθμιση σε **WPA3-Personal (SAE)**. Το WPA3 χρησιμοποιεί χειραψία Dragonfly με μυστικότητα προς τα εμπρός, καθιστώντας τα καταγεγραμμένα καρέ αδύναμα εκτός σύνδεσης. |

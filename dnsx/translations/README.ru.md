@@ -1,12 +1,16 @@
-# 📡 dnsx — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📡 dnsx — Полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ███╗   ██╗███████╗██╗  ██╗
   ██╔══██╗████╗  ██║██╔════╝╚██╗██╔╝
@@ -16,58 +20,56 @@
   ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
        Fast & Multi-Purpose DNS Toolkit by ProjectDiscovery
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/dnsx-DNS_Toolkit-blue?style=for-the-badge" alt="dnsx">
   <img src="https://img.shields.io/badge/Developer-ProjectDiscovery-orange?style=for-the-badge" alt="ProjectDiscovery">
-  <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Recon & Scanning">
-  <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="License MIT">
+  <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Разведка и сканирование">
+  <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="Лицензия MIT">
 </p>
 
-<p align="center">
-  <b>🌐 High-performance DNS resolution, wildcard filtering, reverse DNS lookups, and multi-query extraction engine</b>
+<p выравнивание="центр">
+  <b>🌐 Высокопроизводительное разрешение DNS, фильтрация по шаблонам, обратный поиск DNS и механизм извлечения нескольких запросов</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--architecture)
-- [Why dnsx? (Wildcard Handling & Speed)](#-why-dnsx-wildcard-handling--speed)
-- [Установка](#-installation)
-- [Basic Subdomain Probing & Resolution](#-basic-subdomain-probing--resolution)
-- [Wildcard DNS Filtering (`-wd`)](#-wildcard-dns-filtering---wd)
-- [Querying Specific DNS Record Types](#-querying-specific-dns-record-types)
-- [Reverse DNS Lookups (`-ptr`)](#-reverse-dns-lookups---ptr)
-- [Using Custom Resolvers & Rate Limiting](#-using-custom-resolvers--rate-limiting)
-- [Pipeline Automation (Subfinder + dnsx + httpx)](#-pipeline-automation-subfinder--dnsx--httpx)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и архитектура](#-обзор--архитектура)
+- [Почему dnsx? (Обработка подстановочных знаков и скорость)](#-why-dnsx-wildcard-handling--speed)
+- [Установка](#-установка)
+- [Базовое зондирование и разрешение субдомена](#-basic-subdomain-probing--разрешение)
+- [Фильтрация DNS по подстановочным знакам (`-wd`)](#-wildcard-dns-filtering---wd)
+- [Запрос определенных типов DNS-записей] (#-querying-специфические-dns-record-types)
+- [Обратный поиск DNS (`-ptr`)](#-reverse-dns-lookups---ptr)
+- [Использование пользовательских резольверов и ограничения скорости](#-using-custom-resolvers--rate-limiting)
+- [Автоматизация конвейера (подпоиск + dnsx + httpx)](#-pipeline-automation-subfinder--dnsx--httpx)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и OPSEC](#-защитные-соображения--opsec)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и архитектура
 
-Engineered in Go by **ProjectDiscovery**, **dnsx** is a fast and multipurpose DNS toolkit designed for reconnaissance, bug bounty hunting, and network discovery.
+**dnsx**, разработанный в Go компанией **ProjectDiscovery**, представляет собой быстрый и многофункциональный набор инструментов DNS, предназначенный для разведки, поиска ошибок и обнаружения сетей.
 
-While tools like `dig`, `nslookup`, and `host` resolve records one by one, `dnsx` processes thousands of queries asynchronously, automatically retries failed resolvers, extracts clean response IPs, and eliminates wildcard noise that pollutes subdomain enumeration.
+В то время как такие инструменты, как `dig`, `nslookup` и `host`, разрешают записи одну за другой, `dnsx` асинхронно обрабатывает тысячи запросов, автоматически повторяет неудачные преобразователи, извлекает чистые IP-адреса ответов и устраняет шум подстановочных знаков, который загрязняет перечисление поддоменов.
 
 ---
 
-## ⚡ Why dnsx? (Wildcard Handling & Speed)
+## ⚡ Почему dnsx? (Обработка подстановочных знаков и скорость)
 
-During bug bounty reconnaissance, passive tools (`subfinder`, `amass`) often return thousands of dead or wildcard subdomains. Testing HTTP endpoints on dead DNS entries wastes massive bandwidth.
+Во время исследования ошибок пассивные инструменты (`subfinder`, `amass`) часто возвращают тысячи мертвых или подстановочных поддоменов. Тестирование конечных точек HTTP на мертвых записях DNS приводит к потере огромной пропускной способности.
 
-`dnsx` solves this by:
-1. **Filtering out Wildcards (`-wd`):** Detects if `*.domain.com` resolves to a catch-all IP and filters out phantom subdomains.
-⚡ Why dnsx? (Wildcard Handling & Speed)
-3. **Clean Output Piping:** Feeds directly into `httpx` or `nmap`.
+`dnsx` решает эту проблему следующим образом:
+1. **Фильтрация подстановочных знаков (`-wd`):** Определяет, разрешается ли `*.domain.com` в универсальный IP-адрес, и отфильтровывает фантомные поддомены.
+2. **Скорость и параллелизм.** Разрешает более 10 000 доменов в минуту в общедоступных и частных пулах преобразователей.
+3. **Очистка выходного трубопровода:** подается непосредственно в `httpx` или `nmap`.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Go Install (Recommended)
 go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
@@ -81,11 +83,9 @@ brew install dnsx
 # Verify installation
 dnsx -version
 ```
-
 ---
 
-## 🚀 Basic Subdomain Probing & Resolution
-
+## 🚀 Базовое зондирование и разрешение поддоменов
 ```bash
 # Resolve a single domain
 echo "target.com" | dnsx
@@ -99,13 +99,11 @@ dnsx -l subdomains.txt -a -resp
 # Output only resolved IP addresses (ready for Nmap)
 dnsx -l subdomains.txt -resp-only
 ```
-
 ---
 
-## 🚫 Wildcard DNS Filtering (`-wd`)
+## 🚫 DNS-фильтрация с использованием подстановочных знаков (`-wd`)
 
-Wildcards return a valid IP for non-existent subdomains (`random123xyz.target.com`), poisoning reconnaissance datasets.
-
+Подстановочные знаки возвращают действительный IP-адрес для несуществующих поддоменов (`random123xyz.target.com`), что отравляет наборы разведывательных данных.
 ```bash
 # Filter wildcard subdomains and print only genuine hosts
 dnsx -l subdomains.txt -wd target.com -o valid_hosts.txt
@@ -113,13 +111,11 @@ dnsx -l subdomains.txt -wd target.com -o valid_hosts.txt
 # Filter wildcards with custom threshold
 dnsx -l subdomains.txt -wd target.com -wt 3
 ```
-
 ---
 
-## 📋 Querying Specific DNS Record Types
+## 📋 Запрос определенных типов записей DNS
 
-Query specific record types across thousands of domains:
-
+Запросите конкретные типы записей в тысячах доменов:
 ```bash
 # Query CNAME records (Crucial for Subdomain Takeover detection)
 dnsx -l subdomains.txt -cname -resp
@@ -133,13 +129,11 @@ dnsx -l domains.txt -txt -resp
 # Query All standard records (A, AAAA, CNAME, NS, TXT, MX, SOA)
 dnsx -l domains.txt -recon
 ```
-
 ---
 
-## 🔄 Reverse DNS Lookups (`-ptr`)
+## 🔄 Обратный поиск DNS (`-ptr`)
 
-Discover active infrastructure and virtual hosts by performing PTR lookups on an IP range:
-
+Обнаруживайте активную инфраструктуру и виртуальные хосты, выполняя поиск PTR в диапазоне IP-адресов:
 ```bash
 # Reverse resolve a CIDR IP range to hostnames
 dnsx -ptr -l ip_ranges.txt -resp
@@ -147,13 +141,11 @@ dnsx -ptr -l ip_ranges.txt -resp
 # Reverse resolve a single subnet
 echo "192.168.1.0/24" | dnsx -ptr -resp
 ```
-
 ---
 
-## ⚙️ Using Custom Resolvers & Rate Limiting
+## ⚙️ Использование пользовательских резольверов и ограничения скорости
 
-Avoid being rate-limited by your ISP or Google DNS by utilizing a high-speed curated resolver pool:
-
+Избегайте ограничения скорости со стороны вашего интернет-провайдера или Google DNS, используя высокоскоростной курируемый пул преобразователей:
 ```bash
 # Use a custom trusted resolver list
 dnsx -l subdomains.txt -r resolvers.txt
@@ -161,45 +153,42 @@ dnsx -l subdomains.txt -r resolvers.txt
 # Set thread concurrency and query rate limit (queries per second)
 dnsx -l subdomains.txt -t 100 -rl 300
 ```
-
 ---
 
-## ⛓️ Pipeline Automation (Subfinder + dnsx + httpx)
+## ⛓️ Автоматизация конвейеров (подпоиск + dnsx + httpx)
 
-The ultimate recon workflow for bug bounty hunters and penetration testers:
-
+Оптимальный рабочий процесс разведки для охотников за ошибками и тестеров на проникновение:
 ```bash
 # Discover subdomains -> Validate via dnsx -> Probe live HTTP web services
 subfinder -d target.com -silent | \
   dnsx -silent -wd target.com | \
   httpx -silent -status-code -title -tech-detect
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Resolve Subdomains**|`dnsx -l subdomains.txt`|
-|**Extract IP Addresses Only**|`dnsx -l subdomains.txt -resp-only`|
-|**Filter Wildcard Domains**|`dnsx -l subdomains.txt -wd <DOMAIN>`|
-|**Extract CNAME (Takeover)**|`dnsx -l subdomains.txt -cname -resp`|
-|**Query All Records (Recon)**|`dnsx -l domains.txt -recon`|
-|**Reverse DNS Lookup (PTR)**|`dnsx -l ips.txt -ptr -resp`|
-|**Custom Resolvers & Threads**|`dnsx -l list.txt -r resolvers.txt -t 150`|
-|**JSON Output**|`dnsx -l list.txt -json -o results.json`|
+| **Решение поддоменов** | `dnsx -l subdomains.txt` |
+| **Извлекать только IP-адреса** | `dnsx -l subdomains.txt -resp-only` |
+| **Фильтрация доменов с подстановочными знаками** | `dnsx -l subdomains.txt -wd <DOMAIN>` |
+| **Извлечение CNAME (Поглощение)** | `dnsx -l subdomains.txt -cname -resp` |
+| **Запросить все записи (разведка)** | `dnsx -l domains.txt -recon` |
+| **Обратный поиск DNS (PTR)** | `dnsx -l ips.txt -ptr -resp` |
+| **Пользовательские резольверы и потоки**| `dnsx -l list.txt -r resolvers.txt -t 150` |
+| **Вывод JSON** | `dnsx -l list.txt -json -o results.json` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Оборонительные соображения и OPSEC
 
-1. **DNS Flooding:** Firing tens of thousands of DNS queries through corporate internal DNS servers will spike CPU loads and trigger SIEM alerts for DNS tunneling/DDoS.
-2. **Resolver Poisoning:** Always use verified, trusted resolver lists to prevent malicious resolvers from intercepting queries.
+1. **DNS-флуд.** Выполнение десятков тысяч DNS-запросов через корпоративные внутренние DNS-серверы приведет к резкому увеличению нагрузки на процессор и вызову предупреждений SIEM о DNS-туннелировании или DDoS-атаках.
+2. **Отравление резолвера.** Всегда используйте проверенные, доверенные списки резолверов, чтобы предотвратить перехват запросов злонамеренными резолверами.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing and bug bounty engagements only. Conducting high-volume DNS probes against unauthorized infrastructure is strictly prohibited.
+> [!ВНИМАНИЕ]
+> Эта шпаргалка предназначена только для авторизованного тестирования на проникновение и участия в программе «Bug Bounty». Проведение массовых DNS-зондов несанкционированной инфраструктуры строго запрещено.

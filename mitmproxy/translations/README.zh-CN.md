@@ -1,12 +1,16 @@
-# 🕶️ mitmproxy 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🕶️ mitmproxy - 完整备忘单
 
+[🇹🇷 Türkçe Sürüm]（翻译/README.tr.md）
 ```
   ███╗   ███╗██╗████████╗███╗   ███╗██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗
   ████╗ ████║██║╚══██╔══╝████╗ ████║██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝
@@ -16,55 +20,54 @@
   ╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝     ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   
        Interactive, Scriptable Terminal HTTP/HTTPS Proxy & Traffic Engine
 ```
-
-<p align="center">
+<p对齐=“中心”>
   <img src="https://img.shields.io/badge/mitmproxy-Terminal_Proxy-blue?style=for-the-badge" alt="mitmproxy">
   <img src="https://img.shields.io/badge/Author-mitmproxy_Project-orange?style=for-the-badge" alt="mitmproxy">
-  <img src="https://img.shields.io/badge/Category-Network_&_Web_Analysis-green?style=for-the-badge" alt="Network Analysis">
+  <img src="https://img.shields.io/badge/Category-Network_&_Web_Analysis-green?style=for-the-badge" alt="网络分析">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
-<p align="center">
-  <b>🕶️ An interactive, SSL/TLS-capable intercepting HTTP proxy for penetration testers, security researchers, and software engineers with a rich console interface and Python scripting API</b>
+<p对齐=“中心”>
+  <b>🕶️ 一个交互式、支持 SSL/TLS 的拦截 HTTP 代理，为渗透测试人员、安全研究人员和软件工程师提供丰富的控制台界面和 Python 脚本 API</b>
 </p>
 
 ---
 
 ## 📋 目录
 
-- [简介](#-overview--the-three-binaries)
-- [安装](#-installation--certificate-setup)
-  - [3. **`mitmweb`:** A lightweight browser-based graphical web interface.](#installing-on-linux--macos)
-  - [Installing CA Certificate for SSL/TLS Interception](#installing-ca-certificate-for-ssltls-interception)
-- [Operating Modes: Regular, Transparent & Reverse Proxy](#-operating-modes-regular-transparent--reverse-proxy)
-- [Interactive TUI Navigation (`mitmproxy`)](#-interactive-tui-navigation-mitmproxy)
-  - [Keyboard Shortcuts](#keyboard-shortcuts)
-  - [`d`: Delete current flow.](#filtering--intercepting-flows)
-- [Non-Interactive Automation (`mitmdump`)](#-non-interactive-automation-mitmdump)
-  - [Recording & Replaying Traffic](#recording--replaying-traffic)
-- [Python Scripting & Addons](#-python-scripting--addons)
-  - [Automated Header Manipulation Script](#automated-header-manipulation-script)
-  - [Live Response Body Tampering](#live-response-body-tampering)
-- [快速参考](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [概述和三个二进制文件](#-overview--the-two-binaries)
+- [安装和证书设置](#-installation--certificate-setup)
+  - [在 Linux / macOS 上安装](#installing-on-linux--macos)
+  - [安装用于 SSL/TLS 拦截的 CA 证书](#installing-ca-certificate-for-ssltls-interception)
+- [操作模式：常规、透明和反向代理](#-operating-modes-regular-transparent--reverse-proxy)
+- [交互式 TUI 导航 (`mitmproxy`)](#-interactive-tui-navigation-mitmproxy)
+  - [键盘快捷键](#keyboard-shortcuts)
+  - [过滤和拦截流](#filtering--intercepting-flows)
+- [非交互式自动化 (`mitmdump`)](#-non-interactive-automation-mitmdump)
+  - [录制和回放流量](#recording--replaying-traffic)
+- [Python 脚本和插件](#-python-scripting--addons)
+  - [自动标头操作脚本](#automated-header-manipulation-script)
+  - [实时响应身体篡改](#live-response-body-tampering)
+- [快速参考表](#-quick-reference-table)
+- [防守考虑与检测](#-defective-considerations--detection)
+- [法律免责声明](#-legal-disclaimer)
 
 ---
 
-## 🎯 简介
+## 🎯 概述和三个二进制文件
 
-Unlike bulky graphical desktop proxies, **mitmproxy** delivers lightning-fast, scriptable, full-fidelity HTTP/1, HTTP/2, and WebSockets interception directly inside your terminal or automation pipeline.
+与庞大的图形桌面代理不同，**mitmproxy** 直接在终端或自动化管道内提供闪电般快速、可编写脚本、全保真 HTTP/1、HTTP/2 和 WebSockets 拦截。
 
-It ships with three entry-point binaries:
-1. **`mitmproxy`:** The interactive, ncurses-based Terminal User Interface (TUI).
-🎯 简介
-3. **`mitmweb`:** A lightweight browser-based graphical web interface.
+它附带三个入口点二进制文件：
+1. **`mitmproxy`：** 基于 ncurses 的交互式终端用户界面 (TUI)。
+2. **`mitmdump`：** 非交互式命令行版本（HTTP 的 `tcpdump` 等效项）。
+3. **`mitmweb`：** 基于浏览器的轻量级图形 Web 界面。
 
 ---
 
-## 📥 安装
+## 📥 安装和证书设置
 
-### 3. **`mitmweb`:** A lightweight browser-based graphical web interface.
+### 在 Linux / macOS 上安装
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y mitmproxy
@@ -75,63 +78,58 @@ sudo pacman -S mitmproxy
 # Python pip / pipx
 pipx install mitmproxy
 ```
-
-### Installing CA Certificate for SSL/TLS Interception
-📥 安装
-1. Start mitmproxy once: `mitmproxy` (creates certificates in `~/.mitmproxy/`).
-Installing on Linux / macOS
-3. Browse to `http://mitm.it` and download/install the certificate for Android, iOS, Windows, or Linux.
+### 安装 CA 证书以进行 SSL/TLS 拦截
+要拦截 HTTPS 流量，目标必须信任 mitmproxy 的动态证书颁发机构：
+1. 启动 mitmproxy 一次：`mitmproxy`（在 `~/.mitmproxy/` 中创建证书）。
+2. 在客户端设备/浏览器上，配置代理 `127.0.0.1:8080`。
+3. 浏览到 `http://mitm.it` 并下载/安装适用于 Android、iOS、Windows 或 Linux 的证书。
 
 ---
 
-## ⚙️ Operating Modes: Regular, Transparent & Reverse Proxy
+## ⚙️ 操作模式：常规、透明和反向代理
 
-### 3. Browse to `http://mitm.it` and download/install the certificate for Android, iOS, Windows, or Linux.
-Standard forward proxy listening on port 8080:
+### 常规代理模式（默认）
+标准转发代理侦听端口 8080：
 ```bash
 mitmproxy -p 8080
 ```
-
-### ⚙️ Operating Modes: Regular, Transparent & Reverse Proxy
-Relays incoming traffic to a specific target server (ideal for API testing):
+### 反向代理模式
+将传入流量中继到特定目标服务器（非常适合 API 测试）：
 ```bash
 mitmproxy --mode reverse:https://api.target.com -p 8080
 ```
-
-### Transparent Mode
-Intercepts traffic routed through iptables without configuring client proxy settings:
+### 透明模式
+拦截通过 iptables 路由的流量，无需配置客户端代理设置：
 ```bash
 mitmproxy --mode transparent --showhost
 ```
-
 ---
 
-## 🖥️ Interactive TUI Navigation (`mitmproxy`)
+## 🖥️ 交互式 TUI 导航 (`mitmproxy`)
 
-### Keyboard Shortcuts
-- `?`: Open help overlay.
-- `Enter`: Inspect selected HTTP flow (Request / Response / Detail).
-- `q`: Go back / quit.
-- 🖥️ Interactive TUI Navigation (`mitmproxy`)
-- `r`: Replay selected request to server.
-- Keyboard Shortcuts
-- `?`: Open help overlay.
-- `Enter`: Inspect selected HTTP flow (Request / Response / Detail).
+### 键盘快捷键
+- `?`：打开帮助叠加层。
+- `Enter`：检查选定的 HTTP 流（请求/响应/详细信息）。
+- `q`：返回/退出。
+- `d`：删除当前流。
+- `r`：将选定的请求重播到服务器。
+- `e`：编辑请求/响应标头、路径或正文。
+- `a`：恢复暂停的流程（拦截时）。
+- `A`：恢复所有暂停的流。
 
-### `d`: Delete current flow.
-`r`: Replay selected request to server.
+### 过滤和拦截流
+按 `i` 输入拦截过滤表达式：
 ```text
 ~u /api/v1/ & ~m POST      # Intercept only POST requests to /api/v1/
 ~c 401 | ~c 403            # Filter flows by HTTP status code
 ~b "password"              # Filter flows where body contains "password"
 ```
-
 ---
 
-## ⚡ Non-Interactive Automation (`mitmdump`)
+## ⚡ 非交互式自动化 (`mitmdump`)
 
-### Recording & Replaying Traffic
-Capture live traffic directly into a binary dump file:
+### 记录和重放流量
+将实时流量直接捕获到二进制转储文件中：
 ```bash
 # Record all HTTP traffic to file
 mitmdump -w traffic.dump
@@ -142,14 +140,13 @@ mitmdump -n -r traffic.dump
 # Replay client requests from dump against target
 mitmdump --client-replay traffic.dump
 ```
-
 ---
 
-## 🐍 Python Scripting & Addons
+## 🐍 Python 脚本和插件
 
-mitmproxy features a native Python API for modifying traffic programmatically:
+mitmproxy 具有原生 Python API，用于以编程方式修改流量：
 
-### Automated Header Manipulation Script (`add_headers.py`)
+### 自动标头操作脚本 (`add_headers.py`)
 ```python
 from mitmproxy import http
 
@@ -161,12 +158,11 @@ class AddHeader:
 
 addons = [AddHeader()]
 ```
-🐍 Python Scripting & Addons
+运行：
 ```bash
 mitmproxy -s add_headers.py
 ```
-
-### Live Response Body Tampering (`tamper_response.py`)
+### 实时响应身体篡改 (`tamper_response.py`)
 ```python
 from mitmproxy import http
 
@@ -175,35 +171,34 @@ def response(flow: http.HTTPFlow):
     if "api/user/me" in flow.request.url:
         flow.response.text = flow.response.text.replace('"isAdmin": false', '"isAdmin": true')
 ```
-🐍 Python Scripting & Addons
+运行：
 ```bash
 mitmdump -s tamper_response.py
 ```
+---
+
+## ⚡ 快速参考表
+
+|目标|命令 |
+|------------|---------|
+| **启动交互式 TUI** | `mitmproxy -p 8080` |
+| **启动 Web GUI** | `mitmweb -p 8080` |
+| **静默 CLI 记录器** | `mitmdump -p 8080` |
+| **反向代理目标** | `mitmproxy --mode reverse:https://target.com` |
+| **将流量记录到文件** | `mitmdump -w capture.mitm` |
+| **加载Python插件脚本**| `mitmproxy -s script.py` |
+| **忽略目标主机** | `mitmproxy --ignore-hosts ".*apple\.com"` |
 
 ---
 
-## ⚡ 快速参考
+## 🛡️ 防守考虑和检测
 
-|Objective|命令|
-|-----------|---------|
-|**Start Interactive TUI**|`mitmproxy -p 8080`|
-|**Start Web GUI**|`mitmweb -p 8080`|
-|**Silent CLI Logger**|`mitmdump -p 8080`|
-|**Reverse Proxy Target**|`mitmproxy --mode reverse:https://target.com`|
-|**Record Traffic to File**|`mitmdump -w capture.mitm`|
-|**Load Python Addon Script**|`mitmproxy -s script.py`|
-|**Ignore Target Hosts**|`mitmproxy --ignore-hosts ".*apple\.com"`|
+1. **证书固定：** 执行 SSL Pinning 的移动应用程序拒绝 mitmproxy 的 CA 证书。与 Frida / Objection 配对以绕过客户端检查。
+2. **TLS 握手中的代理检测：** 代理引入了 WAF 和机器人管理器可以检测到的自定义 TLS 密码套件和 ALPN 协商指纹。
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## ⚠️ 法律免责声明
 
-1. **Certificate Pinning:** Mobile apps enforcing SSL Pinning reject mitmproxy's CA certificate. Pair with Frida / Objection to bypass client-side checks.
-2. **Proxy Detection in TLS Handshake:** Proxies introduce custom TLS cipher suites and ALPN negotiation fingerprints that WAFs and bot managers can detect.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> mitmproxy intercepts and decrypts sensitive network communications. It must strictly be deployed on systems and networks where explicit authorization has been secured. Intercepting communications without consent is illegal.
+> [!警告]
+> mitmproxy 拦截并解密敏感网络通信。它必须严格部署在已获得明确授权的系统和网络上。未经同意拦截通信是非法的。

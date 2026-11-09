@@ -1,12 +1,16 @@
-# 🎯 pwndbg-GEF — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎯 pwndbg & GEF - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ██╗    ██╗███╗   ██╗██████╗ ██████╗  ██████╗      ██████╗ ███████╗███████╗
   ██╔══██╗██║    ██║████╗  ██║██╔══██╗██╔══██╗██╔════╝     ██╔════╝ ██╔════╝██╔════╝
@@ -16,7 +20,6 @@
   ╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚═════╝ ╚═════╝  ╚═════╝      ╚═════╝ ╚══════╝╚═╝     
          Next-Gen GDB Enhancements for Reversing & Binary Exploitation
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/pwndbg-GDB_Plugin-blue?style=for-the-badge" alt="pwndbg">
   <img src="https://img.shields.io/badge/GEF-GDB_Enhanced_Features-orange?style=for-the-badge" alt="GEF">
@@ -25,69 +28,67 @@
 </p>
 
 <p align="center">
-  <b>🎯 The premier open-source GDB terminal enhancements designed for binary reverse engineering, memory corruption analysis, heap layout inspection, and CTF exploit development</b>
+  <b>🎯 Οι κορυφαίες βελτιώσεις τερματικού GDB ανοιχτού κώδικα που έχουν σχεδιαστεί για δυαδική αντίστροφη μηχανική, ανάλυση καταστροφής μνήμης, επιθεώρηση διάταξης σωρού και ανάπτυξη εκμετάλλευσης CTF</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--why-vanilla-gdb-needs-enhancements)
-- [Εγκατάσταση](#-installation--switching-between-frameworks)
-  - [Installing pwndbg](#installing-pwndbg)
-  - [Installing GEF](#installing-gef)
-  - [Installing pwndbg](#managing-gdbinit)
-- [The Context Display Engine](#-the-context-display-engine)
-  - [Registers Section](#registers-section)
+- [Επισκόπηση & Γιατί το Vanilla GDB χρειάζεται βελτιώσεις](#-επισκόπηση--why-vanilla-gdb-needs-enhancements)
+- [Installation & Switching Between Frameworks](#-installation--switching-between-frameworks)
+  - [Εγκατάσταση pwndbg](#installing-pwndbg)
+  - [Εγκατάσταση GEF](#installing-gef)
+  - [Διαχείριση `.gdbinit`](#managing-gdbinit)
+- [The Context Display Engine] (#-the-context-display-engine)
+  - [Ενότητα Εγγραφών](#registers-section)
   - [Disassembly & Jump Predictions](#disassembly--jump-predictions)
   - [Stack & Telescope](#stack--telescope)
   - [Backtrace & Threads](#backtrace--threads)
-- [Memory Inspection & Navigation](#-memory-inspection--navigation)
+- [Επιθεώρηση και πλοήγηση μνήμης](#-memory-inspection--navigation)
   - [Telescoping Pointers (`telescope`)](#telescoping-pointers-telescope)
-  - [🔍 Memory Inspection & Navigation](#process-memory-mappings-vmmap)
-  - [Searching Memory (`search`)](#searching-memory-search)
-- [Heap Exploitation & Inspection](#-heap-exploitation--inspection)
-  - [Viewing Chunks & Arenas](#viewing-chunks--arenas)
-  - [Inspecting Free Bins (Tcache, Fastbins, Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
-  - [Viewing Chunks & Arenas](#visualizing-heap-layout-vis_heap_chunks)
+  - [Αντιστοιχίσεις μνήμης διεργασιών (`vmmap`)](#process-memory-mappings-vmmap)
+  - [Αναζήτηση μνήμης (`search`)](#searching-memory-search)
+- [Επιθεώρηση & Εκμετάλλευση Σωρού](#-heap-exploitation--inspection)
+  - [Προβολή κομμάτια και αρένες](#viewing-chunks--arenas)
+  - [Επιθεώρηση δωρεάν κάδων (Tcache, Fastbins, Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
+  - [Οπτικοποίηση διάταξης σωρού (`vis_heap_chunks`)](#visualizing-heap-layout-vis_heap_chunks)
 - [Exploit Development Helpers](#-exploit-development-helpers)
   - [Checksec & Mitigation Audit](#checksec--mitigation-audit)
-  - [Inspects:](#stack-canary-locator-canary)
-  - [PIE**: PIE enabled (Position Independent Executable / ASLR)](#cyclic-patterns--offset-calculation)
+  - [Stack Canary Locator (`canary`)](#stack-canary-locator-canary)
+  - [Cyclic Patterns & Offset Calculation](#cyclic-patterns--offset-calculation)
   - [In-Memory ROP Gadget Hunting](#in-memory-rop-gadget-hunting)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Binary Protections](#-defensive-considerations--binary-protections)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Γιατί το Vanilla GDB χρειάζεται βελτιώσεις
 
-Standard GNU Debugger (`gdb`) is an industrial-strength tool, but its out-of-the-box user experience is visually austere. It does not automatically update register states, dereference multi-level pointers, or display stack views upon stepping through instructions.
+Ο τυπικός εντοπισμός σφαλμάτων GNU (`gdb`) είναι ένα εργαλείο βιομηχανικής αντοχής, αλλά η εμπειρία χρήστη του είναι αυστηρή οπτικά. Δεν ενημερώνει αυτόματα τις καταστάσεις εγγραφής, τους δείκτες πολλαπλών επιπέδων αποσύνδεσης ή την εμφάνιση προβολών στοίβας κατά τη μετάβαση στις οδηγίες.
 
-**pwndbg** and **GEF** turn GDB into an elite reverse engineering and binary exploitation suite:
-- **pwndbg**: Specifically engineered for low-level software exploitation, heap debugging (glibc 2.27 - 2.39+ allocator internals), and automated pointer dereferencing.
-- **GEF (GDB Enhanced Features)**: A single standalone Python script with zero external dependencies, offering architecture-agnostic features (ARM, MIPS, PowerPC, x86) and dynamic structure parsing.
+Τα **pwndbg** και **GEF** μετατρέπουν το GDB σε μια ελίτ σουίτα αντίστροφης μηχανικής και δυαδικής εκμετάλλευσης:
+- **pwndbg:** Ειδικά σχεδιασμένο για εκμετάλλευση λογισμικού χαμηλού επιπέδου, εντοπισμό σφαλμάτων σωρού (glibc 2.27 - 2.39+ εσωτερικά στοιχεία εκχωρητή) και αυτοματοποιημένη αποαναφορά δείκτη.
+- **GEF (GDB Enhanced Features):** Ένα ενιαίο αυτόνομο σενάριο Python με μηδενικές εξωτερικές εξαρτήσεις, που προσφέρει αγνωστικά χαρακτηριστικά αρχιτεκτονικής (ARM, MIPS, PowerPC, x86) και δυναμική ανάλυση δομής.
 
 ---
 
-## 📥 Εγκατάσταση
+## 📥 Εγκατάσταση & εναλλαγή μεταξύ πλαισίων
 
-### Installing pwndbg
+### Εγκατάσταση του pwndbg
 ```bash
 git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
 ```
-
-### Installing GEF
+### Εγκατάσταση GEF
 ```bash
 # Automated one-liner download
 bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
 ```
-
-### Installing pwndbg
-To switch between pwndbg and GEF without conflict, configure your `~/.gdbinit`:
+### Διαχείριση `.gdbinit`
+Για εναλλαγή μεταξύ pwndbg και GEF χωρίς διένεξη, διαμορφώστε το `~/.gdbinit`:
 ```bash
 # To use pwndbg:
 echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
@@ -95,13 +96,11 @@ echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
 # To use GEF:
 echo "source ~/.gdbinit-gef.py" > ~/.gdbinit
 ```
-
 ---
 
-## 🖥️ The Context Display Engine
+## 🖥️ Η μηχανή εμφάνισης περιβάλλοντος
 
-Every time execution halts at a breakpoint or step, both pwndbg and GEF print an automated, multi-panel terminal view:
-
+Κάθε φορά που η εκτέλεση σταματά σε σημείο διακοπής ή βήμα, τόσο το pwndbg όσο και το GEF εκτυπώνουν μια αυτοματοποιημένη προβολή τερματικού πολλαπλών πλαισίων:
 ```text
 ──────────────────────────[ REGISTERS / FLAGS ]──────────────────────────
 RAX: 0x0 
@@ -131,82 +130,75 @@ RIP: 0x401140 (<main+12>: cmp QWORD PTR [rbp-0x8], 0x0)
    2   0x7ffff7df6e40 __libc_start_main+128
    3   0x401065 _start+37
 ```
-
 ---
 
-## 🔍 Memory Inspection & Navigation
+## 🔍 Επιθεώρηση Μνήμης & Πλοήγηση
 
-### Telescoping Pointers (`telescope`)
-Dereferences memory pointers recursively, displaying ASCII text, function symbols, or target pointers:
+### Τηλεσκοπικοί δείκτες (`telescope`)
+Αποαναφορά δείκτες μνήμης αναδρομικά, εμφανίζοντας κείμενο ASCII, σύμβολα συναρτήσεων ή δείκτες στόχων:
 ```text
 pwndbg> telescope $rsp 16       # Dereference 16 entries starting at RSP
 pwndbg> telescope 0x404000 8    # Dereference data section
 ```
-
-### 🔍 Memory Inspection & Navigation
-Displays complete virtual memory segments with read/write/execute permissions:
+### Αντιστοιχίσεις μνήμης διεργασιών (`vmmap`)
+Εμφανίζει πλήρη τμήματα εικονικής μνήμης με δικαιώματα ανάγνωσης/εγγραφής/εκτέλεσης:
 ```text
 pwndbg> vmmap
 ```
-*Quickly spot segments with `rwx` permissions (vital for shellcode injection).*
+*Γρήγορη εντόπιση τμημάτων με άδειες `rwx` (ζωτική σημασία για την έγχυση κώδικα κελύφους).*
 
-### Searching Memory (`search`)
-Process Memory Mappings (`vmmap`)
+### Μνήμη αναζήτησης (`search`)
+Εντοπίστε συμβολοσειρές, ακέραιους αριθμούς ή δείκτες οπουδήποτε στις σελίδες φορτωμένης μνήμης:
 ```text
 pwndbg> search -s "/bin/sh"     # Search for string "/bin/sh"
 pwndbg> search -p 0x401135      # Search for pointers to main()
 pwndbg> search -x "41414141"    # Search for raw hexadecimal bytes
 ```
-
 ---
 
-## 🧱 Heap Exploitation & Inspection
+## 🧱 Εκμετάλλευση & Επιθεώρηση Σωρού
 
-Analyzing modern `glibc` heap allocators is straightforward with dedicated heap commands:
+Η ανάλυση των σύγχρονων κατανεμητών σωρού `glibc` είναι απλή με αποκλειστικές εντολές σωρού:
 
-### Viewing Chunks & Arenas
+### Προβολή κομματιών και αρένας
 ```text
 pwndbg> heap                    # Display entire heap layout
 pwndbg> chunk 0x602000          # Parse chunk headers (size, flags: PREV_INUSE, IS_MMAPPED, NON_MAIN_ARENA)
 pwndbg> arenas                  # List all active heap arenas
 ```
-
-### Inspecting Free Bins (Tcache, Fastbins, Smallbins)
+### Επιθεώρηση δωρεάν κάδων (Tcache, Fastbins, Smallbins)
 ```text
 pwndbg> bins                    # Show all free bins simultaneously
 pwndbg> tcache                  # Display per-thread tcache entries
 pwndbg> fastbins                # List single-linked fastbins
 pwndbg> unsortedbin             # List unsorted bin chunks (used for libc leak)
 ```
-
-### Viewing Chunks & Arenas
+### Οπτικοποίηση διάταξης σωρού (`vis_heap_chunks`)
 ```text
 pwndbg> vis_heap_chunks 10      # Draw color-coded visual representation of consecutive heap chunks
 ```
-
 ---
 
 ## 🛠️ Exploit Development Helpers
 
-### Checksec & Mitigation Audit
-Check compiler security mitigations directly from the GDB prompt:
+### Έλεγχος ελέγχου και περιορισμού
+Ελέγξτε τους μετριασμούς ασφαλείας του μεταγλωττιστή απευθείας από την προτροπή GDB:
 ```text
 pwndbg> checksec
 ```
-*Inspects:*
-- **RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
-- **Stack**: Canary found vs No canary
-- **NX**: NX enabled (Non-executable stack/heap)
-- **PIE**: PIE enabled (Position Independent Executable / ASLR)
+*Επιθεωρεί:*
+- **RELRO:** Μερικό έναντι πλήρους RELRO (προστατεύει τον παγκόσμιο πίνακα μετατόπισης `.got.plt`)
+- **Στοίβα:** Καναρίνι βρέθηκε vs Κανένα καναρίνι
+- **NX:** NX ενεργοποιημένο (Μη εκτελέσιμη στοίβα/σωρό)
+- **PIE:** PIE ενεργοποιημένο (Εκτέλεσιμο ανεξάρτητο θέσης / ASLR)
 
-### Inspects:
-RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
+### Stack Canary Locator (`canary`)
+Εντοπίστε την τιμή του καναρινιού νήματος στο Thread Local Storage (TLS) και επαληθεύστε πού βρίσκεται στο πλαίσιο της τρέχουσας στοίβας:
 ```text
 pwndbg> canary
 ```
-
-### PIE**: PIE enabled (Position Independent Executable / ASLR)
-Determine the exact offset to overwrite the instruction pointer (EIP/RIP):
+### Κυκλικά μοτίβα & υπολογισμός μετατόπισης
+Προσδιορίστε την ακριβή μετατόπιση για την αντικατάσταση του δείκτη εντολών (EIP/RIP):
 ```text
 # Generate a 100-byte De Bruijn cyclic sequence
 pwndbg> cyclic 100
@@ -215,43 +207,41 @@ pwndbg> cyclic 100
 pwndbg> cyclic -l $rip
 # Output: Finding cyclic pattern at offset 72
 ```
-
 ### In-Memory ROP Gadget Hunting
-Search loaded executable segments for specific gadgets:
+Αναζήτηση φορτωμένων εκτελέσιμων τμημάτων για συγκεκριμένα gadget:
 ```text
 pwndbg> rop --grep "pop rdi"
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Start with pwndbg/GEF**|`gdb ./target_binary`|
-|**Inspect Registers/Stack**|`context`|
-|**Recursive Pointer Deref**|`telescope $rsp 10`|
-|**Memory Map & RWX Check**|`vmmap`|
-|**Search String in Memory**|`search -s "/bin/sh"`|
-|**Audit Mitigations**|`checksec`|
-|**Find Stack Canary**|`canary`|
-|**Heap Chunks Overview**|`heap`|
-|**Inspect Free Bins**|`bins`|
-|**Calculate Buffer Offset**|`cyclic 100` -> `cyclic -l <val>`|
-|**Set Breakpoint at Symbol**|`b *main`|
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
+| **Ξεκινήστε με pwndbg/GEF**| `gdb ./target_binary` |
+| **Επιθεώρηση Μητρώων/Στοίβα** | `context` |
+| **Αναδρομικός δείκτης Deref**| `telescope $rsp 10` |
+| **Χάρτης μνήμης & Έλεγχος RWX**| `vmmap` |
+| **Αναζήτηση συμβολοσειράς στη μνήμη**| `search -s "/bin/sh"` |
+| **Μετριασμούς Ελέγχου** | `checksec` |
+| **Βρείτε Stack Canary** | `canary` |
+| **Επισκόπηση τεμαχίων σωρού** | `heap` |
+| **Επιθεώρηση δωρεάν κάδων** | `bins` |
+| **Υπολογισμός μετατόπισης buffer**| `cyclic 100` -> `cyclic -l <val>` |
+| **Ρύθμιση σημείου διακοπής στο σύμβολο**| `b *main` |
+| **Εκτέλεση / Συνέχεια / Βήμα ** | `r` / `c` / `si` / `ni` |
 
 ---
 
-## 🛡️ Defensive Considerations & Binary Protections
+## 🛡️ Αμυντικές εκτιμήσεις & δυαδικές προστασίες
 
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
-2. **Stack Canaries:** Compiling with `-fstack-protector-all` places cookies before return addresses, causing `__stack_chk_fail` on buffer overflows.
-3. **PIE & ASLR:** Randomizes code, heap, and library base addresses on every execution.
+1. **Πλήρης RELRO:** Η μεταγλώττιση με `-Wl,-z,relro,-z,now` καθιστά το `.got` εντελώς μόνο για ανάγνωση, νικώντας τις επιθέσεις αντικατάστασης GOT.
+2. **Stack Canaries:** Η μεταγλώττιση με το `-fstack-protector-all` τοποθετεί τα cookies πριν από τις διευθύνσεις επιστροφής, προκαλώντας υπερχείλιση buffer του `__stack_chk_fail`.
+3. **PIE & ASLR:** Τυχαιοποιεί τις διευθύνσεις κώδικα, σωρού και βάσης βιβλιοθήκης σε κάθε εκτέλεση.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> pwndbg and GEF are binary analysis and exploit engineering tools intended strictly for authorized vulnerability research, defensive software auditing, and academic CTF competitions. Exploiting software without permission is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το pwndbg και το GEF είναι εργαλεία δυαδικής ανάλυσης και εκμετάλλευσης μηχανικής που προορίζονται αυστηρά για εξουσιοδοτημένη έρευνα ευπάθειας, αμυντικό έλεγχο λογισμικού και ακαδημαϊκούς διαγωνισμούς CTF. Η εκμετάλλευση λογισμικού χωρίς άδεια είναι παράνομη.

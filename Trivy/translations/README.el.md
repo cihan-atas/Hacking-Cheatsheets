@@ -1,41 +1,44 @@
-# 🔍 Trivy — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Trivy](https://github.com/aquasecurity/trivy) by Aqua Security is a comprehensive, multi-purpose security scanner for containers, filesystems, Git repositories, virtual machine images, Kubernetes clusters, and Infrastructure as Code (IaC) configurations. It detects OS and language vulnerabilities (CVEs), leaked secrets, misconfigurations, and generates Software Bill of Materials (SBOM).
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
+# Trivy Cheatsheet
+
+Το [Trivy](https://github.com/aquasecurity/trivy) της Aqua Security είναι ένας ολοκληρωμένος σαρωτής ασφαλείας πολλαπλών χρήσεων για κοντέινερ, συστήματα αρχείων, αποθετήρια Git, εικόνες εικονικής μηχανής, συμπλέγματα Kubernetes και διαμορφώσεις Infrastructure as Code (IaC). Ανιχνεύει ευπάθειες λειτουργικού συστήματος και γλώσσας (CVE), μυστικά που διέρρευσαν, εσφαλμένες διαμορφώσεις και δημιουργεί Λογισμικό Bill of Materials (SBOM).
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Core Capabilities](#core-capabilities)
 - [Εγκατάσταση](#installation)
-- [Εγκατάσταση](#container-image-scanning-trivy-image)
-- [4. Scan Stored Tar Archive](#filesystem--repository-scanning-trivy-fs--repo)
+- [Σάρωση εικόνας κοντέινερ (`trivy image`)](#container-image-scanning-trivy-image)
+- [Filesystem & Repository Scanning (`trivy fs / repo`)](#filesystem--repository-scanning-trivy-fs--repo)
 - [Secret & Credential Detection (`--scanners secret`)](#secret--credential-detection---scanners-secret)
-- [Detect hardcoded API keys, tokens, and private keys embedded in code or container layers:](#kubernetes-cluster-auditing-trivy-k8s)
-- [Infrastructure as Code (IaC) Misconfiguration Scanning](#infrastructure-as-code-iac-misconfiguration-scanning)
-- [Detect risky configurations in Dockerfiles, Terraform, and Kubernetes YAML:](#cicd-integration--exit-codes)
-- [Automate pipeline gates to block vulnerable builds from shipping:](#sbom-generation-cyclonedx--spdx)
+- [Kubernetes Cluster Auditing (`trivy k8s`)](#kubernetes-cluster-auditing-trivy-k8s)
+- [Σάρωση εσφαλμένης διαμόρφωσης υποδομής ως κώδικα (IaC)](#infrastructure-as-code-iac-misconfiguration-scanning)
+- [CI/CD Integration & Exit Codes](#cicd-integration--exit-codes)
+- [SBOM Generation (CycloneDX & SPDX)](#sbom-generation-cyclonedx--spdx)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
+## Βασικές Δυνατότητες
 
-- **Vulnerabilities**: Detects CVEs across Alpine, Debian, RHEL, Ubuntu, Amazon Linux, and language packages (Go, Python, Node.js, Java, Rust, Ruby, PHP, .NET).
-- **| `-severity` | Επιλογή βάσει σοβαρότητας |**: Audits Dockerfiles, Kubernetes manifests, Terraform, CloudFormation, and Helm charts against CIS Benchmarks.
-- **Secret Scanning**: Flags exposed API keys, private certificates, JWT tokens, and passwords.
-- **Cluster Scanning**: Audits Kubernetes workloads and control planes live.
-- **Fast & Lightweight**: Local SQLite database updated transparently without external daemon requirements.
+- **Ευπάθειες:** Ανιχνεύει CVE σε πακέτα Alpine, Debian, RHEL, Ubuntu, Amazon Linux και γλώσσας (Go, Python, Node.js, Java, Rust, Ruby, PHP, .NET).
+- **Λανθασμένες ρυθμίσεις παραμέτρων:** Ελέγχει τα γραφήματα Dockerfiles, δηλώσεων Kubernetes, Terraform, CloudFormation και Helm σε σχέση με δείκτες αναφοράς CIS.
+- **Μυστική σάρωση:** Επισημαίνει εκτεθειμένα κλειδιά API, ιδιωτικά πιστοποιητικά, διακριτικά JWT και κωδικούς πρόσβασης.
+- **Σάρωση συμπλέγματος:** Ελέγχει τους φόρτους εργασίας του Kubernetes και τα επίπεδα ελέγχου ζωντανά.
+- **Γρήγορη και ελαφριά:** Η τοπική βάση δεδομένων SQLite ενημερώθηκε με διαφάνεια χωρίς απαιτήσεις εξωτερικού δαίμονα.
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu
 sudo apt-get install wget apt-transport-https gnupg
@@ -52,58 +55,50 @@ brew install trivy
 # Docker container
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image alpine:latest
 ```
-
 ---
 
-## Εγκατάσταση
+## Σάρωση εικόνων κοντέινερ (`trivy image`)
 
-### 1. Basic Image Scan
-Scan a local or remote Docker image:
+### 1. Βασική σάρωση εικόνας
+Σαρώστε μια τοπική ή απομακρυσμένη εικόνα Docker:
 ```bash
 trivy image nginx:latest
 ```
-
-### Container Image Scanning (`trivy image`)
-Focus on actionable Critical and High vulnerabilities only:
+### 2. Φιλτράρισμα κατά επίπεδο σοβαρότητας
+Εστίαση μόνο σε κρίσιμα και υψηλά τρωτά σημεία με δυνατότητα δράσης:
 ```bash
 trivy image --severity HIGH,CRITICAL python:3.9-slim
 ```
-
-### 3. Display Only Fixable Vulnerabilities
-Filter out unpatched zero-days or unfixable upstream issues:
+### 3. Εμφάνιση μόνο ευπαθών σημείων που μπορούν να διορθωθούν
+Φιλτράρετε μη επιδιορθωμένα ζητήματα μηδενικών ημερών ή μη επιδιορθώσιμα ανοδικά ζητήματα:
 ```bash
 trivy image --ignore-unfixed --severity HIGH,CRITICAL node:18-alpine
 ```
-
-### 4. Scan Stored Tar Archive
-Scan offline container images exported via `docker save`:
+### 4. Σάρωση αποθηκευμένου αρχείου πίσσας
+Σάρωση εικόνων κοντέινερ εκτός σύνδεσης που εξάγονται μέσω `docker save`:
 ```bash
 docker save myapp:v1 -o myapp.tar
 trivy image --input myapp.tar
 ```
-
 ---
 
-## 4. Scan Stored Tar Archive
+## Σάρωση συστήματος αρχείων και αποθετηρίου (`trivy fs / repo`)
 
-Scan source code trees, dependency lockfiles (`package-lock.json`, `poetry.lock`, `go.sum`, `pom.xml`):
+Σάρωση δέντρων πηγαίου κώδικα, αρχεία κλειδώματος εξάρτησης (`package-lock.json`, `poetry.lock`, `go.sum`, `pom.xml`):
 
-### 1. Scan Local Directory / Project
+### 1. Σάρωση τοπικού καταλόγου / έργου
 ```bash
 trivy fs /path/to/project
 ```
-
-### 2. Scan Remote Git Repository Directly
+### 2. Σαρώστε απευθείας το Remote Git Repository
 ```bash
 trivy repo https://github.com/example/vulnerable-app
 ```
-
 ---
 
-## Secret & Credential Detection (`--scanners secret`)
+## Ανίχνευση μυστικού και διαπιστευτηρίων (`--scanners secret`)
 
-Detect hardcoded API keys, tokens, and private keys embedded in code or container layers:
-
+Εντοπίστε κλειδιά API με σκληρό κώδικα, διακριτικά και ιδιωτικά κλειδιά ενσωματωμένα σε επίπεδα κώδικα ή κοντέινερ:
 ```bash
 # Scan directory for secrets
 trivy fs --scanners secret .
@@ -111,34 +106,29 @@ trivy fs --scanners secret .
 # Scan container image for secrets and vulnerabilities simultaneously
 trivy image --scanners vuln,secret mycompany/api:latest
 ```
-
 ---
 
-## Detect hardcoded API keys, tokens, and private keys embedded in code or container layers:
+## Έλεγχος συμπλέγματος Kubernetes (`trivy k8s`)
 
-Audit active workloads and configuration in a live Kubernetes cluster using your active `kubectl` context:
+Ελέγξτε τους ενεργούς φόρτους εργασίας και τις ρυθμίσεις παραμέτρων σε ένα ζωντανό σύμπλεγμα Kubernetes χρησιμοποιώντας το ενεργό περιβάλλον `kubectl`:
 
-### 1. Audit Entire Cluster Workloads
+### 1. Έλεγχος ολόκληρου του φόρτου εργασίας συμπλέγματος
 ```bash
 trivy k8s --report summary cluster
 ```
-
-### 2. Audit a Specific Namespace
+### 2. Ελέγξτε έναν συγκεκριμένο χώρο ονομάτων
 ```bash
 trivy k8s --namespace production --severity HIGH,CRITICAL all
 ```
-
-### 1. Audit Entire Cluster Workloads
+### 3. Συμμόρφωση σημείων αναφοράς CIS Kubernetes
 ```bash
 trivy k8s --compliance k8s-cis cluster
 ```
-
 ---
 
-## Infrastructure as Code (IaC) Misconfiguration Scanning
+## Σάρωση εσφαλμένης διαμόρφωσης υποδομής ως κώδικα (IaC).
 
-Detect risky configurations in Dockerfiles, Terraform, and Kubernetes YAML:
-
+Εντοπίστε επικίνδυνες διαμορφώσεις στα Dockerfiles, Terraform και Kubernetes YAML:
 ```bash
 # Scan Terraform files for cloud security violations
 trivy config ./terraform/
@@ -146,13 +136,11 @@ trivy config ./terraform/
 # Scan Dockerfile for root user or insecure exposed ports
 trivy config Dockerfile
 ```
-
 ---
 
-## Detect risky configurations in Dockerfiles, Terraform, and Kubernetes YAML:
+## Κωδικοί ενσωμάτωσης & εξόδου CI/CD
 
-Automate pipeline gates to block vulnerable builds from shipping:
-
+Αυτοματοποιήστε τις πύλες αγωγών για να εμποδίσετε την αποστολή ευάλωτων κατασκευών:
 ```bash
 # Break build (Exit code 1) if CRITICAL vulnerabilities exist
 trivy image --exit-code 1 --severity CRITICAL myapp:build-42
@@ -160,13 +148,11 @@ trivy image --exit-code 1 --severity CRITICAL myapp:build-42
 # Generate SARIF report for GitHub Code Scanning
 trivy image --format sarif --output trivy-results.sarif myapp:latest
 ```
-
 ---
 
-## Automate pipeline gates to block vulnerable builds from shipping:
+## SBOM Generation (CycloneDX & SPDX)
 
-Generate Software Bill of Materials (SBOM) for compliance and supply-chain auditing:
-
+Δημιουργία Λογισμικού Bill of Materials (SBOM) για έλεγχο συμμόρφωσης και εφοδιαστικής αλυσίδας:
 ```bash
 # Generate CycloneDX JSON SBOM
 trivy image --format cyclonedx --output sbom.json myapp:latest

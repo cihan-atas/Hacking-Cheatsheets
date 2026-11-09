@@ -1,12 +1,16 @@
-# 🌐 WhatWeb - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌐 WhatWeb - Cheatsheet completo
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗    ██╗██╗  ██╗ █████╗ ████████╗██╗    ██╗███████╗██████╗ 
   ██║    ██║██║  ██║██╔══██╗╚══██╔══╝██║    ██║██╔════╝██╔══██╗
@@ -16,53 +20,51 @@
    ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚══╝╚══╝ ╚══════╝╚═════╝ 
        Next Generation Web Scanner & Technology Fingerprinter
 ```
-
-<p align="center">
+<palign="centro">
   <img src="https://img.shields.io/badge/WhatWeb-Web_Fingerprinter-blue?style=for-the-badge" alt="WhatWeb">
   <img src="https://img.shields.io/badge/Author-Andrew_Horton-orange?style=for-the-badge" alt="urbanadventurer">
-  <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Recon & Scanning">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Ricognizione e scansione">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Licenza GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Next-generation web scanner designed to identify content management systems (CMS), blogging platforms, JavaScript libraries, and server technologies</b>
+<palign="centro">
+  <b>🌐 Scanner web di nuova generazione progettato per identificare sistemi di gestione dei contenuti (CMS), piattaforme di blog, librerie JavaScript e tecnologie server</b>
 </p>
 
 ---
 
-## 📋 Indice
+## 📋 Sommario
 
-- [Introduzione](#-overview--technology-fingerprinting)
-- [Installazione](#-installation)
-- [Basic Website Fingerprinting](#-basic-website-fingerprinting)
-- [Aggression Levels Explained (`-a`)](#-aggression-levels-explained--a)
-  - [Stealthy Passive Mode (`-a 1`)](#stealthy-passive-mode--a-1)
-  - [WhatWeb balances stealth against depth using four aggression levels:](#aggressive-mode--a-3)
-  - [Heavy / Brute Mode (`-a 4`)](#heavy--brute-mode--a-4)
-- [Scanning Subnets & Target Files](#-scanning-subnets--target-files)
-- [Plugin System & Selective Auditing](#-plugin-system--selective-auditing)
-- [Output Logging & Report Exporting](#-output-logging--report-exporting)
-- [Riferimento rapido](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
-
----
-
-## 🎯 Introduzione
-
-[Legal Disclaimer](#-legal-disclaimer)
-
-Created by **Andrew Horton (urbanadventurer)**, **WhatWeb** recognizes over 1,800 distinct web technologies:
-- **Content Management Systems (CMS)**: WordPress, Drupal, Joomla, Ghost, Magento.
-- **Web Servers & Proxies**: Apache, Nginx, Microsoft-IIS, Cloudflare, Envoy.
-- **Backend Frameworks**: Laravel, Django, Ruby on Rails, ASP.NET, Spring Boot.
-- **Frontend Libraries**: React, Vue.js, Angular, jQuery, Bootstrap.
-- **Embedded Devices**: Webcams, routers, printers, SCADA interfaces.
+- [Panoramica e tecnologia Fingerprinting](#-panoramica--tecnologia-fingerprinting)
+- [Installazione](#-installazione)
+- [Fingerprinting di base del sito web](#-basic-website-fingerprinting)
+- [Spiegazione dei livelli di aggressività (`-a`)](#-spiegazione-dei-livelli-di-aggressività--a)
+  - [Modalità passiva furtiva (`-a 1`)](#modalità-passiva-furtiva--a-1)
+  - [Modalità aggressiva (`-a 3`)](#modalità-aggressiva--a-3)
+  - [Modalità pesante/bruta (`-a 4`)](#pesante--modalità bruta--a-4)
+- [Scansione di sottoreti e file di destinazione](#-scanning-subnets--target-files)
+- [Sistema plugin e controllo selettivo](#-plug-system--controllo-selettivo)
+- [Registrazione output ed esportazione report](#-output-logging--report-exporting)
+- [Tabella di riferimento rapido](#-tabella-di-riferimento-rapido)
+- [Considerazioni difensive e OPSEC](#-considerazioni-difensive--opsec)
+- [Disclaimer legale](#-legal-disclaimer)
 
 ---
 
-## 📥 Installazione
+## 🎯 Panoramica e tecnologia Fingerprinting
 
+Prima di lanciare exploit o fuzzer a forza bruta contro un'applicazione web, è fondamentale identificarne l'esatto stack tecnologico.
+
+Creato da **Andrew Horton (urbanadventurer)**, **WhatWeb** riconosce oltre 1.800 tecnologie web distinte:
+- **Sistemi di gestione dei contenuti (CMS):** WordPress, Drupal, Joomla, Ghost, Magento.
+- **Server Web e proxy:** Apache, Nginx, Microsoft-IIS, Cloudflare, Envoy.
+- **Framework backend:** Laravel, Django, Ruby on Rails, ASP.NET, Spring Boot.
+- **Librerie frontend:** React, Vue.js, Angular, jQuery, Bootstrap.
+- **Dispositivi incorporati:** Webcam, router, stampanti, interfacce SCADA.
+
+---
+
+## 📥Installazione
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y whatweb
@@ -73,11 +75,9 @@ sudo pacman -S whatweb
 # macOS (Homebrew)
 brew install whatweb
 ```
-
 ---
 
-## 🚀 Basic Website Fingerprinting
-
+## 🚀 Impronta digitale di base del sito web
 ```bash
 # Scan a single domain
 whatweb https://target.local
@@ -88,35 +88,30 @@ whatweb --color=never -q https://target.local
 # Verbose detailed report showing evidence matches
 whatweb -v https://target.local
 ```
-
 ---
 
-## ⚡ Aggression Levels Explained (`-a`)
+## ⚡ Spiegazione dei livelli di aggressività (`-a`)
 
-WhatWeb balances stealth against depth using four aggression levels:
+WhatWeb bilancia la furtività con la profondità utilizzando quattro livelli di aggressione:
 
-### Stealthy Passive Mode (`-a 1`)
-Sends a single HTTP GET request to the provided URL and analyzes the returned response headers, cookies, and HTML tags without requesting extra pages:
+### Modalità passiva invisibile (`-a 1`)
+Invia una singola richiesta HTTP GET all'URL fornito e analizza le intestazioni di risposta, i cookie e i tag HTML restituiti senza richiedere pagine aggiuntive:
 ```bash
 whatweb -a 1 https://target.local
 ```
-
-### WhatWeb balances stealth against depth using four aggression levels:
-Recommended for penetration tests. Follows redirects and requests common plugin files (e.g., `wp-login.php`, `robots.txt`, favicon hashes):
+### Modalità aggressiva (`-a 3`)
+Consigliato per test di penetrazione. Segue i reindirizzamenti e richiede file di plugin comuni (ad esempio, `wp-login.php`, `robots.txt`, hash favicon):
 ```bash
 whatweb -a 3 https://target.local
 ```
-
-### Heavy / Brute Mode (`-a 4`)
-Attempts thousands of plugin guesses and known fingerprint URLs:
+### Modalità Pesante/Bruta (`-a 4`)
+Tenta migliaia di ipotesi di plug-in e URL di impronte digitali noti:
 ```bash
 whatweb -a 4 https://target.local
 ```
-
 ---
 
-## 🌐 Scanning Subnets & Target Files
-
+## 🌐 Scansione di sottoreti e file di destinazione
 ```bash
 # Scan an entire CIDR network block
 whatweb 192.168.1.0/24
@@ -127,13 +122,11 @@ whatweb -i targets.txt
 # Pipe live web endpoints from httpx into WhatWeb
 cat live_hosts.txt | whatweb --no-errors
 ```
-
 ---
 
-## 🧩 Plugin System & Selective Auditing
+## 🧩 Sistema di plug-in e controllo selettivo
 
-WhatWeb features a rich plugin architecture:
-
+WhatWeb presenta una ricca architettura di plugin:
 ```bash
 # List all 1,800+ available plugins
 whatweb -l
@@ -144,11 +137,9 @@ whatweb --grep wordpress
 # Run ONLY a specific plugin against a target
 whatweb --plugins="apache,php,wordpress" https://target.local
 ```
-
 ---
 
-## 📊 Output Logging & Report Exporting
-
+## 📊 Registrazione degli output ed esportazione dei report
 ```bash
 # Export results to clean JSON format
 whatweb https://target.local --log-json results.json
@@ -159,32 +150,31 @@ whatweb https://target.local --log-xml results.xml
 # Export to compact CSV format
 whatweb -i targets.txt --log-brief results.txt
 ```
-
 ---
 
-## ⚡ Riferimento rapido
+## ⚡ Tabella di consultazione rapida
 
-|Objective|Comando|
+| Obiettivo | Comando |
 |-----------|---------|
-|**Standard Scan**|`whatweb <URL>`|
-|**Verbose Detailed Report**|`whatweb -v <URL>`|
-|**Stealth Passive Scan**|`whatweb -a 1 <URL>`|
-|**Aggressive Deep Scan**|`whatweb -a 3 <URL>`|
-|**Scan Subnet (CIDR)**|`whatweb <SUBNET>/24`|
-|**Scan Targets from File**|`whatweb -i targets.txt`|
-|**Export to JSON**|`whatweb <URL> --log-json report.json`|
-|**Filter by Specific Plugins**|`whatweb --plugins="wordpress,nginx" <URL>`|
+| **Scansione standard** | `whatweb <URL>` |
+| **Rapporto dettagliato dettagliato** | `whatweb -v <URL>` |
+| **Scansione passiva invisibile** | `whatweb -a 1 <URL>` |
+| **Scansione profonda aggressiva** | `whatweb -a 3 <URL>` |
+| **Scansione sottorete (CIDR)** | `whatweb <SUBNET>/24` |
+| **Scansiona target da file** | `whatweb -i targets.txt` |
+| **Esporta in JSON** | `whatweb <URL> --log-json report.json` |
+| **Filtra per plugin specifici**| `whatweb --plugins="wordpress,nginx" <URL>` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Considerazioni difensive e OPSEC
 
-1. **Server Header Masking:** Remove or randomize the `Server` and `X-Powered-By` HTTP response headers in Apache/Nginx to defeat passive banner fingerprinting.
-2. **Favicon Hash Masking:** WhatWeb uses MD5 hashes of `/favicon.ico` to identify web frameworks. Customize default framework favicons.
+1. **Mascheramento intestazioni server:** rimuovi o randomizza le intestazioni di risposta HTTP `Server` e `X-Powered-By` in Apache/Nginx per sconfiggere il rilevamento passivo delle impronte digitali dei banner.
+2. **Mascheramento hash favicon:** WhatWeb utilizza gli hash MD5 di `/favicon.ico` per identificare i framework web. Personalizza le favicon del framework predefinito.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Disclaimer legale
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> WhatWeb is intended for authorized reconnaissance, security auditing, and system inventory only. Scanning unauthorized networks or web applications without permission may violate applicable laws.
+> [!ATTENZIONE]
+> WhatWeb è destinato esclusivamente alla ricognizione autorizzata, al controllo della sicurezza e all'inventario del sistema. La scansione di reti o applicazioni Web non autorizzate senza autorizzazione può violare le leggi applicabili.

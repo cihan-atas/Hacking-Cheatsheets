@@ -1,12 +1,16 @@
-# 🦀 Feroxbuster – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦀 Feroxbuster – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗███████╗██████╗  ██████╗ ██╗  ██╗██████╗ ██╗   ██╗███████╗████████╗███████╗██████╗ 
   ██╔════╝██╔════╝██╔══██╗██╔═══██╗╚██╗██╔╝██╔══██╗██║   ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
@@ -16,7 +20,6 @@
   ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
                 Fast, Simple, Recursive Content Discovery
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Feroxbuster-Content_Discovery-orange?style=for-the-badge" alt="Feroxbuster">
   <img src="https://img.shields.io/badge/Rust-Blazingly_Fast-blue?style=for-the-badge" alt="Rust">
@@ -25,114 +28,101 @@
 </p>
 
 <p align="center">
-  <b>⚡ A fast, simple, recursive content discovery tool written in Rust</b>
+  <b>⚡ Ein schnelles, einfaches, rekursives Tool zur Inhaltserkennung, geschrieben in Rust</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-introduction)
-- [🎯 Einführung](#-key-features)
-- [Tool Comparison](#-tool-comparison)
-- [Installation](#-installation)
-- [Grundsyntax](#-basic-syntax--quick-start)
-- [Optionen und Parameter](#-core-command-options)
-  - [Recursion Control](#recursion-control)
-  - [⚙️ Optionen und Parameter](#concurrency--performance)
-  - [File Extensions](#file-extensions)
-  - [Filtering & Matching](#filtering--matching)
-  - [Smart Features (Auto-Tune, Link Extraction, Backups)](#smart-features)
-  - [Headers, Cookies & Auth](#headers-cookies--auth)
-  - [Proxy & Burp Suite Integration](#proxy--burp-suite-integration)
-- [Multi-Target Scanning & Pipelines](#-multi-target-scanning--pipelines)
-- [Real-World Workflows](#-real-world-workflows)
-- [Kurzreferenz](#-quick-reference-table)
-- [Tipps und bewährte Vorgehensweisen](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressourcen und Referenzen](#-resources)
+- [Einführung](#-Einführung)
+- [Hauptfunktionen](#-key-features)
+- [Werkzeugvergleich](#-tool-comparison)
+- [Installation](#-Installation)
+- [Grundlegende Syntax und Schnellstart](#-basic-syntax--quick-start)
+- [Kernbefehlsoptionen](#-core-command-options)
+  - [Rekursionskontrolle](#recursion-control)
+  - [Parallelität und Leistung](#concurrency--performance)
+  - [Dateierweiterungen](#file-extensions)
+  - [Filtern & Matching](#filtering--matching)
+  - [Intelligente Funktionen (Auto-Tune, Link-Extraktion, Backups)](#smart-features)
+  - [Header, Cookies & Auth](#headers-cookies--auth)
+  - [Proxy- und Burp-Suite-Integration](#proxy--burp-suite-integration)
+- [Multi-Target-Scanning und Pipelines](#-multi-target-scanning--pipelines)
+- [Real-World-Workflows](#-real-world-workflows)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Tipps und Best Practices](#-tips--best-practices)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
+- [Ressourcen](#-Ressourcen)
 
 ---
 
 ## 🎯 Einführung
 
-**Feroxbuster** is a high-performance, multi-threaded, recursive web content scanner written in Rust. Designed to be fast, simple, and intuitive, it combines the speed of Go/Rust-based fuzzers with native automatic recursive directory discovery.
+**Feroxbuster** ist ein leistungsstarker, rekursiver Multithread-Scanner für Webinhalte, der in Rust geschrieben wurde. Es ist schnell, einfach und intuitiv konzipiert und kombiniert die Geschwindigkeit von Go/Rust-basierten Fuzzern mit der nativen automatischen rekursiven Verzeichniserkennung.
 
-It shines during penetration tests and bug bounty engagements where deep website trees and hidden directories must be discovered rapidly without spawning complex manual scripts.
-
----
-
-## 🌟 🎯 Einführung
-
-- ⚡ **Blazingly Fast:** Powered by asynchronous Rust (`tokio` and `reqwest`), capable of thousands of requests per second.
-- 🔄 **Native Recursive Discovery:** Automatically discovers new directories and recursively scans them up to configurable depth limits.
-- 🧠 **Auto-Tune & Auto-Bail:** Automatically throttles scan speed if the target web server slows down or aborts if excessive connection errors occur.
-- 🔗 **In-Line Link Extraction:** Parses HTML and JavaScript responses to discover hidden endpoints and feeds them back into the scan queue.
-- 🌟 Wichtige Funktionen
-- 🎯 **Pipeable Input:** Seamlessly accepts target lists from `stdin` (from tools like `subfinder`, `httpx`, or `gau`).
+Es glänzt bei Penetrationstests und Bug-Bounty-Einsätzen, bei denen tiefe Website-Strukturen und versteckte Verzeichnisse schnell entdeckt werden müssen, ohne dass komplexe manuelle Skripte erstellt werden müssen.
 
 ---
 
-## ⚖️ Tool Comparison
+## 🌟 Hauptmerkmale
 
-|Feature|Feroxbuster|ffuf|Dirsearch|Gobuster|Dirb|
+- ⚡ **Blitzschnell:** Unterstützt durch asynchrones Rust (`tokio` und `reqwest`), das Tausende von Anfragen pro Sekunde verarbeiten kann.
+- 🔄 **Native Recursive Discovery:** Erkennt automatisch neue Verzeichnisse und durchsucht sie rekursiv bis zu konfigurierbaren Tiefengrenzen.
+- 🧠 **Auto-Tune & Auto-Bail:** Drosselt automatisch die Scan-Geschwindigkeit, wenn der Ziel-Webserver langsamer wird, oder bricht ab, wenn übermäßige Verbindungsfehler auftreten.
+- 🔗 **Inline-Link-Extraktion:** Analysiert HTML- und JavaScript-Antworten, um versteckte Endpunkte zu erkennen, und führt sie zurück in die Scan-Warteschlange.
+- 📦 **Automatisierte Backup-Suche:** Hängt die Varianten `.bak`, `~`, `.old` und `.orig` automatisch an erkannte Dateien an.
+- 🎯 **Pipeable Input:** Akzeptiert nahtlos Ziellisten von `stdin` (von Tools wie `subfinder`, `httpx` oder `gau`).
+
+---
+
+## ⚖️ Werkzeugvergleich
+
+| Funktion | Feroxbuster | ffuf | dirsearch | Gobuster | Dirb |
 |---------|-------------|------|-----------|----------|------|
-|**Language**|Rust|Go|python|Go|C|
-|**Speed**|⭐⭐⭐⭐⭐|⭐⭐⭐⭐⭐|⭐⭐⭐⭐|⭐⭐⭐⭐|⭐⭐|
-|**Default Recursion**|✅ Automatic|❌ Manual flag|✅ Automatic (`-r`)|❌ None|✅ Automatic|
-|**Link Extraction**|✅ Yes (`--extract-links`)|❌ No|❌ No|❌ No|❌ No|
-|**Auto Rate Tuning**|✅ Yes (`--auto-tune`)|❌ No|❌ No|❌ No|❌ No|
-|**POST Fuzzing**|❌ No|✅ Native|✅ Native (`--data`)|❌ No|❌ No|
-|**Multi-Target Stdin**|✅ Native|❌ Limited|✅ Yes (`-l`)|❌ No|❌ No|
-|**Backup File Detection**|✅ Native (`--collect-backups`)|❌ No|✅ Native (`-e *`)|❌ No|❌ No|
+| **Sprache** | Rost | Geh | Python | Geh | C |
+| **Geschwindigkeit** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| **Standardrekursion** | ✅ Automatisch | ❌ Manuelle Markierung | ✅ Automatisch (`-r`) | ❌ Keine | ✅ Automatisch |
+| **Link-Extraktion** | ✅ Ja (`--extract-links`) | ❌ Nein | ❌ Nein | ❌ Nein | ❌ Nein |
+| **Automatische Ratenanpassung** | ✅ Ja (`--auto-tune`) | ❌ Nein | ❌ Nein | ❌ Nein | ❌ Nein |
+| **POST Fuzzing** | ❌ Nein | ✅ Einheimisch | ✅ Native (`--data`) | ❌ Nein | ❌ Nein |
+| **Multi-Target-Stdin** | ✅ Einheimisch | ❌ Begrenzt | ✅ Ja (`-l`) | ❌ Nein | ❌ Nein |
+| **Erkennung von Sicherungsdateien**| ✅ Native (`--collect-backups`)| ❌ Nein | ✅ Native (`-e *`) | ❌ Nein | ❌ Nein |
 
 ---
 
 ## 📥 Installation
 
-### |**Backup File Detection**|✅ Native (`--collect-backups`)|❌ No|✅ Native (`-e *`)|❌ No|❌ No|
-
+### Kali Linux & Debian / Ubuntu
 ```bash
 # Update repository and install
 sudo apt update && sudo apt install -y feroxbuster
 ```
-
-### 📥 Installation
-
+### Verwenden von Cargo (Rust Package Manager)
 ```bash
 cargo install feroxbuster
 ```
-
 ### macOS (Homebrew)
-
 ```bash
 brew install feroxbuster
 ```
-
 ### Docker
-
 ```bash
 docker run --init -it epi052/feroxbuster -u https://target.com -w /usr/share/seclists/Discovery/Web-Content/common.txt
 ```
-
-### Precompiled Binary (GitHub Releases)
-
+### Vorkompilierte Binärdatei (GitHub-Versionen)
 ```bash
 # Download latest Linux release
 curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh | bash
 sudo mv feroxbuster /usr/local/bin/
 ```
-
 ---
 
-## 🚀 Grundsyntax
-
+## 🚀 Grundlegende Syntax und Schnellstart
 ```bash
 feroxbuster -u <TARGET_URL> -w <WORDLIST> [OPTIONS]
 ```
-
-### Praxisbeispiele
-
+### Beispiele für schnelle Scans
 ```bash
 # Scan a single target with default settings
 feroxbuster -u http://10.10.10.10
@@ -143,13 +133,11 @@ feroxbuster -u https://example.com -w /usr/share/seclists/Discovery/Web-Content/
 # Scan target including specific file extensions
 feroxbuster -u https://example.com -w /usr/share/wordlists/dirb/common.txt -x php,html,txt,json
 ```
-
 ---
 
-## ⚙️ Optionen und Parameter
+## ⚙️ Kernbefehlsoptionen
 
-### Recursion Control
-
+### Rekursionskontrolle
 ```bash
 # Specify maximum recursion depth (default is 4)
 feroxbuster -u https://example.com -w common.txt -d 2
@@ -160,9 +148,7 @@ feroxbuster -u https://example.com -w common.txt -n
 # Don't scan nested subdirectories automatically (interactive prompt)
 feroxbuster -u https://example.com -w common.txt --dont-scan /api,/static
 ```
-
-### ⚙️ Optionen und Parameter
-
+### Parallelität und Leistung
 ```bash
 # Set number of concurrent threads per directory (default: 50)
 feroxbuster -u https://example.com -t 100
@@ -176,9 +162,7 @@ feroxbuster -u https://example.com --rate-limit 150
 # Request timeout in seconds (default: 7)
 feroxbuster -u https://example.com -T 5
 ```
-
-### File Extensions
-
+### Dateierweiterungen
 ```bash
 # Append extensions to each wordlist item
 feroxbuster -u https://example.com -x php,asp,aspx,jsp,txt,bak
@@ -186,9 +170,7 @@ feroxbuster -u https://example.com -x php,asp,aspx,jsp,txt,bak
 # Automatically collect and fuzz file extensions found during crawling
 feroxbuster -u https://example.com --collect-extensions
 ```
-
-### Filtering & Matching
-
+### Filtern und Abgleichen
 ```bash
 # Match only specific status codes (e.g., 200 OK and 301 Redirects)
 feroxbuster -u https://example.com -s 200 301 302
@@ -211,9 +193,7 @@ feroxbuster -u https://example.com --filter-regex "Under Construction|Page Not F
 # Filter responses similar to a known 404/wildcard page
 feroxbuster -u https://example.com --filter-similar-to https://example.com/definitelynotfoundpage404
 ```
-
-### Smart Features
-
+### Intelligente Funktionen
 ```bash
 # Auto-tune: Automatically adjusts request concurrency based on server response latency
 feroxbuster -u https://example.com --auto-tune
@@ -227,9 +207,7 @@ feroxbuster -u https://example.com --extract-links
 # Collect backups: Automatically tests for backup copies (.bak, ~, .old) of every discovered file
 feroxbuster -u https://example.com --collect-backups
 ```
-
-### Headers, Cookies & Auth
-
+### Header, Cookies und Auth
 ```bash
 # Custom HTTP Header
 feroxbuster -u https://example.com -H "Authorization: Bearer <TOKEN>" -H "X-Forwarded-For: 127.0.0.1"
@@ -243,9 +221,7 @@ feroxbuster -u https://example.com -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64)
 # Ignore invalid / self-signed TLS certificates
 feroxbuster -u https://10.10.10.10 -k
 ```
-
-### Proxy & Burp Suite Integration
-
+### Proxy- und Burp-Suite-Integration
 ```bash
 # Route all requests through Burp Suite proxy
 feroxbuster -u https://example.com -p http://127.0.0.1:8080 -k
@@ -253,34 +229,28 @@ feroxbuster -u https://example.com -p http://127.0.0.1:8080 -k
 # Convenience shortcut flag for Burp Suite (enables -k and sets proxy to localhost:8080)
 feroxbuster -u https://example.com --burp
 ```
-
 ---
 
-## 🔁 Multi-Target Scanning & Pipelines
+## 🔁 Multi-Target-Scanning und Pipelines
 
-Feroxbuster natively reads target URLs from standard input (`stdin`), making it ideal for integration with asset discovery pipelines:
-
+Feroxbuster liest Ziel-URLs nativ aus der Standardeingabe (`stdin`) und eignet sich daher ideal für die Integration in Asset-Discovery-Pipelines:
 ```bash
 # Pipeline: Subdomain discovery -> HTTP Probing -> Feroxbuster Fuzzing
 subfinder -d example.com -silent | \
   httpx -silent -mc 200,301,302 | \
   feroxbuster --stdin -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -t 30 -L 4
 ```
-
-### 🔁 Multi-Target Scanning & Pipelines
-
+### URLs aus einer Datei scannen
 ```bash
 cat targets.txt | feroxbuster --stdin -w common.txt -v
 ```
-
 ---
 
-## 🎬 Real-World Workflows
+## 🎬 Arbeitsabläufe in der realen Welt
 
-### Workflow 1: Comprehensive Bug Bounty Web Reconnaissance
+### Workflow 1: Umfassende Bug Bounty Web Reconnaissance
 
-High concurrency, automatic rate tuning, link extraction, and backup detection:
-
+Hohe Parallelität, automatische Ratenoptimierung, Link-Extraktion und Backup-Erkennung:
 ```bash
 feroxbuster -u https://target.com \
   -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt \
@@ -290,11 +260,9 @@ feroxbuster -u https://target.com \
   --auto-tune \
   -o ferox_target_scan.txt
 ```
+### Workflow 2: Interne Unternehmens-/Active Directory-Portalerkennung
 
-### Workflow 1: Comprehensive Bug Bounty Web Reconnaissance
-
-High concurrency, automatic rate tuning, link extraction, and backup detection:
-
+Scannen einer internen Webanwendung über Burp Suite mit Authentifizierung und selbstsignierten Zertifikaten:
 ```bash
 feroxbuster -u https://internal-portal.corp.local \
   -w /usr/share/seclists/Discovery/Web-Content/common.txt \
@@ -303,9 +271,7 @@ feroxbuster -u https://internal-portal.corp.local \
   --burp \
   -d 3
 ```
-
-### Workflow 2: Internal Enterprise / Active Directory Portal Discovery
-
+### Workflow 3: Schnelle nicht-rekursive API- und Endpunkterkennung
 ```bash
 feroxbuster -u https://api.target.com/v1 \
   -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt \
@@ -315,58 +281,57 @@ feroxbuster -u https://api.target.com/v1 \
   --json \
   -o api_results.json
 ```
-
 ---
 
-## 📊 Kurzreferenz
+## 📊 Kurzreferenztabelle
 
-|Flag|Short|Beschreibung|Beispiel|
+| Flagge | Kurz | Beschreibung | Beispiel |
 |------|-------|-------------|---------|
-|`--url`|`-u`|Target URL to scan|`feroxbuster -u https://target.com`|
-|`--wordlist`|`-w`|Path to wordlist|`feroxbuster -w /path/to/list.txt`|
-|`--threads`|`-t`|Number of concurrent threads per directory|`feroxbuster -t 80`|
-|`--scan-limit`|`-L`|Limit total simultaneous directory scans|`feroxbuster -L 3`|
-|`--depth`|`-d`|Maximum recursion depth (default 4)|`feroxbuster -d 2`|
-|`--no-recursion`|`-n`|Disable recursive directory scanning|`feroxbuster -n`|
-|`--extensions`|`-x`|File extensions to append|`feroxbuster -x php,html,bak`|
-|`--status-codes`|`-s`|Status codes to include|`feroxbuster -s 200 301 302`|
-|`--filter-status`|`-C`|Status codes to exclude|`feroxbuster -C 404 500`|
-|`--filter-size`|`-S`|Response sizes to exclude|`feroxbuster -S 4096`|
-|`--filter-words`|`-W`|Word counts to exclude|`feroxbuster -W 15`|
-|`--filter-lines`|`-N`|Line counts to exclude|`feroxbuster -N 8`|
-|`--auto-tune`|None|Dynamically adjust speed based on latency|`feroxbuster --auto-tune`|
-|`--auto-bail`|None|Abort scan on excessive network errors|`feroxbuster --auto-bail`|
-|`--extract-links`|None|Parse HTML/JS for new endpoints|`feroxbuster --extract-links`|
-|`--collect-backups`|None|Check for backup variations (`.bak`, `.old`)|`feroxbuster --collect-backups`|
-|`--proxy`|`-p`|Send traffic through HTTP proxy|`feroxbuster -p http://127.0.0.1:8080`|
-|`--burp`|None|Shortcut for `-p http://127.0.0.1:8080 -k`|`feroxbuster --burp`|
-|`--stdin`|None|Read URLs from standard input|`cat urls.txt \|feroxbuster --stdin`|
-|`--output`|`-o`|Output file path|`feroxbuster -o results.txt`|
-|`--json`|None|Format output as JSON|`feroxbuster --json -o out.json`|
+| `--url` | `-u` | Zu scannende Ziel-URL | `feroxbuster -u https://target.com` |
+| `--wordlist` | `-w` | Pfad zur Wortliste | `feroxbuster -w /path/to/list.txt` |
+| `--threads` | `-t` | Anzahl gleichzeitiger Threads pro Verzeichnis | `feroxbuster -t 80` |
+| `--scan-limit` | `-L` | Begrenzen Sie die Gesamtzahl der gleichzeitigen Verzeichnisscans | `feroxbuster -L 3` |
+| `--depth` | `-d` | Maximale Rekursionstiefe (Standard 4) | `feroxbuster -d 2` |
+| `--no-recursion` | `-n` | Rekursive Verzeichnisüberprüfung deaktivieren | `feroxbuster -n` |
+| `--extensions` | `-x` | Dateierweiterungen zum Anhängen | `feroxbuster -x php,html,bak` |
+| `--status-codes` | `-s` | Einzuschließende Statuscodes | `feroxbuster -s 200 301 302` |
+| `--filter-status` | `-C` | Auszuschließende Statuscodes | `feroxbuster -C 404 500` |
+| `--filter-size` | `-S` | Auszuschließende Antwortgrößen | `feroxbuster -S 4096` |
+| `--filter-words` | `-W` | Wortanzahl zum Ausschließen | `feroxbuster -W 15` |
+| `--filter-lines` | `-N` | Anzahl der auszuschließenden Zeilen | `feroxbuster -N 8` |
+| `--auto-tune` | Keine | Geschwindigkeit basierend auf der Latenz dynamisch anpassen | `feroxbuster --auto-tune` |
+| `--auto-bail` | Keine | Scan bei übermäßigen Netzwerkfehlern abbrechen | `feroxbuster --auto-bail` |
+| `--extract-links`| Keine | HTML/JS für neue Endpunkte analysieren | `feroxbuster --extract-links` |
+| `--collect-backups` | Keine | Auf Backup-Varianten prüfen (`.bak`, `.old`) | `feroxbuster --collect-backups` |
+| `--proxy` | `-p` | Datenverkehr über HTTP-Proxy senden | `feroxbuster -p http://127.0.0.1:8080` |
+| `--burp` | Keine | Verknüpfung für `-p http://127.0.0.1:8080 -k` | `feroxbuster --burp` |
+| `--stdin` | Keine | URLs aus der Standardeingabe lesen | `cat urls.txt \| feroxbuster --stdin` |
+| `--output` | `-o` | Pfad der Ausgabedatei | `feroxbuster -o results.txt` |
+| `--json` | Keine | Ausgabe als JSON formatieren | `feroxbuster --json -o out.json` |
 
 ---
 
-## 💡 Tipps und bewährte Vorgehensweisen
+## 💡 Tipps und Best Practices
 
-1. **Use `--auto-tune` for Remote Targets:**
-   - Instead of guessing thread counts (`-t`), `--auto-tune` actively measures target response times and throttles or accelerates dynamically, avoiding accidental server denial of service.
-2. **Combine `--extract-links` and `--collect-backups`:**
-   - This combination is exceptionally lethal in bug bounty assessments: Feroxbuster extracts hidden JS routes, scans them, and immediately checks if developer backups (`.bak`, `.swp`, `~`) were left on the server.
-3. **Limit Scans on Large Wordlists with `-L`:**
-   - If using a 200,000+ word dictionary, unrestricted recursion can launch dozens of simultaneous threads. Use `-L 2` or `-L 3` to keep memory and bandwidth within safe operating boundaries.
-4. **Use State Files for Resuming Large Audits:**
-   - Feroxbuster periodically saves state files (`.state`). If an interrupted scan occurs, resume instantly with `feroxbuster --resume-from <FILE>.state`.
-
----
-
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** Feroxbuster is built strictly for authorized security assessments, CTF competitions, and penetration tests conducted with written permission. Scanning unauthorized targets can saturate network infrastructure and is strictly prohibited by law.
+1. **Verwenden Sie `--auto-tune` für Remote-Ziele:**
+   - Anstatt die Anzahl der Threads zu erraten (`-t`), misst `--auto-tune` aktiv die Antwortzeiten des Ziels und drosselt oder beschleunigt dynamisch, um einen versehentlichen Denial-of-Service des Servers zu vermeiden.
+2. **Kombinieren Sie `--extract-links` und `--collect-backups`:**
+   – Diese Kombination ist bei Bug-Bounty-Bewertungen außerordentlich tödlich: Feroxbuster extrahiert versteckte JS-Routen, scannt sie und prüft sofort, ob Entwickler-Backups (`.bak`, `.swp`, `~`) auf dem Server verblieben sind.
+3. **Beschränken Sie Scans auf große Wortlisten mit `-L`:**
+   - Wenn Sie ein Wörterbuch mit mehr als 200.000 Wörtern verwenden, kann die uneingeschränkte Rekursion Dutzende gleichzeitiger Threads starten. Verwenden Sie `-L 2` oder `-L 3`, um Speicher und Bandbreite innerhalb sicherer Betriebsgrenzen zu halten.
+4. **Verwenden Sie Statusdateien zur Wiederaufnahme großer Prüfungen:**
+   - Feroxbuster speichert regelmäßig Statusdateien (`.state`). Wenn ein Scan unterbrochen wird, können Sie ihn sofort mit `feroxbuster --resume-from <FILE>.state` fortsetzen.
 
 ---
 
-## 📚 Ressourcen und Referenzen
+## ⚠️ Rechtlicher Haftungsausschluss
+
+> **WICHTIG:** Feroxbuster wurde ausschließlich für autorisierte Sicherheitsbewertungen, CTF-Wettbewerbe und Penetrationstests entwickelt, die mit schriftlicher Genehmigung durchgeführt werden. Das Scannen nicht autorisierter Ziele kann die Netzwerkinfrastruktur überlasten und ist gesetzlich strengstens verboten.
+
+---
+
+## 📚 Ressourcen
 
 - [Feroxbuster GitHub Repository](https://github.com/epi052/feroxbuster)
-- [Official Feroxbuster Documentation](https://epi052.github.io/feroxbuster-docs/)
-- [SecLists Discovery Lists](https://github.com/danielmiessler/SecLists)
+- [Offizielle Feroxbuster-Dokumentation](https://epi052.github.io/feroxbuster-docs/)
+- [SecLists-Erkennungslisten](https://github.com/danielmiessler/SecLists)

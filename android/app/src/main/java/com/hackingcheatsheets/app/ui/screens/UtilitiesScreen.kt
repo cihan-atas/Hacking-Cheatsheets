@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.ui.components.CodeBlockView
 import com.hackingcheatsheets.app.ui.components.CommandBuilderView
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.*
 import com.hackingcheatsheets.app.viewmodel.CheatsheetViewModel
 
@@ -76,8 +77,7 @@ fun UtilitiesScreen(viewModel: CheatsheetViewModel) {
     val language by viewModel.currentLanguage.collectAsState()
     val allCheatsheets by viewModel.allCheatsheets.collectAsState()
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = if (language == AppLanguage.TR) listOf("Komut Üretici", "Ağ & Filtre", "Kodlayıcı", "Hash Araçları", "Ters Kabuk")
-               else listOf("Command Builder", "Network & Filter", "Encoder", "Hash Tools", "Reverse Shell")
+    val tabs = AppI18n.utilitiesTabs(language)
 
     Column(
         modifier = Modifier
@@ -87,12 +87,12 @@ fun UtilitiesScreen(viewModel: CheatsheetViewModel) {
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = if (language == AppLanguage.TR) "HIZLI ARAÇLAR" else "QUICK UTILITIES",
+            text = AppI18n.quickUtilitiesTitle(language),
             style = MaterialTheme.typography.headlineLarge,
             color = CyberGreen
         )
         Text(
-            text = if (language == AppLanguage.TR) "Saha testleri için çevrimdışı yardımcılar" else "Offline utilities for active assessments",
+            text = AppI18n.quickUtilitiesSubtitle(language),
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary
         )

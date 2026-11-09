@@ -1,12 +1,16 @@
-# 🐍 Scapy — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🐍 Scapy - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ███████╗ ██████╗ █████╗ ██████╗ ██╗   ██╗
   ██╔════╝██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝
@@ -16,59 +20,57 @@
   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝        ╚═╝   
        Interactive Packet Crafting, Sniffing & Forging Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Scapy-Packet_Crafting-blue?style=for-the-badge" alt="Scapy">
   <img src="https://img.shields.io/badge/Author-Philippe_Biondi-orange?style=for-the-badge" alt="secdev">
   <img src="https://img.shields.io/badge/Language-Python-green?style=for-the-badge" alt="Python">
-  <img src="https://img.shields.io/badge/Category-Network_Attacks-purple?style=for-the-badge" alt="Network Attacks">
+  <img src="https://img.shields.io/badge/Category-Network_Attacks-purple?style=for-the-badge" alt="Επιθέσεις δικτύου">
 </p>
 
 <p align="center">
-  <b>🐍 The ultimate Python-based interactive packet manipulation tool and library capable of forging, sending, sniffing, dissecting, and fuzzing arbitrary network packets</b>
+  <b>🐍 Το απόλυτο διαδραστικό εργαλείο χειρισμού πακέτων που βασίζεται σε Python και βιβλιοθήκη ικανή να σφυρηλατήσει, να στείλει, να μυρίσει, να αναλύσει και να θολώσει αυθαίρετα πακέτα δικτύου</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--the-stacking-layer-model-)
-- [Εγκατάσταση](#-installation)
+- [Overview & The Stacking Layer Model (`/`)](#-επισκόπηση--the-stacking-layer-model-)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [Starting the Interactive Shell](#-starting-the-interactive-shell)
-- [Crafting Network Packets](#-crafting-network-packets)
-  - [IP and TCP Handshakes](#ip-and-tcp-handshakes)
+- [Crafting Network Packets] (#-crafting-network-packets)
+  - [Χειραψίες IP και TCP] (#ip-and-tcp-handshakes)
   - [ICMP Ping & Traceroute](#icmp-ping--traceroute)
-  - [IP and TCP Handshakes](#dns-queries--resolution)
-- [Sending & Receiving Packets](#-sending--receiving-packets)
-  - [Layer 3: `send()`, `sr()`, `sr1()`](#layer-3-send-sr-sr1)
-  - [Layer 3: `send()`, `sr()`, `sr1()`](#layer-2-sendp-srp-srp1)
-- [Packet Sniffing & PCAP Handling](#-packet-sniffing--pcap-handling)
-  - [`srp(Ether() / ARP(...))`: Send ARP request and receive reply.](#capturing-live-packets-sniff)
-  - [Reading & Writing PCAP Files](#reading--writing-pcap-files)
-- [Offensive Network Attacks](#-offensive-network-attacks)
+  - [Ερωτήματα και επίλυση DNS](#dns-queries--resolution)
+- [Αποστολή & λήψη πακέτων](#-αποστολή--λήψη-πακέτων)
+  - [Επίπεδο 3: `send()`, `sr()`, `sr1()`](#layer-3-send-sr-sr1)
+  - [Επίπεδο 2: `sendp()`, `srp()`, `srp1()`](#layer-2-sendp-srp-srp1)
+- [Packet Sniffing & PCAP Handling] (#-packet-sniffing--pcap-handling)
+  - [Capturing Live Packets (`sniff()`)](#capturing-live-packets-sniff)
+  - [Ανάγνωση και εγγραφή αρχείων PCAP] (#reading--writing-pcap-files)
+- [Επιθετικές επιθέσεις δικτύου] (#-επιθετικές επιθέσεις δικτύου)
   - [ARP Cache Poisoning (MITM)](#arp-cache-poisoning-mitm)
-  - [⚔️ Offensive Network Attacks](#syn-port-scanning-script)
+  - [Σενάριο σάρωσης θύρας SYN] (#syn-port-scanning-script)
   - [TCP SYN / ICMP Flooding](#tcp-syn--icmp-flooding)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση και το μοντέλο στοίβαξης επιπέδου (`/`)
 
-[Legal Disclaimer](#-legal-disclaimer)
+Δημιουργήθηκε από τον **Philippe Biondi**, το **Scapy** αντικαθιστά δεκάδες εργαλεία δικτύου μίας χρήσης (ping, traceroute, arpspoof, nmap stubs).
 
-Scapy's genius lies in using Python's division operator (`/`) to stack protocol layers together:
+Η ιδιοφυΐα του Scapy έγκειται στη χρήση του τελεστή διαίρεσης της Python (`/`) για τη στοίβαξη των επιπέδων πρωτοκόλλου μεταξύ τους:
 ```python
 packet = Ether() / IP(dst="192.168.1.1") / TCP(dport=80, flags="S") / "Raw Payload"
 ```
-🎯 Εισαγωγή
+Κάθε πεδίο επιπέδου έχει λογικές προεπιλεγμένες τιμές που υπολογίζει αυτόματα το Scapy (αθροίσματα ελέγχου, μήκη, διευθύνσεις MAC, IP πηγής).
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y python3-scapy
@@ -79,35 +81,30 @@ pip install scapy
 # Arch Linux
 sudo pacman -S python-scapy
 ```
-
 ---
 
-## 🚀 Starting the Interactive Shell
+## 🚀 Ξεκινώντας το Διαδραστικό Κέλυφος
 
-Launch the interactive REPL shell (requires root privileges to forge raw sockets):
-
+Εκκινήστε το διαδραστικό κέλυφος REPL (απαιτούνται δικαιώματα root για τη δημιουργία ακατέργαστων υποδοχών):
 ```bash
 sudo scapy
 ```
-
-🚀 Starting the Interactive Shell
+Επιθεωρήστε τα διαθέσιμα πρωτόκολλα και τις λειτουργίες μέσα στο Scapy:
 ```python
 >>> ls()          # List all supported network protocols (850+)
 >>> ls(IP)        # List fields and defaults of the IP layer
 >>> lsc()         # List available Scapy command functions
 ```
-
 ---
 
-## 🛠️ Crafting Network Packets
+## 🛠️ Δημιουργία πακέτων δικτύου
 
-### IP and TCP Handshakes
+### Χειραψίες IP και TCP
 ```python
 # Create a TCP SYN packet to web port 80
 syn_pkt = IP(dst="192.168.1.50") / TCP(dport=80, flags="S")
 syn_pkt.show()
 ```
-
 ### ICMP Ping & Traceroute
 ```python
 # Send ICMP Echo Request and await single response (sr1)
@@ -118,37 +115,35 @@ if reply:
 # Automated graphical TCP traceroute
 ans, unans = traceroute(["8.8.8.8", "1.1.1.1"], dport=443, maxttl=20)
 ```
-
-### IP and TCP Handshakes
+### Ερωτήματα και επίλυση DNS
 ```python
 # Craft raw DNS A-record query to 8.8.8.8
 dns_query = IP(dst="8.8.8.8") / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname="example.com"))
 response = sr1(dns_query, verbose=False)
 print(response[DNS].summary())
 ```
+---
+
+## 📡 Αποστολή & λήψη πακέτων
+
+Το Scapy διαχωρίζει τη μετάδοση με το επίπεδο OSI:
+
+### Επίπεδο 3: `send()`, `sr()`, `sr1()`
+Λειτουργεί με κεφαλίδες Ethernet που έχουν εκχωρηθεί από τον πυρήνα (ξεκινά από το επίπεδο IP):
+- `send(pkt)`: Μεταδίδει πακέτο στο Layer 3. δεν περιμένει απάντηση.
+- `sr(pkt)`: Στέλνει πακέτα και επιστρέφει απαντημένα και αναπάντητα ζεύγη `(ans, unans)`.
+- `sr1(pkt)`: Στέλνει πακέτο και επιστρέφει μόνο το πρώτο πακέτο απόκρισης.
+
+### Επίπεδο 2: `sendp()`, `srp()`, `srp1()`
+Προσαρμοσμένο πλαίσιο Ethernet/Σύνδεσμος δεδομένων (ξεκινά από το `Ether()`):
+- `sendp(Ether() / IP(...), iface="eth0")`: Αποστολή πρωτογενούς πλαισίου Ethernet.
+- `srp(Ether() / ARP(...))`: Στείλτε αίτημα ARP και λάβετε απάντηση.
 
 ---
 
-## 📡 Sending & Receiving Packets
+## 🔍 Ανίχνευση πακέτων & χειρισμός PCAP
 
-Scapy separates transmission by OSI Layer:
-
-### Layer 3: `send()`, `sr()`, `sr1()`
-Operates with kernel-assigned Ethernet headers (starts at IP layer):
-- 📡 Sending & Receiving Packets
-- `sr(pkt)`: Sends packets and returns answered and unanswered pairs `(ans, unans)`.
-- Scapy separates transmission by OSI Layer:
-
-### Layer 3: `send()`, `sr()`, `sr1()`
-Operates with kernel-assigned Ethernet headers (starts at IP layer):
-- `send(pkt)`: Transmits packet at Layer 3; does not wait for a reply.
-- `sr(pkt)`: Sends packets and returns answered and unanswered pairs `(ans, unans)`.
-
----
-
-## 🔍 Packet Sniffing & PCAP Handling
-
-### `srp(Ether() / ARP(...))`: Send ARP request and receive reply.
+### Λήψη ζωντανών πακέτων (`sniff()`)
 ```python
 # Sniff 10 packets on interface eth0
 pkts = sniff(iface="eth0", count=10)
@@ -163,8 +158,7 @@ def packet_callback(packet):
 
 sniff(iface="eth0", prn=packet_callback, store=0)
 ```
-
-### Reading & Writing PCAP Files
+### Ανάγνωση και εγγραφή αρχείων PCAP
 ```python
 # Save captured packets to standard Wireshark PCAP
 wrpcap("capture.pcap", pkts)
@@ -173,13 +167,12 @@ wrpcap("capture.pcap", pkts)
 read_pkts = rdpcap("capture.pcap")
 read_pkts[0].show()
 ```
-
 ---
 
-## ⚔️ Offensive Network Attacks
+## ⚔️ Επιθετικές επιθέσεις δικτύου
 
 ### ARP Cache Poisoning (MITM)
-Spoof ARP tables to intercept traffic between victim and gateway:
+Παραπλανήστε πίνακες ARP για να παρεμποδίσετε την κυκλοφορία μεταξύ θύματος και πύλης:
 ```python
 from scapy.all import *
 import time
@@ -200,8 +193,7 @@ try:
 except KeyboardInterrupt:
     print("[*] Restoring network...")
 ```
-
-### ⚔️ Offensive Network Attacks
+### Σενάριο σάρωσης θύρας SYN
 ```python
 def scan_port(ip, port):
     pkt = IP(dst=ip) / TCP(dport=port, flags="S")
@@ -214,32 +206,31 @@ def scan_port(ip, port):
 
 scan_port("192.168.1.1", 80)
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Scapy Command|
+| Στόχος | Εντολή Scapy |
 |-----------|---------------|
-|**Start Interactive Shell**|`sudo scapy`|
-|**Inspect Protocol Fields**|`ls(IP)` or `ls(TCP)`|
-|**Send L3 Packet**|`send(IP(dst="1.1.1.1")/ICMP())`|
-|**Send & Receive 1st Reply**|`resp = sr1(IP(dst="1.1.1.1")/ICMP())`|
-|**Send L2 Ethernet Frame**|`sendp(Ether()/IP(...), iface="eth0")`|
-|**Sniff with BPF Filter**|`sniff(iface="eth0", filter="icmp", count=5)`|
-|**Save to PCAP**|`wrpcap("out.pcap", pkts)`|
-|**Read from PCAP**|`pkts = rdpcap("in.pcap")`|
+| **Έναρξη Interactive Shell** | `sudo scapy` |
+| **Επιθεώρηση πεδίων πρωτοκόλλου** | `ls(IP)` ή `ls(TCP)` |
+| **Αποστολή πακέτου L3** | `send(IP(dst="1.1.1.1")/ICMP())` |
+| **Αποστολή & λήψη 1ης απάντησης**| `resp = sr1(IP(dst="1.1.1.1")/ICMP())` |
+| **Αποστολή L2 Ethernet Frame** | `sendp(Ether()/IP(...), iface="eth0")` |
+| **Σνιφ με φίλτρο BPF** | `sniff(iface="eth0", filter="icmp", count=5)` |
+| **Αποθήκευση στο PCAP** | `wrpcap("out.pcap", pkts)` |
+| **Διαβάστε από το PCAP** | `pkts = rdpcap("in.pcap")` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Αμυντικές Θεωρήσεις & Ανίχνευση
 
-|**Read from PCAP**|`pkts = rdpcap("in.pcap")`|
-2. **IDS/Suricata Rules:** Rapid half-open SYN sweeps and malformed TCP flag combinations (Xmas, NULL) generated by Scapy trigger standard IDS alerts.
+1. **Δυναμική επιθεώρηση ARP (DAI):** Διαμορφώστε τους εταιρικούς διακόπτες με DAI και DHCP Snooping για να απορρίπτετε πλαστές άσκοπες απαντήσεις ARP.
+2. **Κανόνες IDS/Suricata:** Γρήγορες μισάνοιχτες σαρώσεις SYN και εσφαλμένοι συνδυασμοί σημαιών TCP (Xmas, NULL) που δημιουργούνται από τυπικές ειδοποιήσεις IDS ενεργοποίησης Scapy.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Scapy can generate malformed packets that cause denial-of-service conditions or intercept private data. It must strictly be utilized in authorized security assessments and isolated testing networks.
+> [!ΠΡΟΣΟΧΗ]
+> Το Scapy μπορεί να δημιουργήσει πακέτα με κακή μορφή που προκαλούν συνθήκες άρνησης υπηρεσίας ή υποκλοπούν ιδιωτικά δεδομένα. Πρέπει να χρησιμοποιείται αυστηρά σε εξουσιοδοτημένες αξιολογήσεις ασφαλείας και μεμονωμένα δίκτυα δοκιμών.

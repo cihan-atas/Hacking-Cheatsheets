@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.ui.components.CheatsheetCardItem
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.BackgroundDark
 import com.hackingcheatsheets.app.ui.theme.CyberGreen
 import com.hackingcheatsheets.app.ui.theme.TextMuted
@@ -45,15 +46,12 @@ fun FavoritesScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = if (language == AppLanguage.TR) "FAVORİLER" else "BOOKMARKS",
+            text = AppI18n.favoritesTitle(language),
             style = MaterialTheme.typography.headlineLarge,
             color = CyberGreen
         )
         Text(
-            text = if (language == AppLanguage.TR) 
-                "Hızlı saha erişimi için kaydettiğin araçlar (${favorites.size})" 
-            else 
-                "Your saved cheatsheets for quick field access (${favorites.size})",
+            text = AppI18n.favoritesSubtitle(language, favorites.size),
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary
         )
@@ -68,10 +66,7 @@ fun FavoritesScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = if (language == AppLanguage.TR) 
-                        "Henüz yer imi eklenmedi.\nKılavuz sayfasındaki yer imi simgesine basarak ekleyebilirsin." 
-                    else 
-                        "No bookmarks yet.\nTap the bookmark icon on any guide to save it.",
+                    text = AppI18n.noFavorites(language),
                     color = TextMuted,
                     fontSize = 13.sp,
                     lineHeight = 20.sp

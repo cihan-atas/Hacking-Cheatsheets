@@ -1,12 +1,16 @@
-# 🔍 dirsearch 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔍 dirsearch - 完整备忘单
 
+[🇹🇷 Türkçe Sürüm]（翻译/README.tr.md）
 ```
   ██████╗ ██╗██████╗ ███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗
   ██╔══██╗██║██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
@@ -16,82 +20,80 @@
   ╚═════╝ ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
        Advanced Web Path Scanner & Directory Brute-Forcer
 ```
-
-<p align="center">
+<p对齐=“中心”>
   <img src="https://img.shields.io/badge/dirsearch-Web_Bruteforcer-blue?style=for-the-badge" alt="dirsearch">
-  <img src="https://img.shields.io/badge/Language-Python_Async-green?style=for-the-badge" alt="Python Async">
-  <img src="https://img.shields.io/badge/Recon-Web_Discovery-orange?style=for-the-badge" alt="Web Discovery">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Language-Python_Async-green?style=for-the-badge" alt="Python 异步">
+  <img src="https://img.shields.io/badge/Recon-Web_Discovery-orange?style=for-the-badge" alt="网络发现">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="许可证 GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Fast, feature-packed command-line web path scanner with intelligent extension handling, recursion, and crawling</b>
+<p对齐=“中心”>
+  <b>🌐 快速、功能丰富的命令行 Web 路径扫描器，具有智能扩展处理、递归和爬网</b>
 </p>
 
 ---
 
 ## 📋 目录
 
-- [简介](#-introduction)
-- [Tool Comparison](#-tool-comparison)
-- [安装](#-installation)
-- [基本语法](#-basic-usage--target-selection)
-- [Extension & Suffix Management](#-extension--suffix-management)
-- [Wordlists & Dictionaries](#-wordlists--dictionaries)
-- [Recursion & Web Crawling](#-recursion--web-crawling)
-- [Threading, Rate Limiting & Delays](#-threading-rate-limiting--delays)
-- [Filtering & Matching Responses](#-filtering--matching-responses)
-- [HTTP Request Customization](#-http-request-customization)
-  - [Custom Headers & User-Agents](#custom-headers--user-agents)
-  - [🛠️ HTTP Request Customization](#cookies--authentication)
-  - [POST Data & Request Methods](#post-data--request-methods)
-- [Proxies, Tor & Evasion](#-proxies-tor--evasion)
-- [Output Formats & Reporting](#-output-formats--reporting)
-- [Real-World Pentest & Bug Bounty Recipes](#-real-world-pentest--bug-bounty-recipes)
-- [快速参考](#-quick-reference-table)
-- [技巧与最佳实践](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [简介](#-简介)
+- [工具比较](#-tool-comparison)
+- [安装](#-安装)
+- [基本用法和目标选择](#-basic-usage--target-selection)
+- [扩展名和后缀管理](#-extension--suffix-management)
+- [单词表和词典](#-单词表--词典)
+- [递归和网络爬行](#-recursion--web-crawling)
+- [线程、速率限制和延迟](#-threading-rate-limiting--delays)
+- [过滤和匹配响应](#-filtering--matching-responses)
+- [HTTP 请求定制](#-http-request-customization)
+  - [自定义标头和用户代理](#custom-headers--user-agents)
+  - [Cookie 与身份验证](#cookies--身份验证)
+  - [POST 数据和请求方法](#post-data--request-methods)
+- [代理、Tor 和规避](#-proxies-tor--evasion)
+- [输出格式和报告](#-output-formats--reporting)
+- [真实世界渗透测试和错误赏金食谱](#-real-world-pentest--bug-bounty-recipes)
+- [快速参考表](#-quick-reference-table)
+- [提示和最佳实践](#-tips--best-practices)
+- [法律免责声明](#-legal-disclaimer)
 
 ---
 
 ## 🎯 简介
 
-**dirsearch** (created by Mauro Soria) is one of the most popular and versatile command-line tools for discovering hidden files and directories on web servers. Written in Python, it provides unmatched flexibility with its rich command-line arguments, colorized terminal output, automatic recursive crawling, intelligent wildcard extension expansion, and built-in evasion controls.
+**dirsearch**（由 Mauro Soria 创建）是最流行、最通用的命令行工具之一，用于发现 Web 服务器上的隐藏文件和目录。它用 Python 编写，具有丰富的命令行参数、彩色终端输出、自动递归爬行、智能通配符扩展扩展和内置规避控件，提供了无与伦比的灵活性。
 
-Whether you are performing web penetration testing, bug bounty hunting, or internal CTF assessments, `dirsearch` is tailored to uncover hidden administrative interfaces, backup databases, forgotten API endpoints, and sensitive credentials.
+无论您是执行 Web 渗透测试、错误赏金狩猎还是内部 CTF 评估，`dirsearch` 都可以量身定制，以发现隐藏的管理界面、备份数据库、被遗忘的 API 端点和敏感凭据。
 
-### 🎯 简介
+### 主要特点
 
-|Feature|描述|
+|特色 |描述 |
 |---------|-------------|
-|**Multi-Threaded**|High-performance asynchronous and threaded request engine|
-|**Extension Wildcards**|Expand `-e *` to test all known web file extensions automatically|
-|**Integrated Crawling**|Follows HTML/JS links to seed recursive directory queues|
-|**Rich Filtering**|Filter responses by status code, byte size, word count, line count, or regex|
-|**Raw Request Replay**|Load complete Burp Suite HTTP requests via `--raw`|
-|**Multiple Formats**|Generates reports in Plaintext, JSON, CSV, Markdown, and HTML|
+| **多线程** |高性能异步和线程请求引擎|
+| **扩展通配符** |扩展 `-e *` 自动测试所有已知的 Web 文件扩展名 |
+| **综合爬取** |遵循 HTML/JS 链接来种子递归目录队列 |
+| **丰富的过滤** |按状态代码、字节大小、字数、行数或正则表达式过滤响应 |
+| **原始请求重播** |通过 `--raw` 加载完整的 Burp Suite HTTP 请求 |
+| **多种格式** |生成纯文本、JSON、CSV、Markdown 和 HTML 格式的报告 |
 
 ---
 
-## ⚖️ Tool Comparison
+## ⚖️ 工具比较
 
-|Feature|dirsearch|ffuf|Feroxbuster|Gobuster|DIRB|
-|---------|-----------|------|-------------|----------|------|
-|**Language**|脚本示例|Go|Rust|Go|C|
-|**Speed**|⭐⭐⭐⭐ (Fast)|⭐⭐⭐⭐⭐ (Extremely fast)|⭐⭐⭐⭐⭐ (Blazingly fast)|⭐⭐⭐⭐ (Fast)|⭐⭐ (Low thread)|
-|**Default Recursion**|✅ Automatic (`-r`)|Optional (`-recursion`)|✅ Automatic (`-d`)|Optional (`-r`)|✅ Automatic|
-|**Extension Wildcard (`*`)**|✅ Native (`-e *`)|❌ No|❌ No|❌ No|❌ No|
-|**Built-in Web Crawler**|✅ Yes (`--crawl`)|❌ No|✅ Yes (`--extract-links`)|❌ No|❌ No|
-|**POST / Data Fuzzing**|✅ Yes (`--data`)|✅ Full HTTP|❌ Limited|❌ No|❌ No|
-|**Burp Raw Request Replay**|✅ Yes (`--raw`)|✅ Yes (`-request`)|❌ No|❌ No|❌ No|
-|**Built-in Wordlist**|✅ Curated (`db/dicc.txt`)|❌ None|❌ None|❌ None|✅ Small list|
+|特色 |搜索 |噗噗|铁火克星 |戈巴斯特 |迪尔布 |
+|--------|------------|------|-------------|----------|------|
+| **语言** |蟒蛇 |去 |铁锈|去 | C |
+| **速度** | ⭐⭐⭐⭐（快）| ⭐⭐⭐⭐⭐（极快）| ⭐⭐⭐⭐⭐（速度极快）| ⭐⭐⭐⭐（快）| ⭐⭐（低线）|
+| **默认递归** | ✅ 自动 (`-r`) |可选（`-recursion`）| ✅ 自动 (`-d`) |可选（`-r`）| ✅ 自动 |
+| **扩展通配符 (`*`)**| ✅ 原生 (`-e *`) | ❌ 否 | ❌ 否 | ❌ 否 | ❌ 否 |
+| **内置网络爬虫** | ✅ 是 (`--crawl`) | ❌ 否 | ✅ 是 (`--extract-links`) | ❌ 否 | ❌ 否 |
+| **POST/数据模糊测试** | ✅ 是 (`--data`) | ✅ 完整的 HTTP | ❌ 有限| ❌ 否 | ❌ 否 |
+| **Burp 原始请求重播**| ✅ 是 (`--raw`) | ✅ 是 (`-request`) | ❌ 否 | ❌ 否 | ❌ 否 |
+| **内置单词表** | ✅ 策划（`db/dicc.txt`）| ❌ 无 | ❌ 无 | ❌ 无 | ✅ 小清单 |
 
 ---
 
 ## 📥 安装
 
-### |**Built-in Wordlist**|✅ Curated (`db/dicc.txt`)|❌ None|❌ None|❌ None|✅ Small list|
-
+### 使用 pipx（推荐用于 Kali 和现代 Linux）
 ```bash
 # Install via pipx (isolated Python environment)
 pipx install dirsearch
@@ -99,16 +101,12 @@ pipx install dirsearch
 # Verify installation
 dirsearch --version
 ```
-
-### 📥 安装
-
+### 使用点
 ```bash
 # Install via standard pip
 pip3 install dirsearch
 ```
-
-### Using Git Clone (Direct from Source)
-
+### 使用 Git 克隆（直接来自源）
 ```bash
 # Clone the official repository
 git clone https://github.com/maurosoria/dirsearch.git --depth 1
@@ -118,9 +116,7 @@ cd dirsearch
 pip3 install -r requirements.txt
 python3 dirsearch.py --version
 ```
-
-### Kali Linux Package & Docker
-
+### Kali Linux 包和 Docker
 ```bash
 # Kali / Debian repository
 sudo apt update && sudo apt install -y dirsearch
@@ -128,13 +124,11 @@ sudo apt update && sudo apt install -y dirsearch
 # Docker container
 docker run -it --rm maurosoria/dirsearch -u https://example.com -e php,html
 ```
-
 ---
 
-## 🚀 基本语法
+## 🚀 基本用法和目标选择
 
-### Single Target
-
+### 单一目标
 ```bash
 # Basic scan against a single URL specifying extensions
 dirsearch -u https://target.com -e php,html,js,txt
@@ -142,9 +136,7 @@ dirsearch -u https://target.com -e php,html,js,txt
 # Scan with trailing slash forced
 dirsearch -u https://target.com -e php -f
 ```
-
-### 技巧与最佳实践
-
+### 多个目标
 ```bash
 # Scan a list of targets from file
 dirsearch -l targets.txt -e php,aspx,txt
@@ -152,9 +144,7 @@ dirsearch -l targets.txt -e php,aspx,txt
 # Scan stdin input from subfinder / httpx
 cat live_hosts.txt | dirsearch --stdin -e php
 ```
-
-### Port Scanning & CIDR Targeting
-
+### 端口扫描和 CIDR 定位
 ```bash
 # Scan specific ports on a host
 dirsearch -u https://target.com --ports 80,443,8080,8443 -e php
@@ -162,13 +152,11 @@ dirsearch -u https://target.com --ports 80,443,8080,8443 -e php
 # Scan an entire subnet range
 dirsearch --cidr 192.168.1.0/24 -e html
 ```
-
 ---
 
-## 🧩 Extension & Suffix Management
+## 🧩 扩展名和后缀管理
 
-`dirsearch` has the most powerful extension management system among all directory scanners:
-
+`dirsearch`拥有所有目录扫描仪中最强大的扩展管理系统：
 ```bash
 # Specify multiple extensions
 dirsearch -u https://target.com -e php,html,json,txt,zip
@@ -182,13 +170,11 @@ dirsearch -u https://target.com -e php --prefixes test_,dev_,staging_,old_
 # Add suffixes to wordlist entries (e.g. admin_backup, admin_old)
 dirsearch -u https://target.com -e php --suffixes _bak,~,_2026,_old
 ```
-
 ---
 
-## 📚 Wordlists & Dictionaries
+## 📚 单词表和词典
 
-`dirsearch` bundles a comprehensive, battle-tested wordlist at `db/dicc.txt`:
-
+`dirsearch` 在 `db/dicc.txt` 上捆绑了一个全面的、经过实战检验的单词列表：
 ```bash
 # Run using the default bundled dictionary
 dirsearch -u https://target.com -e php
@@ -203,13 +189,11 @@ dirsearch -u https://target.com -e php -w list1.txt,list2.txt
 dirsearch -u https://target.com -e php --lowercase
 dirsearch -u https://target.com -e php --uppercase
 ```
-
 ---
 
-## 🔄 Recursion & Web Crawling
+## 🔄 递归和网络爬行
 
-### 基本目录穷举
-
+### 递归扫描
 ```bash
 # Recursively scan newly found directories
 dirsearch -u https://target.com -e php -r
@@ -220,20 +204,16 @@ dirsearch -u https://target.com -e php -r --recursion-depth 2
 # Recursively scan only if HTTP status is 200, 301, or 302
 dirsearch -u https://target.com -e php -r --recursion-status 200,301,302
 ```
-
-### 🔄 Recursion & Web Crawling
-
+### 集成网络爬虫
 ```bash
 # Crawl the target website for internal URLs and feed them into the scan queue
 dirsearch -u https://target.com -e php --crawl
 ```
-
 ---
 
-## ⚡ Threading, Rate Limiting & Delays
+## ⚡ 线程、速率限制和延迟
 
-Control scan aggressiveness to prevent triggering rate-limiting or Web Application Firewalls (WAF):
-
+控制扫描攻击性以防止触发速率限制或 Web 应用程序防火墙 (WAF)：
 ```bash
 # Set number of concurrent threads (default: 25)
 dirsearch -u https://target.com -e php -t 50
@@ -250,13 +230,11 @@ dirsearch -u https://target.com -e php --timeout 8 --retries 3
 # Exit scan immediately on excessive connection errors
 dirsearch -u https://target.com -e php --exit-on-error
 ```
-
 ---
 
-## 🎯 Filtering & Matching Responses
+## 🎯 过滤和匹配响应
 
-### Status Code Inclusion & Exclusion
-
+### 状态代码包含和排除
 ```bash
 # Include only specific status codes (e.g., ignore everything except 200, 301, 403)
 dirsearch -u https://target.com -e php -i 200,301,302,403
@@ -264,9 +242,7 @@ dirsearch -u https://target.com -e php -i 200,301,302,403
 # Exclude specific status codes (e.g., exclude 404 and 500)
 dirsearch -u https://target.com -e php -x 404,400,500,502,503
 ```
-
-### 🎯 Filtering & Matching Responses
-
+### 按大小、字数和内容过滤
 ```bash
 # Exclude responses by specific byte size (e.g. ignore custom 404 pages)
 dirsearch -u https://target.com -e php --exclude-sizes 0B,1542B,3421B
@@ -277,13 +253,11 @@ dirsearch -u https://target.com -e php --exclude-texts "Not Found","Access Denie
 # Exclude responses matching a regular expression
 dirsearch -u https://target.com -e php --exclude-regex "^Error:.*"
 ```
-
 ---
 
-## 🛠️ HTTP Request Customization
+## 🛠️ HTTP 请求自定义
 
-### Custom Headers & User-Agents
-
+### 自定义标头和用户代理
 ```bash
 # Set a custom header (e.g., authorization token or internal bypass header)
 dirsearch -u https://target.com -e php -H "X-Forwarded-For: 127.0.0.1" -H "X-Requested-With: XMLHttpRequest"
@@ -297,9 +271,7 @@ dirsearch -u https://target.com -e php --random-agent
 # Set a custom User-Agent
 dirsearch -u https://target.com -e php --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 ```
-
-### 🛠️ HTTP Request Customization
-
+### Cookie 和身份验证
 ```bash
 # Provide session cookies for authenticated scanning
 dirsearch -u https://target.com -e php -b "PHPSESSID=abc123xyz; admin_logged=true"
@@ -310,9 +282,7 @@ dirsearch -u https://target.com -e php --auth admin:SecretPass123 --auth-type ba
 # NTLM Authentication for corporate Windows portals
 dirsearch -u https://target.com -e php --auth CORP\\alice:Welcome2026 --auth-type ntlm
 ```
-
-### POST Data & Request Methods
-
+### POST 数据和请求方法
 ```bash
 # Perform fuzzing using HTTP POST requests
 dirsearch -u https://target.com/api -m POST -d "action=test&token=xyz" -e json
@@ -320,11 +290,9 @@ dirsearch -u https://target.com/api -m POST -d "action=test&token=xyz" -e json
 # Replay an entire raw HTTP request saved from Burp Suite
 dirsearch -u https://target.com --raw request.txt -e php
 ```
-
 ---
 
-## 🛡️ Proxies, Tor & Evasion
-
+## 🛡️ 代理、Tor 和规避
 ```bash
 # Route all traffic through an HTTP or SOCKS5 proxy (e.g., Burp Suite)
 dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080
@@ -335,11 +303,9 @@ dirsearch -u https://target.com -e php --tor
 # Skip SSL/TLS certificate verification
 dirsearch -u https://target.com -e php --no-check-certificate
 ```
-
 ---
 
-## 📄 Output Formats & Reporting
-
+## 📄 输出格式和报告
 ```bash
 # Save output as a clean text file
 dirsearch -u https://target.com -e php -o results.txt
@@ -352,13 +318,11 @@ dirsearch -u https://target.com -e php -o report.html --format html
 dirsearch -u https://target.com -e php -o results.csv --format csv
 dirsearch -u https://target.com -e php -o report.md --format markdown
 ```
-
 ---
 
-## 🎯 Real-World Pentest & Bug Bounty Recipes
+## 🎯 真实世界的渗透测试和错误赏金食谱
 
-### 1. Rapid Full-Scope Web Reconnaissance
-
+### 1. 快速全方位网络侦察
 ```bash
 # Scan with common web extensions, follow redirects, random UA, 40 threads
 dirsearch -u https://target.com \
@@ -368,9 +332,7 @@ dirsearch -u https://target.com \
   -i 200,301,302,403 \
   -o target_recon.txt
 ```
-
-### 🎯 Real-World Pentest & Bug Bounty Recipes
-
+### 2. 寻找被遗忘的备份和源代码泄漏
 ```bash
 # Test for database dumps, git repos, env files, and zip archives
 dirsearch -u https://target.com \
@@ -379,9 +341,7 @@ dirsearch -u https://target.com \
   -i 200 \
   --exclude-sizes 0B
 ```
-
-### 3. Deep Recursive Directory Discovery
-
+### 3.深度递归目录发现
 ```bash
 # 2-level recursion, crawling pages for new paths, ignoring error status codes
 dirsearch -u https://target.com \
@@ -391,9 +351,7 @@ dirsearch -u https://target.com \
   -x 404,500,502 \
   -o deep_scan.json --format json
 ```
-
-### 4. Authenticated Internal Portal Assessment
-
+### 4. 经过身份验证的内部门户评估
 ```bash
 # Scan through Burp Suite with internal session cookies and WAF bypass headers
 dirsearch -u https://intranet.corp.local \
@@ -402,37 +360,36 @@ dirsearch -u https://intranet.corp.local \
   -H "X-Forwarded-For: 127.0.0.1" \
   --proxy http://127.0.0.1:8080
 ```
-
 ---
 
-## ⚡ 快速参考
+## ⚡ 快速参考表
 
-|Task|命令|
+|任务|命令 |
 |------|---------|
-|**Basic scan with extensions**|`dirsearch -u https://target.com -e php,html,txt`|
-|**All extensions wildcard**|`dirsearch -u https://target.com -e *`|
-|**Custom wordlist**|`dirsearch -u https://target.com -e php -w /path/to/wordlist.txt`|
-|**Scan multiple targets**|`dirsearch -l targets.txt -e php,aspx`|
-|**Recursive discovery**|`dirsearch -u https://target.com -e php -r --recursion-depth 2`|
-|**Crawl target links**|`dirsearch -u https://target.com -e php --crawl`|
-|**Include status codes**|`dirsearch -u https://target.com -e php -i 200,301,302,403`|
-|**Exclude status codes**|`dirsearch -u https://target.com -e php -x 404,500,502`|
-|**Exclude false positive sizes**|`dirsearch -u https://target.com -e php --exclude-sizes 0B,1240B`|
-|**Authenticate with cookies**|`dirsearch -u https://target.com -e php -b "session=abc123"`|
-|**Route through Burp Suite**|`dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080`|
-|**Save report to JSON**|`dirsearch -u https://target.com -e php -o report.json --format json`|
+| **带有扩展的基本扫描** | `dirsearch -u https://target.com -e php,html,txt` |
+| **所有扩展名通配符** | `dirsearch -u https://target.com -e *` |
+| **自定义单词表** | `dirsearch -u https://target.com -e php -w /path/to/wordlist.txt` |
+| **扫描多个目标** | `dirsearch -l targets.txt -e php,aspx` |
+| **递归发现** | `dirsearch -u https://target.com -e php -r --recursion-depth 2` |
+| **抓取目标链接** | `dirsearch -u https://target.com -e php --crawl` |
+| **包括状态代码** | `dirsearch -u https://target.com -e php -i 200,301,302,403` |
+| **排除状态代码** | `dirsearch -u https://target.com -e php -x 404,500,502` |
+| **排除误报尺寸**| `dirsearch -u https://target.com -e php --exclude-sizes 0B,1240B` |
+| **使用 cookie 进行身份验证** | `dirsearch -u https://target.com -e php -b "session=abc123"` |
+| **通过 Burp Suite 的路线** | `dirsearch -u https://target.com -e php --proxy http://127.0.0.1:8080`|
+| **将报告保存为 JSON** | `dirsearch -u https://target.com -e php -o report.json --format json`|
 
 ---
 
-## 💡 技巧与最佳实践
+## 💡 提示和最佳实践
 
-1. **Use `-e *` Sparingly on Large Wordlists:** Wildcard extension expansion multiplies each word by 20+ extensions. Use `-e *` only with smaller lists like `common.txt` or `dicc.txt`.
-2. **Filter Out False-Positive Sizes:** Modern web frameworks return custom 404 pages with HTTP 200. Inspect the size of the default response and add `--exclude-sizes <size>` to eliminate noise.
-3. **Always Check 403 Forbidden Paths:** In modern cloud and enterprise environments, HTTP 403 responses indicate that the directory or endpoint exists. Document all 403s for header bypass and path traversal testing.
-4. **Leverage Prefixes & Suffixes for Backups:** Developers frequently save backup copies of sensitive files (e.g. `config.php.bak`, `old_database.sql`). Use `--prefixes` and `--suffixes` to automatically discover them.
+1. **在大型单词列表上谨慎使用 `-e *`：** 通配符扩展扩展将每个单词乘以 20 多个扩展。仅将 `-e *` 用于较小的列表，例如 `common.txt` 或 `dicc.txt`。
+2. **过滤掉误报大小：** 现代 Web 框架使用 HTTP 200 返回自定义 404 页面。检查默认响应的大小并添加 `--exclude-sizes <size>` 以消除噪音。
+3. **始终检查 403 禁止路径：** 在现代云和企业环境中，HTTP 403 响应表明目录或端点存在。记录所有 403 以进行标头旁路和路径遍历测试。
+4. **利用前缀和后缀进行备份：** 开发人员经常保存敏感文件的备份副本（例如 `config.php.bak`、`old_database.sql`）。使用 `--prefixes` 和 `--suffixes` 自动发现它们。
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ 法律免责声明
 
-> **IMPORTANT:** Unauthorized port scanning, directory brute-forcing, and web enumeration against servers without explicit, written permission is illegal. Use `dirsearch` strictly in legal bug bounty engagements, authorized penetration tests, and CTF lab environments.
+> **重要：** 在没有明确书面许可的情况下对服务器进行未经授权的端口扫描、目录暴力破解和 Web 枚举是非法的。严格在合法的漏洞赏金活动、授权渗透测试和 CTF 实验室环境中使用 `dirsearch`。

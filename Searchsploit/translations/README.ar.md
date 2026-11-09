@@ -1,40 +1,44 @@
-# 🔍 Searchsploit — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Searchsploit](https://www.exploit-db.com/searchsploit) is the official command-line utility for [Exploit-Database](https://www.exploit-db.com/). It allows security professionals, penetration testers, and vulnerability researchers to conduct offline searches across tens of thousands of published exploits, shellcodes, and whitepapers without sending network traffic to third-party search engines.
-
----
-
-## 📋 جدول المحتويات
-
-- [مقدمة](#overview--architecture)
-- [التثبيت](#installation--local-database-updates)
-- [Basic & Advanced Exploit Searching](#basic--advanced-exploit-searching)
-- [5. Exclude Unwanted Results (`--exclude`)](#examining--copying-exploits--m---p---x)
-- [3. Read Exploit Code in Terminal Pager (`-x`)](#filtering-by-platform--type)
-- [Nmap XML / Grepable Scanning Integration](#nmap-xml--grepable-scanning-integration)
-- [JSON Output & Script Automation](#json-output--script-automation)
-- [Best Practices in Penetration Testing](#best-practices-in-penetration-testing)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## مقدمة
 
-[Best Practices in Penetration Testing](#best-practices-in-penetration-testing)
-- **Zero Network Fingerprint**: Searches run against local CSV and directory structures.
-- **Offline Reliability**: Fully functional in air-gapped target environments and engagement networks.
-- **Integrated Mirroring**: Copies exploit files directly to the current working directory for immediate review and modification.
+# ورقة الغش Searchsploit
+
+[Searchsploit](https://www.exploit-db.com/searchsploit) هي الأداة المساعدة الرسمية لسطر الأوامر لـ [Exploit-Database](https://www.exploit-db.com/). فهو يسمح لمحترفي الأمن، واختبار الاختراق، والباحثين عن الثغرات الأمنية بإجراء عمليات بحث دون الاتصال بالإنترنت عبر عشرات الآلاف من عمليات الاستغلال المنشورة، وأكواد القشرة، والمستندات البيضاء دون إرسال حركة مرور الشبكة إلى محركات بحث تابعة لجهات خارجية.
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
-### Integrated Mirroring**: Copies exploit files directly to the current working directory for immediate review and modification.
+- [نظرة عامة والهندسة المعمارية](#overview--architecture)
+- [التثبيت وتحديثات قاعدة البيانات المحلية](#installation--local-database-updates)
+- [البحث الأساسي والمتقدم عن برمجيات استغلال الثغرات](#basic--advanced-exploit-searching)
+- [فحص ونسخ برمجيات إكسبلويت (`-m` / `-p` / `-x`)](#examing--copying-exploits--m---p---x)
+- [التصفية حسب النظام الأساسي والنوع](#filtering-by-platform--type)
+- [Nmap XML / تكامل المسح Grepable](#nmap-xml--grepable-scanning-integration)
+- [إخراج JSON وأتمتة البرنامج النصي](#json-output--script-automation)
+- [أفضل الممارسات في اختبار الاختراق](#أفضل-الممارسات-في-اختبار-الاختراق)
+
+---
+
+## نظرة عامة والهندسة المعمارية
+
+يستعلم Searchsploit عن نسخة git محلية من Exploit-DB المخزنة في `/usr/share/exploitdb/`.
+- ** بصمة الشبكة الصفرية: ** يتم إجراء عمليات البحث على هياكل الدليل وملف CSV المحلي.
+- **الموثوقية في وضع عدم الاتصال:** تعمل بكامل طاقتها في البيئات المستهدفة وشبكات المشاركة ذات الفجوات الهوائية.
+- **النسخ المتطابق المتكامل:** نسخ الملفات المستغلة مباشرة إلى دليل العمل الحالي للمراجعة والتعديل الفوري.
+
+---
+
+## التثبيت وتحديثات قاعدة البيانات المحلية
+
+### ديبيان / أوبونتو / كالي لينكس / نظام تشغيل باروت
 ```bash
 # Kali and Parrot include searchsploit by default
 sudo apt-get update && sudo apt-get install -y exploitdb
@@ -42,8 +46,7 @@ sudo apt-get update && sudo apt-get install -y exploitdb
 # Update the local exploit database archive
 searchsploit -u
 ```
-
-### التثبيت
+### تثبيت مستودع Git (أي توزيعة Linux)
 ```bash
 git clone https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb
 sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
@@ -51,53 +54,47 @@ sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
 # Check version and status
 searchsploit -v
 ```
-
 ---
 
-## Basic & Advanced Exploit Searching
+## البحث الأساسي والمتقدم عن الثغرات
 
-### 1. Simple Keyword Search
-Search for specific services, daemons, or software:
+### 1. بحث بسيط عن الكلمات الرئيسية
+ابحث عن خدمات أو شياطين أو برامج محددة:
 ```bash
 searchsploit apache 2.4.49
 searchsploit openssh 7.2
 searchsploit wordpress core 5.8
 ```
-
-### Basic & Advanced Exploit Searching
-Restrict search queries strictly to exploit titles to eliminate noisy description matches:
+### 2. المطابقة الدقيقة للعناوين (`-t`)
+قم بتقييد استعلامات البحث بشكل صارم لاستغلال العناوين لإزالة مطابقات الوصف المزعجة:
 ```bash
 searchsploit -t "Privilege Escalation" linux kernel
 searchsploit -t "Remote Code Execution" smb
 ```
-
-### 3. Strict Case & Term Matching (`-e`)
-Find exact version and pattern matches:
+### 3. مطابقة صارمة للحالة والمصطلحات (`-e`)
+ابحث عن النسخة الدقيقة وتطابقات النمط:
 ```bash
 searchsploit -e "Apache Struts"
 ```
-
-### 4. Search by CVE Identifier
-Query exploits mapped to specific Common Vulnerabilities and Exposures numbers:
+### 4. البحث عن طريق معرف CVE
+تم تعيين عمليات استغلال الاستعلام لنقاط ضعف وأرقام تعرض محددة:
 ```bash
 searchsploit --cve 2021-44228
 searchsploit --cve 2017-0144
 ```
-
-### 5. Exclude Unwanted Results (`--exclude`)
-Filter out denial-of-service (DoS) or auxiliary scripts when seeking remote code execution (RCE):
+### 5. استبعاد النتائج غير المرغوب فيها (`--exclude`)
+قم بتصفية رفض الخدمة (DoS) أو البرامج النصية المساعدة عند طلب تنفيذ التعليمات البرمجية عن بعد (RCE):
 ```bash
 searchsploit linux kernel 5.4 --exclude="Denial of Service"
 ```
-
 ---
 
-## 5. Exclude Unwanted Results (`--exclude`)
+## فحص ونسخ برمجيات إكسبلويت (`-m` / `-p` / `-x`)
 
-Never edit or execute exploits directly in the `/usr/share/exploitdb/` directory. Use Searchsploit's copy and inspect functions.
+لا تقم أبدًا بتحرير أو تنفيذ عمليات استغلال مباشرة في دليل `/usr/share/exploitdb/`. استخدم نسخة Searchsploit وفحص الوظائف.
 
-### 1. Copy (Mirror) Exploit to Current Directory (`-m`)
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+### 1. انسخ (مرآة) برنامج إكسبلويت إلى الدليل الحالي (`-m`)
+انسخ ملف استغلال PoC (Python، C، Ruby، bash) مباشرة إلى دليل العمل المحلي الخاص بك:
 ```bash
 # Mirror by Exploit-DB ID (EBD-ID)
 searchsploit -m 50383
@@ -105,33 +102,30 @@ searchsploit -m 50383
 # Mirror by search path pattern
 searchsploit -m windows/remote/48537.py
 ```
-
-### Never edit or execute exploits directly in the `/usr/share/exploitdb/` directory. Use Searchsploit's copy and inspect functions.
-Display the absolute filesystem path and Exploit-DB URL for an EDB-ID:
+### 2. فحص بيانات تعريف الاستغلال والمسار الكامل (`-p`)
+اعرض المسار المطلق لنظام الملفات وعنوان URL الخاص بـ Exploit-DB لمعرف EDB:
 ```bash
 searchsploit -p 50383
 ```
-Copy an exploit PoC file (Python, C, Ruby, bash) directly to your local working directory:
+الإخراج:
 ```text
   Exploit: Apache HTTP Server 2.4.49 - Path Traversal & Remote Code Execution (RCE)
       URL: https://www.exploit-db.com/exploits/50383
      Path: /usr/share/exploitdb/exploits/multiple/webapps/50383.sh
 File Type: Bourne-Again shell script, ASCII text executable
 ```
-
-### 2. Inspect Exploit Metadata & Full Path (`-p`)
-Display the absolute filesystem path and Exploit-DB URL for an EDB-ID:
+### 3. قراءة كود الاستغلال في جهاز النداء الطرفي (`-x`)
+افتح كود الاستغلال مباشرة في `less` للفحص السريع:
 ```bash
 searchsploit -x 50383
 ```
-
 ---
 
-## 3. Read Exploit Code in Terminal Pager (`-x`)
+## التصفية حسب النظام الأساسي والنوع
 
-Searchsploit indexes exploits, shellcode, and research papers across multiple architectures:
+يقوم Searchsploit بفهرسة عمليات الاستغلال وكود القشرة والأوراق البحثية عبر بنيات متعددة:
 
-### 1. Filter by Target Operating System
+### 1. التصفية حسب نظام التشغيل المستهدف
 ```bash
 # Search only Linux exploits
 searchsploit linux kernel 4.4
@@ -142,25 +136,21 @@ searchsploit windows smb eternal
 # Search web applications
 searchsploit webapps tomcat
 ```
-
-### 2. Filter for Raw Shellcodes Only (`-s`)
-Searchsploit indexes exploits, shellcode, and research papers across multiple architectures:
+### 2. مرشح لأكواد القشرة الأولية فقط (`-s`)
+ابحث عن حمولات كود القشرة الخاصة بالبنية (على سبيل المثال، execve `/bin/sh` بدون بايتات فارغة):
 ```bash
 searchsploit -s linux/x64 "execve"
 searchsploit -s windows/x86 "reverse shell"
 ```
-
-### 3. Filter for Security Papers and Whitepapers (`-w`)
+### 3. مرشح لأوراق الأمان والمستندات التقنية (`-w`)
 ```bash
 searchsploit -w "Active Directory Kerberos"
 ```
-
 ---
 
-## Nmap XML / Grepable Scanning Integration
+## تكامل المسح Nmap XML / Grepable
 
-Searchsploit can automatically parse Nmap XML scan outputs and match discovered software versions against known exploits:
-
+يمكن لـ Searchsploit تحليل مخرجات فحص Nmap XML تلقائيًا ومطابقة إصدارات البرامج المكتشفة مع عمليات الاستغلال المعروفة:
 ```bash
 # 1. Perform service detection and save XML output
 nmap -sV -p- -T4 -oX /tmp/target_scan.xml 192.168.1.50
@@ -168,31 +158,28 @@ nmap -sV -p- -T4 -oX /tmp/target_scan.xml 192.168.1.50
 # 2. Feed the XML scan file directly to Searchsploit
 searchsploit --nmap /tmp/target_scan.xml
 ```
-*Searchsploit inspects every open port banner and version string, querying local exploits for immediate triage.*
+*يقوم Searchsploit بفحص كل شعار منفذ مفتوح وسلسلة إصدار، والاستعلام عن عمليات استغلال محلية للفرز الفوري.*
 
 ---
 
-## JSON Output & Script Automation
+## إخراج JSON وأتمتة البرنامج النصي
 
-Searchsploit inspects every open port banner and version string, querying local exploits for immediate triage.
-
+بالنسبة لأتمتة خطوط الأنابيب وأدوات الاستطلاع المخصصة، ينتج عن الإخراج تنسيق JSON منظم:
 ```bash
 searchsploit "Apache Struts" --json > struts_exploits.json
 ```
-
-JSON Output & Script Automation
+تصفية مسارات ملفات الاستغلال باستخدام `jq`:
 ```bash
 searchsploit --cve 2021-41773 --json | jq -r '.RESULTS_EXPLOIT[].Path'
 ```
-
 ---
 
-## نصائح وأفضل الممارسات
+## أفضل الممارسات في اختبار الاختراق
 
-1. **Verify Before Running:** Always inspect exploit source code (`searchsploit -x <id>`) before compilation or execution. Verify hardcoded shellcode, target IP addresses, and ensure there are no backdoors or malicious payload stagers.
-2. **Compile with Correct Flags:** Many Exploit-DB C exploits require specific GCC flags (e.g., `-m32`, `-lpthread`, or `-lcrypto`):
+1. **التحقق قبل التشغيل:** افحص دائمًا كود مصدر الاستغلال (`searchsploit -x <id>`) قبل التجميع أو التنفيذ. تحقق من كود القشرة المشفر، وعناوين IP المستهدفة، وتأكد من عدم وجود أبواب خلفية أو أجهزة تنظيم حمولة ضارة.
+2. **التجميع باستخدام العلامات الصحيحة:** تتطلب العديد من عمليات استغلال Exploit-DB C علامات دول مجلس التعاون الخليجي المحددة (على سبيل المثال، `-m32`، أو `-lpthread`، أو `-lcrypto`):
    ```bash
    searchsploit -m 40839
    gcc -pthread 40839.c -o dirtycow -lcrypt
    ```
-3. **Keep Database Updated:** Run `searchsploit -u` regularly to ensure newly published zero-days and proof-of-concepts are indexed locally.
+3. **حافظ على تحديث قاعدة البيانات:** قم بتشغيل `searchsploit -u` بانتظام لضمان فهرسة الأيام الصفرية وإثبات المفاهيم المنشورة حديثًا محليًا.

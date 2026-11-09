@@ -1,12 +1,16 @@
-# 🛡️ WPScan — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🛡️ WPScan - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██╗    ██╗██████╗ ███████╗ ██████╗ █████╗ ███╗   ██╗
   ██║    ██║██╔══██╗██╔════╝██╔════╝██╔══██╗████╗  ██║
@@ -16,51 +20,49 @@
    ╚══╝╚══╝ ╚═╝     ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
        The WordPress Security & Vulnerability Scanner
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/WPScan-WordPress_Security-blue?style=for-the-badge" alt="WPScan">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Ασφάλεια Ιστού">
   <img src="https://img.shields.io/badge/Database-WPVDB_API-green?style=for-the-badge" alt="WPVDB API">
   <img src="https://img.shields.io/badge/License-GPLv3-red?style=for-the-badge" alt="License GPLv3">
 </p>
 
 <p align="center">
-  <b>🌐 Black box vulnerability scanner designed to detect WordPress core, plugin, theme, and user vulnerabilities</b>
+  <b>🌐 Σαρωτής ευπάθειας μαύρου κουτιού που έχει σχεδιαστεί για να ανιχνεύει τον πυρήνα του WordPress, την προσθήκη, το θέμα και τα τρωτά σημεία του χρήστη</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--architecture)
-- [Εγκατάσταση](#-installation)
+- [Επισκόπηση & Αρχιτεκτονική](#-επισκόπηση--αρχιτεκτονική)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [API Token Integration (WPVDB)](#-api-token-integration-wpvdb)
-- [Basic Scan & Target Enumeration](#-basic-scan--target-enumeration)
-- [Επιλογές και παράμετροι](#-enumeration-flags-breakdown--e)
+- [Βασική σάρωση και απαρίθμηση στόχου](#-βασική-σάρωση--αριθμός στόχου)
+- [Ανάλυση σημαιών απαρίθμησης (`-e`)](#-enumeration-flags-breakdown--e)
   - [Vulnerable Plugins (`-e vp`)](#vulnerable-plugins--e-vp)
-  - [WPScan allows modular target enumeration using the `--enumerate` (or `-e`) flag:](#all-plugins--e-ap)
-  - [Themes (`-e vt`, `-e at`)](#themes--e-vt--e-at)
-  - [Probes for thousands of known plugins via dictionary brute-force:](#usernames--e-u)
-  - [Sensitive Backups (`-e cb`, `-e dbe`)](#sensitive-backups--e-cb--e-dbe)
-- [Detection Modes (`--plugins-detection`)](#-detection-modes---plugins-detection)
+  - [Όλα τα πρόσθετα (`-e ap`)] (#all-plugins--e-ap)
+  - [Θέματα (`-e vt`, `-e at`)](#themes--e-vt--e-at)
+  - [Ονόματα χρήστη (`-e u`)](#usernames--e-u)
+  - [Ευαίσθητα αντίγραφα ασφαλείας (`-e cb`, `-e dbe`)](#sensitive-backups--e-cb--e-dbe)
+- [Λειτουργίες ανίχνευσης (`--plugins-detection`)](#-detection-modes---plugins-detection)
 - [Password Brute-Forcing (`wp-login.php` & XML-RPC)](#-password-brute-forcing-wp-loginphp--xml-rpc)
 - [Stealth & WAF Evasion](#-stealth--waf-evasion)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Hardening](#-defensive-considerations--hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική
 
-[Legal Disclaimer](#-legal-disclaimer)
+Με το WordPress να τροφοδοτεί περισσότερο από το 40% των κορυφαίων 10 εκατομμυρίων ιστότοπων, είναι το πιο στοχευμένο Σύστημα Διαχείρισης Περιεχομένου (CMS) στον κόσμο.
 
-Written in Ruby, **WPScan** is the industry-standard black box vulnerability scanner for WordPress installations. It catalogues active core versions, enumerates installed plugins and themes, extracts registered administrative usernames, and correlates them against the **WPScan Vulnerability Database (WPVDB)** containing thousands of known CVEs.
+Γραμμένο σε Ruby, το **WPScan** είναι ο βιομηχανικός σαρωτής ευπάθειας μαύρου κουτιού για εγκαταστάσεις WordPress. Καταγράφει ενεργές βασικές εκδόσεις, απαριθμεί εγκατεστημένα πρόσθετα και θέματα, εξάγει καταχωρημένα ονόματα χρήστη διαχειριστή και τα συσχετίζει με τη **Βάση δεδομένων ευπάθειας WPScan (WPVDB)** που περιέχει χιλιάδες γνωστά CVE.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y wpscan
@@ -74,13 +76,11 @@ gem install wpscan
 # Docker Container
 docker run -it --rm wpscan/wpscan --url https://target.local
 ```
-
 ---
 
-## 🔑 API Token Integration (WPVDB)
+## 🔑 Ενσωμάτωση διακριτικού API (WPVDB)
 
-To display known vulnerabilities and CVE scores, WPScan requires a free API token from [wpscan.com](https://wpscan.com/):
-
+Για να εμφανίσει γνωστά τρωτά σημεία και βαθμολογίες CVE, το WPScan απαιτεί ένα δωρεάν διακριτικό API από το [wpscan.com](https://wpscan.com/):
 ```bash
 # Provide API token via CLI
 wpscan --url https://target.local --api-token YOUR_API_TOKEN
@@ -88,11 +88,9 @@ wpscan --url https://target.local --api-token YOUR_API_TOKEN
 # Or export to environment variable
 export WPSCAN_API_TOKEN="YOUR_API_TOKEN"
 ```
-
 ---
 
-## 🚀 Basic Scan & Target Enumeration
-
+## 🚀 Βασική σάρωση και απαρίθμηση στόχων
 ```bash
 # Quick non-intrusive scan
 wpscan --url https://target.local
@@ -100,26 +98,23 @@ wpscan --url https://target.local
 # Update the local database before scanning
 wpscan --update
 ```
-
 ---
 
-## 🔍 Επιλογές και παράμετροι
+## 🔍 Ανάλυση σημαιών απαρίθμησης (`-e`)
 
-WPScan allows modular target enumeration using the `--enumerate` (or `-e`) flag:
+Το WPScan επιτρέπει την αρθρωτή απαρίθμηση στόχων χρησιμοποιώντας τη σημαία `--enumerate` (ή `-e`):
 
-### Vulnerable Plugins (`-e vp`)
-Scans for plugins that have known security vulnerabilities in the WPVDB database:
+### Ευάλωτα πρόσθετα (`-e vp`)
+Σαρώνει για προσθήκες που έχουν γνωστές ευπάθειες ασφαλείας στη βάση δεδομένων WPVDB:
 ```bash
 wpscan --url https://target.local -e vp --api-token YOUR_TOKEN
 ```
-
-### WPScan allows modular target enumeration using the `--enumerate` (or `-e`) flag:
-Probes for thousands of known plugins via dictionary brute-force:
+### Όλες οι προσθήκες (`-e ap`)
+Ανιχνευτές για χιλιάδες γνωστά πρόσθετα μέσω λεξικού brute-force:
 ```bash
 wpscan --url https://target.local -e ap --plugins-detection aggressive
 ```
-
-### Themes (`-e vt`, `-e at`)
+### Θέματα (`-e vt`, `-e at`)
 ```bash
 # Enumerate vulnerable themes
 wpscan --url https://target.local -e vt
@@ -127,25 +122,21 @@ wpscan --url https://target.local -e vt
 # Enumerate all installed themes
 wpscan --url https://target.local -e at
 ```
-
-### Probes for thousands of known plugins via dictionary brute-force:
-Extracts registered author usernames through REST API endpoints (`/wp-json/wp/v2/users`), author archives (`/?author=1`), and login error messages:
+### Ονόματα χρήστη (`-e u`)
+Εξάγει τα εγγεγραμμένα ονόματα χρήστη δημιουργών μέσω των τελικών σημείων REST API (`/wp-json/wp/v2/users`), των αρχείων συντακτών (`/?author=1`) και των μηνυμάτων σφάλματος σύνδεσης:
 ```bash
 wpscan --url https://target.local -e u1-10
 ```
-
-### Sensitive Backups (`-e cb`, `-e dbe`)
-Searches for exposed `wp-config.php.bak`, database dumps, and backup archives:
+### Sensitive Backup (`-e cb`, `-e dbe`)
+Αναζητήσεις για εκτεθειμένα `wp-config.php.bak`, αποτυπώματα βάσεων δεδομένων και αρχεία αντιγράφων ασφαλείας:
 ```bash
 wpscan --url https://target.local -e cb,dbe
 ```
-
 ---
 
-## ⚙️ Detection Modes (`--plugins-detection`)
+## ⚙️ Λειτουργίες ανίχνευσης (`--plugins-detection`)
 
-Controls how thoroughly WPScan searches for plugins:
-
+Ελέγχει πόσο διεξοδικά το WPScan αναζητά προσθήκες:
 ```bash
 # Passive (Fast, inspects HTML source, script tags, style links)
 wpscan --url https://target.local --plugins-detection passive
@@ -156,13 +147,11 @@ wpscan --url https://target.local --plugins-detection aggressive
 # Mixed (Recommended default - passive followed by targeted active requests)
 wpscan --url https://target.local --plugins-detection mixed
 ```
-
 ---
 
-## 🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
+## 🔓 Βίαιος εξαναγκασμός κωδικού πρόσβασης (`wp-login.php` & XML-RPC)
 
-Once valid usernames are enumerated, launch targeted credential brute-forcing:
-
+Μόλις απαριθμηθούν έγκυρα ονόματα χρήστη, εκκινήστε το στοχευμένο brute-forcing διαπιστευτηρίων:
 ```bash
 # Brute force login using enumerated username list
 wpscan --url https://target.local -U users.txt -P /usr/share/wordlists/rockyou.txt
@@ -173,14 +162,12 @@ wpscan --url https://target.local -U users.txt -p 'Winter2026!'
 # Multi-threaded password attack
 wpscan --url https://target.local -U admin -P passwords.txt -t 20
 ```
-
-🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
-> If `xmlrpc.php` is enabled on the server, WPScan automatically leverages XML-RPC multicall methods to test hundreds of password combinations per single HTTP request!
+> [!ΣΗΜΕΙΩΣΗ]
+> Εάν το `xmlrpc.php` είναι ενεργοποιημένο στο διακομιστή, το WPScan αξιοποιεί αυτόματα τις μεθόδους πολλαπλών κλήσεων XML-RPC για να δοκιμάσει εκατοντάδες συνδυασμούς κωδικών πρόσβασης ανά αίτημα HTTP!
 
 ---
 
 ## 🥷 Stealth & WAF Evasion
-
 ```bash
 # Randomize User-Agent header to evade simple bot signatures
 wpscan --url https://target.local --random-user-agent
@@ -194,33 +181,32 @@ wpscan --url https://target.local --proxy socks5://127.0.0.1:9050
 # Ignore SSL/TLS certificate warnings
 wpscan --url https://target.local --disable-tls-checks
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Standard Scan**|`wpscan --url <URL> --api-token <TOKEN>`|
-|**Enumerate Vulnerable Plugins**|`wpscan --url <URL> -e vp --api-token <TOKEN>`|
-|**Enumerate All Plugins**|`wpscan --url <URL> -e ap --plugins-detection aggressive`|
-|**Enumerate Users**|`wpscan --url <URL> -e u`|
-|**Enumerate Backups & Configs**|`wpscan --url <URL> -e cb,dbe`|
-|**Password Brute Force**|`wpscan --url <URL> -U <USERS> -P <PASSWORDS>`|
-|**Random User-Agent & Stealth**|`wpscan --url <URL> --random-user-agent --stealthy`|
-|**Export to JSON File**|`wpscan --url <URL> -f json -o wpscan_report.json`|
+| **Τυπική σάρωση** | `wpscan --url <URL> --api-token <TOKEN>` |
+| **Αριθμήστε ευάλωτα πρόσθετα** | `wpscan --url <URL> -e vp --api-token <TOKEN>` |
+| **Αριθμήστε όλα τα πρόσθετα** | `wpscan --url <URL> -e ap --plugins-detection aggressive` |
+| **Αριθμήστε Χρήστες** | `wpscan --url <URL> -e u` |
+| **Αριθμήστε αντίγραφα ασφαλείας και ρυθμίσεις παραμέτρων** | `wpscan --url <URL> -e cb,dbe` |
+| **Κωδικός Brute Force** | `wpscan --url <URL> -U <USERS> -P <PASSWORDS>` |
+| **Τυχαίος πράκτορας χρήστη & Stealth** | `wpscan --url <URL> --random-user-agent --stealthy` |
+| **Εξαγωγή σε αρχείο JSON** | `wpscan --url <URL> -f json -o wpscan_report.json` |
 
 ---
 
-## 🛡️ Defensive Considerations & Hardening
+## 🛡️ Αμυντικές Θεωρήσεις & Σκλήρυνση
 
-1. **Disable XML-RPC:** Block access to `xmlrpc.php` via `.htaccess` or Nginx configuration to neutralize high-speed multicall brute-force attacks.
-2. **Restrict REST API Users Endpoint:** Disable public access to `/wp-json/wp/v2/users` to prevent trivial author enumeration.
-3. **Patch Plugins Regularly:** Over 90% of WordPress vulnerabilities reside in third-party plugins and themes rather than WordPress core.
+1. **Απενεργοποίηση XML-RPC:** Αποκλεισμός πρόσβασης στο `xmlrpc.php` μέσω διαμόρφωσης `.htaccess` ή Nginx για εξουδετέρωση επιθέσεων ωμής βίας πολλαπλών κλήσεων υψηλής ταχύτητας.
+2. **Περιορίστε το τελικό σημείο των χρηστών REST API:** Απενεργοποιήστε τη δημόσια πρόσβαση στο `/wp-json/wp/v2/users` για να αποτρέψετε την ασήμαντη απαρίθμηση συντακτών.
+3. **Προσθέτες ενημέρωσης κώδικα τακτικά:** Πάνω από το 90% των ευπαθειών του WordPress βρίσκονται σε προσθήκες και θέματα τρίτων και όχι στον πυρήνα του WordPress.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is intended for authorized penetration testing, vulnerability assessments, and web application auditing only. Brute-forcing passwords or scanning systems without explicit authorization is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Αυτό το cheatsheet προορίζεται μόνο για εξουσιοδοτημένες δοκιμές διείσδυσης, αξιολογήσεις ευπάθειας και έλεγχο εφαρμογών ιστού. Η ωμή επιβολή κωδικών πρόσβασης ή συστημάτων σάρωσης χωρίς ρητή εξουσιοδότηση είναι παράνομη.

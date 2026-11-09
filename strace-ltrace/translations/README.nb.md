@@ -1,12 +1,16 @@
-# 🔬 strace-ltrace – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔬 strace & ltrace - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗████████╗██████╗  █████╗  ██████╗███████╗    ██╗  ████████╗██████╗  █████╗  ██████╗███████╗
   ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝    ██║  ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝
@@ -16,59 +20,57 @@
   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝    ╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
             Linux Dynamic Binary Analysis: System & Library Call Tracers
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/strace-System_Calls-blue?style=for-the-badge" alt="strace">
   <img src="https://img.shields.io/badge/ltrace-Library_Calls-orange?style=for-the-badge" alt="ltrace">
   <img src="https://img.shields.io/badge/Platform-Linux_ELF-green?style=for-the-badge" alt="Linux">
-  <img src="https://img.shields.io/badge/Category-Dynamic_Analysis-purple?style=for-the-badge" alt="Dynamic Analysis">
+  <img src="https://img.shields.io/badge/Category-Dynamic_Analysis-purple?style=for-the-badge" alt="Dynamisk analyse">
 </p>
 
 <p align="center">
-  <b>🔬 Essential command-line utilities for dynamic binary analysis: intercepting Linux kernel system calls (strace) and user-space dynamic library calls (ltrace)</b>
+  <b>🔬 Viktige kommandolinjeverktøy for dynamisk binær analyse: avskjæring av Linux-kjernesystemanrop (strace) og dynamiske bibliotekanrop på brukerområdet (ltrace)</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview-system-calls-vs-library-calls)
-- [Installasjon](#-installation)
+- [Overview: System Calls vs Library Calls](#-overview-system-calls-vs-library-calls)
+- [Installasjon](#-installasjon)
 - [strace: System Call Tracing](#-strace-system-call-tracing)
   - [Basic Tracing Execution](#basic-tracing-execution)
-  - [Run a target binary and stream all system calls to standard error:](#filtering-syscalls-by-class-or-name--e)
+  - [Filtrering av syscalls etter klasse eller navn (`-e`)](#filtering-syscalls-by-class-or-name--e)
   - [Tracing Child & Multi-Threaded Processes (`-f`)](#tracing-child--multi-threaded-processes--f)
-  - [Attaching to Running Processes (`-p`)](#attaching-to-running-processes--p)
+  - [Knytte til kjørende prosesser (`-p`)](#attaching-to-running-processes--p)
   - [Expanding Strings & Buffer Outputs (`-s`)](#expanding-strings--buffer-outputs--s)
-  - [Statistical Profiling & Bottleneck Analysis (`-c`)](#statistical-profiling--bottleneck-analysis--c)
-  - [Statistical Profiling & Bottleneck Analysis (`-c`)](#fault-injection-for-fuzzing--testing--e-fault)
+  - [Statistisk profilering og flaskehalsanalyse (`-c`)](#statistical-profiling--flaskehalsanalyse--c)
+  - [Feilinnsprøytning for fuzzing og testing (`-e fault`)](#fault-injection-for-fuzzing--testing--e-fault)
 - [ltrace: Dynamic Library Call Tracing](#-ltrace-dynamic-library-call-tracing)
   - [Basic Library Interception](#basic-library-interception)
-  - [🧩 ltrace: Dynamic Library Call Tracing](#cracking-hardcoded-password-checks-strcmp)
-  - [Cracking Hardcoded Password Checks (`strcmp`)](#demangling-c-symbols--c)
-  - [Filtering Specific Library Functions](#filtering-specific-library-functions)
-- [Combining strace and ltrace Workflows](#-combining-strace-and-ltrace-workflows)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Anti-Tracing](#-defensive-considerations--anti-tracing)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [Cracking Hardcoded Password Checks (`strcmp`)](#cracking-hardcoded-password-checks-strcmp)
+  - [Demangling C++ Symbols (`-C`)](#demangling-c-symbols--c)
+  - [Filtrering av spesifikke bibliotekfunksjoner](#filtreringsspesifikke-bibliotek-funksjoner)
+- [Kombinering av strace- og ltrace-arbeidsflyter](#-kombinerer-strace-og-ltrace-arbeidsflyter)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & Anti-Tracing](#-defensive-considerations--anti-tracing)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt: Systemanrop vs bibliotekanrop
 
-When analyzing compiled Linux ELF binaries, static analysis can be impeded by obfuscation, stripping, or packing. Dynamic tracing provides immediate visibility into runtime actions:
+Når du analyserer kompilerte Linux ELF-binærfiler, kan statisk analyse hindres av tilsløring, stripping eller pakking. Dynamisk sporing gir umiddelbar innsyn i kjøretidshandlinger:
 
-1. **System Calls (`strace`):**
-   - The interface between user-space applications and the Linux Linux kernel.
-   - Traces disk I/O (`openat`, `read`, `write`), networking (`socket`, `connect`), memory allocation (`mmap`, `brk`), and process management (`fork`, `execve`, `ptrace`).
-2. **Library Calls (`ltrace`):**
-   - The interface between the binary and dynamic shared libraries (such as `libc.so`, `libssl.so`).
-   - Intercepts calls like `strcmp()`, `strlen()`, `malloc()`, `system()`, and cryptographic routines, frequently exposing plaintext credentials in memory before encryption.
+1. **Systemanrop (`strace`):**
+   - Grensesnittet mellom brukerromsapplikasjoner og Linux Linux-kjernen.
+   - Spor disk I/O (`openat`, `read`, `write`), nettverk (`socket`, `connect`), minneallokering (`mmap`, `brk`) og prosessadministrasjon (`fork`, `execve`, `ptrace`).
+2. **Biblioteksamtaler (`ltrace`):**
+   - Grensesnittet mellom de binære og dynamiske delte bibliotekene (som `libc.so`, `libssl.so`).
+   - Avskjærer samtaler som `strcmp()`, `strlen()`, `malloc()`, `system()` og kryptografiske rutiner, og avslører ofte rentekstlegitimasjon i minnet før kryptering.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y strace ltrace
@@ -79,25 +81,21 @@ sudo pacman -S strace ltrace
 # Fedora / Red Hat / CentOS
 sudo dnf install -y strace ltrace
 ```
-
 ---
 
-## ⚡ strace: System Call Tracing
+## ⚡ sporing: Systemanropssporing
 
-### Basic Tracing Execution
-Run a target binary and stream all system calls to standard error:
+### Grunnleggende sporingsutførelse
+Kjør en målbinær og strøm alle systemanrop til standardfeil:
 ```bash
 strace ./target_binary
 ```
-
-⚡ strace: System Call Tracing
+Omdiriger utdata til en fil slik at den ikke roter til programkjøring:
 ```bash
 strace -o trace.log ./target_binary
 ```
-
-### Run a target binary and stream all system calls to standard error:
-Avoid noise by filtering only relevant syscall classes:
-
+### Filtrering av syscaller etter klasse eller navn (`-e`)
+Unngå støy ved å filtrere bare relevante syscall-klasser:
 ```bash
 # Trace ONLY file-related operations (open, read, write, stat, access)
 strace -e trace=file ./target_binary
@@ -111,9 +109,8 @@ strace -e trace=process ./target_binary
 # Filter specific syscalls by exact name
 strace -e trace=open,openat,read,write ./target_binary
 ```
-
-### Tracing Child & Multi-Threaded Processes (`-f`)
-Filtering Syscalls by Class or Name (`-e`)
+### Spore underordnede og flertrådede prosesser (`-f`)
+Moderne binærfiler og skadelig programvare skaper prosesser eller tråder for barnearbeidere. Uten `-f` vil strace savne dem:
 ```bash
 # Trace all child forks and threads
 strace -f ./target_binary
@@ -121,9 +118,8 @@ strace -f ./target_binary
 # Trace children and save each process output into separate files (trace.pid)
 strace -ff -o trace ./target_binary
 ```
-
-### Attaching to Running Processes (`-p`)
-Monitor a service or active malware process without restarting it:
+### Koble til løpende prosesser (`-p`)
+Overvåk en tjeneste eller aktiv skadevareprosess uten å starte den på nytt:
 ```bash
 # Attach by Process ID (PID)
 sudo strace -p 1337
@@ -131,20 +127,18 @@ sudo strace -p 1337
 # Attach to process and follow all newly spawned threads
 sudo strace -f -p 1337 -o attached.log
 ```
-
-### Expanding Strings & Buffer Outputs (`-s`)
-By default, strace truncates printed strings at 32 characters. Increase string length to inspect full file paths, URLs, or payloads:
+### Utvidende strenger og bufferutganger (`-s`)
+Som standard avkorter strace trykte strenger med 32 tegn. Øk strenglengden for å inspisere fullstendige filbaner, URL-er eller nyttelast:
 ```bash
 # Display up to 2048 characters of strings and buffers
 strace -s 2048 -e trace=read,write ./target_binary
 ```
-
-### Statistical Profiling & Bottleneck Analysis (`-c`)
-Count time spent, number of calls, and errors per syscall:
+### Statistisk profilering og flaskehalsanalyse (`-c`)
+Tell tid brukt, antall anrop og feil per syscall:
 ```bash
 strace -c ./target_binary
 ```
-*Output Summary Example:*
+*Eksempel på utdatasammendrag:*
 ```text
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
@@ -152,41 +146,36 @@ strace -c ./target_binary
  32.10    0.000710          71        10         2 openat
  13.58    0.000300          15        20           write
 ```
-
-### Statistical Profiling & Bottleneck Analysis (`-c`)
-Count time spent, number of calls, and errors per syscall:
+### Feilinnsprøytning for fuzzing og testing (`-e fault`)
+Injiser vilkårlige feil i syscalls for å evaluere motstandskraft:
 ```bash
 # Force the 3rd invocation of openat() to fail with Permission Denied (EACCES)
 strace -e fault=openat:error=EACCES:when=3 ./target_binary
 ```
-
 ---
 
-## 🧩 ltrace: Dynamic Library Call Tracing
+## 🧩 ltrace: Dynamisk bibliotekanropssporing
 
-### Basic Library Interception
-Intercept calls made to dynamic `.so` libraries:
+### Grunnleggende bibliotekavskjæring
+Avlytte anrop til dynamiske `.so`-biblioteker:
 ```bash
 ltrace ./target_binary
 ```
-
-### 🧩 ltrace: Dynamic Library Call Tracing
-In reverse engineering CTFs and challenge binaries, password comparison functions (`strcmp`, `strncmp`, `memcmp`) reveal the target password in plaintext arguments:
+### Knekking av hardkodede passordkontroller (`strcmp`)
+I reverse engineering CTF-er og utfordringsbinærfiler avslører passordsammenligningsfunksjoner (`strcmp`, `strncmp`, `memcmp`) målpassordet i klartekstargumenter:
 ```bash
 ltrace -s 128 -e strcmp,strncmp ./license_check
 ```
-*Output Example:*
+*Utgangseksempel:*
 ```text
 strcmp("user_input", "SUPER_SECRET_FLAG_2026") = -1
 ```
-
-### Cracking Hardcoded Password Checks (`strcmp`)
-Demangle compiler-mangled C++ method names (`_ZNK4Test3fooEv` -> `Test::foo()`):
+### Demangler C++-symboler (`-C`)
+Avvikle kompilatormanglede C++-metodenavn (`_ZNK4Test3fooEv` -> `Test::foo()`):
 ```bash
 ltrace -C ./cpp_binary
 ```
-
-### Filtering Specific Library Functions
+### Filtrering av spesifikke bibliotekfunksjoner
 ```bash
 # Intercept only memory allocation and string functions
 ltrace -e malloc+free+strdup ./target_binary
@@ -194,50 +183,49 @@ ltrace -e malloc+free+strdup ./target_binary
 # Intercept calls originating from specific dynamic libraries
 ltrace -l /lib/x86_64-linux-gnu/libcrypto.so.3 ./target_binary
 ```
-
 ---
 
-## 🔄 Combining strace and ltrace Workflows
+## 🔄 Kombinere strace og ltrace arbeidsflyter
 
-When performing initial triage on an unknown binary:
+Når du utfører innledende triage på en ukjent binær:
 
-1. **Step 1:** Run `strace -e trace=file,network ./binary` to see what files and sockets it interacts with.
-2. **Step 2:** Run `ltrace -s 256 ./binary` to uncover internal library string comparisons, crypto calls, and memory logic.
-🔄 Combining strace and ltrace Workflows
+1. **Trinn 1:** Kjør `strace -e trace=file,network ./binary` for å se hvilke filer og sockets den samhandler med.
+2. **Trinn 2:** Kjør `ltrace -s 256 ./binary` for å avdekke interne bibliotekstrengsammenlikninger, kryptoanrop og minnelogikk.
+3. **Trinn 3:** Kombiner begge verktøyene:
    ```bash
    ltrace -S ./binary
    ```
-   *(The `-S` flag tells ltrace to display system calls alongside library calls in a single unified view).*
+*(`-S`-flagget forteller ltrace å vise systemanrop sammen med bibliotekanrop i en enkelt enhetlig visning).*
 
 ---
 
-## ⚡ Hurtigreferanse
+## ⚡ Hurtigreferansetabell
 
-|Objective|Kommando|
-|-----------|---------|
-|**Trace All Syscalls**|`strace ./binary`|
-|**Log to File**|`strace -o log.txt ./binary`|
-|**Trace File Operations**|`strace -e trace=file ./binary`|
-|**Trace Network Activity**|`strace -e trace=network ./binary`|
-|**Follow Child Processes**|`strace -f ./binary`|
-|**Attach to Running PID**|`sudo strace -f -p <PID>`|
-|**Expand String Length**|`strace -s 2048 ./binary`|
-|**Syscall Summary Stats**|`strace -c ./binary`|
-|**Trace Library Calls**|`ltrace ./binary`|
-|**Catch Password Check**|`ltrace -s 128 -e strcmp,strncmp ./binary`|
-|**Demangle C++ Names**|`ltrace -C ./binary`|
-|**Combined Lib + Syscall**|`ltrace -S ./binary`|
-
----
-
-## 🛡️ Defensive Considerations & Anti-Tracing
-
-1. **Ptrace Self-Checking:** Linux allows only a single tracer to attach to a process via `ptrace`. Calling `ptrace(PTRACE_TRACEME, 0, 1, 0)` will fail if `strace` or `ltrace` is already attached.
-2. **Static Linking (`-static`):** Binaries compiled with static linking contain no dynamic library references (`DT_NEEDED`), rendering `ltrace` completely ineffective (use `strace` instead).
+| Mål | Kommando |
+|----------------|--------|
+| **Spor alle syscalls** | `strace ./binary` |
+| **Logg til fil** | `strace -o log.txt ./binary` |
+| **Trace File Operations** | `strace -e trace=file ./binary` |
+| **Spor nettverksaktivitet** | `strace -e trace=network ./binary` |
+| **Følg barneprosesser** | `strace -f ./binary` |
+| **Knytt til løpende PID** | `sudo strace -f -p <PID>` |
+| **Utvid strenglengde** | `strace -s 2048 ./binary` |
+| **Syscall-sammendragsstatistikk** | `strace -c ./binary` |
+| **Spor biblioteksamtaler** | `ltrace ./binary` |
+| **Fang passordsjekk** | `ltrace -s 128 -e strcmp,strncmp ./binary` |
+| **Demangle C++-navn** | `ltrace -C ./binary` |
+| **Kombinert Lib + Syscall**| `ltrace -S ./binary` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 🛡️ Defensive betraktninger og anti-sporing
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> strace and ltrace are dynamic diagnostic tools designed for software development, debugging, and authorized security assessments. Tracing unauthorized processes or intercepting proprietary communication without permission is strictly prohibited.
+1. **Ptrace Self-Checking:** Linux tillater bare en enkelt tracer å koble til en prosess via `ptrace`. Å ringe `ptrace(PTRACE_TRACEME, 0, 1, 0)` vil mislykkes hvis `strace` eller `ltrace` allerede er tilkoblet.
+2. **Statisk kobling (`-static`):** Binærfiler kompilert med statisk kobling inneholder ingen dynamiske bibliotekreferanser (`DT_NEEDED`), noe som gjør `ltrace` fullstendig ineffektiv (bruk `strace` i stedet).
+
+---
+
+## ⚠️ Juridisk ansvarsfraskrivelse
+
+> [!FORSIKTIG]
+> strace og ltrace er dynamiske diagnoseverktøy utviklet for programvareutvikling, feilsøking og autoriserte sikkerhetsvurderinger. Å spore uautoriserte prosesser eller avskjære proprietær kommunikasjon uten tillatelse er strengt forbudt.

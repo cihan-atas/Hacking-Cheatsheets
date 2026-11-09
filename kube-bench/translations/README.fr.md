@@ -1,48 +1,52 @@
-# 🔍 kube-bench — fiche pratique complète
-
 <!-- language-home-navigation -->
-[🏠 Accueil en français](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Page d'accueil Française](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇮🇹 Italiano](README.it.md)
 
-
-[kube-bench](https://github.com/aquasecurity/kube-bench) is a Go-based security auditing tool developed by Aqua Security that checks whether Kubernetes is deployed securely according to the Center for Internet Security (CIS) Kubernetes Benchmark recommendations.
-
----
-
-## 📋 Table des matières
-
-- [Introduction](#cis-kubernetes-benchmark-overview)
-- [Installation](#installation--deployment-methods)
-- [3. Deploy as a Kubernetes Job](#running-on-control-plane-master-nodes)
-- [Run `kube-bench` on your master/control-plane node to audit core services:](#running-on-worker-nodes)
-- [Anonymous auth disabled (`--anonymous-auth=false`).](#managed-kubernetes-eks-gke-aks)
-- [Filtering Tests & Benchmarks](#filtering-tests--benchmarks)
-- [Run targeted subsets of checks to focus remediation efforts:](#json--junit-output-for-automation)
-- [Remediation & Hardening Workflow](#remediation--hardening-workflow)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## Introduction
 
-[Remediation & Hardening Workflow](#remediation--hardening-workflow)
-1. **Control Plane Components:** API Server, Controller Manager, Scheduler.
-2. **etcd:** File permissions, TLS certificates, client encryption.
-3. **Control Plane Configuration:** Authentication, authorization, RBAC, admission controllers.
-Introduction
-5. **Policies:** RBAC, Pod Security Standards / Admission, NetworkPolicies, Secrets management.
+# Aide-mémoire kube-bench
 
-1. **Control Plane Components:** API Server, Controller Manager, Scheduler.
-- 2. **etcd:** File permissions, TLS certificates, client encryption.
-- 3. **Control Plane Configuration:** Authentication, authorization, RBAC, admission controllers.
-- 4. **Worker Nodes:** Kubelet configuration, service files, TLS authentication.
-- 5. **Policies:** RBAC, Pod Security Standards / Admission, NetworkPolicies, Secrets management.
+[kube-bench](https://github.com/aquasecurity/kube-bench) est un outil d'audit de sécurité basé sur Go développé par Aqua Security qui vérifie si Kubernetes est déployé en toute sécurité conformément aux recommandations Kubernetes Benchmark du Center for Internet Security (CIS).
 
 ---
 
-## Installation
+## Table des matières
 
-### `[INFO]`: Informational note.
+- [Présentation du benchmark CIS Kubernetes](#cis-kubernetes-benchmark-overview)
+- [Méthodes d'installation et de déploiement](#installation--deployment-methods)
+-[Exécution sur le plan de contrôle (nœuds maîtres)](#running-on-control-plane-master-nodes)
+- [Exécution sur des nœuds de travail](#running-on-worker-nodes)
+- [Kubernetes géré (EKS, GKE, AKS)](#managed-kubernetes-eks-gke-aks)
+- [Tests de filtrage et benchmarks](#filtering-tests--benchmarks)
+- [Sortie JSON et JUnit pour l'automatisation](#json--junit-output-for-automation)
+- [Workflow de remédiation et de durcissement](#remediation--hardening-workflow)
+
+---
+
+## Présentation de l'analyse comparative Kubernetes CIS
+
+`kube-bench` exécute les tests définis dans les fichiers YAML correspondant aux sections CIS Benchmark :
+1. **Composants du plan de contrôle :** Serveur API, gestionnaire de contrôleur, planificateur.
+2. **etcd :** Autorisations de fichiers, certificats TLS, cryptage client.
+3. **Configuration du plan de contrôle :** Authentification, autorisation, RBAC, contrôleurs d'admission.
+4. **Nœuds de travail :** configuration Kubelet, fichiers de service, authentification TLS.
+5. **Politiques :** RBAC, normes de sécurité des pods/admission, politiques réseau, gestion des secrets.
+
+Statuts renvoyés par test :
+- `[PASS]` : répond aux normes de référence CIS.
+- `[FAIL]` : s'écarte de la recommandation ; nécessite une réhabilitation.
+- `[WARN]` : vérifier manuellement (dépend des variables environnementales).
+- `[INFO]` : Note informative.
+
+---
+
+## Méthodes d'installation et de déploiement
+
+### 1. Téléchargez le binaire précompilé
 ```bash
 # Download latest release from GitHub
 curl -L https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_amd64.tar.gz | tar -xz
@@ -51,14 +55,12 @@ sudo mv kube-bench /usr/local/bin/
 # Verify installation
 kube-bench version
 ```
-
-### 2. Run Directly Inside a Docker Container
+### 2. Exécuter directement dans un conteneur Docker
 ```bash
 docker run --rm -v /etc:/etc:ro -v /var:/var:ro -t aquasec/kube-bench:latest run --targets master
 ```
-
-### 1. Download Pre-Compiled Binary
-Run directly inside the cluster using Aqua Security's official Job manifest:
+### 3. Déployer en tant que tâche Kubernetes
+Exécutez directement dans le cluster à l'aide du manifeste de travail officiel d'Aqua Security :
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml
 
@@ -66,13 +68,11 @@ kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/
 kubectl get pods -l app=kube-bench
 kubectl logs -l app=kube-bench
 ```
-
 ---
 
-## 3. Deploy as a Kubernetes Job
+## Exécution sur le plan de contrôle (nœuds maîtres)
 
-Run `kube-bench` on your master/control-plane node to audit core services:
-
+Exécutez `kube-bench` sur votre nœud maître/plan de contrôle pour auditer les services principaux :
 ```bash
 # Run all control plane checks
 kube-bench run --targets master
@@ -80,50 +80,43 @@ kube-bench run --targets master
 # Run specifically against the API server and etcd
 kube-bench run --targets master,etcd
 ```
-
 ---
 
-## Run `kube-bench` on your master/control-plane node to audit core services:
+## Exécuté sur des nœuds de travail
 
-Execute on worker nodes to audit the `kubelet` daemon and container runtime:
-
+Exécutez sur les nœuds de travail pour auditer le démon `kubelet` et l'exécution du conteneur :
 ```bash
 kube-bench run --targets node
 ```
-
-Running on Worker Nodes
-- Kubelet configuration file permissions (`600` or `644`).
-- Execute on worker nodes to audit the `kubelet` daemon and container runtime:
-- Authorization mode set to `Webhook`.
-- Read-only port (`10255`) disabled.
+Les chèques vérifient :
+- Autorisations du fichier de configuration Kubelet (`600` ou `644`).
+- Authentification anonyme désactivée (`--anonymous-auth=false`).
+- Mode d'autorisation défini sur `Webhook`.
+- Port en lecture seule (`10255`) désactivé.
 
 ---
 
-## Anonymous auth disabled (`--anonymous-auth=false`).
+## Kubernetes gérés (EKS, GKE, AKS)
 
-Read-only port (`10255`) disabled.
+Les fournisseurs de cloud gèrent le plan de contrôle principal sur EKS, GKE et AKS. Auditez uniquement les nœuds de travail et les configurations spécifiques au cloud :
 
-### Amazon EKS
+###Amazon EKS
 ```bash
 kube-bench run --benchmark eks-1.4.0 --targets node
 ```
-
-### Google GKE
+### Google GKE
 ```bash
 kube-bench run --benchmark gke-1.4.0 --targets node
 ```
-
-### Amazon EKS
+### Microsoft AKS
 ```bash
 kube-bench run --benchmark aks-1.4.0 --targets node
 ```
-
 ---
 
-## Filtering Tests & Benchmarks
+## Tests et benchmarks de filtrage
 
-Run targeted subsets of checks to focus remediation efforts:
-
+Exécutez des sous-ensembles ciblés de vérifications pour concentrer les efforts de remédiation :
 ```bash
 # Run specific test check IDs (e.g. 1.2.1 and 1.2.2)
 kube-bench run --check 1.2.1,1.2.2
@@ -134,44 +127,39 @@ kube-bench run --scored --targets master
 # Specify exact Kubernetes version benchmark
 kube-bench run --version 1.28
 ```
-
 ---
 
-## Run targeted subsets of checks to focus remediation efforts:
+## Sortie JSON et JUnit pour l'automatisation
 
-Integrate compliance scanning into SIEM or compliance dashboards:
+Intégrez l’analyse de conformité dans le SIEM ou les tableaux de bord de conformité :
 
-### 1. JSON Export
+### 1. Exportation JSON
 ```bash
 kube-bench run --output json > kube-bench-report.json
 ```
-
-### 2. JUnit XML Export (CI/CD Pipelines)
+### 2. Exportation XML JUnit (pipelines CI/CD)
 ```bash
 kube-bench run --output junit > kube-bench-junit.xml
 ```
-
 ---
 
-## Remediation & Hardening Workflow
+## Workflow de remédiation et de renforcement
 
-At the end of every run, `kube-bench` provides detailed remediation commands for failed tests.
+À la fin de chaque exécution, `kube-bench` fournit des commandes de correction détaillées pour les tests ayant échoué.
 
-Example failure:
+Exemple d'échec :
 ```text
 [FAIL] 1.2.6 Ensure that the --anonymous-auth argument is set to false (Automated)
 ```
-
-Generated remediation advice:
+Conseils de correction générés :
 ```text
 == Remediation 1.2.6 ==
 Edit the API server pod specification file /etc/kubernetes/manifests/kube-apiserver.yaml
 on the control plane node and set the below parameter:
 --anonymous-auth=false
 ```
-
-### Example failure:
-1. Open `/etc/kubernetes/manifests/kube-apiserver.yaml`.
-2. Add or update `--anonymous-auth=false` under `spec.containers[0].command`.
-Generated remediation advice:
-4. Re-run `kube-bench run --check 1.2.6` to verify `[PASS]`.
+### Correction étape par étape :
+1. Ouvrez `/etc/kubernetes/manifests/kube-apiserver.yaml`.
+2. Ajoutez ou mettez à jour `--anonymous-auth=false` sous `spec.containers[0].command`.
+3. Enregistrez le fichier. Kubelet redémarre automatiquement le pod statique.
+4. Réexécutez `kube-bench run --check 1.2.6` pour vérifier `[PASS]`.

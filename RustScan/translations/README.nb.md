@@ -1,12 +1,16 @@
-# 🦀 RustScan – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦀 RustScan - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗   ██╗███████╗████████╗███████╗ ██████╗ █████╗ ███╗   ██╗
   ██╔══██╗██║   ██║██╔════╝╚══██╔══╝██╔════╝██╔════╝██╔══██╗████╗  ██║
@@ -16,59 +20,57 @@
   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
        The Modern Port Scanner - Scan All 65k Ports in 3 Seconds into Nmap
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/RustScan-Port_Scanner-blue?style=for-the-badge" alt="RustScan">
-  <img src="https://img.shields.io/badge/Language-Rust-orange?style=for-the-badge" alt="Language Rust">
+  <img src="https://img.shields.io/badge/Language-Rust-orange?style=for-the-badge" alt="Språkrust">
   <img src="https://img.shields.io/badge/Category-Recon_&_Scanning-green?style=for-the-badge" alt="Recon & Scanning">
   <img src="https://img.shields.io/badge/License-GPLv3-red?style=for-the-badge" alt="License GPLv3">
 </p>
 
 <p align="center">
-  <b>🌐 Fast, customizable, and automated port scanner designed to pipe discovered open ports directly into Nmap scripts</b>
+  <b>🌐 Rask, tilpassbar og automatisert portskanner designet for å overføre oppdagede åpne porter direkte inn i Nmap-skript</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--architecture)
-- [Tool Comparison: RustScan vs Nmap vs Masscan](#-tool-comparison-rustscan-vs-nmap-vs-masscan)
-- [Installasjon](#-installation)
-- [Grunnleggende syntaks](#-basic-usage--single-host-scanning)
-- [Automated Nmap Integration](#-automated-nmap-integration)
+- [Oversikt og arkitektur](#-oversikt--arkitektur)
+- [Verktøysammenligning: RustScan vs Nmap vs Masscan](#-tool-comparison-rustscan-vs-nmap-vs-masscan)
+- [Installasjon](#-installasjon)
+– [Grunnleggende bruk og skanning med enkelt vert](#-grunnleggende bruk--single-vert-skanning)
+- [Automatisert Nmap-integrasjon](#-automated-nmap-integration)
 - [Performance Tuning (`ulimit` & Batch Size)](#-performance-tuning-ulimit--batch-size)
-- [Scanning Port Ranges & CIDR Subnets](#-scanning-port-ranges--cidr-subnets)
-- [Scripting & Output Formatting](#-scripting--output-formatting)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Skanningsportområder og CIDR-undernett](#-skanneportområder--cidr-undernett)
+- [Skript og utdataformatering](#-skripting--utdataformatering)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og arkitektur
 
-**RustScan** is a modern, high-speed port scanner engineered in **Rust**. Its core philosophy is simple: **scan ports blazingly fast, find open ports across the entire 1-65535 spectrum in 3 seconds, and immediately hand off those open ports to Nmap for comprehensive service and vulnerability scanning**.
+**RustScan** er en moderne, høyhastighets portskanner konstruert i **Rust**. Kjernefilosofien er enkel: **skann porter lynraskt, finn åpne porter på tvers av hele 1-65535-spekteret på 3 sekunder, og overlever umiddelbart disse åpne portene til Nmap for omfattende service- og sårbarhetsskanning**.
 
-Instead of waiting 10–20 minutes for `nmap -p-` to complete its sequential TCP handshake sweeps, RustScan leverages asynchronous multi-threading and OS socket batching to pinpoint open ports almost instantaneously.
+I stedet for å vente 10–20 minutter på at `nmap -p-` skal fullføre sine sekvensielle TCP-håndtrykk, utnytter RustScan asynkron multi-threading og OS-socket-batching for å finne åpne porter nesten umiddelbart.
 
 ---
 
-## ⚖️ Tool Comparison: RustScan vs Nmap vs Masscan
+## ⚖️ Verktøysammenligning: RustScan vs Nmap vs Masscan
 
-|Feature|RustScan|Nmap|Masscan|
-|---------|----------|------|---------|
-|**Primary Goal**|Fast discovery -> Nmap pipe|Deep service & NSE scripts|High-rate internet-wide SYN scan|
-|**All-Ports Speed (1-65535)**|⭐⭐⭐⭐⭐ (~3 seconds)|⭐⭐ (5–20 minutes)|⭐⭐⭐⭐⭐ (~2 seconds)|
-|**Service Version Detection**|Via Nmap pipe|Native (`-sV`)|❌ Minimal|
-|**NSE Script Engine**|Via Nmap pipe|Native (`-sC`, `--script`)|❌ No|
-|**Packet Engine**|Async TCP Sockets|Raw IP / Custom TCP stack|Custom Asynchronous SYN stack|
-|**Ease of Automation**|Native CLI arguments (`--`)|Extensive CLI options|High complexity|
+| Funksjon | RustScan | Nmap | Masscan |
+|--------|--------|------|--------|
+| **Primært mål** | Rask oppdagelse -> Nmap pipe | Deep service & NSE-skript | Høyhastighets SYN-skanning for hele Internett |
+| **All-ports-hastighet (1-65535)**| ⭐⭐⭐⭐⭐ (~3 sekunder) | ⭐⭐ (5–20 minutter) | ⭐⭐⭐⭐⭐ (~2 sekunder) |
+| **Deteksjon av tjenesteversjon**| Via Nmap pipe | Innfødt (`-sV`) | ❌ Minimum |
+| **NSE-skriptmotor** | Via Nmap pipe | Innfødt (`-sC`, `--script`) | ❌ Nei |
+| **Pakkemotor** | Asynkrone TCP-kontakter | Rå IP / egendefinert TCP-stabel | Egendefinert asynkron SYN-stabel |
+| **Enkel automatisering** | Innfødte CLI-argumenter (`--`) | Omfattende CLI-alternativer | Høy kompleksitet |
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux (.deb package)
 wget https://github.com/RustScan/RustScan/releases/download/2.3.0/rustscan_2.3.0_amd64.deb
@@ -83,11 +85,9 @@ cargo install rustscan
 # Docker Container
 docker run -it --rm --name rustscan rustscan/rustscan:2.1.1 -a 10.10.10.50
 ```
-
 ---
 
-## 🚀 Grunnleggende syntaks
-
+## 🚀 Grunnleggende bruk og enkelt vertsskanning
 ```bash
 # Scan all 65,535 ports on a single IP
 rustscan -a 10.10.10.50
@@ -98,13 +98,11 @@ rustscan -a 10.10.10.50 --greppable
 # Quiet mode (suppresses the ASCII banner)
 rustscan -q -a 10.10.10.50
 ```
-
 ---
 
-## 🔗 Automated Nmap Integration
+## 🔗 Automatisert Nmap-integrasjon
 
-RustScan's most powerful feature is passing open ports straight to Nmap using the trailing `--` separator:
-
+RustScans kraftigste funksjon er å sende åpne porter rett til Nmap ved å bruke den etterfølgende `--`-separatoren:
 ```bash
 # Scan target and execute default safe scripts & version detection on open ports
 rustscan -a 10.10.10.50 -- -sC -sV
@@ -115,13 +113,11 @@ rustscan -a 10.10.10.50 -- -sC -sV -oN nmap_report.txt
 # Run vulnerability audit with Nmap Vuln scripts
 rustscan -a 10.10.10.50 -- --script vuln -oA target_vulns
 ```
-
 ---
 
-## ⚡ Performance Tuning (`ulimit` & Batch Size)
+## ⚡ Ytelsesjustering (`ulimit` og batchstørrelse)
 
-RustScan relies on your operating system's file descriptor limits. By default, it auto-adjusts, but manual tuning provides peak performance:
-
+RustScan er avhengig av operativsystemets fildeskriptorgrenser. Som standard justeres den automatisk, men manuell innstilling gir topp ytelse:
 ```bash
 # Increase batch size and socket ulimit for high-speed local networks
 rustscan -a 10.10.10.50 -b 5000 -u 5000
@@ -129,11 +125,9 @@ rustscan -a 10.10.10.50 -b 5000 -u 5000
 # Lower batch size for high-latency or packet-dropping WiFi networks
 rustscan -a 10.10.10.50 -b 500 --scan-order "random"
 ```
-
 ---
 
-## 🌐 Scanning Port Ranges & CIDR Subnets
-
+## 🌐 Skanne portområder og CIDR-undernett
 ```bash
 # Scan a specific port range instead of all ports
 rustscan -a 10.10.10.50 -r 1-1000
@@ -144,11 +138,9 @@ rustscan -a 10.10.10.50,10.10.10.51
 # Scan an entire CIDR subnet range
 rustscan -a 192.168.1.0/24
 ```
-
 ---
 
-## 📊 Scripting & Output Formatting
-
+## 📊 Skripting og utdataformatering
 ```bash
 # Output discovered open ports in JSON format
 rustscan -a 10.10.10.50 --accessible
@@ -156,32 +148,31 @@ rustscan -a 10.10.10.50 --accessible
 # Read target hosts from a file
 rustscan -a 'hosts.txt'
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Skann alle 65k-porter** | `rustscan -a <IP>` |
+| **Skann alle porter + Nmap-skript**| `rustscan -a <IP> -- -sC -sV` |
+| **Skann CIDR-undernett** | `rustscan -a <SUBNET>/24` |
+| **Scan Port Range** | `rustscan -a <IP> -r 1-1000` |
+| **Tune batchstørrelse og ugrense** | `rustscan -a <IP> -b 3000 -u 3000` |
+| **Stille modus (ingen banner)** | `rustscan -q -a <IP>` |
+| **Greppable Output** | `rustscan -a <IP> --greppable` |
+| **Eksporter til Nmap-fil** | `rustscan -a <IP> -- -sC -sV -oN nmap.txt` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive betraktninger og OPSEC
 
-|Objective|Kommando|
-|-----------|---------|
-|**Scan All 65k Ports**|`rustscan -a <IP>`|
-|**Scan All Ports + Nmap Scripts**|`rustscan -a <IP> -- -sC -sV`|
-|**Scan CIDR Subnet**|`rustscan -a <SUBNET>/24`|
-|**Scan Port Range**|`rustscan -a <IP> -r 1-1000`|
-|**Tune Batch Size & ulimit**|`rustscan -a <IP> -b 3000 -u 3000`|
-|**Quiet Mode (No Banner)**|`rustscan -q -a <IP>`|
-|**Greppable Output**|`rustscan -a <IP> --greppable`|
-|**Export to Nmap File**|`rustscan -a <IP> -- -sC -sV -oN nmap.txt`|
+1. **Massive støy- og IDS-varsler:** Skanning av 65k porter på 3 sekunder genererer tusenvis av TCP SYN-pakker umiddelbart. Det vil utløse hastighetsbegrensning av Snort, Suricata og brannmur umiddelbart.
+2. **SYN Flooding & Dropped Packets:** På ustabile VPN-koblinger (f.eks. HackTheBox, TryHackMe), kan høye batchstørrelser (`-b 4000`) forårsake pakketap. Hvis resultatene virker inkonsekvente, senk batchstørrelsen til `-b 1000`.
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **Massive Noise & IDS Alerts:** Scanning 65k ports in 3 seconds generates thousands of TCP SYN packets instantaneously. It will trigger Snort, Suricata, and firewall rate-limiting immediately.
-2. **SYN Flooding & Dropped Packets:** On unstable VPN links (e.g., HackTheBox, TryHackMe), high batch sizes (`-b 4000`) can cause packet loss. If results seem inconsistent, lower the batch size to `-b 1000`.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is for authorized penetration testing and educational research only. Scanning networks without authorization is strictly prohibited.
+> [!FORSIKTIG]
+> Dette juksearket er kun for autorisert penetrasjonstesting og pedagogisk forskning. Det er strengt forbudt å skanne nettverk uten autorisasjon.

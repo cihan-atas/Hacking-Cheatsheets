@@ -1,12 +1,16 @@
-# 🎯 pwndbg-GEF - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎯 pwndbg & GEF - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
   ██████╗ ██╗    ██╗███╗   ██╗██████╗ ██████╗  ██████╗      ██████╗ ███████╗███████╗
   ██╔══██╗██║    ██║████╗  ██║██╔══██╗██╔══██╗██╔════╝     ██╔════╝ ██╔════╝██╔════╝
@@ -16,78 +20,75 @@
   ╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚═════╝ ╚═════╝  ╚═════╝      ╚═════╝ ╚══════╝╚═╝     
          Next-Gen GDB Enhancements for Reversing & Binary Exploitation
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/pwndbg-GDB_Plugin-blue?style=for-the-badge" alt="pwndbg">
   <img src="https://img.shields.io/badge/GEF-GDB_Enhanced_Features-orange?style=for-the-badge" alt="GEF">
-  <img src="https://img.shields.io/badge/Category-Binary_Exploitation_&_RE-green?style=for-the-badge" alt="Reversing & Pwn">
-  <img src="https://img.shields.io/badge/License-MIT_%7C_FOSS-purple?style=for-the-badge" alt="License FOSS">
+  <img src="https://img.shields.io/badge/Category-Binary_Exploitation_&_RE-green?style=for-the-badge" alt="Inversión y Pwn">
+  <img src="https://img.shields.io/badge/License-MIT_%7C_FOSS-purple?style=for-the-badge" alt="Licencia FOSS">
 </p>
 
-<p align="center">
-  <b>🎯 The premier open-source GDB terminal enhancements designed for binary reverse engineering, memory corruption analysis, heap layout inspection, and CTF exploit development</b>
+<p align="centro">
+  <b>🎯 Las principales mejoras del terminal GDB de código abierto diseñadas para ingeniería inversa binaria, análisis de corrupción de memoria, inspección de diseño de montón y desarrollo de exploits CTF</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview--why-vanilla-gdb-needs-enhancements)
-- [Instalación](#-installation--switching-between-frameworks)
-  - [Installing pwndbg](#installing-pwndbg)
-  - [Installing GEF](#installing-gef)
-  - [Installing pwndbg](#managing-gdbinit)
-- [The Context Display Engine](#-the-context-display-engine)
-  - [Registers Section](#registers-section)
-  - [Disassembly & Jump Predictions](#disassembly--jump-predictions)
-  - [Stack & Telescope](#stack--telescope)
-  - [Backtrace & Threads](#backtrace--threads)
-- [Memory Inspection & Navigation](#-memory-inspection--navigation)
-  - [Telescoping Pointers (`telescope`)](#telescoping-pointers-telescope)
-  - [🔍 Memory Inspection & Navigation](#process-memory-mappings-vmmap)
-  - [Searching Memory (`search`)](#searching-memory-search)
-- [Heap Exploitation & Inspection](#-heap-exploitation--inspection)
-  - [Viewing Chunks & Arenas](#viewing-chunks--arenas)
-  - [Inspecting Free Bins (Tcache, Fastbins, Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
-  - [Viewing Chunks & Arenas](#visualizing-heap-layout-vis_heap_chunks)
-- [Exploit Development Helpers](#-exploit-development-helpers)
-  - [Checksec & Mitigation Audit](#checksec--mitigation-audit)
-  - [Inspects:](#stack-canary-locator-canary)
-  - [PIE**: PIE enabled (Position Independent Executable / ASLR)](#cyclic-patterns--offset-calculation)
-  - [In-Memory ROP Gadget Hunting](#in-memory-rop-gadget-hunting)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Binary Protections](#-defensive-considerations--binary-protections)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Descripción general y por qué Vanilla GDB necesita mejoras](#-overview--why-vanilla-gdb-needs-enhancements)
+- [Instalación y cambio entre marcos] (#-instalación--cambio-entre-marcos)
+  - [Instalando pwndbg](#instalando-pwndbg)
+  - [Instalando GEF](#installing-gef)
+  - [Administrando `.gdbinit`](#administrando-gdbinit)
+- [El motor de visualización de contexto](#-the-context-display-engine)
+  - [Sección de registros](#registers-section)
+  - [Predicciones de desmontaje y salto] (#desmontaje--predicciones de salto)
+  - [Pila y telescopio] (#stack--telescope)
+  - [Rastreo e hilos](#backtrace--hilos)
+- [Inspección de memoria y navegación](#-inspección-memoria--navegación)
+  - [punteros telescópicos (`telescope`)](#punteros-telescópicos-telescopio)
+  - [Asignaciones de memoria de proceso (`vmmap`)](#process-memory-mappings-vmmap)
+  - [Buscando Memoria (`search`)](#buscando-memoria-busqueda)
+- [Explotación e inspección del montón](#-explotación-del montón--inspección)
+  - [Visualización de fragmentos y arenas] (#viewing-chunks--arenas)
+  - [Inspeccionar contenedores libres (Tcache, Fastbins, Smallbins)](#inspeccionar-bins-libres-tcache-fastbins-smallbins)
+  - [Visualización del diseño del montón (`vis_heap_chunks`)](#visualizing-heap-layout-vis_heap_chunks)
+- [Ayudantes de desarrollo de exploits](#-exploit-development-helpers)
+  - [Checksec y auditoría de mitigación](#checksec--mitigation-audit)
+  - [Localizador canario de pila (`canary`)] (#stack-canary-locator-canary)
+  - [Patrones cíclicos y cálculo de compensación] (#patrones-cíclicos--cálculo-de compensación)
+  - [Búsqueda de gadgets ROP en memoria](#caza-de-gadgets-rop-en-memoria)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y protecciones binarias](#-consideraciones-defensivas--protecciones-binarias)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Descripción general y por qué Vanilla GDB necesita mejoras
 
-Standard GNU Debugger (`gdb`) is an industrial-strength tool, but its out-of-the-box user experience is visually austere. It does not automatically update register states, dereference multi-level pointers, or display stack views upon stepping through instructions.
+El depurador GNU estándar (`gdb`) es una herramienta industrial, pero su experiencia de usuario lista para usar es visualmente austera. No actualiza automáticamente los estados de los registros, no elimina la referencia a punteros de varios niveles ni muestra vistas de pila al seguir las instrucciones.
 
-**pwndbg** and **GEF** turn GDB into an elite reverse engineering and binary exploitation suite:
-- **pwndbg**: Specifically engineered for low-level software exploitation, heap debugging (glibc 2.27 - 2.39+ allocator internals), and automated pointer dereferencing.
-- **GEF (GDB Enhanced Features)**: A single standalone Python script with zero external dependencies, offering architecture-agnostic features (ARM, MIPS, PowerPC, x86) and dynamic structure parsing.
+**pwndbg** y **GEF** convierten a GDB en una suite de élite de ingeniería inversa y explotación binaria:
+- **pwndbg:** Diseñado específicamente para la explotación de software de bajo nivel, depuración de montón (glibc 2.27 - 2.39+ componentes internos del asignador) y desreferenciación automatizada de punteros.
+- **GEF (Características mejoradas de GDB):** Un único script de Python independiente sin dependencias externas, que ofrece características independientes de la arquitectura (ARM, MIPS, PowerPC, x86) y análisis dinámico de estructuras.
 
 ---
 
-## 📥 Instalación
+## 📥 Instalación y cambio entre marcos
 
-### Installing pwndbg
+### Instalando pwndbg
 ```bash
 git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
 ```
-
-### Installing GEF
+### Instalación del FMAM
 ```bash
 # Automated one-liner download
 bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
 ```
-
-### Installing pwndbg
-To switch between pwndbg and GEF without conflict, configure your `~/.gdbinit`:
+### Gestión de `.gdbinit`
+Para cambiar entre pwndbg y GEF sin conflictos, configure su `~/.gdbinit`:
 ```bash
 # To use pwndbg:
 echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
@@ -95,13 +96,11 @@ echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
 # To use GEF:
 echo "source ~/.gdbinit-gef.py" > ~/.gdbinit
 ```
-
 ---
 
-## 🖥️ The Context Display Engine
+## 🖥️ El motor de visualización de contexto
 
-Every time execution halts at a breakpoint or step, both pwndbg and GEF print an automated, multi-panel terminal view:
-
+Cada vez que la ejecución se detiene en un punto de interrupción o paso, tanto pwndbg como GEF imprimen una vista de terminal automatizada de múltiples paneles:
 ```text
 ──────────────────────────[ REGISTERS / FLAGS ]──────────────────────────
 RAX: 0x0 
@@ -131,82 +130,75 @@ RIP: 0x401140 (<main+12>: cmp QWORD PTR [rbp-0x8], 0x0)
    2   0x7ffff7df6e40 __libc_start_main+128
    3   0x401065 _start+37
 ```
-
 ---
 
-## 🔍 Memory Inspection & Navigation
+## 🔍 Inspección y navegación de la memoria
 
-### Telescoping Pointers (`telescope`)
-Dereferences memory pointers recursively, displaying ASCII text, function symbols, or target pointers:
+### Punteros telescópicos (`telescope`)
+Elimina las referencias a los punteros de memoria de forma recursiva, mostrando texto ASCII, símbolos de función o punteros de destino:
 ```text
 pwndbg> telescope $rsp 16       # Dereference 16 entries starting at RSP
 pwndbg> telescope 0x404000 8    # Dereference data section
 ```
-
-### 🔍 Memory Inspection & Navigation
-Displays complete virtual memory segments with read/write/execute permissions:
+### Asignaciones de memoria de proceso (`vmmap`)
+Muestra segmentos completos de memoria virtual con permisos de lectura/escritura/ejecución:
 ```text
 pwndbg> vmmap
 ```
-*Quickly spot segments with `rwx` permissions (vital for shellcode injection).*
+*Detecta rápidamente segmentos con permisos `rwx` (vital para la inyección de shellcode).*
 
-### Searching Memory (`search`)
-Process Memory Mappings (`vmmap`)
+### Buscando memoria (`search`)
+Ubique cadenas, números enteros o punteros en cualquier lugar de las páginas de memoria cargadas:
 ```text
 pwndbg> search -s "/bin/sh"     # Search for string "/bin/sh"
 pwndbg> search -p 0x401135      # Search for pointers to main()
 pwndbg> search -x "41414141"    # Search for raw hexadecimal bytes
 ```
-
 ---
 
-## 🧱 Heap Exploitation & Inspection
+## 🧱 Explotación e inspección del montón
 
-Analyzing modern `glibc` heap allocators is straightforward with dedicated heap commands:
+Analizar los asignadores de montón `glibc` modernos es sencillo con comandos de montón dedicados:
 
-### Viewing Chunks & Arenas
+### Visualización de fragmentos y arenas
 ```text
 pwndbg> heap                    # Display entire heap layout
 pwndbg> chunk 0x602000          # Parse chunk headers (size, flags: PREV_INUSE, IS_MMAPPED, NON_MAIN_ARENA)
 pwndbg> arenas                  # List all active heap arenas
 ```
-
-### Inspecting Free Bins (Tcache, Fastbins, Smallbins)
+### Inspeccionar contenedores libres (Tcache, Fastbins, Smallbins)
 ```text
 pwndbg> bins                    # Show all free bins simultaneously
 pwndbg> tcache                  # Display per-thread tcache entries
 pwndbg> fastbins                # List single-linked fastbins
 pwndbg> unsortedbin             # List unsorted bin chunks (used for libc leak)
 ```
-
-### Viewing Chunks & Arenas
+### Visualizando el diseño del montón (`vis_heap_chunks`)
 ```text
 pwndbg> vis_heap_chunks 10      # Draw color-coded visual representation of consecutive heap chunks
 ```
-
 ---
 
-## 🛠️ Exploit Development Helpers
+## 🛠️ Ayudantes de desarrollo de exploits
 
-### Checksec & Mitigation Audit
-Check compiler security mitigations directly from the GDB prompt:
+### Verificación de seguridad y auditoría de mitigación
+Verifique las mitigaciones de seguridad del compilador directamente desde el indicador de GDB:
 ```text
 pwndbg> checksec
 ```
-*Inspects:*
-- **RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
-- **Stack**: Canary found vs No canary
-- **NX**: NX enabled (Non-executable stack/heap)
-- **PIE**: PIE enabled (Position Independent Executable / ASLR)
+*Inspecciona:*
+- **RELRO:** RELRO parcial vs completo (protege la tabla de compensación global `.got.plt`)
+- **Pila:** Canario encontrado vs No canario
+- **NX:** NX habilitado (pila/montón no ejecutable)
+- **PIE:** PIE habilitado (ejecutable independiente de posición/ASLR)
 
-### Inspects:
-RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
+### Localizador canario de pila (`canary`)
+Localice el valor canary del subproceso en el Almacenamiento local de subprocesos (TLS) y verifique dónde reside en el marco de pila actual:
 ```text
 pwndbg> canary
 ```
-
-### PIE**: PIE enabled (Position Independent Executable / ASLR)
-Determine the exact offset to overwrite the instruction pointer (EIP/RIP):
+### Patrones cíclicos y cálculo de compensación
+Determine el desplazamiento exacto para sobrescribir el puntero de instrucción (EIP/RIP):
 ```text
 # Generate a 100-byte De Bruijn cyclic sequence
 pwndbg> cyclic 100
@@ -215,43 +207,41 @@ pwndbg> cyclic 100
 pwndbg> cyclic -l $rip
 # Output: Finding cyclic pattern at offset 72
 ```
-
-### In-Memory ROP Gadget Hunting
-Search loaded executable segments for specific gadgets:
+### Búsqueda de dispositivos ROP en memoria
+Busque segmentos ejecutables cargados para gadgets específicos:
 ```text
 pwndbg> rop --grep "pop rdi"
 ```
+---
+
+## ⚡ Tabla de referencia rápida
+
+| Objetivo | Comando |
+|-----------|------------------|
+| **Comience con pwndbg/GEF**| `gdb ./target_binary` |
+| **Inspeccionar registros/pila** | `context` |
+| **Puntero recursivo Deref**| `telescope $rsp 10` |
+| **Mapa de memoria y verificación RWX**| `vmmap` |
+| **Buscar cadena en la memoria**| `search -s "/bin/sh"` |
+| **Mitigaciones de auditoría** | `checksec` |
+| **Buscar pila canario** | `canary` |
+| **Descripción general de fragmentos de montón** | `heap` |
+| **Inspeccionar contenedores gratuitos** | `bins` |
+| **Calcular compensación de búfer**| `cyclic 100` -> `cyclic -l <val>` |
+| **Establecer punto de interrupción en el símbolo**| `b *main` |
+| **Ejecutar/Continuar/Paso** | `r` / `c` / `si` / `ni` |
 
 ---
 
-## ⚡ Referencia rápida
+## 🛡️ Consideraciones defensivas y protecciones binarias
 
-|Objective|Comando|
-|-----------|---------|
-|**Start with pwndbg/GEF**|`gdb ./target_binary`|
-|**Inspect Registers/Stack**|`context`|
-|**Recursive Pointer Deref**|`telescope $rsp 10`|
-|**Memory Map & RWX Check**|`vmmap`|
-|**Search String in Memory**|`search -s "/bin/sh"`|
-|**Audit Mitigations**|`checksec`|
-|**Find Stack Canary**|`canary`|
-|**Heap Chunks Overview**|`heap`|
-|**Inspect Free Bins**|`bins`|
-|**Calculate Buffer Offset**|`cyclic 100` -> `cyclic -l <val>`|
-|**Set Breakpoint at Symbol**|`b *main`|
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
+1. **RELRO completo:** La compilación con `-Wl,-z,relro,-z,now` hace que `.got` sea completamente de solo lectura, lo que derrota los ataques de sobrescritura GOT.
+2. **Stack Canaries:** La compilación con `-fstack-protector-all` coloca cookies antes de las direcciones de retorno, lo que provoca que `__stack_chk_fail` se desborde el búfer.
+3. **PIE y ASLR:** Aleatoriza las direcciones base de código, montón y biblioteca en cada ejecución.
 
 ---
 
-## 🛡️ Defensive Considerations & Binary Protections
+## ⚠️ Aviso legal
 
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
-2. **Stack Canaries:** Compiling with `-fstack-protector-all` places cookies before return addresses, causing `__stack_chk_fail` on buffer overflows.
-3. **PIE & ASLR:** Randomizes code, heap, and library base addresses on every execution.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> pwndbg and GEF are binary analysis and exploit engineering tools intended strictly for authorized vulnerability research, defensive software auditing, and academic CTF competitions. Exploiting software without permission is illegal.
+> [!PRECAUCIÓN]
+> pwndbg y GEF son herramientas de ingeniería de explotación y análisis binario destinadas estrictamente a la investigación de vulnerabilidades autorizada, la auditoría de software defensivo y las competencias académicas de CTF. Explotar software sin permiso es ilegal.

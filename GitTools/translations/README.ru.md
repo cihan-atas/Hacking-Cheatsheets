@@ -1,12 +1,16 @@
-# 📂 GitTools — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📂 GitTools — полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██╗████████╗████████╗ ██████╗  ██████╗ ██╗     ███████╗
   ██╔════╝ ██║╚══██╔══╝╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝
@@ -16,50 +20,48 @@
    ╚═════╝ ╚═╝   ╚═╝      ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
       Exposed /.git/ Repository Dumping, Extraction & Secret Hunting
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/GitTools-Git_Dumping-blue?style=for-the-badge" alt="GitTools">
   <img src="https://img.shields.io/badge/Author-Internetwache-orange?style=for-the-badge" alt="internetwache">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_Secrets-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_Secrets-green?style=for-the-badge" alt="Веб-безопасность">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
-<p align="center">
-  <b>📂 Essential toolkit for discovering exposed <code>/.git/</code> folders on web servers, downloading raw Git object stores, and fully reconstructing original source code and commit history</b>
+<p выравнивание="центр">
+  <b>📂 Необходимый набор инструментов для обнаружения открытых папок <code>/.git/</code> на веб-серверах, загрузки необработанных хранилищ объектов Git и полной реконструкции исходного исходного кода и истории коммитов</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--the-exposed-git-hazard)
-- [Установка](#-installation)
-- [The Three GitTools Modules](#-the-three-gittools-modules)
-  - [1. Dumper (`gitdumper.sh`)](#1-dumper-gitdumpersh)
-  - [GitTools is organized into three specialized utilities:](#2-extractor-extractorsh)
+- [Обзор и выявленная опасность .git](#-overview--the-expose-git-hazard)
+- [Установка](#-установка)
+- [Три модуля GitTools](#-the-three-gittools-modules)
+  - [1. Дампер (`gitdumper.sh`)](#1-dumper-gitdumpersh)
+  - [2. Экстрактор (`extractor.sh`)](#2-экстрактор-экстракторш)
   - [3. Finder (`finder.py`)](#3-finder-finderpy)
-- [Alternative Python Dumper: `git-dumper`](#-alternative-python-dumper-git-dumper)
-- [Post-Reconstruction Secret & Credential Hunting](#-post-reconstruction-secret--credential-hunting)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & Web Server Hardening](#-defensive-considerations--web-server-hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Альтернативный дамп Python: `git-dumper`](#-alternative-python-dumper-git-dumper)
+- [Поиск секретов и учетных данных после реконструкции](#-post-reconstruction-secret--credential-hunting)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и усиление защиты веб-сервера](#-defensive-considerations--web-server-hardening)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и выявленная опасность .git
 
-When developers deploy web applications via `git clone` or automated scripts without properly restricting access to hidden directories, the **`/.git/`** folder becomes accessible over HTTP/HTTPS:
+Когда разработчики развертывают веб-приложения через `git clone` или автоматизированные сценарии без надлежащего ограничения доступа к скрытым каталогам, папка **`/.git/`** становится доступной через HTTP/HTTPS:
 `https://target.com/.git/`
 
-Even if directory listing (indexing) is disabled, Git's deterministic structure allows an attacker to download `/.git/HEAD`, `/.git/config`, `/.git/index`, and traverse all Git loose objects (`.git/objects/xx/xxxx...`). This enables complete reconstruction of:
-- 🎯 Введение
-- Database credentials, API tokens, and private SSH keys in configuration files.
-- Full git commit logs, author emails, and development branches.
+Даже если список каталогов (индексирование) отключен, детерминированная структура Git позволяет злоумышленнику загрузить `/.git/HEAD`, `/.git/config`, `/.git/index` и пройти через все свободные объекты Git (`.git/objects/xx/xxxx...`). Это позволяет провести полную реконструкцию:
+- Полный исходный код приложения и внутренние API.
+— Учетные данные базы данных, токены API и частные ключи SSH в файлах конфигурации.
+- Полные журналы коммитов git, электронные письма авторов и ветки разработки.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Clone GitTools repository
 git clone https://github.com/internetwache/GitTools.git
@@ -69,40 +71,36 @@ chmod +x Dumper/gitdumper.sh Extractor/extractor.sh
 # Install alternative standalone Python git-dumper via pip
 pip install git-dumper
 ```
-
 ---
 
-## 🚀 The Three GitTools Modules
+## 🚀 Три модуля GitTools
 
-GitTools is organized into three specialized utilities:
+GitTools состоит из трех специализированных утилит:
 
-### 1. Dumper (`gitdumper.sh`)
-Downloads as much of the `.git` directory as possible from the web server:
+### 1. Самосвал (`gitdumper.sh`)
+Загружает как можно большую часть каталога `.git` с веб-сервера:
 ```bash
 # Syntax: ./gitdumper.sh <URL_TO_GIT> <LOCAL_DESTINATION>
 ./Dumper/gitdumper.sh https://target.com/.git/ /tmp/target_repo/
 ```
-
-### GitTools is organized into three specialized utilities:
-Reconstructs original files, commit trees, and branches from the dumped `.git` loose objects:
+### 2. Экстрактор (`extractor.sh`)
+Восстанавливает исходные файлы, деревья коммитов и ветки из сброшенных незакрепленных объектов `.git`:
 ```bash
 # Syntax: ./extractor.sh <DUMPED_DIR> <OUTPUT_CODE_DIR>
 ./Extractor/extractor.sh /tmp/target_repo/ /tmp/extracted_source/
 ```
-Downloads as much of the `.git` directory as possible from the web server:
+Внутри `/tmp/extracted_source/` каждый коммит восстанавливается в изолированный каталог, содержащий полное дерево файлов на данный момент времени.
 
-### 3. Finder (`finder.py`)
-2. Extractor (`extractor.sh`)
+### 3. Искатель (`finder.py`)
+Сканирует списки доменов или блоки CIDR для обнаружения открытых каталогов `.git`:
 ```bash
 python3 Finder/finder.py -i targets.txt -u "Mozilla/5.0"
 ```
-
 ---
 
-## 🐍 Alternative Python Dumper: `git-dumper`
+## 🐍 Альтернативный дамп Python: `git-dumper`
 
-`git-dumper` is a multi-threaded Python alternative that reconstructs a live, working git repository automatically in one step:
-
+`git-dumper` — это многопоточная альтернатива Python, которая автоматически реконструирует работающий git-репозиторий за один шаг:
 ```bash
 # Dump and reconstruct working repository in one command
 git-dumper https://target.com/.git/ ./recovered_repo/
@@ -110,21 +108,18 @@ git-dumper https://target.com/.git/ ./recovered_repo/
 # Run through HTTP/SOCKS proxy
 git-dumper --proxy http://127.0.0.1:8080 https://target.com/.git/ ./recovered_repo/
 ```
-
-🐍 Alternative Python Dumper: `git-dumper`
+После завершения вы можете использовать обычные команды `git` внутри папки:
 ```bash
 cd ./recovered_repo/
 git log -p              # Review all commit diffs and historical edits
 git status              # Check untracked files
 git branch -a           # List all remote and local branches
 ```
-
 ---
 
-## 🔍 Post-Reconstruction Secret & Credential Hunting
+## 🔍Поиск секретов и учетных данных после реконструкции
 
-Once the repository is recovered, search for credentials and hidden files:
-
+После восстановления репозитория найдите учетные данные и скрытые файлы:
 ```bash
 cd ./recovered_repo/
 
@@ -135,40 +130,39 @@ grep -Erio "password|secret|api_key|token|AWS" .
 gitleaks detect -v
 trufflehog git file://$(pwd)
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Dump with git-dumper (Python)**|`git-dumper https://target.com/.git/ ./repo/`|
-|**Dump with GitTools Bash**|`./Dumper/gitdumper.sh https://target.com/.git/ ./dump/`|
-|**Extract Commits to Source**|`./Extractor/extractor.sh ./dump/ ./source/`|
-|**Scan Host List for .git**|`python3 Finder/finder.py -i domains.txt`|
-|**View Commit History**|`git log -p --color`|
-|**Hunt Hardcoded Secrets**|`gitleaks detect -v`|
+| **Дамп с помощью git-dumper (Python)**| `git-dumper https://target.com/.git/ ./repo/` |
+| **Дамп с помощью GitTools Bash** | `./Dumper/gitdumper.sh https://target.com/.git/ ./dump/` |
+| **Извлечение коммитов в исходный код** | `./Extractor/extractor.sh ./dump/ ./source/` |
+| **Сканировать список хостов на наличие .git** | `python3 Finder/finder.py -i domains.txt` |
+| **Просмотр истории коммитов** | `git log -p --color` |
+| **Ищите запрограммированные секреты** | `gitleaks detect -v` |
 
 ---
 
-## 🛡️ Defensive Considerations & Web Server Hardening
+## 🛡️ Соображения по защите и усиление защиты веб-сервера
 
-1. **Nginx Hardening:**
+1. **Усиление защиты Nginx:**
    ```nginx
    location ~ /\.git {
        deny all;
        return 404;
    }
    ```
-2. **Apache Hardening (`.htaccess`):**
+2. **Усиление защиты Apache (`.htaccess`):**
    ```apache
    RedirectMatch 404 /\.git
    ```
-3. **CI/CD Best Practices:** Never deploy code by cloning git directly into the web root (`/var/www/html/`). Use clean artifact bundles or Docker containers.
+3. **Рекомендации по CI/CD:** Никогда не развертывайте код путем клонирования git непосредственно в корень веб-сайта (`/var/www/html/`). Используйте чистые пакеты артефактов или контейнеры Docker.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> GitTools and git-dumper are designed for authorized vulnerability assessments and defensive infrastructure auditing. Downloading proprietary source code from unauthorized web applications without permission is illegal.
+> [!ВНИМАНИЕ]
+> GitTools и git-dumper предназначены для авторизованной оценки уязвимостей и аудита защитной инфраструктуры. Загрузка проприетарного исходного кода из неавторизованных веб-приложений без разрешения является незаконной.

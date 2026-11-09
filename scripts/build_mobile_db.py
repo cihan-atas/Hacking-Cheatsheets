@@ -347,7 +347,16 @@ def build_database(repo_root, output_db_path):
         icon TEXT,
         content_en TEXT NOT NULL,
         content_tr TEXT NOT NULL,
+        content_de TEXT,
+        content_es TEXT,
+        content_fr TEXT,
         content_it TEXT,
+        content_pt TEXT,
+        content_ru TEXT,
+        content_zh_cn TEXT,
+        content_ar TEXT,
+        content_el TEXT,
+        content_nb TEXT,
         quick_commands_json TEXT,
         tags TEXT
     );
@@ -365,7 +374,7 @@ def build_database(repo_root, output_db_path):
     """)
 
     cur.execute("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY, identity_hash TEXT);")
-    cur.execute("INSERT OR REPLACE INTO room_master_table (id, identity_hash) VALUES(42, '70698166ea2cb273e0787e8f276526c1');")
+    cur.execute("INSERT OR REPLACE INTO room_master_table (id, identity_hash) VALUES(42, '57d56c8f728c597c35ce780bcf56b59b');")
 
     # Find and process all cheatsheets
     count = 0
@@ -393,31 +402,36 @@ def build_database(repo_root, output_db_path):
 
                 category = CATEGORY_MAPPING.get(folder, folder.replace("-", " "))
 
-                # Find Turkish file
                 base_no_ext = f[:-3]
-                tr_cand1 = os.path.join(root, "translations", f"{base_no_ext}.tr.md")
-                tr_cand2 = os.path.join(root, f"{base_no_ext}.tr.md")
-                tr_path = tr_cand1 if os.path.exists(tr_cand1) else (tr_cand2 if os.path.exists(tr_cand2) else None)
-
-                # Find Italian file
-                it_cand1 = os.path.join(root, "translations", f"{base_no_ext}.it.md")
-                it_cand2 = os.path.join(root, f"{base_no_ext}.it.md")
-                it_path = it_cand1 if os.path.exists(it_cand1) else (it_cand2 if os.path.exists(it_cand2) else None)
-
                 with open(en_path, "r", encoding="utf-8", errors="ignore") as fp:
                     content_en = fp.read()
 
-                content_tr = ""
-                if tr_path and os.path.exists(tr_path):
-                    with open(tr_path, "r", encoding="utf-8", errors="ignore") as fp:
-                        content_tr = fp.read()
-                else:
-                    content_tr = content_en
+                # Load all 11 non-English language contents
+                lang_cols = [
+                    ("tr", "content_tr"),
+                    ("de", "content_de"),
+                    ("es", "content_es"),
+                    ("fr", "content_fr"),
+                    ("it", "content_it"),
+                    ("pt", "content_pt"),
+                    ("ru", "content_ru"),
+                    ("zh-CN", "content_zh_cn"),
+                    ("ar", "content_ar"),
+                    ("el", "content_el"),
+                    ("nb", "content_nb"),
+                ]
+                localized_contents = {}
+                for l_code, col_name in lang_cols:
+                    c1 = os.path.join(root, "translations", f"{base_no_ext}.{l_code}.md")
+                    c2 = os.path.join(root, f"{base_no_ext}.{l_code}.md")
+                    lp = c1 if os.path.exists(c1) else (c2 if os.path.exists(c2) else None)
+                    if lp and os.path.exists(lp):
+                        with open(lp, "r", encoding="utf-8", errors="ignore") as fp:
+                            localized_contents[col_name] = fp.read()
+                    else:
+                        localized_contents[col_name] = None
 
-                content_it = None
-                if it_path and os.path.exists(it_path):
-                    with open(it_path, "r", encoding="utf-8", errors="ignore") as fp:
-                        content_it = fp.read()
+                content_tr = localized_contents.get("content_tr") or content_en
 
                 title_en = extract_title(content_en, slug.title())
                 title_tr = extract_title(content_tr, title_en)
@@ -511,11 +525,25 @@ def build_database(repo_root, output_db_path):
                 cur.execute("""
                 INSERT INTO cheatsheets (
                     id, category, title, title_tr, description, description_tr,
-                    icon, content_en, content_tr, content_it, quick_commands_json, tags
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    icon, content_en, content_tr, content_de, content_es, content_fr,
+                    content_it, content_pt, content_ru, content_zh_cn, content_ar,
+                    content_el, content_nb, quick_commands_json, tags
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     slug, category, title_en, title_tr, desc_en, desc_tr,
-                    icon, content_en, content_tr, content_it, quick_cmds_json, tags
+                    icon, content_en,
+                    content_tr,
+                    localized_contents.get("content_de"),
+                    localized_contents.get("content_es"),
+                    localized_contents.get("content_fr"),
+                    localized_contents.get("content_it"),
+                    localized_contents.get("content_pt"),
+                    localized_contents.get("content_ru"),
+                    localized_contents.get("content_zh_cn"),
+                    localized_contents.get("content_ar"),
+                    localized_contents.get("content_el"),
+                    localized_contents.get("content_nb"),
+                    quick_cmds_json, tags
                 ))
 
                 count += 1

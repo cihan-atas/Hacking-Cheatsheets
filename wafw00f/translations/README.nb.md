@@ -1,40 +1,43 @@
-# 🔍 wafw00f – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[wafw00f](https://github.com/EnableSecurity/wafw00f) is an open-source command-line Web Application Firewall (WAF) fingerprinting and detection tool. It identifies and fingerprints over 150 commercial and open-source WAF security solutions protecting target websites by sending normal and provocative HTTP requests and analyzing behavioral responses, headers, and cookies.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [[Export Formats (JSON, CSV, Text)](#export-formats-json-csv-text)](#why-fingerprint-wafs)
+# wafw00f Jukseark
+
+[wafw00f](https://github.com/EnableSecurity/wafw00f) er et åpen kildekode-kommandolinje for Web Application Firewall (WAF) fingeravtrykk og deteksjonsverktøy. Den identifiserer og tar fingeravtrykk over 150 kommersielle og åpen kildekode WAF-sikkerhetsløsninger som beskytter målnettsteder ved å sende normale og provoserende HTTP-forespørsler og analysere atferdsreaksjoner, overskrifter og informasjonskapsler.
+
+---
+
+## Innholdsfortegnelse
+
+- [Hvorfor Fingerprint WAFs?](#why-fingerprint-wafs)
 - [Installasjon](#installation)
-- [Installasjon](#basic--target-scanning)
-- [3. Disable Redirect Following (`-r`)](#exhaustive-multi-waf-detection--a)
-- [Bulk Target Scanning from File (`-i`)](#bulk-target-scanning-from-file--i)
-- [Scan an entire list of subdomains or target assets gathered from `subfinder` or `amass`:](#proxy--tor-routing--p)
-- [Export Formats (JSON, CSV, Text)](#export-formats-json-csv-text)
-- [List Supported WAF Signatures (`-l`)](#list-supported-waf-signatures--l)
-- [Cloud Providers**: Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.](#bug-bounty--penetration-testing-integration)
+– [Grunnleggende og målskanning](#grunnleggende--målskanning)
+- [Utømmende multi-WAF-deteksjon (`-a`)](#exhaustive-multi-waf-detection--a)
+- [Masseskanning fra fil (`-i`)](#bulk-målskanning-fra-fil--i)
+- [Proxy- og Tor-ruting (`-p`)](#proxy--tor-routing--p)
+- [Eksporter formater (JSON, CSV, tekst)](#export-formats-json-csv-text)
+- [Liste støttede WAF-signaturer (`-l`)](#list-supported-waf-signatures--l)
+- [Bug Bounty & Penetration Testing Integration](#bug-bounty--penetration-testing-integration)
 
 ---
 
-## [Export Formats (JSON, CSV, Text)](#export-formats-json-csv-text)
+## Hvorfor Fingerprint WAFs?
 
-Launching active web attacks (SQL injection, XSS, SSRF) against a protected target without prior reconnaissance often results in instant IP bans or false-negative vulnerability results. Identifying the exact WAF enables:
-- **Tailored Evasion**: Selecting vendor-specific bypass techniques (e.g., Unicode normalization for ModSecurity, chunked transfer encoding for Cloudflare).
-- **Origin IP Hunting**: If Cloudflare or Akamai is detected, pivoting to find the backend origin IP before testing.
-- **Rule Threshold Awareness**: Tuning scanner concurrency and rate limits below blocking thresholds.
+Å starte aktive nettangrep (SQL-injeksjon, XSS, SSRF) mot et beskyttet mål uten forutgående rekognosering resulterer ofte i umiddelbare IP-forbud eller falske negative sårbarhetsresultater. Å identifisere den nøyaktige WAF gjør det mulig:
+- **Tilpasset unndragelse:** Velge leverandørspesifikke bypass-teknikker (f.eks. Unicode-normalisering for ModSecurity, chunked transfer-koding for Cloudflare).
+- **Opprinnelses-IP-jakt:** Hvis Cloudflare eller Akamai blir oppdaget, pivotering for å finne opprinnelses-IP-en for backend før testing.
+- **Regelterskelbevissthet:** Juster skannerens samtidighet og hastighetsgrenser under blokkeringsterskler.
 
 ---
 
 ## Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y wafw00f
@@ -48,100 +51,88 @@ python3 -m pip install --user wafw00f
 # Verify installation
 wafw00f --version
 ```
-
 ---
 
-## Installasjon
+## Grunnleggende og målskanning
 
-### 1. Scan a Single Domain
+### 1. Skann et enkelt domene
 ```bash
 wafw00f https://example.com
 ```
-*wafw00f sends baseline HTTP requests followed by tailored malicious patterns to trigger security filters, identifying signatures in headers, status codes, and error pages.*
+*wafw00f sender baseline HTTP-forespørsler etterfulgt av skreddersydde ondsinnede mønstre for å utløse sikkerhetsfiltre, identifisere signaturer i overskrifter, statuskoder og feilsider.*
 
-### Basic & Target Scanning
-Inspect specific matching headers, HTTP status codes, and heuristics:
+### 2. Utførlig utgangsmodus (`-v` / `-vv`)
+Inspiser spesifikke samsvarende overskrifter, HTTP-statuskoder og heuristikk:
 ```bash
 wafw00f https://example.com -v
 ```
-
-### 3. Disable Redirect Following (`-r`)
-Prevent wafw00f from following 301/302 redirects to separate edge reverse proxies from backend applications:
+### 3. Deaktiver omdirigering (`-r`)
+Hindre wafw00f fra å følge 301/302-omdirigeringer for å skille kant-omvendte proxyer fra backend-applikasjoner:
 ```bash
 wafw00f https://example.com -r
 ```
-
 ---
 
-## 3. Disable Redirect Following (`-r`)
+## Uttømmende multi-WAF-deteksjon (`-a`)
 
-By default, wafw00f stops scanning as soon as the first WAF match is confirmed. Use `-a` to check all known vendor signatures (essential when an application sits behind a multi-tier defense like Cloudflare CDN + AWS WAF):
-
+Som standard stopper wafw00f skanningen så snart den første WAF-matchen er bekreftet. Bruk `-a` til å sjekke alle kjente leverandørsignaturer (nødvendig når en applikasjon sitter bak et flerlagsforsvar som Cloudflare CDN + AWS WAF):
 ```bash
 wafw00f https://example.com -a
 ```
-
 ---
 
-## Bulk Target Scanning from File (`-i`)
+## Massemålskanning fra fil (`-i`)
 
-Scan an entire list of subdomains or target assets gathered from `subfinder` or `amass`:
-
+Skann en hel liste over underdomener eller målressurser samlet fra `subfinder` eller `amass`:
 ```bash
 wafw00f -i /path/to/domains.txt -o /tmp/waf_results.txt
 ```
-
 ---
 
-## Scan an entire list of subdomains or target assets gathered from `subfinder` or `amass`:
+## Proxy- og Tor-ruting (`-p`)
 
-Route probing traffic through proxies to prevent IP blacklisting or inspect queries in Burp Suite:
+Ruter sonderingstrafikk gjennom proxyer for å forhindre IP-svartelisting eller inspiser spørringer i Burp Suite:
 
-### 1. Route Through Burp Suite Proxy
+### 1. Rute gjennom Burp Suite Proxy
 ```bash
 wafw00f https://example.com -p http://127.0.0.1:8080
 ```
-
-### 2. Route Through Local Tor SOCKS5 Proxy
+### 2. Rute gjennom lokal Tor SOCKS5 Proxy
 ```bash
 wafw00f https://example.com -p socks5://127.0.0.1:9050
 ```
-
 ---
 
-## Export Formats (JSON, CSV, Text)
+## Eksportformater (JSON, CSV, tekst)
 
-Export results for automated reporting or downstream reconnaissance tooling:
+Eksporter resultater for automatisert rapportering eller nedstrøms rekognoseringsverktøy:
 
-### 1. Export to JSON Format
+### 1. Eksporter til JSON-format
 ```bash
 wafw00f https://example.com -o results.json --format json
 ```
-
-### 2. Export to CSV Spreadsheet
+### 2. Eksporter til CSV-regneark
 ```bash
 wafw00f -i targets.txt -o results.csv --format csv
 ```
-
 ---
 
-## List Supported WAF Signatures (`-l`)
+## Liste støttede WAF-signaturer (`-l`)
 
-View all 150+ detectable WAF products:
+Se alle 150+ detekterbare WAF-produkter:
 ```bash
 wafw00f -l
 ```
-Key supported products include:
-- **Cloud Providers**: Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.
-- **Enterprise Appliances**: F5 BIG-IP ASM, Imperva SecureSphere, Barracuda, Fortinet FortiWeb, Citrix NetScaler.
-- **Open Source / Software**: ModSecurity, NAXSI, Shadow Daemon, OpenResty.
+Viktige støttede produkter inkluderer:
+- **Skyleverandører:** Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.
+- **Enterprise Appliances:** F5 BIG-IP ASM, Imperva SecureSphere, Barracuda, Fortinet FortiWeb, Citrix NetScaler.
+- **Åpen kildekode / programvare:** ModSecurity, NAXSI, Shadow Daemon, OpenResty.
 
 ---
 
-## Cloud Providers**: Cloudflare, AWS WAF, Akamai, Microsoft Azure Web Application Firewall, Google Cloud Armor.
+## Bug Bounty & Penetration Testing Integration
 
-Open Source / Software**: ModSecurity, NAXSI, Shadow Daemon, OpenResty.
-
+Integrer wafw00f i en automatisert nettangrepspipeline:
 ```bash
 #!/usr/bin/env bash
 TARGET="https://app.target.corp"

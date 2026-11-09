@@ -1,12 +1,16 @@
-# 🦈 tshark – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦈 tshark – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ████████╗███████╗██╗  ██╗ █████╗ ██████╗ ██╗  ██╗
   ╚══██╔══╝██╔════╝██║  ██║██╔══██╗██╔══██╗██║ ██╔╝
@@ -16,7 +20,6 @@
      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
          Terminal Packet Analysis & Dissection Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/tshark-Packet_Analyzer-blue?style=for-the-badge" alt="tshark">
   <img src="https://img.shields.io/badge/CLI-Network_Sniffer-red?style=for-the-badge" alt="CLI Network Sniffer">
@@ -25,75 +28,74 @@
 </p>
 
 <p align="center">
-  <b>🌐 Deep terminal-based network packet dissection, stream analysis, and field extraction powered by Wireshark</b>
+  <b>🌐 Umfassende terminalbasierte Analyse von Netzwerkpaketen, Stream-Analyse und Feldextraktion mit Wireshark</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-introduction)
-- [Tool Comparison: tshark vs tcpdump vs Wireshark](#-tool-comparison)
-- [Installation](#-installation--privileges)
-- [Basic Capture & Playback](#-basic-capture--playback)
-- [Filtering Traffic: Capture vs Display](#-filtering-traffic)
-- [Field Extraction (`-T fields`)](#-field-extraction)
-- [Practical Pentest & Forensic Recipes](#-practical-pentest--forensic-recipes)
-  - [HTTP Credential & URI Hunting](#http-credential--uri-hunting)
-  - [🎯 Praxisbeispiele](#dns-query-extraction--tunneling-detection)
-  - [TLS / HTTPS SNI Extraction](#tls--https-sni-extraction)
-  - [TLS / HTTPS SNI Extraction](#kerberos-as-req--as-rep-extraction)
-  - [SMB & NTLM Authentication Tracking](#smb--ntlm-authentication-tracking)
+- [Einführung](#-Einführung)
+- [Tool-Vergleich: tshark vs tcpdump vs Wireshark](#-tool-comparison)
+- [Installation & Berechtigungen](#-installation--privileges)
+- [Grundlegende Aufnahme und Wiedergabe](#-basic-capture--playback)
+- [Traffic filtern: Erfassung vs. Anzeige](#-filtering-traffic)
+- [Feldextraktion (`-T fields`)](#-Feldextraktion)
+- [Praktische Pentest- und forensische Rezepte](#-practical-pentest--forensic-recipes)
+  - [HTTP-Anmeldeinformationen und URI-Jagd](#http-credential--uri-hunting)
+  - [DNS-Abfrageextraktion und Tunnelerkennung](#dns-query-extraction--tunneling-detection)
+  - [TLS/HTTPS SNI-Extraktion](#tls--https-sni-extraction)
+  - [Kerberos AS-REQ/AS-REP-Extraktion](#kerberos-as-req--as-rep-extraction)
+  - [SMB- und NTLM-Authentifizierungsverfolgung](#smb--ntlm-authentication-tracking)
   - [Cleartext Protocol Auditing (FTP, Telnet, SMTP)](#cleartext-protocol-auditing)
   - [WPA / EAPOL 4-Way Handshake Hunting](#wpa--eapol-4-way-handshake-hunting)
 - [Stream Following & Reassembly](#-stream-following--reassembly)
-- [Statistics, Conversations & Endpoints](#-statistics-conversations--endpoints)
-- [TLS / SSL Traffic Decryption](#-tls--ssl-traffic-decryption)
-- [Export Formats (JSON, CSV, Elasticsearch)](#-export-formats)
-- [Kurzreferenz](#-quick-reference-table)
-- [Tipps und bewährte Vorgehensweisen](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Statistiken, Gespräche und Endpunkte](#-statistics-conversations--endpoints)
+- [TLS-/SSL-Verkehrsentschlüsselung](#-tls--ssl-traffic-decryption)
+- [Exportformate (JSON, CSV, Elasticsearch)](#-export-formats)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Tipps und Best Practices](#-tips--best-practices)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
 ## 🎯 Einführung
 
-**tshark** is the terminal and command-line counterpart of **Wireshark**. It relies on the identical packet capture library (libpcap/Npcap) and packet dissection engine as the graphical Wireshark, making it one of the most powerful network analysis tools available in Linux, macOS, and Windows.
+**tshark** ist das Terminal- und Befehlszeilen-Gegenstück zu **Wireshark**. Es basiert auf der gleichen Paketerfassungsbibliothek (libpcap/Npcap) und Paketzerlegungs-Engine wie das grafische Wireshark und ist damit eines der leistungsstärksten Netzwerkanalysetools, die unter Linux, macOS und Windows verfügbar sind.
 
-Unlike basic packet sniffer tools that only inspect protocol headers, `tshark` features deep packet inspection capabilities across thousands of protocols, native Wireshark display filter syntax (`-Y`), robust protocol field extraction (`-T fields`), and flexible output formatting for automation pipelines (`jq`, shell scripts, Python).
+Im Gegensatz zu einfachen Paket-Sniffer-Tools, die nur Protokoll-Header prüfen, bietet `tshark` umfassende Paketprüfungsfunktionen für Tausende von Protokollen, native Wireshark-Anzeigefiltersyntax (`-Y`), robuste Protokollfeldextraktion (`-T fields`) und flexible Ausgabeformatierung für Automatisierungspipelines (`jq`, Shell-Skripte, Python).
 
-### 🎯 Einführung
+### Hauptmerkmale
 
-|Feature|Beschreibung|
+| Funktion | Beschreibung |
 |---------|-------------|
-|**Deep Dissection**|Inspects payload data across thousands of application protocols|
-|**Wireshark Filters**|Full support for rich Wireshark display filter syntax (`-Y`)|
-|**Field Extraction**|Extract individual protocol fields directly (`-T fields -e ...`)|
-|**Stream Following**|Reassembles full TCP/UDP sessions in ASCII, Hex, or raw formats|
-|**Automated Forensics**|Scriptable in shell, Python, or piped to `jq` via `-T json`|
-|**Decryption**|Supports runtime TLS decryption with `SSLKEYLOGFILE`|
+| **Tiefe Dissektion** | Überprüft Nutzdaten über Tausende von Anwendungsprotokollen hinweg |
+| **Wireshark-Filter** | Volle Unterstützung für die umfangreiche Wireshark-Anzeigefiltersyntax (`-Y`) |
+| **Feldextraktion** | Einzelne Protokollfelder direkt extrahieren (`-T fields -e ...`) |
+| **Stream folgt** | Stellt vollständige TCP/UDP-Sitzungen in ASCII-, Hex- oder Rohformaten wieder zusammen |
+| **Automatisierte Forensik**| Skriptfähig in Shell, Python oder über `-T json` | an `jq` weitergeleitet
+| **Entschlüsselung** | Unterstützt Laufzeit-TLS-Entschlüsselung mit `SSLKEYLOGFILE` |
 
 ---
 
-## ⚖️ Tool Comparison
+## ⚖️ Werkzeugvergleich
 
-|Feature|tshark|tcpdump|Wireshark|
+| Funktion | Tshark | tcpdump | Wireshark |
 |---------|--------|---------|-----------|
-|**Interface**|CLI (Terminal)|CLI (Terminal)|GUI (Graphical)|
-|**Resource Usage**|Low / Moderate|Extremely Minimal|Higher (RAM & CPU)|
-|**Remote (SSH / Headless)**|Native headless / CLI|Native SSH pipe|Requires X11 / Remote agent|
-|**Dissecting Engine**|Full Wireshark dissectors|Basic headers|Full Wireshark dissectors|
-|**Capture Filters**|BPF only (`-f`)|BPF only (`-i`)|BPF only|
-|**Display Filters**|✅ Full Wireshark syntax (`-Y`)|❌ None|✅ Full GUI filter bar|
-|**Export Formats**|PCAP, JSON, CSV, Elastic, XML|PCAP, ASCII, Hex|PCAP, CSV, XML, JSON|
-|**Scripting & Automation**|Shell, Python, jq|Shell / Awk / Sed|Lua plugins, GUI|
+| **Schnittstelle** | CLI (Terminal) | CLI (Terminal) | GUI (grafisch) |
+| **Ressourcennutzung** | Niedrig / Moderat | Extrem minimal | Höher (RAM & CPU) |
+| **Remote (SSH / Headless)** | Native Headless / CLI | Native SSH-Pipe | Erfordert X11 / Remote-Agent |
+| **Sezierungsmaschine** | Vollständige Wireshark-Dissektoren | Grundlegende Überschriften | Vollständige Wireshark-Dissektoren |
+| **Aufnahmefilter** | Nur BPF (`-f`) | Nur BPF (`-i`) | Nur BPF |
+| **Anzeigefilter** | ✅ Vollständige Wireshark-Syntax (`-Y`) | ❌ Keine | ✅ Vollständige GUI-Filterleiste |
+| **Formate exportieren** | PCAP, JSON, CSV, Elastic, XML | PCAP, ASCII, Hex | PCAP, CSV, XML, JSON |
+| **Skripterstellung und Automatisierung**| Shell, Python, jq | Shell / Awk / Sed | Lua-Plugins, GUI |
 
 ---
 
-## 📥 Installation
+## 📥 Installation und Berechtigungen
 
-### |**Scripting & Automation**|Shell, Python, jq|Shell / Awk / Sed|Lua plugins, GUI|
-
+### Linux (Debian / Ubuntu / Kali Linux)
 ```bash
 # Update and install tshark
 sudo apt update && sudo apt install -y tshark
@@ -101,11 +103,9 @@ sudo apt update && sudo apt install -y tshark
 # Verify installation and version
 tshark --version
 ```
+### Nicht-Root-Paketerfassung zulassen
 
-### 📥 Installation
-
-To prevent running `tshark` as `root` (which can be a security risk due to the vast dissector surface), add your user to the `wireshark` group:
-
+Um zu verhindern, dass `tshark` als `root` ausgeführt wird (was aufgrund der großen Dissektoroberfläche ein Sicherheitsrisiko darstellen kann), fügen Sie Ihren Benutzer der Gruppe `wireshark` hinzu:
 ```bash
 # Configure wireshark-common for non-superusers
 sudo dpkg-reconfigure wireshark-common
@@ -117,9 +117,7 @@ sudo usermod -aG wireshark $USER
 # Apply group changes to current session
 newgrp wireshark
 ```
-
-### Allowing Non-Root Packet Capture
-
+### macOS (Homebrew) & Windows (schokoladig)
 ```bash
 # macOS
 brew install wireshark
@@ -127,20 +125,16 @@ brew install wireshark
 # Windows
 choco install wireshark
 ```
-
 ---
 
-## 🚀 Basic Capture & Playback
+## 🚀 Einfache Aufnahme und Wiedergabe
 
-### List Available Interfaces
-
+### Verfügbare Schnittstellen auflisten
 ```bash
 # List interfaces with numeric IDs
 tshark -D
 ```
-
-### 🚀 Basic Capture & Playback
-
+### Live-Pakete erfassen
 ```bash
 # Capture packets on interface eth0
 tshark -i eth0
@@ -157,9 +151,7 @@ tshark -i eth0 -b filesize:100000 -b files:5 -w rolling_traffic.pcap
 # Capture with a duration trigger (capture for 60 seconds)
 tshark -i eth0 -a duration:60 -w one_minute.pcap
 ```
-
-### Reading PCAP Files
-
+### PCAP-Dateien lesen
 ```bash
 # Read and display packets from a pcap file
 tshark -r capture.pcap
@@ -170,16 +162,14 @@ tshark -r capture.pcap -n
 # Suppress packet count summary upon completion
 tshark -r capture.pcap -q
 ```
-
 ---
 
-## 🔍 Filtering Traffic: Capture vs Display
+## 🔍 Traffic filtern: Erfassung vs. Anzeige
 
-`tshark` employs two distinct filtering engines:
+`tshark` verwendet zwei unterschiedliche Filter-Engines:
 
-1. **Capture Filters (`-f`):** Berkeley Packet Filters (BPF) evaluated by the kernel before packets hit userspace. Highly performant, but limited to basic IP/port primitives.
-2. **Display Filters (`-Y`):** Deep protocol filters evaluated by Wireshark's dissection engine. Supports application layers, string searching, regex, and protocol flags.
-
+1. **Capture Filters (`-f`):** Berkeley Packet Filters (BPF), die vom Kernel ausgewertet werden, bevor Pakete den Userspace erreichen. Sehr leistungsfähig, aber auf grundlegende IP-/Port-Primitive beschränkt.
+2. **Anzeigefilter (`-Y`):** Tiefgreifende Protokollfilter, die von der Dissektions-Engine von Wireshark ausgewertet werden. Unterstützt Anwendungsschichten, String-Suche, Regex und Protokoll-Flags.
 ```bash
 # Capture filter: Capture only TCP traffic to port 80 or 443
 tshark -i eth0 -f "tcp port 80 or tcp port 443" -w web_traffic.pcap
@@ -193,31 +183,27 @@ tshark -r capture.pcap -Y "ip.addr == 192.168.1.0/24 and not eth.dst == ff:ff:ff
 # Read-filter (-R): Single-pass filter used during capture
 tshark -r capture.pcap -2 -R "dns.flags.response == 1"
 ```
-
 ---
 
-## 📊 Field Extraction (`-T fields`)
+## 📊 Feldextraktion (`-T fields`)
 
-The `-T fields` mode is `tshark`'s most powerful feature for automated reconnaissance, scripting, and CTF challenges.
-
+Der `-T fields`-Modus ist die leistungsstärkste Funktion von `tshark` für automatisierte Aufklärung, Skripterstellung und CTF-Herausforderungen.
 ```bash
 # Basic syntax for field extraction
 tshark -r capture.pcap -T fields -e <field1> -e <field2> -E header=y -E separator=,
 ```
+### Formatierungsflags für die Schlüsselextraktion
 
-### Optionen und Parameter
-
-|Flag|Beschreibung|
+| Flagge | Beschreibung |
 |------|-------------|
-|`-T fields`|Switches output mode to custom field extraction|
-|`-e <field>`|Names the protocol field to extract (can be repeated)|
-|`-E header=y`|Prints column names as header row|
-|`-E separator=,`|Sets field separator (`,` for CSV, `\t` for TSV)|
-|`-E occurrence=f`|Extracts only the first (`f`), last (`l`), or all (`a`) occurrences|
-|`-E quote=d`|Encloses values in double quotes|
+| `-T fields` | Schaltet den Ausgabemodus auf benutzerdefinierte Feldextraktion um |
+| `-e <field>` | Benennt das zu extrahierende Protokollfeld (kann wiederholt werden) |
+| `-E header=y` | Druckt Spaltennamen als Kopfzeile |
+| `-E separator=,` | Legt Feldtrennzeichen fest (`,` für CSV, `\t` für TSV) |
+| `-E occurrence=f` | Extrahiert nur das erste (`f`), das letzte (`l`) oder alle (`a`) Vorkommen |
+| `-E quote=d` | Schließt Werte in doppelte Anführungszeichen | ein
 
-### Kurzreferenz
-
+### Cheatsheet zu Kernprotokollfeldern
 ```bash
 # IP layer fields
 ip.src, ip.dst, ip.proto, ip.ttl
@@ -234,13 +220,11 @@ dns.qry.name, dns.qry.type, dns.a, dns.flags.response
 # TLS fields
 tls.handshake.extensions_server_name, tls.handshake.ciphersuite
 ```
-
 ---
 
-## 🎯 Praxisbeispiele
+## 🎯 Praktische Pentest- und forensische Rezepte
 
-### HTTP Credential & URI Hunting
-
+### HTTP-Anmeldeinformationen und URI-Jagd
 ```bash
 # Extract all visited URLs and HTTP Hosts
 tshark -r capture.pcap -Y "http.request" -T fields -e ip.src -e http.host -e http.request.method -e http.request.uri -E header=y
@@ -254,9 +238,7 @@ tshark -r capture.pcap -Y "http.request.method == \"POST\"" -T fields -e ip.src 
 # Hunt for HTTP Basic Authentication headers (Base64 encoded)
 tshark -r capture.pcap -Y "http.authorization" -T fields -e ip.src -e http.authorization
 ```
-
-### 🎯 Praxisbeispiele
-
+### DNS-Abfrageextraktion und Tunnelerkennung
 ```bash
 # List all requested domain names (DNS queries)
 tshark -r capture.pcap -Y "dns.flags.response == 0" -T fields -e ip.src -e dns.qry.name | sort -u
@@ -267,18 +249,14 @@ tshark -r capture.pcap -Y "dns.flags.response == 0" -T fields -e dns.qry.name | 
 # Correlate DNS queries with their resolved IP addresses
 tshark -r capture.pcap -Y "dns.flags.response == 1 and dns.a" -T fields -e dns.qry.name -e dns.a -E header=y
 ```
+### TLS/HTTPS SNI-Extraktion
 
-### TLS / HTTPS SNI Extraction
-
-Even when HTTPS payloads are encrypted, the **Server Name Indication (SNI)** in the initial TLS Client Hello handshake reveals destination domain names:
-
+Selbst wenn HTTPS-Nutzlasten verschlüsselt sind, zeigt die **Server Name Indication (SNI)** im ersten TLS-Client-Hello-Handshake Zieldomänennamen an:
 ```bash
 # Extract TLS Server Name Indication (SNI) hostnames
 tshark -r capture.pcap -Y "tls.handshake.type == 1" -T fields -e ip.src -e ip.dst -e tls.handshake.extensions_server_name | sort -u
 ```
-
-### TLS / HTTPS SNI Extraction
-
+### Kerberos AS-REQ/AS-REP-Extraktion
 ```bash
 # Extract Kerberos domain client names (hunting for user accounts)
 tshark -r capture.pcap -Y "kerberos.CNameString" -T fields -e ip.src -e kerberos.realm -e kerberos.CNameString | sort -u
@@ -286,9 +264,7 @@ tshark -r capture.pcap -Y "kerberos.CNameString" -T fields -e ip.src -e kerberos
 # Hunt for Kerberos errors (e.g. KRB5KDC_ERR_PREAUTH_REQUIRED, bad passwords)
 tshark -r capture.pcap -Y "kerberos.error_code" -T fields -e ip.src -e ip.dst -e kerberos.error_code
 ```
-
-### SMB & NTLM Authentication Tracking
-
+### SMB- und NTLM-Authentifizierungsverfolgung
 ```bash
 # Extract SMB accessed file paths and shares
 tshark -r capture.pcap -Y "smb2.filename" -T fields -e ip.src -e ip.dst -e smb2.filename | sort -u
@@ -296,9 +272,7 @@ tshark -r capture.pcap -Y "smb2.filename" -T fields -e ip.src -e ip.dst -e smb2.
 # Extract NTLMSSP usernames and domain names during authentication
 tshark -r capture.pcap -Y "ntlmssp.auth.username" -T fields -e ip.src -e ntlmssp.auth.domain -e ntlmssp.auth.username
 ```
-
-### Cleartext Protocol Auditing
-
+### Prüfung des Klartextprotokolls
 ```bash
 # Extract FTP usernames and passwords
 tshark -r capture.pcap -Y "ftp.request.command == \"USER\" or ftp.request.command == \"PASS\"" -T fields -e ip.src -e ftp.request.command -e ftp.request.arg
@@ -306,20 +280,16 @@ tshark -r capture.pcap -Y "ftp.request.command == \"USER\" or ftp.request.comman
 # Extract Telnet session input
 tshark -r capture.pcap -Y "telnet" -T fields -e telnet.data
 ```
-
-### WPA / EAPOL 4-Way Handshake Hunting
-
+### WPA/EAPOL 4-Wege-Handshake-Jagd
 ```bash
 # Filter for 802.11 EAPOL handshakes to crack with Hashcat/Aircrack-ng
 tshark -r wifi.pcap -Y "eapol" -w handshakes_only.pcap
 ```
-
 ---
 
-## 🧵 Stream Following & Reassembly
+## 🧵 Stream-Verfolgung und Zusammenbau
 
-`tshark` allows reassembling entire TCP and UDP streams without needing Wireshark's GUI.
-
+`tshark` ermöglicht die Neuzusammenstellung ganzer TCP- und UDP-Streams, ohne dass die GUI von Wireshark erforderlich ist.
 ```bash
 # List all TCP conversations to find stream IDs
 tshark -r capture.pcap -q -z conv,tcp
@@ -333,11 +303,9 @@ tshark -r capture.pcap -q -z follow,tcp,hex,2
 # Follow HTTP stream (stream index 1)
 tshark -r capture.pcap -q -z follow,http,ascii,1
 ```
-
 ---
 
-## 📈 Statistics, Conversations & Endpoints
-
+## 📈 Statistiken, Gespräche und Endpunkte
 ```bash
 # Protocol hierarchy statistics (breakdown of all protocols in PCAP)
 tshark -r capture.pcap -q -z io,phs
@@ -357,13 +325,11 @@ tshark -r capture.pcap -q -z http,tree
 # Wireshark Expert Info warnings and errors
 tshark -r capture.pcap -q -z expert
 ```
-
 ---
 
-## 🔐 TLS / SSL Traffic Decryption
+## 🔐 TLS/SSL-Verkehrsentschlüsselung
 
-If you have pre-master secret keys (exported via browser `SSLKEYLOGFILE` or retrieved during malware sandboxing):
-
+Wenn Sie über Pre-Master-Geheimschlüssel verfügen (über den Browser `SSLKEYLOGFILE` exportiert oder während des Malware-Sandboxings abgerufen):
 ```bash
 # Decrypt TLS traffic on the fly using keylog file
 tshark -r https_traffic.pcap -o "tls.keylog_file:/path/to/sslkeys.log" -Y "http" -T fields -e http.host -e http.request.uri
@@ -371,11 +337,9 @@ tshark -r https_traffic.pcap -o "tls.keylog_file:/path/to/sslkeys.log" -Y "http"
 # Follow decrypted HTTP stream inside TLS
 tshark -r https_traffic.pcap -o "tls.keylog_file:/path/to/sslkeys.log" -q -z follow,http,ascii,0
 ```
-
 ---
 
-## 📦 Export Formats
-
+## 📦 Exportformate
 ```bash
 # Output as structured JSON (ideal for piping into jq or Python)
 tshark -r capture.pcap -c 5 -T json
@@ -389,37 +353,36 @@ tshark -r capture.pcap -T ek > packets_for_elastic.json
 # Output as CSV table
 tshark -r capture.pcap -T fields -e frame.number -e ip.src -e ip.dst -e _ws.col.Protocol -E header=y -E separator=, > traffic.csv
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Task|Befehl|
+| Aufgabe | Befehl |
 |------|---------|
-|**Capture live traffic**|`tshark -i eth0 -w output.pcap`|
-|**Capture with BPF filter**|`tshark -i eth0 -f "port 80" -w http.pcap`|
-|**Read PCAP without DNS**|`tshark -r capture.pcap -n`|
-|**Apply display filter**|`tshark -r capture.pcap -Y "http.response.code >= 400"`|
-|**Extract IPs and Ports**|`tshark -r capture.pcap -T fields -e ip.src -e tcp.srcport -e ip.dst -e tcp.dstport`|
-|**Extract DNS Queries**|`tshark -r capture.pcap -Y "dns.flags.response == 0" -T fields -e dns.qry.name`|
-|**Extract TLS SNI Hostnames**|`tshark -r capture.pcap -Y "tls.handshake.type == 1" -T fields -e tls.handshake.extensions_server_name`|
-|**Extract HTTP URLs**|`tshark -r capture.pcap -Y "http.request" -T fields -e http.host -e http.request.uri`|
-|**Follow TCP Stream**|`tshark -r capture.pcap -q -z follow,tcp,ascii,0`|
-|**Protocol Hierarchy**|`tshark -r capture.pcap -q -z io,phs`|
-|**Decrypt with Keylog**|`tshark -r traffic.pcap -o "tls.keylog_file:keys.log"`|
-|**Export to JSON**|`tshark -r capture.pcap -T json > packets.json`|
+| **Live-Verkehr erfassen** | `tshark -i eth0 -w output.pcap` |
+| **Aufnahme mit BPF-Filter** | `tshark -i eth0 -f "port 80" -w http.pcap` |
+| **PCAP ohne DNS lesen** | `tshark -r capture.pcap -n` |
+| **Anzeigefilter anwenden** | `tshark -r capture.pcap -Y "http.response.code >= 400"` |
+| **IPs und Ports extrahieren** | `tshark -r capture.pcap -T fields -e ip.src -e tcp.srcport -e ip.dst -e tcp.dstport` |
+| **DNS-Abfragen extrahieren** | `tshark -r capture.pcap -Y "dns.flags.response == 0" -T fields -e dns.qry.name` |
+| **TLS-SNI-Hostnamen extrahieren**| `tshark -r capture.pcap -Y "tls.handshake.type == 1" -T fields -e tls.handshake.extensions_server_name` |
+| **HTTP-URLs extrahieren** | `tshark -r capture.pcap -Y "http.request" -T fields -e http.host -e http.request.uri` |
+| **TCP-Stream folgen** | `tshark -r capture.pcap -q -z follow,tcp,ascii,0` |
+| **Protokollhierarchie** | `tshark -r capture.pcap -q -z io,phs` |
+| **Mit Keylog entschlüsseln** | `tshark -r traffic.pcap -o "tls.keylog_file:keys.log"` |
+| **Nach JSON exportieren** | `tshark -r capture.pcap -T json > packets.json` |
 
 ---
 
-## 💡 Tipps und bewährte Vorgehensweisen
+## 💡 Tipps und Best Practices
 
-|**Export to JSON**|`tshark -r capture.pcap -T json > packets.json`|
-2. **Combine `-f` and `-Y`:** Use `-f` capture filters during live capture to reduce packet drops, and `-Y` display filters during post-analysis for deep protocol inspection.
-3. **Pipe with `jq`:** Pipelining `tshark -T json` into `jq` allows querying nested protocol fields with complete boolean logic and transformation.
-4. **Ring Buffers for 24/7 Sniffing:** When running continuous network captures on a pivot host, always enforce size and file limits (`-b filesize:50000 -b files:10`) to prevent crashing the target's disk.
+1. **Verwenden Sie immer `-n` für große PCAPs:** Die DNS-Namensauflösung verlangsamt die Analyse erheblich. Fügen Sie `-n` hinzu, um die Auflösung von IP-Adressen zu verhindern.
+2. **Kombinieren Sie `-f` und
+3. **Pipe mit `jq`:** Durch die Pipelining von `tshark -T json` in `jq` können verschachtelte Protokollfelder mit vollständiger boolescher Logik und Transformation abgefragt werden.
+4. **Ringpuffer für 24/7-Sniffing:** Wenn Sie kontinuierliche Netzwerkerfassungen auf einem Pivot-Host ausführen, erzwingen Sie immer Größen- und Dateibeschränkungen (`-b filesize:50000 -b files:10`), um einen Absturz der Festplatte des Ziels zu verhindern.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-> **IMPORTANT:** Unauthorized packet capture, eavesdropping on network traffic, and intercepting credentials on networks without explicit, documented permission is illegal and subject to criminal prosecution. Use `tshark` strictly on systems and networks you own or are contractually authorized to assess.
+> **WICHTIG:** Das unbefugte Abfangen von Paketen, das Abhören des Netzwerkverkehrs und das Abfangen von Anmeldeinformationen in Netzwerken ohne ausdrückliche, dokumentierte Erlaubnis ist illegal und wird strafrechtlich verfolgt. Verwenden Sie `tshark` ausschließlich auf Systemen und Netzwerken, die Sie besitzen oder zu deren Bewertung Sie vertraglich berechtigt sind.

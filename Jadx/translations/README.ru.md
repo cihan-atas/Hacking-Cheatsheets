@@ -1,12 +1,16 @@
-# 🔍 Jadx — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔍 Jadx и Apktool — полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
        ██╗ █████╗ ██████╗ ██╗  ██╗    ███████╗    █████╗ ██████╗ ██╗  ██╗████████╗ ██████╗  ██████╗ ██╗     
        ██║██╔══██╗██╔══██╗╚██╗██╔╝    ██╔════╝   ██╔══██╗██╔══██╗██║ ██╔╝╚══██╔══╝██╔═══██╗██╔═══██╗██║     
@@ -16,55 +20,53 @@
    ╚════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝    ╚══════╝╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝
            Android APK Decompilation, Smali Patching & Repackaging
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/Jadx-DEX_to_Java-blue?style=for-the-badge" alt="Jadx">
   <img src="https://img.shields.io/badge/Apktool-Smali_Disassembler-orange?style=for-the-badge" alt="Apktool">
   <img src="https://img.shields.io/badge/Category-Mobile_Reverse_Engineering-green?style=for-the-badge" alt="Mobile RE">
   <img src="https://img.shields.io/badge/Platform-Android-purple?style=for-the-badge" alt="Android">
 </p>
 
-<p align="center">
-  <b>🔍 Complete guide for Android reverse engineering: decompiling APK/DEX/AAR files into readable Java source code with Jadx, and disassembling/patching Smali code and repackaging with Apktool</b>
+<p выравнивание="центр">
+  <b>🔍 Полное руководство по реверс-инжинирингу Android: декомпиляция файлов APK/DEX/AAR в читаемый исходный код Java с помощью Jadx, а также дизассемблирование/исправление кода Smali и переупаковка с помощью Apktool</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--architecture)
-- [Установка](#-installation)
-- [Jadx: Decompiling to Java Source](#-jadx-decompiling-to-java-source)
-  - [Jadx GUI Mode](#jadx-gui-mode)
-  - [Jadx CLI Batch Decompilation](#jadx-cli-batch-decompilation)
-  - [`N`: Rename variable / method (with automated refactoring).](#extracting-high-value-assets--manifest)
-- [Apktool: Disassembly & Smali Extraction](#-apktool-disassembly--smali-extraction)
-  - [Ресурсы и ссылки](#decompiling-to-smali--resources)
-  - [Analyzing & Patching Smali Code](#analyzing--patching-smali-code)
-  - [To bypass an in-app check (e.g. `isPremium()` or `isRooted()`):](#bypassing-network-security-config-cleartextburp)
-- [Rebuilding, Aligning & Signing the Patched APK](#-rebuilding-aligning--signing-the-patched-apk)
-  - [1. Rebuild with Apktool](#1-rebuild-with-apktool)
-  - [2. Generate Keystore Certificate](#2-generate-keystore-certificate)
-  - [1. Rebuild with Apktool](#3-zipalign-optimization)
-  - [4. Sign with Apksigner](#4-sign-with-apksigner)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & Code Obfuscation](#-defensive-considerations--code-obfuscation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Обзор и архитектура](#-обзор--архитектура)
+- [Установка](#-установка)
+- [Jadx: декомпиляция в исходный код Java](#-jadx-decompiling-to-java-source)
+  - [Режим графического интерфейса Jadx](#jadx-gui-mode)
+  - [Пакетная декомпиляция Jadx CLI](#jadx-cli-batch-decompilation)
+  - [Извлечение ценных активов и манифест](#extracting-high-value-assets--manifest)
+- [Apktool: Дизассемблирование и извлечение Smali](#-apktool-disassembly--smali-extraction)
+  - [Декомпиляция в Smali и ресурсы](#decompiling-to-smali--resources)
+  - [Анализ и исправление кода Smali](#analyzing--patching-smali-code)
+  - [Обход конфигурации сетевой безопасности (Cleartext/Burp)](#bypassing-network-security-config-cleartextburp)
+- [Восстановление, согласование и подписание исправленного APK](#-rebuilding-aligning--signing-the-patched-apk)
+  - [1. Перестроить с помощью Apktool] (#1-rebuild-with-apktool)
+  - [2. Создать сертификат хранилища ключей](#2-генерировать-сертификат хранилища ключей)
+  - [3. Оптимизация Zipalign] (#3-zipalign-оптимизация)
+  - [4. Подписать с помощью Apksigner](#4-sign-with-apksigner)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и обфускация кода](#-защитные-соображения--код-обфускация)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и архитектура
 
-Android applications (`.apk`) are essentially ZIP archives containing compiled Dalvik Executable bytecode (`classes.dex`), pre-compiled resources (`resources.arsc`), binary XML manifests (`AndroidManifest.xml`), and native C/C++ libraries (`lib/`).
+Приложения Android (`.apk`) по сути представляют собой ZIP-архивы, содержащие скомпилированный байт-код исполняемого файла Dalvik (`classes.dex`), предварительно скомпилированные ресурсы (`resources.arsc`), двоичные XML-манифесты (`AndroidManifest.xml`) и собственные библиотеки C/C++ (`lib/`).
 
-Two essential complementary tools form the backbone of Android analysis:
-1. **Jadx (Dex to Java decompiler):** Converts Dalvik bytecode directly into clean, human-readable Java source code. It features a fast GUI with code cross-references (xrefs), method searches, and deobfuscation algorithms.
-2. **Apktool:** Disassembles APK resources into their near-original form and converts Dalvik bytecode into **Smali** intermediate assembly. It allows modifying application logic, injecting custom Smali hooks, and repackaging the modified APK.
+Два важных взаимодополняющих инструмента составляют основу анализа Android:
+1. **Jadx (декомпилятор Dex в Java):** преобразует байт-код Dalvik непосредственно в чистый, удобочитаемый исходный код Java. Он имеет быстрый графический интерфейс с перекрестными ссылками на код (xrefs), поиском методов и алгоритмами деобфускации.
+2. **Apktool:** Дизассемблирует ресурсы APK в их почти исходную форму и преобразует байт-код Dalvik в промежуточную сборку **Smali**. Он позволяет изменять логику приложения, внедрять собственные перехватчики Smali и переупаковывать модифицированный APK.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y jadx apktool apksigner zipalign
@@ -75,23 +77,22 @@ brew install jadx apktool android-commandlinetools
 # Arch Linux
 sudo pacman -S jadx apktool
 ```
-
 ---
 
-## ☕ Jadx: Decompiling to Java Source
+## ☕ Jadx: декомпиляция в исходный код Java
 
-### Jadx GUI Mode
-The easiest way to analyze an APK interactively:
+### Режим графического интерфейса Jadx
+Самый простой способ интерактивного анализа APK:
 ```bash
 jadx-gui target.apk
 ```
 *Keyboard Shortcuts in Jadx-GUI:*
-- ☕ Jadx: Decompiling to Java Source
-- `R`: Find Cross-References (where a class or method is used).
-- Jadx GUI Mode
+- `Ctrl + Shift + F`: Global text and class search.
+- `R`: найти перекрестные ссылки (где используется класс или метод).
+- `N`: переименовать переменную/метод (с автоматическим рефакторингом).
 
 ### Jadx CLI Batch Decompilation
-Keyboard Shortcuts in Jadx-GUI:
+Экспортируйте исходный код, ресурсы и ресурсы Java в выходной каталог без запуска графического интерфейса:
 ```bash
 # Decompile entire APK into src/ directory
 jadx -d output_src target.apk
@@ -102,16 +103,15 @@ jadx -r -d output_src target.apk
 # Enable automated deobfuscation of scrambled names (a, b, c -> p001_a)
 jadx --deobf -d output_deobf target.apk
 ```
-
-### `N`: Rename variable / method (with automated refactoring).
-- `resources/AndroidManifest.xml`: Identifies exported activities, services, broadcast receivers, and intent filters.
-- Jadx CLI Batch Decompilation
+### Извлечение ценных активов и манифест
+- `resources/AndroidManifest.xml`: идентифицирует экспортированные действия, услуги, приемники вещания и фильтры намерений.
+- `resources/res/values/strings.xml`: часто содержит жестко закодированные ключи API, URL-адреса серверов и секреты клиента OAuth.
 
 ---
 
-## 🔨 Apktool: Disassembly & Smali Extraction
+## 🔨 Apktool: разборка и извлечение Smali
 
-### Ресурсы и ссылки
+### Декомпиляция в Smali и ресурсы
 ```bash
 # Disassemble APK into a work folder
 apktool d target.apk -o apk_workdir
@@ -119,16 +119,14 @@ apktool d target.apk -o apk_workdir
 # Keep broken resources without crashing
 apktool d -r target.apk -o apk_workdir
 ```
+Внутри `apk_workdir`:
+- `smali/`: инструкция по сборке Dalvik.
+- `res/`: декодированные ресурсы Android (макеты, строки, рисунки).
+- `AndroidManifest.xml`: XML-манифест в виде обычного текста.
 
-Inside `apk_workdir`:
-- 🔨 Apktool: Disassembly & Smali Extraction
-- `res/`: Decoded Android resources (layouts, strings, drawables).
-- Ресурсы и ссылки
-
-### Analyzing & Patching Smali Code
-Inside `apk_workdir`:
-`smali/`: Dalvik assembly instructions.
-
+### Анализ и исправление кода Smali
+Чтобы обойти проверку в приложении (например, `isPremium()` или `isRooted()`):
+Откройте соответствующий файл `.smali` и найдите метод:
 ```smali
 .method public isRooted()Z
     .registers 2
@@ -139,15 +137,15 @@ Inside `apk_workdir`:
     return v0
 .end method
 ```
-Changing `const/4 v0, 0x1` to `0x0` forces the method to always return `false`.
+Изменение `const/4 v0, 0x1` на `0x0` заставляет метод всегда возвращать `false`.
 
-### To bypass an in-app check (e.g. `isPremium()` or `isRooted()`):
-Open the corresponding `.smali` file and locate the method:
-1. In `AndroidManifest.xml`, check `application` tag:
+### Обход конфигурации сетевой безопасности (Cleartext/Burp)
+Чтобы захватить HTTPS-трафик из приложений Android 7+ (API 24+) в Burp Suite:
+1. В `AndroidManifest.xml` проверьте тег `application`:
    ```xml
    android:networkSecurityConfig="@xml/network_security_config"
    ```
-Changing `const/4 v0, 0x1` to `0x0` forces the method to always return `false`.
+2. В `res/xml/network_security_config.xml` разрешите сертификаты пользователей:
    ```xml
    <?xml version="1.0" encoding="utf-8"?>
    <network-security-config>
@@ -159,70 +157,64 @@ Changing `const/4 v0, 0x1` to `0x0` forces the method to always return `false`.
        </base-config>
    </network-security-config>
    ```
-
 ---
 
-## 🔄 Rebuilding, Aligning & Signing the Patched APK
+## 🔄 Восстановление, выравнивание и подписание исправленного APK
 
-Android strictly requires every installed APK to be zip-aligned and cryptographically signed.
+Android строго требует, чтобы каждый установленный APK был выровнен по zip-архиву и имел криптографическую подпись.
 
-### 1. Rebuild with Apktool
+### 1. Пересобрать с помощью Apktool
 ```bash
 apktool b apk_workdir -o modified.apk
 ```
-
-### 2. Generate Keystore Certificate (One-Time)
+### 2. Создать сертификат хранилища ключей (однократно)
 ```bash
 keytool -genkey -v -keystore my-release-key.jks -alias alias_name \
   -keyalg RSA -keysize 2048 -validity 10000 -storepass password123 -keypass password123 \
   -dname "CN=Security, OU=Testing, O=Audit, L=City, S=State, C=US"
 ```
-
-### 1. Rebuild with Apktool
-Align uncompressed data on 4-byte boundaries for memory-mapped efficiency:
+### 3. Оптимизация Zipalign
+Выровняйте несжатые данные по 4-байтовым границам для повышения эффективности отображения в памяти:
 ```bash
 zipalign -p -f -v 4 modified.apk modified_aligned.apk
 ```
-
-### 4. Sign with Apksigner
-Sign using APK Signature Scheme v2/v3:
+### 4. Войдите с помощью Apksigner
+Подпишитесь с помощью схемы подписи APK v2/v3:
 ```bash
 apksigner sign --ks my-release-key.jks --ks-pass pass:password123 --out modified_signed.apk modified_aligned.apk
 
 # Verify signature
 apksigner verify modified_signed.apk
 ```
-
-Install on connected Android device:
+Установите на подключенное Android-устройство:
 ```bash
 adb install -r modified_signed.apk
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Interactive GUI Decompilation**|`jadx-gui <target.apk>`|
-|**CLI Java Export**|`jadx -d out_dir <target.apk>`|
-|**CLI Deobfuscation Mode**|`jadx --deobf -d out_dir <target.apk>`|
-|**Disassemble to Smali**|`apktool d <target.apk> -o workdir`|
-|**Rebuild APK**|`apktool b workdir -o patched.apk`|
-|**Zipalign Binary (4-byte)**|`zipalign -p -f -v 4 in.apk aligned.apk`|
-|**Sign Patched APK**|`apksigner sign --ks key.jks --out final.apk aligned.apk`|
-|**Verify APK Signature**|`apksigner verify final.apk`|
+| **Интерактивная декомпиляция графического интерфейса** | `jadx-gui <target.apk>` |
+| **Экспорт Java через CLI** | `jadx -d out_dir <target.apk>` |
+| **Режим деобфускации CLI** | `jadx --deobf -d out_dir <target.apk>` |
+| **Дизассемблировать на Смали** | `apktool d <target.apk> -o workdir` |
+| **Пересобрать APK** | `apktool b workdir -o patched.apk` |
+| **Двоичный файл Zipalign (4 байта)** | `zipalign -p -f -v 4 in.apk aligned.apk` |
+| **Подписать исправленный APK** | `apksigner sign --ks key.jks --out final.apk aligned.apk` |
+| **Проверьте подпись APK** | `apksigner verify final.apk` |
 
 ---
 
-## 🛡️ Defensive Considerations & Code Obfuscation
+## 🛡️ Соображения по защите и обфускация кода
 
-|**Verify APK Signature**|`apksigner verify final.apk`|
-2. **DexGuard / Commercial Obfuscation:** Encrypt strings, hide API calls dynamically, and inject native integrity self-checks (tamper detection).
+1. **Минификация R8/ProGuard:** Удалите неиспользуемые классы и переименуйте идентификаторы в отдельные неописательные символы (`a.b.c`).
+2. **DexGuard/коммерческое запутывание:** шифруйте строки, динамически скрывайте вызовы API и внедряйте встроенные средства самопроверки целостности (обнаружение несанкционированного доступа).
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Jadx and Apktool are intended strictly for authorized vulnerability research, reverse engineering of self-owned software, and defensive analysis. Decompiling proprietary third-party software without authorization may violate licensing agreements and copyright laws.
+> [!ВНИМАНИЕ]
+> Jadx и Apktool предназначены исключительно для авторизованного исследования уязвимостей, обратного проектирования собственного программного обеспечения и защитного анализа. Декомпиляция проприетарного стороннего программного обеспечения без разрешения может привести к нарушению лицензионных соглашений и законов об авторских правах.

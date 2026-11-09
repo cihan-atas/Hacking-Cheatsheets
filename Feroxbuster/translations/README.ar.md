@@ -1,12 +1,16 @@
-# 🦀 Feroxbuster — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🦀 Feroxbuster - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗███████╗██████╗  ██████╗ ██╗  ██╗██████╗ ██╗   ██╗███████╗████████╗███████╗██████╗ 
   ██╔════╝██╔════╝██╔══██╗██╔═══██╗╚██╗██╔╝██╔══██╗██║   ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
@@ -16,123 +20,109 @@
   ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
                 Fast, Simple, Recursive Content Discovery
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Feroxbuster-Content_Discovery-orange?style=for-the-badge" alt="Feroxbuster">
   <img src="https://img.shields.io/badge/Rust-Blazingly_Fast-blue?style=for-the-badge" alt="Rust">
   <img src="https://img.shields.io/badge/Auto_Tune-Recursive-green?style=for-the-badge" alt="Recursive">
   <img src="https://img.shields.io/badge/Bug_Bounty-Web_Pentest-red?style=for-the-badge" alt="Web Pentest">
-</p>
+</ص>
 
 <p align="center">
-  <b>⚡ A fast, simple, recursive content discovery tool written in Rust</b>
-</p>
+  <b>⚡ أداة سريعة وبسيطة ومتكررة لاكتشاف المحتوى مكتوبة بلغة Rust</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-introduction)
-- [🎯 مقدمة](#-key-features)
-- [Tool Comparison](#-tool-comparison)
-- [التثبيت](#-installation)
-- [بناء الجملة الأساسي](#-basic-syntax--quick-start)
-- [الخيارات والمعلمات](#-core-command-options)
-  - [Recursion Control](#recursion-control)
-  - [⚙️ الخيارات والمعلمات](#concurrency--performance)
-  - [File Extensions](#file-extensions)
-  - [Filtering & Matching](#filtering--matching)
-  - [Smart Features (Auto-Tune, Link Extraction, Backups)](#smart-features)
-  - [Headers, Cookies & Auth](#headers-cookies--auth)
-  - [Proxy & Burp Suite Integration](#proxy--burp-suite-integration)
-- [Multi-Target Scanning & Pipelines](#-multi-target-scanning--pipelines)
-- [Real-World Workflows](#-real-world-workflows)
-- [مرجع سريع](#-quick-reference-table)
-- [نصائح وأفضل الممارسات](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [المصادر والمراجع](#-resources)
+- [المقدمة](#-المقدمة)
+- [الميزات الرئيسية](#-الميزات الرئيسية)
+- [مقارنة الأدوات](#-مقارنة الأدوات)
+- [التثبيت](#-التثبيت)
+- [بناء الجملة الأساسي والبدء السريع](#-بناء الجملة الأساسي--البدء السريع)
+- [خيارات الأوامر الأساسية](#-core-command-options)
+  - [التحكم في العودية](#التحكم في العودية)
+  - [التزامن والأداء](#التزامن--الأداء)
+  - [امتدادات الملفات](#file-extensions)
+  - [التصفية والمطابقة](#filtering--matching)
+  - [الميزات الذكية (الضبط التلقائي، استخراج الارتباط، النسخ الاحتياطية)](#smart-features)
+  - [العناوين وملفات تعريف الارتباط والمصادقة](#headers-cookies--auth)
+  - [تكامل Proxy & Burp Suite](#proxy--burp-suite-integration)
+- [المسح متعدد الأهداف وخطوط الأنابيب](#-مسح الأهداف المتعددة--خطوط الأنابيب)
+- [سير العمل في العالم الحقيقي](#-سير العمل في العالم الحقيقي)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [النصائح وأفضل الممارسات](#-نصائح--أفضل-الممارسات)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
+- [الموارد](#-الموارد)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 المقدمة
 
-**Feroxbuster** is a high-performance, multi-threaded, recursive web content scanner written in Rust. Designed to be fast, simple, and intuitive, it combines the speed of Go/Rust-based fuzzers with native automatic recursive directory discovery.
+**Feroxbuster** عبارة عن ماسح ضوئي متكرر لمحتوى الويب عالي الأداء ومتعدد الخيوط ومكتوب بلغة Rust. تم تصميمه ليكون سريعًا وبسيطًا وبديهيًا، فهو يجمع بين سرعة أجهزة الضباب المستندة إلى Go/Rust مع اكتشاف الدليل التكراري التلقائي الأصلي.
 
-It shines during penetration tests and bug bounty engagements where deep website trees and hidden directories must be discovered rapidly without spawning complex manual scripts.
-
----
-
-## 🌟 🎯 مقدمة
-
-- ⚡ **Blazingly Fast:** Powered by asynchronous Rust (`tokio` and `reqwest`), capable of thousands of requests per second.
-- 🔄 **Native Recursive Discovery:** Automatically discovers new directories and recursively scans them up to configurable depth limits.
-- 🧠 **Auto-Tune & Auto-Bail:** Automatically throttles scan speed if the target web server slows down or aborts if excessive connection errors occur.
-- 🔗 **In-Line Link Extraction:** Parses HTML and JavaScript responses to discover hidden endpoints and feeds them back into the scan queue.
-- 🌟 Key Features
-- 🎯 **Pipeable Input:** Seamlessly accepts target lists from `stdin` (from tools like `subfinder`, `httpx`, or `gau`).
+إنه يتألق أثناء اختبارات الاختراق وارتباطات مكافآت الأخطاء حيث يجب اكتشاف أشجار مواقع الويب العميقة والأدلة المخفية بسرعة دون إنتاج نصوص يدوية معقدة.
 
 ---
 
-## ⚖️ Tool Comparison
+## 🌟 الميزات الرئيسية
 
-|Feature|Feroxbuster|ffuf|🔴 اكتشاف البرمجة النصية عبر المواقع (XSS)|Gobuster|Dirb|
+- ⚡ **سريع للغاية:** مدعوم من Rust غير المتزامن (`tokio` و`reqwest`)، وهو قادر على تلبية آلاف الطلبات في الثانية.
+- 🔄 **الاكتشاف العودي الأصلي:** يكتشف تلقائيًا الأدلة الجديدة ويفحصها بشكل متكرر حتى حدود العمق القابلة للتكوين.
+- 🧠 **الضبط التلقائي والكفالة التلقائية:** يخنق سرعة المسح تلقائيًا إذا تباطأ خادم الويب المستهدف أو تم إحباطه في حالة حدوث أخطاء مفرطة في الاتصال.
+- 🔗 **استخراج الارتباط المضمن:** يوزع استجابات HTML وJavaScript لاكتشاف نقاط النهاية المخفية وإعادتها إلى قائمة انتظار الفحص.
+- 📦 **البحث الآلي عن النسخ الاحتياطية:** يقوم بإلحاق أشكال `.bak` و`~` و`.old` و`.orig` تلقائيًا بالملفات المكتشفة.
+- 🎯 **Pipeable Input:** يقبل بسهولة قوائم الأهداف من `stdin` (من أدوات مثل `subfinder` أو `httpx` أو `gau`).
+
+---
+
+## ⚖️ مقارنة الأدوات
+
+| ميزة | فيروكسبوستر | ففوف | ديرسيرتش | جوبستر | درب |
 |---------|-------------|------|-----------|----------|------|
-|**Language**|Rust|Go|Python|Go|C|
-|**Speed**|⭐⭐⭐⭐⭐|⭐⭐⭐⭐⭐|⭐⭐⭐⭐|⭐⭐⭐⭐|⭐⭐|
-|**Default Recursion**|✅ Automatic|❌ Manual flag|✅ Automatic (`-r`)|❌ None|✅ Automatic|
-|**Link Extraction**|✅ Yes (`--extract-links`)|❌ No|❌ No|❌ No|❌ No|
-|**Auto Rate Tuning**|✅ Yes (`--auto-tune`)|❌ No|❌ No|❌ No|❌ No|
-|**POST Fuzzing**|❌ No|✅ Native|✅ Native (`--data`)|❌ No|❌ No|
-|**Multi-Target Stdin**|✅ Native|❌ Limited|✅ Yes (`-l`)|❌ No|❌ No|
-|**Backup File Detection**|✅ Native (`--collect-backups`)|❌ No|✅ Native (`-e *`)|❌ No|❌ No|
+| **اللغة** | الصدأ | اذهب | بايثون | اذهب | ج |
+| **السرعة** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| ** العودية الافتراضية ** | ✅ اوتوماتيك | ❌ علم يدوي | ✅ أوتوماتيك (`-r`) | ❌ لا يوجد | ✅ اوتوماتيك |
+| **استخراج الرابط** | ✅ نعم (`--extract-links`) | ❌ لا | ❌ لا | ❌ لا | ❌ لا |
+| **ضبط المعدل التلقائي** | ✅ نعم (`--auto-tune`) | ❌ لا | ❌ لا | ❌ لا | ❌ لا |
+| **ما بعد التشويش** | ❌ لا | ✅ أصلي | ✅ أصلي (`--data`) | ❌ لا | ❌ لا |
+| ** معيار متعدد الأهداف ** | ✅ أصلي | ❌ محدودة | ✅ نعم (`-l`) | ❌ لا | ❌ لا |
+| ** الكشف عن ملف النسخ الاحتياطي **| ✅ أصلي (`--collect-backups`)| ❌ لا | ✅ أصلي (`-e *`) | ❌ لا | ❌ لا |
 
 ---
 
 ## 📥 التثبيت
 
-### |**Backup File Detection**|✅ Native (`--collect-backups`)|❌ No|✅ Native (`-e *`)|❌ No|❌ No|
-
+### كالي لينكس وديبيان/أوبونتو
 ```bash
 # Update repository and install
 sudo apt update && sudo apt install -y feroxbuster
 ```
-
-### 📥 التثبيت
-
+### استخدام البضائع (مدير حزم الصدأ)
 ```bash
 cargo install feroxbuster
 ```
-
-### نظام Kali Linux حيث تكون الأداة مثبتة مسبقًا
-
+### ماك (الجعة المنزلية)
 ```bash
 brew install feroxbuster
 ```
-
-### Kali Linux (مثبت مسبقاً)
-
+### عامل الميناء
 ```bash
 docker run --init -it epi052/feroxbuster -u https://target.com -w /usr/share/seclists/Discovery/Web-Content/common.txt
 ```
-
-### Precompiled Binary (GitHub Releases)
-
+### الملف الثنائي المترجم مسبقًا (إصدارات GitHub)
 ```bash
 # Download latest Linux release
 curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh | bash
 sudo mv feroxbuster /usr/local/bin/
 ```
-
 ---
 
-## 🚀 بناء الجملة الأساسي
-
+## 🚀 بناء الجملة الأساسي والبدء السريع
 ```bash
 feroxbuster -u <TARGET_URL> -w <WORDLIST> [OPTIONS]
 ```
-
-### أمثلة عملية
-
+### أمثلة للفحص السريع
 ```bash
 # Scan a single target with default settings
 feroxbuster -u http://10.10.10.10
@@ -143,13 +133,11 @@ feroxbuster -u https://example.com -w /usr/share/seclists/Discovery/Web-Content/
 # Scan target including specific file extensions
 feroxbuster -u https://example.com -w /usr/share/wordlists/dirb/common.txt -x php,html,txt,json
 ```
-
 ---
 
-## ⚙️ الخيارات والمعلمات
+## ⚙️ خيارات الأوامر الأساسية
 
-### Recursion Control
-
+### التحكم في التكرار
 ```bash
 # Specify maximum recursion depth (default is 4)
 feroxbuster -u https://example.com -w common.txt -d 2
@@ -160,9 +148,7 @@ feroxbuster -u https://example.com -w common.txt -n
 # Don't scan nested subdirectories automatically (interactive prompt)
 feroxbuster -u https://example.com -w common.txt --dont-scan /api,/static
 ```
-
-### ⚙️ الخيارات والمعلمات
-
+### التزامن والأداء
 ```bash
 # Set number of concurrent threads per directory (default: 50)
 feroxbuster -u https://example.com -t 100
@@ -176,9 +162,7 @@ feroxbuster -u https://example.com --rate-limit 150
 # Request timeout in seconds (default: 7)
 feroxbuster -u https://example.com -T 5
 ```
-
-### File Extensions
-
+### امتدادات الملفات
 ```bash
 # Append extensions to each wordlist item
 feroxbuster -u https://example.com -x php,asp,aspx,jsp,txt,bak
@@ -186,9 +170,7 @@ feroxbuster -u https://example.com -x php,asp,aspx,jsp,txt,bak
 # Automatically collect and fuzz file extensions found during crawling
 feroxbuster -u https://example.com --collect-extensions
 ```
-
-### Filtering & Matching
-
+### التصفية والمطابقة
 ```bash
 # Match only specific status codes (e.g., 200 OK and 301 Redirects)
 feroxbuster -u https://example.com -s 200 301 302
@@ -211,9 +193,7 @@ feroxbuster -u https://example.com --filter-regex "Under Construction|Page Not F
 # Filter responses similar to a known 404/wildcard page
 feroxbuster -u https://example.com --filter-similar-to https://example.com/definitelynotfoundpage404
 ```
-
-### Smart Features
-
+### الميزات الذكية
 ```bash
 # Auto-tune: Automatically adjusts request concurrency based on server response latency
 feroxbuster -u https://example.com --auto-tune
@@ -227,9 +207,7 @@ feroxbuster -u https://example.com --extract-links
 # Collect backups: Automatically tests for backup copies (.bak, ~, .old) of every discovered file
 feroxbuster -u https://example.com --collect-backups
 ```
-
-### Headers, Cookies & Auth
-
+### الرؤوس وملفات تعريف الارتباط والمصادقة
 ```bash
 # Custom HTTP Header
 feroxbuster -u https://example.com -H "Authorization: Bearer <TOKEN>" -H "X-Forwarded-For: 127.0.0.1"
@@ -243,9 +221,7 @@ feroxbuster -u https://example.com -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64)
 # Ignore invalid / self-signed TLS certificates
 feroxbuster -u https://10.10.10.10 -k
 ```
-
-### Proxy & Burp Suite Integration
-
+### تكامل Proxy & Burp Suite
 ```bash
 # Route all requests through Burp Suite proxy
 feroxbuster -u https://example.com -p http://127.0.0.1:8080 -k
@@ -253,34 +229,28 @@ feroxbuster -u https://example.com -p http://127.0.0.1:8080 -k
 # Convenience shortcut flag for Burp Suite (enables -k and sets proxy to localhost:8080)
 feroxbuster -u https://example.com --burp
 ```
-
 ---
 
-## 🔁 Multi-Target Scanning & Pipelines
+## 🔁 المسح متعدد الأهداف وخطوط الأنابيب
 
-Feroxbuster natively reads target URLs from standard input (`stdin`), making it ideal for integration with asset discovery pipelines:
-
+يقرأ Feroxbuster عناوين URL المستهدفة أصلاً من الإدخال القياسي (`stdin`)، مما يجعله مثاليًا للتكامل مع مسارات اكتشاف الأصول:
 ```bash
 # Pipeline: Subdomain discovery -> HTTP Probing -> Feroxbuster Fuzzing
 subfinder -d example.com -silent | \
   httpx -silent -mc 200,301,302 | \
   feroxbuster --stdin -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -t 30 -L 4
 ```
-
-### 🔁 Multi-Target Scanning & Pipelines
-
+### فحص عناوين URL من ملف
 ```bash
 cat targets.txt | feroxbuster --stdin -w common.txt -v
 ```
-
 ---
 
-## 🎬 Real-World Workflows
+## 🎬 سير العمل في العالم الحقيقي
 
-### Workflow 1: Comprehensive Bug Bounty Web Reconnaissance
+### سير العمل 1: استطلاع الويب الشامل لمكافأة الأخطاء
 
-High concurrency, automatic rate tuning, link extraction, and backup detection:
-
+التزامن العالي، وضبط المعدل التلقائي، واستخراج الارتباط، والكشف عن النسخ الاحتياطي:
 ```bash
 feroxbuster -u https://target.com \
   -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt \
@@ -290,11 +260,9 @@ feroxbuster -u https://target.com \
   --auto-tune \
   -o ferox_target_scan.txt
 ```
+### سير العمل 2: اكتشاف بوابة المؤسسة / Active Directory الداخلية
 
-### Workflow 1: Comprehensive Bug Bounty Web Reconnaissance
-
-High concurrency, automatic rate tuning, link extraction, and backup detection:
-
+مسح تطبيق ويب داخلي عبر Burp Suite مع المصادقة والشهادات الموقعة ذاتيًا:
 ```bash
 feroxbuster -u https://internal-portal.corp.local \
   -w /usr/share/seclists/Discovery/Web-Content/common.txt \
@@ -303,9 +271,7 @@ feroxbuster -u https://internal-portal.corp.local \
   --burp \
   -d 3
 ```
-
-### Workflow 2: Internal Enterprise / Active Directory Portal Discovery
-
+### سير العمل 3: واجهة برمجة تطبيقات سريعة غير متكررة واكتشاف نقطة النهاية
 ```bash
 feroxbuster -u https://api.target.com/v1 \
   -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt \
@@ -315,58 +281,57 @@ feroxbuster -u https://api.target.com/v1 \
   --json \
   -o api_results.json
 ```
+---
+
+## 📊 جدول مرجعي سريع
+
+| علم | قصير | الوصف | مثال |
+|------|-------|------------|---------|
+| `--url` | `-u` | عنوان URL المستهدف للمسح | `feroxbuster -u https://target.com` |
+| `--wordlist` | `-w` | المسار إلى قائمة الكلمات | `feroxbuster -w /path/to/list.txt` |
+| `--threads` | `-t` | عدد المواضيع المتزامنة لكل دليل | `feroxbuster -t 80` |
+| `--scan-limit` | `-L` | الحد من إجمالي عمليات فحص الدليل المتزامنة | `feroxbuster -L 3` |
+| `--depth` | `-d` | الحد الأقصى لعمق العودية (الافتراضي 4) | `feroxbuster -d 2` |
+| `--no-recursion` | `-n` | تعطيل فحص الدليل العودي | `feroxbuster -n` |
+| `--extensions` | `-x` | امتدادات الملفات لإلحاق | `feroxbuster -x php,html,bak` |
+| `--status-codes` | `-s` | رموز الحالة المراد تضمينها | `feroxbuster -s 200 301 302` |
+| `--filter-status` | `-C` | رموز الحالة المراد استبعادها | `feroxbuster -C 404 500` |
+| `--filter-size` | `-S` | أحجام الاستجابة المراد استبعادها | `feroxbuster -S 4096` |
+| `--filter-words` | `-W` | عدد الكلمات المطلوب استبعاده | `feroxbuster -W 15` |
+| `--filter-lines` | `-N` | عدد الأسطر المطلوب استبعاده | `feroxbuster -N 8` |
+| `--auto-tune` | لا شيء | ضبط السرعة ديناميكيًا بناءً على زمن الوصول | `feroxbuster --auto-tune` |
+| `--auto-bail` | لا شيء | إحباط الفحص على أخطاء الشبكة الزائدة | `feroxbuster --auto-bail` |
+| `--extract-links`| لا شيء | تحليل HTML/JS لنقاط النهاية الجديدة | `feroxbuster --extract-links` |
+| `--collect-backups` | لا شيء | التحقق من وجود اختلافات النسخ الاحتياطي (`.bak`، `.old`) | `feroxbuster --collect-backups` |
+| `--proxy` | `-p` | إرسال حركة المرور من خلال وكيل HTTP | `feroxbuster -p http://127.0.0.1:8080` |
+| `--burp` | لا شيء | اختصار `-p http://127.0.0.1:8080 -k` | `feroxbuster --burp` |
+| `--stdin` | لا شيء | قراءة عناوين URL من الإدخال القياسي | `cat urls.txt \| feroxbuster --stdin` |
+| `--output` | `-o` | مسار ملف الإخراج | `feroxbuster -o results.txt` |
+| `--json` | لا شيء | تنسيق الإخراج كـ JSON | `feroxbuster --json -o out.json` |
 
 ---
 
-## 📊 مرجع سريع
+## 💡 النصائح وأفضل الممارسات
 
-|العلامة|Short|الوصف|مثال|
-|------|-------|-------------|---------|
-|`--url`|`-u`|Target URL to scan|`feroxbuster -u https://target.com`|
-|`--wordlist`|`-w`|Path to wordlist|`feroxbuster -w /path/to/list.txt`|
-|`--threads`|`-t`|Number of concurrent threads per directory|`feroxbuster -t 80`|
-|`--scan-limit`|`-L`|Limit total simultaneous directory scans|`feroxbuster -L 3`|
-|`--depth`|`-d`|Maximum recursion depth (default 4)|`feroxbuster -d 2`|
-|`--no-recursion`|`-n`|Disable recursive directory scanning|`feroxbuster -n`|
-|`--extensions`|`-x`|File extensions to append|`feroxbuster -x php,html,bak`|
-|`--status-codes`|`-s`|Status codes to include|`feroxbuster -s 200 301 302`|
-|`--filter-status`|`-C`|Status codes to exclude|`feroxbuster -C 404 500`|
-|`--filter-size`|`-S`|Response sizes to exclude|`feroxbuster -S 4096`|
-|`--filter-words`|`-W`|Word counts to exclude|`feroxbuster -W 15`|
-|`--filter-lines`|`-N`|Line counts to exclude|`feroxbuster -N 8`|
-|`--auto-tune`|None|Dynamically adjust speed based on latency|`feroxbuster --auto-tune`|
-|`--auto-bail`|None|Abort scan on excessive network errors|`feroxbuster --auto-bail`|
-|`--extract-links`|None|Parse HTML/JS for new endpoints|`feroxbuster --extract-links`|
-|`--collect-backups`|None|Check for backup variations (`.bak`, `.old`)|`feroxbuster --collect-backups`|
-|`--proxy`|`-p`|Send traffic through HTTP proxy|`feroxbuster -p http://127.0.0.1:8080`|
-|`--burp`|None|Shortcut for `-p http://127.0.0.1:8080 -k`|`feroxbuster --burp`|
-|`--stdin`|None|Read URLs from standard input|`cat urls.txt \|feroxbuster --stdin`|
-|`--output`|`-o`|Output file path|`feroxbuster -o results.txt`|
-|`--json`|None|Format output as JSON|`feroxbuster --json -o out.json`|
+1. **استخدم `--auto-tune` للأهداف البعيدة:**
+   - بدلاً من تخمين عدد الخيوط (`-t`)، يقوم `--auto-tune` بقياس أوقات الاستجابة المستهدفة بشكل فعال ويخنق أو يسرع ديناميكيًا، مع تجنب رفض الخادم غير المقصود للخدمة.
+2. **ادمج `--extract-links` و`--collect-backups`:**
+   - هذا المزيج قاتل بشكل استثنائي في تقييمات مكافآت الأخطاء: يستخرج Feroxbuster مسارات JS المخفية، ويفحصها، ويتحقق على الفور من ترك النسخ الاحتياطية للمطورين (`.bak`، و`.swp`، و`~`) على الخادم.
+3. **الحد من عمليات المسح على قوائم الكلمات الكبيرة باستخدام `-L`:**
+   - في حالة استخدام قاموس يضم أكثر من 200000 كلمة، يمكن أن يؤدي التكرار غير المقيد إلى تشغيل العشرات من سلاسل الرسائل المتزامنة. استخدم `-L 2` أو `-L 3` للاحتفاظ بالذاكرة وعرض النطاق الترددي ضمن حدود التشغيل الآمنة.
+4. **استخدم ملفات الحالة لاستئناف عمليات التدقيق الكبيرة:**
+   - يقوم Feroxbuster بحفظ ملفات الحالة (`.state`) بشكل دوري. في حالة حدوث مقاطعة في الفحص، استأنف الفحص على الفور باستخدام `feroxbuster --resume-from <FILE>.state`.
 
 ---
 
-## 💡 نصائح وأفضل الممارسات
+## ⚠️إخلاء المسؤولية القانونية
 
-1. **Use `--auto-tune` for Remote Targets:**
-   - Instead of guessing thread counts (`-t`), `--auto-tune` actively measures target response times and throttles or accelerates dynamically, avoiding accidental server denial of service.
-2. **Combine `--extract-links` and `--collect-backups`:**
-   - This combination is exceptionally lethal in bug bounty assessments: Feroxbuster extracts hidden JS routes, scans them, and immediately checks if developer backups (`.bak`, `.swp`, `~`) were left on the server.
-3. **Limit Scans on Large Wordlists with `-L`:**
-   - If using a 200,000+ word dictionary, unrestricted recursion can launch dozens of simultaneous threads. Use `-L 2` or `-L 3` to keep memory and bandwidth within safe operating boundaries.
-4. **Use State Files for Resuming Large Audits:**
-   - Feroxbuster periodically saves state files (`.state`). If an interrupted scan occurs, resume instantly with `feroxbuster --resume-from <FILE>.state`.
+> **هام:** تم تصميم Feroxbuster بشكل صارم للتقييمات الأمنية المعتمدة ومسابقات CTF واختبارات الاختراق التي يتم إجراؤها بإذن كتابي. يمكن أن يؤدي فحص الأهداف غير المصرح بها إلى إشباع البنية التحتية للشبكة وهو أمر محظور تمامًا بموجب القانون.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 📚 المصادر
 
-> **IMPORTANT:** Feroxbuster is built strictly for authorized security assessments, CTF competitions, and penetration tests conducted with written permission. Scanning unauthorized targets can saturate network infrastructure and is strictly prohibited by law.
-
----
-
-## 📚 المصادر والمراجع
-
-- [Feroxbuster GitHub Repository](https://github.com/epi052/feroxbuster)
-- [Official Feroxbuster Documentation](https://epi052.github.io/feroxbuster-docs/)
-- [SecLists Discovery Lists](https://github.com/danielmiessler/SecLists)
+- [مستودع Feroxbuster GitHub](https://github.com/epi052/feroxbuster)
+- [وثائق Feroxbuster الرسمية](https://epi052.github.io/feroxbuster-docs/)
+- [قوائم اكتشاف SecLists](https://github.com/danielmiessler/SecLists)

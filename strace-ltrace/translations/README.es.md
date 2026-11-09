@@ -1,12 +1,16 @@
-# 🔬 strace-ltrace - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔬 strace & ltrace - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
   ███████╗████████╗██████╗  █████╗  ██████╗███████╗    ██╗  ████████╗██████╗  █████╗  ██████╗███████╗
   ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝    ██║  ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝
@@ -16,59 +20,57 @@
   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝    ╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
             Linux Dynamic Binary Analysis: System & Library Call Tracers
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/strace-System_Calls-blue?style=for-the-badge" alt="strace">
   <img src="https://img.shields.io/badge/ltrace-Library_Calls-orange?style=for-the-badge" alt="ltrace">
   <img src="https://img.shields.io/badge/Platform-Linux_ELF-green?style=for-the-badge" alt="Linux">
-  <img src="https://img.shields.io/badge/Category-Dynamic_Analysis-purple?style=for-the-badge" alt="Dynamic Analysis">
+  <img src="https://img.shields.io/badge/Category-Dynamic_Analysis-purple?style=for-the-badge" alt="Análisis dinámico">
 </p>
 
-<p align="center">
-  <b>🔬 Essential command-line utilities for dynamic binary analysis: intercepting Linux kernel system calls (strace) and user-space dynamic library calls (ltrace)</b>
+<p align="centro">
+  <b>🔬 Utilidades de línea de comandos esenciales para el análisis binario dinámico: interceptación de llamadas al sistema del kernel de Linux (strace) y llamadas a bibliotecas dinámicas en el espacio de usuario (ltrace)</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview-system-calls-vs-library-calls)
-- [Instalación](#-installation)
-- [strace: System Call Tracing](#-strace-system-call-tracing)
-  - [Basic Tracing Execution](#basic-tracing-execution)
-  - [Run a target binary and stream all system calls to standard error:](#filtering-syscalls-by-class-or-name--e)
-  - [Tracing Child & Multi-Threaded Processes (`-f`)](#tracing-child--multi-threaded-processes--f)
-  - [Attaching to Running Processes (`-p`)](#attaching-to-running-processes--p)
-  - [Expanding Strings & Buffer Outputs (`-s`)](#expanding-strings--buffer-outputs--s)
-  - [Statistical Profiling & Bottleneck Analysis (`-c`)](#statistical-profiling--bottleneck-analysis--c)
-  - [Statistical Profiling & Bottleneck Analysis (`-c`)](#fault-injection-for-fuzzing--testing--e-fault)
-- [ltrace: Dynamic Library Call Tracing](#-ltrace-dynamic-library-call-tracing)
-  - [Basic Library Interception](#basic-library-interception)
-  - [🧩 ltrace: Dynamic Library Call Tracing](#cracking-hardcoded-password-checks-strcmp)
-  - [Cracking Hardcoded Password Checks (`strcmp`)](#demangling-c-symbols--c)
-  - [Filtering Specific Library Functions](#filtering-specific-library-functions)
-- [Combining strace and ltrace Workflows](#-combining-strace-and-ltrace-workflows)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Anti-Tracing](#-defensive-considerations--anti-tracing)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Descripción general: llamadas al sistema frente a llamadas a la biblioteca](#-overview-system-calls-vs-library-calls)
+- [Instalación](#-instalación)
+- [strace: Seguimiento de llamadas del sistema](#-strace-system-call-tracing)
+  - [Ejecución de seguimiento básico](#ejecución-de-seguimiento-basico)
+  - [Filtrar llamadas al sistema por clase o nombre (`-e`)](#filtrado-syscalls-por-clase-o-nombre--e)
+  - [Seguimiento de procesos secundarios y multiproceso (`-f`)](#tracing-child--multi-threaded-processes--f)
+  - [Adjuntar a procesos en ejecución (`-p`)](#adjuntar-a-procesos-en-ejecución--p)
+  - [Cadenas expandibles y salidas de búfer (`-s`)](#cadenas-expandidas--salidas-búfer--s)
+  - [Perfiles estadísticos y análisis de cuellos de botella (`-c`)](# perfil-estadístico--análisis-de-cuellos--c)
+  - [Inyección de fallos para fuzzing y pruebas (`-e fault`)](#fault-injection-for-fuzzing--testing--e-fault)
+- [ltrace: Seguimiento dinámico de llamadas de biblioteca](#-ltrace-dynamic-library-call-tracing)
+  - [Interceptación básica de biblioteca](#intercepción-biblioteca-básica)
+  - [Descifrar comprobaciones de contraseñas codificadas (`strcmp`)](#cracking-hardcoded-password-checks-strcmp)
+  - [Demangling de símbolos C++ (`-C`)](#demangling-c-symbols--c)
+  - [Filtrado de funciones de biblioteca específicas](#filtrado-de-funciones-de-biblioteca-específicas)
+- [Combinación de flujos de trabajo de strace y ltrace](#-combining-strace-and-ltrace-workflows)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y anti-rastreo](#-consideraciones-defensivas--anti-rastreo)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Descripción general: llamadas al sistema frente a llamadas a la biblioteca
 
-When analyzing compiled Linux ELF binaries, static analysis can be impeded by obfuscation, stripping, or packing. Dynamic tracing provides immediate visibility into runtime actions:
+Al analizar archivos binarios ELF de Linux compilados, el análisis estático puede verse impedido por la ofuscación, la eliminación o el empaquetado. El seguimiento dinámico proporciona visibilidad inmediata de las acciones en tiempo de ejecución:
 
-1. **System Calls (`strace`):**
-   - The interface between user-space applications and the Linux Linux kernel.
-   - Traces disk I/O (`openat`, `read`, `write`), networking (`socket`, `connect`), memory allocation (`mmap`, `brk`), and process management (`fork`, `execve`, `ptrace`).
-2. **Library Calls (`ltrace`):**
-   - The interface between the binary and dynamic shared libraries (such as `libc.so`, `libssl.so`).
-   - Intercepts calls like `strcmp()`, `strlen()`, `malloc()`, `system()`, and cryptographic routines, frequently exposing plaintext credentials in memory before encryption.
+1. **Llamadas al sistema (`strace`):**
+   - La interfaz entre las aplicaciones del espacio de usuario y el kernel de Linux.
+   - Rastrea E/S de disco (`openat`, `read`, `write`), redes (`socket`, `connect`), asignación de memoria (`mmap`, `brk`) y gestión de procesos (`fork`, `execve`, `ptrace`).
+2. **Llamadas a la biblioteca (`ltrace`):**
+   - La interfaz entre las bibliotecas compartidas binarias y dinámicas (como `libc.so`, `libssl.so`).
+   - Intercepta llamadas como `strcmp()`, `strlen()`, `malloc()`, `system()` y rutinas criptográficas, exponiendo frecuentemente credenciales de texto sin formato en la memoria antes del cifrado.
 
 ---
 
 ## 📥 Instalación
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y strace ltrace
@@ -79,25 +81,21 @@ sudo pacman -S strace ltrace
 # Fedora / Red Hat / CentOS
 sudo dnf install -y strace ltrace
 ```
-
 ---
 
-## ⚡ strace: System Call Tracing
+## ⚡ strace: Seguimiento de llamadas del sistema
 
-### Basic Tracing Execution
-Run a target binary and stream all system calls to standard error:
+### Ejecución de seguimiento básico
+Ejecute un binario de destino y transmita todas las llamadas al sistema al error estándar:
 ```bash
 strace ./target_binary
 ```
-
-⚡ strace: System Call Tracing
+Redirigir la salida a un archivo para que no obstruya la ejecución del programa:
 ```bash
 strace -o trace.log ./target_binary
 ```
-
-### Run a target binary and stream all system calls to standard error:
-Avoid noise by filtering only relevant syscall classes:
-
+### Filtrado de llamadas al sistema por clase o nombre (`-e`)
+Evite el ruido filtrando solo las clases de llamadas al sistema relevantes:
 ```bash
 # Trace ONLY file-related operations (open, read, write, stat, access)
 strace -e trace=file ./target_binary
@@ -111,9 +109,8 @@ strace -e trace=process ./target_binary
 # Filter specific syscalls by exact name
 strace -e trace=open,openat,read,write ./target_binary
 ```
-
-### Tracing Child & Multi-Threaded Processes (`-f`)
-Filtering Syscalls by Class or Name (`-e`)
+### Seguimiento de procesos secundarios y multiproceso (`-f`)
+Los archivos binarios y el malware modernos generan procesos o subprocesos de trabajadores infantiles. Sin `-f`, strace los extrañará:
 ```bash
 # Trace all child forks and threads
 strace -f ./target_binary
@@ -121,9 +118,8 @@ strace -f ./target_binary
 # Trace children and save each process output into separate files (trace.pid)
 strace -ff -o trace ./target_binary
 ```
-
-### Attaching to Running Processes (`-p`)
-Monitor a service or active malware process without restarting it:
+### Adjuntar a procesos en ejecución (`-p`)
+Supervise un servicio o proceso de malware activo sin reiniciarlo:
 ```bash
 # Attach by Process ID (PID)
 sudo strace -p 1337
@@ -131,20 +127,18 @@ sudo strace -p 1337
 # Attach to process and follow all newly spawned threads
 sudo strace -f -p 1337 -o attached.log
 ```
-
-### Expanding Strings & Buffer Outputs (`-s`)
-By default, strace truncates printed strings at 32 characters. Increase string length to inspect full file paths, URLs, or payloads:
+### Expandiendo cadenas y salidas de búfer (`-s`)
+De forma predeterminada, strace trunca las cadenas impresas a 32 caracteres. Aumente la longitud de la cadena para inspeccionar rutas completas de archivos, URL o cargas útiles:
 ```bash
 # Display up to 2048 characters of strings and buffers
 strace -s 2048 -e trace=read,write ./target_binary
 ```
-
-### Statistical Profiling & Bottleneck Analysis (`-c`)
-Count time spent, number of calls, and errors per syscall:
+### Perfiles estadísticos y análisis de cuellos de botella (`-c`)
+Cuente el tiempo invertido, la cantidad de llamadas y los errores por llamada al sistema:
 ```bash
 strace -c ./target_binary
 ```
-*Output Summary Example:*
+*Ejemplo de resumen de salida:*
 ```text
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
@@ -152,41 +146,36 @@ strace -c ./target_binary
  32.10    0.000710          71        10         2 openat
  13.58    0.000300          15        20           write
 ```
-
-### Statistical Profiling & Bottleneck Analysis (`-c`)
-Count time spent, number of calls, and errors per syscall:
+### Inyección de fallos para fuzzing y pruebas (`-e fault`)
+Inyecte errores arbitrarios en llamadas al sistema para evaluar la resiliencia:
 ```bash
 # Force the 3rd invocation of openat() to fail with Permission Denied (EACCES)
 strace -e fault=openat:error=EACCES:when=3 ./target_binary
 ```
-
 ---
 
-## 🧩 ltrace: Dynamic Library Call Tracing
+## 🧩 ltrace: Seguimiento de llamadas de biblioteca dinámica
 
-### Basic Library Interception
-Intercept calls made to dynamic `.so` libraries:
+### Intercepción básica de biblioteca
+Interceptar llamadas realizadas a bibliotecas dinámicas `.so`:
 ```bash
 ltrace ./target_binary
 ```
-
-### 🧩 ltrace: Dynamic Library Call Tracing
-In reverse engineering CTFs and challenge binaries, password comparison functions (`strcmp`, `strncmp`, `memcmp`) reveal the target password in plaintext arguments:
+### Descifrar comprobaciones de contraseñas codificadas (`strcmp`)
+En CTF de ingeniería inversa y binarios de desafío, las funciones de comparación de contraseñas (`strcmp`, `strncmp`, `memcmp`) revelan la contraseña de destino en argumentos de texto sin formato:
 ```bash
 ltrace -s 128 -e strcmp,strncmp ./license_check
 ```
-*Output Example:*
+*Ejemplo de salida:*
 ```text
 strcmp("user_input", "SUPER_SECRET_FLAG_2026") = -1
 ```
-
-### Cracking Hardcoded Password Checks (`strcmp`)
-Demangle compiler-mangled C++ method names (`_ZNK4Test3fooEv` -> `Test::foo()`):
+### Exigiendo símbolos C++ (`-C`)
+Demangle nombres de métodos C++ destrozados por el compilador (`_ZNK4Test3fooEv` -> `Test::foo()`):
 ```bash
 ltrace -C ./cpp_binary
 ```
-
-### Filtering Specific Library Functions
+### Filtrado de funciones de biblioteca específicas
 ```bash
 # Intercept only memory allocation and string functions
 ltrace -e malloc+free+strdup ./target_binary
@@ -194,50 +183,49 @@ ltrace -e malloc+free+strdup ./target_binary
 # Intercept calls originating from specific dynamic libraries
 ltrace -l /lib/x86_64-linux-gnu/libcrypto.so.3 ./target_binary
 ```
-
 ---
 
-## 🔄 Combining strace and ltrace Workflows
+## 🔄 Combinando flujos de trabajo strace y ltrace
 
-When performing initial triage on an unknown binary:
+Al realizar la clasificación inicial en un binario desconocido:
 
-1. **Step 1:** Run `strace -e trace=file,network ./binary` to see what files and sockets it interacts with.
-2. **Step 2:** Run `ltrace -s 256 ./binary` to uncover internal library string comparisons, crypto calls, and memory logic.
-🔄 Combining strace and ltrace Workflows
+1. **Paso 1:** Ejecute `strace -e trace=file,network ./binary` para ver con qué archivos y sockets interactúa.
+2. **Paso 2:** Ejecute `ltrace -s 256 ./binary` para descubrir comparaciones de cadenas de bibliotecas internas, llamadas criptográficas y lógica de memoria.
+3. **Paso 3:** Combine ambas herramientas:
    ```bash
    ltrace -S ./binary
    ```
-   *(The `-S` flag tells ltrace to display system calls alongside library calls in a single unified view).*
+*(El indicador `-S` le indica a ltrace que muestre las llamadas al sistema junto con las llamadas a la biblioteca en una única vista unificada).*
 
 ---
 
-## ⚡ Referencia rápida
+## ⚡ Tabla de referencia rápida
 
-|Objective|Comando|
-|-----------|---------|
-|**Trace All Syscalls**|`strace ./binary`|
-|**Log to File**|`strace -o log.txt ./binary`|
-|**Trace File Operations**|`strace -e trace=file ./binary`|
-|**Trace Network Activity**|`strace -e trace=network ./binary`|
-|**Follow Child Processes**|`strace -f ./binary`|
-|**Attach to Running PID**|`sudo strace -f -p <PID>`|
-|**Expand String Length**|`strace -s 2048 ./binary`|
-|**Syscall Summary Stats**|`strace -c ./binary`|
-|**Trace Library Calls**|`ltrace ./binary`|
-|**Catch Password Check**|`ltrace -s 128 -e strcmp,strncmp ./binary`|
-|**Demangle C++ Names**|`ltrace -C ./binary`|
-|**Combined Lib + Syscall**|`ltrace -S ./binary`|
-
----
-
-## 🛡️ Defensive Considerations & Anti-Tracing
-
-1. **Ptrace Self-Checking:** Linux allows only a single tracer to attach to a process via `ptrace`. Calling `ptrace(PTRACE_TRACEME, 0, 1, 0)` will fail if `strace` or `ltrace` is already attached.
-2. **Static Linking (`-static`):** Binaries compiled with static linking contain no dynamic library references (`DT_NEEDED`), rendering `ltrace` completely ineffective (use `strace` instead).
+| Objetivo | Comando |
+|-----------|------------------|
+| **Rastrear todas las llamadas al sistema** | `strace ./binary` |
+| **Iniciar sesión en el archivo** | `strace -o log.txt ./binary` |
+| **Operaciones de seguimiento de archivos** | `strace -e trace=file ./binary` |
+| **Seguimiento de la actividad de la red** | `strace -e trace=network ./binary` |
+| **Seguir procesos secundarios** | `strace -f ./binary` |
+| **Adjuntar al PID en ejecución** | `sudo strace -f -p <PID>` |
+| **Ampliar longitud de cadena** | `strace -s 2048 ./binary` |
+| **Estadísticas resumidas de llamadas al sistema** | `strace -c ./binary` |
+| **Seguimiento de llamadas de biblioteca** | `ltrace ./binary` |
+| **Capturar verificación de contraseña** | `ltrace -s 128 -e strcmp,strncmp ./binary` |
+| **Demandar nombres de C++** | `ltrace -C ./binary` |
+| **Liberación combinada + llamada al sistema**| `ltrace -S ./binary` |
 
 ---
 
-## ⚠️ Legal Disclaimer
+## 🛡️ Consideraciones defensivas y anti-rastreo
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> strace and ltrace are dynamic diagnostic tools designed for software development, debugging, and authorized security assessments. Tracing unauthorized processes or intercepting proprietary communication without permission is strictly prohibited.
+1. **Ptrace Self-Checking:** Linux permite que solo se conecte un único rastreador a un proceso a través de `ptrace`. La llamada a `ptrace(PTRACE_TRACEME, 0, 1, 0)` fallará si `strace` o `ltrace` ya están conectados.
+2. **Enlace estático (`-static`):** Los binarios compilados con enlace estático no contienen referencias de biblioteca dinámicas (`DT_NEEDED`), lo que hace que `ltrace` sea completamente ineficaz (use `strace` en su lugar).
+
+---
+
+## ⚠️ Aviso legal
+
+> [!PRECAUCIÓN]
+> strace y ltrace son herramientas de diagnóstico dinámico diseñadas para el desarrollo, la depuración y las evaluaciones de seguridad autorizadas de software. Está estrictamente prohibido rastrear procesos no autorizados o interceptar comunicaciones patentadas sin permiso.

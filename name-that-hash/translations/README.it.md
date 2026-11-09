@@ -1,39 +1,42 @@
-# 🔍 name-that-hash - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Name-That-Hash](https://github.com/HashPals/Name-That-Hash) (`nth`) is a modern, ultra-fast hash identification engine that accurately identifies unknown hashes, hashes embedded in text or files, and outputs direct Hashcat (`-m`) and John the Ripper (`--format`) modes. It automatically decodes nested encodings like Base64 and Hex.
-
----
-
-## 📋 Indice
-
-- [🎯 Introduzione](#key-features)
-- [Installazione](#installation)
-- [Installazione](#cli-hash-identification)
-- [Multi-Hash & File Processing](#multi-hash--file-processing)
-- [3. Search and Extract Hashes Embedded in Unstructured Text](#hashcat--john-the-ripper-format-output)
-- [|`$6$salt$hash...`|SHA-512 (Unix)|`1800`|`sha512crypt`|](#auto-decode--popularity-filters)
-- [Many applications store hashes in Base64 or Hex before database insertion. `nth` can reverse this automatically:](#integration-with-cracking-pipelines)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 🎯 Introduzione
 
-- **300+ Hash Types**: Covers modern algorithms, Active Directory formats, database hashes, CMS signatures, and esoteric ciphers.
-- **Hashcat & John Flag Mapping**: Immediately displays `-m <mode>` and `--format=<format>` values.
-- **Auto-Decoding**: Strips Base64, Hex, and URL encoding before calculating hash type.
-- **Sub-string / Text Search**: Finds hashes buried inside logs, memory dumps, or configuration files.
-- **Popularity Sorting**: Ranks results by real-world usage probability.
+# Cheatsheet Nome-Quel-Hash (ennesimo).
+
+[Name-That-Hash](https://github.com/HashPals/Name-That-Hash) (`nth`) è un motore di identificazione hash moderno e ultraveloce che identifica accuratamente hash sconosciuti, hash incorporati in testo o file e genera modalità Hashcat dirette (`-m`) e John the Ripper (`--format`). Decodifica automaticamente le codifiche nidificate come Base64 e Hex.
+
+---
+
+## Sommario
+
+- [Caratteristiche principali](#caratteristiche principali)
+- [Installazione](#installazione)
+- [Identificazione hash CLI](#cli-hash-identification)
+- [Multi-Hash ed elaborazione file](#multi-hash--elaborazione file)
+- [Output in formato Hashcat e John the Ripper](#hashcat--john-the-ripper-format-output)
+- [Decodifica automatica e filtri di popolarità](#decodifica automatica--filtri di popolarità)
+- [Integrazione con Cracking Pipelines](#integrazione-con-cracking-pipeline)
+
+---
+
+## Caratteristiche principali
+
+- **Oltre 300 tipi di hash:** copre algoritmi moderni, formati Active Directory, hash di database, firme CMS e cifrari esoterici.
+- **Mappatura Hashcat e John Flag:** visualizza immediatamente i valori `-m <mode>` e `--format=<format>`.
+- **Decodifica automatica:** Elimina la codifica Base64, Hex e URL prima di calcolare il tipo di hash.
+- **Ricerca sottostringa/testo:** trova gli hash sepolti all'interno di log, dump della memoria o file di configurazione.
+- **Ordinamento per popolarità:** classifica i risultati in base alla probabilità di utilizzo nel mondo reale.
 
 ---
 
 ## Installazione
-
 ```bash
 # Via pipx (recommended for isolated CLI tools)
 pipx install name-that-hash
@@ -47,71 +50,63 @@ sudo apt-get update && sudo apt-get install -y python3-name-that-hash
 # Verify installation
 nth --version
 ```
-
 ---
 
-## Installazione
+## Identificazione hash CLI
 
-### 1. Identify a Single Hash
+### 1. Identificare un singolo hash
 ```bash
 nth -t "5d41402abc4b2a76b9719d911017c592"
 ```
-
-### 2. Identify Hashcat & John Format Modes Directly
-CLI Hash Identification
+### 2. Identificare direttamente le modalità di formato Hashcat e John
+Visualizza solo i tipi di hash che hanno supportato le modalità di cracking Hashcat o John:
 ```bash
 nth -t "b8c37e33defde51cf91e1e03e51657da" --hashcat --john
 ```
-
-### Esempi pratici
+### 3. Visualizza informazioni dettagliate (descrizione, velocità, esempi)
 ```bash
 nth -t "$6$rounds=5000$usesomesalt$..." -v
 ```
-
 ---
 
-## Multi-Hash & File Processing
+## Elaborazione di file e hash multipli
 
-### 1. Identify Hashes inside a File (Line by Line)
+### 1. Identificare gli hash all'interno di un file (riga per riga)
 ```bash
 nth -f /path/to/hashes.txt
 ```
-
-### 2. Filter Results to Top Popular Hashes Only
-Multi-Hash & File Processing
+### 2. Filtra i risultati solo in base agli hash più popolari
+Riduci i falsi positivi provenienti da tipi di hash oscuri filtrando per popolarità:
 ```bash
 # Level 1: Most popular hashes only (MD5, SHA1, SHA256, NTLM, bcrypt, etc.)
 nth -f hashes.txt --popularity 1
 ```
-
-### 3. Search and Extract Hashes Embedded in Unstructured Text
-Scan raw memory strings, log files, or source code for hashes:
+### 3. Cerca ed estrai gli hash incorporati nel testo non strutturato
+Esegui la scansione di stringhe di memoria non elaborate, file di registro o codice sorgente per individuare gli hash:
 ```bash
 nth --text "Found hash in config: 098f6bcd4621d373cade4e832627b4f6 on port 8080"
 ```
-
 ---
 
-## 3. Search and Extract Hashes Embedded in Unstructured Text
+## Output in formato Hashcat e John lo Squartatore
 
-`nth` makes it trivial to feed hashes into crackers without memorizing mode numbers:
+`nth` rende banale inserire gli hash nei cracker senza memorizzare i numeri di modalità:
 
-|Sample Hash Format|Detected Algorithm|Hashcat Mode (`-m`)|John Format (`--format`)|
+| Formato hash di esempio | Algoritmo rilevato | Modalità Hashcat (`-m`) | Formato Giovanni (`--format`) |
 |---|---|---|---|
-|`e80b5017098950fc58aad83c8c14978e`|MD5|`0`|`raw-md5`|
-|`b4b9b02e6f09a9bd760f388b67351e2b`|NTLM|`1000`|`nt`|
-|`284ddc0d513372c7d764a0ff813473f2...`|SHA-256|`1400`|`raw-sha256`|
-|`$2a$12$DOW8W6...`|bcrypt|`3200`|`bcrypt`|
-|`$6$salt$hash...`|SHA-512 (Unix)|`1800`|`sha512crypt`|
-|`$krb5tgs$23$*...`|Kerberoast (TGS-REP)|`13100`|`krb5tgs`|
-|`$krb5asrep$23$...`|AS-REP Roasting|`18200`|`krb5asrep`|
+| `e80b5017098950fc58aad83c8c14978e` | MD5 | `0` | `raw-md5` |
+| `b4b9b02e6f09a9bd760f388b67351e2b` | NTLM | `1000` | `nt` |
+| `284ddc0d513372c7d764a0ff813473f2...` | SHA-256 | `1400` | `raw-sha256` |
+| `$2a$12$DOW8W6...` | bcrypt | `3200` | `bcrypt` |
+| `$6$salt$hash...` | SHA-512 (Unix) | `1800` | `sha512crypt` |
+| `$krb5tgs$23$*...` | Kerberoast (TGS-REP) | `13100` | `krb5tgs` |
+| `$krb5asrep$23$...` | AS-REP Torrefazione | `18200` | `krb5asrep` |
 
 ---
 
-## |`$6$salt$hash...`|SHA-512 (Unix)|`1800`|`sha512crypt`|
+## Decodifica automatica e filtri di popolarità
 
-|`$krb5asrep$23$...`|AS-REP Roasting|`18200`|`krb5asrep`|
-
+Molte applicazioni memorizzano gli hash in Base64 o Hex prima dell'inserimento nel database. `nth` può invertirlo automaticamente:
 ```bash
 # Decode Base64 hash before checking
 nth -t "XUkQS8xLJnY5cZ0REXxFkg==" --base64
@@ -119,13 +114,11 @@ nth -t "XUkQS8xLJnY5cZ0REXxFkg==" --base64
 # Decode hex encoded string before checking
 nth -t "3564343134303261626334623261373662393731396439313130313763353932" --hex
 ```
-
 ---
 
-## Many applications store hashes in Base64 or Hex before database insertion. `nth` can reverse this automatically:
+## Integrazione con le pipeline di cracking
 
-Quickly pipe an unknown hash to Hashcat using automated identification:
-
+Invia rapidamente un hash sconosciuto a Hashcat utilizzando l'identificazione automatizzata:
 ```bash
 # 1. Check hash and capture Hashcat mode
 HASH="b4b9b02e6f09a9bd760f388b67351e2b"

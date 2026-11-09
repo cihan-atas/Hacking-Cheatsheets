@@ -1,12 +1,16 @@
-# 🌐 CORSy — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌐 كورسي - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██████╗ ██████╗ ███████╗██╗   ██╗
   ██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗ ██╔╝
@@ -16,57 +20,55 @@
    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝   ╚═╝   
       Cross-Origin Resource Sharing (CORS) Misconfiguration Scanner
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/CORSy-CORS_Scanner-blue?style=for-the-badge" alt="CORSy">
   <img src="https://img.shields.io/badge/Author-Somdev_Sangwan-orange?style=for-the-badge" alt="s0md3v">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="أمان الويب">
   <img src="https://img.shields.io/badge/License-GPLv3-purple?style=for-the-badge" alt="GPLv3">
-</p>
+</ص>
 
 <p align="center">
-  <b>🌐 Fast and comprehensive CLI tool designed to detect Cross-Origin Resource Sharing (CORS) misconfigurations and test for cross-origin data theft risks</b>
-</p>
+  <b>🌐 أداة CLI سريعة وشاملة مصممة لاكتشاف التكوينات الخاطئة لمشاركة الموارد عبر الأصل (CORS) واختبار مخاطر سرقة البيانات عبر الأصل</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-overview--cors-vulnerability-basics)
-  - [The Fatal Trio: Origin Reflection + Credentials True](#the-fatal-trio-origin-reflection--credentials-true)
-- [التثبيت](#-installation)
-- [Basic Target Scanning](#-basic-target-scanning)
-- [CORS Attack Vectors Tested](#-cors-attack-vectors-tested)
-  - [Arbitrary Origin Reflection](#arbitrary-origin-reflection)
-  - [CORSy automatically tests several origin permutation patterns:](#trusting-null-origin-origin-null)
-  - [Prefix & Suffix Regex Bypass](#prefix--suffix-regex-bypass)
+- [نظرة عامة وأساسيات ثغرات CORS](#-نظرة عامة--أساسيات ثغرات CORS)
+  - [الثلاثي القاتل: انعكاس الأصل + صحة بيانات الاعتماد](#الثلاثي القاتل: انعكاس الأصل--أوراق الاعتماد-صحيح)
+- [التثبيت](#-التثبيت)
+- [المسح الأساسي للهدف](#-المسح الأساسي للهدف)
+- [تم اختبار نواقل هجوم CORS](تم اختبار #-cors-attack-vectors)
+  - [انعكاس الأصل التعسفي](#انعكاس الأصل التعسفي)
+  - [الوثوق بالأصل الخالي (`Origin: null`)](#trusting-null-origin-origin-null)
+  - [البادئة واللاحقة تجاوز Regex](#prefix--suffix-regex-bypass)
   - [Wildcard Subdomain Trust](#wildcard-subdomain-trust)
-  - [Special Character Bypass (`_`, `;`, `!`)](#special-character-bypass----)
-- [Multi-Target Scanning & Output Export](#-multi-target-scanning--output-export)
-- [Crafting Proof-of-Concept (PoC) Exploits](#-crafting-proof-of-concept-poc-exploits)
-- [مرجع سريع](#-quick-reference-table)
-- [Defensive Considerations & Secure Headers](#-defensive-considerations--secure-headers)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [تجاوز الأحرف الخاصة (`_`، `;`، `!`)](# تجاوز الأحرف الخاصة ----)
+- [المسح متعدد الأهداف وتصدير المخرجات](#-المسح متعدد الأهداف--تصدير المخرجات)
+- [صياغة برمجيات إكسبلويت لإثبات المفهوم (PoC)](#-crafting-proof-of-concept-poc-exploits)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [الاعتبارات الدفاعية والرؤوس الآمنة](#-الاعتبارات الدفاعية--الرؤوس الآمنة)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 نظرة عامة وأساسيات ثغرات CORS
 
-**Cross-Origin Resource Sharing (CORS)** is a browser security mechanism that allows web servers to relax the **Same-Origin Policy (SOP)**. By returning headers such as:
+**مشاركة الموارد عبر المصادر (CORS)** هي آلية أمان للمتصفح تسمح لخوادم الويب بالاسترخاء في **سياسة المصدر نفسه (SOP)**. من خلال إرجاع الرؤوس مثل:
 - `Access-Control-Allow-Origin: <origin>`
 - `Access-Control-Allow-Credentials: true`
 
-🎯 مقدمة
+يمنح تطبيق الويب مواقع الويب الأخرى الإذن بقراءة استجابات HTTP الخاصة به نيابة عن المستخدم الضحية.
 
-### The Fatal Trio: Origin Reflection + Credentials True
-When an application blindly reflects the incoming `Origin` header in `Access-Control-Allow-Origin` and enables `Access-Control-Allow-Credentials: true`, any malicious website can force an authenticated visitor's browser to read private messages, API keys, and account details.
+### الثلاثي القاتل: انعكاس الأصل + بيانات الاعتماد الحقيقية
+عندما يعكس أحد التطبيقات بشكل أعمى رأس `Origin` الوارد في `Access-Control-Allow-Origin` ويمكّن `Access-Control-Allow-Credentials: true`، يمكن لأي موقع ويب ضار أن يجبر متصفح الزائر المعتمد على قراءة الرسائل الخاصة ومفاتيح API وتفاصيل الحساب.
 
-Created by **Somdev Sangwan (s0md3v)**, **CORSy** systematically probes endpoints with 16+ known origin permutations to spot these misconfigurations.
+تم إنشاؤها بواسطة **Somdev Sangwan (s0md3v)**، **CORSy** تقوم بشكل منهجي بالتحقيق في نقاط النهاية باستخدام أكثر من 16 تبديلًا أصليًا معروفًا لاكتشاف هذه التكوينات الخاطئة.
 
 ---
 
 ## 📥 التثبيت
-
 ```bash
 # Clone the repository
 git clone https://github.com/s0md3v/Corsy.git
@@ -78,31 +80,27 @@ pip install -r requirements.txt
 # Run Corsy
 python3 corsy.py -h
 ```
-
 ---
 
-## 🚀 Basic Target Scanning
+## 🚀 المسح الأساسي للهدف
 
-Scan a single web application endpoint:
-
+مسح نقطة نهاية تطبيق ويب واحد:
 ```bash
 python3 corsy.py -u https://target.com/api/user/details
 ```
-
-🚀 Basic Target Scanning
+أضف رؤوسًا مخصصة أو ملفات تعريف ارتباط الجلسة:
 ```bash
 python3 corsy.py -u https://target.com/api/user/details \
   --headers "Cookie: session=abc123xyz"
 ```
-
 ---
 
-## ⚡ CORS Attack Vectors Tested
+## ⚡ تم اختبار نواقل هجوم CORS
 
-CORSy automatically tests several origin permutation patterns:
+يقوم CORSy تلقائيًا باختبار العديد من أنماط التقليب الأصلية:
 
-### Arbitrary Origin Reflection
-The server blindly mirrors any domain:
+### انعكاس الأصل التعسفي
+يعكس الخادم بشكل أعمى أي مجال:
 ```http
 Request:
 Origin: https://evil.com
@@ -111,9 +109,8 @@ Response:
 Access-Control-Allow-Origin: https://evil.com
 Access-Control-Allow-Credentials: true
 ```
-
-### CORSy automatically tests several origin permutation patterns:
-Applications may trust `null` origins (common with local sandboxed iframes or `data:` URLs):
+### الثقة في الأصل الفارغ (`Origin: null`)
+قد تثق التطبيقات في أصول `null` (شائعة مع إطارات iframe المحلية ذات وضع الحماية أو عناوين URL الخاصة بـ `data:`):
 ```http
 Request:
 Origin: null
@@ -122,24 +119,23 @@ Response:
 Access-Control-Allow-Origin: null
 Access-Control-Allow-Credentials: true
 ```
-*Can be triggered by loading the victim API from an iframe with `sandbox="allow-scripts allow-top-navigation"`.*
+*يمكن تشغيله عن طريق تحميل واجهة برمجة تطبيقات الضحية من إطار iframe باستخدام `sandbox="allow-scripts allow-top-navigation"`.*
 
-### Prefix & Suffix Regex Bypass
-Trusting Null Origin (`Origin: null`)
-- Applications may trust `null` origins (common with local sandboxed iframes or `data:` URLs):
+### البادئة واللاحقة تجاوز Regex
+ضعف التحقق من صحة التعبير العادي (مثل `.*target.com` أو `target.com.*`):
+- `https://target.com.attacker.com`
 - `https://not-target.com`
 
-### Special Character Bypass (`_`, `;`, `!`)
-Prefix & Suffix Regex Bypass
-- Poor regex validation (e.g. `.*target.com` or `target.com.*`):
-- `https://target.com.attacker.com`
+### تجاوز الأحرف الخاصة (`_`، `;`، `!`)
+تتعامل المتصفحات والخوادم مع محددات URI بشكل مختلف:
+-`https://target.com_.attacker.com`
+-`https://target.com%60.attacker.com`
 
 ---
 
-## 🌐 Multi-Target Scanning & Output Export
+## 🌐 المسح متعدد الأهداف وتصدير المخرجات
 
-`https://target.com%60.attacker.com`
-
+قم بمسح قوائم كبيرة من نقاط نهاية واجهة برمجة التطبيقات (API) التي تم اكتشافها من خلال الاستطلاع:
 ```bash
 # Scan a list of URLs with 10 concurrent threads
 python3 corsy.py -i endpoints.txt -t 10
@@ -147,13 +143,11 @@ python3 corsy.py -i endpoints.txt -t 10
 # Export results to clean JSON format
 python3 corsy.py -i endpoints.txt -o cors_results.json
 ```
-
 ---
 
-## 💻 Crafting Proof-of-Concept (PoC) Exploits
+## 💻 صياغة برمجيات إكسبلويت لإثبات المفهوم (PoC).
 
-When CORSy confirms a misconfiguration with credentials allowed, generate an HTML exploit to steal sensitive data:
-
+عندما تؤكد CORSy وجود خطأ في التكوين مع السماح ببيانات الاعتماد، قم بإنشاء استغلال HTML لسرقة البيانات الحساسة:
 ```html
 <!DOCTYPE html>
 <html>
@@ -172,30 +166,29 @@ When CORSy confirms a misconfiguration with credentials allowed, generate an HTM
 </body>
 </html>
 ```
+---
+
+## ⚡ جدول مرجعي سريع
+
+| الهدف | الأمر |
+|-----------|--------|
+| ** مسح عنوان URL واحد ** | `python3 corsy.py -u <URL>` |
+| **المسح الضوئي باستخدام ملف تعريف الارتباط للجلسة** | `python3 corsy.py -u <URL> --headers "Cookie: sess=123"` |
+| ** قائمة عناوين URL للمسح ** | `python3 corsy.py -i targets.txt` |
+| **مسح متعدد الخيوط** | `python3 corsy.py -i targets.txt -t 20` |
+| **تصدير إلى JSON** | `python3 corsy.py -i targets.txt -o results.json` |
 
 ---
 
-## ⚡ مرجع سريع
+## 🛡️ الاعتبارات الدفاعية والضربات الرأسية الآمنة
 
-|Objective|الأمر|
-|-----------|---------|
-|**Scan Single URL**|`python3 corsy.py -u <URL>`|
-|**Scan with Session Cookie**|`python3 corsy.py -u <URL> --headers "Cookie: sess=123"`|
-|**Scan URL List**|`python3 corsy.py -i targets.txt`|
-|**Multi-Threaded Scan**|`python3 corsy.py -i targets.txt -t 20`|
-|**Export to JSON**|`python3 corsy.py -i targets.txt -o results.json`|
+1. **لا تعكس الأصل مطلقًا بشكل تعسفي:** قارن رأس `Origin` بقائمة بيضاء صارمة وصريحة من جانب الخادم.
+2. ** لا تقم مطلقًا بإقران Wildcard مع بيانات الاعتماد: ** يحظر المتصفح `Access-Control-Allow-Origin: *` مع `Credentials: true`، ولكن لا يحاكيه أبدًا ديناميكيًا.
+3. **تجنب الثقة في `null`:** لا تقم بإضافة `null` إلى سياسات الأصل الموثوقة.
 
 ---
 
-## 🛡️ Defensive Considerations & Secure Headers
+## ⚠️إخلاء المسؤولية القانونية
 
-|**Export to JSON**|`python3 corsy.py -i targets.txt -o results.json`|
-2. **Never Pair Wildcard with Credentials:** The browser blocks `Access-Control-Allow-Origin: *` with `Credentials: true`, but never emulate it dynamically.
-3. **Avoid Trusting `null`:** Do not add `null` to trusted origin policies.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> CORSy is intended strictly for authorized security assessments, penetration testing, and defensive auditing. Testing websites without authorization is illegal.
+> [!تنبيه]
+> تم تصميم CORSy بشكل صارم للتقييمات الأمنية المعتمدة واختبار الاختراق والتدقيق الدفاعي. اختبار المواقع دون إذن غير قانوني.

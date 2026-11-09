@@ -1,12 +1,16 @@
-# 🛰️ sshuttle – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🛰️ sshuttle – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███████╗███████╗██╗  ██╗██╗   ██╗████████╗████████╗██╗     ███████╗
   ██╔════╝██╔════╝██║  ██║██║   ██║╚══██╔══╝╚══██╔══╝██║     ██╔════╝
@@ -16,7 +20,6 @@
   ╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚══════╝
        Transparent Proxy Server that Works as a Poor Man's VPN over SSH
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/sshuttle-Poor_Man's_VPN-blue?style=for-the-badge" alt="sshuttle">
   <img src="https://img.shields.io/badge/Category-Pivoting_&_Tunneling-orange?style=for-the-badge" alt="Pivoting & Tunneling">
@@ -25,47 +28,46 @@
 </p>
 
 <p align="center">
-  <b>🌐 Forward entire internal subnets and DNS requests through an unprivileged SSH session without administrative access on the remote server</b>
+  <b>🌐 Leiten Sie ganze interne Subnetze und DNS-Anfragen über eine unprivilegierte SSH-Sitzung ohne administrativen Zugriff auf den Remote-Server weiter</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--the-poor-mans-vpn-philosophy)
-- [How sshuttle Works](#-how-sshuttle-works)
-- [Tool Comparison: sshuttle vs SOCKS vs Ligolo-ng vs OpenVPN](#-tool-comparison-sshuttle-vs-socks-vs-ligolo-ng-vs-openvpn)
-- [Installation](#-installation)
-- [Basic Subnet Routing](#-basic-subnet-routing)
-- [DNS Traffic Forwarding (`--dns`)](#-dns-traffic-forwarding---dns)
-- [Full Gateway Redirection (Default Route)](#-full-gateway-redirection-default-route)
-- [Subnet Exclusions (`-x`)](#-subnet-exclusions--x)
-- [Optionen und Parameter](#-ssh-options--key-based-authentication--e)
-- [Daemon Background Execution (`-D`)](#-daemon-background-execution--d)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Überblick und die „Poor Man's VPN“-Philosophie](#-overview--the-poor-mans-vpn-philosophy)
+- [So funktioniert sshuttle](#-how-shuttle-works)
+- [Tool-Vergleich: sshuttle vs SOCKS vs Ligolo-ng vs OpenVPN](#-tool-comparison-sshuttle-vs-socks-vs-ligolo-ng-vs-openvpn)
+- [Installation](#-Installation)
+- [Grundlegendes Subnetz-Routing](#-basic-subnet-routing)
+- [DNS-Verkehrsweiterleitung (`--dns`)](#-dns-traffic-forwarding---dns)
+- [Vollständige Gateway-Umleitung (Standardroute)](#-full-gateway-redirection-default-route)
+- [Subnetz-Ausschlüsse (`-x`)](#-subnet-exclusions--x)
+- [SSH-Optionen und schlüsselbasierte Authentifizierung (`-e`)](#-ssh-options--key-based-authentication--e)
+- [Daemon-Hintergrundausführung (`-D`)](#-daemon-background-execution--d)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Verteidigungsüberlegungen und OPSEC](#-defensive-considerations--opsec)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Überblick und die „VPN des armen Mannes“-Philosophie
 
-**sshuttle** is a transparent proxy server that operates as a lightweight, zero-configuration VPN over a standard SSH connection.
+**sshuttle** ist ein transparenter Proxyserver, der als leichtes, konfigurationsfreies VPN über eine Standard-SSH-Verbindung fungiert.
 
-In typical corporate penetration testing and Red Team assessments, pivoting into internal networks is hampered by strict constraints:
-- ❌ You rarely possess `root` or `SYSTEM` access on the initial SSH bastion / pivot host.
-- 🎯 Einführung
-- ❌ Standard SOCKS proxies (like `ssh -D`) require configuring `proxychains` or individual application proxy settings for every single tool.
+Bei typischen Penetrationstests und Red-Team-Bewertungen von Unternehmen wird die Einbindung in interne Netzwerke durch strenge Einschränkungen behindert:
+- ❌ Sie verfügen selten über `root`- oder `SYSTEM`-Zugriff auf den ursprünglichen SSH-Bastion-/Pivot-Host.
+- ❌ Herkömmliche VPN-Lösungen (OpenVPN, WireGuard) erfordern Administratorrechte und virtuelle TUN/TAP-Netzwerkgeräte auf beiden Endpunkten.
+- ❌ Standard-SOCKS-Proxys (wie `ssh -D`) erfordern die Konfiguration von `proxychains` oder individuellen Anwendungs-Proxy-Einstellungen für jedes einzelne Tool.
 
-**sshuttle solves all three limitations simultaneously:**
-- In typical corporate penetration testing and Red Team assessments, pivoting into internal networks is hampered by strict constraints:
-- ❌ You rarely possess `root` or `SYSTEM` access on the initial SSH bastion / pivot host.
-- ✅ **System-wide transparent routing:** Modifies local `iptables` / `nftables` on the attacker box, enabling tools (`nmap`, `curl`, `smbclient`, web browsers) to target internal IPs directly without wrappers!
+**sshuttle löst alle drei Einschränkungen gleichzeitig:**
+- ✅ **Kein Remote-Root erforderlich:** Der Pivot-Server benötigt nur eine Standard-Python-Installation (`python3`).
+- ✅ **Kein Remote-TUN/TAP erforderlich:** Verwendet reines TCP-Stream-Multiplexing über die SSH-Sitzung.
+- ✅ **Systemweites transparentes Routing:** Ändert lokales `iptables` / `nftables` auf der Angreifer-Box und ermöglicht es Tools (`nmap`,
 
 ---
 
-## ⚙️ How sshuttle Works
-
+## ⚙️ So funktioniert der Shuttle
 ```
 [ Attacker Box (Local Root) ]
   ├── iptables / nftables redirects internal IP traffic (10.10.10.0/24) to local port
@@ -78,24 +80,22 @@ In typical corporate penetration testing and Red Team assessments, pivoting into
               ▼
 [ Target Internal Network (10.10.10.0/24) ]
 ```
-
 ---
 
-## ⚖️ Tool Comparison: sshuttle vs SOCKS vs Ligolo-ng vs OpenVPN
+## ⚖️ Tool-Vergleich: sshuttle vs. SOCKS vs. Ligolo-ng vs. OpenVPN
 
-|Feature|`sshuttle`|SOCKS (`ssh -D`)|`Ligolo-ng`|`OpenVPN`|
-|---------|------------|------------------|-------------|-----------|
-|**Remote Root Required**|❌ No|❌ No|❌ No|✅ Yes|
-|**Local Root Required**|✅ Yes (iptables)|❌ No|✅ Yes (TUN interface)|✅ Yes|
-|**Transparent Routing**|✅ Yes|❌ Requires Proxychains|✅ Yes (Native TUN)|✅ Yes|
-|**UDP Traffic Support**|❌ DNS only|❌ No|✅ Yes|✅ Full UDP|
-|**Requires Python on Target**|✅ Yes (Python 3)|❌ No|❌ No (Standalone agent)|❌ No|
-|**Nmap SYN Scan (`-sS`)**|❌ TCP connect (`-sT`)|❌ TCP connect only|✅ Raw packet support|✅ Full raw packets|
+| Funktion | `sshuttle` | SOCKEN (`ssh -D`) | `Ligolo-ng` | `OpenVPN` |
+|---------|------------|----|-------------|-----------|
+| **Remote Root erforderlich** | ❌ Nein | ❌ Nein | ❌ Nein | ✅ Ja |
+| **Lokaler Root erforderlich** | ✅ Ja (iptables) | ❌ Nein | ✅ Ja (TUN-Schnittstelle) | ✅ Ja |
+| **Transparentes Routing** | ✅ Ja | ❌ Erfordert Proxychains | ✅ Ja (Native TUN) | ✅ Ja |
+| **UDP-Verkehrsunterstützung** | ❌ Nur DNS | ❌ Nein | ✅ Ja | ✅ Vollständiges UDP |
+| **Erfordert Python auf dem Ziel**| ✅ Ja (Python 3) | ❌ Nein | ❌ Nein (Standalone-Agent)| ❌ Nein |
+| **Nmap SYN-Scan (`-sS`)** | ❌ TCP-Verbindung (`-sT`)| ❌ Nur TCP-Verbindung | ✅ Unterstützung für Rohpakete | ✅ Vollständige Rohpakete |
 
 ---
 
 ## 📥 Installation
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y sshuttle
@@ -109,13 +109,11 @@ brew install sshuttle
 # Python Pipx / Pip
 pipx install sshuttle
 ```
-
 ---
 
-## 🚀 Basic Subnet Routing
+## 🚀 Grundlegendes Subnetz-Routing
 
-Forward an entire remote Class C subnet through the SSH pivot host:
-
+Leiten Sie ein gesamtes Remote-Klasse-C-Subnetz über den SSH-Pivot-Host weiter:
 ```bash
 # Route 10.10.10.0/24 through user@192.168.1.50
 sshuttle -r user@192.168.1.50 10.10.10.0/24
@@ -123,20 +121,17 @@ sshuttle -r user@192.168.1.50 10.10.10.0/24
 # Route multiple disjoint subnets simultaneously
 sshuttle -r user@192.168.1.50 10.10.10.0/24 172.16.0.0/16 192.168.100.0/24
 ```
-
-🚀 Basic Subnet Routing
+Sobald die Verbindung hergestellt ist, können Sie direkt mit internen Maschinen kommunizieren:
 ```bash
 # No proxychains needed!
 curl http://10.10.10.25:8080/
 smbclient -L //10.10.10.10/ -U 'domain/user%pass'
 ```
-
 ---
 
-## 🌐 DNS Traffic Forwarding (`--dns`)
+## 🌐 DNS-Verkehrsweiterleitung (`--dns`)
 
-Forward internal corporate DNS queries (`.corp`, `.local`) to the remote network's internal DNS server:
-
+Leiten Sie unternehmensinterne DNS-Abfragen (`.corp`, `.local`) an den internen DNS-Server des Remote-Netzwerks weiter:
 ```bash
 # Route subnet and proxy internal DNS queries
 sshuttle --dns -r user@192.168.1.50 10.10.10.0/24
@@ -144,13 +139,11 @@ sshuttle --dns -r user@192.168.1.50 10.10.10.0/24
 # Query internal domain directly via nslookup/dig
 dig dc01.internal.corp
 ```
-
 ---
 
-## 🌍 Full Gateway Redirection (Default Route)
+## 🌍 Vollständige Gateway-Umleitung (Standardroute)
 
-Route all outbound attacker traffic through the SSH connection (full VPN behavior):
-
+Leiten Sie den gesamten ausgehenden Angreiferverkehr über die SSH-Verbindung weiter (vollständiges VPN-Verhalten):
 ```bash
 # Route all traffic through remote SSH server (0.0.0.0/0)
 sshuttle -r user@remote-vps.com 0.0.0.0/0
@@ -158,35 +151,29 @@ sshuttle -r user@remote-vps.com 0.0.0.0/0
 # Route all traffic except local network
 sshuttle -r user@remote-vps.com 0.0.0.0/0 -x 192.168.1.0/24
 ```
-
 ---
 
-## 🚫 Subnet Exclusions (`-x`)
+## 🚫 Subnetz-Ausschlüsse (`-x`)
 
-Prevent specific sensitive or loopback subnets from being captured:
-
+Verhindern Sie, dass bestimmte sensible oder Loopback-Subnetze erfasst werden:
 ```bash
 # Route entire 10.0.0.0/8 network, but exclude the pivot host itself
 sshuttle -r user@10.0.0.50 10.0.0.0/8 -x 10.0.0.50/32
 ```
-
 ---
 
-## 🔑 Optionen und Parameter
+## 🔑 SSH-Optionen und schlüsselbasierte Authentifizierung (`-e`)
 
-Pass custom SSH flags (private identity keys, non-standard SSH ports):
-
+Übergeben Sie benutzerdefinierte SSH-Flags (private Identitätsschlüssel, nicht standardmäßige SSH-Ports):
 ```bash
 # Use custom identity file and non-standard SSH port 2222
 sshuttle -e 'ssh -i /path/to/id_rsa -p 2222' -r user@192.168.1.50 10.10.10.0/24
 ```
-
 ---
 
-## 🤖 Daemon Background Execution (`-D`)
+## 🤖 Daemon-Hintergrundausführung (`-D`)
 
-Run sshuttle as a background daemon during ongoing engagements:
-
+Führen Sie sshuttle während laufender Einsätze als Hintergrund-Daemon aus:
 ```bash
 # Start background daemon with pidfile
 sudo sshuttle -D --pidfile /tmp/sshuttle.pid -r user@192.168.1.50 10.10.10.0/24
@@ -194,32 +181,31 @@ sudo sshuttle -D --pidfile /tmp/sshuttle.pid -r user@192.168.1.50 10.10.10.0/24
 # Terminate daemon when finished
 sudo kill $(cat /tmp/sshuttle.pid)
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Objective|Befehl|
+| Ziel | Befehl |
 |-----------|---------|
-|**Route Single Subnet**|`sshuttle -r <USER>@<PIVOT> <SUBNET>/24`|
-|**Route Subnet with DNS**|`sshuttle --dns -r <USER>@<PIVOT> <SUBNET>/24`|
-|**Route Multiple Subnets**|`sshuttle -r <USER>@<PIVOT> <NET1>/24 <NET2>/16`|
-|**Exclude IP/Subnet**|`sshuttle -r <USER>@<PIVOT> <SUBNET>/24 -x <EXCLUDE_IP>`|
-|**Full Traffic Redirection**|`sshuttle -r <USER>@<PIVOT> 0.0.0.0/0`|
-|**Custom SSH Key / Port**|`sshuttle -e 'ssh -i <KEY> -p <PORT>' -r <USER>@<PIVOT> <SUBNET>`|
-|**Run in Background**|`sshuttle -D --pidfile /tmp/sshuttle.pid -r <USER>@<PIVOT> <SUBNET>`|
+| **Einzelnes Subnetz weiterleiten** | `sshuttle -r <USER>@<PIVOT> <SUBNET>/24` |
+| **Subnetz mit DNS weiterleiten** | `sshuttle --dns -r <USER>@<PIVOT> <SUBNET>/24` |
+| **Mehrere Subnetze weiterleiten** | `sshuttle -r <USER>@<PIVOT> <NET1>/24 <NET2>/16` |
+| **IP/Subnetz ausschließen** | `sshuttle -r <USER>@<PIVOT> <SUBNET>/24 -x <EXCLUDE_IP>` |
+| **Vollständige Verkehrsumleitung** | `sshuttle -r <USER>@<PIVOT> 0.0.0.0/0` |
+| **Benutzerdefinierter SSH-Schlüssel/Port** | `sshuttle -e 'ssh -i <KEY> -p <PORT>' -r <USER>@<PIVOT> <SUBNET>` |
+| **Im Hintergrund ausführen** | `sshuttle -D --pidfile /tmp/sshuttle.pid -r <USER>@<PIVOT> <SUBNET>` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Defensive Überlegungen und OPSEC
 
-1. **Firewall Modification:** sshuttle modifies local firewall tables (`iptables` on Linux, `pf` on macOS). If sshuttle crashes uncleanly, use `iptables -F` or restart the firewall service to flush stale redirection rules.
-2. **TCP-Only Limitation:** Non-DNS UDP packets, ICMP echo requests (ping), and SYN scans are not supported. Always use `nmap -sT -Pn -n` for port scanning over sshuttle.
-3. **Target Footprint:** sshuttle automatically uploads a small Python assembly script to the remote pivot host during session initialization and runs it via `python3`.
+1. **Firewall-Änderung:** sshuttle ändert lokale Firewall-Tabellen (`iptables` unter Linux, `pf` unter macOS). Wenn sshuttle unsauber abstürzt, verwenden Sie `iptables -F` oder starten Sie den Firewall-Dienst neu, um veraltete Umleitungsregeln zu löschen.
+2. **Nur TCP-Einschränkung:** Nicht-DNS-UDP-Pakete, ICMP-Echoanfragen (Ping) und SYN-Scans werden nicht unterstützt. Verwenden Sie immer `nmap -sT -Pn -n` für das Port-Scannen über Sshuttle.
+3. **Ziel-Footprint:** sshuttle lädt während der Sitzungsinitialisierung automatisch ein kleines Python-Assembly-Skript auf den Remote-Pivot-Host hoch und führt es über `python3` aus.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is intended for authorized penetration testing and system administration only. Unauthorized routing and interception of network traffic is illegal.
+> [!ACHTUNG]
+> Dieses Cheatsheet ist nur für autorisierte Penetrationstests und Systemadministratoren bestimmt. Das unbefugte Weiterleiten und Abfangen des Netzwerkverkehrs ist illegal.

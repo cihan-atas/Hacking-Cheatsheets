@@ -1,39 +1,42 @@
-# 🔍 CUPP — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) is a specialized password dictionary generator designed for targeted human profiling. Rather than brute-forcing with generic dictionaries, CUPP generates permutations based on personal details (target name, partner, pets, birth dates, company, hobbies, leet speak variations, and special character combinations).
-
----
-
-## 📋 جدول المحتويات
-
-- [مقدمة](#overview--use-cases)
-- [التثبيت](#installation)
-- [التثبيت](#interactive-profiling-wizard--i)
-- [Configuration & Leet Rules (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
-- [Downloading & Merging Dictionaries (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
-- [2. Improve an Existing Wordlist with Leet / Special Rules](#piping-output-to-hashcat--hydra)
-- [Defensive Insights & Password Policy Guidelines](#defensive-insights--password-policy-guidelines)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## مقدمة
 
-Traditional dictionary attacks often fail against complex passwords that follow human-predictable patterns (e.g., `John1984!`, `Sarah_Fluffy2022#`). CUPP addresses this by:
-- Collecting target-specific personal intelligence.
-- Combining names, birth years, significant dates, and pet names.
-- Applying rule-based mutations (capitalization, leet speak replacement, special characters, random number appending).
-- مقدمة
+# ورقة الغش CUPP (ملف تعريف كلمات مرور المستخدم المشترك).
+
+[CUPP](https://github.com/Mebus/cupp) (ملف تعريف كلمات مرور المستخدم الشائعة) هو منشئ قاموس كلمات مرور متخصص مصمم للتوصيف البشري المستهدف. بدلاً من استخدام القواميس العامة، يقوم CUPP بإنشاء التباديل بناءً على التفاصيل الشخصية (الاسم المستهدف، والشريك، والحيوانات الأليفة، وتواريخ الميلاد، والشركة، والهوايات، وتنوعات الكلام، ومجموعات الأحرف الخاصة).
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
+- [نظرة عامة وحالات الاستخدام](#overview--use-cases)
+- [التثبيت](#التثبيت)
+- [معالج ملفات التعريف التفاعلي (`-i`)](#interactive-profiling-wizard--i)
+- [قواعد التكوين وLeet (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
+- [تنزيل ودمج القواميس (`-l` & `-w`)](#downloading--دمج-القواميس--l---w)
+- [إخراج الأنابيب إلى Hashcat & Hydra](#piping-output-to-hashcat--hydra)
+- [إرشادات سياسة الرؤى الدفاعية وكلمة المرور](#defensive-insights--password-policy-guidelines)
+
+---
+
+## نظرة عامة وحالات الاستخدام
+
+غالبًا ما تفشل هجمات القاموس التقليدية ضد كلمات المرور المعقدة التي تتبع أنماطًا يمكن التنبؤ بها من قبل الإنسان (على سبيل المثال، `John1984!`، `Sarah_Fluffy2022#`). يعالج CUPP هذا من خلال:
+- جمع المعلومات الاستخبارية الشخصية الخاصة بالهدف.
+- الجمع بين الأسماء وسنوات الميلاد والتواريخ المهمة وأسماء الحيوانات الأليفة.
+- تطبيق الطفرات المبنية على القواعد (الأحرف الكبيرة، استبدال Lete Speak، الأحرف الخاصة، إلحاق رقم عشوائي).
+- إنتاج قائمة كلمات محسّنة ومستهدفة أصغر بشكل كبير من `rockyou.txt` ولكن ذات صلة أعلى بالهدف.
+
+---
+
+## تثبيت
 ```bash
 # Clone the repository
 git clone https://github.com/Mebus/cupp.git
@@ -45,18 +48,15 @@ sudo apt-get update && sudo apt-get install -y cupp
 # Check help options
 python3 cupp.py -h
 ```
-
 ---
 
-## التثبيت
+## معالج ملفات التعريف التفاعلية (`-i`)
 
-Launch the questionnaire prompt to build a personalized wordlist:
-
+قم بتشغيل موجه الاستبيان لإنشاء قائمة كلمات مخصصة:
 ```bash
 python3 cupp.py -i
 ```
-
-Interactive Profiling Wizard (`-i`)
+مثال على الإرشادات السريعة:
 ```text
 [+] Insert the targets information:
 > First Name: Alice
@@ -87,14 +87,13 @@ Interactive Profiling Wizard (`-i`)
 [+] Do you want to add some random numbers at the end of words? Y/n: y
 [+] Leet mode? (i.e. leet = 1337) Y/n: y
 ```
-
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+يتم إنشاء ملف الإخراج `alice.csv` (أو ملف نصي محدد) بآلاف الطفرات المخصصة (على سبيل المثال، `Alice1992!`، `LunaCharlie2018`، `CyberCorp@2022`).
 
 ---
 
-## Configuration & Leet Rules (`cupp.cfg`)
+## قواعد التكوين وLeet (`cupp.cfg`)
 
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+يتم التحكم في تكوين CUPP عبر `cupp.cfg`. تشمل الأقسام الرئيسية ما يلي:
 ```ini
 [years]
 # Set year range for automated suffix appending
@@ -118,32 +117,29 @@ o = 0
 s = 5,$
 t = 7
 ```
-
-Edit `cupp.cfg` to adjust to target locale and language specifics.
+قم بتحرير `cupp.cfg` للتكيف مع الإعدادات المحلية المستهدفة ومواصفات اللغة.
 
 ---
 
-## Downloading & Merging Dictionaries (`-l` & `-w`)
+## تنزيل ودمج القواميس (`-l` و`-w`)
 
-### Edit `cupp.cfg` to adjust to target locale and language specifics.
-Download default linguistic wordlists:
+### 1. قم بتنزيل قوائم الكلمات المجمعة مسبقًا من المستودعات
+تنزيل قوائم الكلمات اللغوية الافتراضية:
 ```bash
 python3 cupp.py -l
 ```
-
-### Downloading & Merging Dictionaries (`-l` & `-w`)
-Apply CUPP mutation rules to a list of existing words:
+### 2. تحسين قائمة الكلمات الموجودة باستخدام قواعد Leet / الخاصة
+قم بتطبيق قواعد طفرة CUPP على قائمة الكلمات الموجودة:
 ```bash
 python3 cupp.py -w /path/to/base_words.txt
 ```
-
 ---
 
-## 2. Improve an Existing Wordlist with Leet / Special Rules
+## إخراج الأنابيب إلى Hashcat وHydra
 
-Feed the generated customized dictionary directly into brute-force tools:
+قم بإدخال القاموس المخصص الذي تم إنشاؤه مباشرةً في أدوات القوة الغاشمة:
 
-### Cracking Target Hashes with Hashcat
+### تكسير تجزئات الهدف باستخدام Hashcat
 ```bash
 # Generate targeted list
 python3 cupp.py -i
@@ -151,16 +147,14 @@ python3 cupp.py -i
 # Run Hashcat against target NTLM hash
 hashcat -m 1000 target_ntlm.hash alice.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### Online Authentication Brute-Force with Hydra
+### المصادقة عبر الإنترنت باستخدام القوة الغاشمة مع Hydra
 ```bash
 hydra -l alice -P alice.txt 192.168.1.50 ssh
 ```
-
 ---
 
-## Defensive Insights & Password Policy Guidelines
+## الرؤى الدفاعية وإرشادات سياسة كلمة المرور
 
-- **Ban Personal Attributes**: Prohibit user passwords containing employee first names, last names, usernames, company brand names, or birth dates.
-- **Enforce Length over Complexity**: A 16+ character passphrase (e.g., four random dictionary words) is significantly more resilient against profiling tools than an 8-character `NameYear!` pattern.
-- **Multi-Factor Authentication (MFA)**: Enforce hardware FIDO2 or TOTP tokens so customized dictionary generation alone cannot compromise accounts.
+- **حظر السمات الشخصية:** منع كلمات مرور المستخدم التي تحتوي على الأسماء الأولى للموظفين أو أسماء العائلة أو أسماء المستخدمين أو الأسماء التجارية للشركة أو تواريخ الميلاد.
+- **فرض الطول على التعقيد:** تعد عبارة المرور المكونة من 16 حرفًا أو أكثر (على سبيل المثال، أربع كلمات عشوائية في القاموس) أكثر مرونة بشكل ملحوظ في مواجهة أدوات إنشاء الملفات الشخصية من نمط `NameYear!` المكون من 8 أحرف.
+- **المصادقة متعددة العوامل (MFA):** قم بفرض رموز FIDO2 أو TOTP للأجهزة بحيث لا يمكن لإنشاء القاموس المخصص وحده أن يعرض الحسابات للخطر.

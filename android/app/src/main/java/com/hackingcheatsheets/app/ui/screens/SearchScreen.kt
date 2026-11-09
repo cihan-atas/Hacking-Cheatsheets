@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.ui.components.CheatsheetCardItem
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.BackgroundDark
 import com.hackingcheatsheets.app.ui.theme.BorderDark
 import com.hackingcheatsheets.app.ui.theme.BorderLight
@@ -117,10 +118,7 @@ fun SearchScreen(
                     decorationBox = { innerTextField ->
                         if (query.isEmpty()) {
                             Text(
-                                text = if (language == AppLanguage.TR) 
-                                    "Araç, komut, parametre veya CVE ara..." 
-                                else 
-                                    "Search tools, commands, flags, CVEs...",
+                                text = AppI18n.searchPlaceholder(language),
                                 color = TextMuted,
                                 fontSize = 14.sp
                             )
@@ -169,7 +167,7 @@ fun SearchScreen(
                     .padding(horizontal = 10.dp, vertical = 6.dp)
             ) {
                 Text(
-                    text = if (language == AppLanguage.TR) "Tümü" else "All",
+                    text = AppI18n.allChip(language),
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Bold,
@@ -220,7 +218,7 @@ fun SearchScreen(
         // Popular Discovery Suggestions (when query is empty)
         if (query.isEmpty() && activeCategoryFilter == null) {
             Text(
-                text = if (language == AppLanguage.TR) "⚡ HIZLI ARAMA ÖNERİLERİ" else "⚡ POPULAR SEARCHES",
+                text = AppI18n.popularSearches(language),
                 style = MaterialTheme.typography.bodySmall,
                 color = TerminalCyan
             )
@@ -260,9 +258,9 @@ fun SearchScreen(
         ) {
             Text(
                 text = if (query.isEmpty() && activeCategoryFilter == null) {
-                    if (language == AppLanguage.TR) "Tüm Kılavuzlar (${results.size})" else "All Cheatsheets (${results.size})"
+                    AppI18n.allCheatsheetsCount(language, results.size)
                 } else {
-                    "${results.size} ${if (language == AppLanguage.TR) "sonuç bulundu" else "results found"}"
+                    AppI18n.resultsFound(language, results.size)
                 },
                 fontSize = 12.sp,
                 fontFamily = FontFamily.Monospace,

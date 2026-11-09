@@ -1,12 +1,16 @@
-# 📁 Dirb — Guia de referência completo
-
 <!-- language-home-navigation -->
-[🏠 Página inicial em português](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Portuguesa](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📁 DIRB - Folha de dicas completa
 
+[🇹🇷 Türkçe Sürüm](traduções/README.tr.md)
 ```
   ██████╗ ██╗██████╗ ██████╗ 
   ██╔══██╗██║██╔══██╗██╔══██╗
@@ -16,73 +20,71 @@
   ╚═════╝ ╚═╝╚═╝  ╚═╝╚═════╝ 
         Web Content Scanner
 ```
-
-<p align="center">
+<p alinhar="centro">
   <img src="https://img.shields.io/badge/DIRB-Content_Scanner-orange?style=for-the-badge" alt="DIRB">
-  <img src="https://img.shields.io/badge/Wordlists-Bruteforce-blue?style=for-the-badge" alt="Wordlists">
+  <img src="https://img.shields.io/badge/Wordlists-Bruteforce-blue?style=for-the-badge" alt="Listas de palavras">
   <img src="https://img.shields.io/badge/Kali_Linux-Preinstalled-green?style=for-the-badge" alt="Kali Linux">
   <img src="https://img.shields.io/badge/Web-Pentesting-red?style=for-the-badge" alt="Web Pentesting">
 </p>
 
-<p align="center">
-  <b>🔍 Classic web content scanner launching dictionary-based attacks against web servers</b>
+<p alinhar="centro">
+  <b>🔍 Verificador de conteúdo web clássico lançando ataques baseados em dicionário contra servidores web</b>
 </p>
 
 ---
 
 ## 📋 Índice
 
-- [Introdução](#-introduction)
-- [DIRB vs Modern Alternatives](#-dirb-vs-modern-alternatives)
-- [Instalação](#-installation)
-- [| `--exclude-length` | Excluir pelo tamanho da resposta |](#-default-wordlists)
-- [Sintaxe básica](#-basic-syntax)
-- [Common Scanning Scenarios](#-common-scanning-scenarios)
-- [Opções e parâmetros](#-advanced-options--tuning)
-- [Vulnerability Hunting with Built-in Lists](#-vulnerability-hunting-with-built-in-lists)
-- [Real-World Workflows](#-real-world-workflows)
-- [Referência rápida](#-quick-reference-table)
-- [Dicas e melhores práticas](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Recursos e referências](#-resources)
+- [Introdução](#-introdução)
+- [DIRB vs alternativas modernas](#-dirb-vs-modern-alternatives)
+- [Instalação](#-instalação)
+- [Listas de palavras padrão](#-default-wordlists)
+- [Sintaxe Básica](#-sintaxe básica)
+- [Cenários de verificação comuns](#-common-scanning-scenarios)
+- [Opções avançadas e ajuste](#-opções avançadas--ajuste)
+- [Caça de vulnerabilidades com listas integradas](#-caça de vulnerabilidades com listas integradas)
+- [Fluxos de trabalho do mundo real](#-fluxos de trabalho do mundo real)
+- [Tabela de referência rápida](#-tabela de referência rápida)
+- [Dicas e práticas recomendadas](#-dicas--melhores práticas)
+- [Isenção de responsabilidade legal](#-isenção de responsabilidade legal)
+- [Recursos](#-recursos)
 
 ---
 
 ## 🎯 Introdução
 
-**DIRB** (Directory Buster) is a classic, lightweight, URL-based web content scanner written in C. It launches dictionary-based attacks against web servers, looking for existing and hidden web objects (files, directories, scripts, and endpoints).
+**DIRB** (Directory Buster) é um scanner de conteúdo da Web clássico, leve e baseado em URL, escrito em C. Ele lança ataques baseados em dicionário contra servidores da Web, procurando objetos da Web existentes e ocultos (arquivos, diretórios, scripts e endpoints).
 
-DIRB works by generating HTTP requests for each word in a wordlist, analyzing the server's response codes (200, 301, 302, 403, etc.), and determining whether a resource exists.
+O DIRB funciona gerando solicitações HTTP para cada palavra em uma lista de palavras, analisando os códigos de resposta do servidor (200, 301, 302, 403, etc.) e determinando se existe um recurso.
 
-### 🎯 Introdução
+### Principais características
 
-- ✅ **Automatic Recursive Scanning:** Scans discovered subdirectories automatically by default.
-- ✅ **Built-in Specialized Wordlists:** Ships with targeted wordlists for common web servers, CMSs, and vulnerabilities.
-- ✅ **Low Resource Footprint:** Lightweight binary that runs smoothly even on low-spec hardware or older systems.
-- ✅ **Custom Header & Proxy Support:** Easy integration with Burp Suite and upstream HTTP proxies.
+- ✅ **Verificação recursiva automática:** Verifica os subdiretórios descobertos automaticamente por padrão.
+- ✅ **Listas de palavras especializadas integradas:** Vem com listas de palavras direcionadas para servidores web comuns, CMSs e vulnerabilidades.
+- ✅ **Baixa pegada de recursos:** Binário leve que funciona perfeitamente mesmo em hardware de baixa especificação ou sistemas mais antigos.
+- ✅ **Suporte a cabeçalho personalizado e proxy:** Fácil integração com Burp Suite e proxies HTTP upstream.
 
 ---
 
-## ⚖️ DIRB vs Modern Alternatives
+## ⚖️ DIRB vs alternativas modernas
 
-|Feature|DIRB|Gobuster|ffuf|Feroxbuster|📂 Fase 6: descoberta de pastas e ficheiros|
-|---------|------|----------|------|-------------|-----------|
-|**Language**|C|Go|Go|Rust|Python|
-|**Speed**|⭐⭐ (Low thread)|⭐⭐⭐⭐⭐ (Fast)|⭐⭐⭐⭐⭐ (Extremely fast)|⭐⭐⭐⭐⭐ (Async Rust)|⭐⭐⭐⭐ (Fast)|
-|**Default Recursion**|✅ Yes (Automatic)|❌ No|❌ No (Optional `-recursion`)|✅ Yes (Automatic)|✅ Yes (`-r`)|
-|**Custom Wordlists Included**|✅ Yes (`/usr/share/dirb/`)|❌ No|❌ No|❌ No|✅ Yes (`db/dicc.txt`)|
-|**VHost Fuzzing**|❌ No|✅ Yes|✅ Yes|❌ No|✅ Yes (`--subdirs`)|
-|**POST / Data Fuzzing**|❌ No|❌ No|✅ Yes|❌ No|✅ Yes (`-d`)|
-|**Memory / CPU Usage**|Very Low|Low|Low|Very Low|Moderate|
+| Recurso | DIRB | Gobuster | affu | Feroxbuster | pesquisa direta |
+|---------|------|----------|------|------------|-----------|
+| **Idioma** | C | Vá | Vá | Ferrugem | Pitão |
+| **Velocidade** | ⭐⭐ (Fio baixo) | ⭐⭐⭐⭐⭐ (Rápido) | ⭐⭐⭐⭐⭐ (Extremamente rápido) | ⭐⭐⭐⭐⭐ (ferrugem assíncrona) | ⭐⭐⭐⭐ (Rápido) |
+| **Recursão padrão** | ✅ Sim (Automático) | ❌ Não | ❌ Não (Opcional `-recursion`) | ✅ Sim (Automático) | ✅ Sim (`-r`) |
+| **Listas de palavras personalizadas incluídas** | ✅ Sim (`/usr/share/dirb/`) | ❌ Não | ❌ Não | ❌ Não | ✅ Sim (`db/dicc.txt`) |
+| **VHost Fuzzing** | ❌ Não | ✅ Sim | ✅ Sim | ❌ Não | ✅ Sim (`--subdirs`) |
+| **POST/difusão de dados** | ❌ Não | ❌ Não | ✅ Sim | ❌ Não | ✅ Sim (`-d`) |
+| **Uso de memória/CPU** | Muito baixo | Baixo | Baixo | Muito baixo | Moderado |
 
 ---
 
 ## 📥 Instalação
 
-### |**Memory / CPU Usage**|Very Low|Low|Low|Very Low|Moderate|
+### Kali Linux e Parrot OS
 
-DIRB comes pre-installed in Kali Linux and Parrot OS:
-
+DIRB vem pré-instalado no Kali Linux e Parrot OS:
 ```bash
 # Verify installation
 dirb
@@ -90,16 +92,12 @@ dirb
 # Update to latest package
 sudo apt update && sudo apt install -y dirb
 ```
-
-### Kali Linux & Parrot OS
-
+###Debian/Ubuntu
 ```bash
 sudo apt update
 sudo apt install -y dirb
 ```
-
-### Compiling from Source
-
+### Compilando a partir do código-fonte
 ```bash
 # Install build dependencies
 sudo apt install -y build-essential libcurl4-openssl-dev
@@ -116,41 +114,37 @@ chmod 755 configure
 make
 sudo make install
 ```
-
 ---
 
-## 📚 | `--exclude-length` | Excluir pelo tamanho da resposta |
+## 📚 Listas de palavras padrão
 
-When installed on Kali Linux, DIRB includes dedicated wordlists located at `/usr/share/dirb/wordlists/`:
+Quando instalado no Kali Linux, o DIRB inclui listas de palavras dedicadas localizadas em `/usr/share/dirb/wordlists/`:
 
-|Wordlist Path|Entries|Finalidade|
+| Caminho da lista de palavras | Entradas | Finalidade |
 |---------------|---------|---------|
-|`/usr/share/dirb/wordlists/common.txt`|~4,614|Default list used when no wordlist is specified|
-|`/usr/share/dirb/wordlists/small.txt`|~959|Rapid discovery of high-probability paths|
-|`/usr/share/dirb/wordlists/big.txt`|~20,469|Exhaustive directory and file search|
-|`/usr/share/dirb/wordlists/catala.txt`|~6,846|Catalan wordlist|
-|`/usr/share/dirb/wordlists/spanish.txt`|~11,720|Spanish wordlist|
-|`/usr/share/dirb/wordlists/mutations_common.txt`|~1,000|Common prefix/suffix variations|
-|`/usr/share/dirb/wordlists/extensions_common.txt`|~40|Standard web extensions (`.php`, `.asp`, `.html`, etc.)|
+| `/usr/share/dirb/wordlists/common.txt` | ~4.614 | Lista padrão usada quando nenhuma lista de palavras é especificada |
+| `/usr/share/dirb/wordlists/small.txt` | ~959 | Descoberta rápida de caminhos de alta probabilidade |
+| `/usr/share/dirb/wordlists/big.txt` | ~20.469 | Pesquisa exaustiva de diretórios e arquivos |
+| `/usr/share/dirb/wordlists/catala.txt` | ~6.846 | Lista de palavras catalãs |
+| `/usr/share/dirb/wordlists/spanish.txt` | ~11.720 | Lista de palavras em espanhol |
+| `/usr/share/dirb/wordlists/mutations_common.txt` | ~1.000 | Variações comuns de prefixo/sufixo |
+| `/usr/share/dirb/wordlists/extensions_common.txt` | ~40 | Extensões da web padrão (`.php`, `.asp`, `.html`, etc.) |
 
-### |`/usr/share/dirb/wordlists/big.txt`|~20,469|Exhaustive directory and file search|
+### Listas de palavras de vulnerabilidade integradas (`/usr/share/dirb/wordlists/vulns/`)
 
-- |`/usr/share/dirb/wordlists/spanish.txt`|~11,720|Spanish wordlist|
-- |`/usr/share/dirb/wordlists/mutations_common.txt`|~1,000|Common prefix/suffix variations|
-- |`/usr/share/dirb/wordlists/extensions_common.txt`|~40|Standard web extensions (`.php`, `.asp`, `.html`, etc.)|
-- `cgis.txt` - Common Gateway Interface (CGI) scripts and endpoints
-- Built-in Vulnerability Wordlists (`/usr/share/dirb/wordlists/vulns/`)
+- `apache.txt` - arquivos, páginas de status e diretórios conhecidos específicos do Apache
+- `iis.txt` - arquivos do servidor web Microsoft IIS (`web.config`, `aspnet_client`, etc.)
+- `tomcat.txt` - Administração do Apache Tomcat e caminhos de gerenciamento
+- `cgis.txt` - Scripts e endpoints da Common Gateway Interface (CGI)
+-`fatwire.txt`, `hpsmh.txt`, `hyperion.txt`, `iplanet.txt`, `netware.txt`, `oracle.txt`
 
 ---
 
-## ⌨️ Sintaxe básica
-
+## ⌨️ Sintaxe Básica
 ```bash
 dirb <url_base> [<wordlist_file(s)>] [options]
 ```
-
-### Exemplos práticos
-
+### Exemplos essenciais
 ```bash
 # Basic scan using default common.txt wordlist
 dirb http://10.10.10.10
@@ -161,15 +155,13 @@ dirb https://example.com /usr/share/wordlists/dirb/big.txt
 # Scan with custom SecLists directory list
 dirb http://target.local /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
 ```
-
 ---
 
-## 🔍 Exemplos práticos
+## 🔍 Cenários comuns de verificação
 
-### 1. Scanning with File Extensions (`-X` and `-x`)
+### 1. Digitalizando com extensões de arquivo (`-X` e `-x`)
 
-Search for specific file extensions attached to each word in the dictionary:
-
+Pesquise extensões de arquivo específicas anexadas a cada palavra no dicionário:
 ```bash
 # Test specific extensions on every wordlist entry
 dirb http://target.local -X .php,.html,.txt,.bak
@@ -180,11 +172,9 @@ dirb http://target.local -x /usr/share/dirb/wordlists/extensions_common.txt
 # Combine directory brute-force with extension brute-force
 dirb http://target.local /usr/share/dirb/wordlists/common.txt -X .php,.json,.zip
 ```
+### 2. Controle de recursão (`-r` e `-R`)
 
-### 1. Scanning with File Extensions (`-X` and `-x`)
-
-Search for specific file extensions attached to each word in the dictionary:
-
+Por padrão, o DIRB rastreia recursivamente cada diretório descoberto. Você pode controlar esse comportamento:
 ```bash
 # Disable recursion completely (scan root level only)
 dirb http://target.local -r
@@ -192,32 +182,26 @@ dirb http://target.local -r
 # Interactive recursion (DIRB asks before descending into each directory)
 dirb http://target.local -R
 ```
+### 3. Verificação sem distinção entre maiúsculas e minúsculas (`-i`)
 
-### 2. Controlling Recursion (`-r` and `-R`)
-
-By default, DIRB recursively crawls every discovered directory. You can control this behavior:
-
+Útil ao direcionar servidores Windows/IIS onde os caminhos de arquivo não diferenciam maiúsculas de minúsculas:
 ```bash
 dirb http://target.local -i
 ```
+### 4. Ignorando códigos de status HTTP específicos (`-N`)
 
-### 3. Case-Insensitive Scanning (`-i`)
-
-Useful when targeting Windows / IIS servers where file paths are case-insensitive:
-
+Filtre códigos de resposta indesejados (por exemplo, loops de redirecionamento ou caminhos proibidos):
 ```bash
 # Ignore 302 redirects and 403 forbidden responses
 dirb http://target.local -N 302,403
 ```
-
 ---
 
-## ⚙️ Opções e parâmetros
+## ⚙️ Opções avançadas e ajuste
 
-### Authentication (`-u`)
+### Autenticação (`-u`)
 
-DIRB supports HTTP Basic and Digest authentication:
-
+DIRB suporta autenticação HTTP Basic e Digest:
 ```bash
 # Supply HTTP authentication credentials
 dirb http://target.local -u "admin:SecretP@ssw0rd!"
@@ -225,20 +209,16 @@ dirb http://target.local -u "admin:SecretP@ssw0rd!"
 # Combine auth with custom wordlist
 dirb http://target.local /usr/share/dirb/wordlists/big.txt -u "pentester:Summer2026"
 ```
+### Cookies personalizados e tokens de sessão (`-c`)
 
-### Authentication (`-u`)
-
-DIRB supports HTTP Basic and Digest authentication:
-
+Teste rotas de aplicativos web autenticadas fornecendo cookies de sessão:
 ```bash
 # Pass session cookie
 dirb http://target.local -c "PHPSESSID=d92j4fn82mdf82ncb184; logged_in=true"
 ```
+### Agente de usuário personalizado e cabeçalhos HTTP (`-a` e `-H`)
 
-### Custom Cookies & Session Tokens (`-c`)
-
-Test authenticated web application routes by providing session cookies:
-
+Ignore as regras básicas do WAF ou simule navegadores legítimos:
 ```bash
 # Set custom User-Agent
 dirb http://target.local -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -247,11 +227,9 @@ dirb http://target.local -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebK
 dirb http://target.local -H "Authorization: Bearer eyJhbGciOi..."
 dirb http://target.local -H "X-Forwarded-For: 127.0.0.1"
 ```
+### Roteamento de proxy e integração com o Burp Suite (`-p` e `-P`)
 
-### Custom User-Agent & HTTP Headers (`-a` and `-H`)
-
-Bypass basic WAF rules or simulate legitimate browsers:
-
+Envie tráfego DIRB por meio de um proxy HTTP upstream como Burp Suite ou OWASP ZAP:
 ```bash
 # Route through local Burp Suite proxy
 dirb http://target.local -p 127.0.0.1:8080
@@ -259,11 +237,9 @@ dirb http://target.local -p 127.0.0.1:8080
 # Authenticated proxy
 dirb http://target.local -p 10.10.10.1:3128 -P "proxyuser:proxypass"
 ```
+### Limitação de taxa e evasão (`-z`)
 
-### Proxy Routing & Burp Suite Integration (`-p` and `-P`)
-
-Send DIRB traffic through an upstream HTTP proxy like Burp Suite or OWASP ZAP:
-
+Evite disparar alertas IDS/IPS ou fazer DoS em serviços web frágeis adicionando um atraso entre as solicitações (em milissegundos):
 ```bash
 # Wait 250 milliseconds between each request
 dirb http://target.local -z 250
@@ -271,9 +247,7 @@ dirb http://target.local -z 250
 # Slow, stealthy scan (1 second delay)
 dirb http://target.local -z 1000
 ```
-
-### Rate Limiting & Evasion (`-z`)
-
+### Registro de saída (`-o` e `-w`)
 ```bash
 # Save results to a file
 dirb http://target.local -o /home/zeus/scans/dirb_target.txt
@@ -281,13 +255,11 @@ dirb http://target.local -o /home/zeus/scans/dirb_target.txt
 # Do not halt on WARNING messages (useful for uninterrupted scans)
 dirb http://target.local -w -o dirb_output.txt
 ```
-
 ---
 
-## 🎯 Vulnerability Hunting with Built-in Lists
+## 🎯 Caça a vulnerabilidades com listas integradas
 
-DIRB includes targeted lists in `/usr/share/dirb/wordlists/vulns/` for detecting unpatched servers and dangerous endpoints:
-
+DIRB inclui listas direcionadas em `/usr/share/dirb/wordlists/vulns/` para detectar servidores não corrigidos e endpoints perigosos:
 ```bash
 # Target Apache server vulnerabilities and status pages
 dirb http://target.local /usr/share/dirb/wordlists/vulns/apache.txt
@@ -301,24 +273,20 @@ dirb http://target.local /usr/share/dirb/wordlists/vulns/tomcat.txt
 # Search for old CGI scripts and shellshock entrypoints
 dirb http://target.local /usr/share/dirb/wordlists/vulns/cgis.txt
 ```
-
 ---
 
-## 🎬 Real-World Workflows
+## 🎬 Fluxos de trabalho do mundo real
 
-### Workflow 1: Quick Initial Reconnaissance
+### Fluxo de trabalho 1: reconhecimento inicial rápido
 
-When you first encounter a web server on port 80/443:
-
+Quando você encontra pela primeira vez um servidor web na porta 80/443:
 ```bash
 # Rapid scan without recursion using small wordlist
 dirb http://10.10.10.50 /usr/share/dirb/wordlists/small.txt -r
 ```
+### Fluxo de trabalho 2: avaliação exaustiva de aplicativos da Web
 
-### Workflow 1: Quick Initial Reconnaissance
-
-When you first encounter a web server on port 80/443:
-
+Execute uma verificação profunda em busca de backups de configuração, código-fonte e endpoints de API:
 ```bash
 dirb https://app.target.local /usr/share/dirb/wordlists/common.txt \
   -X .php,.bak,.sql,.config,.txt \
@@ -326,9 +294,7 @@ dirb https://app.target.local /usr/share/dirb/wordlists/common.txt \
   -w \
   -o dirb_app_scan.txt
 ```
-
-### Workflow 2: Exhaustive Web Application Assessment
-
+### Fluxo de trabalho 3: rastreamento de portal autenticado via Burp Suite
 ```bash
 dirb https://internal.target.local/portal/ /usr/share/dirb/wordlists/big.txt \
   -c "session=s%3A_kJw81..." \
@@ -336,52 +302,51 @@ dirb https://internal.target.local/portal/ /usr/share/dirb/wordlists/big.txt \
   -X .jsp,.do,.action \
   -z 100
 ```
-
 ---
 
-## 📊 Referência rápida
+## 📊 Tabela de referência rápida
 
-|Flag|Argument|Descrição|Exemplo|
+| Bandeira | Argumento | Descrição | Exemplo |
 |------|----------|-------------|---------|
-|`-a`|`<user_agent>`|Specify custom User-Agent string|`dirb http://target -a "Mozilla/5.0"`|
-|`-c`|`<cookie>`|Set HTTP Cookie header|`dirb http://target -c "id=123"`|
-|`-H`|`<header>`|Add custom HTTP header|`dirb http://target -H "X-API-Key: secret"`|
-|`-i`|None|Case-insensitive search|`dirb http://target -i`|
-|`-N`|`<codes>`|Ignore responses matching status code|`dirb http://target -N 302,403`|
-|`-o`|`<output_file>`|Save scan results to file|`dirb http://target -o results.txt`|
-|`-p`|`<proxy:port>`|Use HTTP proxy|`dirb http://target -p 127.0.0.1:8080`|
-|`-P`|`<user:pass>`|Proxy authentication credentials|`dirb http://target -p proxy:8080 -P u:p`|
-|`-r`|None|Don't search recursively|`dirb http://target -r`|
-|`-R`|None|Interactive recursive search|`dirb http://target -R`|
-|`-u`|`<user:pass>`|HTTP Basic/Digest authentication|`dirb http://target -u "admin:1234"`|
-|`-w`|None|Don't stop scan on WARNING messages|`dirb http://target -w`|
-|`-X`|`<ext_list>`|Append comma-separated extensions|`dirb http://target -X .php,.html`|
-|`-x`|`<ext_file>`|Append extensions from file|`dirb http://target -x ext.txt`|
-|`-z`|`<millisecs>`|Add delay between requests|`dirb http://target -z 250`|
+| `-a` | `<user_agent>` | Especifique a string User-Agent personalizada | `dirb http://target -a "Mozilla/5.0"` |
+| `-c` | `<cookie>` | Definir cabeçalho de cookie HTTP | `dirb http://target -c "id=123"` |
+| `-H` | `<header>` | Adicionar cabeçalho HTTP personalizado | `dirb http://target -H "X-API-Key: secret"` |
+| `-i` | Nenhum | Pesquisa sem distinção entre maiúsculas e minúsculas | `dirb http://target -i` |
+| `-N` | `<codes>` | Ignorar respostas que correspondam ao código de status | `dirb http://target -N 302,403` |
+| `-o` | `<output_file>` | Salvar os resultados da verificação em arquivo | `dirb http://target -o results.txt` |
+| `-p` | `<proxy:port>` | Usar proxy HTTP | `dirb http://target -p 127.0.0.1:8080` |
+| `-P` | `<user:pass>` | Credenciais de autenticação de proxy | `dirb http://target -p proxy:8080 -P u:p` |
+| `-r` | Nenhum | Não pesquise recursivamente | `dirb http://target -r` |
+| `-R` | Nenhum | Pesquisa recursiva interativa | `dirb http://target -R` |
+| `-u` | `<user:pass>` | Autenticação HTTP Básica/Digest | `dirb http://target -u "admin:1234"` |
+| `-w` | Nenhum | Não interrompa a verificação de mensagens de AVISO | `dirb http://target -w` |
+| `-X` | `<ext_list>` | Anexar extensões separadas por vírgula | `dirb http://target -X .php,.html` |
+| `-x` | `<ext_file>` | Anexar extensões do arquivo | `dirb http://target -x ext.txt` |
+| `-z` | `<millisecs>` | Adicionar atraso entre solicitações | `dirb http://target -z 250` |
 
 ---
 
-## 💡 Dicas e melhores práticas
+## 💡 Dicas e práticas recomendadas
 
-1. **Watch Out for Wildcard 200/302 Responses:**
-   - Some web applications return HTTP 200 or 302 for every request (custom 404 handler). DIRB will report every single entry as found. Use `-N 302` or switch to `ffuf` / `feroxbuster` for advanced size/word filtering.
-2. **Combine with `-r` for Large Dictionaries:**
-   - If using `directory-list-2.3-medium.txt` (220k words), always disable recursion with `-r`. Otherwise, DIRB may take days to crawl deeply nested directories.
-3. **Always Check Extensions:**
-   - Modern backends frequently expose sensitive files like `.env`, `.git`, `.bak`, `.conf`, or `.sql`. Always test common extensions with `-X`.
-4. **Use `-w` for Unattended Scans:**
-   - By default, DIRB may pause if it encounters SSL or network warnings. Passing `-w` ensures tests complete without manual interaction.
-
----
-
-## ⚠️ Legal Disclaimer
-
-> **IMPORTANT:** DIRB is designed for security auditing, penetration testing, and ethical research on systems you own or have explicit, documented permission to test. Unauthorized dictionary attacks against web servers can cause service disruption and are illegal under computer crime legislation worldwide.
+1. **Cuidado com as respostas Wildcard 200/302:**
+   - Alguns aplicativos da web retornam HTTP 200 ou 302 para cada solicitação (manipulador 404 personalizado). O DIRB reportará cada entrada conforme encontrada. Use `-N 302` ou mude para `ffuf` / `feroxbuster` para filtragem avançada de tamanho/palavra.
+2. **Combine com `-r` para dicionários grandes:**
+   - Se estiver usando `directory-list-2.3-medium.txt` (220 mil palavras), sempre desative a recursão com `-r`. Caso contrário, o DIRB poderá levar dias para rastrear diretórios profundamente aninhados.
+3. **Sempre verifique as extensões:**
+   - Os back-ends modernos frequentemente expõem arquivos confidenciais como `.env`, `.git`, `.bak`, `.conf` ou `.sql`. Sempre teste extensões comuns com `-X`.
+4. **Use `-w` para verificações autônomas:**
+   - Por padrão, o DIRB pode pausar se encontrar avisos de SSL ou de rede. A aprovação no `-w` garante a conclusão dos testes sem interação manual.
 
 ---
 
-## 📚 Recursos e referências
+## ⚠️ Isenção de responsabilidade legal
 
-- [DIRB SourceForge Project](https://sourceforge.net/projects/dirb/)
-- [Kali Linux DIRB Package Documentation](https://www.kali.org/tools/dirb/)
-- [SecLists - Web Content Discovery Wordlists](https://github.com/danielmiessler/SecLists)
+> **IMPORTANTE:** O DIRB foi projetado para auditoria de segurança, testes de penetração e pesquisas éticas em sistemas que você possui ou tem permissão explícita e documentada para testar. Ataques de dicionário não autorizados contra servidores web podem causar interrupção do serviço e são ilegais de acordo com a legislação mundial sobre crimes informáticos.
+
+---
+
+## 📚 Recursos
+
+- [Projeto DIRB SourceForge](https://sourceforge.net/projects/dirb/)
+- [Documentação do pacote Kali Linux DIRB](https://www.kali.org/tools/dirb/)
+- [SecLists - listas de palavras para descoberta de conteúdo da Web](https://github.com/danielmiessler/SecLists)

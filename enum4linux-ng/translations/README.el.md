@@ -1,40 +1,43 @@
-# 🔍 enum4linux-ng — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[enum4linux-ng](https://github.com/cddmp/enum4linux-ng) is a next-generation rewrite of the legacy `enum4linux` tool written in Python 3. It performs comprehensive Windows and Samba information gathering over SMB (Server Message Block), NetBIOS, RPC (Remote Procedure Call), and LDAP. It extracts user accounts, group memberships, shared folders, password policies, OS information, and RID cycles.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[RID Cycling & User Account Harvesting](#rid-cycling--user-account-harvesting)](#key-improvements-over-legacy-enum4linux)
-- [Εγκατάσταση](#installation--requirements)
-- [Εγκατάσταση](#basic-smb--domain-enumeration)
-- [Shared directories and access permissions.](#authentication-modes-null-session-vs-valid-user)
+# enum4linux-ng Cheatsheet
+
+Το [enum4linux-ng](https://github.com/cddmp/enum4linux-ng) είναι μια επανεγγραφή επόμενης γενιάς του παλαιού εργαλείου `enum4linux` γραμμένο σε Python 3. Εκτελεί περιεκτική συλλογή πληροφοριών Windows και Samba μέσω SMB (Server Message Block), NetBIOS, Procedure.APte και Procedure.APte (Rellmo) Εξάγει λογαριασμούς χρηστών, συνδρομές ομάδων, κοινόχρηστους φακέλους, πολιτικές κωδικών πρόσβασης, πληροφορίες λειτουργικού συστήματος και κύκλους RID.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Key Improvements Over Legacy enum4linux](#key-improvements-over-legacy-enum4linux)
+- [Installation & Requirements](#installation--requirements)
+- [Basic SMB & Domain Enumeration](#basic-smb--domain-enumeration)
+- [Λειτουργίες ελέγχου ταυτότητας (Null Session έναντι έγκυρου χρήστη)](#authentication-modes-null-session-vs-valid-user)
 - [Targeted Enumeration Modules](#targeted-enumeration-modules)
 - [RID Cycling & User Account Harvesting](#rid-cycling--user-account-harvesting)
-- [3. Extract Clean Username Wordlist](#exporting-reports-json-yaml-text)
+- [Εξαγωγή αναφορών (JSON, YAML, Κείμενο)](#exporting-reports-json-yaml-text)
 - [Defensive Hardening for SMB & RPC](#defensive-hardening-for-smb--rpc)
 
 ---
 
-## [RID Cycling & User Account Harvesting](#rid-cycling--user-account-harvesting)
+## Βασικές βελτιώσεις σε σχέση με το Legacy enum4linux
 
-- **Modern Python 3 Engine**: Multi-threaded execution based on `impacket`, eliminating old Perl script crashes.
-- **Enhanced OS Detection**: Precise detection of Windows Server (2012–2025), Windows 10/11, and modern Samba versions.
-- **Structured Reporting**: Native export to JSON and YAML for seamless SIEM or scripting integration.
-- **Smarter RID Cycling**: Flexible range adjustments and automatic administrator/guest RID detection.
-- **Colorized CLI Output**: Clear visual indicators for security misconfigurations and null sessions.
+- **Σύγχρονη μηχανή Python 3:** Εκτέλεση πολλαπλών νημάτων βασισμένη στο `impacket`, εξαλείφοντας τα παλιά σφάλματα σεναρίου Perl.
+- **Βελτιωμένη ανίχνευση λειτουργικού συστήματος:** Ακριβής εντοπισμός του Windows Server (2012–2025), των Windows 10/11 και των σύγχρονων εκδόσεων Samba.
+- **Δομημένη αναφορά:** Εγγενής εξαγωγή σε JSON και YAML για απρόσκοπτη ενσωμάτωση SIEM ή δέσμης ενεργειών.
+- **Εξυπνότερο RID Cycling:** Ευέλικτες ρυθμίσεις εύρους και αυτόματη ανίχνευση RID διαχειριστή/επισκέπτη.
+- **Έγχρωμη έξοδος CLI:** Διαγραφή οπτικών ενδείξεων για εσφαλμένες διαμορφώσεις ασφαλείας και μηδενικές περιόδους λειτουργίας.
 
 ---
 
-## Εγκατάσταση
-
+## Εγκατάσταση & Απαιτήσεις
 ```bash
 # Clone the repository
 git clone https://github.com/cddmp/enum4linux-ng.git
@@ -49,67 +52,62 @@ sudo ln -sf "$(pwd)/enum4linux-ng.py" /usr/local/bin/enum4linux-ng
 # Verify command
 enum4linux-ng -h
 ```
-
 ---
 
-## Εγκατάσταση
+## Βασική απαρίθμηση SMB & Domain
 
-### 1. Default Enumeration Run (`-A`)
-Run all non-intrusive enumeration checks against the target:
+### 1. Προεπιλεγμένη εκτέλεση απαρίθμησης (`-A`)
+Εκτελέστε όλους τους μη παρεμβατικούς ελέγχους απαρίθμησης έναντι του στόχου:
 ```bash
 enum4linux-ng -A 192.168.1.50
 ```
-This module queries:
-- Basic SMB & Domain Enumeration
-- Operating system version and architecture.
-- 1. Default Enumeration Run (`-A`)
-- Run all non-intrusive enumeration checks against the target:
-- Users and local groups via RPC/SAMR.
+Αυτή η ενότητα θέτει ερωτήματα:
+- Ονόματα NetBIOS και ονόματα ομάδων εργασίας/τομέων.
+- Έκδοση και αρχιτεκτονική λειτουργικού συστήματος.
+- Κοινόχρηστοι κατάλογοι και δικαιώματα πρόσβασης.
+- Πολιτική κωδικού πρόσβασης (όριο κλειδώματος, ελάχιστο μήκος, ιστορικό).
+- Χρήστες και τοπικές ομάδες μέσω RPC/SAMR.
 
 ---
 
-## Shared directories and access permissions.
+## Λειτουργίες ελέγχου ταυτότητας (Μηδενική περίοδος λειτουργίας έναντι έγκυρου χρήστη)
 
-### Users and local groups via RPC/SAMR.
-Test if the target permits unauthenticated IPC$ connections:
+### 1. Ανώνυμη / Μηδενική περίοδος λειτουργίας (`-u '' -p ''`)
+Ελέγξτε εάν ο στόχος επιτρέπει συνδέσεις IPC$ χωρίς έλεγχο ταυτότητας:
 ```bash
 enum4linux-ng -u "" -p "" 192.168.1.50
 ```
-
-### Authentication Modes (Null Session vs. Valid User)
-Supply valid low-privilege credentials to dramatically expand harvested data:
+### 2. Έλεγχος ταυτότητας τομέα / τοπικός λογαριασμός
+Παρέχετε έγκυρα διαπιστευτήρια χαμηλών προνομίων για να επεκτείνετε δραματικά τα δεδομένα συγκομιδής:
 ```bash
 enum4linux-ng -u "jdoe" -p "Password123!" 192.168.1.50
 ```
-
-### 3. Supply Specific Domain Name (`-d`)
+### 3. Όνομα τομέα συγκεκριμένου εφοδιασμού (`-d`)
 ```bash
 enum4linux-ng -u "jdoe" -p "Password123!" -d "CORP.LOCAL" 192.168.1.50
 ```
-
 ---
 
-## Targeted Enumeration Modules
+## Στοχευμένες ενότητες απαρίθμησης
 
-Run specific modules to minimize network footprints and avoid intrusion detection alerts:
+Εκτελέστε συγκεκριμένες μονάδες για να ελαχιστοποιήσετε τα αποτυπώματα δικτύου και να αποφύγετε ειδοποιήσεις ανίχνευσης εισβολής:
 
-### 1. Shared Folders & Access Permissions (`-S`)
-Enumerate shares, comments, and check read/write access:
+### 1. Κοινόχρηστοι φάκελοι και δικαιώματα πρόσβασης (`-S`)
+Αριθμήστε κοινοποιήσεις, σχόλια και ελέγξτε την πρόσβαση ανάγνωσης/εγγραφής:
 ```bash
 enum4linux-ng -S 192.168.1.50
 ```
-
-### Run specific modules to minimize network footprints and avoid intrusion detection alerts:
-Identify account lockout thresholds to safely plan password spraying:
+### 2. Εξαγωγή πολιτικής κωδικού πρόσβασης (`-P`)
+Προσδιορίστε τα όρια κλειδώματος λογαριασμού για να προγραμματίσετε με ασφάλεια τον ψεκασμό κωδικού πρόσβασης:
 ```bash
 enum4linux-ng -P 192.168.1.50
 ```
-Enumerate shares, comments, and check read/write access:
-- **Minimum Password Length**: e.g., 8 characters.
-- **Account Lockout Threshold**: e.g., 5 attempts (do not spray faster than lockout window!).
-- **Reset Lockout Counter**: e.g., 30 minutes.
+Βασικά αποτελέσματα προς παρατήρηση:
+- **Ελάχιστο μήκος κωδικού πρόσβασης:** π.χ. 8 χαρακτήρες.
+- **Όριο κλειδώματος λογαριασμού:** π.χ. 5 προσπάθειες (μην ψεκάζετε γρηγορότερα από το παράθυρο κλειδώματος!).
+- **Επαναφορά μετρητή κλειδώματος:** π.χ., 30 λεπτά.
 
-### 3. Users and Groups Only (`-U` and `-G`)
+### 3. Μόνο χρήστες και ομάδες (`-U` και `-G`)
 ```bash
 # Enumerate user list
 enum4linux-ng -U 192.168.1.50
@@ -117,51 +115,46 @@ enum4linux-ng -U 192.168.1.50
 # Enumerate domain and local groups
 enum4linux-ng -G 192.168.1.50
 ```
-
-### Account Lockout Threshold**: e.g., 5 attempts (do not spray faster than lockout window!).
+### 4. Μόνο πληροφορίες λειτουργικού συστήματος και NetBIOS (`-O` και `-I`)
 ```bash
 enum4linux-ng -O -I 192.168.1.50
 ```
-
 ---
 
-## RID Cycling & User Account Harvesting
+## RID Cycling & Συγκομιδή λογαριασμού χρήστη
 
-When user enumeration via standard RPC queries is restricted, perform Relative Identifier (RID) cycling via SAMR query calls:
+Όταν η απαρίθμηση χρηστών μέσω τυπικών ερωτημάτων RPC είναι περιορισμένη, πραγματοποιήστε ανακύκλωση του σχετικού αναγνωριστικού (RID) μέσω κλήσεων ερωτήματος SAMR:
 
-### 1. Default RID Cycling (Range 500 - 1100)
+### 1. Προεπιλεγμένο RID Cycling (Εύρος 500 - 1100)
 ```bash
 enum4linux-ng -R 192.168.1.50
 ```
-
-### 2. Custom RID Range (e.g. 500 to 5000 for Large Organizations)
+### 2. Προσαρμοσμένο εύρος RID (π.χ. 500 έως 5000 για μεγάλους οργανισμούς)
 ```bash
 enum4linux-ng -r 500-5000 192.168.1.50
 ```
-
-### 1. Default RID Cycling (Range 500 - 1100)
-Filter discovered RID usernames into a text file for password spraying:
+### 3. Εξαγωγή καθαρής λίστας λέξεων ονόματος χρήστη
+Φιλτράρετε τα ονόματα χρήστη RID που ανακαλύφθηκαν σε ένα αρχείο κειμένου για ψεκασμό κωδικού πρόσβασης:
 ```bash
 enum4linux-ng -R 192.168.1.50 -oJ /tmp/enum_out
 jq -r '.users[].username' /tmp/enum_out.json | sort -u > /tmp/users.txt
 ```
-
 ---
 
-## 3. Extract Clean Username Wordlist
+## Εξαγωγή αναφορών (JSON, YAML, Κείμενο)
 
-Export enumeration results for documentation or programmatic parsing:
+Εξαγωγή αποτελεσμάτων απαρίθμησης για τεκμηρίωση ή ανάλυση μέσω προγραμματισμού:
 
-### 1. Export in All Formats Simultaneously (`-oA`)
+### 1. Εξαγωγή σε όλες τις μορφές ταυτόχρονα (`-oA`)
 ```bash
 enum4linux-ng -A 192.168.1.50 -oA /tmp/target_recon
 ```
-Exporting Reports (JSON, YAML, Text)
+Δημιουργεί:
 - `/tmp/target_recon.json`
-- Export enumeration results for documentation or programmatic parsing:
+- `/tmp/target_recon.yaml`
 - `/tmp/target_recon.txt`
 
-### 2. Export to Specific Format
+### 2. Εξαγωγή σε συγκεκριμένη μορφή
 ```bash
 # JSON only
 enum4linux-ng -A 192.168.1.50 -oJ /tmp/target.json
@@ -169,14 +162,13 @@ enum4linux-ng -A 192.168.1.50 -oJ /tmp/target.json
 # YAML only
 enum4linux-ng -A 192.168.1.50 -oY /tmp/target.yaml
 ```
-
 ---
 
-## Defensive Hardening for SMB & RPC
+## Αμυντική σκλήρυνση για SMB & RPC
 
-|Vector|Risk|Hardening Recommendation|
+| Διάνυσμα | Κίνδυνος | Σύσταση σκλήρυνσης |
 |---|---|---|
-|**Null Session (Anonymous IPC$)**|Unauthenticated domain reconnaissance|Set `RestrictNullSessAccess=1` in Windows Registry; configure `RestrictAnonymous=2` in SAM.|
-|**SMBv1 Active**|EternalBlue (MS17-010) & MITM attacks|Completely disable SMBv1 across all endpoints and Domain Controllers.|
-|**Cleartext Share Permissions**|Sensitive files and credentials exposed|Audit share permissions; enforce access-based enumeration (ABE).|
-|**RID Cycling Enumeration**|Full user account list extraction|Restrict anonymous SAM accounts enumeration via Local Security Policy.|
+| **Μηδενική περίοδος λειτουργίας (Ανώνυμη IPC$)** | Αναγνώριση τομέα χωρίς έλεγχο ταυτότητας | Ορίστε το `RestrictNullSessAccess=1` στο μητρώο των Windows. ρυθμίστε το `RestrictAnonymous=2` στο SAM. |
+| **SMBv1 Ενεργό** | Επιθέσεις EternalBlue (MS17-010) & MITM | Απενεργοποιήστε πλήρως το SMBv1 σε όλα τα τελικά σημεία και τους ελεγκτές τομέα. |
+| **Δικαιώματα κοινής χρήσης καθαρού κειμένου** | Εκτέθηκαν ευαίσθητα αρχεία και διαπιστευτήρια | Έλεγχος δικαιωμάτων κοινής χρήσης. επιβολή απαρίθμησης βάσει πρόσβασης (ABE). |
+| **RID Cycling Enumeration** | Εξαγωγή λίστας πλήρους λογαριασμού χρήστη | Περιορίστε την απαρίθμηση ανώνυμων λογαριασμών SAM μέσω της Τοπικής Πολιτικής Ασφαλείας. |

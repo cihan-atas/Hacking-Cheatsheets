@@ -1,12 +1,16 @@
-# 🎯 pwndbg-GEF — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎯 pwndbg & GEF - ورقة الغش الكاملة
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██╗    ██╗███╗   ██╗██████╗ ██████╗  ██████╗      ██████╗ ███████╗███████╗
   ██╔══██╗██║    ██║████╗  ██║██╔══██╗██╔══██╗██╔════╝     ██╔════╝ ██╔════╝██╔════╝
@@ -16,78 +20,75 @@
   ╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚═════╝ ╚═════╝  ╚═════╝      ╚═════╝ ╚══════╝╚═╝     
          Next-Gen GDB Enhancements for Reversing & Binary Exploitation
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/pwndbg-GDB_Plugin-blue?style=for-the-badge" alt="pwndbg">
-  <img src="https://img.shields.io/badge/GEF-GDB_Enhanced_Features-orange?style=for-the-badge" alt="GEF">
+  <img src="https://img.shields.io/badge/GEF-GDB_Enhanced_Features-orange?style=for-the-badge" alt="مرفق البيئة العالمية">
   <img src="https://img.shields.io/badge/Category-Binary_Exploitation_&_RE-green?style=for-the-badge" alt="Reversing & Pwn">
   <img src="https://img.shields.io/badge/License-MIT_%7C_FOSS-purple?style=for-the-badge" alt="License FOSS">
-</p>
+</ص>
 
 <p align="center">
-  <b>🎯 The premier open-source GDB terminal enhancements designed for binary reverse engineering, memory corruption analysis, heap layout inspection, and CTF exploit development</b>
-</p>
+  <b>🎯 التحسينات الرئيسية لمحطة GDB مفتوحة المصدر والمصممة للهندسة العكسية الثنائية، وتحليل تلف الذاكرة، وفحص تخطيط الكومة، وتطوير استغلال CTF</b>
+</ص>
 
 ---
 
 ## 📋 جدول المحتويات
 
-- [مقدمة](#-overview--why-vanilla-gdb-needs-enhancements)
-- [التثبيت](#-installation--switching-between-frameworks)
-  - [Installing pwndbg](#installing-pwndbg)
-  - [Installing GEF](#installing-gef)
-  - [Installing pwndbg](#managing-gdbinit)
-- [The Context Display Engine](#-the-context-display-engine)
-  - [Registers Section](#registers-section)
-  - [Disassembly & Jump Predictions](#disassembly--jump-predictions)
-  - [Stack & Telescope](#stack--telescope)
-  - [Backtrace & Threads](#backtrace--threads)
-- [Memory Inspection & Navigation](#-memory-inspection--navigation)
-  - [Telescoping Pointers (`telescope`)](#telescoping-pointers-telescope)
-  - [🔍 Memory Inspection & Navigation](#process-memory-mappings-vmmap)
-  - [Searching Memory (`search`)](#searching-memory-search)
-- [Heap Exploitation & Inspection](#-heap-exploitation--inspection)
-  - [Viewing Chunks & Arenas](#viewing-chunks--arenas)
-  - [Inspecting Free Bins (Tcache, Fastbins, Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
-  - [Viewing Chunks & Arenas](#visualizing-heap-layout-vis_heap_chunks)
-- [Exploit Development Helpers](#-exploit-development-helpers)
-  - [Checksec & Mitigation Audit](#checksec--mitigation-audit)
-  - [Inspects:](#stack-canary-locator-canary)
-  - [PIE**: PIE enabled (Position Independent Executable / ASLR)](#cyclic-patterns--offset-calculation)
-  - [In-Memory ROP Gadget Hunting](#in-memory-rop-gadget-hunting)
-- [مرجع سريع](#-quick-reference-table)
-- [Defensive Considerations & Binary Protections](#-defensive-considerations--binary-protections)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [نظرة عامة ولماذا تحتاج Vanilla GDB إلى تحسينات](#-نظرة عامة--لماذا-vanilla-gdb-needs-enhancements)
+- [التثبيت والتبديل بين الإطارات](#-التثبيت--التبديل بين الإطارات)
+  - [تثبيت pwndbg](#installing-pwndbg)
+  - [تثبيت مرفق البيئة العالمية](#installing-gef)
+  - [إدارة `.gdbinit`](#managing-gdbinit)
+- [محرك عرض السياق](#-the-context-display-engine)
+  - [قسم السجلات](#قسم السجلات)
+  - [توقعات التفكيك والقفز](#التفكيك--توقعات القفز)
+  - [المكدس والتلسكوب](#stack--telescope)
+  - [Backtrace والخيوط](#backtrace--threads)
+- [فحص الذاكرة والتنقل](#-فحص الذاكرة--التنقل)
+  - [مؤشرات التلسكوب (`telescope`)](#تلسكوب مؤشرات التلسكوب)
+  - [تعيينات ذاكرة العملية (`vmmap`)](#process-memory-mappings-vmmap)
+  - [البحث في الذاكرة (`search`)](#searching-memory-search)
+- [استغلال الكومة وفحصها](#-استغلال الكومة--الفحص)
+  - [عرض القطع والساحات](#عرض-الأجزاء--الساحات)
+  - [فحص الصناديق المجانية (Tcache، Fastbins، Smallbins)](#inspecting-free-bins-tcache-fastbins-smallbins)
+  - [تصور تخطيط الكومة (`vis_heap_chunks`)](#visualizing-heap-layout-vis_heap_chunks)
+- [مساعدو تطوير الاستغلال](#-مساعدو تطوير الاستغلال)
+  - [تدقيق الفحص والتخفيف](#checksec--mitigation-audit)
+  - [محدد موقع Stack Canary (`canary`)](#stack-canary-locator-canary)
+  - [الأنماط الدورية وحساب الأوفست](#الأنماط الدورية--حساب الأوفست)
+  - [صيد أدوات ROP داخل الذاكرة](#in-memory-rop-gadget-hunting)
+- [الجدول المرجعي السريع](#-الجدول المرجعي السريع)
+- [الاعتبارات الدفاعية والحماية الثنائية](#-الاعتبارات الدفاعية--الحماية الثنائية)
+- [إخلاء المسؤولية القانونية](#-إخلاء المسؤولية القانونية)
 
 ---
 
-## 🎯 مقدمة
+## 🎯 نظرة عامة ولماذا تحتاج Vanilla GDB إلى تحسينات
 
-Standard GNU Debugger (`gdb`) is an industrial-strength tool, but its out-of-the-box user experience is visually austere. It does not automatically update register states, dereference multi-level pointers, or display stack views upon stepping through instructions.
+يعد برنامج GNU Debugger القياسي (`gdb`) أداة ذات قوة صناعية، ولكن تجربة المستخدم المبتكرة الخاصة بها بسيطة بصريًا. ولا يقوم تلقائيًا بتحديث حالات التسجيل أو إلغاء الإشارة إلى المؤشرات متعددة المستويات أو عرض طرق عرض المكدس عند التنقل عبر التعليمات.
 
-**pwndbg** and **GEF** turn GDB into an elite reverse engineering and binary exploitation suite:
-- **pwndbg**: Specifically engineered for low-level software exploitation, heap debugging (glibc 2.27 - 2.39+ allocator internals), and automated pointer dereferencing.
-- **GEF (GDB Enhanced Features)**: A single standalone Python script with zero external dependencies, offering architecture-agnostic features (ARM, MIPS, PowerPC, x86) and dynamic structure parsing.
+**pwndbg** و**GEF** يحولان GDB إلى مجموعة متميزة من الهندسة العكسية والاستغلال الثنائي:
+- **pwndbg:** تم تصميمه خصيصًا لاستغلال البرامج ذات المستوى المنخفض، وتصحيح أخطاء الكومة (glibc 2.27 - 2.39+ الأجزاء الداخلية للمخصص)، وإلغاء مرجعية المؤشر تلقائيًا.
+- **GEF (ميزات GDB المحسنة):** برنامج نصي واحد مستقل لـ Python بدون أي تبعيات خارجية، ويقدم ميزات غير محددة للهندسة المعمارية (ARM، MIPS، PowerPC، x86) وتحليل البنية الديناميكية.
 
 ---
 
-## 📥 التثبيت
+## 📥 التثبيت والتبديل بين الأطر
 
-### Installing pwndbg
+### تثبيت pwndbg
 ```bash
 git clone https://github.com/pwndbg/pwndbg
 cd pwndbg
 ./setup.sh
 ```
-
-### Installing GEF
+### تثبيت مرفق البيئة العالمية
 ```bash
 # Automated one-liner download
 bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
 ```
-
-### Installing pwndbg
-To switch between pwndbg and GEF without conflict, configure your `~/.gdbinit`:
+### إدارة `.gdbinit`
+للتبديل بين pwndbg وGEF بدون تعارض، قم بتكوين `~/.gdbinit` الخاص بك:
 ```bash
 # To use pwndbg:
 echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
@@ -95,13 +96,11 @@ echo "source /path/to/pwndbg/gdbinit.py" > ~/.gdbinit
 # To use GEF:
 echo "source ~/.gdbinit-gef.py" > ~/.gdbinit
 ```
-
 ---
 
-## 🖥️ The Context Display Engine
+## 🖥️ محرك عرض السياق
 
-Every time execution halts at a breakpoint or step, both pwndbg and GEF print an automated, multi-panel terminal view:
-
+في كل مرة يتوقف فيها التنفيذ عند نقطة توقف أو خطوة، يقوم كل من pwndbg وGEF بطباعة عرض طرفي آلي متعدد اللوحات:
 ```text
 ──────────────────────────[ REGISTERS / FLAGS ]──────────────────────────
 RAX: 0x0 
@@ -131,82 +130,75 @@ RIP: 0x401140 (<main+12>: cmp QWORD PTR [rbp-0x8], 0x0)
    2   0x7ffff7df6e40 __libc_start_main+128
    3   0x401065 _start+37
 ```
-
 ---
 
-## 🔍 Memory Inspection & Navigation
+## 🔍 فحص الذاكرة والملاحة
 
-### Telescoping Pointers (`telescope`)
-Dereferences memory pointers recursively, displaying ASCII text, function symbols, or target pointers:
+### مؤشرات متداخلة (`telescope`)
+قم بإلغاء الإشارة إلى مؤشرات الذاكرة بشكل متكرر، أو عرض نص ASCII، أو رموز الوظائف، أو مؤشرات الهدف:
 ```text
 pwndbg> telescope $rsp 16       # Dereference 16 entries starting at RSP
 pwndbg> telescope 0x404000 8    # Dereference data section
 ```
-
-### 🔍 Memory Inspection & Navigation
-Displays complete virtual memory segments with read/write/execute permissions:
+### تعيينات ذاكرة العملية (`vmmap`)
+يعرض أجزاء كاملة من الذاكرة الافتراضية مع أذونات القراءة/الكتابة/التنفيذ:
 ```text
 pwndbg> vmmap
 ```
-*Quickly spot segments with `rwx` permissions (vital for shellcode injection).*
+*اكتشاف المقاطع بسرعة باستخدام أذونات `rwx` (أمر حيوي لحقن كود القشرة).*
 
-### Searching Memory (`search`)
-Process Memory Mappings (`vmmap`)
+### ذاكرة البحث (`search`)
+حدد موقع السلاسل أو الأعداد الصحيحة أو المؤشرات في أي مكان عبر صفحات الذاكرة المحملة:
 ```text
 pwndbg> search -s "/bin/sh"     # Search for string "/bin/sh"
 pwndbg> search -p 0x401135      # Search for pointers to main()
 pwndbg> search -x "41414141"    # Search for raw hexadecimal bytes
 ```
-
 ---
 
-## 🧱 Heap Exploitation & Inspection
+## 🧱 استغلال وفحص الكومة
 
-Analyzing modern `glibc` heap allocators is straightforward with dedicated heap commands:
+يعد تحليل مخصصات الكومة `glibc` الحديثة أمرًا مباشرًا باستخدام أوامر الكومة المخصصة:
 
-### Viewing Chunks & Arenas
+### عرض القطع والساحات
 ```text
 pwndbg> heap                    # Display entire heap layout
 pwndbg> chunk 0x602000          # Parse chunk headers (size, flags: PREV_INUSE, IS_MMAPPED, NON_MAIN_ARENA)
 pwndbg> arenas                  # List all active heap arenas
 ```
-
-### Inspecting Free Bins (Tcache, Fastbins, Smallbins)
+### فحص الصناديق المجانية (Tcache، Fastbins، Smallbins)
 ```text
 pwndbg> bins                    # Show all free bins simultaneously
 pwndbg> tcache                  # Display per-thread tcache entries
 pwndbg> fastbins                # List single-linked fastbins
 pwndbg> unsortedbin             # List unsorted bin chunks (used for libc leak)
 ```
-
-### Viewing Chunks & Arenas
+### تصور تخطيط الكومة (`vis_heap_chunks`)
 ```text
 pwndbg> vis_heap_chunks 10      # Draw color-coded visual representation of consecutive heap chunks
 ```
-
 ---
 
-## 🛠️ Exploit Development Helpers
+## 🛠️ استغلال مساعدي التطوير
 
-### Checksec & Mitigation Audit
-Check compiler security mitigations directly from the GDB prompt:
+### تدقيق الفحص والتخفيف
+تحقق من إجراءات تخفيف أمان المترجم مباشرةً من موجه GDB:
 ```text
 pwndbg> checksec
 ```
-*Inspects:*
-- **RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
-- **Stack**: Canary found vs No canary
-- **NX**: NX enabled (Non-executable stack/heap)
-- **PIE**: PIE enabled (Position Independent Executable / ASLR)
+*تفقد:*
+- **RELRO:** جزئي مقابل RELRO كامل (يحمي جدول الأوفست العالمي `.got.plt`)
+- **المكدس:** تم العثور على كناري مقابل عدم وجود كناري
+- **NX:** تم تمكين NX (مكدس/كومة غير قابلة للتنفيذ)
+- **PIE:** تم تمكين PIE (الموضع المستقل القابل للتنفيذ / ASLR)
 
-### Inspects:
-RELRO**: Partial vs Full RELRO (protects Global Offset Table `.got.plt`)
+### محدد موقع ستاك كناري (`canary`)
+حدد موقع قيمة الكناري لمؤشر الترابط في التخزين المحلي لمؤشر الترابط (TLS) وتحقق من مكان وجودها في إطار المكدس الحالي:
 ```text
 pwndbg> canary
 ```
-
-### PIE**: PIE enabled (Position Independent Executable / ASLR)
-Determine the exact offset to overwrite the instruction pointer (EIP/RIP):
+### الأنماط الدورية وحساب الأوفست
+تحديد الإزاحة الدقيقة للكتابة فوق مؤشر التعليمات (EIP/RIP):
 ```text
 # Generate a 100-byte De Bruijn cyclic sequence
 pwndbg> cyclic 100
@@ -215,43 +207,41 @@ pwndbg> cyclic 100
 pwndbg> cyclic -l $rip
 # Output: Finding cyclic pattern at offset 72
 ```
-
-### In-Memory ROP Gadget Hunting
-Search loaded executable segments for specific gadgets:
+### صيد أدوات ROP داخل الذاكرة
+البحث في المقاطع القابلة للتنفيذ المحملة عن أدوات محددة:
 ```text
 pwndbg> rop --grep "pop rdi"
 ```
+---
+
+## ⚡ جدول مرجعي سريع
+
+| الهدف | الأمر |
+|-----------|--------|
+| **ابدأ بـ pwndbg/GEF**| `gdb ./target_binary` |
+| **فحص السجلات/المكدس** | `context` |
+| ** مؤشر عودي Deref **| `telescope $rsp 10` |
+| **خريطة الذاكرة وفحص RWX**| `vmmap` |
+| **سلسلة البحث في الذاكرة**| `search -s "/bin/sh"` |
+| ** عمليات تخفيف آثار التدقيق ** | `checksec` |
+| ** البحث عن ستاك كناري ** | `canary` |
+| **نظرة عامة على قطع الكومة** | `heap` |
+| **فحص الصناديق الحرة** | `bins` |
+| ** حساب إزاحة المخزن المؤقت **| `cyclic 100` -> `cyclic -l <val>` |
+| **تعيين نقطة التوقف عند الرمز**| `b *main` |
+| ** تشغيل / متابعة / خطوة ** | `r` / `c` / `si` / `ni` |
 
 ---
 
-## ⚡ مرجع سريع
+## 🛡️ الاعتبارات الدفاعية والحماية الثنائية
 
-|Objective|الأمر|
-|-----------|---------|
-|**Start with pwndbg/GEF**|`gdb ./target_binary`|
-|**Inspect Registers/Stack**|`context`|
-|**Recursive Pointer Deref**|`telescope $rsp 10`|
-|**Memory Map & RWX Check**|`vmmap`|
-|**Search String in Memory**|`search -s "/bin/sh"`|
-|**Audit Mitigations**|`checksec`|
-|**Find Stack Canary**|`canary`|
-|**Heap Chunks Overview**|`heap`|
-|**Inspect Free Bins**|`bins`|
-|**Calculate Buffer Offset**|`cyclic 100` -> `cyclic -l <val>`|
-|**Set Breakpoint at Symbol**|`b *main`|
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
+1. **Full RELRO:** التجميع باستخدام `-Wl,-z,relro,-z,now` يجعل `.got` للقراءة فقط بالكامل، مما يؤدي إلى هزيمة هجمات الكتابة الفوقية GOT.
+2. **Stack Canaries:** التجميع باستخدام `-fstack-protector-all` يضع ملفات تعريف الارتباط قبل عناوين الإرجاع، مما يتسبب في تجاوز سعة المخزن المؤقت لـ `__stack_chk_fail`.
+3. **PIE & ASLR:** يقوم بترتيب التعليمات البرمجية والكومة وعناوين قاعدة المكتبة بشكل عشوائي عند كل عملية تنفيذ.
 
 ---
 
-## 🛡️ Defensive Considerations & Binary Protections
+## ⚠️إخلاء المسؤولية القانونية
 
-|**Run / Continue / Step**|`r` / `c` / `si` / `ni`|
-2. **Stack Canaries:** Compiling with `-fstack-protector-all` places cookies before return addresses, causing `__stack_chk_fail` on buffer overflows.
-3. **PIE & ASLR:** Randomizes code, heap, and library base addresses on every execution.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> pwndbg and GEF are binary analysis and exploit engineering tools intended strictly for authorized vulnerability research, defensive software auditing, and academic CTF competitions. Exploiting software without permission is illegal.
+> [!تنبيه]
+> pwndbg وGEF عبارة عن أدوات تحليل ثنائية وهندسة استغلال مخصصة حصريًا لأبحاث الثغرات الأمنية المصرح بها، وتدقيق البرامج الدفاعية، ومسابقات CTF الأكاديمية. يعد استغلال البرامج دون إذن أمرًا غير قانوني.

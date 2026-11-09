@@ -1,39 +1,42 @@
-# 🔍 CUPP — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) is a specialized password dictionary generator designed for targeted human profiling. Rather than brute-forcing with generic dictionaries, CUPP generates permutations based on personal details (target name, partner, pets, birth dates, company, hobbies, leet speak variations, and special character combinations).
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#overview--use-cases)
+# CUPP (Common User Passwords Profiler) Cheatsheet
+
+Το [CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) είναι μια εξειδικευμένη δημιουργία λεξικών κωδικών πρόσβασης που έχει σχεδιαστεί για στοχευμένη δημιουργία προφίλ ανθρώπου. Αντί να εξαναγκάζει με γενικά λεξικά, το CUPP δημιουργεί μεταθέσεις με βάση τα προσωπικά στοιχεία (όνομα στόχου, συνεργάτης, κατοικίδια, ημερομηνίες γέννησης, εταιρεία, χόμπι, παραλλαγές leet speak και ειδικούς συνδυασμούς χαρακτήρων).
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Επισκόπηση και περιπτώσεις χρήσης](#overview--use-cases)
 - [Εγκατάσταση](#installation)
-- [Εγκατάσταση](#interactive-profiling-wizard--i)
+- [Οδηγός διαδραστικής δημιουργίας προφίλ (`-i`)](#interactive-profiling-wizard--i)
 - [Configuration & Leet Rules (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
-- [Downloading & Merging Dictionaries (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
-- [2. Improve an Existing Wordlist with Leet / Special Rules](#piping-output-to-hashcat--hydra)
+- [Λήψη και συγχώνευση λεξικών (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
+- [Piping Output to Hashcat & Hydra](#piping-output-to-hashcat--hydra)
 - [Defensive Insights & Password Policy Guidelines](#defensive-insights--password-policy-guidelines)
 
 ---
 
-## Εισαγωγή
+## Επισκόπηση & περιπτώσεις χρήσης
 
-Traditional dictionary attacks often fail against complex passwords that follow human-predictable patterns (e.g., `John1984!`, `Sarah_Fluffy2022#`). CUPP addresses this by:
-- Collecting target-specific personal intelligence.
-- Combining names, birth years, significant dates, and pet names.
-- Applying rule-based mutations (capitalization, leet speak replacement, special characters, random number appending).
-- Εισαγωγή
+Οι επιθέσεις παραδοσιακών λεξικών συχνά αποτυγχάνουν έναντι πολύπλοκων κωδικών πρόσβασης που ακολουθούν μοτίβα προβλέψιμα από τον άνθρωπο (π.χ. `John1984!`, `Sarah_Fluffy2022#`). Το CUPP το αντιμετωπίζει με:
+- Συλλογή προσωπικής νοημοσύνης για συγκεκριμένους στόχους.
+- Συνδυασμός ονομάτων, ετών γέννησης, σημαντικών ημερομηνιών και ονομάτων κατοικίδιων ζώων.
+- Εφαρμογή μεταλλάξεων που βασίζονται σε κανόνες (κεφαλαία, αντικατάσταση γραμμάτων, ειδικοί χαρακτήρες, προσάρτηση τυχαίων αριθμών).
+- Δημιουργία μιας βελτιστοποιημένης, στοχευμένης λίστας λέξεων δραματικά μικρότερη από την `rockyou.txt` αλλά με υψηλότερη συνάφεια στόχου.
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Clone the repository
 git clone https://github.com/Mebus/cupp.git
@@ -45,18 +48,15 @@ sudo apt-get update && sudo apt-get install -y cupp
 # Check help options
 python3 cupp.py -h
 ```
-
 ---
 
-## Εγκατάσταση
+## Διαδραστικός οδηγός προφίλ (`-i`)
 
-Launch the questionnaire prompt to build a personalized wordlist:
-
+Εκκινήστε την προτροπή ερωτηματολογίου για να δημιουργήσετε μια εξατομικευμένη λίστα λέξεων:
 ```bash
 python3 cupp.py -i
 ```
-
-Interactive Profiling Wizard (`-i`)
+Παράδειγμα άμεσης διερεύνησης:
 ```text
 [+] Insert the targets information:
 > First Name: Alice
@@ -87,14 +87,13 @@ Interactive Profiling Wizard (`-i`)
 [+] Do you want to add some random numbers at the end of words? Y/n: y
 [+] Leet mode? (i.e. leet = 1337) Y/n: y
 ```
-
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+Το αρχείο εξόδου `alice.csv` (ή καθορισμένο αρχείο κειμένου) δημιουργείται με χιλιάδες προσαρμοσμένες μεταλλάξεις (π.χ. `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
 
 ---
 
-## Configuration & Leet Rules (`cupp.cfg`)
+## Κανόνες διαμόρφωσης και Leet (`cupp.cfg`)
 
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+Η διαμόρφωση CUPP ελέγχεται μέσω `cupp.cfg`. Οι βασικές ενότητες περιλαμβάνουν:
 ```ini
 [years]
 # Set year range for automated suffix appending
@@ -118,32 +117,29 @@ o = 0
 s = 5,$
 t = 7
 ```
-
-Edit `cupp.cfg` to adjust to target locale and language specifics.
+Επεξεργαστείτε το `cupp.cfg` για προσαρμογή στη στόχευση τοπικών ρυθμίσεων και ιδιαιτεροτήτων γλώσσας.
 
 ---
 
-## Downloading & Merging Dictionaries (`-l` & `-w`)
+## Λήψη και συγχώνευση λεξικών (`-l` & `-w`)
 
-### Edit `cupp.cfg` to adjust to target locale and language specifics.
-Download default linguistic wordlists:
+### 1. Λήψη προκατασκευασμένων λιστών λέξεων από τα αποθετήρια
+Λήψη προεπιλεγμένων γλωσσικών λιστών λέξεων:
 ```bash
 python3 cupp.py -l
 ```
-
-### Downloading & Merging Dictionaries (`-l` & `-w`)
-Apply CUPP mutation rules to a list of existing words:
+### 2. Βελτιώστε μια υπάρχουσα λίστα λέξεων με Leet / Ειδικούς κανόνες
+Εφαρμόστε κανόνες μετάλλαξης CUPP σε μια λίστα με υπάρχουσες λέξεις:
 ```bash
 python3 cupp.py -w /path/to/base_words.txt
 ```
-
 ---
 
-## 2. Improve an Existing Wordlist with Leet / Special Rules
+## Έξοδος σωληνώσεων σε Hashcat & Hydra
 
-Feed the generated customized dictionary directly into brute-force tools:
+Τροφοδοτήστε το δημιουργημένο προσαρμοσμένο λεξικό απευθείας σε εργαλεία brute-force:
 
-### Cracking Target Hashes with Hashcat
+### Σπάσιμο κατακερματισμών στόχων με Hashcat
 ```bash
 # Generate targeted list
 python3 cupp.py -i
@@ -151,16 +147,14 @@ python3 cupp.py -i
 # Run Hashcat against target NTLM hash
 hashcat -m 1000 target_ntlm.hash alice.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### Online Authentication Brute-Force with Hydra
+### Διαδικτυακός έλεγχος ταυτότητας Brute-Force με Hydra
 ```bash
 hydra -l alice -P alice.txt 192.168.1.50 ssh
 ```
-
 ---
 
-## Defensive Insights & Password Policy Guidelines
+## Defensive Insights & Οδηγίες πολιτικής κωδικών πρόσβασης
 
-- **Ban Personal Attributes**: Prohibit user passwords containing employee first names, last names, usernames, company brand names, or birth dates.
-- **Enforce Length over Complexity**: A 16+ character passphrase (e.g., four random dictionary words) is significantly more resilient against profiling tools than an 8-character `NameYear!` pattern.
-- **Multi-Factor Authentication (MFA)**: Enforce hardware FIDO2 or TOTP tokens so customized dictionary generation alone cannot compromise accounts.
+- **Αποκλεισμός προσωπικών χαρακτηριστικών:** Απαγόρευση κωδικών πρόσβασης χρηστών που περιέχουν ονόματα, επώνυμα, ονόματα χρήστη, επωνυμίες εταιρείας ή ημερομηνίες γέννησης.
+- **Εφαρμογή μήκους σε σχέση με την πολυπλοκότητα:** Μια φράση πρόσβασης 16+ χαρακτήρων (π.χ. τέσσερις τυχαίες λέξεις λεξικού) είναι σημαντικά πιο ανθεκτική στα εργαλεία δημιουργίας προφίλ από ένα μοτίβο `NameYear!` 8 χαρακτήρων.
+- **Επαλήθευση ταυτότητας πολλαπλών παραγόντων (MFA):** Επιβολή κουπονιών υλικού FIDO2 ή TOTP, έτσι ώστε η δημιουργία προσαρμοσμένων λεξικών από μόνη της να μην μπορεί να θέσει σε κίνδυνο τους λογαριασμούς.

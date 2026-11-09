@@ -77,11 +77,76 @@ fun MainAppScaffold(viewModel: CheatsheetViewModel) {
     val showBottomBar = currentRoute != null && !currentRoute.startsWith("detail/")
 
     val items = listOf(
-        NavigationItem(Screen.Home.route, if (language == AppLanguage.TR) "Ana Sayfa" else "Home", Icons.Default.Home),
-        NavigationItem(Screen.Categories.route, if (language == AppLanguage.TR) "Kategori" else "Categories", Icons.Default.Folder),
-        NavigationItem(Screen.Search.route, if (language == AppLanguage.TR) "Arama" else "Search", Icons.Default.Search),
-        NavigationItem(Screen.Favorites.route, if (language == AppLanguage.TR) "Favoriler" else "Favorites", Icons.Default.Favorite),
-        NavigationItem(Screen.Utilities.route, if (language == AppLanguage.TR) "Araçlar" else "Utilities", Icons.Default.Build)
+        NavigationItem(Screen.Home.route, when (language) {
+            AppLanguage.TR -> "Ana Sayfa"
+            AppLanguage.DE -> "Startseite"
+            AppLanguage.ES -> "Inicio"
+            AppLanguage.FR -> "Accueil"
+            AppLanguage.IT -> "Home"
+            AppLanguage.PT -> "Início"
+            AppLanguage.RU -> "Главная"
+            AppLanguage.ZH_CN -> "首页"
+            AppLanguage.AR -> "الرئيسية"
+            AppLanguage.EL -> "Αρχική"
+            AppLanguage.NB -> "Hjem"
+            else -> "Home"
+        }, Icons.Default.Home),
+        NavigationItem(Screen.Categories.route, when (language) {
+            AppLanguage.TR -> "Kategori"
+            AppLanguage.DE -> "Kategorien"
+            AppLanguage.ES -> "Categorías"
+            AppLanguage.FR -> "Catégories"
+            AppLanguage.IT -> "Categorie"
+            AppLanguage.PT -> "Categorias"
+            AppLanguage.RU -> "Категории"
+            AppLanguage.ZH_CN -> "分类"
+            AppLanguage.AR -> "الفئات"
+            AppLanguage.EL -> "Κατηγορίες"
+            AppLanguage.NB -> "Kategorier"
+            else -> "Categories"
+        }, Icons.Default.Folder),
+        NavigationItem(Screen.Search.route, when (language) {
+            AppLanguage.TR -> "Arama"
+            AppLanguage.DE -> "Suche"
+            AppLanguage.ES -> "Buscar"
+            AppLanguage.FR -> "Recherche"
+            AppLanguage.IT -> "Cerca"
+            AppLanguage.PT -> "Pesquisa"
+            AppLanguage.RU -> "Поиск"
+            AppLanguage.ZH_CN -> "搜索"
+            AppLanguage.AR -> "بحث"
+            AppLanguage.EL -> "Αναζήτηση"
+            AppLanguage.NB -> "Søk"
+            else -> "Search"
+        }, Icons.Default.Search),
+        NavigationItem(Screen.Favorites.route, when (language) {
+            AppLanguage.TR -> "Favoriler"
+            AppLanguage.DE -> "Favoriten"
+            AppLanguage.ES -> "Favoritos"
+            AppLanguage.FR -> "Favoris"
+            AppLanguage.IT -> "Preferiti"
+            AppLanguage.PT -> "Favoritos"
+            AppLanguage.RU -> "Избранное"
+            AppLanguage.ZH_CN -> "收藏"
+            AppLanguage.AR -> "المفضلة"
+            AppLanguage.EL -> "Αγαπημένα"
+            AppLanguage.NB -> "Favoritter"
+            else -> "Favorites"
+        }, Icons.Default.Favorite),
+        NavigationItem(Screen.Utilities.route, when (language) {
+            AppLanguage.TR -> "Araçlar"
+            AppLanguage.DE -> "Werkzeuge"
+            AppLanguage.ES -> "Herramientas"
+            AppLanguage.FR -> "Outils"
+            AppLanguage.IT -> "Strumenti"
+            AppLanguage.PT -> "Ferramentas"
+            AppLanguage.RU -> "Утилиты"
+            AppLanguage.ZH_CN -> "工具箱"
+            AppLanguage.AR -> "الأدوات"
+            AppLanguage.EL -> "Εργαλεία"
+            AppLanguage.NB -> "Verktøy"
+            else -> "Utilities"
+        }, Icons.Default.Build)
     )
 
     Scaffold(

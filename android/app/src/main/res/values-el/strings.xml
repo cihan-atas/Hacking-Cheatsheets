@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Hacking Cheatsheets</string>
+    <string name="nav_home">Αρχική</string>
+    <string name="nav_categories">Κατηγορίες</string>
+    <string name="nav_search">Αναζήτηση</string>
+    <string name="nav_favorites">Αγαπημένα</string>
+    <string name="nav_utilities">Εργαλεία</string>
+    <string name="search_hint">Αναζήτηση εργαλείων, εντολών, σημαιών ή CVE...</string>
+    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο!</string>
+    <string name="switch_language">Αλλαγή γλώσσας</string>
+</resources>

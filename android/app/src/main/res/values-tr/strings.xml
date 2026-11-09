@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Hacking Cheatsheets</string>
+    <string name="nav_home">Ana Sayfa</string>
+    <string name="nav_categories">Kategoriler</string>
+    <string name="nav_search">Arama</string>
+    <string name="nav_favorites">Favoriler</string>
+    <string name="nav_utilities">Araçlar</string>
+    <string name="search_hint">Araç, komut, parametre veya CVE ara...</string>
+    <string name="copied_to_clipboard">Panoya kopyalandı!</string>
+    <string name="switch_language">Dili Değiştir</string>
+</resources>

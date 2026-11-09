@@ -1,12 +1,16 @@
-# 🌐 CORSy – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌐 CORSy - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██████╗ ██████╗ ███████╗██╗   ██╗
   ██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗ ██╔╝
@@ -16,57 +20,55 @@
    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝   ╚═╝   
       Cross-Origin Resource Sharing (CORS) Misconfiguration Scanner
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/CORSy-CORS_Scanner-blue?style=for-the-badge" alt="CORSy">
   <img src="https://img.shields.io/badge/Author-Somdev_Sangwan-orange?style=for-the-badge" alt="s0md3v">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Nettsikkerhet">
   <img src="https://img.shields.io/badge/License-GPLv3-purple?style=for-the-badge" alt="GPLv3">
 </p>
 
 <p align="center">
-  <b>🌐 Fast and comprehensive CLI tool designed to detect Cross-Origin Resource Sharing (CORS) misconfigurations and test for cross-origin data theft risks</b>
+  <b>🌐 Raskt og omfattende CLI-verktøy utviklet for å oppdage feilkonfigurasjoner av Cross-Origin Resource Sharing (CORS) og teste for risiko for datatyveri på tvers av opprinnelse</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--cors-vulnerability-basics)
+- [Overview & CORS Vulnerability Basics](#-overview--cors-vulnerability-basics)
   - [The Fatal Trio: Origin Reflection + Credentials True](#the-fatal-trio-origin-reflection--credentials-true)
-- [Installasjon](#-installation)
-- [Basic Target Scanning](#-basic-target-scanning)
+- [Installasjon](#-installasjon)
+– [Grunnleggende målskanning](#-grunnleggende målskanning)
 - [CORS Attack Vectors Tested](#-cors-attack-vectors-tested)
   - [Arbitrary Origin Reflection](#arbitrary-origin-reflection)
-  - [CORSy automatically tests several origin permutation patterns:](#trusting-null-origin-origin-null)
+  - [Trusting Null Origin (`Origin: null`)](#trusting-null-origin-origin-null)
   - [Prefix & Suffix Regex Bypass](#prefix--suffix-regex-bypass)
   - [Wildcard Subdomain Trust](#wildcard-subdomain-trust)
-  - [Special Character Bypass (`_`, `;`, `!`)](#special-character-bypass----)
+  - [Special Character Bypass (`_`, `;`, `!`)](#spesial-character-bypass----)
 - [Multi-Target Scanning & Output Export](#-multi-target-scanning--output-export)
 - [Crafting Proof-of-Concept (PoC) Exploits](#-crafting-proof-of-concept-poc-exploits)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Secure Headers](#-defensive-considerations--secure-headers)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & Secure Headers](#-defensive-considerations--secure-headers)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og grunnleggende om CORS-sårbarhet
 
-**Cross-Origin Resource Sharing (CORS)** is a browser security mechanism that allows web servers to relax the **Same-Origin Policy (SOP)**. By returning headers such as:
+**Cross-Origin Resource Sharing (CORS)** er en nettlesersikkerhetsmekanisme som lar webservere lempe på **Same-Origin Policy (SOP)**. Ved å returnere overskrifter som:
 - `Access-Control-Allow-Origin: <origin>`
 - `Access-Control-Allow-Credentials: true`
 
-🎯 Introduksjon
+En nettapplikasjon gir andre nettsteder tillatelse til å lese HTTP-svarene på vegne av offerbrukeren.
 
-### The Fatal Trio: Origin Reflection + Credentials True
-When an application blindly reflects the incoming `Origin` header in `Access-Control-Allow-Origin` and enables `Access-Control-Allow-Credentials: true`, any malicious website can force an authenticated visitor's browser to read private messages, API keys, and account details.
+### The Fatal Trio: Origin Reflection + Credentials Sant
+Når en applikasjon blindt reflekterer den innkommende `Origin`-overskriften i `Access-Control-Allow-Origin` og aktiverer `Access-Control-Allow-Credentials: true`, kan ethvert ondsinnet nettsted tvinge en autentisert besøkendes nettleser til å lese private meldinger, API-nøkler og kontodetaljer.
 
-Created by **Somdev Sangwan (s0md3v)**, **CORSy** systematically probes endpoints with 16+ known origin permutations to spot these misconfigurations.
+Laget av **Somdev Sangwan (s0md3v)**, **CORSy** sonderer systematisk endepunkter med 16+ kjente opprinnelsespermutasjoner for å oppdage disse feilkonfigurasjonene.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Clone the repository
 git clone https://github.com/s0md3v/Corsy.git
@@ -78,31 +80,27 @@ pip install -r requirements.txt
 # Run Corsy
 python3 corsy.py -h
 ```
-
 ---
 
-## 🚀 Basic Target Scanning
+## 🚀 Grunnleggende målskanning
 
-Scan a single web application endpoint:
-
+Skann et enkelt nettapplikasjonsendepunkt:
 ```bash
 python3 corsy.py -u https://target.com/api/user/details
 ```
-
-🚀 Basic Target Scanning
+Legg til egendefinerte overskrifter eller øktinformasjonskapsler:
 ```bash
 python3 corsy.py -u https://target.com/api/user/details \
   --headers "Cookie: session=abc123xyz"
 ```
-
 ---
 
-## ⚡ CORS Attack Vectors Tested
+## ⚡ CORS angrepsvektorer testet
 
-CORSy automatically tests several origin permutation patterns:
+CORSy tester automatisk flere opprinnelses-permutasjonsmønstre:
 
-### Arbitrary Origin Reflection
-The server blindly mirrors any domain:
+### Vilkårlig opprinnelsesrefleksjon
+Serveren speiler blindt ethvert domene:
 ```http
 Request:
 Origin: https://evil.com
@@ -111,9 +109,8 @@ Response:
 Access-Control-Allow-Origin: https://evil.com
 Access-Control-Allow-Credentials: true
 ```
-
-### CORSy automatically tests several origin permutation patterns:
-Applications may trust `null` origins (common with local sandboxed iframes or `data:` URLs):
+### Trusting Null Origin (`Origin: null`)
+Apper kan stole på `null`-opprinnelse (vanlig med lokale sandboxed iframes eller `data:` URL-er):
 ```http
 Request:
 Origin: null
@@ -122,24 +119,23 @@ Response:
 Access-Control-Allow-Origin: null
 Access-Control-Allow-Credentials: true
 ```
-*Can be triggered by loading the victim API from an iframe with `sandbox="allow-scripts allow-top-navigation"`.*
+*Kan utløses ved å laste victim API fra en iframe med `sandbox="allow-scripts allow-top-navigation"`.*
 
-### Prefix & Suffix Regex Bypass
-Trusting Null Origin (`Origin: null`)
-- Applications may trust `null` origins (common with local sandboxed iframes or `data:` URLs):
+### Prefiks og suffiks Regex Bypass
+Dårlig regex-validering (f.eks. `.*target.com` eller `target.com.*`):
+- `https://target.com.attacker.com`
 - `https://not-target.com`
 
-### Special Character Bypass (`_`, `;`, `!`)
-Prefix & Suffix Regex Bypass
-- Poor regex validation (e.g. `.*target.com` or `target.com.*`):
-- `https://target.com.attacker.com`
+### Spesialtegn forbikobling (`_`, `;`, `!`)
+Nettlesere og servere håndterer URI-skilletegn forskjellig:
+- `https://target.com_.attacker.com`
+- `https://target.com%60.attacker.com`
 
 ---
 
 ## 🌐 Multi-Target Scanning & Output Export
 
-`https://target.com%60.attacker.com`
-
+Skann store lister over API-endepunkter oppdaget fra rekognosering:
 ```bash
 # Scan a list of URLs with 10 concurrent threads
 python3 corsy.py -i endpoints.txt -t 10
@@ -147,13 +143,11 @@ python3 corsy.py -i endpoints.txt -t 10
 # Export results to clean JSON format
 python3 corsy.py -i endpoints.txt -o cors_results.json
 ```
-
 ---
 
-## 💻 Crafting Proof-of-Concept (PoC) Exploits
+## 💻 Lage Proof-of-Concept (PoC)-utnyttelser
 
-When CORSy confirms a misconfiguration with credentials allowed, generate an HTML exploit to steal sensitive data:
-
+Når CORSy bekrefter en feilkonfigurasjon med legitimasjon tillatt, generer en HTML-utnyttelse for å stjele sensitive data:
 ```html
 <!DOCTYPE html>
 <html>
@@ -172,30 +166,29 @@ When CORSy confirms a misconfiguration with credentials allowed, generate an HTM
 </body>
 </html>
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Skann enkelt URL** | `python3 corsy.py -u <URL>` |
+| **Skann med øktinformasjonskapsel** | `python3 corsy.py -u <URL> --headers "Cookie: sess=123"` |
+| **Skann URL-liste** | `python3 corsy.py -i targets.txt` |
+| **Multi-Threaded Scan** | `python3 corsy.py -i targets.txt -t 20` |
+| **Eksporter til JSON** | `python3 corsy.py -i targets.txt -o results.json` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive betraktninger og sikre overskrifter
 
-|Objective|Kommando|
-|-----------|---------|
-|**Scan Single URL**|`python3 corsy.py -u <URL>`|
-|**Scan with Session Cookie**|`python3 corsy.py -u <URL> --headers "Cookie: sess=123"`|
-|**Scan URL List**|`python3 corsy.py -i targets.txt`|
-|**Multi-Threaded Scan**|`python3 corsy.py -i targets.txt -t 20`|
-|**Export to JSON**|`python3 corsy.py -i targets.txt -o results.json`|
+1. **Reflekter aldri opprinnelse vilkårlig:** Sammenlign `Origin`-overskriften med en eksplisitt, streng hviteliste på serversiden.
+2. **Par aldri jokertegn med legitimasjon:** Nettleseren blokkerer `Access-Control-Allow-Origin: *` med `Credentials: true`, men emuler den aldri dynamisk.
+3. **Unngå å stole på `null`:** Ikke legg til `null` i retningslinjer for pålitelig opprinnelse.
 
 ---
 
-## 🛡️ Defensive Considerations & Secure Headers
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-|**Export to JSON**|`python3 corsy.py -i targets.txt -o results.json`|
-2. **Never Pair Wildcard with Credentials:** The browser blocks `Access-Control-Allow-Origin: *` with `Credentials: true`, but never emulate it dynamically.
-3. **Avoid Trusting `null`:** Do not add `null` to trusted origin policies.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> CORSy is intended strictly for authorized security assessments, penetration testing, and defensive auditing. Testing websites without authorization is illegal.
+> [!FORSIKTIG]
+> CORSy er ment for autoriserte sikkerhetsvurderinger, penetrasjonstesting og defensiv revisjon. Å teste nettsider uten autorisasjon er ulovlig.

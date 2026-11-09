@@ -1,12 +1,16 @@
-# 🌩️ Prowler – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🌩️ Prowler - komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██████╗  ██████╗ ██╗    ██╗██╗     ███████╗██████╗ 
   ██╔══██╗██╔══██╗██╔═══██╗██║    ██║██║     ██╔════╝██╔══██╗
@@ -16,7 +20,6 @@
   ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚══════╝╚═╝  ╚═╝
        Multi-Cloud Security Posture Assessment & CIS Benchmark Auditor
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Prowler-Cloud_Security-blue?style=for-the-badge" alt="Prowler">
   <img src="https://img.shields.io/badge/Author-Toni_de_la_Fuente-orange?style=for-the-badge" alt="toniblyx">
@@ -25,45 +28,44 @@
 </p>
 
 <p align="center">
-  <b>🌩️ Industry-standard open-source security tool for AWS, Azure, Google Cloud (GCP), and Kubernetes posture assessment, misconfiguration auditing, and compliance verification</b>
+  <b>🌩️ Bransjestandard åpen kildekode-sikkerhetsverktøy for AWS, Azure, Google Cloud (GCP) og Kubernetes stillingsvurdering, revisjon av feilkonfigurasjoner og samsvarsverifisering</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--architecture)
-- [Installasjon](#-installation)
-- [AWS Security Auditing](#-aws-security-auditing)
-  - [Default Account Audit](#default-account-audit)
-  - [Ensure your environment has valid AWS credentials configured (`aws configure`, environment variables, or IAM instance profile):](#targeting-specific-services-s3-iam-ec2)
-  - [Runs all built-in checks across all enabled services and regions:](#targeting-specific-aws-regions)
-  - [Multi-Account Scanning with AWS Organizations](#multi-account-scanning-with-aws-organizations)
-- [Azure & Google Cloud (GCP) Auditing](#-azure--google-cloud-gcp-auditing)
+- [Oversikt og arkitektur](#-oversikt--arkitektur)
+- [Installasjon](#-installasjon)
+– [AWS Security Auditing](#-aws-security-auditing)
+  – [Standard kontorevisjon](#default-account-audit)
+  - [Målrettingsspesifikke tjenester (S3, IAM, EC2)](#targeting-specific-services-s3-iam-ec2)
+  – [Targeting Specific AWS Regions](#targeting-specific-aws-regions)
+  – [Multi-Account Scanning with AWS Organizations](#multi-account-scanning-with-aws-organizations)
+– [Azure & Google Cloud (GCP) Auditing](#-azure--google-cloud-gcp-auditing)
   - [Microsoft Azure Assessment](#microsoft-azure-assessment)
-  - [🔷 Azure & Google Cloud (GCP) Auditing](#google-cloud-platform-gcp-assessment)
+  – [Google Cloud Platform (GCP) Assessment](#google-cloud-platform-gcp-assessment)
 - [Compliance Frameworks (CIS, ISO27001, PCI-DSS)](#-compliance-frameworks-cis-iso27001-pci-dss)
-- [Reporting & Output Formats (HTML, JSON, CSV)](#-reporting--output-formats-html-json-csv)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Rapportering og utdataformater (HTML, JSON, CSV)](#-reporting--output-formats-html-json-csv)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og arkitektur
 
-Originally created by **Toni de la Fuente (@toniblyx)**, **Prowler** is an essential multi-cloud security assessment tool. It performs automated evaluations across infrastructure-as-a-service (IaaS) and platform services to detect:
-- Publicly readable/writable S3 buckets and storage accounts.
-- Root accounts missing Multi-Factor Authentication (MFA).
-- Over-privileged IAM policies with wildcard `*` permissions.
-- 🎯 Introduksjon
-- Open security groups exposing management ports (SSH 22, RDP 3389) to `0.0.0.0/0`.
-- Non-compliance with CIS Benchmarks, ISO 27001, HIPAA, PCI-DSS, and GDPR.
+Opprinnelig laget av **Toni de la Fuente (@toniblyx)**, **Prowler** er et viktig sikkerhetsvurderingsverktøy for flere skyer. Den utfører automatiserte evalueringer på tvers av infrastruktur-som-en-tjeneste (IaaS) og plattformtjenester for å oppdage:
+- Offentlig lesbare/skrivbare S3-bøtter og lagringskontoer.
+- Rotkontoer mangler Multi-Factor Authentication (MFA).
+- Overprivilegerte IAM-policyer med jokertegn `*`-tillatelser.
+- Ukrypterte databaser, disker og sikkerhetskopier.
+- Åpne sikkerhetsgrupper som utsetter administrasjonsporter (SSH 22, RDP 3389) for `0.0.0.0/0`.
+- Manglende overholdelse av CIS Benchmarks, ISO 27001, HIPAA, PCI-DSS og GDPR.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Using pip / pipx (Recommended)
 pipx install prowler
@@ -76,20 +78,18 @@ docker pull prowlercloud/prowler:latest
 # Verify installation
 prowler -v
 ```
-
 ---
 
-## ☁️ AWS Security Auditing
+## ☁️ AWS-sikkerhetsrevisjon
 
-Ensure your environment has valid AWS credentials configured (`aws configure`, environment variables, or IAM instance profile):
+Sørg for at miljøet ditt har konfigurert gyldig AWS-legitimasjon (`aws configure`, miljøvariabler eller IAM-forekomstprofil):
 
-### Default Account Audit
-Runs all built-in checks across all enabled services and regions:
+### Standard kontorevisjon
+Kjører alle innebygde sjekker på tvers av alle aktiverte tjenester og regioner:
 ```bash
 prowler aws
 ```
-
-### Ensure your environment has valid AWS credentials configured (`aws configure`, environment variables, or IAM instance profile):
+### Målretting mot spesifikke tjenester (S3, IAM, EC2)
 ```bash
 # Run only S3 bucket checks
 prowler aws --services s3
@@ -98,24 +98,20 @@ prowler aws --services s3
 prowler aws --services iam,ec2
 ```
 
-### Runs all built-in checks across all enabled services and regions:
-Avoid scanning empty unused regions to dramatically increase scan speed:
 ```bash
 prowler aws --region us-east-1,eu-west-1
 ```
-
-### Multi-Account Scanning with AWS Organizations
-Audit all accounts under an AWS Organization by assuming a centralized management role:
+### Skanning av flere kontoer med AWS-organisasjoner
+Revider alle kontoer under en AWS-organisasjon ved å påta seg en sentralisert ledelsesrolle:
 ```bash
 prowler aws --sp-role-arn arn:aws:iam::111122223333:role/SecurityAuditRole
 ```
-
 ---
 
-## 🔷 Azure & Google Cloud (GCP) Auditing
+## 🔷 Azure og Google Cloud (GCP) revisjon
 
-### Microsoft Azure Assessment
-Authenticate via Azure CLI (`az login`):
+### Microsoft Azure-vurdering
+Autentiser via Azure CLI (`az login`):
 ```bash
 # Audit entire Azure subscription
 prowler azure --subscription-ids "00000000-0000-0000-0000-000000000000"
@@ -124,8 +120,6 @@ prowler azure --subscription-ids "00000000-0000-0000-0000-000000000000"
 prowler azure --services storage,iam
 ```
 
-### 🔷 Azure & Google Cloud (GCP) Auditing
-Authenticate via Google Cloud SDK (`gcloud auth application-default login`):
 ```bash
 # Audit specific GCP Project
 prowler gcp --project-ids my-production-project
@@ -133,13 +127,11 @@ prowler gcp --project-ids my-production-project
 # Target Google Cloud Storage
 prowler gcp --services storage
 ```
-
 ---
 
-## 📜 Compliance Frameworks (CIS, ISO27001, PCI-DSS)
+## 📜 Samsvarsrammeverk (CIS, ISO27001, PCI-DSS)
 
-Prowler categorizes checks into official compliance standards:
-
+Prowler kategoriserer sjekker i offisielle samsvarsstandarder:
 ```bash
 # Run CIS AWS Foundations Benchmark v3.0
 prowler aws --compliance cis_3.0_aws
@@ -153,46 +145,43 @@ prowler aws --compliance iso27001_2013_aws
 # List all supported compliance frameworks
 prowler aws --list-compliance
 ```
-
 ---
 
-## 📊 Reporting & Output Formats (HTML, JSON, CSV)
+## 📊 Rapporterings- og utdataformater (HTML, JSON, CSV)
 
-By default, Prowler outputs reports to an `output/` directory:
-- **Interactive HTML**: Visual dashboard showing failed, passed, and muted checks.
-- **CSV**: Easy to import into spreadsheets or ticketing systems.
-- **JSON-ASFF / JSON-OCSF**: AWS Security Hub and SIEM-compatible telemetry.
-
+Som standard sender Prowler ut rapporter til en `output/`-katalog:
+- **Interaktiv HTML:** Visuelt dashbord som viser feilslåtte, beståtte og dempet kontroller.
+- **CSV:** Enkel å importere til regneark eller billettsystemer.
+- **JSON-ASFF / JSON-OCSF:** AWS Security Hub og SIEM-kompatibel telemetri.
 ```bash
 # Generate HTML and JSON reports in a custom folder
 prowler aws -M html,json,csv -o /path/to/audit-reports/
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Full AWS-revisjon** | `prowler aws` |
+| **Revisjonsspesifikk tjeneste** | `prowler aws --services s3,iam` |
+| **Revisjon enkelt region** | `prowler aws --region us-east-1` |
+| **CIS Benchmark Audit** | `prowler aws --compliance cis_3.0_aws` |
+| **Full Azure Audit** | `prowler azure --subscription-ids <SUB_ID>` |
+| **Full GCP-revisjon** | `prowler gcp --project-ids <PROJECT_ID>` |
+| **Eksporter HTML/CSV/JSON** | `prowler aws -M html,csv,json -o ./reports` |
+| **Liste tilgjengelige sjekker**| `prowler aws --list-checks` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive vurderinger og utbedring
 
-|Objective|Kommando|
-|-----------|---------|
-|**Full AWS Audit**|`prowler aws`|
-|**Audit Specific Service**|`prowler aws --services s3,iam`|
-|**Audit Single Region**|`prowler aws --region us-east-1`|
-|**CIS Benchmark Audit**|`prowler aws --compliance cis_3.0_aws`|
-|**Full Azure Audit**|`prowler azure --subscription-ids <SUB_ID>`|
-|**Full GCP Audit**|`prowler gcp --project-ids <PROJECT_ID>`|
-|**Export HTML/CSV/JSON**|`prowler aws -M html,csv,json -o ./reports`|
-|**List Available Checks**|`prowler aws --list-checks`|
+1. **Automatisk utbedring:** Se gjennom Prowlers utdataanbefalinger som gir den nøyaktige AWS CLI-kommandoen eller Terraform-parameteren som kreves for å fikse hver feilkonfigurasjon.
+2. **AWS Security Hub-integrasjon:** Mate Prowler JSON-ASFF-funn direkte inn i AWS Security Hub for sentralisert flerkontosårbarhetsvarsling.
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-1. **Automated Remediation:** Review Prowler's output recommendations which provide the exact AWS CLI command or Terraform parameter required to fix each misconfiguration.
-2. **AWS Security Hub Integration:** Feed Prowler JSON-ASFF findings directly into AWS Security Hub for centralized multi-account vulnerability alerting.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Prowler is an audit and posture assessment tool. Ensure that you have proper authorization from the cloud tenant and subscription owners before executing compliance scans across production environments.
+> [!FORSIKTIG]
+> Prowler is an audit and posture assessment tool. Sørg for at du har riktig autorisasjon fra skyleietaker og abonnementseiere før du utfører samsvarsskanninger på tvers av produksjonsmiljøer.

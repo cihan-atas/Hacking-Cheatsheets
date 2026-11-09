@@ -1,12 +1,16 @@
-# 🔑 Gitleaks — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔑 Gitleaks - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
    ██████╗ ██╗████████╗██╗     ███████╗ █████╗ ██╗  ██╗███████╗
   ██╔════╝ ██║╚══██╔══╝██║     ██╔════╝██╔══██╗██║ ██╔╝██╔════╝
@@ -16,7 +20,6 @@
    ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
            Fast & Automated Secret Detection for Git Repositories
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Gitleaks-Secret_Scanner-blue?style=for-the-badge" alt="Gitleaks">
   <img src="https://img.shields.io/badge/Author-Zachary_Rice-orange?style=for-the-badge" alt="zricethezav">
@@ -25,42 +28,41 @@
 </p>
 
 <p align="center">
-  <b>🔑 SAST tool designed to find and detect hardcoded secrets like passwords, API keys, and tokens in Git repositories and commit histories</b>
+  >
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--detection-engine)
-- [Εγκατάσταση](#-installation)
-- [Basic Secret Scanning](#-basic-secret-scanning)
+- [Μηχανή Επισκόπησης & Ανίχνευσης](#-επισκόπηση--μηχανή ανίχνευσης)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Βασική μυστική σάρωση] (#-βασική-μυστική σάρωση)
   - [Scanning a Git Repository](#scanning-a-git-repository)
-  - [🚀 Basic Secret Scanning](#scanning-uncommitted-changes)
-  - [Scanning Plain Files & Folders](#scanning-plain-files--folders)
+  - [Σάρωση μη δεσμευμένων αλλαγών](#scanning-uncommitted-changes)
+  - [Σάρωση απλών αρχείων και φακέλων](#scanning-plain-files--folders)
 - [Targeting Commit Ranges & History](#-targeting-commit-ranges--history)
-- [CI/CD & Pre-commit Integration](#-cicd--pre-commit-integration)
+- [Ολοκλήρωση CI/CD & Pre-commit](#-cicd--pre-commit-integration)
 - [Custom Detection Rules & Allowlisting](#-custom-detection-rules--allowlisting)
-- [Output Formats & Reporting](#-output-formats--reporting)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Μορφές εξόδου και αναφορά](#-μορφές εξόδου--αναφορές)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Μηχανή επισκόπησης και ανίχνευσης
 
-Hardcoded secrets (AWS access keys, SSH private keys, GitHub tokens, Slack webhooks, database credentials) inadvertently committed to git repositories are one of the most common vectors for initial cloud compromise.
+Τα σκληρά κωδικοποιημένα μυστικά (κλειδιά πρόσβασης AWS, ιδιωτικά κλειδιά SSH, διακριτικά GitHub, Slack webhook, διαπιστευτήρια βάσης δεδομένων) που δεσμεύονται ακούσια σε αποθετήρια git είναι ένα από τα πιο συνηθισμένα διανύσματα για αρχικό συμβιβασμό στο cloud.
 
-Created by **Zachary Rice (@zricethezav)**, **Gitleaks** provides ultra-fast regex-based and Shannon entropy analysis across:
-- **Full Git History**: Audits every branch, tag, and historical commit.
-- **Pre-commit Hooks**: Blocks engineers from accidentally committing credentials before code reaches remote servers.
-- **CI/CD Pipelines**: Automatically fails pull requests containing credential leaks.
+Δημιουργήθηκε από τον **Zachary Rice (@zricethezav)**, το **Gitleaks** παρέχει εξαιρετικά γρήγορη ανάλυση εντροπίας Shannon και βασισμένη σε regex σε:
+- **Πλήρης ιστορία Git:** Ελέγχει κάθε κλάδο, ετικέτα και ιστορική δέσμευση.
+- **Pre-commit Hooks:** Αποκλείει τους μηχανικούς από την κατά λάθος δέσμευση διαπιστευτηρίων πριν φτάσει ο κώδικας σε απομακρυσμένους διακομιστές.
+- **Σωληνώσεις CI/CD:** Αποτυγχάνει αυτόματα τα αιτήματα έλξης που περιέχουν διαρροές διαπιστευτηρίων.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # macOS (Homebrew)
 brew install gitleaks
@@ -75,13 +77,12 @@ docker pull zricethezav/gitleaks:latest
 curl -sSL https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks_linux_x64.tar.gz | tar -xz
 sudo mv gitleaks /usr/local/bin/
 ```
-
 ---
 
-## 🚀 Basic Secret Scanning
+## 🚀 Βασική μυστική σάρωση
 
-### Scanning a Git Repository
-Audits the current repository's commit history:
+### Σάρωση ενός αποθετηρίου Git
+Ελέγχει το ιστορικό δεσμεύσεων του τρέχοντος αποθετηρίου:
 ```bash
 # Run detection in current working repo
 gitleaks detect -v
@@ -89,9 +90,8 @@ gitleaks detect -v
 # Audit an external local repo path
 gitleaks detect --source /path/to/repo -v
 ```
-
-### 🚀 Basic Secret Scanning
-Audits staged and unstaged code changes before committing:
+### Σάρωση μη δεσμευμένων αλλαγών
+Έλεγχοι σταδιακών και μη σταδιακών αλλαγών κώδικα πριν από τη δέσμευση:
 ```bash
 # Inspect unstaged working directory changes
 gitleaks protect -v
@@ -99,17 +99,14 @@ gitleaks protect -v
 # Scan staged changes only
 gitleaks protect --staged -v
 ```
-
-### Scanning Plain Files & Folders
-Scan non-git directories (e.g., extracted firmware, decompiled mobile apps, configuration folders):
+### Σάρωση απλών αρχείων και φακέλων
+Σάρωση καταλόγων που δεν είναι git (π.χ. εξαγόμενο υλικολογισμικό, απομεταγλωττισμένες εφαρμογές για κινητά, φάκελοι διαμόρφωσης):
 ```bash
 gitleaks dir /path/to/directory -v
 ```
-
 ---
 
-## ⚡ Targeting Commit Ranges & History
-
+## ⚡ Στόχευση εύρους δέσμευσης και ιστορίας
 ```bash
 # Scan commits made in the last 7 days
 gitleaks detect --log-opts="--since='7 days ago'" -v
@@ -120,12 +117,11 @@ gitleaks detect --log-opts="origin/main..feature-branch" -v
 # Target the latest 5 commits
 gitleaks detect --log-opts="-n 5" -v
 ```
-
 ---
 
-## ⚙️ CI/CD & Pre-commit Integration
+## ⚙️ Ενσωμάτωση CI/CD & Pre-commit
 
-### Pre-commit Framework Configuration (`.pre-commit-config.yaml`)
+### Διαμόρφωση πλαισίου προ-δέσμευσης (`.pre-commit-config.yaml`)
 ```yaml
 repos:
   - repo: https://github.com/gitleaks/gitleaks
@@ -133,8 +129,7 @@ repos:
     hooks:
       - id: gitleaks
 ```
-
-### GitHub Actions Workflow
+### Ροή εργασίας GitHub Actions
 ```yaml
 name: Gitleaks Security Scan
 on: [push, pull_request]
@@ -149,13 +144,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
 ---
 
-## 🧩 Custom Detection Rules & Allowlisting
+## 🧩 Προσαρμοσμένοι κανόνες ανίχνευσης και λίστα επιτρεπόμενων
 
-Configure custom regex patterns or ignore false positives using `.gitleaks.toml`:
-
+Διαμορφώστε προσαρμοσμένα μοτίβα regex ή αγνοήστε τα ψευδώς θετικά χρησιμοποιώντας το `.gitleaks.toml`:
 ```toml
 [extend]
 useDefault = true
@@ -178,16 +171,13 @@ secretGroup = 1
 entropy = 3.5
 keywords = ["corp_secret_"]
 ```
-
-🧩 Custom Detection Rules & Allowlisting
+Εκτέλεση με προσαρμοσμένη διαμόρφωση:
 ```bash
 gitleaks detect -c .gitleaks.toml -v
 ```
-
 ---
 
-## 📊 Output Formats & Reporting
-
+## 📊 Μορφές εξόδου και αναφορά
 ```bash
 # Export results to clean JSON format
 gitleaks detect --report-path gitleaks-report.json --report-format json
@@ -198,32 +188,31 @@ gitleaks detect --report-path report.sarif --report-format sarif
 # Export to CSV
 gitleaks detect --report-path report.csv --report-format csv
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Scan Entire Git History**|`gitleaks detect -v`|
-|**Scan Uncommitted Changes**|`gitleaks protect -v`|
-|**Scan Staged Changes Only**|`gitleaks protect --staged -v`|
-|**Scan Plain Directory (No Git)**|`gitleaks dir /path/to/folder -v`|
-|**Export to JSON**|`gitleaks detect -r report.json -f json`|
-|**Export to SARIF**|`gitleaks detect -r report.sarif -f sarif`|
-|**Use Custom Rules Config**|`gitleaks detect -c .gitleaks.toml`|
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
+| **Σάρωση ολόκληρου του ιστορικού Git** | `gitleaks detect -v` |
+| **Σάρωση μη δεσμευμένων αλλαγών** | `gitleaks protect -v` |
+| **Σάρωση μόνο σταδιακών αλλαγών** | `gitleaks protect --staged -v` |
+| **Σάρωση απλού καταλόγου (Χωρίς Git)**| `gitleaks dir /path/to/folder -v` |
+| **Εξαγωγή σε JSON** | `gitleaks detect -r report.json -f json` |
+| **Εξαγωγή σε SARIF** | `gitleaks detect -r report.sarif -f sarif` |
+| **Χρήση προσαρμοσμένων κανόνων Config** | `gitleaks detect -c .gitleaks.toml` |
+| **Σάρωση συγκεκριμένου κλάδου** | `gitleaks detect --log-opts="main..dev"` |
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## 🛡️ Αμυντικές Θεωρήσεις & Αποκατάσταση
 
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
-2. **Rewriting Git History:** Removing the commit or using `git filter-repo` / BFG Repo-Cleaner is required to scrub artifacts, but never substitute history rewrites for credential rotation.
+1. **Άμεση ανάκληση:** Μόλις εντοπιστεί ένα μυστικό στο ιστορικό git, θεωρήστε το πλήρως παραβιασμένο και περιστρέψτε το/ανακαλέστε το αμέσως.
+2. **Επανεγγραφή ιστορικού Git:** Απαιτείται η κατάργηση της δέσμευσης ή η χρήση του `git filter-repo` / BFG Repo-Cleaner για τον καθαρισμό τεχνουργημάτων, αλλά ποτέ μην αντικαθιστάτε τις επανεγγραφές ιστορικού για την περιστροφή διαπιστευτηρίων.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Gitleaks is designed for authorized internal security audits, continuous integration vulnerability checking, and defensive code review. Scanning unauthorized proprietary repositories without permission is strictly prohibited.
+> [!ΠΡΟΣΟΧΗ]
+> Το Gitleaks έχει σχεδιαστεί για εξουσιοδοτημένους εσωτερικούς ελέγχους ασφάλειας, συνεχή έλεγχο ευπάθειας ενσωμάτωσης και έλεγχο αμυντικού κώδικα. Η σάρωση μη εξουσιοδοτημένων ιδιόκτητων αποθετηρίων χωρίς άδεια απαγορεύεται αυστηρά.

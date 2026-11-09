@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Hacking Cheatsheets</string>
+    <string name="nav_home">Startseite</string>
+    <string name="nav_categories">Kategorien</string>
+    <string name="nav_search">Suche</string>
+    <string name="nav_favorites">Favoriten</string>
+    <string name="nav_utilities">Werkzeuge</string>
+    <string name="search_hint">Tools, Befehle, Flags oder CVEs suchen...</string>
+    <string name="copied_to_clipboard">In die Zwischenablage kopiert!</string>
+    <string name="switch_language">Sprache wechseln</string>
+</resources>

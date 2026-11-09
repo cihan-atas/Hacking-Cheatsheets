@@ -1,39 +1,42 @@
-# 🔍 Sherlock — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Sherlock](https://github.com/sherlock-project/sherlock) is an OSINT reconnaissance tool that hunts down social media accounts by username across more than 400 social platforms, forums, code hosting sites, and online communities simultaneously.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[Timeout & Threading Tuning](#timeout--threading-tuning)](#key-capabilities)
+# Cheatsheet Sherlock
+
+Το [Sherlock](https://github.com/sherlock-project/sherlock) είναι ένα εργαλείο αναγνώρισης OSINT που κυνηγάει λογαριασμούς μέσων κοινωνικής δικτύωσης ανά όνομα χρήστη σε περισσότερες από 400 πλατφόρμες κοινωνικής δικτύωσης, φόρουμ, ιστότοπους φιλοξενίας κώδικα και διαδικτυακές κοινότητες ταυτόχρονα.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Key Capabilities] (#key-capabilities)
 - [Εγκατάσταση](#installation)
-- [Συμβουλές και βέλτιστες πρακτικές](#single--multiple-username-search)
+- [Αναζήτηση με ένα και πολλαπλό όνομα χρήστη](#single--multiple-username-search)
 - [Filtering Sites & Platforms](#filtering-sites--platforms)
-- [Proxy & Tor Routing](#proxy--tor-routing)
-- [Timeout & Threading Tuning](#timeout--threading-tuning)
-- [Control request speeds and latency tolerances:](#export-formats-csv-xlsx-json)
+- [Δρομολόγηση μεσολάβησης και Tor](#proxy--tor-routing)
+- [Timeout & Threading Tuning] (#timeout--threading-tuning)
+- [Μορφές εξαγωγής (CSV, XLSX, JSON)](#export-formats-csv-xlsx-json)
 - [Automation & OSINT Pipeline Integration](#automation--osint-pipeline-integration)
 
 ---
 
-## [Timeout & Threading Tuning](#timeout--threading-tuning)
+## Βασικές Δυνατότητες
 
-- **400+ Platforms**: Queries GitHub, Twitter/X, Instagram, Reddit, TikTok, LinkedIn, Telegram, Discord, Steam, Spotify, Docker Hub, Pastebin, and hundreds more.
-- **Async Concurrency**: High-speed parallel scanning using asynchronous Python requests.
-- **Accurate Detection**: Detects HTTP status codes, error messages, and redirects to avoid false positives.
-- **Tor & SOCKS5 Support**: Protects investigator anonymity and bypasses rate limits.
+- **400+ πλατφόρμες:** Ερωτήματα GitHub, Twitter/X, Instagram, Reddit, TikTok, LinkedIn, Telegram, Discord, Steam, Spotify, Docker Hub, Pastebin και εκατοντάδες άλλα.
+- **Async Concurrency:** Παράλληλη σάρωση υψηλής ταχύτητας με χρήση ασύγχρονων αιτημάτων Python.
+- **Ακριβής ανίχνευση:** Εντοπίζει κωδικούς κατάστασης HTTP, μηνύματα σφάλματος και ανακατευθύνει για την αποφυγή ψευδών θετικών στοιχείων.
+- **Υποστήριξη Tor & SOCKS5:** Προστατεύει την ανωνυμία του ερευνητή και παρακάμπτει τα όρια ποσοστών.
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Recommended: Install via pipx
 pipx install sherlock-project
@@ -49,56 +52,49 @@ sudo apt-get update && sudo apt-get install -y sherlock
 # Verify command
 sherlock --version
 ```
-
 ---
 
-## Συμβουλές και βέλτιστες πρακτικές
+## Αναζήτηση με ένα και πολλαπλό όνομα χρήστη
 
-### 1. Basic Username Search
-Search for a single target handle across all 400+ sites:
+### 1. Βασική Αναζήτηση ονόματος χρήστη
+Αναζητήστε μια λαβή στόχου και στους 400+ ιστότοπους:
 ```bash
 sherlock target_user
 ```
-
-### Συμβουλές και βέλτιστες πρακτικές
+### 2. Αναζήτηση πολλαπλών ονομάτων χρήστη ταυτόχρονα
 ```bash
 sherlock target_user1 target_user2 alias_dev
 ```
-
-### Search for a single target handle across all 400+ sites:
+### 3. Εκτύπωση μόνο λογαριασμών που βρέθηκαν (Suppress Not Found / Σφάλματα)
 ```bash
 sherlock --print-found target_user
 ```
-
 ---
 
-## Filtering Sites & Platforms
+## Φιλτράρισμα τοποθεσιών και πλατφορμών
 
-Narrow searches to specific platforms to save time or focus on specific intelligence categories:
+Περιορίστε τις αναζητήσεις σε συγκεκριμένες πλατφόρμες για εξοικονόμηση χρόνου ή εστίαση σε συγκεκριμένες κατηγορίες νοημοσύνης:
 
-### 1. Query Specific Sites Only
+### 1. Ερώτημα μόνο για συγκεκριμένους ιστότοπους
 ```bash
 sherlock --site github --site twitter --site reddit --site gitlab target_user
 ```
-
-### 2. Search Without Specific Platforms (Ignore False-Positive Heavy Sites)
+### 2. Αναζήτηση χωρίς συγκεκριμένες πλατφόρμες (Παράβλεψη ψευδώς θετικών βαριών τοποθεσιών)
 ```bash
 sherlock target_user --site-list targets.txt
 ```
-
 ---
 
-## Proxy & Tor Routing
+## Δρομολόγηση διακομιστή μεσολάβησης και Tor
 
-To prevent IP bans, rate limits, and maintain operational security:
+Για να αποτρέψετε τις απαγορεύσεις IP, να ορίσετε όρια και να διατηρήσετε λειτουργική ασφάλεια:
 
-### 1. Route Through Tor Network
-Automatically route requests through local Tor SOCKS proxy (`127.0.0.1:9050`):
+### 1. Διαδρομή μέσω του δικτύου Tor
+Αυτόματη δρομολόγηση αιτημάτων μέσω του τοπικού διακομιστή μεσολάβησης Tor SOCKS (`127.0.0.1:9050`):
 ```bash
 sherlock --tor target_user
 ```
-
-### To prevent IP bans, rate limits, and maintain operational security:
+### 2. Προσαρμοσμένο διακομιστή μεσολάβησης HTTP / SOCKS5
 ```bash
 # SOCKS5 proxy
 sherlock --proxy socks5://127.0.0.1:1080 target_user
@@ -106,13 +102,11 @@ sherlock --proxy socks5://127.0.0.1:1080 target_user
 # Authenticated HTTP proxy
 sherlock --proxy http://user:pass@proxy.corp.internal:8080 target_user
 ```
-
 ---
 
 ## Timeout & Threading Tuning
 
-Control request speeds and latency tolerances:
-
+Ελέγξτε τις ταχύτητες αιτημάτων και τις ανοχές καθυστέρησης:
 ```bash
 # Set HTTP timeout to 5 seconds per site (default is usually 60s)
 sherlock target_user --timeout 5
@@ -120,35 +114,31 @@ sherlock target_user --timeout 5
 # Add delay between requests to avoid rate limits
 sherlock target_user --delay 1
 ```
-
 ---
 
-## Control request speeds and latency tolerances:
+## Μορφές εξαγωγής (CSV, XLSX, JSON)
 
-Save discoveries for investigations, evidence bundles, or reporting:
+Αποθηκεύστε ανακαλύψεις για έρευνες, πακέτα αποδεικτικών στοιχείων ή αναφορές:
 
-### 1. Save Directly to CSV File
+### 1. Αποθήκευση απευθείας στο αρχείο CSV
 ```bash
 sherlock --csv --output /tmp/sherlock_results target_user
 ```
-
-### 2. Save Output into Specific Directory
+### 2. Αποθηκεύστε την έξοδο σε συγκεκριμένο κατάλογο
 ```bash
 sherlock --folderoutput /tmp/recon_data/ target_user
 ```
-Generates `/tmp/recon_data/target_user.txt` containing full URLs of confirmed profiles.
+Δημιουργεί `/tmp/recon_data/target_user.txt` που περιέχει πλήρεις διευθύνσεις URL επιβεβαιωμένων προφίλ.
 
-### 3. Save as Excel Spreadsheet (XLSX)
+### 3. Αποθήκευση ως υπολογιστικό φύλλο του Excel (XLSX)
 ```bash
 sherlock --xlsx target_user
 ```
-
 ---
 
-## Automation & OSINT Pipeline Integration
+## Αυτοματισμός & Ενσωμάτωση αγωγών OSINT
 
-Chain Sherlock into an automated investigator script:
-
+Chain Sherlock σε ένα αυτοματοποιημένο σενάριο ερευνητή:
 ```bash
 #!/usr/bin/env bash
 TARGET="$1"

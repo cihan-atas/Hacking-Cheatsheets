@@ -59,6 +59,7 @@ import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.data.CategorySummary
 import com.hackingcheatsheets.app.data.Cheatsheet
 import com.hackingcheatsheets.app.ui.components.CheatsheetCardItem
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.BackgroundDark
 import com.hackingcheatsheets.app.ui.theme.BorderDark
 import com.hackingcheatsheets.app.ui.theme.BorderLight
@@ -178,15 +179,12 @@ fun CategoryOverviewView(
             ) {
                 Column {
                     Text(
-                        text = if (language == AppLanguage.TR) "KATEGORİLER" else "CATEGORIES",
+                        text = AppI18n.categoriesTitle(language),
                         style = MaterialTheme.typography.headlineLarge,
                         color = CyberGreen
                     )
                     Text(
-                        text = if (language == AppLanguage.TR) 
-                            "${categories.size} Güvenlik Alanı • $totalToolsCount Araç"
-                        else 
-                            "${categories.size} Security Domains • $totalToolsCount Tools",
+                        text = AppI18n.categoriesSubtitle(language, categories.size, totalToolsCount),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -331,7 +329,7 @@ fun CategoryCardItem(
                             .padding(horizontal = 8.dp, vertical = 3.dp)
                     ) {
                         Text(
-                            text = "${category.count} ${if (language == AppLanguage.TR) "ARAÇ" else "TOOLS"}",
+                            text = AppI18n.toolsBadge(language, category.count),
                             fontSize = 10.sp,
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Bold,
@@ -436,7 +434,7 @@ fun CategoryDetailView(
                                 color = TextPrimary
                             )
                             Text(
-                                text = "$totalInCategory ${if (language == AppLanguage.TR) "araç ve kılavuz" else "tools and guides"}",
+                                text = AppI18n.toolsAndGuides(language, totalInCategory),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = meta.color
                             )

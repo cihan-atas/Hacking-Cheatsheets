@@ -1,41 +1,45 @@
-# 🔍 theHarvester — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[theHarvester](https://github.com/laramies/theHarvester) is one of the most widely used open-source intelligence (OSINT) tools for gathering emails, subdomains, employee names, virtual hosts, open ports, and employee PGP keys from diverse public sources (search engines, PGP key servers, Shodan, Censys, Certspotter, etc.).
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [[Active DNS Verification & Brute-Forcing](#active-dns-verification--brute-forcing)](#supported-data-sources)
-- [Εγκατάσταση](#installation--api-key-configuration)
-- [Many sources (Hunter, Shodan, Censys, Intelx, GitHub) require free or paid API keys.](#basic-domain-reconnaissance)
+# theHarvester Cheatsheet
+
+Το [theHarvester](https://github.com/laramies/theHarvester) είναι ένα από τα πιο ευρέως χρησιμοποιούμενα εργαλεία νοημοσύνης ανοιχτού κώδικα (OSINT) για τη συλλογή μηνυμάτων ηλεκτρονικού ταχυδρομείου, υποτομέων, ονομάτων υπαλλήλων, εικονικών κεντρικών υπολογιστών, ανοιχτών θυρών και κλειδιών PGP εργαζομένων από διάφορες δημόσιες πηγές (μηχανές αναζήτησης, διακομιστές κλειδιών PGP, Cerdants, κ.λπ.).
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Υποστηριζόμενες πηγές δεδομένων](#supported-data-sources)
+- [Installation & API Key Configuration](#installation--api-key-configuration)
+- [Basic Domain Reconnaissance](#basic-domain-reconnaissance)
 - [Passive Multi-Source Harvesting](#passive-multi-source-harvesting)
 - [Active DNS Verification & Brute-Forcing](#active-dns-verification--brute-forcing)
-- [3. Virtual Host Verification (`-v`)](#output-formats-html-xml-json)
-- [2. Parse Discovered Subdomains with `jq`](#pentest-workflow-integration)
+- [Μορφές εξόδου (HTML, XML, JSON)](#output-formats-html-xml-json)
+- [Ενσωμάτωση ροής εργασιών Pentest](#pentest-workflow-integration)
 
 ---
 
-## [Active DNS Verification & Brute-Forcing](#active-dns-verification--brute-forcing)
+## Υποστηριζόμενες πηγές δεδομένων
 
-[Pentest Workflow Integration](#pentest-workflow-integration)
-- **Search Engines (Free / No Key)**: Google, Bing, DuckDuckGo, Yahoo, Baidu.
-- **Certificate Transparency**: CRT.sh, Certspotter.
-- **Code & Threat Repositories**: GitHub, AlienVault OTX, ThreatCrowd, Rapid7, VirusTotal.
-- **Reconnaissance & OSINT APIs**: Shodan, Censys, Hunter.io, SecurityTrails, Intelx, FullContact.
-- **Network / DNS**: Anubis, HackerTarget, DNSDumpster.
+Το theHarvester συγκεντρώνει νοημοσύνη από δεκάδες παθητικές και ενεργές πηγές:
+- **Μηχανές αναζήτησης (δωρεάν / χωρίς κλειδί):** Google, Bing, DuckDuckGo, Yahoo, Baidu.
+- **Διαφάνεια πιστοποιητικού:** CRT.sh, Certspotter.
+- **Αποθετήρια κώδικα και απειλών:** GitHub, AlienVault OTX, ThreatCrowd, Rapid7, VirusTotal.
+- **APIs Reconnaissance & OSINT:** Shodan, Censys, Hunter.io, SecurityTrails, Intelx, FullContact.
+- **Δίκτυο / DNS:** Anubis, HackerTarget, DNSDumpster.
 
 ---
 
-## Εγκατάσταση
+## Εγκατάσταση & Διαμόρφωση κλειδιού API
 
-### Εγκατάσταση
+### 1. Εγκατάσταση
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y theharvester
@@ -48,10 +52,9 @@ python3 -m pip install -r requirements/base.txt
 # Test binary
 theHarvester -h
 ```
-
-### 2. Configure API Keys (`api-keys.yaml`)
-Εγκατάσταση
-Create or edit `api-keys.yaml` in the configuration path:
+### 2. Διαμόρφωση κλειδιών API (`api-keys.yaml`)
+Πολλές πηγές (Hunter, Shodan, Censys, Intelx, GitHub) απαιτούν δωρεάν ή επί πληρωμή κλειδιά API.
+Δημιουργήστε ή επεξεργαστείτε το `api-keys.yaml` στη διαδρομή διαμόρφωσης:
 ```yaml
 apikeys:
   hunter:
@@ -63,36 +66,33 @@ apikeys:
   securityTrails:
     key: "YOUR_SECURITYTRAILS_KEY"
 ```
-
 ---
 
-## Many sources (Hunter, Shodan, Censys, Intelx, GitHub) require free or paid API keys.
+## Βασική αναγνώριση τομέα
 
-### 1. Harvest Emails and Subdomains Using Free Engines
+### 1. Συγκομίστε μηνύματα ηλεκτρονικού ταχυδρομείου και υποτομείς χρησιμοποιώντας δωρεάν μηχανές
 ```bash
 theHarvester -d example.com -l 500 -b duckduckgo,bing,crtsh
 ```
-- `-d <domain>`: Target domain to recon.
-- `-l <limit>`: Number of results to query per engine.
-- Basic Domain Reconnaissance
+- `-d <domain>`: Στοχεύστε τον τομέα για επανασύνδεση.
+- `-l <limit>`: Αριθμός αποτελεσμάτων για ερώτημα ανά μηχανή.
+- `-b <sources>`: Λίστα πηγών διαχωρισμένων με κόμματα (ή `all`).
 
-### 1. Harvest Emails and Subdomains Using Free Engines
+### 2. Ερώτημα για όλες τις διαμορφωμένες πηγές
 ```bash
 theHarvester -d example.com -l 500 -b all
 ```
-
 ---
 
-## Passive Multi-Source Harvesting
+## Παθητική συγκομιδή πολλαπλών πηγών
 
-Query specific threat intelligence and certificate transparency databases without sending traffic to the target:
+Ερώτημα πληροφοριών για συγκεκριμένες απειλές και βάσεις δεδομένων διαφάνειας πιστοποιητικών χωρίς αποστολή επισκεψιμότητας στον στόχο:
 
-### 1. Certificate Transparency & Threat Intel
+### 1. Διαφάνεια Πιστοποιητικού & Απειλές Intel
 ```bash
 theHarvester -d example.com -b crtsh,certspotter,anubis,hackertarget,otx
 ```
-
-### 2. Target Specific Source Groups
+### 2. Συγκεκριμένες ομάδες πηγών στόχων
 ```bash
 # Query GitHub commits and issues for leaked emails and subdomains
 theHarvester -d example.com -b github-code
@@ -100,55 +100,49 @@ theHarvester -d example.com -b github-code
 # Query Shodan for discovered IP addresses and open ports
 theHarvester -d example.com -b shodan
 ```
-
 ---
 
-## Active DNS Verification & Brute-Forcing
+## Ενεργή επαλήθευση DNS και ωμή επιβολή
 
-### 1. Resolve Discovered Subdomains (`-r`)
-Perform active DNS lookups to verify if collected subdomains are currently live:
+### 1. Επίλυση υποτομέων που εντοπίστηκαν (`-r`)
+Εκτελέστε ενεργές αναζητήσεις DNS για να επαληθεύσετε εάν οι υποτομείς που συλλέγονται είναι ζωντανά αυτήν τη στιγμή:
 ```bash
 theHarvester -d example.com -b crtsh,bing -r
 ```
-
-### Active DNS Verification & Brute-Forcing
-Perform wordlist-based DNS subdomain brute-forcing directly within theHarvester:
+### 2. DNS Brute-Force (`-c`)
+Εκτελέστε brute-forcing υποτομέα DNS που βασίζεται σε λίστα λέξεων απευθείας μέσα στο TheHarvester:
 ```bash
 theHarvester -d example.com -b duckduckgo -c
 ```
-
-### 3. Virtual Host Verification (`-v`)
-Verify virtual hosts via HTTP requests:
+### 3. Επαλήθευση εικονικού κεντρικού υπολογιστή (`-v`)
+Επαλήθευση εικονικών κεντρικών υπολογιστών μέσω αιτημάτων HTTP:
 ```bash
 theHarvester -d example.com -b duckduckgo -v
 ```
-
 ---
 
-## 3. Virtual Host Verification (`-v`)
+## Μορφές εξόδου (HTML, XML, JSON)
 
-Export results for automated reporting or downstream reconnaissance:
+Εξαγωγή αποτελεσμάτων για αυτοματοποιημένη αναφορά ή μεταγενέστερη αναγνώριση:
 
-### 1. Export to HTML & XML
+### 1. Εξαγωγή σε HTML & XML
 ```bash
 theHarvester -d example.com -b duckduckgo,crtsh -f /tmp/theharvester_results
 ```
-Output Formats (HTML, XML, JSON)
+Δημιουργεί `/tmp/theharvester_results.html` και `/tmp/theharvester_results.xml`.
 
-### Export results for automated reporting or downstream reconnaissance:
-If exporting or parsing JSON:
+### 2. Ανάλυση υποτομέων που εντοπίστηκαν με `jq`
+Εάν γίνεται εξαγωγή ή ανάλυση JSON:
 ```bash
 theHarvester -d example.com -b crtsh,duckduckgo -f recon_out
 # Extract clean host list
 cat recon_out.xml | grep -oP '(?<=<host>).*?(?=</host>)' | sort -u > live_hosts.txt
 ```
-
 ---
 
-## 2. Parse Discovered Subdomains with `jq`
+## Ενσωμάτωση ροής εργασίας Pentest
 
-Chain theHarvester results directly with active vulnerability scanners:
-
+Το Chain theHarvester έχει αποτελέσματα απευθείας με ενεργούς σαρωτές ευπάθειας:
 ```bash
 # 1. Harvest passive subdomains
 theHarvester -d target.corp -b crtsh,duckduckgo,bing -f target_recon

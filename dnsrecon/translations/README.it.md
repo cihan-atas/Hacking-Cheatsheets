@@ -1,42 +1,45 @@
-# 🔍 dnsrecon - Scheda di riferimento completa
-
 <!-- language-home-navigation -->
-[🏠 Pagina iniziale italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Home Page Italiana](../../README.it.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[dnsrecon](https://github.com/darkoperator/dnsrecon) is a comprehensive DNS reconnaissance and enumeration tool written in Python. It supports zone transfers (AXFR), reverse lookups, domain brute-forcing, SRV record discovery, wildcard detection, cache snooping, and TLD expansion.
-
----
-
-## 📋 Indice
-
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
-- [Installazione](#installation)
-- [Installazione](#standard-enumeration--zone-transfers--d--t-std--axfr)
-- [Test only for AXFR vulnerability against all authoritative nameservers:](#dns-subdomain-brute-forcing--t-brt)
-- [Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:](#reverse-lookup-range-scanning--t-rvl)
-- [DNS Cache Snooping (`-t snoop`)](#dns-cache-snooping--t-snoop)
-- [Targeting Specific Nameservers (`-n`)](#targeting-specific-nameservers--n)
-- [Query internal or target-specific DNS servers directly rather than public upstream resolvers:](#output-formats-csv-json-sqlite-xml)
-- [Defensive Hardening for DNS Servers](#defensive-hardening-for-dns-servers)
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
 
-- **Zone Transfer Testing (AXFR)**: Automatically tests all authoritative name servers for unauthenticated zone transfers.
-- **Record Enumeration**: Retrieves SOA, NS, A, AAAA, MX, TXT, SPF, and SRV records.
-- **Subdomain Brute-Force**: Multi-threaded dictionary lookups with wildcard filtering.
-- **Reverse IP Range Scanning**: PTR record extraction across arbitrary CIDR blocks.
-- **Cache Snooping**: Tests if recursive name servers have specific domains cached in memory.
-- **TLD Expansion**: Discovers matching domains across country-code and generic top-level domains.
+# Foglio informativo dnsrecon
+
+[dnsrecon](https://github.com/darkoperator/dnsrecon) è uno strumento completo di ricognizione ed enumerazione DNS scritto in Python. Supporta trasferimenti di zona (AXFR), ricerche inverse, forzatura bruta del dominio, rilevamento di record SRV, rilevamento di caratteri jolly, snooping della cache ed espansione TLD.
+
+---
+
+## Sommario
+
+- [Funzionalità principali](#capacità-core)
+- [Installazione](#installazione)
+- [Enumerazione standard e trasferimenti di zona (`-d -t std / axfr`)](#enumerazione-standard--trasferimenti-zona--d--t-std--axfr)
+- [Forzatura bruta del sottodominio DNS (`-t brt`)](#dns-subdomain-brute-forcing--t-brt)
+- [Scansione intervallo di ricerca inversa (`-t rvl`)](#scansione-intervallo-ricerca-inversa--t-rvl)
+- [Snooping cache DNS (`-t snoop`)](#dns-cache-snooping--t-snoop)
+- [Mirsing server dei nomi specifici (`-n`)](#targeting-nameservers-specifici--n)
+- [Formati di output (CSV, JSON, SQLite, XML)](#output-formats-csv-json-sqlite-xml)
+- [Rafforzamento difensivo per server DNS](#rafforzamento-difensivo-per-server-dns)
+
+---
+
+## Funzionalità principali
+
+- **Zone Transfer Testing (AXFR):** testa automaticamente tutti i server dei nomi autorevoli per rilevare eventuali trasferimenti di zona non autenticati.
+- **Enumerazione record:** recupera i record SOA, NS, A, AAAA, MX, TXT, SPF e SRV.
+- **Sottodominio Brute-Force:** Ricerche di dizionari multi-thread con filtro con caratteri jolly.
+- **Scansione inversa dell'intervallo IP:** Estrazione di record PTR su blocchi CIDR arbitrari.
+- **Snooping della cache:** verifica se i server dei nomi ricorsivi hanno domini specifici memorizzati nella cache della memoria.
+- **Espansione TLD:** scopre i domini corrispondenti tra codici paese e domini generici di primo livello.
 
 ---
 
 ## Installazione
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y dnsrecon
@@ -52,108 +55,99 @@ pip install -r requirements.txt
 # Verify installation
 dnsrecon -h
 ```
-
 ---
 
-## Installazione
+## Enumerazione standard e trasferimenti di zona (`-d -t std / axfr`)
 
-### 1. Standard DNS Record Enumeration
-Collects SOA, NS, A, AAAA, MX, and TXT records, and automatically attempts zone transfers against each authoritative NS:
+### 1. Enumerazione dei record DNS standard
+Raccoglie record SOA, NS, A, AAAA, MX e TXT e tenta automaticamente i trasferimenti di zona contro ciascun NS autorevole:
 ```bash
 dnsrecon -d example.com -t std
 ```
-
-### Standard Enumeration & Zone Transfers (`-d -t std / axfr`)
-Test only for AXFR vulnerability against all authoritative nameservers:
+### 2. Solo test di trasferimento di zona dedicata (AXFR).
+Testa solo la vulnerabilità AXFR contro tutti i nameserver autorevoli:
 ```bash
 dnsrecon -d example.com -t axfr
 ```
-*If successful, the entire DNS database of the target is dumped without brute force.*
+*In caso di successo, l'intero database DNS della destinazione viene scaricato senza forza bruta.*
 
 ---
 
-## Test only for AXFR vulnerability against all authoritative nameservers:
+## Forzatura bruta del sottodominio DNS (`-t brt`)
 
-If successful, the entire DNS database of the target is dumped without brute force.
+Sottodomini a forza bruta utilizzando elenchi di parole personalizzati o predefiniti:
 
-### 1. Subdomain Brute-Force with Custom Wordlist
+### 1. Sottodominio Brute-Force con elenco di parole personalizzato
 ```bash
 dnsrecon -d example.com -t brt -D /usr/share/wordlists/dnsmap.txt
 ```
-- DNS Subdomain Brute-Forcing (`-t brt`)
-- `-t brt`: Brute-force mode.
-- Brute-force subdomains using custom or default wordlists:
+- `-d <domain>`: dominio di destinazione.
+- `-t brt`: modalità forza bruta.
+- `-D <file>`: file dizionario del sottodominio.
 
-### 1. Subdomain Brute-Force with Custom Wordlist
-Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:
+### 2. Forza bruta con filtro con caratteri jolly
+Impedisce alle configurazioni DNS con caratteri jolly (`*.example.com` che si risolve in un singolo IP catch-all) di inquinare i risultati:
 ```bash
 dnsrecon -d example.com -t brt -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --iw
 ```
-- `-t brt`: Brute-force mode.
+- `--iw`: ignora i risultati della risoluzione dei caratteri jolly.
 
 ---
 
-## Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:
+## Scansione intervallo di ricerca inversa (`-t rvl`)
 
-`--iw`: Ignore wildcard resolution results.
-
+Enumerare i record PTR per un blocco IP per identificare host interni, gateway di posta e istanze di gestione temporanea:
 ```bash
 dnsrecon -r 192.168.1.0/24 -t rvl
 ```
-- `-r <range>`: IP range in CIDR notation (e.g. `192.168.1.0/24`) or start-end notation (`192.168.1.1-192.168.1.254`).
-- Reverse Lookup Range Scanning (`-t rvl`)
+- `-r <range>`: intervallo IP nella notazione CIDR (ad esempio `192.168.1.0/24`) o nella notazione inizio-fine (`192.168.1.1-192.168.1.254`).
+- `-t rvl`: modalità di ricerca inversa.
 
 ---
 
-## DNS Cache Snooping (`-t snoop`)
+## Snooping della cache DNS (`-t snoop`)
 
-`-t rvl`: Reverse lookup mode.
-
+Determina se i client su una rete di destinazione hanno recentemente risolto domini specifici tramite il loro risolutore interno:
 ```bash
 dnsrecon -t snoop -n 192.168.1.1 -D sensitive_domains.txt
 ```
-- `-n <resolver_ip>`: Target DNS server to query.
-- DNS Cache Snooping (`-t snoop`)
+- `-n <resolver_ip>`: server DNS di destinazione da interrogare.
+- `-D <domains_file>`: elenco di domini da testare (ad esempio concorrenti, C2 dannosi, portali interni).
 
 ---
 
-## Targeting Specific Nameservers (`-n`)
+## Targeting di server dei nomi specifici (`-n`)
 
-`-D <domains_file>`: List of domains to test (e.g. competitors, malicious C2s, internal portals).
-
+Interroga direttamente i server DNS interni o specifici della destinazione anziché i risolutori upstream pubblici:
 ```bash
 # Query the company's internal DNS server directly
 dnsrecon -d corp.internal -n 10.10.10.2 -t std
 ```
-
 ---
 
-## Query internal or target-specific DNS servers directly rather than public upstream resolvers:
+## Formati di output (CSV, JSON, SQLite, XML)
 
-Save results for integration with ticketing, SIEM, or further attack phases:
+Salva i risultati per l'integrazione con ticketing, SIEM o ulteriori fasi di attacco:
 
-### 1. Export to JSON
+### 1. Esporta in JSON
 ```bash
 dnsrecon -d example.com -t std --json /tmp/dns_recon.json
 ```
-
-### 2. Export to SQLite Database
+### 2. Esporta nel database SQLite
 ```bash
 dnsrecon -d example.com -t std --db /tmp/dns_results.sqlite
 ```
-
-### 1. Export to JSON
+### 3. Esporta in CSV e XML
 ```bash
 dnsrecon -d example.com -t std --csv /tmp/dns_results.csv --xml /tmp/dns_results.xml
 ```
-
 ---
 
-## Defensive Hardening for DNS Servers
+## Rafforzamento difensivo per server DNS
 
-|Vulnerability|Exploitation Risk|Recommended Defense|
+| Vulnerabilità | Rischio di sfruttamento | Difesa consigliata |
 |---|---|---|
-|**Unrestricted AXFR**|Full internal infrastructure mapping|Restrict zone transfers to authorized secondary nameserver IPs only (`allow-transfer { 10.0.0.2; };` in BIND).|
-|**Open Recursive Resolver**|DNS Amplification DDoS & Snooping|Disable external recursion (`recursion no;` in BIND).|
-|**Predictable Hostnames**|Subdomain brute-forcing|Use randomized subdomains for sensitive staging environments.|
-|**Subdomain Takeover**|CNAME pointing to unclaimed AWS/GitHub/Azure services|Audit dangling DNS CNAME records and remove unused mappings immediately.|
+| **AXFR senza restrizioni** | Mappatura completa dell'infrastruttura interna | Limita i trasferimenti di zona solo agli IP dei server dei nomi secondari autorizzati (`allow-transfer { 10.0.0.2; };` in BIND). |
+| **Apri risolutore ricorsivo** | Amplificazione DNS DDoS e snooping | Disabilita la ricorsione esterna (`recursion no;` in BIND). |
+| **Nomi host prevedibili** | Sottodominio forzatura bruta | Utilizza sottodomini randomizzati per ambienti di staging sensibili. |
+| **Acquisizione del sottodominio** | CNAME che punta a servizi AWS/GitHub/Azure non rivendicati | Controlla i record DNS CNAME penzolanti e rimuovi immediatamente le mappature inutilizzate. |

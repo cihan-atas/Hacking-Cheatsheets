@@ -1,42 +1,45 @@
-# 🔍 dnsrecon – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[dnsrecon](https://github.com/darkoperator/dnsrecon) is a comprehensive DNS reconnaissance and enumeration tool written in Python. It supports zone transfers (AXFR), reverse lookups, domain brute-forcing, SRV record discovery, wildcard detection, cache snooping, and TLD expansion.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [[ROP Chain Construction](#rop-chain-construction)](#core-capabilities)
+# dnsrecon Jukseark
+
+[dnsrecon](https://github.com/darkoperator/dnsrecon) er et omfattende DNS-rekognoserings- og opptellingsverktøy skrevet i Python. Den støtter soneoverføringer (AXFR), reverse lookups, domene brute-forcing, SRV-postoppdagelse, jokertegndeteksjon, cache snooping og TLD-utvidelse.
+
+---
+
+## Innholdsfortegnelse
+
+- [Kjerneegenskaper](#kjernefunksjoner)
 - [Installasjon](#installation)
-- [Installasjon](#standard-enumeration--zone-transfers--d--t-std--axfr)
-- [Test only for AXFR vulnerability against all authoritative nameservers:](#dns-subdomain-brute-forcing--t-brt)
-- [Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:](#reverse-lookup-range-scanning--t-rvl)
+- [Standard Enumeration & Zone Transfers (`-d -t std / axfr`)](#standard-enumeration--zone-transfers--d--t-std--axfr)
+- [DNS Subdomain Brute-Forcing (`-t brt`)](#dns-subdomain-brute-forcing--t-brt)
+- [Reverse Lookup Range Scanning (`-t rvl`)](#reverse-lookup-range-scanning--t-rvl)
 - [DNS Cache Snooping (`-t snoop`)](#dns-cache-snooping--t-snoop)
-- [Targeting Specific Nameservers (`-n`)](#targeting-specific-nameservers--n)
-- [Query internal or target-specific DNS servers directly rather than public upstream resolvers:](#output-formats-csv-json-sqlite-xml)
-- [Defensive Hardening for DNS Servers](#defensive-hardening-for-dns-servers)
+– [Targeting Specific Nameservers (`-n`)](#targeting-specific-nameservers--n)
+- [Utdataformater (CSV, JSON, SQLite, XML)](#output-formats-csv-json-sqlite-xml)
+- [Defensive Hardening for DNS-servere](#defensive-hardening-for-dns-servers)
 
 ---
 
-## [ROP Chain Construction](#rop-chain-construction)
+## Kjernefunksjoner
 
-- **Zone Transfer Testing (AXFR)**: Automatically tests all authoritative name servers for unauthenticated zone transfers.
-- **Record Enumeration**: Retrieves SOA, NS, A, AAAA, MX, TXT, SPF, and SRV records.
-- **Subdomain Brute-Force**: Multi-threaded dictionary lookups with wildcard filtering.
-- **Reverse IP Range Scanning**: PTR record extraction across arbitrary CIDR blocks.
-- **Cache Snooping**: Tests if recursive name servers have specific domains cached in memory.
-- **TLD Expansion**: Discovers matching domains across country-code and generic top-level domains.
+- **Sone Transfer Testing (AXFR):** Tester automatisk alle autoritative navneservere for uautentiserte soneoverføringer.
+- **Rekordoppregning:** Henter SOA-, NS-, A-, AAAA-, MX-, TXT-, SPF- og SRV-poster.
+- **Underdomene Brute-Force:** Flertrådede ordbokoppslag med jokertegnfiltrering.
+- **Omvendt IP-områdeskanning:** PTR-postutvinning på tvers av vilkårlige CIDR-blokker.
+- **Cache Snooping:** Tester om rekursive navneservere har spesifikke domener bufret i minnet.
+- **TLD-utvidelse:** Oppdager matchende domener på tvers av landskoder og generiske toppdomener.
 
 ---
 
 ## Installasjon
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y dnsrecon
@@ -52,108 +55,99 @@ pip install -r requirements.txt
 # Verify installation
 dnsrecon -h
 ```
-
 ---
 
-## Installasjon
+## Standard opptelling og soneoverføringer (`-d -t std / axfr`)
 
 ### 1. Standard DNS Record Enumeration
-Collects SOA, NS, A, AAAA, MX, and TXT records, and automatically attempts zone transfers against each authoritative NS:
+Samler SOA-, NS-, A-, AAAA-, MX- og TXT-poster og forsøker automatisk soneoverføringer mot hver autoritativ NS:
 ```bash
 dnsrecon -d example.com -t std
 ```
-
-### Standard Enumeration & Zone Transfers (`-d -t std / axfr`)
-Test only for AXFR vulnerability against all authoritative nameservers:
+### 2. Kun test for dedikert soneoverføring (AXFR).
+Test kun for AXFR-sårbarhet mot alle autoritative navneservere:
 ```bash
 dnsrecon -d example.com -t axfr
 ```
-*If successful, the entire DNS database of the target is dumped without brute force.*
+*Hvis det lykkes, blir hele DNS-databasen til målet dumpet uten brute force.*
 
 ---
 
-## Test only for AXFR vulnerability against all authoritative nameservers:
+## DNS Subdomain Brute-Forcing (`-t brt`)
 
-If successful, the entire DNS database of the target is dumped without brute force.
+Brute-force underdomener som bruker egendefinerte eller standard ordlister:
 
-### 1. Subdomain Brute-Force with Custom Wordlist
+### 1. Subdomene Brute-Force med tilpasset ordliste
 ```bash
 dnsrecon -d example.com -t brt -D /usr/share/wordlists/dnsmap.txt
 ```
-- DNS Subdomain Brute-Forcing (`-t brt`)
-- `-t brt`: Brute-force mode.
-- Brute-force subdomains using custom or default wordlists:
+- `-d <domain>`: Måldomene.
+- `-t brt`: Brute-force-modus.
+- `-D <file>`: Ordbokfil for underdomene.
 
-### 1. Subdomain Brute-Force with Custom Wordlist
-Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:
+### 2. Brute-Force med jokertegnfiltrering
+Hindrer jokertegn DNS-konfigurasjoner (`*.example.com` løses til en enkelt oppsamlingsadresse) fra forurensende resultater:
 ```bash
 dnsrecon -d example.com -t brt -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --iw
 ```
-- `-t brt`: Brute-force mode.
+- `--iw`: Ignorer resultater med jokertegnoppløsning.
 
 ---
 
-## Prevents wildcard DNS configurations (`*.example.com` resolving to a single catch-all IP) from polluting results:
+## Reverse Lookup Range Scanning (`-t rvl`)
 
-`--iw`: Ignore wildcard resolution results.
-
+Oppregne PTR-poster for en IP-blokk for å identifisere interne verter, e-postgatewayer og oppsamlingsforekomster:
 ```bash
 dnsrecon -r 192.168.1.0/24 -t rvl
 ```
-- `-r <range>`: IP range in CIDR notation (e.g. `192.168.1.0/24`) or start-end notation (`192.168.1.1-192.168.1.254`).
-- Reverse Lookup Range Scanning (`-t rvl`)
+- `-r <range>`: IP-område i CIDR-notasjon (f.eks. `192.168.1.0/24`) eller start-end-notasjon (`192.168.1.1-192.168.1.254`).
+- `-t rvl`: Omvendt oppslagsmodus.
 
 ---
 
 ## DNS Cache Snooping (`-t snoop`)
 
-`-t rvl`: Reverse lookup mode.
-
+Finn ut om klienter på et målnettverk nylig har løst spesifikke domener gjennom sin interne løser:
 ```bash
 dnsrecon -t snoop -n 192.168.1.1 -D sensitive_domains.txt
 ```
-- `-n <resolver_ip>`: Target DNS server to query.
-- DNS Cache Snooping (`-t snoop`)
+- `-n <resolver_ip>`: Målrett DNS-serveren for å spørre.
+- `-D <domains_file>`: Liste over domener som skal testes (f.eks. konkurrenter, ondsinnede C2-er, interne portaler).
 
 ---
 
-## Targeting Specific Nameservers (`-n`)
+## Målretting mot spesifikke navneservere (`-n`)
 
-`-D <domains_file>`: List of domains to test (e.g. competitors, malicious C2s, internal portals).
-
+Spør interne eller målspesifikke DNS-servere direkte i stedet for offentlige oppstrømsløsere:
 ```bash
 # Query the company's internal DNS server directly
 dnsrecon -d corp.internal -n 10.10.10.2 -t std
 ```
-
 ---
 
-## Query internal or target-specific DNS servers directly rather than public upstream resolvers:
+## Utdataformater (CSV, JSON, SQLite, XML)
 
-Save results for integration with ticketing, SIEM, or further attack phases:
+Lagre resultater for integrasjon med billettsalg, SIEM eller ytterligere angrepsfaser:
 
-### 1. Export to JSON
+### 1. Eksporter til JSON
 ```bash
 dnsrecon -d example.com -t std --json /tmp/dns_recon.json
 ```
-
-### 2. Export to SQLite Database
+### 2. Eksporter til SQLite-databasen
 ```bash
 dnsrecon -d example.com -t std --db /tmp/dns_results.sqlite
 ```
-
-### 1. Export to JSON
+### 3. Eksporter til CSV og XML
 ```bash
 dnsrecon -d example.com -t std --csv /tmp/dns_results.csv --xml /tmp/dns_results.xml
 ```
-
 ---
 
-## Defensive Hardening for DNS Servers
+## Defensiv herding for DNS-servere
 
-|Vulnerability|Exploitation Risk|Recommended Defense|
+| Sårbarhet | Utnyttelsesrisiko | Anbefalt forsvar |
 |---|---|---|
-|**Unrestricted AXFR**|Full internal infrastructure mapping|Restrict zone transfers to authorized secondary nameserver IPs only (`allow-transfer { 10.0.0.2; };` in BIND).|
-|**Open Recursive Resolver**|DNS Amplification DDoS & Snooping|Disable external recursion (`recursion no;` in BIND).|
-|**Predictable Hostnames**|Subdomain brute-forcing|Use randomized subdomains for sensitive staging environments.|
-|**Subdomain Takeover**|CNAME pointing to unclaimed AWS/GitHub/Azure services|Audit dangling DNS CNAME records and remove unused mappings immediately.|
+| **Ubegrenset AXFR** | Full intern infrastrukturkartlegging | Begrens soneoverføringer til kun autoriserte sekundære navneserver-IP-er (`allow-transfer { 10.0.0.2; };` i BIND). |
+| **Åpne rekursiv resolver** | DNS-forsterkning DDoS og snoking | Deaktiver ekstern rekursjon (`recursion no;` i BIND). |
+| **Forutsigbare vertsnavn** | Subdomene brute-forcing | Bruk randomiserte underdomener for sensitive scenemiljøer. |
+| **Overtakelse av underdomene** | CNAME som peker til AWS/GitHub/Azure-tjenester som ikke er gjort krav på | Revider dinglende DNS CNAME-poster og fjern ubrukte tilordninger umiddelbart. |

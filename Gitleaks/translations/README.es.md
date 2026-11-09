@@ -1,12 +1,16 @@
-# 🔑 Gitleaks - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔑 Gitleaks - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
    ██████╗ ██╗████████╗██╗     ███████╗ █████╗ ██╗  ██╗███████╗
   ██╔════╝ ██║╚══██╔══╝██║     ██╔════╝██╔══██╗██║ ██╔╝██╔════╝
@@ -16,51 +20,49 @@
    ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
            Fast & Automated Secret Detection for Git Repositories
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/Gitleaks-Secret_Scanner-blue?style=for-the-badge" alt="Gitleaks">
   <img src="https://img.shields.io/badge/Author-Zachary_Rice-orange?style=for-the-badge" alt="zricethezav">
-  <img src="https://img.shields.io/badge/Category-Source_Code_&_Secrets-green?style=for-the-badge" alt="Secrets">
-  <img src="https://img.shields.io/badge/Language-Go-cyan?style=for-the-badge" alt="Go">
+  <img src="https://img.shields.io/badge/Category-Source_Code_&_Secrets-green?style=for-the-badge" alt="Secretos">
+  <img src="https://img.shields.io/badge/Language-Go-cyan?style=for-the-badge" alt="Ir">
 </p>
 
-<p align="center">
-  <b>🔑 SAST tool designed to find and detect hardcoded secrets like passwords, API keys, and tokens in Git repositories and commit histories</b>
+<p align="centro">
+  <b>🔑 Herramienta SAST diseñada para buscar y detectar secretos codificados como contraseñas, claves API y tokens en repositorios de Git e historiales de confirmación</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-overview--detection-engine)
-- [Instalación](#-installation)
-- [Basic Secret Scanning](#-basic-secret-scanning)
-  - [Scanning a Git Repository](#scanning-a-git-repository)
-  - [🚀 Basic Secret Scanning](#scanning-uncommitted-changes)
-  - [Scanning Plain Files & Folders](#scanning-plain-files--folders)
-- [Targeting Commit Ranges & History](#-targeting-commit-ranges--history)
-- [CI/CD & Pre-commit Integration](#-cicd--pre-commit-integration)
-- [Custom Detection Rules & Allowlisting](#-custom-detection-rules--allowlisting)
-- [Output Formats & Reporting](#-output-formats--reporting)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Motor de descripción general y detección] (#-descripción general--motor-detección)
+- [Instalación](#-instalación)
+- [Escaneo secreto básico] (#-escaneo-secreto-básico)
+  - [Escaneando un repositorio Git](#scanning-a-git-repository)
+  - [Escaneando cambios no confirmados](#escaneo-cambios-no confirmados)
+  - [Escaneo de archivos y carpetas sin formato](#escaneo-archivos-sin formato--carpetas)
+- [Historial y rangos de compromiso de orientación](#-rangos-de-compromiso de orientación--historial)
+- [CI/CD e integración previa a la confirmación](#-cicd--integración previa a la confirmación)
+- [Reglas de detección personalizadas y listas de permitidos](#-reglas-de-detección-personalizadas--listas de permitidos)
+- [Formatos de salida e informes](#-formatos-de-salida--informes)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y remediación](#-consideraciones-defensivas--remediación)
+- [Aviso legal](#-aviso-legal)
 
 ---
 
-## 🎯 Introducción
+## 🎯 Motor de detección y descripción general
 
-Hardcoded secrets (AWS access keys, SSH private keys, GitHub tokens, Slack webhooks, database credentials) inadvertently committed to git repositories are one of the most common vectors for initial cloud compromise.
+Los secretos codificados (claves de acceso de AWS, claves privadas SSH, tokens de GitHub, webhooks de Slack, credenciales de bases de datos) comprometidos inadvertidamente en repositorios de git son uno de los vectores más comunes para el compromiso inicial de la nube.
 
-Created by **Zachary Rice (@zricethezav)**, **Gitleaks** provides ultra-fast regex-based and Shannon entropy analysis across:
-- **Full Git History**: Audits every branch, tag, and historical commit.
-- **Pre-commit Hooks**: Blocks engineers from accidentally committing credentials before code reaches remote servers.
-- **CI/CD Pipelines**: Automatically fails pull requests containing credential leaks.
+Creado por **Zachary Rice (@zricethezav)**, **Gitleaks** proporciona un análisis de entropía de Shannon y basado en expresiones regulares ultrarrápido en:
+- **Historial completo de Git:** Audita cada rama, etiqueta y confirmación histórica.
+- **Ganchos de confirmación previa:** impide que los ingenieros confirmen credenciales accidentalmente antes de que el código llegue a los servidores remotos.
+- **Canalizaciones de CI/CD:** Falla automáticamente las solicitudes de extracción que contienen fugas de credenciales.
 
 ---
 
 ## 📥 Instalación
-
 ```bash
 # macOS (Homebrew)
 brew install gitleaks
@@ -75,13 +77,12 @@ docker pull zricethezav/gitleaks:latest
 curl -sSL https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks_linux_x64.tar.gz | tar -xz
 sudo mv gitleaks /usr/local/bin/
 ```
-
 ---
 
-## 🚀 Basic Secret Scanning
+## 🚀 Escaneo secreto básico
 
-### Scanning a Git Repository
-Audits the current repository's commit history:
+### Escaneando un repositorio Git
+Audita el historial de confirmaciones del repositorio actual:
 ```bash
 # Run detection in current working repo
 gitleaks detect -v
@@ -89,9 +90,8 @@ gitleaks detect -v
 # Audit an external local repo path
 gitleaks detect --source /path/to/repo -v
 ```
-
-### 🚀 Basic Secret Scanning
-Audits staged and unstaged code changes before committing:
+### Escaneando cambios no confirmados
+Audita los cambios de código preparados y no preparados antes de confirmarlos:
 ```bash
 # Inspect unstaged working directory changes
 gitleaks protect -v
@@ -99,17 +99,14 @@ gitleaks protect -v
 # Scan staged changes only
 gitleaks protect --staged -v
 ```
-
-### Scanning Plain Files & Folders
-Scan non-git directories (e.g., extracted firmware, decompiled mobile apps, configuration folders):
+### Escaneo de archivos y carpetas simples
+Escanee directorios que no sean de git (por ejemplo, firmware extraído, aplicaciones móviles descompiladas, carpetas de configuración):
 ```bash
 gitleaks dir /path/to/directory -v
 ```
-
 ---
 
-## ⚡ Targeting Commit Ranges & History
-
+## ⚡ Historial y rangos de compromiso de orientación
 ```bash
 # Scan commits made in the last 7 days
 gitleaks detect --log-opts="--since='7 days ago'" -v
@@ -120,12 +117,11 @@ gitleaks detect --log-opts="origin/main..feature-branch" -v
 # Target the latest 5 commits
 gitleaks detect --log-opts="-n 5" -v
 ```
-
 ---
 
-## ⚙️ CI/CD & Pre-commit Integration
+## ⚙️ CI/CD e integración previa a la confirmación
 
-### Pre-commit Framework Configuration (`.pre-commit-config.yaml`)
+### Configuración del marco de confirmación previa (`.pre-commit-config.yaml`)
 ```yaml
 repos:
   - repo: https://github.com/gitleaks/gitleaks
@@ -133,8 +129,7 @@ repos:
     hooks:
       - id: gitleaks
 ```
-
-### GitHub Actions Workflow
+### Flujo de trabajo de acciones de GitHub
 ```yaml
 name: Gitleaks Security Scan
 on: [push, pull_request]
@@ -149,13 +144,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
 ---
 
-## 🧩 Custom Detection Rules & Allowlisting
+## 🧩 Reglas de detección personalizadas y listas de permitidos
 
-Configure custom regex patterns or ignore false positives using `.gitleaks.toml`:
-
+Configure patrones de expresiones regulares personalizados o ignore los falsos positivos usando `.gitleaks.toml`:
 ```toml
 [extend]
 useDefault = true
@@ -178,16 +171,13 @@ secretGroup = 1
 entropy = 3.5
 keywords = ["corp_secret_"]
 ```
-
-🧩 Custom Detection Rules & Allowlisting
+Ejecutar con configuración personalizada:
 ```bash
 gitleaks detect -c .gitleaks.toml -v
 ```
-
 ---
 
-## 📊 Output Formats & Reporting
-
+## 📊 Formatos de salida e informes
 ```bash
 # Export results to clean JSON format
 gitleaks detect --report-path gitleaks-report.json --report-format json
@@ -198,32 +188,31 @@ gitleaks detect --report-path report.sarif --report-format sarif
 # Export to CSV
 gitleaks detect --report-path report.csv --report-format csv
 ```
+---
+
+## ⚡ Tabla de referencia rápida
+
+| Objetivo | Comando |
+|-----------|------------------|
+| **Escanear todo el historial de Git** | `gitleaks detect -v` |
+| **Escanear cambios no confirmados** | `gitleaks protect -v` |
+| **Escanear cambios preparados únicamente** | `gitleaks protect --staged -v` |
+| **Escanear directorio simple (sin Git)**| `gitleaks dir /path/to/folder -v` |
+| **Exportar a JSON** | `gitleaks detect -r report.json -f json` |
+| **Exportar a SARIF** | `gitleaks detect -r report.sarif -f sarif` |
+| **Usar configuración de reglas personalizadas** | `gitleaks detect -c .gitleaks.toml` |
+| **Escanear rama específica** | `gitleaks detect --log-opts="main..dev"` |
 
 ---
 
-## ⚡ Referencia rápida
+## 🛡️ Consideraciones defensivas y remediación
 
-|Objective|Comando|
-|-----------|---------|
-|**Scan Entire Git History**|`gitleaks detect -v`|
-|**Scan Uncommitted Changes**|`gitleaks protect -v`|
-|**Scan Staged Changes Only**|`gitleaks protect --staged -v`|
-|**Scan Plain Directory (No Git)**|`gitleaks dir /path/to/folder -v`|
-|**Export to JSON**|`gitleaks detect -r report.json -f json`|
-|**Export to SARIF**|`gitleaks detect -r report.sarif -f sarif`|
-|**Use Custom Rules Config**|`gitleaks detect -c .gitleaks.toml`|
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
+1. **Revocación inmediata:** Una vez que se detecta un secreto en el historial de git, considérelo completamente comprometido y gírelo/revoquelo inmediatamente.
+2. **Reescribir el historial de Git:** Es necesario eliminar la confirmación o usar `git filter-repo` / BFG Repo-Cleaner para eliminar artefactos, pero nunca sustituir la rotación de credenciales por reescrituras del historial.
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## ⚠️ Aviso legal
 
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
-2. **Rewriting Git History:** Removing the commit or using `git filter-repo` / BFG Repo-Cleaner is required to scrub artifacts, but never substitute history rewrites for credential rotation.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Gitleaks is designed for authorized internal security audits, continuous integration vulnerability checking, and defensive code review. Scanning unauthorized proprietary repositories without permission is strictly prohibited.
+> [!PRECAUCIÓN]
+> Gitleaks está diseñado para auditorías de seguridad internas autorizadas, verificación de vulnerabilidades de integración continua y revisión de código defensivo. Está estrictamente prohibido escanear repositorios propietarios no autorizados sin permiso.

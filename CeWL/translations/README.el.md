@@ -1,12 +1,16 @@
-# 🕷️ CeWL — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🕷️ CeWL - Ολοκληρωμένο Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
    ██████╗███████╗██╗    ██╗██╗     
   ██╔════╝██╔════╝██║    ██║██║     
@@ -16,52 +20,50 @@
    ╚═════╝╚══════╝ ╚══╝╚══╝ ╚══════╝
        Custom Word List Generator by Robin Wood (DigiNinja)
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/CeWL-Custom_Wordlist_Generator-blue?style=for-the-badge" alt="CeWL">
   <img src="https://img.shields.io/badge/Author-DigiNinja-orange?style=for-the-badge" alt="DigiNinja">
-  <img src="https://img.shields.io/badge/Category-Password_Cracking-green?style=for-the-badge" alt="Password Cracking">
+  <img src="https://img.shields.io/badge/Category-Password_Cracking-green?style=for-the-badge" alt="Παράβαση κωδικού πρόσβασης">
   <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
 </p>
 
 <p align="center">
-  <b>🌐 Target-specific password dictionary generator that spiders websites to harvest specialized corporate terminology, brand names, and employee emails</b>
+  <b>🌐 Δημιουργία λεξικών κωδικών πρόσβασης για συγκεκριμένους στόχους που αράχνει τους ιστότοπους για τη συλλογή εξειδικευμένης εταιρικής ορολογίας, επωνυμιών και μηνυμάτων ηλεκτρονικού ταχυδρομείου εργαζομένων</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-overview--the-targeted-password-philosophy)
-- [Εγκατάσταση](#-installation)
-- [Basic Website Crawling](#-basic-website-crawling)
-- [Spider Depth & Word Length Controls](#-spider-depth--word-length-controls)
-- [Harvesting Email Addresses (`-e`)](#-harvesting-email-addresses--e)
-- [Including Numbers & Lowercasing](#-including-numbers--lowercasing)
-- [Document Metadata Extraction (`-a`)](#-document-metadata-extraction--a)
-- [Word Count & Frequency Profiling (`-c`)](#-word-count--frequency-profiling--c)
+- [Overview & The Targeted Password Philosophy](#-overview--the-targeted-password-philosophy)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Βασική ανίχνευση ιστότοπου](#-basic-website-crawling)
+- [Στοιχεία ελέγχου βάθους και μήκους λέξεων] (#-βάθος αράχνης--έλεγχος μήκους λέξης)
+- [Διευθύνσεις ηλεκτρονικού ταχυδρομείου συγκομιδής (`-e`)](#-harvesting-email-addresses--e)
+- [Συμπεριλαμβανομένων αριθμών και πεζών γραμμάτων](#-συμπεριλαμβανομένων αριθμών--πεζών)
+- [Εξαγωγή μεταδεδομένων εγγράφου (`-a`)](#-document-metadata-extraction--a)
+- [Αριθμός λέξεων και προφίλ συχνότητας (`-c`)](#-πλήθος λέξεων--συχνότητα-προφίλ--γ)
 - [Chaining CeWL with Hashcat & John Rules](#-chaining-cewl-with-hashcat--john-rules)
-- [Γρήγορη αναφορά](#-quick-reference-table)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
 - [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Επισκόπηση & Η φιλοσοφία του στοχευμένου κωδικού πρόσβασης
 
-Generic wordlists like `rockyou.txt` are effective for consumer passwords, but **they frequently fail against corporate password policies** requiring 12+ characters, special symbols, and seasonal rotations.
+Οι γενικές λίστες λέξεων όπως το `rockyou.txt` είναι αποτελεσματικές για τους κωδικούς πρόσβασης καταναλωτών, αλλά **συχνά αποτυγχάνουν έναντι των πολιτικών εταιρικών κωδικών πρόσβασης** που απαιτούν 12+ χαρακτήρες, ειδικά σύμβολα και εποχιακές εναλλαγές.
 
-Employees routinely base their enterprise passwords on:
-- Company project names, internal codenames, and slogans (`Pegasus2026!`).
-- 🎯 Εισαγωγή
-- Executive names, location landmarks, and office addresses.
+Οι εργαζόμενοι βασίζουν τακτικά τους εταιρικούς κωδικούς πρόσβασης σε:
+- Ονόματα έργων, εσωτερικές κωδικές ονομασίες και συνθήματα (`Pegasus2026!`).
+- Συγκεκριμένη ορολογία του κλάδου, τεχνική ορολογία ή επωνυμίες προϊόντων.
+- Ονόματα στελεχών, ορόσημα τοποθεσιών και διευθύνσεις γραφείων.
 
-Created by **Robin Wood (DigiNinja)**, **CeWL** (Custom Word List generator) is a Ruby spider that crawls a specified target URL to a defined depth, extracts unique words matching minimum length requirements, and builds an engagement-tailored password dictionary.
+Δημιουργήθηκε από τον **Robin Wood (DigiNinja)**, ο **CeWL** (Προσαρμοσμένη δημιουργία λίστας λέξεων) είναι μια αράχνη Ruby που ανιχνεύει μια καθορισμένη διεύθυνση URL στόχου σε ένα καθορισμένο βάθος, εξάγει μοναδικές λέξεις που ταιριάζουν με τις απαιτήσεις ελάχιστου μήκους και δημιουργεί ένα λεξικό κωδικού πρόσβασης προσαρμοσμένο στην αφοσίωση.
 
 ---
 
 ## 📥 Εγκατάσταση
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y cewl
@@ -72,11 +74,9 @@ yay -S cewl
 # Ruby Gem
 gem install cewl
 ```
-
 ---
 
-## 🚀 Basic Website Crawling
-
+## 🚀 Βασική ανίχνευση ιστότοπου
 ```bash
 # Crawl website and output words to console
 cewl https://target.local
@@ -84,13 +84,11 @@ cewl https://target.local
 # Crawl and save to a custom wordlist file
 cewl https://target.local -w company_wordlist.txt
 ```
-
 ---
 
-## 🕸️ Spider Depth & Word Length Controls
+## 🕸️ Στοιχεία ελέγχου βάθους και μήκους λέξεων αράχνης
 
-Control how deeply CeWL follows links and what word sizes it captures:
-
+Ελέγξτε πόσο βαθιά το CeWL ακολουθεί συνδέσμους και ποια μεγέθη λέξεων αποτυπώνει:
 ```bash
 # Crawl 2 links deep (-d 2) and enforce minimum word length of 8 characters (-m 8)
 cewl https://target.local -d 2 -m 8 -w wordlist_min8.txt
@@ -98,22 +96,18 @@ cewl https://target.local -d 2 -m 8 -w wordlist_min8.txt
 # Aggressive 3-level deep crawl for comprehensive corporate terminology
 cewl https://target.local -d 3 -m 7 --no-words -w deep_crawl.txt
 ```
-
 ---
 
-## 📧 Harvesting Email Addresses (`-e`)
+## 📧 Συγκομιδή διευθύνσεων ηλεκτρονικού ταχυδρομείου (`-e`)
 
-Extract corporate email addresses for subsequent phishing simulations or credential spraying:
-
+Εξαγωγή εταιρικών διευθύνσεων email για επακόλουθες προσομοιώσεις phishing ή ψεκασμό διαπιστευτηρίων:
 ```bash
 # Extract emails to a separate dedicated file
 cewl https://target.local -e --email_file emails.txt -w words.txt
 ```
-
 ---
 
-## 🔡 Including Numbers & Lowercasing
-
+## 🔡 Συμπεριλαμβανομένων αριθμών και πεζών
 ```bash
 # Include words containing alphanumeric combinations (e.g., product names like V300, X86)
 cewl https://target.local --with-numbers -m 6 -w words_with_numbers.txt
@@ -121,24 +115,20 @@ cewl https://target.local --with-numbers -m 6 -w words_with_numbers.txt
 # Convert all discovered words to lowercase (great for rule generation)
 cewl https://target.local --lowercase -w lowercase_words.txt
 ```
-
 ---
 
-## 📄 Document Metadata Extraction (`-a`)
+## 📄 Εξαγωγή μεταδεδομένων εγγράφου (`-a`)
 
-Extract author and creator usernames from downloaded PDF and Microsoft Office documents:
-
+Εξαγωγή ονομάτων χρήστη συντάκτη και δημιουργού από έγγραφα PDF και Microsoft Office που έχετε λάβει:
 ```bash
 # Download and analyze document metadata to extract employee usernames
 cewl https://target.local -a --meta_file extracted_authors.txt
 ```
-
 ---
 
-## 📊 Word Count & Frequency Profiling (`-c`)
+## 📊 Καταμέτρηση λέξεων και προφίλ συχνότητας (`-c`)
 
-Sort words by frequency to identify the most pervasive corporate buzzwords:
-
+Ταξινόμηση λέξεων κατά συχνότητα για να προσδιορίσετε τις πιο διάχυτες εταιρικές λέξεις:
 ```bash
 # Append occurrence count next to each word
 cewl https://target.local -c -m 6 -w frequency.txt
@@ -146,13 +136,11 @@ cewl https://target.local -c -m 6 -w frequency.txt
 # Sort by most frequent words in descending order
 sort -k2 -nr frequency.txt | head -n 30
 ```
-
 ---
 
-## ⚡ Chaining CeWL with Hashcat & John Rules
+## ⚡ Αλυσίδα CeWL με Hashcat & John Rules
 
-A raw CeWL wordlist contains base dictionary roots. To produce viable passwords, expand the wordlist using **Hashcat / John the Ripper mutation rules**:
-
+Μια ακατέργαστη λίστα λέξεων CeWL περιέχει βασικές ρίζες λεξικού. Για να δημιουργήσετε βιώσιμους κωδικούς πρόσβασης, επεκτείνετε τη λίστα λέξεων χρησιμοποιώντας **Κανόνες μετάλλαξης Hashcat / John the Ripper**:
 ```bash
 # 1. Harvest base words from corporate website
 cewl https://target.local -m 5 --lowercase -w base_words.txt
@@ -163,32 +151,31 @@ hashcat --force base_words.txt -r /usr/share/hashcat/rules/best64.rule --stdout 
 # Example mutations produced:
 # Acmetool -> Acmetool2026!, !Acmetool123, 4cmet00l, Acmetool#1
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Objective|Εντολή|
+| Στόχος | Εντολή |
 |-----------|---------|
-|**Basic Crawl to File**|`cewl <URL> -w wordlist.txt`|
-|**Set Min Length & Depth**|`cewl <URL> -m 8 -d 2 -w wordlist.txt`|
-|**Extract Corporate Emails**|`cewl <URL> -e --email_file emails.txt`|
-|**Extract Document Metadata**|`cewl <URL> -a --meta_file authors.txt`|
-|**Include Alphanumeric Words**|`cewl <URL> --with-numbers -w wordlist.txt`|
-|**Lowercase Output**|`cewl <URL> --lowercase -w wordlist.txt`|
-|**Count Word Frequencies**|`cewl <URL> -c -w frequencies.txt`|
-|**Authenticate Behind Login**|`cewl <URL> -a "Cookie: session=xyz"`|
+| **Βασική ανίχνευση σε αρχείο** | `cewl <URL> -w wordlist.txt` |
+| **Ρύθμιση ελάχιστου μήκους & βάθους** | `cewl <URL> -m 8 -d 2 -w wordlist.txt` |
+| **Εξαγωγή εταιρικών email**| `cewl <URL> -e --email_file emails.txt` |
+| **Εξαγωγή Μεταδεδομένων Εγγράφου**| `cewl <URL> -a --meta_file authors.txt` |
+| **Συμπεριλάβετε αλφαριθμητικές λέξεις**| `cewl <URL> --with-numbers -w wordlist.txt` |
+| **Έξοδος πεζών** | `cewl <URL> --lowercase -w wordlist.txt` |
+| **Μετρήστε συχνότητες λέξεων** | `cewl <URL> -c -w frequencies.txt` |
+| **Επαλήθευση ταυτότητας πίσω από τη σύνδεση**| `cewl <URL> -a "Cookie: session=xyz"` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Αμυντικές Θεωρήσεις & OPSEC
 
-1. **Web Server Access Logs:** CeWL generates hundreds of rapid HTTP GET requests, producing identifiable spider access logs. Use custom User-Agent strings (`-u "Mozilla/5.0..."`) to blend in.
-2. **Honeyword Traps:** Defensive blue teams can embed invisible or hidden HTML links leading to canary credentials to flag automated spiders.
+1. **Καταγραφή πρόσβασης διακομιστή Ιστού:** Το CeWL δημιουργεί εκατοντάδες γρήγορες αιτήσεις HTTP GET, παράγοντας αναγνωρίσιμα αρχεία καταγραφής πρόσβασης αράχνης. Χρησιμοποιήστε προσαρμοσμένες συμβολοσειρές παράγοντα χρήστη (`-u "Mozilla/5.0..."`) για ανάμειξη.
+2. **Παγίδες Honeyword:** Οι αμυντικές ομάδες μπλε μπορούν να ενσωματώσουν αόρατους ή κρυφούς συνδέσμους HTML που οδηγούν σε διαπιστευτήρια καναρίνι για να επισημάνουν αυτοματοποιημένες αράχνες.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> CeWL is designed for authorized security assessments, penetration testing, and password audit research only. Scraping or spidering unauthorized systems is strictly prohibited.
+> [!ΠΡΟΣΟΧΗ]
+> Το CeWL έχει σχεδιαστεί μόνο για εξουσιοδοτημένες αξιολογήσεις ασφαλείας, δοκιμές διείσδυσης και έρευνα ελέγχου κωδικού πρόσβασης. Απαγορεύεται αυστηρά η απόξεση ή η διάτρηση μη εξουσιοδοτημένων συστημάτων.

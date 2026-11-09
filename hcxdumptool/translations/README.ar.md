@@ -1,38 +1,41 @@
-# 🔍 hcxdumptool — ورقة مرجعية شاملة
-
 <!-- language-home-navigation -->
 [🏠 الصفحة الرئيسية العربية](../../README.ar.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[hcxdumptool](https://github.com/ZerBea/hcxdumptool) is a modern, high-performance command-line Wi-Fi attack and packet capture tool. Unlike legacy Aircrack-ng tools, `hcxdumptool` captures WPA/WPA2/WPA3 PMKID (Pairwise Master Key Identifier) frames without requiring connected clients, captures EAPOL 4-way handshakes, and integrates directly with `hcxtools` for Hashcat cracking (mode 22000).
-
----
-
-## 📋 جدول المحتويات
-
-- [[Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)](#core-advantages--modern-architecture)
-- [التثبيت](#installation-hcxdumptool--hcxtools)
-- [التثبيت](#wireless-interface-setup)
-- [Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:](#capturing-pmkid-clientless-attack)
-- [Converting Captures with `hcxpcapngtool`](#converting-captures-with-hcxpcapngtool)
-- [`-o hash.hc22000`: Output hash file in modern Hashcat format.](#hashcat-cracking-mode-22000)
-- [Filtering Channels and BSSIDs](#filtering-channels-and-bssids)
-- [Optimize capture speed by constraining scanning parameters:](#defensive-countermeasures--wpa3)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## [Hashcat Cracking (Mode 22000)](#hashcat-cracking-mode-22000)
 
-- **Clientless PMKID Attack**: Exploits the RSN IE (Robust Security Network Information Element) PMKID feature in modern routers. You do **not** need a connected client or deauthentication packets to capture the key material.
-- **Unified Hashcat Mode 22000**: Generates Hashcat-native hash files supporting both PMKID and full WPA-PBKDF2-PMK handshakes.
-- **Channel Hopping & Active Interrogation**: Transmits targeted association requests to elicit PMKIDs from listening APs.
+# ورقة الغش hcxdumptool
+
+[hcxdumptool](https://github.com/ZerBea/hcxdumptool) عبارة عن أداة حديثة وعالية الأداء لهجوم شبكة Wi-Fi والتقاط الحزم عبر سطر الأوامر. على عكس أدوات Aircrack-ng القديمة، يلتقط `hcxdumptool` إطارات WPA/WPA2/WPA3 PMKID (Pairwise Master Key Identifier) ​​دون الحاجة إلى عملاء متصلين، ويلتقط مصافحات EAPOL رباعية الاتجاهات، ويتكامل مباشرة مع `hcxtools` لتكسير Hashcat (الوضع 22000).
 
 ---
 
-## التثبيت
+## جدول المحتويات
 
+- [المزايا الأساسية والعمارة الحديثة](#المزايا الأساسية--الهندسة المعمارية الحديثة)
+- [التثبيت (`hcxdumptool` و`hcxtools`)](#installation-hcxdumptool--hcxtools)
+- [إعداد الواجهة اللاسلكية](#wireless-interface-setup)
+- [التقاط PMKID (هجوم بدون عملاء)](#capturing-pmkid-clientless-attack)
+- [تحويل اللقطات باستخدام `hcxpcapngtool`](#converting-captures-with-hcxpcapngtool)
+- [تكسير Hashcat (الوضع 22000)](#hashcat-cracking-mode-22000)
+- [تصفية القنوات ومعرفات BSSID](#filtering-channels-and-bssids)
+- [الإجراءات المضادة الدفاعية وWPA3](#التدابير المضادة الدفاعية--wpa3)
+
+---
+
+## المزايا الأساسية والهندسة المعمارية الحديثة
+
+- **هجوم PMKID بدون عميل:** يستغل ميزة PMKID الخاصة بـ RSN IE (عنصر معلومات شبكة الأمان القوية) في أجهزة التوجيه الحديثة. أنت **لا** تحتاج إلى عميل متصل أو حزم إلغاء المصادقة لالتقاط المادة الرئيسية.
+- **وضع Hashcat الموحد 22000:** يُنشئ ملفات تجزئة Hashcat الأصلية التي تدعم كلاً من PMKID ومصافحة WPA-PBKDF2-PMK الكاملة.
+- ** التنقل بين القنوات والاستجواب النشط: ** ينقل طلبات الارتباط المستهدفة للحصول على PMKIDs من نقاط الوصول المستمعة.
+
+---
+
+## التثبيت (`hcxdumptool` و`hcxtools`)
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt-get update && sudo apt-get install -y hcxdumptool hcxtools
@@ -44,13 +47,11 @@ sudo pacman -S hcxdumptool hcxtools
 hcxdumptool --version
 hcxpcapngtool --version
 ```
-
 ---
 
-## التثبيت
+## إعداد الواجهة اللاسلكية
 
-Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:
-
+قبل تشغيل `hcxdumptool`، قم بإنهاء خدمات إدارة الشبكة الخلفية التي تتداخل مع حقن الحزمة الأولية:
 ```bash
 # 1. Terminate interfering network services (NetworkManager, wpa_supplicant)
 sudo systemctl stop NetworkManager
@@ -64,87 +65,80 @@ sudo ip link set wlan0 up
 # 3. Verify monitor mode
 iw dev
 ```
-
 ---
 
-## Before running `hcxdumptool`, terminate background network management services that interfere with raw packet injection:
+## التقاط PMKID (هجوم بدون عميل)
 
-### 1. General PMKID Capture Across All 2.4GHz & 5GHz Channels
-Capture all nearby access points to a `.pcapng` file:
+### 1. التقاط PMKID عام عبر جميع قنوات 2.4 جيجا هرتز و5 جيجا هرتز
+التقط جميع نقاط الوصول القريبة إلى ملف `.pcapng`:
 ```bash
 sudo hcxdumptool -i wlan0 -w capture.pcapng --rds=1
 ```
-- `-i wlan0`: Wireless monitor interface.
-- Capturing PMKID (Clientless Attack)
-- `--rds=1`: Transmit RTS frames to prompt AP responses.
+- `-i wlan0`: واجهة شاشة لاسلكية.
+- `-w capture.pcapng`: ملف التقاط الإخراج.
+- `--rds=1`: إرسال إطارات RTS للمطالبة باستجابات AP.
 
-### Capture all nearby access points to a `.pcapng` file:
-Target only an authorized BSSID to prevent affecting unauthorized third-party routers:
+### 2. التقاط نقطة وصول مستهدفة محددة (مرشح BSSID)
+استهدف فقط معرف BSSID المعتمد لمنع التأثير على أجهزة توجيه الطرف الثالث غير المصرح بها:
 
-`-w capture.pcapng`: Output capture file.
+1. إنشاء قائمة عوامل التصفية المستهدفة (`target_bssid.txt`):
 ```text
 001122334455
 ```
-*(BSSID without colons)*
+*(BSSID بدون نقطتين)*
 
-Target only an authorized BSSID to prevent affecting unauthorized third-party routers:
+2. تشغيل الالتقاط المستهدف:
 ```bash
 sudo hcxdumptool -i wlan0 -w target.pcapng --bpfp=target_bssid.txt -c 6
 ```
-- 1. Create target filter list (`target_bssid.txt`):
-- `--bpfp`: Apply BPF (Berkeley Packet Filter) list for target BSSIDs.
+- `-c 6`: قفل الحقن والاستماع إلى القناة 6.
+- `--bpfp`: تطبيق قائمة BPF (مرشح حزم بيركلي) لمعرفات BSSID المستهدفة.
 
 ---
 
-## Converting Captures with `hcxpcapngtool`
+## تحويل اللقطات باستخدام `hcxpcapngtool`
 
-`--bpfp`: Apply BPF (Berkeley Packet Filter) list for target BSSIDs.
-
+بمجرد جمع إطارات PMKIDs أو EAPOL، قم بتحويل التقاط `.pcapng` إلى تنسيق متوافق مع Hashcat:
 ```bash
 hcxpcapngtool -o hash.hc22000 -E essid_list.txt capture.pcapng
 ```
-- `-o hash.hc22000`: Output hash file in modern Hashcat format.
-- Converting Captures with `hcxpcapngtool`
-- The tool reports total PMKID and EAPOL frames extracted.
+- `-o hash.hc22000`: ملف تجزئة الإخراج بتنسيق Hashcat الحديث.
+- `-E essid_list.txt`: احفظ أسماء الشبكات المكتشفة (ESSIDs) في قاموس لاختراق كلمات المرور المستهدفة.
+- تقوم الأداة بإبلاغ إجمالي إطارات PMKID و EAPOL المستخرجة.
 
 ---
 
-## `-o hash.hc22000`: Output hash file in modern Hashcat format.
+## تكسير Hashcat (الوضع 22000)
 
-The tool reports total PMKID and EAPOL frames extracted.
+الوضع `22000` هو وضع تكسير WPA-PBKDF2-PMKID + EAPOL الموحد الخاص بـ Hashcat:
 
-### 1. Dictionary Attack
+### 1. هجوم القاموس
 ```bash
 hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
 ```
-
-### 2. Rule-Based Mutation Attack
+### 2. هجوم الطفرة المبني على القواعد
 ```bash
 hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### 1. Dictionary Attack
+### 3. قناع / هجوم القوة الغاشمة (كلمات مرور رقمية مكونة من 8 أرقام)
 ```bash
 hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d
 ```
-
 ---
 
-## Filtering Channels and BSSIDs
+## تصفية القنوات ومعرفات BSSID
 
-Optimize capture speed by constraining scanning parameters:
-
+تحسين سرعة الالتقاط عن طريق تقييد معلمات المسح:
 ```bash
 # Scan only specific channels (e.g. 1, 6, 11)
 sudo hcxdumptool -i wlan0 -w filtered.pcapng -c 1,6,11
 ```
-
 ---
 
-## Optimize capture speed by constraining scanning parameters:
+## الإجراءات المضادة الدفاعية وWPA3
 
-|Vulnerability|Attack Mechanism|Defense Recommendation|
+| الضعف | آلية الهجوم | توصية الدفاع |
 |---|---|---|
-|**PMKID Caching**|AP transmits PMKID in EAPOL frame 1 without client authentication|Disable 802.11r (Fast Transition / Roaming) if not needed; update router firmware.|
-|**Weak WPA2 Pre-Shared Key**|Offline PBKDF2 dictionary cracking (Hashcat mode 22000)|Enforce 16+ character random passphrases.|
-|**Legacy WPA2 Protocol**|Susceptible to PMKID and handshake capture|Upgrade to **WPA3-Personal (SAE)**; WPA3 uses Dragonfly handshake with forward secrecy, rendering captured frames uncrackable offline.|
+| ** التخزين المؤقت PMKID ** | ينقل AP PMKID في إطار EAPOL 1 بدون مصادقة العميل | قم بتعطيل 802.11r (الانتقال السريع / التجوال) إذا لم تكن هناك حاجة إليه؛ تحديث البرامج الثابتة لجهاز التوجيه. |
+| **مفتاح WPA2 المشترك مسبقًا ضعيف** | تكسير قاموس PBKDF2 دون اتصال (وضع Hashcat 22000) | فرض 16+ عبارة مرور عشوائية. |
+| **بروتوكول WPA2 القديم** | عرضة لـ PMKID والتقاط المصافحة | الترقية إلى **WPA3-شخصي (SAE)**; يستخدم WPA3 مصافحة Dragonfly مع السرية الأمامية، مما يجعل الإطارات الملتقطة غير قابلة للكسر في وضع عدم الاتصال. |

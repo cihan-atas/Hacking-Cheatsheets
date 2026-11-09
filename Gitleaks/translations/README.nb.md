@@ -1,12 +1,16 @@
-# 🔑 Gitleaks – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🔑 Gitleaks - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██╗████████╗██╗     ███████╗ █████╗ ██╗  ██╗███████╗
   ██╔════╝ ██║╚══██╔══╝██║     ██╔════╝██╔══██╗██║ ██╔╝██╔════╝
@@ -16,51 +20,49 @@
    ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
            Fast & Automated Secret Detection for Git Repositories
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/Gitleaks-Secret_Scanner-blue?style=for-the-badge" alt="Gitleaks">
   <img src="https://img.shields.io/badge/Author-Zachary_Rice-orange?style=for-the-badge" alt="zricethezav">
-  <img src="https://img.shields.io/badge/Category-Source_Code_&_Secrets-green?style=for-the-badge" alt="Secrets">
+  <img src="https://img.shields.io/badge/Category-Source_Code_&_Secrets-green?style=for-the-badge" alt="Hemmeligheter">
   <img src="https://img.shields.io/badge/Language-Go-cyan?style=for-the-badge" alt="Go">
 </p>
 
 <p align="center">
-  <b>🔑 SAST tool designed to find and detect hardcoded secrets like passwords, API keys, and tokens in Git repositories and commit histories</b>
+  <b>🔑 SAST-verktøy designet for å finne og oppdage hardkodede hemmeligheter som passord, API-nøkler og tokens i Git-repositorier og commit-historier</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--detection-engine)
-- [Installasjon](#-installation)
-- [Basic Secret Scanning](#-basic-secret-scanning)
-  - [Scanning a Git Repository](#scanning-a-git-repository)
-  - [🚀 Basic Secret Scanning](#scanning-uncommitted-changes)
-  - [Scanning Plain Files & Folders](#scanning-plain-files--folders)
-- [Targeting Commit Ranges & History](#-targeting-commit-ranges--history)
-- [CI/CD & Pre-commit Integration](#-cicd--pre-commit-integration)
-- [Custom Detection Rules & Allowlisting](#-custom-detection-rules--allowlisting)
-- [Output Formats & Reporting](#-output-formats--reporting)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Oversikts- og deteksjonsmotor](#-oversikt--deteksjonsmotor)
+- [Installasjon](#-installasjon)
+- [Grunnleggende hemmelig skanning](#-grunnleggende-hemmelig skanning)
+  - [Skanning av et Git-lager](#scanning-a-git-repository)
+  - [Scanning Uncommitted Changes](#scanning-uncommitted-changes)
+  - [Skanne vanlige filer og mapper](#skanning-vanlige-filer--mapper)
+– [Targeting Commit Ranges & History](#-targeting-commit-ranges--history)
+- [CI/CD & Pre-commit-integrasjon](#-cicd--pre-commit-integration)
+– [Egendefinerte deteksjonsregler og tillatelseslisting](#-tilpasset-deteksjon-regler--tillatelseslisting)
+- [Utdataformater og rapportering](#-utdataformater--rapportering)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Considerations & Remediation](#-defensive-considerations--remediation)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt og deteksjonsmotor
 
-Hardcoded secrets (AWS access keys, SSH private keys, GitHub tokens, Slack webhooks, database credentials) inadvertently committed to git repositories are one of the most common vectors for initial cloud compromise.
+Hardkodede hemmeligheter (AWS-tilgangsnøkler, SSH private nøkler, GitHub-tokens, Slack webhooks, databaselegitimasjon) utilsiktet forpliktet til git-repositorier er en av de vanligste vektorene for innledende skykompromiss.
 
-Created by **Zachary Rice (@zricethezav)**, **Gitleaks** provides ultra-fast regex-based and Shannon entropy analysis across:
-- **Full Git History**: Audits every branch, tag, and historical commit.
-- **Pre-commit Hooks**: Blocks engineers from accidentally committing credentials before code reaches remote servers.
-- **CI/CD Pipelines**: Automatically fails pull requests containing credential leaks.
+Laget av **Zachary Rice (@zricethezav)**, **Gitleaks** gir ultrarask regex-basert og Shannon-entropianalyse på tvers av:
+- **Full Git History:** Reviderer hver gren, tag og historisk forpliktelse.
+- **Pre-commit Hooks:** Blokkerer ingeniører fra ved et uhell å begå legitimasjon før koden når eksterne servere.
+- **CI/CD-rørledninger:** Mislykkes automatisk pull-forespørsler som inneholder legitimasjonslekkasjer.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # macOS (Homebrew)
 brew install gitleaks
@@ -75,13 +77,12 @@ docker pull zricethezav/gitleaks:latest
 curl -sSL https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks_linux_x64.tar.gz | tar -xz
 sudo mv gitleaks /usr/local/bin/
 ```
-
 ---
 
-## 🚀 Basic Secret Scanning
+## 🚀 Grunnleggende hemmelig skanning
 
-### Scanning a Git Repository
-Audits the current repository's commit history:
+### Skanner et Git-lager
+Reviderer gjeldende depots forpliktelseshistorikk:
 ```bash
 # Run detection in current working repo
 gitleaks detect -v
@@ -89,9 +90,8 @@ gitleaks detect -v
 # Audit an external local repo path
 gitleaks detect --source /path/to/repo -v
 ```
-
-### 🚀 Basic Secret Scanning
-Audits staged and unstaged code changes before committing:
+### Skanner uforpliktede endringer
+Reviderer trinnvise og uiscenesatte kodeendringer før forpliktelse:
 ```bash
 # Inspect unstaged working directory changes
 gitleaks protect -v
@@ -99,17 +99,14 @@ gitleaks protect -v
 # Scan staged changes only
 gitleaks protect --staged -v
 ```
-
-### Scanning Plain Files & Folders
-Scan non-git directories (e.g., extracted firmware, decompiled mobile apps, configuration folders):
+### Skanner vanlige filer og mapper
+Skann ikke-git-kataloger (f.eks. utpakket fastvare, dekompilerte mobilapper, konfigurasjonsmapper):
 ```bash
 gitleaks dir /path/to/directory -v
 ```
-
 ---
 
 ## ⚡ Targeting Commit Ranges & History
-
 ```bash
 # Scan commits made in the last 7 days
 gitleaks detect --log-opts="--since='7 days ago'" -v
@@ -120,7 +117,6 @@ gitleaks detect --log-opts="origin/main..feature-branch" -v
 # Target the latest 5 commits
 gitleaks detect --log-opts="-n 5" -v
 ```
-
 ---
 
 ## ⚙️ CI/CD & Pre-commit Integration
@@ -133,8 +129,7 @@ repos:
     hooks:
       - id: gitleaks
 ```
-
-### GitHub Actions Workflow
+### GitHub Actions arbeidsflyt
 ```yaml
 name: Gitleaks Security Scan
 on: [push, pull_request]
@@ -149,13 +144,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
 ---
 
-## 🧩 Custom Detection Rules & Allowlisting
+## 🧩 Egendefinerte gjenkjenningsregler og tillatelsesliste
 
-Configure custom regex patterns or ignore false positives using `.gitleaks.toml`:
-
+Konfigurer egendefinerte regex-mønstre eller ignorer falske positiver ved å bruke `.gitleaks.toml`:
 ```toml
 [extend]
 useDefault = true
@@ -178,16 +171,13 @@ secretGroup = 1
 entropy = 3.5
 keywords = ["corp_secret_"]
 ```
-
-🧩 Custom Detection Rules & Allowlisting
+Kjør med egendefinert konfigurasjon:
 ```bash
 gitleaks detect -c .gitleaks.toml -v
 ```
-
 ---
 
-## 📊 Output Formats & Reporting
-
+## 📊 Utdataformater og rapportering
 ```bash
 # Export results to clean JSON format
 gitleaks detect --report-path gitleaks-report.json --report-format json
@@ -198,32 +188,31 @@ gitleaks detect --report-path report.sarif --report-format sarif
 # Export to CSV
 gitleaks detect --report-path report.csv --report-format csv
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Skann hele Git-historien** | `gitleaks detect -v` |
+| **Skann ikke-forpliktede endringer** | `gitleaks protect -v` |
+| **Skann bare trinnvise endringer** | `gitleaks protect --staged -v` |
+| **Scan Plain Directory (No Git)**| `gitleaks dir /path/to/folder -v` |
+| **Eksporter til JSON** | `gitleaks detect -r report.json -f json` |
+| **Eksport til SARIF** | `gitleaks detect -r report.sarif -f sarif` |
+| **Bruk tilpassede reglerkonfigurasjon** | `gitleaks detect -c .gitleaks.toml` |
+| **Skannspesifikk gren** | `gitleaks detect --log-opts="main..dev"` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive vurderinger og utbedring
 
-|Objective|Kommando|
-|-----------|---------|
-|**Scan Entire Git History**|`gitleaks detect -v`|
-|**Scan Uncommitted Changes**|`gitleaks protect -v`|
-|**Scan Staged Changes Only**|`gitleaks protect --staged -v`|
-|**Scan Plain Directory (No Git)**|`gitleaks dir /path/to/folder -v`|
-|**Export to JSON**|`gitleaks detect -r report.json -f json`|
-|**Export to SARIF**|`gitleaks detect -r report.sarif -f sarif`|
-|**Use Custom Rules Config**|`gitleaks detect -c .gitleaks.toml`|
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
+1. **Øyeblikkelig tilbakekalling:** Når en hemmelighet er oppdaget i git-historien, anser den som fullstendig kompromittert og roter/opphev den umiddelbart.
+2. **Rewriting Git History:** Fjerning av commit eller bruk av `git filter-repo` / BFG Repo-Cleaner er nødvendig for å skrubbe artefakter, men aldri erstatte historikk omskrivninger for legitimasjonsrotasjon.
 
 ---
 
-## 🛡️ Defensive Considerations & Remediation
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-|**Scan Specific Branch**|`gitleaks detect --log-opts="main..dev"`|
-2. **Rewriting Git History:** Removing the commit or using `git filter-repo` / BFG Repo-Cleaner is required to scrub artifacts, but never substitute history rewrites for credential rotation.
-
----
-
-## ⚠️ Legal Disclaimer
-
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> Gitleaks is designed for authorized internal security audits, continuous integration vulnerability checking, and defensive code review. Scanning unauthorized proprietary repositories without permission is strictly prohibited.
+> [!FORSIKTIG]
+> Gitleaks er designet for autoriserte interne sikkerhetsrevisjoner, kontinuerlig integrasjonssårbarhetskontroll og defensiv kodegjennomgang. Skanning av uautoriserte proprietære arkiver uten tillatelse er strengt forbudt.

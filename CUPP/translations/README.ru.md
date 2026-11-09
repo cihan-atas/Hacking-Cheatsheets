@@ -1,39 +1,42 @@
-# 🔍 CUPP — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[CUPP](https://github.com/Mebus/cupp) (Common User Passwords Profiler) is a specialized password dictionary generator designed for targeted human profiling. Rather than brute-forcing with generic dictionaries, CUPP generates permutations based on personal details (target name, partner, pets, birth dates, company, hobbies, leet speak variations, and special character combinations).
-
----
-
-## 📋 Содержание
-
-- [Введение](#overview--use-cases)
-- [Установка](#installation)
-- [Установка](#interactive-profiling-wizard--i)
-- [Configuration & Leet Rules (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
-- [Downloading & Merging Dictionaries (`-l` & `-w`)](#downloading--merging-dictionaries--l---w)
-- [2. Improve an Existing Wordlist with Leet / Special Rules](#piping-output-to-hashcat--hydra)
-- [Defensive Insights & Password Policy Guidelines](#defensive-insights--password-policy-guidelines)
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## Введение
 
-Traditional dictionary attacks often fail against complex passwords that follow human-predictable patterns (e.g., `John1984!`, `Sarah_Fluffy2022#`). CUPP addresses this by:
-- Collecting target-specific personal intelligence.
-- Combining names, birth years, significant dates, and pet names.
-- Applying rule-based mutations (capitalization, leet speak replacement, special characters, random number appending).
-- Введение
+# CUPP (Профилировщик паролей обычных пользователей) Шпаргалка
+
+[CUPP](https://github.com/Mebus/cupp) (Профилировщик паролей обычных пользователей) — это специализированный генератор словаря паролей, предназначенный для целевого профилирования людей. Вместо того, чтобы грубо использовать общие словари, CUPP генерирует перестановки на основе личных данных (имя цели, партнер, домашние животные, даты рождения, компания, хобби, варианты скороговорки и специальные комбинации символов).
+
+---
+
+## Содержание
+
+- [Обзор и варианты использования](#overview--use-cases)
+- [Установка](#установка)
+- [Мастер интерактивного профилирования (`-i`)](#interactive-profiling-wizard--i)
+- [Конфигурация и правила Leet (`cupp.cfg`)](#configuration--leet-rules-cuppcfg)
+- [Загрузка и объединение словарей (`-l` и `-w`)](#downloading--merging-dictionaries--l---w)
+- [Вывод по конвейеру в Hashcat и Hydra](#piping-output-to-hashcat--hydra)
+- [Рекомендации по защитной аналитике и политике паролей](#defensive-insights--password-policy-guidelines)
+
+---
+
+## Обзор и примеры использования
+
+Традиционные атаки по словарю часто терпят неудачу против сложных паролей, которые следуют шаблонам, предсказуемым для человека (например, `John1984!`, `Sarah_Fluffy2022#`). CUPP решает эту проблему следующим образом:
+- Сбор целевой личной разведывательной информации.
+- Объединение имен, лет рождения, значимых дат и имен домашних животных.
+- Применение мутаций на основе правил (заглавные буквы, замена буквенного алфавита, специальные символы, добавление случайных чисел).
+- Создание оптимизированного целевого списка слов, значительно меньшего, чем `rockyou.txt`, но с более высокой целевой релевантностью.
 
 ---
 
 ## Установка
-
 ```bash
 # Clone the repository
 git clone https://github.com/Mebus/cupp.git
@@ -45,18 +48,15 @@ sudo apt-get update && sudo apt-get install -y cupp
 # Check help options
 python3 cupp.py -h
 ```
-
 ---
 
-## Установка
+## Мастер интерактивного профилирования (`-i`)
 
-Launch the questionnaire prompt to build a personalized wordlist:
-
+Запустите анкету для создания персонализированного списка слов:
 ```bash
 python3 cupp.py -i
 ```
-
-Interactive Profiling Wizard (`-i`)
+Пример подсказки:
 ```text
 [+] Insert the targets information:
 > First Name: Alice
@@ -87,14 +87,13 @@ Interactive Profiling Wizard (`-i`)
 [+] Do you want to add some random numbers at the end of words? Y/n: y
 [+] Leet mode? (i.e. leet = 1337) Y/n: y
 ```
-
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+Выходной файл `alice.csv` (или указанный текстовый файл) генерируется с тысячами настраиваемых мутаций (например, `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
 
 ---
 
-## Configuration & Leet Rules (`cupp.cfg`)
+## Правила конфигурации и обучения (`cupp.cfg`)
 
-Output file `alice.csv` (or specified text file) is generated with thousands of customized mutations (e.g., `Alice1992!`, `LunaCharlie2018`, `CyberCorp@2022`).
+Конфигурация CUPP контролируется через `cupp.cfg`. Ключевые разделы включают в себя:
 ```ini
 [years]
 # Set year range for automated suffix appending
@@ -118,32 +117,29 @@ o = 0
 s = 5,$
 t = 7
 ```
-
-Edit `cupp.cfg` to adjust to target locale and language specifics.
+Отредактируйте `cupp.cfg`, чтобы настроить его в соответствии с целевой локалью и языковыми особенностями.
 
 ---
 
-## Downloading & Merging Dictionaries (`-l` & `-w`)
+## Загрузка и объединение словарей (`-l` и `-w`)
 
-### Edit `cupp.cfg` to adjust to target locale and language specifics.
-Download default linguistic wordlists:
+### 1. Загрузите предварительно скомпилированные списки слов из репозиториев.
+Загрузите лингвистические списки слов по умолчанию:
 ```bash
 python3 cupp.py -l
 ```
-
-### Downloading & Merging Dictionaries (`-l` & `-w`)
-Apply CUPP mutation rules to a list of existing words:
+### 2. Улучшите существующий список слов с помощью Leet/специальных правил
+Примените правила мутации CUPP к списку существующих слов:
 ```bash
 python3 cupp.py -w /path/to/base_words.txt
 ```
-
 ---
 
-## 2. Improve an Existing Wordlist with Leet / Special Rules
+## Передача вывода в Hashcat и Hydra
 
-Feed the generated customized dictionary directly into brute-force tools:
+Передайте сгенерированный настроенный словарь непосредственно в инструменты грубой силы:
 
-### Cracking Target Hashes with Hashcat
+### Взлом целевых хешей с помощью Hashcat
 ```bash
 # Generate targeted list
 python3 cupp.py -i
@@ -151,16 +147,14 @@ python3 cupp.py -i
 # Run Hashcat against target NTLM hash
 hashcat -m 1000 target_ntlm.hash alice.txt -r /usr/share/hashcat/rules/best64.rule
 ```
-
-### Online Authentication Brute-Force with Hydra
+### Брутфорс онлайн-аутентификации с помощью Hydra
 ```bash
 hydra -l alice -P alice.txt 192.168.1.50 ssh
 ```
-
 ---
 
-## Defensive Insights & Password Policy Guidelines
+## Защитная информация и рекомендации по политике паролей
 
-- **Ban Personal Attributes**: Prohibit user passwords containing employee first names, last names, usernames, company brand names, or birth dates.
-- **Enforce Length over Complexity**: A 16+ character passphrase (e.g., four random dictionary words) is significantly more resilient against profiling tools than an 8-character `NameYear!` pattern.
-- **Multi-Factor Authentication (MFA)**: Enforce hardware FIDO2 or TOTP tokens so customized dictionary generation alone cannot compromise accounts.
+- **Запретить личные атрибуты.** Запретить использование паролей пользователей, содержащих имена, фамилии, имена пользователей, названия компаний или даты рождения.
+- **Длина важнее сложности.** Парольная фраза длиной более 16 символов (например, четыре случайных словарных слова) значительно более устойчива к инструментам профилирования, чем 8-значный шаблон `NameYear!`.
+- **Многофакторная аутентификация (MFA):** применяйте аппаратные токены FIDO2 или TOTP, чтобы создание индивидуального словаря не могло поставить под угрозу учетные записи.

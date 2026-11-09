@@ -1,12 +1,16 @@
-# 📂 GitTools – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 📂 GitTools - Komplett jukseark
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
    ██████╗ ██╗████████╗████████╗ ██████╗  ██████╗ ██╗     ███████╗
   ██╔════╝ ██║╚══██╔══╝╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝
@@ -16,50 +20,48 @@
    ╚═════╝ ╚═╝   ╚═╝      ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
       Exposed /.git/ Repository Dumping, Extraction & Secret Hunting
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/GitTools-Git_Dumping-blue?style=for-the-badge" alt="GitTools">
   <img src="https://img.shields.io/badge/Author-Internetwache-orange?style=for-the-badge" alt="internetwache">
-  <img src="https://img.shields.io/badge/Category-Web_Security_&_Secrets-green?style=for-the-badge" alt="Web Security">
+  <img src="https://img.shields.io/badge/Category-Web_Security_&_Secrets-green?style=for-the-badge" alt="Nettsikkerhet">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
 <p align="center">
-  <b>📂 Essential toolkit for discovering exposed <code>/.git/</code> folders on web servers, downloading raw Git object stores, and fully reconstructing original source code and commit history</b>
+  <b>📂 Essensielt verktøysett for å oppdage utsatte <code>/.git/</code>-mapper på nettservere, laste ned rå Git-objektlagre og fullstendig rekonstruere original kildekode og commit-historikk</b>
 </p>
 
 ---
 
 ## 📋 Innholdsfortegnelse
 
-- [Introduksjon](#-overview--the-exposed-git-hazard)
-- [Installasjon](#-installation)
-- [The Three GitTools Modules](#-the-three-gittools-modules)
+- [Overview & The Exposed .git Hazard](#-overview--the-exposed-git-hazard)
+- [Installasjon](#-installasjon)
+- [De tre GitTools-modulene](#-de-tre-gittools-modulene)
   - [1. Dumper (`gitdumper.sh`)](#1-dumper-gitdumpersh)
-  - [GitTools is organized into three specialized utilities:](#2-extractor-extractorsh)
+  - [2. Extractor (`extractor.sh`)](#2-extractor-extractorsh)
   - [3. Finder (`finder.py`)](#3-finder-finderpy)
-- [Alternative Python Dumper: `git-dumper`](#-alternative-python-dumper-git-dumper)
-- [Post-Reconstruction Secret & Credential Hunting](#-post-reconstruction-secret--credential-hunting)
-- [Hurtigreferanse](#-quick-reference-table)
-- [Defensive Considerations & Web Server Hardening](#-defensive-considerations--web-server-hardening)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Alternativ Python Dumper: `git-dumper`](#-alternative-python-dumper-git-dumper)
+- [Post-Reconstruction Secret & Credential Hunting](#-post-reconstruction-secret--credential-jakt)
+- [Hurtigreferansetabell](#-hurtigreferansetabell)
+– [Defensive Betraktninger og Web Server Hardening](#-defensive-considerations--web-server-hardening)
+– [Juridisk ansvarsfraskrivelse](#-juridisk ansvarsfraskrivelse)
 
 ---
 
-## 🎯 Introduksjon
+## 🎯 Oversikt & The Exposed .git Hazard
 
-When developers deploy web applications via `git clone` or automated scripts without properly restricting access to hidden directories, the **`/.git/`** folder becomes accessible over HTTP/HTTPS:
+Når utviklere distribuerer nettapplikasjoner via `git clone` eller automatiserte skript uten å begrense tilgangen til skjulte kataloger på riktig måte, blir **`/.git/`**-mappen tilgjengelig over HTTP/HTTPS:
 `https://target.com/.git/`
 
-Even if directory listing (indexing) is disabled, Git's deterministic structure allows an attacker to download `/.git/HEAD`, `/.git/config`, `/.git/index`, and traverse all Git loose objects (`.git/objects/xx/xxxx...`). This enables complete reconstruction of:
-- 🎯 Introduksjon
-- Database credentials, API tokens, and private SSH keys in configuration files.
-- Full git commit logs, author emails, and development branches.
+Selv om katalogoppføring (indeksering) er deaktivert, tillater Gits deterministiske struktur en angriper å laste ned `/.git/HEAD`, `/.git/config`, `/.git/index` og krysse alle Git-løse objekter (`.git/objects/xx/xxxx...`). Dette muliggjør fullstendig rekonstruksjon av:
+- Full applikasjonskildekode og interne APIer.
+- Databaselegitimasjon, API-tokens og private SSH-nøkler i konfigurasjonsfiler.
+- Full git commit-logger, forfattere-poster og utviklingsgrener.
 
 ---
 
 ## 📥 Installasjon
-
 ```bash
 # Clone GitTools repository
 git clone https://github.com/internetwache/GitTools.git
@@ -69,40 +71,36 @@ chmod +x Dumper/gitdumper.sh Extractor/extractor.sh
 # Install alternative standalone Python git-dumper via pip
 pip install git-dumper
 ```
-
 ---
 
-## 🚀 The Three GitTools Modules
+## 🚀 De tre GitTools-modulene
 
-GitTools is organized into three specialized utilities:
+GitTools er organisert i tre spesialiserte verktøy:
 
 ### 1. Dumper (`gitdumper.sh`)
-Downloads as much of the `.git` directory as possible from the web server:
+Laster ned så mye av `.git`-katalogen som mulig fra webserveren:
 ```bash
 # Syntax: ./gitdumper.sh <URL_TO_GIT> <LOCAL_DESTINATION>
 ./Dumper/gitdumper.sh https://target.com/.git/ /tmp/target_repo/
 ```
-
-### GitTools is organized into three specialized utilities:
-Reconstructs original files, commit trees, and branches from the dumped `.git` loose objects:
+### 2. Extraktor (`extractor.sh`)
+Rekonstruerer originalfiler, commit trær og grener fra de dumpede `.git` løse objektene:
 ```bash
 # Syntax: ./extractor.sh <DUMPED_DIR> <OUTPUT_CODE_DIR>
 ./Extractor/extractor.sh /tmp/target_repo/ /tmp/extracted_source/
 ```
-Downloads as much of the `.git` directory as possible from the web server:
+Inne i `/tmp/extracted_source/` blir hver commit gjenopprettet til en isolert katalog som inneholder hele filtreet på det tidspunktet.
 
 ### 3. Finder (`finder.py`)
-2. Extractor (`extractor.sh`)
+Skanner lister over domener eller CIDR-blokker for å oppdage eksponerte `.git`-kataloger:
 ```bash
 python3 Finder/finder.py -i targets.txt -u "Mozilla/5.0"
 ```
-
 ---
 
-## 🐍 Alternative Python Dumper: `git-dumper`
+## 🐍 Alternativ Python Dumper: `git-dumper`
 
-`git-dumper` is a multi-threaded Python alternative that reconstructs a live, working git repository automatically in one step:
-
+`git-dumper` er et flertråds Python-alternativ som rekonstruerer et levende, fungerende git-depot automatisk i ett trinn:
 ```bash
 # Dump and reconstruct working repository in one command
 git-dumper https://target.com/.git/ ./recovered_repo/
@@ -110,21 +108,18 @@ git-dumper https://target.com/.git/ ./recovered_repo/
 # Run through HTTP/SOCKS proxy
 git-dumper --proxy http://127.0.0.1:8080 https://target.com/.git/ ./recovered_repo/
 ```
-
-🐍 Alternative Python Dumper: `git-dumper`
+Når du er ferdig, kan du bruke vanlige `git`-kommandoer i mappen:
 ```bash
 cd ./recovered_repo/
 git log -p              # Review all commit diffs and historical edits
 git status              # Check untracked files
 git branch -a           # List all remote and local branches
 ```
-
 ---
 
-## 🔍 Post-Reconstruction Secret & Credential Hunting
+## 🔍 Hemmelig- og legitimasjonsjakt etter gjenoppbygging
 
-Once the repository is recovered, search for credentials and hidden files:
-
+Når depotet er gjenopprettet, søk etter legitimasjon og skjulte filer:
 ```bash
 cd ./recovered_repo/
 
@@ -135,40 +130,39 @@ grep -Erio "password|secret|api_key|token|AWS" .
 gitleaks detect -v
 trufflehog git file://$(pwd)
 ```
+---
+
+## ⚡ Hurtigreferansetabell
+
+| Mål | Kommando |
+|----------------|--------|
+| **Dump med git-dumper (Python)**| `git-dumper https://target.com/.git/ ./repo/` |
+| **Dump med GitTools Bash** | `./Dumper/gitdumper.sh https://target.com/.git/ ./dump/` |
+| **Uttrekk forplikter seg til kilde** | `./Extractor/extractor.sh ./dump/ ./source/` |
+| **Skann vertsliste for .git** | `python3 Finder/finder.py -i domains.txt` |
+| **Se forpliktelseshistorikk** | `git log -p --color` |
+| **Jakt hardkodede hemmeligheter** | `gitleaks detect -v` |
 
 ---
 
-## ⚡ Hurtigreferanse
+## 🛡️ Defensive vurderinger og herding av nettserver
 
-|Objective|Kommando|
-|-----------|---------|
-|**Dump with git-dumper (Python)**|`git-dumper https://target.com/.git/ ./repo/`|
-|**Dump with GitTools Bash**|`./Dumper/gitdumper.sh https://target.com/.git/ ./dump/`|
-|**Extract Commits to Source**|`./Extractor/extractor.sh ./dump/ ./source/`|
-|**Scan Host List for .git**|`python3 Finder/finder.py -i domains.txt`|
-|**View Commit History**|`git log -p --color`|
-|**Hunt Hardcoded Secrets**|`gitleaks detect -v`|
-
----
-
-## 🛡️ Defensive Considerations & Web Server Hardening
-
-1. **Nginx Hardening:**
+1. **Nginx-herding:**
    ```nginx
    location ~ /\.git {
        deny all;
        return 404;
    }
    ```
-2. **Apache Hardening (`.htaccess`):**
+2. **Apache-herding (`.htaccess`):**
    ```apache
    RedirectMatch 404 /\.git
    ```
-3. **CI/CD Best Practices:** Never deploy code by cloning git directly into the web root (`/var/www/html/`). Use clean artifact bundles or Docker containers.
+3. ** Beste praksis for CI/CD:** Aldri distribuer kode ved å klone git direkte inn i webroten (`/var/www/html/`). Bruk rene artefaktbunter eller Docker-beholdere.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Juridisk ansvarsfraskrivelse
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> GitTools and git-dumper are designed for authorized vulnerability assessments and defensive infrastructure auditing. Downloading proprietary source code from unauthorized web applications without permission is illegal.
+> [!FORSIKTIG]
+> GitTools og git-dumper er designet for autoriserte sårbarhetsvurderinger og defensiv infrastrukturrevisjon. Nedlasting av proprietær kildekode fra uautoriserte nettapplikasjoner uten tillatelse er ulovlig.

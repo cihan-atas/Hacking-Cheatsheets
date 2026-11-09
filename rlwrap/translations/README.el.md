@@ -1,12 +1,16 @@
-# ⌨️ rlwrap — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
+
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# ⌨️ rlwrap - Πλήρες φύλλο εξαπάτησης
 
+[🇹🇷 Türkçe Sürüm](μεταφράσεις/README.tr.md)
 ```
   ██████╗ ██╗     ██╗    ██╗██████╗  █████╗ ██████╗ 
   ██╔══██╗██║     ██║    ██║██╔══██╗██╔══██╗██╔══██╗
@@ -16,59 +20,57 @@
   ╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     
        Readline Wrapper for Reverse Shells & Dumb Terminals
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/rlwrap-Readline_Wrapper-blue?style=for-the-badge" alt="rlwrap">
-  <img src="https://img.shields.io/badge/Utility-Shell_Stabilization-green?style=for-the-badge" alt="Shell Stabilization">
+  <img src="https://img.shields.io/badge/Utility-Shell_Stabilization-green?style=for-the-badge" alt="Σταθεροποίηση κελύφους">
   <img src="https://img.shields.io/badge/Category-Exploitation_&_Shells-orange?style=for-the-badge" alt="Exploitation & Shells">
   <img src="https://img.shields.io/badge/License-GPLv2-red?style=for-the-badge" alt="License GPLv2">
 </p>
 
 <p align="center">
-  <b>🌐 Turn raw Netcat listeners and dumb reverse shells into full command-line interfaces with arrow keys, history, and auto-completion</b>
+  <b>🌐 Μετατρέψτε τους ωμούς ακροατές Netcat και τα ανόητα αντίστροφα κελύφη σε πλήρεις διεπαφές γραμμής εντολών με πλήκτρα βέλους, ιστορικό και αυτόματη συμπλήρωση</b>
 </p>
 
 ---
 
 ## 📋 Πίνακας περιεχομένων
 
-- [Εισαγωγή](#-introduction-the-dumb-shell-problem)
-- [Εγκατάσταση](#-installation)
-- [Βασική σύνταξη](#-basic-usage)
+- [Εισαγωγή: Το πρόβλημα "Χαζό κέλυφος"](#-introduction-the-dumb-shell-problem)
+- [Εγκατάσταση] (#-εγκατάσταση)
+- [Βασική χρήση](#-βασική χρήση)
 - [Catching Reverse Shells (`rlwrap + nc`)](#-catching-reverse-shells-rlwrap--nc)
-- [Persistent History Management](#-persistent-history-management)
-- [Command Auto-Completion (`-f`)](#-command-auto-completion--f)
+- [Διαχείριση μόνιμου ιστορικού](#-persistent-history-management)
+- [Αυτόματη συμπλήρωση εντολών (`-f`)](#-εντολή-αυτόματη συμπλήρωση--f)
 - [Full 5-Step TTY Shell Upgrade Workflow](#-full-5-step-tty-shell-upgrade-workflow)
-- [Using rlwrap with Other Pentest Tools](#-using-rlwrap-with-other-pentest-tools)
+- [Χρήση του rlwrap με άλλα εργαλεία Pentest] (#-using-rlwrap-with-other-pentest-tools)
   - [Oracle SQL*Plus](#oracle-sqlplus)
-  - [`rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:](#redis--telnet)
+  - [Redis & Telnet](#redis--telnet)
   - [Socat & Custom Sockets](#socat--custom-sockets)
-- [Γρήγορη αναφορά](#-quick-reference-table)
-- [Συμβουλές και βέλτιστες πρακτικές](#-tips--best-practices)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Πίνακας γρήγορης αναφοράς] (#-ταχεία αναφορά-πίνακας)
+- [Συμβουλές και βέλτιστες πρακτικές] (#-συμβουλές--βέλτιστες πρακτικές)
+- [Νομική αποποίηση ευθυνών](#-νομική αποποίηση ευθυνών)
 
 ---
 
-## 🎯 Εισαγωγή
+## 🎯 Εισαγωγή: Το Πρόβλημα "Χαζό Κέλυφος".
 
-When you catch a reverse shell using traditional tools like Netcat (`nc -lvnp 4444`), you obtain a **dumb terminal**. A dumb terminal lacks standard line-editing capabilities:
+Όταν πιάνετε ένα αντίστροφο κέλυφος χρησιμοποιώντας παραδοσιακά εργαλεία όπως το Netcat (`nc -lvnp 4444`), αποκτάτε ένα **χαζό τερματικό**. Ένα ανόητο τερματικό δεν διαθέτει τυπικές δυνατότητες επεξεργασίας γραμμής:
 
-- ❌ Pressing the **Up/Down arrow keys** prints escape sequences like `^[[A` or `^[[B` instead of cycling through command history.
-- ❌ Pressing **Backspace** or **Delete** prints `^H` or `^?` instead of deleting characters.
-- 🎯 Εισαγωγή
-- ❌ Commands like `su`, `sudo`, `nano`, `vim`, or `passwd` fail because there is no pseudo-terminal (PTY) attached.
-- ❌ No persistent command history is retained across sessions.
+- ❌ Πατώντας τα πλήκτρα βέλους **Επάνω/Κάτω** εκτυπώνονται αλληλουχίες διαφυγής, όπως `^[[A` ή `^[[B`, αντί να κάνετε κυκλική μετάβαση στο ιστορικό εντολών.
+- ❌ Πατώντας **Backspace** ή **Delete** εκτυπώνεται το `^H` ή το `^?` αντί για τη διαγραφή χαρακτήρων.
+- ❌ Πατώντας **Ctrl + C** σκοτώνει αμέσως τον ακροατή αντίστροφου κελύφους, χάνοντας την πρόσβαση που αποκτήθηκε με κόπο.
+- ❌ Εντολές όπως `su`, `sudo`, `nano`, `vim` ή `passwd` αποτυγχάνουν επειδή δεν υπάρχει συνδεδεμένο ψευδοτερματικό (PTY).
+- ❌ Δεν διατηρείται μόνιμο ιστορικό εντολών σε όλες τις περιόδους λειτουργίας.
 
-**rlwrap** (Readline Wrapper, written by Hans Lub) solves this by sitting between your terminal and the target command. It intercepts keyboard strokes, leverages **GNU Readline**, and provides arrow-key navigation, line editing, persistent command history files, and dictionary-based auto-completion!
+Το **rlwrap** (Readline Wrapper, γραμμένο από τον Hans Lub) το λύνει αυτό τοποθετώντας ανάμεσα στο τερματικό σας και την εντολή στόχου. Αναχαιτίζει τις πινελιές του πληκτρολογίου, αξιοποιεί τη **GNU Readline** και παρέχει πλοήγηση με βέλη, επεξεργασία γραμμής, μόνιμα αρχεία ιστορικού εντολών και αυτόματη συμπλήρωση βάσει λεξικού!
 
 ---
 
 ## 📥 Εγκατάσταση
 
-`rlwrap` is lightweight and available in the default package repositories of virtually every Linux distribution:
+Το `rlwrap` είναι ελαφρύ και διαθέσιμο στα προεπιλεγμένα αποθετήρια πακέτων σχεδόν κάθε διανομής Linux:
 
 ### Kali Linux, Debian & Ubuntu
-
 ```bash
 # Update and install rlwrap
 sudo apt update && sudo apt install -y rlwrap
@@ -76,59 +78,49 @@ sudo apt update && sudo apt install -y rlwrap
 # Verify installation and version
 rlwrap --version
 ```
-
-### `rlwrap` is lightweight and available in the default package repositories of virtually every Linux distribution:
-
+### Fedora, CentOS & RHEL
 ```bash
 # Fedora / CentOS / RHEL
 sudo dnf install -y rlwrap || sudo yum install -y epel-release && sudo yum install -y rlwrap
 ```
-
 ### Arch Linux
-
 ```bash
 # Arch Linux / Manjaro
 sudo pacman -S rlwrap
 ```
-
 ### macOS (Homebrew)
-
 ```bash
 # macOS
 brew install rlwrap
 ```
-
 ---
 
-## 🚀 Βασική σύνταξη
+## 🚀 Βασική χρήση
 
-The basic syntax is simply wrapping any command line with `rlwrap`:
-
+Η βασική σύνταξη είναι απλώς η αναδίπλωση οποιασδήποτε γραμμής εντολών με το `rlwrap`:
 ```bash
 # General syntax
 rlwrap [options] <command> [command-arguments]
 ```
+### Κοινές σημαίες
 
-### Επιλογές και παράμετροι
-
-|Σημαία|Περιγραφή|
+| Σημαία | Περιγραφή |
 |------|-------------|
-|`-c`|Enable file and path name completion|
-|`-A`|Ignore prompt formatting escape codes (prevents prompt line glitches)|
-|`-r`|Remember all words entered on input and put them into the completion wordlist|
-|`-H <file>`|Specify a dedicated history file for saving and recalling commands|
-|`-s <num>`|Set the maximum number of history lines (default: 300)|
-|`-f <file>`|Load a custom completion dictionary file|
-|`-b <chars>`|Define word-break characters|
-|`-m`|Enable multi-line input editing|
-|`-p[color]`|Colorize the command prompt|
+| `-c` | Ενεργοποίηση ολοκλήρωσης ονόματος αρχείου και διαδρομής |
+| `-A` | Αγνοήστε τους κωδικούς διαφυγής μορφοποίησης προτροπής (αποτρέπει δυσλειτουργίες γραμμής προτροπής) |
+| `-r` | Θυμηθείτε όλες τις λέξεις που εισαγάγετε στην εισαγωγή και βάλτε τις στη λίστα λέξεων συμπλήρωσης |
+| `-H <file>` | Καθορίστε ένα αποκλειστικό αρχείο ιστορικού για αποθήκευση και ανάκληση εντολών |
+| `-s <num>` | Ορίστε τον μέγιστο αριθμό γραμμών ιστορικού (προεπιλογή: 300) |
+| `-f <file>` | Φόρτωση προσαρμοσμένου αρχείου λεξικού ολοκλήρωσης |
+| `-b <chars>` | Ορίστε χαρακτήρες διάσπασης λέξεων |
+| `-m` | Ενεργοποίηση επεξεργασίας εισαγωγής πολλών γραμμών |
+| `-p[color]` | Χρωματίστε τη γραμμή εντολών |
 
 ---
 
-## 🎣 Catching Reverse Shells (`rlwrap + nc`)
+## 🎣 Πιάνοντας αντίστροφα κοχύλια (`rlwrap + nc`)
 
-The most common use case in offensive security is wrapping a Netcat listener (see the [Netcat Cheatsheet](../Netcat/README.md) for full listener variants and flags):
-
+Η πιο συνηθισμένη περίπτωση χρήσης στην επιθετική ασφάλεια είναι η αναδίπλωση ενός ακροατή Netcat (δείτε το [Netcat Cheatsheet](../Netcat/README.md) για παραλλαγές πλήρους ακροατής και σημαίες):
 ```bash
 # Basic Netcat listener with arrow-key editing & history
 rlwrap nc -lvnp 4444
@@ -136,19 +128,17 @@ rlwrap nc -lvnp 4444
 # Professional pentester flags: -c (file completion), -A (prompt fix), -r (remember words)
 rlwrap -cAr nc -lvnp 4444
 ```
+### Επεξήγηση των σημαιών `-cAr`:
 
-### Επιλογές και παράμετροι
-
-1. **`-c` (File Completion):** Allows using `<TAB>` to auto-complete file and directory names.
-2. **`-A` (Prompts):** Prevents weird line wraps and prompt duplication when the remote server sends unstandardized prompt strings (e.g. `root@victim:/#`).
-3. **`-r` (Remember Words):** Learns words you type into the shell so you can tab-complete them later.
+1. **`-c` (Ολοκλήρωση αρχείου):** Επιτρέπει τη χρήση του `<TAB>` για την αυτόματη συμπλήρωση ονομάτων αρχείων και καταλόγων.
+2. **`-A` (Προτροπές):** Αποτρέπει τις περίεργες αναδιπλώσεις γραμμών και την επανάληψη προτροπής όταν ο απομακρυσμένος διακομιστής στέλνει μη τυποποιημένες συμβολοσειρές μηνυμάτων (π.χ. `root@victim:/#`).
+3. **`-r` (Remember Words):** Μαθαίνει τις λέξεις που πληκτρολογείτε στο κέλυφος, ώστε να μπορείτε να τις συμπληρώσετε με καρτέλα αργότερα.
 
 ---
 
-## 💾 Persistent History Management
+## 💾 Διαχείριση επίμονης ιστορίας
 
-3. **`-r` (Remember Words):** Learns words you type into the shell so you can tab-complete them later.
-
+Από προεπιλογή, το `rlwrap` αποθηκεύει το ιστορικό εντολών στο `~/.<command>_history`. Μπορείτε να διαμορφώσετε προσαρμοσμένα αρχεία ιστορικού ανά αφοσίωση:
 ```bash
 # Save history to a dedicated engagement file
 rlwrap -H ~/.history_target_corp nc -lvnp 4444
@@ -159,13 +149,11 @@ rlwrap -H ~/.history_target -s 5000 nc -lvnp 4444
 # Case-insensitive history search
 rlwrap -i nc -lvnp 4444
 ```
-
 ---
 
-## 🔍 Command Auto-Completion (`-f`)
+## 🔍 Αυτόματη συμπλήρωση εντολών (`-f`)
 
-You can provide `rlwrap` with a text file containing common Linux or Windows commands, and it will auto-complete them when you press `<TAB>`:
-
+Μπορείτε να δώσετε στο `rlwrap` ένα αρχείο κειμένου που περιέχει κοινές εντολές Linux ή Windows και θα τις συμπληρώσει αυτόματα όταν πατήσετε το `<TAB>`:
 ```bash
 # Create a wordlist of essential post-exploitation commands
 cat << 'EOF' > /tmp/pentest_commands.txt
@@ -188,24 +176,20 @@ EOF
 # Start listener with custom tab-completion dictionary
 rlwrap -f /tmp/pentest_commands.txt nc -lvnp 4444
 ```
-
 ---
 
-## 🛠️ Full 5-Step TTY Shell Upgrade Workflow
+## 🛠️ Πλήρης ροή εργασιών αναβάθμισης κελύφους TTY 5 βημάτων
 
-While `rlwrap` provides immediate arrow-key navigation and history, certain interactive programs (`su`, `sudo`, `vim`) still require a fully allocated TTY terminal. Here is the industry-standard 5-step upgrade pipeline:
+Ενώ το `rlwrap` παρέχει άμεση πλοήγηση με βέλος και ιστορικό, ορισμένα διαδραστικά προγράμματα (`su`, `sudo`, `vim`) εξακολουθούν να απαιτούν ένα πλήρως εκχωρημένο τερματικό TTY. Εδώ είναι ο βιομηχανικός αγωγός αναβάθμισης 5 βημάτων:
 
-### Step 1: Start Listener with rlwrap
-
+### Βήμα 1: Ξεκινήστε το πρόγραμμα ακρόασης με το rlwrap
 ```bash
 # Attacker machine: start enhanced listener
 rlwrap -cAr nc -lvnp 4444
 ```
+### Βήμα 2: Ενεργοποίηση Reverse Shell & Spawn PTY
 
-### Step 2: Trigger Reverse Shell & Spawn PTY
-
-Step 1: Start Listener with rlwrap
-
+Μόλις το αντίστροφο κέλυφος συνδεθεί με τον ακροατή σας, δημιουργήστε ένα ψευδοτερματικό στον στόχο:
 ```bash
 # Target shell: Spawn PTY via Python
 python3 -c 'import pty; pty.spawn("/bin/bash")'
@@ -213,25 +197,19 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 # OR via script if Python is unavailable:
 /usr/bin/script -qc /bin/bash /dev/null
 ```
-
-### Step 2: Trigger Reverse Shell & Spawn PTY
-
+### Βήμα 3: Φόντο του κελύφους
 ```bash
 # Press Ctrl + Z to put the reverse shell into the background
 [1]+  Stopped                 rlwrap -cAr nc -lvnp 4444
 ```
-
-### Step 4: Configure Local Terminal Raw Mode
-
+### Βήμα 4: Διαμόρφωση τοπικού τερματικού Raw Mode
 ```bash
 # Attacker machine: disable local echo and enable raw keystrokes
 stty raw -echo; fg
 ```
+*(Πατήστε Enter δύο φορές μετά την εκτέλεση του `fg` για επαναφορά της προτροπής)*
 
-*(Press Enter twice after running `fg` to restore the prompt)*
-
-### Step 4: Configure Local Terminal Raw Mode
-
+### Βήμα 5: Επαναφορά και ρύθμιση διαστάσεων τερματικού
 ```bash
 # Target shell: set terminal type and environment
 reset
@@ -244,24 +222,20 @@ export SHELL=bash
 # Apply rows and columns to target shell:
 stty rows 38 columns 160
 ```
-
-> ✅ **Result:** You now have an indestructible, full-featured interactive bash shell with tab-completion, clear screen (`Ctrl+L`), signal handling (`Ctrl+C` does not disconnect), and full terminal dimensions!
+>>
 
 ---
 
-## 🔧 Using rlwrap with Other Pentest Tools
+## 🔧 Χρήση του rlwrap με άλλα εργαλεία Pentest
 
-`rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:
+Το `rlwrap` δεν περιορίζεται στη Netcat. Κάθε εργαλείο CLI που δεν έχει επεξεργασία γραμμής επωφελείται από αυτό:
 
 ### Oracle SQL*Plus
-
 ```bash
 # Oracle's sqlplus utility notoriously lacks line editing and history on Linux
 rlwrap sqlplus scott/tiger@10.10.10.50:1521/ORCL
 ```
-
-### `rlwrap` is not limited to Netcat. Any CLI tool lacking line editing benefits from it:
-
+### Redis & Telnet
 ```bash
 # Redis CLI interactive console
 rlwrap redis-cli -h 10.10.10.50 -p 6379
@@ -269,9 +243,7 @@ rlwrap redis-cli -h 10.10.10.50 -p 6379
 # Raw Telnet or socket interaction
 rlwrap telnet 10.10.10.50 25
 ```
-
 ### Socat & Custom Sockets
-
 ```bash
 # Socat listener with rlwrap
 rlwrap socat file:`tty`,raw,echo=0 tcp-listen:4444
@@ -279,35 +251,34 @@ rlwrap socat file:`tty`,raw,echo=0 tcp-listen:4444
 # Connecting to raw sockets / CTF pwn challenges
 rlwrap nc ctf.challenge.local 1337
 ```
-
 ---
 
-## ⚡ Γρήγορη αναφορά
+## ⚡ Γρήγορος Πίνακας Αναφοράς
 
-|Task|Εντολή|
+| Εργασία | Εντολή |
 |------|---------|
-|**Enhanced Netcat Listener**|`rlwrap nc -lvnp 4444`|
-|**Full File & Prompt Flags**|`rlwrap -cAr nc -lvnp 4444`|
-|**Dedicated History File**|`rlwrap -H ~/.nc_history nc -lvnp 4444`|
-|**Custom Tab-Completion**|`rlwrap -f /path/to/wordlist.txt nc -lvnp 4444`|
-|**Increase History Size**|`rlwrap -s 10000 nc -lvnp 4444`|
-|**Wrap Oracle SQLPlus**|`rlwrap sqlplus user/pass@host/db`|
-|**Wrap Redis CLI**|`rlwrap redis-cli -h 10.10.10.50`|
-|**Wrap Socat Listener**|`rlwrap socat TCP-LISTEN:4444,reuseaddr -`|
+| **Βελτιωμένη συσκευή ακρόασης Netcat** | `rlwrap nc -lvnp 4444` |
+| **Σημαίες πλήρους αρχείου και προτροπής** | `rlwrap -cAr nc -lvnp 4444` |
+| **Αφιερωμένο αρχείο ιστορίας** | `rlwrap -H ~/.nc_history nc -lvnp 4444` |
+| **Προσαρμοσμένη καρτέλα-Ολοκλήρωση** | `rlwrap -f /path/to/wordlist.txt nc -lvnp 4444` |
+| **Αύξηση μεγέθους ιστορικού** | `rlwrap -s 10000 nc -lvnp 4444` |
+| **Τυλίξτε Oracle SQLPlus** | `rlwrap sqlplus user/pass@host/db` |
+| **Τυλίξτε Redis CLI** | `rlwrap redis-cli -h 10.10.10.50` |
+| **Wrap Socat listener** | `rlwrap socat TCP-LISTEN:4444,reuseaddr -` |
 
 ---
 
 ## 💡 Συμβουλές και βέλτιστες πρακτικές
 
-|**Wrap Socat Listener**|`rlwrap socat TCP-LISTEN:4444,reuseaddr -`|
+1. **Δημιουργήστε ένα ψευδώνυμο Bash:** Προσθέστε αυτό στο `~/.bashrc` ή στο `~/.zshrc` σας για να μην ξεχάσετε ποτέ να το χρησιμοποιήσετε:
    ```bash
    alias nc='rlwrap -cAr nc'
    ```
-2. **Never Miss `Ctrl+C` Safety:** When catching unstable shells, `rlwrap` intercepts basic keyboard glitches, but always remember to do the 5-step `stty raw -echo; fg` upgrade if you plan on running long interactive commands.
-3. **Isolate Client Histories:** When testing multiple clients or machines, always use `-H ~/.client_name.hist` to maintain separate audit trails and command histories.
+2. **Ποτέ μην χάσετε `Ctrl+C` Ασφάλεια:** Όταν πιάνετε ασταθή κελύφη, το `rlwrap` παρεμποδίζει τις βασικές δυσλειτουργίες του πληκτρολογίου, αλλά να θυμάστε πάντα να κάνετε την αναβάθμιση `stty raw -echo; fg` 5 βημάτων εάν σκοπεύετε να εκτελέσετε μεγάλες διαδραστικές εντολές.
+3. **Απομόνωση ιστορικών πελατών:** Όταν δοκιμάζετε πολλούς πελάτες ή μηχανήματα, χρησιμοποιείτε πάντα το `-H ~/.client_name.hist` για να διατηρείτε ξεχωριστές διαδρομές ελέγχου και ιστορικά εντολών.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Νομική αποποίηση ευθύνης
 
-> **IMPORTANT:** Reverse shells and post-exploitation tools must only be used in authorized penetration tests, red team engagements, and educational lab environments with explicit written consent.
+> **ΣΗΜΑΝΤΙΚΟ:** Τα αντίστροφα κελύφη και τα εργαλεία μετά την εκμετάλλευση πρέπει να χρησιμοποιούνται μόνο σε εξουσιοδοτημένες δοκιμές διείσδυσης, δεσμεύσεις κόκκινων ομάδων και περιβάλλοντα εκπαιδευτικού εργαστηρίου με ρητή γραπτή συγκατάθεση.

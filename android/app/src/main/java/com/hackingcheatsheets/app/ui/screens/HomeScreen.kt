@@ -34,6 +34,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +49,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hackingcheatsheets.app.data.AppLanguage
 import com.hackingcheatsheets.app.ui.components.CheatsheetCardItem
+import com.hackingcheatsheets.app.ui.components.LanguageSelectorDialog
+import com.hackingcheatsheets.app.ui.i18n.AppI18n
 import com.hackingcheatsheets.app.ui.theme.AccentBlue
 import com.hackingcheatsheets.app.ui.theme.AccentPurple
 import com.hackingcheatsheets.app.ui.theme.BackgroundDark
@@ -71,6 +76,15 @@ fun HomeScreen(
     val language by viewModel.currentLanguage.collectAsState()
     val allCheatsheets by viewModel.allCheatsheets.collectAsState()
     val categories by viewModel.categories.collectAsState()
+    var showLanguageDialog by remember { mutableStateOf(false) }
+
+    if (showLanguageDialog) {
+        LanguageSelectorDialog(
+            currentLanguage = language,
+            onLanguageSelected = { viewModel.setLanguage(it) },
+            onDismissRequest = { showLanguageDialog = false }
+        )
+    }
 
     val featuredIds = listOf(
         "ffuf", "ligolo-ng", "nmap", "certipy", "netexec",
@@ -118,10 +132,7 @@ fun HomeScreen(
                             color = TextPrimary
                         )
                         Text(
-                            text = if (language == AppLanguage.TR) 
-                                "${allCheatsheets.size} ARAÇ • %100 ÇEVRİMDIŞI" 
-                            else 
-                                "${allCheatsheets.size} TOOLS • 100% OFFLINE",
+                            text = AppI18n.appSubtitle(language, allCheatsheets.size),
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.SemiBold,
@@ -130,25 +141,20 @@ fun HomeScreen(
                     }
                 }
 
-                // Language Toggle Pill
+                // Language Selector Pill
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .background(SurfaceDark)
                         .border(1.dp, BorderDark, RoundedCornerShape(16.dp))
-                        .clickable { viewModel.toggleLanguage() }
+                        .clickable { showLanguageDialog = true }
                         .padding(horizontal = 10.dp, vertical = 6.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.Language,
-                            contentDescription = "Language",
-                            tint = TerminalCyan,
-                            modifier = Modifier.size(14.dp)
-                        )
+                        Text(text = language.flag, fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = if (language == AppLanguage.TR) "🇹🇷 TR" else "🇬🇧 EN",
+                            text = language.code.uppercase(),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = TextPrimary
@@ -178,10 +184,7 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = if (language == AppLanguage.TR) 
-                            "Araç, komut, parametre veya CVE ara..." 
-                        else 
-                            "Search tools, commands, flags, CVEs...",
+                        text = AppI18n.searchPlaceholder(language),
                         color = TextMuted,
                         fontSize = 13.sp
                     )
@@ -199,7 +202,7 @@ fun HomeScreen(
                 StatCard(
                     modifier = Modifier.weight(1f),
                     value = "${allCheatsheets.size}",
-                    label = if (language == AppLanguage.TR) "Siber Araç" else "Cyber Tools",
+                    label = AppI18n.metricTools(language),
                     accentColor = CyberGreen
                 )
 
@@ -207,7 +210,7 @@ fun HomeScreen(
                 StatCard(
                     modifier = Modifier.weight(1f),
                     value = "${categories.size}",
-                    label = if (language == AppLanguage.TR) "Kategori" else "Domains",
+                    label = AppI18n.metricCategories(language),
                     accentColor = TerminalCyan
                 )
 
@@ -215,7 +218,7 @@ fun HomeScreen(
                 StatCard(
                     modifier = Modifier.weight(1f),
                     value = "100%",
-                    label = if (language == AppLanguage.TR) "Çevrimdışı" else "Offline",
+                    label = AppI18n.metricOffline(language),
                     accentColor = AccentPurple
                 )
             }
@@ -229,12 +232,12 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (language == AppLanguage.TR) "⚡ KATEGORİ REHBERİ" else "⚡ BROWSE CATEGORIES",
+                    text = AppI18n.categoriesHeader(language),
                     style = MaterialTheme.typography.labelLarge,
                     color = CyberGreen
                 )
                 Text(
-                    text = if (language == AppLanguage.TR) "Tümünü Gör →" else "View All →",
+                    text = AppI18n.viewAll(language),
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.SemiBold,
@@ -318,7 +321,7 @@ fun HomeScreen(
 
             // MITRE ATT&CK Phase Horizontal Selector
             Text(
-                text = if (language == AppLanguage.TR) "🎯 SALDIRI AŞAMALARI (KILL CHAIN)" else "🎯 ATTACK KILL CHAIN",
+                text = AppI18n.killChainHeader(language),
                 style = MaterialTheme.typography.labelLarge,
                 color = TerminalCyan
             )
@@ -372,7 +375,7 @@ fun HomeScreen(
 
             // Featured High-Impact Tools Header
             Text(
-                text = if (language == AppLanguage.TR) "🔥 ÖNE ÇIKAN SİBER ARAÇLAR" else "🔥 FEATURED SECURITY TOOLS",
+                text = AppI18n.featuredHeader(language),
                 style = MaterialTheme.typography.labelLarge,
                 color = CyberGreen
             )

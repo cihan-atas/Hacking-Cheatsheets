@@ -1,39 +1,42 @@
-# 🔍 name-that-hash — Πλήρης οδηγός αναφοράς
-
 <!-- language-home-navigation -->
-[🏠 Ελληνική αρχική σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
+[🏠 Ελληνική Αρχική Σελίδα](../../README.el.md) • [🌐 Languages](../../README.md#-available-languages)
 
-[🇬🇧 English](../README.md) • [🇹🇷 Türkçe](README.tr.md)
+[🇹🇷 Türkçe](README.tr.md) • [🇩🇪 Deutsch](README.de.md) • [🇪🇸 Español](README.es.md) • [🇫🇷 Français](README.fr.md)
 
-
-[Name-That-Hash](https://github.com/HashPals/Name-That-Hash) (`nth`) is a modern, ultra-fast hash identification engine that accurately identifies unknown hashes, hashes embedded in text or files, and outputs direct Hashcat (`-m`) and John the Ripper (`--format`) modes. It automatically decodes nested encodings like Base64 and Hex.
+[🇮🇹 Italiano](README.it.md) • [🇵🇹 Português](README.pt.md) • [🇷🇺 Русский](README.ru.md) • [🇨🇳 简体中文](README.zh-CN.md) • [🇸🇦 العربية](README.ar.md) • [🇳🇴 Norsk](README.nb.md) • [🇬🇧 English](../README.md)
 
 ---
 
-## 📋 Πίνακας περιεχομένων
 
-- [🎯 Εισαγωγή](#key-features)
+# Name-That-Hash (nth) Cheatsheet
+
+Το [Name-That-Hash](https://github.com/HashPals/Name-That-Hash) (`nth`) είναι μια σύγχρονη, εξαιρετικά γρήγορη μηχανή αναγνώρισης κατακερματισμού που εντοπίζει με ακρίβεια άγνωστους κατακερματισμούς, κατακερματισμούς που είναι ενσωματωμένοι σε κείμενο ή αρχεία και εξάγει απευθείας Hashcat (`-m` και John the Ripper.X) Αποκωδικοποιεί αυτόματα ένθετες κωδικοποιήσεις όπως Base64 και Hex.
+
+---
+
+## Πίνακας περιεχομένων
+
+- [Βασικά χαρακτηριστικά] (#key-features)
 - [Εγκατάσταση](#installation)
-- [Εγκατάσταση](#cli-hash-identification)
+- [CLI Hash Identification](#cli-hash-identification)
 - [Multi-Hash & File Processing](#multi-hash--file-processing)
-- [3. Search and Extract Hashes Embedded in Unstructured Text](#hashcat--john-the-ripper-format-output)
-- [|`$6$salt$hash...`|SHA-512 (Unix)|`1800`|`sha512crypt`|](#auto-decode--popularity-filters)
-- [Many applications store hashes in Base64 or Hex before database insertion. `nth` can reverse this automatically:](#integration-with-cracking-pipelines)
+- [Έξοδος μορφής Hashcat & John the Ripper](#hashcat--john-the-ripper-format-output)
+- [Αυτόματη αποκωδικοποίηση και φίλτρα δημοτικότητας] (#auto-decode--popularity-filters)
+- [Integration with Cracking Pipelines](#integration-with-cracking-pipelines)
 
 ---
 
-## 🎯 Εισαγωγή
+## Βασικά χαρακτηριστικά
 
-- **300+ Hash Types**: Covers modern algorithms, Active Directory formats, database hashes, CMS signatures, and esoteric ciphers.
-- **Hashcat & John Flag Mapping**: Immediately displays `-m <mode>` and `--format=<format>` values.
-- **Auto-Decoding**: Strips Base64, Hex, and URL encoding before calculating hash type.
-- **Sub-string / Text Search**: Finds hashes buried inside logs, memory dumps, or configuration files.
-- **Popularity Sorting**: Ranks results by real-world usage probability.
+- **300+ Τύποι κατακερματισμού:** Καλύπτει σύγχρονους αλγόριθμους, μορφές Active Directory, κατακερματισμούς βάσεων δεδομένων, υπογραφές CMS και εσωτερικούς κρυπτογράφους.
+- **Hashcat & John Flag Mapping:** Εμφανίζει αμέσως τις τιμές `-m <mode>` και `--format=<format>`.
+- **Αυτόματη αποκωδικοποίηση:** Ξεχωρίζει την κωδικοποίηση Base64, Hex και URL πριν από τον υπολογισμό του τύπου κατακερματισμού.
+- **Δευτερεύουσα συμβολοσειρά / Αναζήτηση κειμένου:** Βρίσκει κατακερματισμούς που είναι θαμμένοι μέσα σε αρχεία καταγραφής, αποθήκες μνήμης ή αρχεία διαμόρφωσης.
+- **Ταξινόμηση δημοτικότητας:** Κατατάσσει τα αποτελέσματα με βάση την πιθανότητα χρήσης σε πραγματικό κόσμο.
 
 ---
 
 ## Εγκατάσταση
-
 ```bash
 # Via pipx (recommended for isolated CLI tools)
 pipx install name-that-hash
@@ -47,71 +50,63 @@ sudo apt-get update && sudo apt-get install -y python3-name-that-hash
 # Verify installation
 nth --version
 ```
-
 ---
 
-## Εγκατάσταση
+## Αναγνώριση κατακερματισμού CLI
 
-### 1. Identify a Single Hash
+### 1. Προσδιορίστε ένα μεμονωμένο κατακερματισμό
 ```bash
 nth -t "5d41402abc4b2a76b9719d911017c592"
 ```
-
-### 2. Identify Hashcat & John Format Modes Directly
-CLI Hash Identification
+### 2. Προσδιορίστε απευθείας τις λειτουργίες μορφής Hashcat & John
+Εμφάνιση μόνο τύπων κατακερματισμού που έχουν υποστηρίξει λειτουργίες διάσπασης Hashcat ή John:
 ```bash
 nth -t "b8c37e33defde51cf91e1e03e51657da" --hashcat --john
 ```
-
-### Πρακτικά παραδείγματα
+### 3. Εμφάνιση λεπτομερών πληροφοριών (Περιγραφή, Ταχύτητα, Παραδείγματα)
 ```bash
 nth -t "$6$rounds=5000$usesomesalt$..." -v
 ```
-
 ---
 
-## Multi-Hash & File Processing
+## Multi-Hash & Επεξεργασία αρχείων
 
-### 1. Identify Hashes inside a File (Line by Line)
+### 1. Προσδιορισμός κατακερματισμών μέσα σε ένα αρχείο (γραμμή προς γραμμή)
 ```bash
 nth -f /path/to/hashes.txt
 ```
-
-### 2. Filter Results to Top Popular Hashes Only
-Multi-Hash & File Processing
+### 2. Φιλτράρετε τα αποτελέσματα μόνο στα κορυφαία δημοφιλή Hashes
+Μειώστε τα ψευδώς θετικά στοιχεία από τους σκοτεινούς τύπους κατακερματισμού φιλτράροντας κατά δημοτικότητα:
 ```bash
 # Level 1: Most popular hashes only (MD5, SHA1, SHA256, NTLM, bcrypt, etc.)
 nth -f hashes.txt --popularity 1
 ```
-
-### 3. Search and Extract Hashes Embedded in Unstructured Text
-Scan raw memory strings, log files, or source code for hashes:
+### 3. Αναζήτηση και εξαγωγή κατακερματισμών που είναι ενσωματωμένοι σε μη δομημένο κείμενο
+Σάρωση ακατέργαστων συμβολοσειρών μνήμης, αρχείων καταγραφής ή πηγαίο κώδικα για κατακερματισμούς:
 ```bash
 nth --text "Found hash in config: 098f6bcd4621d373cade4e832627b4f6 on port 8080"
 ```
-
 ---
 
-## 3. Search and Extract Hashes Embedded in Unstructured Text
+## Έξοδος μορφής Hashcat & John the Ripper
 
-`nth` makes it trivial to feed hashes into crackers without memorizing mode numbers:
+Το `nth` καθιστά ασήμαντο την τροφοδοσία hashes σε κροτίδες χωρίς να απομνημονεύετε αριθμούς λειτουργίας:
 
-|Sample Hash Format|Detected Algorithm|Hashcat Mode (`-m`)|John Format (`--format`)|
+| Δείγμα μορφής κατακερματισμού | Ανιχνευμένος αλγόριθμος | Λειτουργία Hashcat (`-m`) | John Format (`--format`) |
 |---|---|---|---|
-|`e80b5017098950fc58aad83c8c14978e`|MD5|`0`|`raw-md5`|
-|`b4b9b02e6f09a9bd760f388b67351e2b`|NTLM|`1000`|`nt`|
-|`284ddc0d513372c7d764a0ff813473f2...`|SHA-256|`1400`|`raw-sha256`|
-|`$2a$12$DOW8W6...`|bcrypt|`3200`|`bcrypt`|
-|`$6$salt$hash...`|SHA-512 (Unix)|`1800`|`sha512crypt`|
-|`$krb5tgs$23$*...`|Kerberoast (TGS-REP)|`13100`|`krb5tgs`|
-|`$krb5asrep$23$...`|AS-REP Roasting|`18200`|`krb5asrep`|
+| `e80b5017098950fc58aad83c8c14978e` | MD5 | `0` | `raw-md5` |
+| `b4b9b02e6f09a9bd760f388b67351e2b` | NTLM | `1000` | `nt` |
+| `284ddc0d513372c7d764a0ff813473f2...` | SHA-256 | `1400` | `raw-sha256` |
+| `$2a$12$DOW8W6...` | bcrypt | `3200` | `bcrypt` |
+| `$6$salt$hash...` | SHA-512 (Unix) | `1800` | `sha512crypt` |
+| `$krb5tgs$23$*...` | Kerberoast (TGS-REP) | `13100` | `krb5tgs` |
+| `$krb5asrep$23$...` | AS-REP Roasting | `18200` | `krb5asrep` |
 
 ---
 
-## |`$6$salt$hash...`|SHA-512 (Unix)|`1800`|`sha512crypt`|
+## Φίλτρα αυτόματης αποκωδικοποίησης και δημοτικότητας
 
-|`$krb5asrep$23$...`|AS-REP Roasting|`18200`|`krb5asrep`|
-
+Πολλές εφαρμογές αποθηκεύουν κατακερματισμούς σε Base64 ή Hex πριν από την εισαγωγή της βάσης δεδομένων. Το `nth` μπορεί να το αντιστρέψει αυτόματα:
 ```bash
 # Decode Base64 hash before checking
 nth -t "XUkQS8xLJnY5cZ0REXxFkg==" --base64
@@ -119,13 +114,11 @@ nth -t "XUkQS8xLJnY5cZ0REXxFkg==" --base64
 # Decode hex encoded string before checking
 nth -t "3564343134303261626334623261373662393731396439313130313763353932" --hex
 ```
-
 ---
 
-## Many applications store hashes in Base64 or Hex before database insertion. `nth` can reverse this automatically:
+## Ενσωμάτωση με σωλήνες πυρόλυσης
 
-Quickly pipe an unknown hash to Hashcat using automated identification:
-
+Μεταφέρετε γρήγορα έναν άγνωστο κατακερματισμό στο Hashcat χρησιμοποιώντας αυτοματοποιημένη αναγνώριση:
 ```bash
 # 1. Check hash and capture Hashcat mode
 HASH="b4b9b02e6f09a9bd760f388b67351e2b"
